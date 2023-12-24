@@ -23,7 +23,7 @@ namespace N.G.HRS.Models
         public string? Notes { get; set; }
         [Required]
         [Range(0, 100)]
-        public int Percentage { get; set; }
+        public int Percentage { get; set; } 
         [Required]
         [Range(0, 100)]
         public int PercentageOnEmployee { get; set; }
