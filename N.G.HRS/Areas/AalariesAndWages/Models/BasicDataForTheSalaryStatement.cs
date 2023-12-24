@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace N.G.HRS.Models
+namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class BasicDataForTheSalaryStatement
     {
         public int Id { get; set; }
-        public Boolean HealthInsuranceIncluded { get; set; }
-        public Boolean RetirementInsuranceIncluded { get; set; }
-        public Boolean IncludesTheWorkShareInRetirementInsurance { get; set; }
-        public Boolean IncludesTaxCalculation { get; set; }
-        public Boolean TaxFrom { get; set; }
-        public Boolean AllowancesIncluded { get; set; }
-        public Boolean IncludesAdditionalData { get; set; }
+        public bool HealthInsuranceIncluded { get; set; }
+        public bool RetirementInsuranceIncluded { get; set; }
+        public bool IncludesTheWorkShareInRetirementInsurance { get; set; }
+        public bool IncludesTaxCalculation { get; set; }
+        public bool TaxFrom { get; set; }
+        public bool AllowancesIncluded { get; set; }
+        public bool IncludesAdditionalData { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "From Date")]
         public DateOnly FromDate { get; set; }
@@ -23,7 +23,7 @@ namespace N.G.HRS.Models
         public string? Notes { get; set; }
         [Required]
         [Range(0, 100)]
-        public int Percentage { get; set; } 
+        public int Percentage { get; set; }
         [Required]
         [Range(0, 100)]
         public int PercentageOnEmployee { get; set; }

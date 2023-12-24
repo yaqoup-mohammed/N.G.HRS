@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using N.G.HRS.Models;
+using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.Employees.Models;
 
 namespace N.G.HRS.Date
 {

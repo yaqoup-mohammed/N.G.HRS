@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace N.G.HRS.Models
+namespace N.G.HRS.Areas.Employees.Models
 {
     public class Employee
     {
@@ -26,8 +26,8 @@ namespace N.G.HRS.Models
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Stopping Work")]
         public DateOnly DateOfStoppingWork { get; set; }
-        public Boolean UsedFingerprint { get; set; }
-        public Boolean SubjectToInsurance { get; set;}//خاضع للتامين 
+        public bool UsedFingerprint { get; set; }
+        public bool SubjectToInsurance { get; set; }//خاضع للتامين 
         [DataType(DataType.Date)]
         [Display(Name = "Date Insurance ")]
         public DateOnly DateInsurance { get; set; }

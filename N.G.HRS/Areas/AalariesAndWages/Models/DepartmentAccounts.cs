@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace N.G.HRS.Models
+namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class DepartmentAccounts
     {

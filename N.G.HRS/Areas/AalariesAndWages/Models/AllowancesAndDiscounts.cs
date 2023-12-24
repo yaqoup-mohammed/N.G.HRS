@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace N.G.HRS.Models
+namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class AllowancesAndDiscounts
     {
@@ -11,11 +11,11 @@ namespace N.G.HRS.Models
         [Required]
         [StringLength(150)]
         public string Type { get; set; }
-        public Boolean Taxable { get; set; }
-        public Boolean AddedToAllEmployees { get; set; }
-        public Boolean CumulativeAllowance { get; set; }
-        public Boolean SubjectToInsurance { get; set; }
-        public Decimal Amount { get; set; }
+        public bool Taxable { get; set; }
+        public bool AddedToAllEmployees { get; set; }
+        public bool CumulativeAllowance { get; set; }
+        public bool SubjectToInsurance { get; set; }
+        public decimal Amount { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
 
