@@ -1,0 +1,27 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace N.G.HRS.Models
+{
+    public class TrainingCourses
+    {
+        public int Id { get; set; }
+        [Required]
+        [StringLength(150)]
+        [Display(Name = "اسم الدورة")]
+        public string NameCourses { get; set; }
+        [Required]
+        [StringLength(150)]
+        [Display(Name = "مكان الحصول عليه")]
+        public string WhereToGetIt { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "من تاريخ")]
+        public DateOnly FromDate { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "الى تاريخ")]
+
+        public DateOnly ToDate { get; set;}
+
+    }
+}
