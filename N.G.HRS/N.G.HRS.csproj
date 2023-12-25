@@ -35,7 +35,6 @@
     <Folder Include="Areas\AalariesAndWages\Views\" />
     <Folder Include="Areas\AttendanceAndDeparture\Controllers\" />
     <Folder Include="Areas\AttendanceAndDeparture\Data\" />
-    <Folder Include="Areas\AttendanceAndDeparture\Models\" />
     <Folder Include="Areas\AttendanceAndDeparture\Views\" />
     <Folder Include="Areas\Employees\Controllers\" />
     <Folder Include="Areas\Employees\Data\" />

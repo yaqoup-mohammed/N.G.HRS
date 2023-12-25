@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
@@ -60,6 +61,20 @@ namespace N.G.HRS.Date
         public DbSet<FunctionalClass>  functionalClasses { get; set; }
         public DbSet<JobDescription> jobDescriptions { get; set; }
         public DbSet<JobRanks> jobRanks { get; set; }
+        //تهيئة الحضور والانصراف
+        public DbSet<AdjustingTime> adjustingTimes { get; set; }
+        public DbSet<LinkingEmployeesToShiftPeriods> linkingEmployeesToShiftPeriods { get; set; }
+        public DbSet<Months> months { get; set; }
+        public DbSet<OneFingerprint> oneFingerprints { get; set; }
+        public DbSet<OpeningBalancesForVacations> openingBalancesForVacations { get; set; }
+        public DbSet<Periods> periods { get; set; }
+        public DbSet<PermanenceModels> permanenceModels { get; set; }
+        public DbSet<PermissionToAttendAndLeave> permissionToAttendAndLeaves { get; set; }
+        public DbSet<SetPeriods> setPeriods { get; set; }
+        public DbSet<StaffTime> staffTimes { get; set; }
+        public DbSet<Weekends> weekends { get; set; }
+        public DbSet<WeekendsForFlexibleWorking> weekendsForFlexibleWorkings { get; set; }
+
 
 
 
