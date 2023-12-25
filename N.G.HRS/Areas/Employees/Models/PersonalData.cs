@@ -4,6 +4,7 @@ namespace N.G.HRS.Areas.Employees.Models
 {
     public class PersonalData
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]

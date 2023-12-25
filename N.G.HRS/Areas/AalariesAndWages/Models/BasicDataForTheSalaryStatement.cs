@@ -4,6 +4,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class BasicDataForTheSalaryStatement
     {
+        [Key]
         public int Id { get; set; }
         public bool HealthInsuranceIncluded { get; set; }
         public bool RetirementInsuranceIncluded { get; set; }

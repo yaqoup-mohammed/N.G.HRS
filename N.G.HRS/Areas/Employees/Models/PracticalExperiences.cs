@@ -4,7 +4,8 @@ namespace N.G.HRS.Areas.Employees.Models
 {
     public class PracticalExperiences
     {
-        public int ID { get; set; }
+        [Key]
+        public int Id { get; set; }
         [Required]
         [StringLength(150)]
         [Display(Name = "اسم الخبرة")]

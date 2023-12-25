@@ -4,6 +4,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class AllowancesAndDiscounts
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(170)]

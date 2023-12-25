@@ -5,7 +5,8 @@ namespace N.G.HRS.Areas.Employees.Models
     public class StatementOfEmployeeFiles
     {
         //يرتبط بجدول ملفات الموظفين والموظفين
-        public int ID { get; set; }
+        [Key]
+        public int Id { get; set; }
         public bool FilesStatus { get; set; }
         [Required]
         [StringLength(255)]

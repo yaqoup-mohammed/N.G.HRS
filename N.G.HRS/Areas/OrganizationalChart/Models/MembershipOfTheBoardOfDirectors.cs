@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace N.G.HRS.Areas.Employees.Models
+namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
-    public class EmployeeAccounts
+    public class MembershipOfTheBoardOfDirectors
     {
         [Key]
         public int Id { get; set; }
         [Required]
+        [StringLength(150)]
+        public string TypeOFMembership { get; set; }
+        [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
-        //يتم الربط مع جدول (الموظفين) وجدول (الحسابات) وجدول(نوع الحسابات)
+
     }
 }

@@ -4,6 +4,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class AdditionalAccountInformation
     {
+        [Key]
         public int ID { get; set; }
 
         public DateOnly Day { get; set; }

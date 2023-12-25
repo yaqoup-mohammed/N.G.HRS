@@ -5,6 +5,7 @@ namespace N.G.HRS.Areas.Employees.Models
     public class Qualifications
     {
         //يرتبط بجدول (المؤهل) و(التخصص) و(الحامعات) و (الموظفن)
+        [Key]
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]

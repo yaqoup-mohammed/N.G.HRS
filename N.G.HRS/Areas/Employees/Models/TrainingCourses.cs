@@ -4,6 +4,7 @@ namespace N.G.HRS.Areas.Employees.Models
 {
     public class TrainingCourses
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(150)]

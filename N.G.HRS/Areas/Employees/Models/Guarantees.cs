@@ -5,6 +5,7 @@ namespace N.G.HRS.Areas.Employees.Models
 {
     public class Guarantees//الضمين
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(100)]

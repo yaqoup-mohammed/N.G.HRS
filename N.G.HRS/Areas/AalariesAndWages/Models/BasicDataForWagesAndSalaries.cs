@@ -5,6 +5,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
     public class BasicDataForWagesAndSalaries
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [Range(0, 31)]

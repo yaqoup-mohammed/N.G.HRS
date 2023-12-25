@@ -36,6 +36,12 @@
     <Folder Include="Areas\Employees\Controllers\" />
     <Folder Include="Areas\Employees\Data\" />
     <Folder Include="Areas\Employees\Views\" />
+    <Folder Include="Areas\OrganizationalChart\Controllers\" />
+    <Folder Include="Areas\OrganizationalChart\Data\" />
+    <Folder Include="Areas\OrganizationalChart\Views\" />
+    <Folder Include="Areas\PlanningAndJobDescription\Controllers\" />
+    <Folder Include="Areas\PlanningAndJobDescription\Data\" />
+    <Folder Include="Areas\PlanningAndJobDescription\Views\" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,8 @@ namespace N.G.HRS.Areas.Employees.Models
 {
     public class FinancialStatements//البيانات المالية
     {
-        public int ID { get; set; }
+        [Key]
+        public int Id { get; set; }
         [Required]
         [StringLength(100)]
         public string NatureOfEmployment { get; set; }

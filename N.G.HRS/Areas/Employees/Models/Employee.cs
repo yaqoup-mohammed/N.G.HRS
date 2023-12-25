@@ -4,6 +4,7 @@ namespace N.G.HRS.Areas.Employees.Models
 {
     public class Employee
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [Range(0, 500000)]
