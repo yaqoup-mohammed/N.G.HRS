@@ -8,7 +8,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateOnly Date { get; set; }.
+        public DateOnly Date { get; set; }
         [Required]
         [StringLength(150)]
         public string CompanyName { get; set; }

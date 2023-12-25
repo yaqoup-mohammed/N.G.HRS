@@ -33,9 +33,16 @@
     <Folder Include="Areas\AalariesAndWages\Controllers\" />
     <Folder Include="Areas\AalariesAndWages\Data\" />
     <Folder Include="Areas\AalariesAndWages\Views\" />
+    <Folder Include="Areas\AttendanceAndDeparture\Controllers\" />
+    <Folder Include="Areas\AttendanceAndDeparture\Data\" />
+    <Folder Include="Areas\AttendanceAndDeparture\Models\" />
+    <Folder Include="Areas\AttendanceAndDeparture\Views\" />
     <Folder Include="Areas\Employees\Controllers\" />
     <Folder Include="Areas\Employees\Data\" />
     <Folder Include="Areas\Employees\Views\" />
+    <Folder Include="Areas\GeneralConfiguration\Controllers\" />
+    <Folder Include="Areas\GeneralConfiguration\Data\" />
+    <Folder Include="Areas\GeneralConfiguration\Views\" />
     <Folder Include="Areas\OrganizationalChart\Controllers\" />
     <Folder Include="Areas\OrganizationalChart\Data\" />
     <Folder Include="Areas\OrganizationalChart\Views\" />
