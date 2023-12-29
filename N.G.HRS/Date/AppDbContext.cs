@@ -17,18 +17,84 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //علاقات التهيئة العامة
+          //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
-            
-            modelBuilder.Entity<Governorate>().HasOne(p => p.CountryOne)
-                .WithMany(p => p.governoratesList).HasForeignKey(p => p.CountryId);
-            ////علاقة المحافظات مع المديريات
+            modelBuilder.Entity<Governorate>()
+                .HasOne(p => p.CountryOne)
+                .WithMany(p => p.governoratesList)
+                .HasForeignKey(p => p.CountryId);
+            //=============================================================
+            //علاقة المحافظات مع المديريات
             modelBuilder.Entity<Directorate>()
                 .HasOne(p => p.Governorate)
                 .WithMany(p => p.directoratesList)
                 .HasForeignKey(p => p.GovernorateId);
-                
-                }
+            //=============================================================
+            //علاقة العقود مع شروط العقود
+            modelBuilder.Entity<ContractTerms>()
+                .HasOne(p => p.Contracts)
+                .WithMany(p => p.contractTermsList)
+                .HasForeignKey(p => p.ContractsId);
+            //==============================================================
+          //علاقات الموظفين
+            // علاقات الموظفين مع الادارات
+            modelBuilder.Entity<Departments>()
+                .HasOne(p => p.Employee)
+                .WithMany(p => p.departmentsList)
+                .HasForeignKey(p => p.EmployeeId);
+            //علاقة الموظفين مع الاقسام
+            modelBuilder.Entity<Sections>()
+                .HasOne(p => p.Employee)
+                .WithMany(p => p.sectionsList)
+                .HasForeignKey(p => p.EmployeeId);
+            //علاقات الموظفين مع البيانات الشخصية
+            modelBuilder.Entity<Employee>()
+                .HasOne(p => p.personalData)
+                .WithOne(p => p.employee)
+                .HasForeignKey<PersonalData>(b => b.Id);
+            //========================================
+            //علاقة self مع جدول الموظفين
+            modelBuilder.Entity<Employee>()
+           .HasOne(e => e.Manager)              // Specifies that each employee has one manager.
+           .WithMany(e => e.Subordinates)       // Specifies that each manager can have many Subordinates
+           .HasForeignKey(e => e.ManagerId)     // Specifies the foreign key property for this relationship.
+           .OnDelete(DeleteBehavior.Restrict);
+            //==========================================================================
+            //علاقة الموظف بالوظيفة "الوصف الوظيفي" س
+            modelBuilder.Entity<JobDescription>()
+                .HasOne(p => p.Employee)
+                .WithMany(p => p.jobDescriptionsList)
+                .HasForeignKey(p => p.EmployeeId);
+            //علاقة الموظف مع المؤهل
+
+                                                             //<-------غير مكتمل
+            //علاقة الموظف بالبيانات المالية
+            modelBuilder.Entity<Employee>()
+                .HasOne(p => p.financialStatements)
+                .WithOne(p => p.employee)
+                .HasForeignKey<FinancialStatements>(b => b.Id);
+            //==================================================
+            //علاقة الموظف بالخبرات العملة
+            modelBuilder.Entity<PracticalExperiences>()
+                .HasOne(p => p.Employee)
+                .WithMany(p => p.practicalExperiencesList)
+                .HasForeignKey(p => p.EmployeeId);
+            //==================================================
+            //علاقة الموظف بملفات الموظف
+            modelBuilder.Entity<StatementOfEmployeeFiles>()
+                .HasOne(p => p.Employee)
+                .WithMany(p => p.statementOfEmployeeFilesList)
+                .HasForeignKey(p => p.EmployeeId);
+            //==================================================
+            //علاقة الموظف بالدورات التدريبية
+            modelBuilder.Entity<TrainingCourses>()
+                .HasOne(p => p.Employee)
+                .WithMany(p => p.trainingCoursesList)
+                .HasForeignKey(p => p.EmployeeId);
+            //==================================================
+
+
+        }
 
         //تهيئة الرواتب والاجور
         public DbSet<AdditionalAccountInformation> additionalAccountInformation { get; set; }

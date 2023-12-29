@@ -1,7 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using N.G.HRS.Areas.OrganizationalChart.Models;
+using N.G.HRS.Areas.PlanningAndJobDescription.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
+    
     public class Employee
     {
         [Key]
@@ -35,7 +39,22 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)
-
+        //========================================================
+        public List<Departments> departmentsList { get; set; }
+        public List<Sections> sectionsList { get; set; }
+        public List<JobDescription> jobDescriptionsList {  get; set; }
+        public List<PracticalExperiences> practicalExperiencesList {  get; set; }
+        public List<StatementOfEmployeeFiles> statementOfEmployeeFilesList { get; set; }
+        public List<TrainingCourses> trainingCoursesList {  get; set; }
+        //========================================================
+        public PersonalData personalData { get; set; }
+        public FinancialStatements financialStatements { get; set; }
+        //===============================================
+        public int? ManagerId { get; set; }
+        // Navigation property for Manager
+        public Employee? Manager { get; set; }
+        // Navigation property for Subordinates 
+        public List<Employee>? Subordinates { get; set; }
 
 
 

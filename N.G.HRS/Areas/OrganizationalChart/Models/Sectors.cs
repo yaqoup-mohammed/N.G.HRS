@@ -11,6 +11,5 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string SectorsName { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
-
     }
 }

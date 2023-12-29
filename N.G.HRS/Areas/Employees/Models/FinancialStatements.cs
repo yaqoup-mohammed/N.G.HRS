@@ -29,5 +29,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //يرتبط بجدول (الموظف) وجدول (العملة)ي
+        //==================================================
+        public Employee employee { get; set; }
     }
 }

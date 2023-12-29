@@ -11,6 +11,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string PublicAdministrationName { get; set; }
         [Required]
         [StringLength(255)]
-        public string? Nots { get;}
+        public string? Nots { get; set; }
     }
 }

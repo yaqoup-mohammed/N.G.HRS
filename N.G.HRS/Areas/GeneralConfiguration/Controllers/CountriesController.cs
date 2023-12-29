@@ -57,7 +57,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Notes")] Country country)
         {
-            if (ModelState.IsValid)
+            if (country!=null)
             {
                 _context.Add(country);
                 await _context.SaveChangesAsync();
@@ -94,7 +94,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (country!=null)
             {
                 try
                 {

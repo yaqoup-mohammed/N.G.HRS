@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -28,6 +29,10 @@ namespace N.G.HRS.Areas.Employees.Models
 
         public string Duration { get; set; }
         //يرتبط مع جدول الموظفين
+        //=================================================
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
 
 
     }

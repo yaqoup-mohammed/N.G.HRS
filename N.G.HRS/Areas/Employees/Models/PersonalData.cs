@@ -46,5 +46,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public DateOnly CardExpiryDate { get; set; }
 
         //يتم الربط مع جدول (الجنس) وجدول (الجنسية) وجدول( الديانة) و(الموظف)و (الحالة الاجتماعية)
+        //============================================================
+        public Employee employee { get; set; }
     }
 }
