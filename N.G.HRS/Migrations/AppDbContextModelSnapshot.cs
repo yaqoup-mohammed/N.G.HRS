@@ -943,6 +943,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -953,6 +956,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
 
                     b.ToTable("directorates");
                 });
@@ -1074,6 +1079,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -1084,6 +1092,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("governorates");
                 });
@@ -1611,6 +1621,38 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("WeekendsForFlexibleWorking");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Directorate", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", "Governorate")
+                        .WithMany("directoratesList")
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Country", "CountryOne")
+                        .WithMany("governoratesList")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CountryOne");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Country", b =>
+                {
+                    b.Navigation("governoratesList");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", b =>
+                {
+                    b.Navigation("directoratesList");
                 });
 #pragma warning restore 612, 618
         }

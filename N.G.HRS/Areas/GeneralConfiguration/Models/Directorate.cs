@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Models
 {
@@ -11,5 +12,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string Name { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
+        //===========================================
+        [ForeignKey("GovernorateId")]
+        public int GovernorateId { get; set; }
+        public Governorate Governorate { get; set; }
+        //===========================================
     }
 }

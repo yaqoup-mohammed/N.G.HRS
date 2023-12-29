@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231225200742_hr5")]
-    partial class hr5
+    [Migration("20231229173536_a1")]
+    partial class a1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,6 +226,333 @@ namespace N.G.HRS.Migrations
                     b.HasKey("id");
 
                     b.ToTable("departmentAccounts");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.AdjustingTime", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<DateOnly>("FromDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("FromTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateOnly>("ToDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("ToTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("adjustingTimes");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AdjustingTime");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.LinkingEmployeesToShiftPeriods", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("DateOfEndWork")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("DateOfStartWork")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("linkingEmployeesToShiftPeriods");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.Months", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("Month")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("months");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.OneFingerprint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("FromDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("OneDayFingerprint")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("ToDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("oneFingerprints");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.OpeningBalancesForVacations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Balance")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("BalanceYear")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("openingBalancesForVacations");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Friday")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FromTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Hours")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Monday")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PeriodsName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("Saturday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SunDay")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Thursday")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ToTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Tuesday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Wednesday")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("periods");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("AddAttendanceAndDeparturePermission")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AllowanceForLateAttendance")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EarlyDeparturePermission")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("FlexibleWorkingHours")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("FromDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("FromTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HoursOfWorks")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("PermanenceName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("ShiftTime")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("ToDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("ToTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("WorkBetweenTwoShifts")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Working24Hours")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("permanenceModels");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermissionToAttendAndLeave", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PermanencyStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("permissionToAttendAndLeaves");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.StaffTime", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("WorksFullTimeFromDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("staffTimes");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.Weekends", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(34)
+                        .HasColumnType("nvarchar(34)");
+
+                    b.Property<bool>("Friday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MonDay")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SaturDay")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SunDay")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Thursday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Tuesday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Wednesday")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("weekends");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Weekends");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Employee", b =>
@@ -619,6 +946,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -629,6 +959,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
 
                     b.ToTable("directorates");
                 });
@@ -750,6 +1082,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -760,6 +1095,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("governorates");
                 });
@@ -1270,6 +1607,55 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("jobRanks");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.SetPeriods", b =>
+                {
+                    b.HasBaseType("N.G.HRS.Areas.AttendanceAndDeparture.Models.AdjustingTime");
+
+                    b.HasDiscriminator().HasValue("SetPeriods");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.WeekendsForFlexibleWorking", b =>
+                {
+                    b.HasBaseType("N.G.HRS.Areas.AttendanceAndDeparture.Models.Weekends");
+
+                    b.Property<int>("NumbersOfHours")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("WeekendsForFlexibleWorking");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Directorate", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", "Governorate")
+                        .WithMany("directoratesList")
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Country", "CountryOne")
+                        .WithMany("governoratesList")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CountryOne");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Country", b =>
+                {
+                    b.Navigation("governoratesList");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", b =>
+                {
+                    b.Navigation("directoratesList");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,6 +5,7 @@ using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
+using System.Configuration;
 
 namespace N.G.HRS.Date
 {
@@ -14,6 +15,21 @@ namespace N.G.HRS.Date
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //علاقات التهيئة العامة
+            //علاقة الدولة مع المحافظات
+            
+            modelBuilder.Entity<Governorate>().HasOne(p => p.CountryOne)
+                .WithMany(p => p.governoratesList).HasForeignKey(p => p.CountryId);
+            ////علاقة المحافظات مع المديريات
+            modelBuilder.Entity<Directorate>()
+                .HasOne(p => p.Governorate)
+                .WithMany(p => p.directoratesList)
+                .HasForeignKey(p => p.GovernorateId);
+                
+                }
+
         //تهيئة الرواتب والاجور
         public DbSet<AdditionalAccountInformation> additionalAccountInformation { get; set; }
         public DbSet<AllowancesAndDiscounts> allowancesAndDiscounts { get; set; }
