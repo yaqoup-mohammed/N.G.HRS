@@ -92,6 +92,37 @@ namespace N.G.HRS.Date
                 .WithMany(p => p.trainingCoursesList)
                 .HasForeignKey(p => p.EmployeeId);
             //==================================================
+          //--البانات الشخصية--
+            //البيانات الشخصية مع الجنس
+            modelBuilder.Entity<Sex>()
+                .HasOne(p => p.personalData)
+                .WithMany(p => p.sexList)
+                .HasForeignKey(p => p.PersonalDataId);
+            //البيانات الشخصية مع الجنسيات
+            modelBuilder.Entity<Nationality>()
+                .HasOne(p => p.personalData)
+                .WithMany(p => p.nationalitiesList)
+                .HasForeignKey(p => p.PersonalDataId);
+            //البيانات الشخصية مع الديانة
+            modelBuilder.Entity<Religion>()
+                .HasOne(p => p.personalData)
+                .WithMany(p => p.religionsList)
+                .HasForeignKey(p => p.PersonalDataId);
+            //البيانات الشخصية مع الضمين
+            modelBuilder.Entity<Guarantees>()
+               .HasOne(p => p.personalData)
+               .WithOne(p => p.guarantees)
+               .HasForeignKey<PersonalData>(b => b.Id);
+            //البيانات الشخصية مع الحالة الاجتماعية
+            modelBuilder.Entity<MaritalStatus>()
+                .HasOne(p => p.PersonalData)
+                .WithMany(p => p.maritalStatusList1)
+                .HasForeignKey(p => p.PersonalDataId);
+            //الضمين مع الحالة الاجتماعية
+            modelBuilder.Entity<MaritalStatus>()
+                .HasOne(p => p.guarantees)
+                .WithMany(p => p.maritalStatusList2)
+                .HasForeignKey(p => p.GuaranteesId);
 
 
         }

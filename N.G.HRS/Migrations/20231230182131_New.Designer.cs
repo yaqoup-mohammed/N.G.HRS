@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231229203334_a2")]
-    partial class a2
+    [Migration("20231230182131_New")]
+    partial class New
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -632,10 +632,7 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.FinancialStatements", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BankAccountNumber")
                         .HasColumnType("int");
@@ -764,7 +761,12 @@ namespace N.G.HRS.Migrations
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("guaranteesId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("guaranteesId");
 
                     b.ToTable("personalDatas");
                 });
@@ -781,6 +783,9 @@ namespace N.G.HRS.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ExperiencesName")
                         .IsRequired()
@@ -799,6 +804,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("date");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("practicalExperiences");
                 });
@@ -827,6 +834,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("FilesStatus")
                         .HasColumnType("bit");
 
@@ -836,6 +846,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("statementOfEmployeeFiles");
                 });
@@ -847,6 +859,9 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");
@@ -865,6 +880,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("trainingCourses");
                 });
@@ -1116,6 +1133,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("GuaranteesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -1125,7 +1145,14 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("PersonalDataId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GuaranteesId");
+
+                    b.HasIndex("PersonalDataId");
 
                     b.ToTable("maritalStatuses");
                 });
@@ -1147,7 +1174,12 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("PersonalDataId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonalDataId");
 
                     b.ToTable("nationality");
                 });
@@ -1283,7 +1315,12 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("PersonalDataId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonalDataId");
 
                     b.ToTable("religion");
                 });
@@ -1305,7 +1342,12 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("PersonalDataId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonalDataId");
 
                     b.ToTable("sex");
                 });
@@ -1627,6 +1669,9 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("JobQualifications")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -1648,6 +1693,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("jobDescriptions");
                 });
@@ -1702,6 +1749,17 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Manager");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.FinancialStatements", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "employee")
+                        .WithOne("financialStatements")
+                        .HasForeignKey("N.G.HRS.Areas.Employees.Models.FinancialStatements", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("employee");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.PersonalData", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "employee")
@@ -1710,7 +1768,48 @@ namespace N.G.HRS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Guarantees", "guarantees")
+                        .WithMany()
+                        .HasForeignKey("guaranteesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("employee");
+
+                    b.Navigation("guarantees");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.PracticalExperiences", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("practicalExperiencesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.StatementOfEmployeeFiles", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("statementOfEmployeeFilesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.TrainingCourses", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("trainingCoursesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.ContractTerms", b =>
@@ -1746,6 +1845,58 @@ namespace N.G.HRS.Migrations
                     b.Navigation("CountryOne");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.MaritalStatus", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Guarantees", "guarantees")
+                        .WithMany("maritalStatusList2")
+                        .HasForeignKey("GuaranteesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.PersonalData", "PersonalData")
+                        .WithMany("maritalStatusList1")
+                        .HasForeignKey("PersonalDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalData");
+
+                    b.Navigation("guarantees");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Nationality", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.PersonalData", "personalData")
+                        .WithMany("nationalitiesList")
+                        .HasForeignKey("PersonalDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("personalData");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Religion", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.PersonalData", "personalData")
+                        .WithMany("religionsList")
+                        .HasForeignKey("PersonalDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("personalData");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Sex", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.PersonalData", "personalData")
+                        .WithMany("sexList")
+                        .HasForeignKey("PersonalDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("personalData");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.Departments", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
@@ -1768,16 +1919,54 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.PlanningAndJobDescription.Models.JobDescription", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("jobDescriptionsList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Employee", b =>
                 {
                     b.Navigation("Subordinates");
 
                     b.Navigation("departmentsList");
 
+                    b.Navigation("financialStatements")
+                        .IsRequired();
+
+                    b.Navigation("jobDescriptionsList");
+
                     b.Navigation("personalData")
                         .IsRequired();
 
+                    b.Navigation("practicalExperiencesList");
+
                     b.Navigation("sectionsList");
+
+                    b.Navigation("statementOfEmployeeFilesList");
+
+                    b.Navigation("trainingCoursesList");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Guarantees", b =>
+                {
+                    b.Navigation("maritalStatusList2");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.PersonalData", b =>
+                {
+                    b.Navigation("maritalStatusList1");
+
+                    b.Navigation("nationalitiesList");
+
+                    b.Navigation("religionsList");
+
+                    b.Navigation("sexList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Contracts", b =>

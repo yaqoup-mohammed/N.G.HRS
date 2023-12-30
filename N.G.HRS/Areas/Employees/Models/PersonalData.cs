@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -48,5 +49,16 @@ namespace N.G.HRS.Areas.Employees.Models
         //يتم الربط مع جدول (الجنس) وجدول (الجنسية) وجدول( الديانة) و(الموظف)و (الحالة الاجتماعية)
         //============================================================
         public Employee employee { get; set; }
+        public Guarantees guarantees { get; set; }
+
+        //============================================================
+        public List<Sex> sexList { get; set; }
+        public List<Nationality> nationalitiesList { get; set; }
+        public List<Religion> religionsList { get; set; }
+        public List<MaritalStatus> maritalStatusList1 { get; set; }
+        
+
+
+
     }
 }

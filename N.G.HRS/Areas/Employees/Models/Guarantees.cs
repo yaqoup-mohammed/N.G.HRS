@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace N.G.HRS.Areas.Employees.Models
@@ -31,6 +33,14 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
+        //=============================================
+        public int PersonalDataId { get; set; }
+        public PersonalData personalData { get; set; }
+        //================================================
+        public List<MaritalStatus> maritalStatusList2 { get; set; }
+
         //يرتبط مع جدول(الموظف)وجدول (الضمين)
+        //==============================================
+
     }
 }

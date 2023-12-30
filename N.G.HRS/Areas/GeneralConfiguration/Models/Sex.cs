@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Employees.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Models
 {
@@ -11,5 +13,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string Name { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
+        [ForeignKey("PersonalDataId")]
+        public int PersonalDataId { get; set; }
+        public PersonalData personalData { get; set; }
     }
 }
