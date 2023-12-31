@@ -37,7 +37,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public int PersonalDataId { get; set; }
         public PersonalData personalData { get; set; }
         //================================================
-        public List<MaritalStatus> maritalStatusList2 { get; set; }
+        public List<MaritalStatus> maritalStatusList { get; set; }
 
         //يرتبط مع جدول(الموظف)وجدول (الضمين)
         //==============================================

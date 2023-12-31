@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -11,5 +12,10 @@ namespace N.G.HRS.Areas.Employees.Models
         [DataType(DataType.Date)]
         [Display(Name = "تاريخ الحصول علية")]
         public DateOnly ReceivedDate { get; set; }
+        //=================================================
+        public List<EducationalQualification> educationalQualificationsList { get; set; }
+        public List<Specialties> specialtiesList { get; set; }
+
+
     }
 }

@@ -46,6 +46,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<PracticalExperiences> practicalExperiencesList {  get; set; }
         public List<StatementOfEmployeeFiles> statementOfEmployeeFilesList { get; set; }
         public List<TrainingCourses> trainingCoursesList {  get; set; }
+        public List<EmployeeArchives> employeeArchivesList { get; set; }
         //========================================================
         public PersonalData personalData { get; set; }
         public FinancialStatements financialStatements { get; set; }

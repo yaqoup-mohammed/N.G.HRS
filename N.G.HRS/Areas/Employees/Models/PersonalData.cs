@@ -55,7 +55,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<Sex> sexList { get; set; }
         public List<Nationality> nationalitiesList { get; set; }
         public List<Religion> religionsList { get; set; }
-        public List<MaritalStatus> maritalStatusList1 { get; set; }
+        public List<MaritalStatus> maritalStatusList { get; set; }
         
 
 

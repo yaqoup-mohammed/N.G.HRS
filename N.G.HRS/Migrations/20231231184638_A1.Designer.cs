@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231230182131_New")]
-    partial class New
+    [Migration("20231231184638_A1")]
+    partial class A1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -629,6 +629,39 @@ namespace N.G.HRS.Migrations
                     b.ToTable("employeeAccounts");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.EmployeeArchives", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Descriotion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeeArchives");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.FinancialStatements", b =>
                 {
                     b.Property<int>("Id")
@@ -697,6 +730,9 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("NumberOfDependents")
                         .HasColumnType("int");
 
+                    b.Property<int>("PersonalDataId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(13)
@@ -761,12 +797,7 @@ namespace N.G.HRS.Migrations
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("guaranteesId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("guaranteesId");
 
                     b.ToTable("personalDatas");
                 });
@@ -1749,6 +1780,17 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Manager");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.EmployeeArchives", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "employee")
+                        .WithMany("employeeArchivesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("employee");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.FinancialStatements", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "employee")
@@ -1769,8 +1811,8 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Guarantees", "guarantees")
-                        .WithMany()
-                        .HasForeignKey("guaranteesId")
+                        .WithOne("personalData")
+                        .HasForeignKey("N.G.HRS.Areas.Employees.Models.PersonalData", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1854,9 +1896,9 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.PersonalData", "PersonalData")
-                        .WithMany("maritalStatusList1")
+                        .WithMany("maritalStatusList")
                         .HasForeignKey("PersonalDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("PersonalData");
@@ -1936,6 +1978,8 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("departmentsList");
 
+                    b.Navigation("employeeArchivesList");
+
                     b.Navigation("financialStatements")
                         .IsRequired();
 
@@ -1956,11 +2000,14 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Guarantees", b =>
                 {
                     b.Navigation("maritalStatusList2");
+
+                    b.Navigation("personalData")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.PersonalData", b =>
                 {
-                    b.Navigation("maritalStatusList1");
+                    b.Navigation("maritalStatusList");
 
                     b.Navigation("nationalitiesList");
 

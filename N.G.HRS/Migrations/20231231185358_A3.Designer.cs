@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231231185358_A3")]
+    partial class A3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1402,12 +1405,7 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("QualificationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("QualificationId");
 
                     b.ToTable("specialties");
                 });
@@ -1957,17 +1955,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("personalData");
                 });
 
-            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Specialties", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.Employees.Models.Qualifications", "qualification")
-                        .WithMany("specialtiesList")
-                        .HasForeignKey("QualificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("qualification");
-                });
-
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.Departments", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
@@ -2048,8 +2035,6 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Qualifications", b =>
                 {
                     b.Navigation("educationalQualificationsList");
-
-                    b.Navigation("specialtiesList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Contracts", b =>

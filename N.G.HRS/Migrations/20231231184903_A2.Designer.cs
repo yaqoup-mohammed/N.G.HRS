@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231231184903_A2")]
+    partial class A2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1034,12 +1037,7 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("QualificationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("QualificationId");
 
                     b.ToTable("educationalQualifications");
                 });
@@ -1402,12 +1400,7 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("QualificationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("QualificationId");
 
                     b.ToTable("specialties");
                 });
@@ -1883,17 +1876,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Governorate");
                 });
 
-            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.EducationalQualification", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.Employees.Models.Qualifications", "qualification")
-                        .WithMany("educationalQualificationsList")
-                        .HasForeignKey("QualificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("qualification");
-                });
-
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Governorate", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Country", "CountryOne")
@@ -1908,7 +1890,7 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.MaritalStatus", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Guarantees", "guarantees")
-                        .WithMany("maritalStatusList")
+                        .WithMany("maritalStatusList2")
                         .HasForeignKey("GuaranteesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1955,17 +1937,6 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
 
                     b.Navigation("personalData");
-                });
-
-            modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Specialties", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.Employees.Models.Qualifications", "qualification")
-                        .WithMany("specialtiesList")
-                        .HasForeignKey("QualificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("qualification");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.Departments", b =>
@@ -2028,7 +1999,7 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Guarantees", b =>
                 {
-                    b.Navigation("maritalStatusList");
+                    b.Navigation("maritalStatusList2");
 
                     b.Navigation("personalData")
                         .IsRequired();
@@ -2043,13 +2014,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("religionsList");
 
                     b.Navigation("sexList");
-                });
-
-            modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Qualifications", b =>
-                {
-                    b.Navigation("educationalQualificationsList");
-
-                    b.Navigation("specialtiesList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Contracts", b =>

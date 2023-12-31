@@ -116,13 +116,29 @@ namespace N.G.HRS.Date
             //البيانات الشخصية مع الحالة الاجتماعية
             modelBuilder.Entity<MaritalStatus>()
                 .HasOne(p => p.PersonalData)
-                .WithMany(p => p.maritalStatusList1)
-                .HasForeignKey(p => p.PersonalDataId);
+                .WithMany(p => p.maritalStatusList)
+                .HasForeignKey(p => p.PersonalDataId)
+                .OnDelete(DeleteBehavior.NoAction);
             //الضمين مع الحالة الاجتماعية
             modelBuilder.Entity<MaritalStatus>()
                 .HasOne(p => p.guarantees)
-                .WithMany(p => p.maritalStatusList2)
+                .WithMany(p => p.maritalStatusList)
                 .HasForeignKey(p => p.GuaranteesId);
+            //العلاقة بين الموظف والارشيف
+            modelBuilder.Entity<EmployeeArchives>()
+                .HasOne(p => p.employee)
+                .WithMany(p => p.employeeArchivesList)
+                .HasForeignKey(p => p.EmployeeId);
+            //المؤهل مع المؤهل التعليمي
+            modelBuilder.Entity<EducationalQualification>()
+                .HasOne(p => p.qualification)
+                .WithMany(p => p.educationalQualificationsList)
+                .HasForeignKey(p => p.QualificationId);
+            ////========================================================
+            modelBuilder.Entity<Specialties>()
+                 .HasOne(p => p.qualification)
+                 .WithMany(p => p.specialtiesList)
+                 .HasForeignKey(p => p.QualificationId);
 
 
         }

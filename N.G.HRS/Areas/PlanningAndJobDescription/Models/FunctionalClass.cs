@@ -11,7 +11,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         public string Name { get; set; }
         [Required]
         [Range(0, 9999.999)]
-        public Decimal BasicSalary { get; set; }
+        public decimal BasicSalary { get; set; }
         [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
