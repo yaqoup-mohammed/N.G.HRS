@@ -23,10 +23,15 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string ComponyLogo { get; set; }
         [Required]
         [StringLength(255)]
-        public string ComponyAdress { get; set; }
+        public string ComponyAddress { get; set; }
         [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
+        //====================================================================
+        public List<BoardOfDirectors> BoardOfDirectorsList { get; set;}
+        public List<Branches> branchesList { get; set; }
+        //====================================================================
+
 
     }
 }

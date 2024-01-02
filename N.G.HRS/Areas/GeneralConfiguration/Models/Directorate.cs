@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.OrganizationalChart.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Models
@@ -16,6 +17,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [ForeignKey("GovernorateId")]
         public int GovernorateId { get; set; }
         public Governorate Governorate { get; set; }
+        //=
+        [ForeignKey("BranchesId")]
+        public int BranchesId { get; set; }
+        public Branches branches { get; set; }
         //===========================================
     }
 }

@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Finance.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
 {
-    public class FunctionalClass
+    public class FunctionalClass //الدرجة الوظيفية
     {
         [Key]  
         public int Id { get; set; }
@@ -15,5 +17,11 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
+        //===============================================
+        public List<Currency> CurrencyList { get; set; }
+        //=========================================
+        [ForeignKey("JobDescriptionId")]
+        public int JobDescriptionId { get; set; }
+        public JobDescription jobDescription { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -47,15 +50,24 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<StatementOfEmployeeFiles> statementOfEmployeeFilesList { get; set; }
         public List<TrainingCourses> trainingCoursesList {  get; set; }
         public List<EmployeeArchives> employeeArchivesList { get; set; }
+        public List<FingerprintDevices> fingerprintDevicesList { get; set; }
         //========================================================
         public PersonalData personalData { get; set; }
         public FinancialStatements financialStatements { get; set; }
         //===============================================
+        //          |
+        //علاقة self v
         public int? ManagerId { get; set; }
         // Navigation property for Manager
         public Employee? Manager { get; set; }
         // Navigation property for Subordinates 
         public List<Employee>? Subordinates { get; set; }
+        //=================================================
+        [ForeignKey("EmployeeAccountId")]
+        public int EmployeeAccountId { get; set; }
+        public EmployeeAccount employeeAccount { get; set; }
+        //====================================
+
 
 
 

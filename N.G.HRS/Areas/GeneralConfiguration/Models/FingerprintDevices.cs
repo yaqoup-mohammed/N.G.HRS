@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Employees.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Models
@@ -41,5 +43,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string DeviceSpecifications { get; set;}
         [StringLength(255)]
         public string? Notes { get; set; }
+        //======================================
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
+        public Employee employee { get; set; }
     }
 }

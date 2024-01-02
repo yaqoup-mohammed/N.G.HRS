@@ -2,6 +2,7 @@
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
@@ -17,7 +18,7 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          //علاقات التهيئة العامة
+            //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()
                 .HasOne(p => p.CountryOne)
@@ -36,7 +37,7 @@ namespace N.G.HRS.Date
                 .WithMany(p => p.contractTermsList)
                 .HasForeignKey(p => p.ContractsId);
             //==============================================================
-          //علاقات الموظفين
+            //علاقات الموظفين
             // علاقات الموظفين مع الادارات
             modelBuilder.Entity<Departments>()
                 .HasOne(p => p.Employee)
@@ -67,7 +68,7 @@ namespace N.G.HRS.Date
                 .HasForeignKey(p => p.EmployeeId);
             //علاقة الموظف مع المؤهل
 
-                                                             //<-------غير مكتمل
+            //<-------غير مكتمل
             //علاقة الموظف بالبيانات المالية
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.financialStatements)
@@ -91,8 +92,13 @@ namespace N.G.HRS.Date
                 .HasOne(p => p.Employee)
                 .WithMany(p => p.trainingCoursesList)
                 .HasForeignKey(p => p.EmployeeId);
+            //علاقة الموظف بأجهزة البصمة
+            modelBuilder.Entity<FingerprintDevices>()
+                .HasOne(p => p.employee)
+                .WithMany(p => p.fingerprintDevicesList)
+                .HasForeignKey(p => p.EmployeeId);
             //==================================================
-          //--البانات الشخصية--
+            //--البانات الشخصية--
             //البيانات الشخصية مع الجنس
             modelBuilder.Entity<Sex>()
                 .HasOne(p => p.personalData)
@@ -135,10 +141,158 @@ namespace N.G.HRS.Date
                 .WithMany(p => p.educationalQualificationsList)
                 .HasForeignKey(p => p.QualificationId);
             ////========================================================
+            //التخصصات مع المؤهل
             modelBuilder.Entity<Specialties>()
                  .HasOne(p => p.qualification)
                  .WithMany(p => p.specialtiesList)
                  .HasForeignKey(p => p.QualificationId);
+            //الجامعات مع المؤهل
+            modelBuilder.Entity<Universities>()
+                 .HasOne(p => p.qualifications)
+                 .WithMany(p => p.universitiesList)
+                 .HasForeignKey(p => p.QualificationsId);
+            //البيانات المالية مع العملة
+            modelBuilder.Entity<Currency>()
+                 .HasOne(p => p.financialStatements)
+                 .WithMany(p => p.currenciesList)
+                 .HasForeignKey(p => p.FinancialStatementsId);
+            //الملفات الوظيفية مع ملفات الموظف
+            modelBuilder.Entity<FunctionalFiles>()
+                 .HasOne(p => p.statementOfEmployeeFiles)
+                 .WithMany(p => p.FunctionalFilesList)
+                 .HasForeignKey(p => p.StatementOfEmployeeFilesId);
+            //=============================================================
+            //الاسرة مع نوع القرابة
+            modelBuilder.Entity<RelativesType>()
+                .HasOne(p => p.family)
+                .WithMany(p => p.relativesTypesList)
+                .HasForeignKey(p => p.FamilyId);
+            //=============================================================
+            //اعضاء مجلس الادارة مع مجلس الادارة
+            modelBuilder.Entity<MembershipOfTheBoardOfDirectors>()
+                .HasOne(p => p.boardOfDirectors)
+                .WithMany(p => p.membershipOfTheBoardOfDirectorsList)
+                .HasForeignKey(p => p.BoardOfDirectorsId);
+            //================================================================
+            //الشركة مع مجلس الادارة
+            modelBuilder.Entity<BoardOfDirectors>()
+                .HasOne(p => p.Company)
+                .WithMany(p => p.BoardOfDirectorsList)
+                .HasForeignKey(p => p.CompanyId);
+            //===========================================================
+            //الشركة مع الفروع
+            modelBuilder.Entity<Branches>()
+                .HasOne(p => p.company)
+                .WithMany(p => p.branchesList)
+                .HasForeignKey(p => p.CompanyId);
+            //============================================================
+            //الفروع مع بالدول
+            modelBuilder.Entity<Country>()
+                .HasOne(p => p.branches)
+                .WithMany(p => p.CountryList)
+                .HasForeignKey(p => p.BranchesId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //الفروع مع المحافظات
+            modelBuilder.Entity<Governorate>()
+                .HasOne(p => p.branches)
+                .WithMany(p => p.GovernoratesList)
+                .HasForeignKey(p => p.BranchesId)
+                .OnDelete(DeleteBehavior.NoAction);
+            //الفروع مع المديريات
+            modelBuilder.Entity<Directorate>()
+                .HasOne(p => p.branches)
+                .WithMany(p => p.DirectoratesList)
+                .HasForeignKey(p => p.BranchesId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //==============================================================
+            //القطاعات مع الفروع
+            modelBuilder.Entity<Branches>()
+                .HasOne(p => p.sectors)
+                .WithMany(p => p.BranchesList)
+                .HasForeignKey(p => p.SectorsId)
+                .OnDelete(DeleteBehavior.NoAction);
+            //===================================================================
+            //الادارات مع الفروع
+            modelBuilder.Entity<Sectors>()
+                .HasOne(p => p.departments)
+                .WithMany(p => p.SectorsList)
+                .HasForeignKey(p => p.DepartmentsId)
+                .OnDelete(DeleteBehavior.NoAction);
+            //===================================================================
+            //الاقسام  مع الادارات
+            modelBuilder.Entity<Departments>()
+                .HasOne(p => p.sections)
+                .WithMany(p => p.departmentsList)
+                .HasForeignKey(p => p.SectionsId)
+                .OnDelete(DeleteBehavior.NoAction);
+            //====================================================================
+            //الدرجة الوظيفية مع العملة
+            modelBuilder.Entity <Currency>()
+                .HasOne(p => p.functionalClass)
+                .WithMany(p => p.CurrencyList)
+                .HasForeignKey(p => p.FunctionalClassId);
+            //====================================================
+            //الوصف الوظيفي مع الفئات الوظيفية
+            modelBuilder.Entity<FunctionalCategories>()
+                .HasOne(p => p.jobDescription)
+                .WithMany(p => p.FunctionalCategoriesList)
+                .HasForeignKey(p => p.JobDescriptionId);
+            //الوصف الوظيفي مع الدرجة الوظيفية
+
+            modelBuilder.Entity<FunctionalClass>()
+                .HasOne(p => p.jobDescription)
+                .WithMany(p => p.functionalClassesList)
+                .HasForeignKey(p => p.JobDescriptionId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //الوصف الوظيفي مع الرتب الوظيفية
+
+            modelBuilder.Entity<JobRanks>()
+               .HasOne(p => p.jobDescription)
+               .WithMany(p => p.JobRanksList)
+               .HasForeignKey(p => p.JobDescriptionId);
+            //==============================================
+            //حسابات الاقسام مع نوع الحساب
+
+            modelBuilder.Entity<FinanceAccountType>()
+               .HasOne(p => p.departmentAccounts)
+               .WithMany(p => p.FinanceAccountsTypeList)
+               .HasForeignKey(p => p.DepartmentAccountsId);
+            //حسابات الاقسام مع الحساب
+            modelBuilder.Entity<FinanceAccount>()
+               .HasOne(p => p.departmentAccounts)
+               .WithMany(p => p.FinanceAccountsList)
+               .HasForeignKey(p => p.DepartmentAccountsId);
+
+            //حسابات الاقسام مع الاقسام
+            modelBuilder.Entity<Sections>()
+               .HasOne(p => p.departmentAccounts)
+               .WithMany(p => p.SectionsList)
+               .HasForeignKey(p => p.DepartmentAccountsId);
+
+            //===================================
+            //حسابا الموظف مع الموظف
+            modelBuilder.Entity<Employee>()
+               .HasOne(p => p.employeeAccount)
+               .WithMany(p => p.employeesList)
+               .HasForeignKey(p => p.EmployeeAccountId);
+
+            //حسابات الموظف مع نوع الحساب
+
+            modelBuilder.Entity<FinanceAccountType>()
+              .HasOne(p => p.employeeAccount)
+              .WithMany(p => p.financeAccountTypesList)
+              .HasForeignKey(p => p.EmployeeAccountId);
+            // حسابات الموظف مع الحساب
+            modelBuilder.Entity<FinanceAccount>()
+              .HasOne(p => p.employeeAccount)
+              .WithMany(p => p.financeAccountsList)
+              .HasForeignKey(p => p.EmployeeAccountId);
+            //==============================================
+
+
 
 
         }
@@ -146,7 +300,6 @@ namespace N.G.HRS.Date
         //تهيئة الرواتب والاجور
         public DbSet<AdditionalAccountInformation> additionalAccountInformation { get; set; }
         public DbSet<AllowancesAndDiscounts> allowancesAndDiscounts { get; set; }
-        public DbSet<Archives> archives { get; set; }
         public DbSet<BasicDataForTheSalaryStatement> basicDataForTheSalaryStatements { get; set; }
         public DbSet<BasicDataForWagesAndSalaries> basicDataForWagesAndSalaries { get; set; }
         public DbSet<DepartmentAccounts>  departmentAccounts { get; set; }

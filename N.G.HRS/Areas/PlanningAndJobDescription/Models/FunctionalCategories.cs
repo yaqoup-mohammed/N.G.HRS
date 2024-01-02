@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
 {
@@ -12,6 +13,10 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
+        //==================================================
+        [ForeignKey("JobDescriptionId")]
+        public int JobDescriptionId { get; set; }
+        public JobDescription jobDescription { get; set; }
 
     }
 }

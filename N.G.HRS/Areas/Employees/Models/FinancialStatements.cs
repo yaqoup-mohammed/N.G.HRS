@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Finance.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
 
 namespace N.G.HRS.Areas.Employees.Models
@@ -31,5 +32,7 @@ namespace N.G.HRS.Areas.Employees.Models
         //يرتبط بجدول (الموظف) وجدول (العملة)ي
         //==================================================
         public Employee employee { get; set; }
+        //===============================================
+        public List<Currency> currenciesList { get; set; }
     }
 }

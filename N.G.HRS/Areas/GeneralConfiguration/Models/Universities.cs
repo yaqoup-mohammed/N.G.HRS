@@ -4,18 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Models
 {
-    public class FunctionalFiles
+    public class Universities
     {
         [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string FileName { get; set; }
+        public string Name { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
-        //===============================================
-        [ForeignKey("StatementOfEmployeeFilesId")]
-        public int StatementOfEmployeeFilesId { get; set; }
-        public StatementOfEmployeeFiles statementOfEmployeeFiles { get; set; }
+        //===================================
+        [ForeignKey("QualificationsId")]
+        public int QualificationsId { get; set; }
+        public Qualifications qualifications { get; set; }
+
     }
 }

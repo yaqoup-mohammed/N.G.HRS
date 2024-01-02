@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A1 : Migration
+    public partial class A0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -126,39 +126,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "boardOfDirectors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    CouncilName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    NameOfMembership = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_boardOfDirectors", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "branches",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BranchesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    BranchesAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    BranchesPhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    BranchesEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_branches", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "company",
                 columns: table => new
                 {
@@ -169,7 +136,7 @@ namespace N.G.HRS.Migrations
                     LicenseNumber = table.Column<int>(type: "int", nullable: false),
                     TypeOfBusinessActivity = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ComponyLogo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    ComponyAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ComponyAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
@@ -192,20 +159,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "country",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_country", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "departmentAccounts",
                 columns: table => new
                 {
@@ -216,20 +169,6 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_departmentAccounts", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "educationalQualifications",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_educationalQualifications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,6 +212,20 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_employeeAccounts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Family",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Family", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -328,20 +281,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "functionalFiles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_functionalFiles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "guarantees",
                 columns: table => new
                 {
@@ -388,20 +327,6 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_linkingEmployeesToShiftPeriods", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "membershipOfTheBoardOfs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeOFMembership = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_membershipOfTheBoardOfs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -596,20 +521,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "relativesTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RelativeName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_relativesTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "sectors",
                 columns: table => new
                 {
@@ -621,20 +532,6 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_sectors", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "specialties",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_specialties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -672,6 +569,53 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "boardOfDirectors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    CouncilName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    NameOfMembership = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_boardOfDirectors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_boardOfDirectors_company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "branches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BranchesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    BranchesAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    BranchesPhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    BranchesEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_branches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_branches_company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "contractTerms",
                 columns: table => new
                 {
@@ -689,27 +633,6 @@ namespace N.G.HRS.Migrations
                         name: "FK_contractTerms_contracts_ContractsId",
                         column: x => x.ContractsId,
                         principalTable: "contracts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "governorates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_governorates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_governorates_country_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "country",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -896,6 +819,27 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "relativesTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RelativeName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    FamilyId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_relativesTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_relativesTypes_Family_FamilyId",
+                        column: x => x.FamilyId,
+                        principalTable: "Family",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "personalDatas",
                 columns: table => new
                 {
@@ -930,22 +874,150 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "directorates",
+                name: "educationalQualifications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    GovernorateId = table.Column<int>(type: "int", nullable: false)
+                    QualificationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_directorates", x => x.Id);
+                    table.PrimaryKey("PK_educationalQualifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_directorates_governorates_GovernorateId",
-                        column: x => x.GovernorateId,
-                        principalTable: "governorates",
+                        name: "FK_educationalQualifications_qualifications_QualificationId",
+                        column: x => x.QualificationId,
+                        principalTable: "qualifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "specialties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    QualificationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_specialties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_specialties_qualifications_QualificationId",
+                        column: x => x.QualificationId,
+                        principalTable: "qualifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Universities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    QualificationsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Universities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Universities_qualifications_QualificationsId",
+                        column: x => x.QualificationsId,
+                        principalTable: "qualifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "membershipOfTheBoardOfs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TypeOFMembership = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    BoardOfDirectorsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_membershipOfTheBoardOfs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_membershipOfTheBoardOfs_boardOfDirectors_BoardOfDirectorsId",
+                        column: x => x.BoardOfDirectorsId,
+                        principalTable: "boardOfDirectors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "country",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    BranchesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_country", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_country_branches_BranchesId",
+                        column: x => x.BranchesId,
+                        principalTable: "branches",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrencyName = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    CurrencyCode = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    CurrencyNotes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CurrentPriceOfCurrency = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PreviousPriceOfCurrency = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinancialStatementsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Currency_financialStatements_FinancialStatementsId",
+                        column: x => x.FinancialStatementsId,
+                        principalTable: "financialStatements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "functionalFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    StatementOfEmployeeFilesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_functionalFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_functionalFiles_statementOfEmployeeFiles_StatementOfEmployeeFilesId",
+                        column: x => x.StatementOfEmployeeFilesId,
+                        principalTable: "statementOfEmployeeFiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -974,8 +1046,7 @@ namespace N.G.HRS.Migrations
                         name: "FK_maritalStatuses_personalDatas_PersonalDataId",
                         column: x => x.PersonalDataId,
                         principalTable: "personalDatas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1041,10 +1112,84 @@ namespace N.G.HRS.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "governorates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    BranchesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_governorates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_governorates_branches_BranchesId",
+                        column: x => x.BranchesId,
+                        principalTable: "branches",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_governorates_country_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "country",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "directorates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    BranchesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_directorates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_directorates_branches_BranchesId",
+                        column: x => x.BranchesId,
+                        principalTable: "branches",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_directorates_governorates_GovernorateId",
+                        column: x => x.GovernorateId,
+                        principalTable: "governorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_boardOfDirectors_CompanyId",
+                table: "boardOfDirectors",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_branches_CompanyId",
+                table: "branches",
+                column: "CompanyId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_contractTerms_ContractsId",
                 table: "contractTerms",
                 column: "ContractsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_country_BranchesId",
+                table: "country",
+                column: "BranchesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Currency_FinancialStatementsId",
+                table: "Currency",
+                column: "FinancialStatementsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Departments_EmployeeId",
@@ -1052,9 +1197,19 @@ namespace N.G.HRS.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_directorates_BranchesId",
+                table: "directorates",
+                column: "BranchesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_directorates_GovernorateId",
                 table: "directorates",
                 column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_educationalQualifications_QualificationId",
+                table: "educationalQualifications",
+                column: "QualificationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_employee_ManagerId",
@@ -1065,6 +1220,16 @@ namespace N.G.HRS.Migrations
                 name: "IX_EmployeeArchives_EmployeeId",
                 table: "EmployeeArchives",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_functionalFiles_StatementOfEmployeeFilesId",
+                table: "functionalFiles",
+                column: "StatementOfEmployeeFilesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_governorates_BranchesId",
+                table: "governorates",
+                column: "BranchesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_governorates_CountryId",
@@ -1087,6 +1252,11 @@ namespace N.G.HRS.Migrations
                 column: "PersonalDataId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_membershipOfTheBoardOfs_BoardOfDirectorsId",
+                table: "membershipOfTheBoardOfs",
+                column: "BoardOfDirectorsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_nationality_PersonalDataId",
                 table: "nationality",
                 column: "PersonalDataId");
@@ -1095,6 +1265,11 @@ namespace N.G.HRS.Migrations
                 name: "IX_practicalExperiences_EmployeeId",
                 table: "practicalExperiences",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_relativesTypes_FamilyId",
+                table: "relativesTypes",
+                column: "FamilyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_religion_PersonalDataId",
@@ -1112,6 +1287,11 @@ namespace N.G.HRS.Migrations
                 column: "PersonalDataId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_specialties_QualificationId",
+                table: "specialties",
+                column: "QualificationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_statementOfEmployeeFiles_EmployeeId",
                 table: "statementOfEmployeeFiles",
                 column: "EmployeeId");
@@ -1120,6 +1300,11 @@ namespace N.G.HRS.Migrations
                 name: "IX_trainingCourses_EmployeeId",
                 table: "trainingCourses",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Universities_QualificationsId",
+                table: "Universities",
+                column: "QualificationsId");
         }
 
         /// <inheritdoc />
@@ -1144,16 +1329,10 @@ namespace N.G.HRS.Migrations
                 name: "basicDataForWagesAndSalaries");
 
             migrationBuilder.DropTable(
-                name: "boardOfDirectors");
-
-            migrationBuilder.DropTable(
-                name: "branches");
-
-            migrationBuilder.DropTable(
-                name: "company");
-
-            migrationBuilder.DropTable(
                 name: "contractTerms");
+
+            migrationBuilder.DropTable(
+                name: "Currency");
 
             migrationBuilder.DropTable(
                 name: "departmentAccounts");
@@ -1172,9 +1351,6 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "EmployeeArchives");
-
-            migrationBuilder.DropTable(
-                name: "financialStatements");
 
             migrationBuilder.DropTable(
                 name: "fingerprintDevices");
@@ -1240,9 +1416,6 @@ namespace N.G.HRS.Migrations
                 name: "publicHolidays");
 
             migrationBuilder.DropTable(
-                name: "qualifications");
-
-            migrationBuilder.DropTable(
                 name: "relativesTypes");
 
             migrationBuilder.DropTable(
@@ -1264,10 +1437,10 @@ namespace N.G.HRS.Migrations
                 name: "staffTimes");
 
             migrationBuilder.DropTable(
-                name: "statementOfEmployeeFiles");
+                name: "trainingCourses");
 
             migrationBuilder.DropTable(
-                name: "trainingCourses");
+                name: "Universities");
 
             migrationBuilder.DropTable(
                 name: "weekends");
@@ -1276,10 +1449,25 @@ namespace N.G.HRS.Migrations
                 name: "contracts");
 
             migrationBuilder.DropTable(
+                name: "financialStatements");
+
+            migrationBuilder.DropTable(
                 name: "governorates");
 
             migrationBuilder.DropTable(
+                name: "statementOfEmployeeFiles");
+
+            migrationBuilder.DropTable(
+                name: "boardOfDirectors");
+
+            migrationBuilder.DropTable(
+                name: "Family");
+
+            migrationBuilder.DropTable(
                 name: "personalDatas");
+
+            migrationBuilder.DropTable(
+                name: "qualifications");
 
             migrationBuilder.DropTable(
                 name: "country");
@@ -1289,6 +1477,12 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "guarantees");
+
+            migrationBuilder.DropTable(
+                name: "branches");
+
+            migrationBuilder.DropTable(
+                name: "company");
         }
     }
 }

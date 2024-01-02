@@ -27,6 +27,10 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
+        //=========================================
+        public List<FunctionalCategories> FunctionalCategoriesList { get; set; }
+        public List<FunctionalClass> functionalClassesList { get; set; }
+        public List<JobRanks> JobRanksList { get; set;}
 
     }
 }

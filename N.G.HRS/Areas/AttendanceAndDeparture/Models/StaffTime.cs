@@ -2,7 +2,7 @@
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
-    public class StaffTime
+    public class StaffTime//دوام الموظفين
     {
         [Key]
         public int Id { get; set; }

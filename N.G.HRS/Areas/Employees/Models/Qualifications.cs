@@ -15,6 +15,7 @@ namespace N.G.HRS.Areas.Employees.Models
         //=================================================
         public List<EducationalQualification> educationalQualificationsList { get; set; }
         public List<Specialties> specialtiesList { get; set; }
+        public List<Universities> universitiesList { get; set; }
 
 
     }

@@ -17,5 +17,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
+        //=
+        [ForeignKey("SectionsId")]
+        public int SectionsId { get; set; }
+        public Sections sections { get; set; }
+        //=========================================
+        public List<Sectors> SectorsList { get; set; }
+
     }
 }

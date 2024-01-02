@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
@@ -16,5 +17,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
+        //====================================================
+        public List<FunctionalFiles> FunctionalFilesList { get; set; }
     }
 }

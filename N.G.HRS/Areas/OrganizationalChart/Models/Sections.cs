@@ -1,10 +1,11 @@
-﻿using N.G.HRS.Areas.Employees.Models;
+﻿using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.Employees.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
-    public class Sections
+    public class Sections //الاقسام
     {
         [Key]
         public int Id { get; set; }
@@ -18,5 +19,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
+        //=
+        [ForeignKey("DepartmentAccountsId")]
+        public int DepartmentAccountsId { get; set; }
+        public DepartmentAccounts departmentAccounts { get; set; }
+        //========================================
+        public List<Departments> departmentsList {  get; set; } 
+
     }
 }

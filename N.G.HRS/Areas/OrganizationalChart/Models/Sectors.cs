@@ -2,7 +2,7 @@
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
-    public class Sectors
+    public class Sectors//القطاعات
     {
         [Key]
         public int Id { get; set; }
@@ -11,5 +11,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string SectorsName { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
+        //===============================================
+        public List<Branches> BranchesList { get; set; }
+        //=======================
+        public int DepartmentsId { get; set; }
+        public Departments departments { get; set; }
+
+
     }
 }

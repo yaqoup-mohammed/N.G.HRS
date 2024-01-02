@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
@@ -22,5 +24,17 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         
         [StringLength(255)]
         public string? Notes { get; set; }
+        //==========================================
+        [ForeignKey("CompanyId")]
+        public int CompanyId { get; set; }
+        public Company company { get; set; }
+        //=
+        [ForeignKey("SectorsId")]
+        public int SectorsId { get; set; }
+        public Sectors sectors { get; set; }
+        //==========================================
+        public List<Country> CountryList { get; set; }
+        public List<Governorate> GovernoratesList { get; set; }
+        public List<Directorate> DirectoratesList { get; set;}
     }
 }
