@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -26,7 +27,14 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Required]
         [Range(0,50)]
         public int Hours { get; set; }
-
+        //============================================
+        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
+        public int LinkingEmployeesToShiftPeriodsId { get; set; }
+        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        //=
+        [ForeignKey("WeekendsId")]
+        public int WeekendsId { get; set; }
+        public Weekends weekends { get; set; }
 
 
 

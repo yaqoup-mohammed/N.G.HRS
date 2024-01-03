@@ -65,22 +65,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "archives",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    File = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_archives", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "basicDataForTheSalaryStatements",
                 columns: table => new
                 {
@@ -172,33 +156,16 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "employee",
+                name: "EmployeeAccount",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeNumber = table.Column<int>(type: "int", nullable: false),
-                    EmployeeName = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: false),
-                    DateOfEmployment = table.Column<DateOnly>(type: "date", nullable: false),
-                    PlacementDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    EmploymentStatus = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    RehireDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    DateOfStoppingWork = table.Column<DateOnly>(type: "date", nullable: false),
-                    UsedFingerprint = table.Column<bool>(type: "bit", nullable: false),
-                    SubjectToInsurance = table.Column<bool>(type: "bit", nullable: false),
-                    DateInsurance = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    ManagerId = table.Column<int>(type: "int", nullable: true)
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_employee", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_employee_employee_ManagerId",
-                        column: x => x.ManagerId,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_EmployeeAccount", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,58 +196,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "fingerprintDevices",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DevicesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    DeviceType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DeviceStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ConnectionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DateOfPurchase = table.Column<DateOnly>(type: "date", nullable: false),
-                    VendorName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    VendorPhon = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    VendorAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    ManufactureCompany = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    DeviceSpecifications = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_fingerprintDevices", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "functionalCategories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoriesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_functionalCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "functionalClasses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_functionalClasses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "guarantees",
                 columns: table => new
                 {
@@ -299,20 +214,6 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_guarantees", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "jobRanks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RankName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_jobRanks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -390,55 +291,6 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_openingBalancesForVacations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "periods",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Saturday = table.Column<bool>(type: "bit", nullable: false),
-                    SunDay = table.Column<bool>(type: "bit", nullable: false),
-                    Monday = table.Column<bool>(type: "bit", nullable: false),
-                    Tuesday = table.Column<bool>(type: "bit", nullable: false),
-                    Wednesday = table.Column<bool>(type: "bit", nullable: false),
-                    Thursday = table.Column<bool>(type: "bit", nullable: false),
-                    Friday = table.Column<bool>(type: "bit", nullable: false),
-                    Hours = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_periods", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "permanenceModels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PermanenceName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    FlexibleWorkingHours = table.Column<bool>(type: "bit", nullable: false),
-                    WorkBetweenTwoShifts = table.Column<bool>(type: "bit", nullable: false),
-                    ShiftTime = table.Column<bool>(type: "bit", nullable: false),
-                    Working24Hours = table.Column<bool>(type: "bit", nullable: false),
-                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoursOfWorks = table.Column<int>(type: "int", nullable: false),
-                    AddAttendanceAndDeparturePermission = table.Column<bool>(type: "bit", nullable: false),
-                    AllowanceForLateAttendance = table.Column<bool>(type: "bit", nullable: false),
-                    EarlyDeparturePermission = table.Column<bool>(type: "bit", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_permanenceModels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -521,20 +373,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "sectors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SectorsName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_sectors", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "staffTimes",
                 columns: table => new
                 {
@@ -592,30 +430,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "branches",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BranchesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    BranchesAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    BranchesPhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    BranchesEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CompanyId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_branches", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_branches_company_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "company",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "contractTerms",
                 columns: table => new
                 {
@@ -638,183 +452,61 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departments",
+                name: "FinanceAccount",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SubAdministration = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeAccountId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentAccountsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.PrimaryKey("PK_FinanceAccount", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Departments_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
+                        name: "FK_FinanceAccount_EmployeeAccount_EmployeeAccountId",
+                        column: x => x.EmployeeAccountId,
+                        principalTable: "EmployeeAccount",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FinanceAccount_departmentAccounts_DepartmentAccountsId",
+                        column: x => x.DepartmentAccountsId,
+                        principalTable: "departmentAccounts",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeArchives",
+                name: "FinanceAccountType",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descriotion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    File = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountNumber = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeAccountId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentAccountsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeArchives", x => x.Id);
+                    table.PrimaryKey("PK_FinanceAccountType", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeArchives_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
+                        name: "FK_FinanceAccountType_EmployeeAccount_EmployeeAccountId",
+                        column: x => x.EmployeeAccountId,
+                        principalTable: "EmployeeAccount",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "financialStatements",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    NatureOfEmployment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InsuranceAccountNumber = table.Column<int>(type: "int", nullable: false),
-                    BankAccountNumber = table.Column<int>(type: "int", nullable: false),
-                    SalaryStartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SalaryEndDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_financialStatements", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_financialStatements_employee_Id",
-                        column: x => x.Id,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "jobDescriptions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    JopName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    JobQualifications = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Authorities = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Responsibilities = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_jobDescriptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_jobDescriptions_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "practicalExperiences",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ExperiencesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    PlacToGainExperience = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
-                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Duration = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_practicalExperiences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_practicalExperiences_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sections",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SectionsName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sections", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sections_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "statementOfEmployeeFiles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FilesStatus = table.Column<bool>(type: "bit", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_statementOfEmployeeFiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_statementOfEmployeeFiles_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "trainingCourses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameCourses = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    WhereToGetIt = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_trainingCourses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_trainingCourses_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
-                        principalColumn: "Id",
+                        name: "FK_FinanceAccountType_departmentAccounts_DepartmentAccountsId",
+                        column: x => x.DepartmentAccountsId,
+                        principalTable: "departmentAccounts",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -840,37 +532,32 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "personalDatas",
+                name: "periods",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    HomePhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CardType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CardNumber = table.Column<int>(type: "int", nullable: false),
-                    ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    CardExpiryDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Saturday = table.Column<bool>(type: "bit", nullable: false),
+                    SunDay = table.Column<bool>(type: "bit", nullable: false),
+                    Monday = table.Column<bool>(type: "bit", nullable: false),
+                    Tuesday = table.Column<bool>(type: "bit", nullable: false),
+                    Wednesday = table.Column<bool>(type: "bit", nullable: false),
+                    Thursday = table.Column<bool>(type: "bit", nullable: false),
+                    Friday = table.Column<bool>(type: "bit", nullable: false),
+                    Hours = table.Column<int>(type: "int", nullable: false),
+                    LinkingEmployeesToShiftPeriodsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_personalDatas", x => x.Id);
+                    table.PrimaryKey("PK_periods", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_personalDatas_employee_Id",
-                        column: x => x.Id,
-                        principalTable: "employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_personalDatas_guarantees_Id",
-                        column: x => x.Id,
-                        principalTable: "guarantees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_periods_linkingEmployeesToShiftPeriods_LinkingEmployeesToShiftPeriodsId",
+                        column: x => x.LinkingEmployeesToShiftPeriodsId,
+                        principalTable: "linkingEmployeesToShiftPeriods",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -937,6 +624,95 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "employee",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeNumber = table.Column<int>(type: "int", nullable: false),
+                    EmployeeName = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: false),
+                    DateOfEmployment = table.Column<DateOnly>(type: "date", nullable: false),
+                    PlacementDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    EmploymentStatus = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    RehireDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateOfStoppingWork = table.Column<DateOnly>(type: "date", nullable: false),
+                    UsedFingerprint = table.Column<bool>(type: "bit", nullable: false),
+                    SubjectToInsurance = table.Column<bool>(type: "bit", nullable: false),
+                    DateInsurance = table.Column<DateOnly>(type: "date", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ManagerId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeAccountId = table.Column<int>(type: "int", nullable: false),
+                    StaffTimeId = table.Column<int>(type: "int", nullable: false),
+                    LinkingEmployeesToShiftPeriodsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_employee", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_employee_EmployeeAccount_EmployeeAccountId",
+                        column: x => x.EmployeeAccountId,
+                        principalTable: "EmployeeAccount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_employee_employee_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_employee_linkingEmployeesToShiftPeriods_LinkingEmployeesToShiftPeriodsId",
+                        column: x => x.LinkingEmployeesToShiftPeriodsId,
+                        principalTable: "linkingEmployeesToShiftPeriods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_employee_staffTimes_StaffTimeId",
+                        column: x => x.StaffTimeId,
+                        principalTable: "staffTimes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permanenceModels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PermanenceName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    FlexibleWorkingHours = table.Column<bool>(type: "bit", nullable: false),
+                    WorkBetweenTwoShifts = table.Column<bool>(type: "bit", nullable: false),
+                    ShiftTime = table.Column<bool>(type: "bit", nullable: false),
+                    Working24Hours = table.Column<bool>(type: "bit", nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoursOfWorks = table.Column<int>(type: "int", nullable: false),
+                    AddAttendanceAndDeparturePermission = table.Column<bool>(type: "bit", nullable: false),
+                    AllowanceForLateAttendance = table.Column<bool>(type: "bit", nullable: false),
+                    EarlyDeparturePermission = table.Column<bool>(type: "bit", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    StaffTimeId = table.Column<int>(type: "int", nullable: false),
+                    LinkingEmployeesToShiftPeriodsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_permanenceModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_permanenceModels_linkingEmployeesToShiftPeriods_LinkingEmployeesToShiftPeriodsId",
+                        column: x => x.LinkingEmployeesToShiftPeriodsId,
+                        principalTable: "linkingEmployeesToShiftPeriods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_permanenceModels_staffTimes_StaffTimeId",
+                        column: x => x.StaffTimeId,
+                        principalTable: "staffTimes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "membershipOfTheBoardOfs",
                 columns: table => new
                 {
@@ -958,66 +734,301 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "country",
+                name: "EmployeeArchives",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    BranchesId = table.Column<int>(type: "int", nullable: false)
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descriotion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    File = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_country", x => x.Id);
+                    table.PrimaryKey("PK_EmployeeArchives", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_country_branches_BranchesId",
-                        column: x => x.BranchesId,
-                        principalTable: "branches",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Currency",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CurrencyName = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
-                    CurrencyCode = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
-                    CurrencyNotes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CurrentPriceOfCurrency = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PreviousPriceOfCurrency = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FinancialStatementsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Currency", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Currency_financialStatements_FinancialStatementsId",
-                        column: x => x.FinancialStatementsId,
-                        principalTable: "financialStatements",
+                        name: "FK_EmployeeArchives_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "functionalFiles",
+                name: "financialStatements",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    NatureOfEmployment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InsuranceAccountNumber = table.Column<int>(type: "int", nullable: false),
+                    BankAccountNumber = table.Column<int>(type: "int", nullable: false),
+                    SalaryStartDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SalaryEndDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_financialStatements", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_financialStatements_employee_Id",
+                        column: x => x.Id,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "fingerprintDevices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    DevicesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    DeviceType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DeviceStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ConnectionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DateOfPurchase = table.Column<DateOnly>(type: "date", nullable: false),
+                    VendorName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    VendorPhon = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    VendorAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ManufactureCompany = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    DeviceSpecifications = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    StatementOfEmployeeFilesId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_functionalFiles", x => x.Id);
+                    table.PrimaryKey("PK_fingerprintDevices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_functionalFiles_statementOfEmployeeFiles_StatementOfEmployeeFilesId",
-                        column: x => x.StatementOfEmployeeFilesId,
-                        principalTable: "statementOfEmployeeFiles",
+                        name: "FK_fingerprintDevices_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "jobDescriptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JopName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    JobQualifications = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Authorities = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Responsibilities = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_jobDescriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_jobDescriptions_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "personalDatas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    HomePhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CardType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CardNumber = table.Column<int>(type: "int", nullable: false),
+                    ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CardExpiryDate = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_personalDatas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_personalDatas_employee_Id",
+                        column: x => x.Id,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_personalDatas_guarantees_Id",
+                        column: x => x.Id,
+                        principalTable: "guarantees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "practicalExperiences",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExperiencesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    PlacToGainExperience = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    Duration = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_practicalExperiences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_practicalExperiences_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SectionsName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentAccountsId = table.Column<int>(type: "int", nullable: false),
+                    LinkingEmployeesToShiftPeriodsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sections_departmentAccounts_DepartmentAccountsId",
+                        column: x => x.DepartmentAccountsId,
+                        principalTable: "departmentAccounts",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sections_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sections_linkingEmployeesToShiftPeriods_LinkingEmployeesToShiftPeriodsId",
+                        column: x => x.LinkingEmployeesToShiftPeriodsId,
+                        principalTable: "linkingEmployeesToShiftPeriods",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "statementOfEmployeeFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FilesStatus = table.Column<bool>(type: "bit", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_statementOfEmployeeFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_statementOfEmployeeFiles_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "trainingCourses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameCourses = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    WhereToGetIt = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_trainingCourses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_trainingCourses_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "functionalCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoriesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    JobDescriptionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_functionalCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_functionalCategories_jobDescriptions_JobDescriptionId",
+                        column: x => x.JobDescriptionId,
+                        principalTable: "jobDescriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "functionalClasses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    JobDescriptionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_functionalClasses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_functionalClasses_jobDescriptions_JobDescriptionId",
+                        column: x => x.JobDescriptionId,
+                        principalTable: "jobDescriptions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "jobRanks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RankName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    JobDescriptionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_jobRanks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_jobRanks_jobDescriptions_JobDescriptionId",
+                        column: x => x.JobDescriptionId,
+                        principalTable: "jobDescriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1113,6 +1124,161 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubAdministration = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    SectionsId = table.Column<int>(type: "int", nullable: false),
+                    LinkingEmployeesToShiftPeriodsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_Sections_SectionsId",
+                        column: x => x.SectionsId,
+                        principalTable: "Sections",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Departments_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Departments_linkingEmployeesToShiftPeriods_LinkingEmployeesToShiftPeriodsId",
+                        column: x => x.LinkingEmployeesToShiftPeriodsId,
+                        principalTable: "linkingEmployeesToShiftPeriods",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "functionalFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    StatementOfEmployeeFilesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_functionalFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_functionalFiles_statementOfEmployeeFiles_StatementOfEmployeeFilesId",
+                        column: x => x.StatementOfEmployeeFilesId,
+                        principalTable: "statementOfEmployeeFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrencyName = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    CurrencyCode = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    CurrencyNotes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CurrentPriceOfCurrency = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PreviousPriceOfCurrency = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinancialStatementsId = table.Column<int>(type: "int", nullable: false),
+                    FunctionalClassId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Currency_financialStatements_FinancialStatementsId",
+                        column: x => x.FinancialStatementsId,
+                        principalTable: "financialStatements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Currency_functionalClasses_FunctionalClassId",
+                        column: x => x.FunctionalClassId,
+                        principalTable: "functionalClasses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "sectors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SectorsName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DepartmentsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sectors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sectors_Departments_DepartmentsId",
+                        column: x => x.DepartmentsId,
+                        principalTable: "Departments",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "branches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BranchesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    BranchesAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    BranchesPhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    BranchesEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
+                    SectorsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_branches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_branches_company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_branches_sectors_SectorsId",
+                        column: x => x.SectorsId,
+                        principalTable: "sectors",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "country",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    BranchesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_country", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_country_branches_BranchesId",
+                        column: x => x.BranchesId,
+                        principalTable: "branches",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "governorates",
                 columns: table => new
                 {
@@ -1177,6 +1343,11 @@ namespace N.G.HRS.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_branches_SectorsId",
+                table: "branches",
+                column: "SectorsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_contractTerms_ContractsId",
                 table: "contractTerms",
                 column: "ContractsId");
@@ -1192,9 +1363,24 @@ namespace N.G.HRS.Migrations
                 column: "FinancialStatementsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Currency_FunctionalClassId",
+                table: "Currency",
+                column: "FunctionalClassId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Departments_EmployeeId",
                 table: "Departments",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_LinkingEmployeesToShiftPeriodsId",
+                table: "Departments",
+                column: "LinkingEmployeesToShiftPeriodsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_SectionsId",
+                table: "Departments",
+                column: "SectionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_directorates_BranchesId",
@@ -1212,14 +1398,64 @@ namespace N.G.HRS.Migrations
                 column: "QualificationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_employee_EmployeeAccountId",
+                table: "employee",
+                column: "EmployeeAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_employee_LinkingEmployeesToShiftPeriodsId",
+                table: "employee",
+                column: "LinkingEmployeesToShiftPeriodsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_employee_ManagerId",
                 table: "employee",
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_employee_StaffTimeId",
+                table: "employee",
+                column: "StaffTimeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeeArchives_EmployeeId",
                 table: "EmployeeArchives",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinanceAccount_DepartmentAccountsId",
+                table: "FinanceAccount",
+                column: "DepartmentAccountsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinanceAccount_EmployeeAccountId",
+                table: "FinanceAccount",
+                column: "EmployeeAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinanceAccountType_DepartmentAccountsId",
+                table: "FinanceAccountType",
+                column: "DepartmentAccountsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinanceAccountType_EmployeeAccountId",
+                table: "FinanceAccountType",
+                column: "EmployeeAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_fingerprintDevices_EmployeeId",
+                table: "fingerprintDevices",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_functionalCategories_JobDescriptionId",
+                table: "functionalCategories",
+                column: "JobDescriptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_functionalClasses_JobDescriptionId",
+                table: "functionalClasses",
+                column: "JobDescriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_functionalFiles_StatementOfEmployeeFilesId",
@@ -1242,6 +1478,11 @@ namespace N.G.HRS.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_jobRanks_JobDescriptionId",
+                table: "jobRanks",
+                column: "JobDescriptionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_maritalStatuses_GuaranteesId",
                 table: "maritalStatuses",
                 column: "GuaranteesId");
@@ -1262,6 +1503,21 @@ namespace N.G.HRS.Migrations
                 column: "PersonalDataId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_periods_LinkingEmployeesToShiftPeriodsId",
+                table: "periods",
+                column: "LinkingEmployeesToShiftPeriodsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_permanenceModels_LinkingEmployeesToShiftPeriodsId",
+                table: "permanenceModels",
+                column: "LinkingEmployeesToShiftPeriodsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_permanenceModels_StaffTimeId",
+                table: "permanenceModels",
+                column: "StaffTimeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_practicalExperiences_EmployeeId",
                 table: "practicalExperiences",
                 column: "EmployeeId");
@@ -1277,9 +1533,24 @@ namespace N.G.HRS.Migrations
                 column: "PersonalDataId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Sections_DepartmentAccountsId",
+                table: "Sections",
+                column: "DepartmentAccountsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sections_EmployeeId",
                 table: "Sections",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sections_LinkingEmployeesToShiftPeriodsId",
+                table: "Sections",
+                column: "LinkingEmployeesToShiftPeriodsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sectors_DepartmentsId",
+                table: "sectors",
+                column: "DepartmentsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_sex_PersonalDataId",
@@ -1320,9 +1591,6 @@ namespace N.G.HRS.Migrations
                 name: "allowancesAndDiscounts");
 
             migrationBuilder.DropTable(
-                name: "archives");
-
-            migrationBuilder.DropTable(
                 name: "basicDataForTheSalaryStatements");
 
             migrationBuilder.DropTable(
@@ -1333,12 +1601,6 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Currency");
-
-            migrationBuilder.DropTable(
-                name: "departmentAccounts");
-
-            migrationBuilder.DropTable(
-                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "directorates");
@@ -1353,25 +1615,22 @@ namespace N.G.HRS.Migrations
                 name: "EmployeeArchives");
 
             migrationBuilder.DropTable(
+                name: "FinanceAccount");
+
+            migrationBuilder.DropTable(
+                name: "FinanceAccountType");
+
+            migrationBuilder.DropTable(
                 name: "fingerprintDevices");
 
             migrationBuilder.DropTable(
                 name: "functionalCategories");
 
             migrationBuilder.DropTable(
-                name: "functionalClasses");
-
-            migrationBuilder.DropTable(
                 name: "functionalFiles");
 
             migrationBuilder.DropTable(
-                name: "jobDescriptions");
-
-            migrationBuilder.DropTable(
                 name: "jobRanks");
-
-            migrationBuilder.DropTable(
-                name: "linkingEmployeesToShiftPeriods");
 
             migrationBuilder.DropTable(
                 name: "maritalStatuses");
@@ -1422,19 +1681,10 @@ namespace N.G.HRS.Migrations
                 name: "religion");
 
             migrationBuilder.DropTable(
-                name: "Sections");
-
-            migrationBuilder.DropTable(
-                name: "sectors");
-
-            migrationBuilder.DropTable(
                 name: "sex");
 
             migrationBuilder.DropTable(
                 name: "specialties");
-
-            migrationBuilder.DropTable(
-                name: "staffTimes");
 
             migrationBuilder.DropTable(
                 name: "trainingCourses");
@@ -1450,6 +1700,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "financialStatements");
+
+            migrationBuilder.DropTable(
+                name: "functionalClasses");
 
             migrationBuilder.DropTable(
                 name: "governorates");
@@ -1470,10 +1723,10 @@ namespace N.G.HRS.Migrations
                 name: "qualifications");
 
             migrationBuilder.DropTable(
-                name: "country");
+                name: "jobDescriptions");
 
             migrationBuilder.DropTable(
-                name: "employee");
+                name: "country");
 
             migrationBuilder.DropTable(
                 name: "guarantees");
@@ -1483,6 +1736,30 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "company");
+
+            migrationBuilder.DropTable(
+                name: "sectors");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Sections");
+
+            migrationBuilder.DropTable(
+                name: "departmentAccounts");
+
+            migrationBuilder.DropTable(
+                name: "employee");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeAccount");
+
+            migrationBuilder.DropTable(
+                name: "linkingEmployeesToShiftPeriods");
+
+            migrationBuilder.DropTable(
+                name: "staffTimes");
         }
     }
 }

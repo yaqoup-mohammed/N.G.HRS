@@ -5,28 +5,28 @@
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A7 : Migration
+    public partial class A1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "EmployeeId",
-                table: "fingerprintDevices",
+                name: "OneFingerprintId",
+                table: "employee",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_fingerprintDevices_EmployeeId",
-                table: "fingerprintDevices",
-                column: "EmployeeId");
+                name: "IX_employee_OneFingerprintId",
+                table: "employee",
+                column: "OneFingerprintId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_fingerprintDevices_employee_EmployeeId",
-                table: "fingerprintDevices",
-                column: "EmployeeId",
-                principalTable: "employee",
+                name: "FK_employee_oneFingerprints_OneFingerprintId",
+                table: "employee",
+                column: "OneFingerprintId",
+                principalTable: "oneFingerprints",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -35,16 +35,16 @@ namespace N.G.HRS.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_fingerprintDevices_employee_EmployeeId",
-                table: "fingerprintDevices");
+                name: "FK_employee_oneFingerprints_OneFingerprintId",
+                table: "employee");
 
             migrationBuilder.DropIndex(
-                name: "IX_fingerprintDevices_EmployeeId",
-                table: "fingerprintDevices");
+                name: "IX_employee_OneFingerprintId",
+                table: "employee");
 
             migrationBuilder.DropColumn(
-                name: "EmployeeId",
-                table: "fingerprintDevices");
+                name: "OneFingerprintId",
+                table: "employee");
         }
     }
 }

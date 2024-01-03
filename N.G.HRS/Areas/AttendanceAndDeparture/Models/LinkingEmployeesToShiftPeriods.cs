@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.OrganizationalChart.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -12,5 +14,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Required]
         [DataType(DataType.Date)]
         public DateOnly DateOfEndWork { get; set;}
+        //===================================================
+        public List<Departments> DepartmentsList { get; set; }
+        public List<Employee> EmployeeList { get; set; }
+        public List<Sections> SectionsList { get; set; }
+        public List<PermanenceModels> PermanencesList { get; set; }
+        public List<Periods> PeriodsList { get; set; }
     }
 }

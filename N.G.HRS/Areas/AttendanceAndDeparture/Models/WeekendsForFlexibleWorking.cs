@@ -9,5 +9,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Required]
         [Range(0, 50)]
         public int NumbersOfHours { get; set;}
+        //===============================================
+
     }
 }

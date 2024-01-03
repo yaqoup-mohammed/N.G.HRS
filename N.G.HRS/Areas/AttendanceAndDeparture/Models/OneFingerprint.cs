@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Employees.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -18,5 +19,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public DateOnly ToDate { get; set;}
         [StringLength(255)]
         public string Notes { get; set; }
+        //==========================================
+        public List<Employee> employeesList { get; set; }
     }
 }

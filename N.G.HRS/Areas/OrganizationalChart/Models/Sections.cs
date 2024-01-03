@@ -1,4 +1,5 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,6 +24,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [ForeignKey("DepartmentAccountsId")]
         public int DepartmentAccountsId { get; set; }
         public DepartmentAccounts departmentAccounts { get; set; }
+        //=
+        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
+        public int LinkingEmployeesToShiftPeriodsId { get; set; }
+        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
         //========================================
         public List<Departments> departmentsList {  get; set; } 
 

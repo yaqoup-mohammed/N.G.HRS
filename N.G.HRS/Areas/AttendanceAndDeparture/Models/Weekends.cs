@@ -13,6 +13,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool Wednesday { get;set; }
         public bool Thursday { get; set;}
         public bool Friday { get; set;}
-
+        //===========================
+        public List<PermanenceModels> PermanenceModelsList {  get; set; }
+        public List<Periods> PeriodsList { get; set; }
     }
 }

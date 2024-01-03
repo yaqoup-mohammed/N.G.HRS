@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
@@ -66,6 +67,22 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("EmployeeAccountId")]
         public int EmployeeAccountId { get; set; }
         public EmployeeAccount employeeAccount { get; set; }
+        //=
+        [ForeignKey("StaffTime")]
+        public int StaffTimeId { get; set; }
+        public StaffTime staffTime { get; set; }
+        //=
+        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
+        public int LinkingEmployeesToShiftPeriodsId { get; set; }
+        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        //=
+        [ForeignKey("OneFingerprintId")]
+        public  int OneFingerprintId { get; set; }
+        public OneFingerprint OneFingerprint { get; set; }
+        //=
+        [ForeignKey("OpeningBalancesForVacationsId")]
+        public int OpeningBalancesForVacationsId { get; set; }
+        public OpeningBalancesForVacations openingBalancesForVacations { get; set; }
         //====================================
 
 

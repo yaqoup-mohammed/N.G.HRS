@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Employees.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -9,5 +10,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Required]
         [DataType(DataType.Date)]
         public DateOnly WorksFullTimeFromDate { get; set; }
+        //====================================================
+        public List<Employee> EmployeesList { get; set; }
+        public List<PermanenceModels> PermanenceModelsList { get; set; }
+
+
+
     }
 }

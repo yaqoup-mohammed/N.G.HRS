@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.OrganizationalChart.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
-    public class PermanenceModels
+    public class PermanenceModels//نماذج الدوام
     {
         [Key]
         public int Id { get; set; }
@@ -31,6 +34,20 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool EarlyDeparturePermission { get; set; }
         [StringLength(255)]
         public string? Notes {  get; set; }
+        //==========================================
+        [ForeignKey("StaffTime")]
+        public  int StaffTimeId { get; set; }
+        public StaffTime staffTime { get; set; }
+        //=
+        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
+        public int LinkingEmployeesToShiftPeriodsId { get; set; }
+        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        //=
+        [ForeignKey("WeekendsId")]
+        public int WeekendsId { get; set; }
+        public Weekends weekends { get; set; }
+        //=
+
 
 
     }

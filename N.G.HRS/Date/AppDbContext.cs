@@ -5,6 +5,7 @@ using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
+using N.G.HRS.Areas.PenaltiesAndViolations.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.Configuration;
 
@@ -291,6 +292,103 @@ namespace N.G.HRS.Date
               .WithMany(p => p.financeAccountsList)
               .HasForeignKey(p => p.EmployeeAccountId);
             //==============================================
+            //دوام الموظفين مع الموظف
+            modelBuilder.Entity<Employee>()
+              .HasOne(p => p.staffTime)
+              .WithMany(p => p.EmployeesList)
+              .HasForeignKey(p => p.StaffTimeId);
+            //==============================================
+            //دوام الموظفين مع نماذج الدوام
+            modelBuilder.Entity<PermanenceModels>()
+              .HasOne(p => p.staffTime)
+              .WithMany(p => p.PermanenceModelsList)
+              .HasForeignKey(p => p.StaffTimeId);
+            //============================================
+            //ربط الموظفين بفترات المناوبة مع الادارات
+            modelBuilder.Entity<Departments>()
+              .HasOne(p => p.linkingEmployeesToShiftPeriods)
+              .WithMany(p => p.DepartmentsList)
+              .HasForeignKey(p => p.LinkingEmployeesToShiftPeriodsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //ربط الموظف بفترات المناوبة مع الاقسام
+            modelBuilder.Entity<Sections>()
+              .HasOne(p => p.linkingEmployeesToShiftPeriods)
+              .WithMany(p => p.SectionsList)
+              .HasForeignKey(p => p.LinkingEmployeesToShiftPeriodsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //ربط الموظف بفترات المناوبة مع الموظفين
+            modelBuilder.Entity<Employee>()
+              .HasOne(p => p.linkingEmployeesToShiftPeriods)
+              .WithMany(p => p.EmployeeList)
+              .HasForeignKey(p => p.LinkingEmployeesToShiftPeriodsId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+            //ربط الموظف بفترات المناوبة مع الدوام
+            modelBuilder.Entity<PermanenceModels>()
+              .HasOne(p => p.linkingEmployeesToShiftPeriods)
+              .WithMany(p => p.PermanencesList)
+              .HasForeignKey(p => p.LinkingEmployeesToShiftPeriodsId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+            //ربط الموظف بفترات المناوبة مع الفترات
+            modelBuilder.Entity<Periods>()
+              .HasOne(p => p.linkingEmployeesToShiftPeriods)
+              .WithMany(p => p.PeriodsList)
+              .HasForeignKey(p => p.LinkingEmployeesToShiftPeriodsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================================
+            //البصمة الواحدة مع الموظف
+            modelBuilder.Entity<Employee>()
+              .HasOne(p => p.OneFingerprint)
+              .WithMany(p => p.employeesList)
+              .HasForeignKey(p => p.OneFingerprintId);
+            //========================================================
+            //الاجازات الاسبوعية مع الدوام
+            modelBuilder.Entity<PermanenceModels>()
+              .HasOne(p => p.weekends)
+              .WithMany(p => p.PermanenceModelsList)
+              .HasForeignKey(p => p.WeekendsId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+            //الاجازات الاسبوعية مع الفترات
+            modelBuilder.Entity<Periods>()
+              .HasOne(p => p.weekends)
+              .WithMany(p => p.PeriodsList)
+              .HasForeignKey(p => p.WeekendsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //========================================================
+            //الاجازات الاسبوعية للدوام المرن مع الدوام
+            //modelBuilder.Entity<PermanenceModels>()
+            //  .HasOne(p => p.weekendsForFlexibleWorking)          --->{{تحت النظر}}<---
+            //  .WithMany(p => p.PermanenceModelsList)
+            //  .HasForeignKey(p => p.WeekendsForFlexibleWorkingId);
+            //=========================================================
+            //الارصدة الافتتاحية للاجازات مع الموظف
+            modelBuilder.Entity<Employee>()
+              .HasOne(p => p.openingBalancesForVacations)
+              .WithMany(p => p.EmployeeList)
+              .HasForeignKey(p => p.OpeningBalancesForVacationsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //الارصدة الافتتاحية للاجازات مع الاجازات العامة
+            modelBuilder.Entity<PublicHolidays>()
+              .HasOne(p => p.openingBalancesForVacations)
+              .WithMany(p => p.publicHolidaysList)
+              .HasForeignKey(p => p.OpeningBalancesForVacationsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //===========================================================
+            //نماذج العقوبات والمخالفات مع المخالفات
+            modelBuilder.Entity<Violations>()
+              .HasOne(p => p.PenaltiesAndViolationsForms)
+              .WithMany(p => p.ViolationsList)
+              .HasForeignKey(p => p.PenaltiesAndViolationsFormsId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //نماذج العقوبات والمخالفات مع العقوبات
+            modelBuilder.Entity<Penalties>()
+              .HasOne(p => p.PenaltiesAndViolationsForms)
+              .WithMany(p => p.PenaltiesList)
+              .HasForeignKey(p => p.PenaltiesAndViolationsFormsId)
+              .OnDelete(DeleteBehavior.NoAction);
+
 
 
 
@@ -356,6 +454,7 @@ namespace N.G.HRS.Date
         public DbSet<StaffTime> staffTimes { get; set; }
         public DbSet<Weekends> weekends { get; set; }
         public DbSet<WeekendsForFlexibleWorking> weekendsForFlexibleWorkings { get; set; }
+        public DbSet<PenaltiesAndViolationsForms> penaltiesAndViolationsForms { get; set; }
 
 
 
