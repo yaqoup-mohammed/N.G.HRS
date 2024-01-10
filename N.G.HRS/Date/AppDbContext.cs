@@ -388,7 +388,16 @@ namespace N.G.HRS.Date
               .WithMany(p => p.PenaltiesList)
               .HasForeignKey(p => p.PenaltiesAndViolationsFormsId)
               .OnDelete(DeleteBehavior.NoAction);
-
+            //======================================================
+            modelBuilder.Entity<Family>()
+                .HasOne(p => p.Employees)
+                .WithOne(p => p.Families)
+                .HasForeignKey<Employee>(b => b.Id);
+            //==============================================
+            modelBuilder.Entity<Employee>()
+              .HasMany(j => j.qualifications)
+              .WithMany(j => j.employees)
+              .UsingEntity(j => j.ToTable("EmployeesQualifications"));
 
 
 

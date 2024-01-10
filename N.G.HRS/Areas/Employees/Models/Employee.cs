@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
-    
+
     public class Employee
     {
         [Key]
@@ -55,6 +55,7 @@ namespace N.G.HRS.Areas.Employees.Models
         //========================================================
         public PersonalData personalData { get; set; }
         public FinancialStatements financialStatements { get; set; }
+        public Family Families { get; set; }
         //===============================================
         //          |
         //علاقة self v
@@ -84,7 +85,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public int OpeningBalancesForVacationsId { get; set; }
         public OpeningBalancesForVacations openingBalancesForVacations { get; set; }
         //====================================
-
+        public ICollection<Qualifications> qualifications { get; set; }
 
 
 

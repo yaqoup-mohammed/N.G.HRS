@@ -1,7 +1,7 @@
 ﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace N.G.HRS.Areas.Employees
+namespace N.G.HRS.Areas.Employees.Models
 {
     public class Family
     {
@@ -13,6 +13,8 @@ namespace N.G.HRS.Areas.Employees
         [StringLength(255)]
         public string? Notes { get; set; }
         //======================================================
-        public List<RelativesType> relativesTypesList { get; set;}
+        public List<RelativesType> relativesTypesList { get; set; }
+        //=====================================================
+        public Employee Employees {  get; set; }
     }
 }
