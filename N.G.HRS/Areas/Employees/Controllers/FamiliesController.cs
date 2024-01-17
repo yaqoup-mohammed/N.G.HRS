@@ -5,29 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using N.G.HRS.Areas.GeneralConfiguration.Models;
+using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Date;
 
-namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
+namespace N.G.HRS.Areas.Employees.Controllers
 {
-    [Area("GeneralConfiguration")]
-    public class GovernoratesController : Controller
+    [Area("Employees")]
+    public class FamiliesController : Controller
     {
         private readonly AppDbContext _context;
 
-        public GovernoratesController(AppDbContext context)
+        public FamiliesController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: GeneralConfiguration/Governorates
+        // GET: Employees/Families
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.governorates.Include(g => g.CountryOne);
+            var appDbContext = _context.Family.Include(f => f.RelativesType);
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: GeneralConfiguration/Governorates/Details/5
+        // GET: Employees/Families/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,42 +35,42 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var governorate = await _context.governorates
-                .Include(g => g.CountryOne)
+            var family = await _context.Family
+                .Include(f => f.RelativesType)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (governorate == null)
+            if (family == null)
             {
                 return NotFound();
             }
 
-            return View(governorate);
+            return View(family);
         }
 
-        // GET: GeneralConfiguration/Governorates/Create
+        // GET: Employees/Families/Create
         public IActionResult Create()
         {
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name");
+            ViewData["RelativesTypeId"] = new SelectList(_context.relativesTypes, "Id", "RelativeName");
             return View();
         }
 
-        // POST: GeneralConfiguration/Governorates/Create
+        // POST: Employees/Families/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Notes,CountryId")] Governorate governorate)
+        public async Task<IActionResult> Create([Bind("Id,Name,Notes,RelativesTypeId")] Family family)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(governorate);
+                _context.Add(family);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name", governorate.CountryId);
-            return View(governorate);
+            ViewData["RelativesTypeId"] = new SelectList(_context.relativesTypes, "Id", "RelativeName", family.RelativesTypeId);
+            return View(family);
         }
 
-        // GET: GeneralConfiguration/Governorates/Edit/5
+        // GET: Employees/Families/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,23 +78,23 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var governorate = await _context.governorates.FindAsync(id);
-            if (governorate == null)
+            var family = await _context.Family.FindAsync(id);
+            if (family == null)
             {
                 return NotFound();
             }
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name", governorate.CountryId);
-            return View(governorate);
+            ViewData["RelativesTypeId"] = new SelectList(_context.relativesTypes, "Id", "RelativeName", family.RelativesTypeId);
+            return View(family);
         }
 
-        // POST: GeneralConfiguration/Governorates/Edit/5
+        // POST: Employees/Families/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes,CountryId")] Governorate governorate)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes,RelativesTypeId")] Family family)
         {
-            if (id != governorate.Id)
+            if (id != family.Id)
             {
                 return NotFound();
             }
@@ -103,12 +103,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             {
                 try
                 {
-                    _context.Update(governorate);
+                    _context.Update(family);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GovernorateExists(governorate.Id))
+                    if (!FamilyExists(family.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +119,11 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name", governorate.CountryId);
-            return View(governorate);
+            ViewData["RelativesTypeId"] = new SelectList(_context.relativesTypes, "Id", "RelativeName", family.RelativesTypeId);
+            return View(family);
         }
 
-        // GET: GeneralConfiguration/Governorates/Delete/5
+        // GET: Employees/Families/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,35 +131,35 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var governorate = await _context.governorates
-                .Include(g => g.CountryOne)
+            var family = await _context.Family
+                .Include(f => f.RelativesType)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (governorate == null)
+            if (family == null)
             {
                 return NotFound();
             }
 
-            return View(governorate);
+            return View(family);
         }
 
-        // POST: GeneralConfiguration/Governorates/Delete/5
+        // POST: Employees/Families/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var governorate = await _context.governorates.FindAsync(id);
-            if (governorate != null)
+            var family = await _context.Family.FindAsync(id);
+            if (family != null)
             {
-                _context.governorates.Remove(governorate);
+                _context.Family.Remove(family);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GovernorateExists(int id)
+        private bool FamilyExists(int id)
         {
-            return _context.governorates.Any(e => e.Id == id);
+            return _context.Family.Any(e => e.Id == id);
         }
     }
 }

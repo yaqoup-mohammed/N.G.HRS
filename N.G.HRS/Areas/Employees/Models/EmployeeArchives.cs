@@ -14,8 +14,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public string Descriotion { get; set; }
         public string File { get; set; }
         //====================================================
-        [ForeignKey("EmployeeId")]
-        public int EmployeeId { get; set; }
         public Employee employee { get; set; }
 
     }

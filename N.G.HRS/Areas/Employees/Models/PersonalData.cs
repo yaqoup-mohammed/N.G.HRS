@@ -1,5 +1,6 @@
 ﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -52,9 +53,23 @@ namespace N.G.HRS.Areas.Employees.Models
         public Guarantees guarantees { get; set; }
 
         //============================================================
-        public List<Sex> sexList { get; set; }
+        [ForeignKey("SexId")]
+        public int SexId { get; set; }
+        public Sex Sex { get; set; }
+        //=
+        [ForeignKey("NationalityId")]
+        public int NationalityId { get; set; }
+        public Nationality Nationality { get; set; }
+        //=
+        [ForeignKey("ReligionId")]
+        public int ReligionId { get; set; }
+        public Religion Religion { get; set; }
+        //=
+        [ForeignKey("MaritalStatusId")]
+        public int MaritalStatusId { get; set; }
+        public MaritalStatus MaritalStatus { get; set; }
+        //============================================================
         public List<Nationality> nationalitiesList { get; set; }
-        public List<Religion> religionsList { get; set; }
         public List<MaritalStatus> maritalStatusList { get; set; }
         
 

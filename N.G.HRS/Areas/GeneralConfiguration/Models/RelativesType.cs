@@ -14,8 +14,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==============================================
-        [ForeignKey("FamilyId")]
-        public int FamilyId { get; set; }
-        public Family family { get; set; }
+        public List<Family>? FamiliesList { get; set; }
     }
 }

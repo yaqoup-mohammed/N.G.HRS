@@ -14,8 +14,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=====================================
-        [ForeignKey("QualificationId")]
-        public int QualificationId { get; set; }
-        public Qualifications qualification { get; set; }
+        public ICollection<Qualifications> qualifications { get; set; }
+
+
     }
 }

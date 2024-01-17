@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
 {
@@ -13,7 +14,13 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         public string? Notes { get; set; }
         public int NumberOfTime { get; set; }
         //=========================================
-        public List<Violations> ViolationsList { get; set; }
+        [ForeignKey("ViolationsId")]
+        public int ViolationsId { get; set; }
+        public Violations Violations { get; set; }
+        //=
         public List<Penalties> PenaltiesList { get; set; }
+        [ForeignKey("PenaltiesId")]
+        public int PenaltiesId { get; set; }
+        public Penalties Penalties { get; set; }
     }
 }

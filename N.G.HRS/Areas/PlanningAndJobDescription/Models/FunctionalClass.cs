@@ -18,10 +18,11 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //===============================================
-        public List<Currency> CurrencyList { get; set; }
+        [ForeignKey("CurrencyId")]
+        public int? CurrencyId { get; set; }
+        public Currency Currency { get; set; }
         //=========================================
-        [ForeignKey("JobDescriptionId")]
-        public int JobDescriptionId { get; set; }
-        public JobDescription jobDescription { get; set; }
+        public List<JobDescription> JobDescriptionsList { get; set; }
+
     }
 }

@@ -17,10 +17,13 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string? Notes { get; set; }
         //=======================================================
         public List<Governorate> governoratesList { get; set; }
+        //==
+        public List<Branches> BranchesList { get; set; }
+
+
+
         //========================================================
-        [ForeignKey("BranchesId")]
-        public int BranchesId { get; set; }
-        public Branches branches { get; set; }
+
 
 
     }

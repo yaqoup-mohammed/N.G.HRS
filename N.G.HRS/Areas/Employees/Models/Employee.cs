@@ -44,19 +44,42 @@ namespace N.G.HRS.Areas.Employees.Models
         public string? Notes { get; set; }
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)
         //========================================================
+        [ForeignKey("DepartmentsId")]
+        public int DepartmentsId { get; set; }
+        public Departments Departments { get; set; }
+        //=
+        [ForeignKey("SectionsId")]
+        public int SectionsId { get; set; }
+        public Sections Sections { get; set; }
+        //=
+        [ForeignKey("JobDescriptionId")]
+        public int JobDescriptionId { get; set; }
+        public JobDescription JobDescription { get; set; }
+        //=
+        [ForeignKey("PracticalExperiencesId")]
+        public int PracticalExperiencesId { get; set; }
+        public PracticalExperiences PracticalExperiences { get; set; }
+        //=
+        [ForeignKey("StatementOfEmployeeFilesId")]
+        public int StatementOfEmployeeFilesId { get; set; }
+        public StatementOfEmployeeFiles StatementOfEmployeeFiles { get; set; }
+        //=
+        [ForeignKey("TrainingCoursesId")]
+        public int TrainingCoursesId { get; set; }
+        public TrainingCourses TrainingCourses { get; set; }
+        //=
+        [ForeignKey("FingerprintDevicesId")]
+        public int FingerprintDevicesId { get; set; }
+        public FingerprintDevices FingerprintDevices { get; set; }
+        //=============================
         public List<Departments> departmentsList { get; set; }
-        public List<Sections> sectionsList { get; set; }
-        public List<JobDescription> jobDescriptionsList {  get; set; }
-        public List<PracticalExperiences> practicalExperiencesList {  get; set; }
-        public List<StatementOfEmployeeFiles> statementOfEmployeeFilesList { get; set; }
-        public List<TrainingCourses> trainingCoursesList {  get; set; }
-        public List<EmployeeArchives> employeeArchivesList { get; set; }
-        public List<FingerprintDevices> fingerprintDevicesList { get; set; }
+        public EmployeeArchives employeeArchives { get; set; }
         //========================================================
         public PersonalData personalData { get; set; }
         public FinancialStatements financialStatements { get; set; }
         public Family Families { get; set; }
         //===============================================
+        //{
         //          |
         //علاقة self v
         public int? ManagerId { get; set; }
@@ -64,26 +87,26 @@ namespace N.G.HRS.Areas.Employees.Models
         public Employee? Manager { get; set; }
         // Navigation property for Subordinates 
         public List<Employee>? Subordinates { get; set; }
+        //}
         //=================================================
-        [ForeignKey("EmployeeAccountId")]
-        public int EmployeeAccountId { get; set; }
-        public EmployeeAccount employeeAccount { get; set; }
+        public List<EmployeeAccount> EmployeeAccountList { get; set; }
         //=
-        [ForeignKey("StaffTime")]
-        public int StaffTimeId { get; set; }
-        public StaffTime staffTime { get; set; }
+        public List<StaffTime> StaffTimeList { get; set; }
         //=
-        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
-        public int LinkingEmployeesToShiftPeriodsId { get; set; }
-        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
+
         //=
-        [ForeignKey("OneFingerprintId")]
-        public  int OneFingerprintId { get; set; }
-        public OneFingerprint OneFingerprint { get; set; }
+        public List<OneFingerprint> OneFingerprintList { get; set; }
+
         //=
-        [ForeignKey("OpeningBalancesForVacationsId")]
-        public int OpeningBalancesForVacationsId { get; set; }
-        public OpeningBalancesForVacations openingBalancesForVacations { get; set; }
+        public List<OpeningBalancesForVacations> OpeningBalancesForVacationsList { get; set; }
+
+        //=
+
+        //=
+
+        //=
+
         //====================================
         public ICollection<Qualifications> qualifications { get; set; }
 

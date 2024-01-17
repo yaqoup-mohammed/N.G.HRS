@@ -1,4 +1,5 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.AalariesAndWages.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Finance.Models
@@ -11,13 +12,16 @@ namespace N.G.HRS.Areas.Finance.Models
         public int AccountNumber { get; set; }
         public string Description { get; set; }
         //====================================
-        [ForeignKey("EmployeeAccountId")]
-        public int EmployeeAccountId { get; set; }
-        public EmployeeAccount employeeAccount { get; set; }
+
+
         //=
-        [ForeignKey("DepartmentAccountsId")]
-        public int DepartmentAccountsId { get; set; }
-        public DepartmentAccounts departmentAccounts { get; set; }
+        public List<SectionsAccounts> SectionsAccountsList { get; set; }
+        //=
+        public List<EmployeeAccount> EmployeeAccountsList { get; set; }
+        //=
+
+
+
 
     }
 }

@@ -35,18 +35,16 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [StringLength(255)]
         public string? Notes {  get; set; }
         //==========================================
-        [ForeignKey("StaffTime")]
-        public  int StaffTimeId { get; set; }
-        public StaffTime staffTime { get; set; }
+        public List<StaffTime> StaffTimesList { get; set; }
         //=
-        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
-        public int LinkingEmployeesToShiftPeriodsId { get; set; }
-        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
         //=
-        [ForeignKey("WeekendsId")]
-        public int WeekendsId { get; set; }
-        public Weekends weekends { get; set; }
+        public List<Weekends> WeekendsList { get; set; }
         //=
+        public List<WeekendsForFlexibleWorking> WeekendsForFlexibleWorkingList { get; set; }
+        //=
+
+
 
 
 

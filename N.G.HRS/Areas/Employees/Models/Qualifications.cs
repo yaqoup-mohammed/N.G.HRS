@@ -12,10 +12,14 @@ namespace N.G.HRS.Areas.Employees.Models
         [DataType(DataType.Date)]
         [Display(Name = "تاريخ الحصول علية")]
         public DateOnly ReceivedDate { get; set; }
+        //=========================================================
+        public ICollection<EducationalQualification> EducationalQualification { get; set; }
+        public ICollection<Specialties> Specialties { get; set; }
+        public ICollection<Universities> universities { get; set; }
+
+
         //=================================================
-        public List<EducationalQualification> educationalQualificationsList { get; set; }
-        public List<Specialties> specialtiesList { get; set; }
-        public List<Universities> universitiesList { get; set; }
+        //public List<Universities> universitiesList { get; set; }
         //=====================================================
         public ICollection<Employee> employees { get; set; }
 

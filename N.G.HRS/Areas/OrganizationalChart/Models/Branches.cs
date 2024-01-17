@@ -25,16 +25,29 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==========================================
-        [ForeignKey("CompanyId")]
-        public int CompanyId { get; set; }
-        public Company company { get; set; }
         //=
-        [ForeignKey("SectorsId")]
-        public int SectorsId { get; set; }
-        public Sectors sectors { get; set; }
+
+        //=
+        public List<Sectors> SectorsList { get; set; }
+
+        //=
+        [ForeignKey("CompanyId")]
+        public int? CompanyId { get; set; }
+        public Company Company { get; set; }
+        //=
+        [ForeignKey("CountryId")]
+        public int? CountryId { get; set; }
+        public Country Country { get; set; }
+        //=
+        [ForeignKey("GovernorateId")]
+        public int? GovernorateId { get; set; }
+        public Governorate Governorate { get; set; }
+        //=
+        [ForeignKey("DirectorateId")]
+        public int? DirectorateId { get; set; }
+        public Directorate Directorate { get; set; }
+        //======
+        //===
         //==========================================
-        public List<Country> CountryList { get; set; }
-        public List<Governorate> GovernoratesList { get; set; }
-        public List<Directorate> DirectoratesList { get; set;}
     }
 }

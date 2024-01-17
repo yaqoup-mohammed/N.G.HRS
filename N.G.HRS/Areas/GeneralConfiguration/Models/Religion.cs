@@ -14,8 +14,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //======================================================
-        [ForeignKey("PersonalDataId")]
-        public int PersonalDataId { get; set; }
-        public PersonalData personalData { get; set; }
+        public List<PersonalData>  PersonalDataList { get; set; }
     }
 }

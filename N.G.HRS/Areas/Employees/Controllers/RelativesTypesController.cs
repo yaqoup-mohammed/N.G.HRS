@@ -8,25 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
 
-namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
+namespace N.G.HRS.Areas.Employees.Controllers
 {
-    [Area("GeneralConfiguration")]
-    public class CountriesController : Controller
+    [Area("Employees")]
+    public class RelativesTypesController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CountriesController(AppDbContext context)
+        public RelativesTypesController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: GeneralConfiguration/Countries
+        // GET: Employees/RelativesTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.country.ToListAsync());
+            return View(await _context.relativesTypes.ToListAsync());
         }
 
-        // GET: GeneralConfiguration/Countries/Details/5
+        // GET: Employees/RelativesTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var country = await _context.country
+            var relativesType = await _context.relativesTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (country == null)
+            if (relativesType == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            return View(relativesType);
         }
 
-        // GET: GeneralConfiguration/Countries/Create
+        // GET: Employees/RelativesTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: GeneralConfiguration/Countries/Create
+        // POST: Employees/RelativesTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Notes")] Country country)
+        public async Task<IActionResult> Create([Bind("Id,RelativeName,Notes")] RelativesType relativesType)
         {
-            if (country!=null)
+            if (ModelState.IsValid)
             {
-                _context.Add(country);
+                _context.Add(relativesType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            return View(relativesType);
         }
 
-        // GET: GeneralConfiguration/Countries/Edit/5
+        // GET: Employees/RelativesTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,36 +74,36 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var country = await _context.country.FindAsync(id);
-            if (country == null)
+            var relativesType = await _context.relativesTypes.FindAsync(id);
+            if (relativesType == null)
             {
                 return NotFound();
             }
-            return View(country);
+            return View(relativesType);
         }
 
-        // POST: GeneralConfiguration/Countries/Edit/5
+        // POST: Employees/RelativesTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes")] Country country)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,RelativeName,Notes")] RelativesType relativesType)
         {
-            if (id != country.Id)
+            if (id != relativesType.Id)
             {
                 return NotFound();
             }
 
-            if (country!=null)
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(country);
+                    _context.Update(relativesType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.Id))
+                    if (!RelativesTypeExists(relativesType.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            return View(relativesType);
         }
 
-        // GET: GeneralConfiguration/Countries/Delete/5
+        // GET: Employees/RelativesTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,34 +125,34 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var country = await _context.country
+            var relativesType = await _context.relativesTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (country == null)
+            if (relativesType == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            return View(relativesType);
         }
 
-        // POST: GeneralConfiguration/Countries/Delete/5
+        // POST: Employees/RelativesTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var country = await _context.country.FindAsync(id);
-            if (country != null)
+            var relativesType = await _context.relativesTypes.FindAsync(id);
+            if (relativesType != null)
             {
-                _context.country.Remove(country);
+                _context.relativesTypes.Remove(relativesType);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CountryExists(int id)
+        private bool RelativesTypeExists(int id)
         {
-            return _context.country.Any(e => e.Id == id);
+            return _context.relativesTypes.Any(e => e.Id == id);
         }
     }
 }

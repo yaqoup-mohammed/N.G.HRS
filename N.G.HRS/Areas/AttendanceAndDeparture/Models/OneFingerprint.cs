@@ -1,5 +1,6 @@
 ﻿using N.G.HRS.Areas.Employees.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -20,6 +21,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [StringLength(255)]
         public string Notes { get; set; }
         //==========================================
-        public List<Employee> employeesList { get; set; }
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
     }
 }

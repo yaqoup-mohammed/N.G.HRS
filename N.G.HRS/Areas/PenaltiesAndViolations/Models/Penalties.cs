@@ -22,9 +22,8 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=============================================================
-        [ForeignKey("PenaltiesAndViolationsFormsId")]
-        public int PenaltiesAndViolationsFormsId { get; set; }
-        public PenaltiesAndViolationsForms PenaltiesAndViolationsForms { get; set; }
+        public List<PenaltiesAndViolationsForms> PenaltiesAndViolationsFormsList { get; set;}
+
 
     }
 }

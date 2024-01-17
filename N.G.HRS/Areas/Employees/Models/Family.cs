@@ -1,5 +1,6 @@
 ﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -13,8 +14,10 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //======================================================
-        public List<RelativesType> relativesTypesList { get; set; }
+        [ForeignKey("RelativesTypeId")]
+        public int? RelativesTypeId { get; set; }
+        public RelativesType? RelativesType { get; set; }       
         //=====================================================
-        public Employee Employees {  get; set; }
+        public Employee? Employees {  get; set; }
     }
 }

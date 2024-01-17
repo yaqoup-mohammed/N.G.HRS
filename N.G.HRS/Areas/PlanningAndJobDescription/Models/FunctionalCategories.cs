@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.Finance.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
@@ -14,9 +15,11 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==================================================
-        [ForeignKey("JobDescriptionId")]
-        public int JobDescriptionId { get; set; }
-        public JobDescription jobDescription { get; set; }
+        public List<JobDescription> JobDescriptionsList { get; set; }
+        //=
+        [ForeignKey("CurrencyId")]
+        public int CurrencyId { get; set; }
+        public Currency Currency { get; set; }
 
     }
 }

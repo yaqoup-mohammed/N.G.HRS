@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
@@ -28,8 +30,18 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //====================================================================
-        public List<BoardOfDirectors> BoardOfDirectorsList { get; set;}
-        public List<Branches> branchesList { get; set; }
+        //=
+        //=
+        public List<Branches> BranchesList { get; set; }
+
+
+        //===
+        [ForeignKey("BoardOfDirectorsId")]
+        public int? BoardOfDirectorsId { get; set; }
+        public BoardOfDirectors BoardOfDirectors { get; set; }
+
+
+        //=
         //====================================================================
 
 

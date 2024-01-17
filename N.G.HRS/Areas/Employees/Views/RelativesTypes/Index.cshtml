@@ -1,9 +1,12 @@
-﻿@model IEnumerable<N.G.HRS.Areas.GeneralConfiguration.Models.Governorate>
+﻿@model IEnumerable<N.G.HRS.Areas.GeneralConfiguration.Models.RelativesType>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
-    ViewData["Title"] = "Index";
-}
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
 
+}
 <h1>Index</h1>
 
 <p>
@@ -13,13 +16,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.RelativeName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CountryOne)
             </th>
             <th></th>
         </tr>
@@ -28,13 +28,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.RelativeName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountryOne.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,6 +1,7 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.AalariesAndWages.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,19 +18,21 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string? Notes { get; set; }
 
         //=============================================
-        [ForeignKey("EmployeeId")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public List<Employee> EmployeesList { get; set; }
         //=
-        [ForeignKey("DepartmentAccountsId")]
-        public int DepartmentAccountsId { get; set; }
-        public DepartmentAccounts departmentAccounts { get; set; }
+        public List<SectionsAccounts> SectionsAccountsList { get; set; }
         //=
-        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
-        public int LinkingEmployeesToShiftPeriodsId { get; set; }
-        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
+
+        //=
+
         //========================================
-        public List<Departments> departmentsList {  get; set; } 
+        [ForeignKey("DepartmentsId")]
+        public int DepartmentsId { get; set; }
+        public Departments Departments { get; set; }
+        //=
+        public List<StaffTime> staffTimeList { get; set; }
+
 
     }
 }

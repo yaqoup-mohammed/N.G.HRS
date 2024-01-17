@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
-    public class Departments
+    public class Departments//الادارات
     {
         [Key]
         public int Id { get; set; }
@@ -15,19 +15,17 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=========================================
-        [ForeignKey("EmployeeId")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+public List<Employee> EmployeesList { get; set; }
         //=
-        [ForeignKey("SectionsId")]
-        public int SectionsId { get; set; }
-        public Sections sections { get; set; }
+        public List<Sections> SectionsList { get; set; }
         //=
-        [ForeignKey("LinkingEmployeesToShiftPeriodsId")]
-        public int LinkingEmployeesToShiftPeriodsId { get; set; }
-        public LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods { get; set; }
+        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
+        //=
+
         //=========================================
-        public List<Sectors> SectorsList { get; set; }
+        [ForeignKey("SectorsId")]
+        public int? SectorsId { get; set; }
+        public Sectors Sectors { get; set; }
 
     }
 }

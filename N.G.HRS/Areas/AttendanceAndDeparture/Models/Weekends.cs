@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -14,7 +15,12 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool Thursday { get; set;}
         public bool Friday { get; set;}
         //===========================
-        public List<PermanenceModels> PermanenceModelsList {  get; set; }
-        public List<Periods> PeriodsList { get; set; }
+        [ForeignKey("PermanenceModelsId")]
+        public int PermanenceModelsId { get; set; }
+        public PermanenceModels PermanenceModels { get; set; }
+        //=
+        [ForeignKey("PeriodsId")]
+        public int PeriodsId { get; set; }
+        public Periods Periods { get; set; }
     }
 }

@@ -25,13 +25,10 @@ namespace N.G.HRS.Areas.Finance.Models
         public decimal PreviousPriceOfCurrency { get; set; }
 
         //========================================================
-        [ForeignKey("FinancialStatementsId")]
-        public int FinancialStatementsId { get; set; }
-        public FinancialStatements financialStatements { get; set; }
+            public List<FunctionalCategories> FunctionalCategoriesList { get; set; }
+            public List<FunctionalClass> FunctionalClassList { get; set; }
         //=
-        [ForeignKey("FunctionalClassId")]
-        public int FunctionalClassId { get; set; }
-        public FunctionalClass functionalClass { get; set; }
+
 
     }
 }

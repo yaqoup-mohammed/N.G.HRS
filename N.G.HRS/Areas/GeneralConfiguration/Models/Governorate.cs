@@ -15,15 +15,16 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string? Notes { get; set; }
         //==================================
         [ForeignKey("CountryId")]
-        public int CountryId { get; set; }
-        public Country CountryOne { get; set; } = default!;
+        public int? CountryId { get; set; }
+        public Country CountryOne { get; set; }
         //=
-        [ForeignKey("BranchesId")]
-        public int BranchesId { get; set; }
-        public Branches branches { get; set; }
+        public List<Branches> BranchesList { get; set; }
+
+        //=
+
+        public List<Directorate> DirectoratesList { get; set; }
         //==========================================
 
-        public List<Directorate> directoratesList { get; set; }
 
     }
 }

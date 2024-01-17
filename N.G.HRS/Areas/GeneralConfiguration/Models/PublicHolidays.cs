@@ -22,8 +22,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set;}
         //=========================================
-        [ForeignKey("OpeningBalancesForVacationsId")]
-        public int OpeningBalancesForVacationsId { get; set; }
-        public OpeningBalancesForVacations openingBalancesForVacations { get; set; }
+        public List<OpeningBalancesForVacations> OpeningBalancesForVacationsList { get; set; }
+
     }
 }

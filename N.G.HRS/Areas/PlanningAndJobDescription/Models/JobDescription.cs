@@ -1,4 +1,5 @@
 ﻿using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,13 +25,19 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //============================================
-        [ForeignKey("EmployeeId")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public List<Employee> employeesList { get; set; }
         //=========================================
-        public List<FunctionalCategories> FunctionalCategoriesList { get; set; }
-        public List<FunctionalClass> functionalClassesList { get; set; }
-        public List<JobRanks> JobRanksList { get; set;}
+        [ForeignKey("FunctionalCategoriesId")]
+        public int FunctionalCategoriesId { get; set; }
+        public FunctionalCategories FunctionalCategories { get; set; }
+        //=
+        [ForeignKey("FunctionalClassId")]
+        public int? FunctionalClassId { get; set; }
+        public FunctionalClass FunctionalClass { get; set; }
+        //=
+        [ForeignKey("JobRanksId")]
+        public int JobRanksId { get; set; }
+        public JobRanks JobRanks { get; set; }
 
     }
 }

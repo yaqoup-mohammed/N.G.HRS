@@ -1,6 +1,7 @@
 ﻿using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
@@ -15,10 +16,26 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [DataType(DataType.Date)]
         public DateOnly DateOfEndWork { get; set;}
         //===================================================
-        public List<Departments> DepartmentsList { get; set; }
-        public List<Employee> EmployeeList { get; set; }
-        public List<Sections> SectionsList { get; set; }
-        public List<PermanenceModels> PermanencesList { get; set; }
-        public List<Periods> PeriodsList { get; set; }
+        //=
+        [ForeignKey("DepartmentsId")]
+        public int DepartmentsId { get; set; }
+        public Departments Departments { get; set; }
+        //=
+        [ForeignKey("SectionsId")]
+        public int SectionsId { get; set; }
+        public Sections Sections { get; set; }
+        //=
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+        //=
+        [ForeignKey("PermanenceModelsId")]
+        public int PermanenceModelsId { get; set; }
+        public PermanenceModels PermanenceModels { get; set; }
+        //=
+        [ForeignKey("PeriodsId")]
+        public int PeriodsId { get; set; }
+        public Periods Periods { get; set; }
+        //=
     }
 }

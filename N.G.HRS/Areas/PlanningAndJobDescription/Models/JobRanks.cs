@@ -14,8 +14,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=====================================
-        [ForeignKey("JobDescriptionId")]
-        public int JobDescriptionId { get; set; }
-        public JobDescription jobDescription { get; set; }
+        public List<JobDescription> JobDescriptionList { get; set; }
+
     }
 }

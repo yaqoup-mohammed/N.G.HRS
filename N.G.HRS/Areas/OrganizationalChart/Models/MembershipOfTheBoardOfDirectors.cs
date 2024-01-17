@@ -14,9 +14,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==============================================
-        [ForeignKey("BoardOfDirectorsId")]
-        public int BoardOfDirectorsId { get; set; }
-        public BoardOfDirectors boardOfDirectors { get; set; }
+        public List<BoardOfDirectors> BoardOfDirectorsList { get; set; }
+
 
     }
 }
