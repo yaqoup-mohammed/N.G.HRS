@@ -1,0 +1,32 @@
+﻿@model N.G.HRS.Areas.OrganizationalChart.Models.PublicAdministration
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+<h1>Details</h1>
+
+<div>
+    <h4>PublicAdministration</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PublicAdministrationName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublicAdministrationName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nots)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nots)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

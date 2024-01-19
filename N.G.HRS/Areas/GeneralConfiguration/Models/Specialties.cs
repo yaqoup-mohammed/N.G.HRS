@@ -14,7 +14,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=====================================
-        public ICollection<Qualifications> qualifications { get; set; }
+        public ICollection<Qualifications>? qualifications { get; set; }
 
 
     }

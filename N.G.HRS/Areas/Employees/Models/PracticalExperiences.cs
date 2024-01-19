@@ -30,7 +30,9 @@ namespace N.G.HRS.Areas.Employees.Models
         public string Duration { get; set; }
         //يرتبط مع جدول الموظفين
         //=================================================
-        public List<Employee> EmployeesList { get; set; }
+        [ForeignKey("EmployeeId")]
+        public int? EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
 
 
     }

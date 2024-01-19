@@ -18,20 +18,20 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string? Notes { get; set; }
 
         //=============================================
-        public List<Employee> EmployeesList { get; set; }
+        public List<Employee>? EmployeesList { get; set; }
         //=
-        public List<SectionsAccounts> SectionsAccountsList { get; set; }
+        public List<SectionsAccounts>? SectionsAccountsList { get; set; }
         //=
-        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
+        public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
 
         //=
 
         //========================================
         [ForeignKey("DepartmentsId")]
-        public int DepartmentsId { get; set; }
-        public Departments Departments { get; set; }
+        public int? DepartmentsId { get; set; }
+        public Departments? Departments { get; set; }
         //=
-        public List<StaffTime> staffTimeList { get; set; }
+        public List<StaffTime>? staffTimeList { get; set; }
 
 
     }

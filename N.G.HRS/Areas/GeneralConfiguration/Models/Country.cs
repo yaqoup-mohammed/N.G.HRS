@@ -16,9 +16,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=======================================================
-        public List<Governorate> governoratesList { get; set; }
+        public List<Governorate>? governoratesList { get; set; }
         //==
-        public List<Branches> BranchesList { get; set; }
+        public List<Branches>? BranchesList { get; set; }
 
 
 

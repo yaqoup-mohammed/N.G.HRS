@@ -1,0 +1,67 @@
+﻿@model N.G.HRS.Areas.PlanningAndJobDescription.Models.JobDescription
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+<h1>Create</h1>
+
+<h4>JobDescription</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="JopName" class="control-label"></label>
+                <input asp-for="JopName" class="form-control" />
+                <span asp-validation-for="JopName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobQualifications" class="control-label"></label>
+                <input asp-for="JobQualifications" class="form-control" />
+                <span asp-validation-for="JobQualifications" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Authorities" class="control-label"></label>
+                <input asp-for="Authorities" class="form-control" />
+                <span asp-validation-for="Authorities" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Responsibilities" class="control-label"></label>
+                <input asp-for="Responsibilities" class="form-control" />
+                <span asp-validation-for="Responsibilities" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FunctionalCategoriesId" class="control-label"></label>
+                <select asp-for="FunctionalCategoriesId" class ="form-control" asp-items="ViewBag.FunctionalCategoriesId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FunctionalClassId" class="control-label"></label>
+                <select asp-for="FunctionalClassId" class ="form-control" asp-items="ViewBag.FunctionalClassId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobRanksId" class="control-label"></label>
+                <select asp-for="JobRanksId" class ="form-control" asp-items="ViewBag.JobRanksId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

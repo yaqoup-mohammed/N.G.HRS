@@ -26,19 +26,18 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Required]
         [StringLength(255)]
         public string ComponyAddress { get; set; }
-        [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
         //====================================================================
         //=
         //=
-        public List<Branches> BranchesList { get; set; }
+        public List<Branches>? BranchesList { get; set; }
 
 
         //===
         [ForeignKey("BoardOfDirectorsId")]
         public int? BoardOfDirectorsId { get; set; }
-        public BoardOfDirectors BoardOfDirectors { get; set; }
+        public BoardOfDirectors? BoardOfDirectors { get; set; }
 
 
         //=

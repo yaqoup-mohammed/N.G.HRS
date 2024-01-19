@@ -25,7 +25,8 @@ namespace N.G.HRS.Areas.Employees.Models
 
         public DateOnly ToDate { get; set; }
         //=====================================================
-        public List<Employee> EmployeesList { get; set;}
-
+        [ForeignKey("EmployeeId")]
+        public int? EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
     }
 }

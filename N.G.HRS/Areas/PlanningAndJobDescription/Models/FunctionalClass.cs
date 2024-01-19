@@ -12,17 +12,16 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [StringLength(150)]
         public string Name { get; set; }
         [Required]
-        [Range(0, 9999.999)]
+        [Range(0, 999999.999)]
         public decimal BasicSalary { get; set; }
-        [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
         //===============================================
         [ForeignKey("CurrencyId")]
         public int? CurrencyId { get; set; }
-        public Currency Currency { get; set; }
+        public Currency? Currency { get; set; }
         //=========================================
-        public List<JobDescription> JobDescriptionsList { get; set; }
+        public List<JobDescription>? JobDescriptionsList { get; set; }
 
     }
 }

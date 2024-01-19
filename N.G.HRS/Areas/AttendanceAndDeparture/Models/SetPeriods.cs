@@ -2,7 +2,7 @@
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
 {
-    public class SetPeriods: AdjustingTime
+    public class SetPeriods:AdjustingTime
     {
         [Key]
         public int Id { get; set; }

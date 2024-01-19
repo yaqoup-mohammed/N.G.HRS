@@ -36,7 +36,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(100)]
         public string CardType { get; set; }
         [Required]
-        [Range(0, 15)]
+        [Range(0, 1000000000)]
         public int CardNumber { get; set; }
         [Required]
         [DataType(DataType.Date)]
@@ -49,28 +49,28 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //يتم الربط مع جدول (الجنس) وجدول (الجنسية) وجدول( الديانة) و(الموظف)و (الحالة الاجتماعية)
         //============================================================
-        public Employee employee { get; set; }
-        public Guarantees guarantees { get; set; }
+        public Employee? employee { get; set; }
+        public Guarantees? guarantees { get; set; }
 
         //============================================================
         [ForeignKey("SexId")]
-        public int SexId { get; set; }
-        public Sex Sex { get; set; }
+        public int? SexId { get; set; }
+        public Sex? Sex { get; set; }
         //=
         [ForeignKey("NationalityId")]
-        public int NationalityId { get; set; }
-        public Nationality Nationality { get; set; }
+        public int? NationalityId { get; set; }
+        public Nationality? Nationality { get; set; }
         //=
         [ForeignKey("ReligionId")]
-        public int ReligionId { get; set; }
-        public Religion Religion { get; set; }
+        public int? ReligionId { get; set; }
+        public Religion? Religion { get; set; }
         //=
         [ForeignKey("MaritalStatusId")]
-        public int MaritalStatusId { get; set; }
-        public MaritalStatus MaritalStatus { get; set; }
+        public int? MaritalStatusId { get; set; }
+        public MaritalStatus? MaritalStatus { get; set; }
         //============================================================
-        public List<Nationality> nationalitiesList { get; set; }
-        public List<MaritalStatus> maritalStatusList { get; set; }
+        public List<Nationality>? nationalitiesList { get; set; }
+        public List<MaritalStatus>? maritalStatusList { get; set; }
         
 
 

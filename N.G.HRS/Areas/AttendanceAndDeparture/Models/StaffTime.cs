@@ -14,16 +14,16 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public DateOnly WorksFullTimeFromDate { get; set; }
         //====================================================
         [ForeignKey("EmployeeId")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public int ?EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
         //=
         [ForeignKey("PermanenceModelsId")]
-        public int PermanenceModelsId { get; set; }
-        public PermanenceModels PermanenceModels { get; set; }
+        public int? PermanenceModelsId { get; set; }
+        public PermanenceModels? PermanenceModels { get; set; }
         //=
         [ForeignKey("SectionsId")]
-        public int SectionsId { get; set; }
-        public Sections Sections { get; set; }
+        public int? SectionsId { get; set; }
+        public Sections? Sections { get; set; }
 
 
 

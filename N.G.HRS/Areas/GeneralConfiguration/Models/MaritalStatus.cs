@@ -15,10 +15,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string? Notes { get; set; }
 
         //==========================================
-         public List<PersonalData> PersonalDataList { get; set; }
+         public List<PersonalData>? PersonalDataList { get; set; }
 
         //==========================================
-        public List<Guarantees> GuaranteesList { get; set;}
+        public List<Guarantees>? GuaranteesList { get; set;}
        
         
 

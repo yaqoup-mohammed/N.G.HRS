@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using N.G.HRS.Areas.PenaltiesAndViolations.Models;
+using N.G.HRS.Date;
+
+namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
+{
+    [Area("PenaltiesAndViolations")]
+    public class PenaltiesController : Controller
+    {
+        private readonly AppDbContext _context;
+
+        public PenaltiesController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: PenaltiesAndViolations/Penalties
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Penalties.ToListAsync());
+        }
+
+        // GET: PenaltiesAndViolations/Penalties/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var penalties = await _context.Penalties
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (penalties == null)
+            {
+                return NotFound();
+            }
+
+            return View(penalties);
+        }
+
+        // GET: PenaltiesAndViolations/Penalties/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: PenaltiesAndViolations/Penalties/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,PenaltiesName,Deduction,DiscountFromWorkingHours,DeductionFromTheDailyWage,DeductionFromSalary,Value,Percent,Notes")] Penalties penalties)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(penalties);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(penalties);
+        }
+
+        // GET: PenaltiesAndViolations/Penalties/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var penalties = await _context.Penalties.FindAsync(id);
+            if (penalties == null)
+            {
+                return NotFound();
+            }
+            return View(penalties);
+        }
+
+        // POST: PenaltiesAndViolations/Penalties/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PenaltiesName,Deduction,DiscountFromWorkingHours,DeductionFromTheDailyWage,DeductionFromSalary,Value,Percent,Notes")] Penalties penalties)
+        {
+            if (id != penalties.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(penalties);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PenaltiesExists(penalties.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(penalties);
+        }
+
+        // GET: PenaltiesAndViolations/Penalties/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var penalties = await _context.Penalties
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (penalties == null)
+            {
+                return NotFound();
+            }
+
+            return View(penalties);
+        }
+
+        // POST: PenaltiesAndViolations/Penalties/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var penalties = await _context.Penalties.FindAsync(id);
+            if (penalties != null)
+            {
+                _context.Penalties.Remove(penalties);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool PenaltiesExists(int id)
+        {
+            return _context.Penalties.Any(e => e.Id == id);
+        }
+    }
+}

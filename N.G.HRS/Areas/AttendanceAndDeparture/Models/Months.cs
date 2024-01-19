@@ -15,6 +15,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Required]
         [DataType(DataType.Date)]
         public DateOnly EndDate { get; set;}
+        public bool Closed { get; set; }
 
 
     }

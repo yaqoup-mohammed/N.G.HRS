@@ -14,7 +14,9 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==========================================
-            public List<Employee> EmployeesList { get; set; }
+        [ForeignKey("EmployeeId")]
+        public int? EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
         //====================================================
         public ICollection<FunctionalFiles> FunctionalFiles { get; set; }
     }

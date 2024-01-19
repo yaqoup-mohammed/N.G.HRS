@@ -15,17 +15,17 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=========================================
-public List<Employee> EmployeesList { get; set; }
+public List<Employee>? EmployeesList { get; set; }
         //=
-        public List<Sections> SectionsList { get; set; }
+        public List<Sections>? SectionsList { get; set; }
         //=
-        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
+        public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
         //=
 
         //=========================================
         [ForeignKey("SectorsId")]
         public int? SectorsId { get; set; }
-        public Sectors Sectors { get; set; }
+        public Sectors? Sectors { get; set; }
 
     }
 }

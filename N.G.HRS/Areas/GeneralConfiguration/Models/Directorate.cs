@@ -17,9 +17,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         //=
         [ForeignKey("GovernorateId")]
         public int? GovernorateId { get; set; }
-        public Governorate Governorate { get; set; }
+        public Governorate? Governorate { get; set; }
         //=
-        public List<Branches> BranchesList { get; set; }
+        public List<Branches>? BranchesList { get; set; }
         //=
 
         //===========================================

@@ -10,11 +10,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Required]
         [StringLength(150)]
         public string TypeOFMembership { get; set; }
-        [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
         //==============================================
-        public List<BoardOfDirectors> BoardOfDirectorsList { get; set; }
+        public List<BoardOfDirectors>? BoardOfDirectorsList { get; set; }
 
 
     }

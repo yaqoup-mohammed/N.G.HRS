@@ -16,8 +16,9 @@ namespace N.G.HRS.Areas.Employees.Models
         //======================================================
         [ForeignKey("RelativesTypeId")]
         public int? RelativesTypeId { get; set; }
-        public RelativesType? RelativesType { get; set; }       
+        public RelativesType? RelativesType { get; set; }
         //=====================================================
+        public int EmploteeId { get; set; }
         public Employee? Employees {  get; set; }
     }
 }

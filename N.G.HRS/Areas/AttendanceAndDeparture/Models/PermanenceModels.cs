@@ -28,20 +28,21 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [DataType(DataType.Time)]
         public DateTime ToTime { get; set; }
         [Range(0, 50)]
-        public int HoursOfWorks { get; set; }
+        public int? HoursOfWorks { get; set; }
         public bool AddAttendanceAndDeparturePermission { get; set; }
-        public bool AllowanceForLateAttendance { get; set; }
-        public bool EarlyDeparturePermission { get; set; }
+        public int? AllowanceForLateAttendance { get; set; }
+        public int? EarlyDeparturePermission { get; set; }
         [StringLength(255)]
         public string? Notes {  get; set; }
         //==========================================
-        public List<StaffTime> StaffTimesList { get; set; }
+        public List<StaffTime>? StaffTimesList { get; set; }
         //=
-        public List<LinkingEmployeesToShiftPeriods> LinkingEmployeesToShiftPeriodsList { get; set; }
+        public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
         //=
-        public List<Weekends> WeekendsList { get; set; }
+        public List<Weekends>? WeekendsList { get; set; }
         //=
-        public List<WeekendsForFlexibleWorking> WeekendsForFlexibleWorkingList { get; set; }
+        public List<WeekendsForFlexibleWorking>? WeekendsForFlexibleWorkingList { get; set; }
+        public List<AdjustingTime>? AdjustingTimeList { get; set; }
         //=
 
 

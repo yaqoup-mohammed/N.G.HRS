@@ -16,9 +16,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         //===============================================
         [ForeignKey("BranchesId")]
         public int? BranchesId { get; set; }
-        public Branches Branches { get; set; }
+        public Branches? Branches { get; set; }
         //=======================
-        public List<Departments> DepartmentsList { get; set; }
+        public List<Departments>? DepartmentsList { get; set; }
 
 
 

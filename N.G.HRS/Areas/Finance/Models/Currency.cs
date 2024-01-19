@@ -14,6 +14,7 @@ namespace N.G.HRS.Areas.Finance.Models
         public string CurrencyName { get; set; }
         [Required]
         [StringLength(70)]
+        [DataType(DataType.Currency)]
         public string CurrencyCode { get; set; }
         [StringLength(255)]
         public string? CurrencyNotes { get; set; }
@@ -27,6 +28,7 @@ namespace N.G.HRS.Areas.Finance.Models
         //========================================================
             public List<FunctionalCategories> FunctionalCategoriesList { get; set; }
             public List<FunctionalClass> FunctionalClassList { get; set; }
+            public List<FinancialStatements> FinancialStatementsList { get; set; }
         //=
 
 

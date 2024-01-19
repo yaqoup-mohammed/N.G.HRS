@@ -10,11 +10,10 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [Required]
         [StringLength(150)]
         public string RankName { get; set; }
-        [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
         //=====================================
-        public List<JobDescription> JobDescriptionList { get; set; }
+        public List<JobDescription>? JobDescriptionList { get; set; }
 
     }
 }
