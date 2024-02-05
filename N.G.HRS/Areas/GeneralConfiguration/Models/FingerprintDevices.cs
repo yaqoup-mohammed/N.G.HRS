@@ -5,7 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Models
 {
-    public class FingerprintDevices
+    public class FingerprintDevices : Base
     {
         [Key]
         public int Id { get; set; }
@@ -44,6 +44,5 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //======================================
-        public List<Employee>? EmployeesList { get; set; }
     }
 }

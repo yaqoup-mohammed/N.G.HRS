@@ -55,19 +55,24 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("JobDescriptionId")]
         public int? JobDescriptionId { get; set; }
         public JobDescription? JobDescription { get; set; }
+        //
+        [ForeignKey("PracticalExperiencesId")]
+        public int? PracticalExperiencesId { get; set; }
+        public PracticalExperiences? PracticalExperiences { get; set; }
+        //
         //=
-        public List<PracticalExperiences>? PracticalExperiencesList { get; set; }
+        [ForeignKey("StatementOfEmployeeFilesId")]
+        public int? StatementOfEmployeeFilesId { get; set; }
+        public StatementOfEmployeeFiles? StatementOfEmployeeFiles { get; set; }
+        //=       
+        [ForeignKey("TrainingCoursesId")]
+        public int? TrainingCoursesId { get; set; }
+        public TrainingCourses? TrainingCourses { get; set; }
         //=
-        public List<StatementOfEmployeeFiles>? StatementOfEmployeeFilesList { get; set; }
-        //=
-        public List<TrainingCourses>? TrainingCoursesList { get; set; }
-        //=
-
         [ForeignKey("FingerprintDevicesId")]
         public int? FingerprintDevicesId { get; set; }
         public FingerprintDevices? FingerprintDevices { get; set; }
         //=============================
-        public List<Departments>? departmentsList { get; set; }
         public EmployeeArchives? employeeArchives { get; set; }
         //========================================================
         public PersonalData? personalData { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
-    public class PracticalExperiences
+    public class PracticalExperiences : Base
     {
         [Key]
         public int Id { get; set; }
@@ -30,9 +30,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public string Duration { get; set; }
         //يرتبط مع جدول الموظفين
         //=================================================
-        [ForeignKey("EmployeeId")]
-        public int? EmployeeId { get; set; }
-        public Employee? Employee { get; set; }
+
 
 
     }

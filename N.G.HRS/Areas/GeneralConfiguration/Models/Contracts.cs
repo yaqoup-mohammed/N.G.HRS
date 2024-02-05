@@ -12,6 +12,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==========================================
-        public List<ContractTerms> contractTermsList { get; set; }
+        public List<ContractTerms>? contractTermsList { get; set; }
     }
 }

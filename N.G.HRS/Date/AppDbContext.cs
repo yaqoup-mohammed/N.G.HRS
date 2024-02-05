@@ -10,10 +10,12 @@ using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.Configuration;
 using System.Threading.Tasks.Dataflow;
 using N.G.HRS.Areas.AalariesAndWages.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace N.G.HRS.Date
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -21,6 +23,8 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()
@@ -44,12 +48,12 @@ namespace N.G.HRS.Date
             // علاقات الموظفين مع الادارات
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.Departments)
-                .WithMany(p => p.EmployeesList)
+                .WithMany(p => p.EmployeeList)
                 .HasForeignKey(p => p.DepartmentsId);
             //علاقة الموظفين مع الاقسام
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.Sections)
-                .WithMany(p => p.EmployeesList)
+                .WithMany(p => p.EmployeeList)
                 .HasForeignKey(p => p.SectionsId);
             //علاقات الموظفين مع البيانات الشخصية
             modelBuilder.Entity<Employee>()
@@ -67,7 +71,7 @@ namespace N.G.HRS.Date
             //علاقة الموظف بالوظيفة "الوصف الوظيفي"
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.JobDescription)
-                .WithMany(p => p.employeesList)
+                .WithMany(p => p.EmployeeList)
                 .HasForeignKey(p => p.JobDescriptionId);
 
             //علاقة الموظف بالبيانات المالية
@@ -77,26 +81,26 @@ namespace N.G.HRS.Date
                 .HasForeignKey<FinancialStatements>(b => b.Id);
             //==================================================
             //علاقة الموظف بالخبرات العملة
-            modelBuilder.Entity<PracticalExperiences>()
-                .HasOne(p => p.Employee)
-                .WithMany(p => p.PracticalExperiencesList)
-                .HasForeignKey(p => p.EmployeeId);
+            modelBuilder.Entity<Employee>()
+                .HasOne(p => p.PracticalExperiences)
+                .WithMany(p => p.EmployeeList)
+                .HasForeignKey(p => p.PracticalExperiencesId);
             //==================================================
             //علاقة الموظف بملفات الموظف
-            modelBuilder.Entity<StatementOfEmployeeFiles>()
-                .HasOne(p => p.Employee)
-                .WithMany(p => p.StatementOfEmployeeFilesList)
-                .HasForeignKey(p => p.EmployeeId);
+            modelBuilder.Entity<Employee>()
+                .HasOne(p => p.StatementOfEmployeeFiles)
+                .WithMany(p => p.EmployeeList)
+                .HasForeignKey(p => p.StatementOfEmployeeFilesId);
             //==================================================
             //علاقة الموظف بالدورات التدريبية
-            modelBuilder.Entity<TrainingCourses>()
-                .HasOne(p => p.Employee)
-                .WithMany(p => p.TrainingCoursesList)
-                .HasForeignKey(p => p.EmployeeId);
+            modelBuilder.Entity<Employee>()
+                .HasOne(p => p.TrainingCourses)
+                .WithMany(p => p.EmployeeList)
+                .HasForeignKey(p => p.TrainingCoursesId);
             //علاقة الموظف بأجهزة البصمة
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.FingerprintDevices)
-                .WithMany(p => p.EmployeesList)
+                .WithMany(p => p.EmployeeList)
                 .HasForeignKey(p => p.FingerprintDevicesId);
             //==================================================
             //--البانات الشخصية--
@@ -490,16 +494,16 @@ namespace N.G.HRS.Date
         public DbSet<Weekends> weekends { get; set; }
         public DbSet<WeekendsForFlexibleWorking> weekendsForFlexibleWorkings { get; set; }
         public DbSet<PenaltiesAndViolationsForms> penaltiesAndViolationsForms { get; set; }
-        public DbSet<N.G.HRS.Areas.OrganizationalChart.Models.Departments> Departments { get; set; }
+        public DbSet<Departments> Departments { get; set; }
     
-        public DbSet<N.G.HRS.Areas.Employees.Models.Family> Family { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.Employees.Models.EmployeeArchives> EmployeeArchives { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.GeneralConfiguration.Models.Universities> Universities { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.OrganizationalChart.Models.Sections> Sections { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PlanningAndJobDescription.Models.JobDescription> JobDescription { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.AalariesAndWages.Models.EmployeeAccount> EmployeeAccount { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PenaltiesAndViolations.Models.Penalties> Penalties { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PenaltiesAndViolations.Models.Violations> Violations { get; set; } = default!;
+        public DbSet<Family> Family { get; set; } = default!;
+        public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
+        public DbSet<Universities> Universities { get; set; } = default!;
+        public DbSet<Sections> Sections { get; set; } = default!;
+        public DbSet<JobDescription> JobDescription { get; set; } = default!;
+        public DbSet<EmployeeAccount> EmployeeAccount { get; set; } = default!;
+        public DbSet<Penalties> Penalties { get; set; } = default!;
+        public DbSet<Violations> Violations { get; set; } = default!;
 
 
 

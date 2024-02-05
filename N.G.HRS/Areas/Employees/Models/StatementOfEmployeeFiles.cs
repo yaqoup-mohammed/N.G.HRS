@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
-    public class StatementOfEmployeeFiles
+    public class StatementOfEmployeeFiles : Base
     {
         //يرتبط بجدول ملفات الموظفين والموظفين
         [Key]
@@ -14,9 +14,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==========================================
-        [ForeignKey("EmployeeId")]
-        public int? EmployeeId { get; set; }
-        public Employee? Employee { get; set; }
+
         //====================================================
         public ICollection<FunctionalFiles> FunctionalFiles { get; set; }
     }

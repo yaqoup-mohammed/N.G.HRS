@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
 {
-    public class JobDescription
+    public class JobDescription :Base
     {
         [Key]
         public int Id { get; set; }
@@ -24,7 +24,6 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //============================================
-        public List<Employee>? employeesList { get; set; }
         //=========================================
         [ForeignKey("FunctionalCategoriesId")]
         public int? FunctionalCategoriesId { get; set; }

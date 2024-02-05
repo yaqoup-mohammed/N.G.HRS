@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
-    public class Sections //الاقسام
+    public class Sections :Base//الاقسام
     {
         [Key]
         public int Id { get; set; }
@@ -18,7 +18,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string? Notes { get; set; }
 
         //=============================================
-        public List<Employee>? EmployeesList { get; set; }
         //=
         public List<SectionsAccounts>? SectionsAccountsList { get; set; }
         //=

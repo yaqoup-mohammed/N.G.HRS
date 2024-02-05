@@ -17,8 +17,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string? Notes { get; set; }
         //=========================================================
         [ForeignKey("ContractsId")]
-        public int ContractsId { get; set; }
-        public Contracts Contracts { get; set; }
+        public int? ContractsId { get; set; }
+        public Contracts? Contracts { get; set; }
         //==========================================================
     }
 }

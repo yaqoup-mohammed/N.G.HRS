@@ -11,18 +11,19 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [Required]
         [StringLength(150)]
         public string HolidayName { get; set; }
-        public bool VacationsBalance { get; set; }
+        [Range(1, 100)]
+        public int? VacationsBalance { get; set; }
         public bool Paid { get; set;}
-        [Required]
         [Range(0,100)]
-        public int DayCount { get;set; }
+        public int? DayCount { get;set; }
+        [Range(0, 100)]
 
-        public int RotationDuration { get; set; }
+        public int? RotationDuration { get; set; }
         
         [StringLength(255)]
         public string? Notes { get; set;}
         //=========================================
-        public List<OpeningBalancesForVacations> OpeningBalancesForVacationsList { get; set; }
+        public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
 
     }
 }
