@@ -1,138 +1,60 @@
-﻿@* <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - N.G.HRS</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/N.G.HRS.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">N.G.HRS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Countries" asp-action="Index">Country</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Directorates" asp-action="Index">Directorate</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="EducationalQualifications" asp-action="Index">EducationalQualification</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FingerprintDevices" asp-action="Index">FingerprintDevices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FunctionalFiles" asp-action="Index">FunctionalFiles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Governorates" asp-action="Index">Governorate</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="MaritalStatus" asp-action="Index">MaritalStatus</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Nationalities" asp-action="Index">Nationality</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="RelativesTypes" asp-action="Index">RelativesType</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Religions" asp-action="Index">Religion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Sexes" asp-action="Index">Sex</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Specialties" asp-action="Index">Specialties</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Universities" asp-action="Index">Universities</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header> *@
-        
-
-@* ll *@
+﻿
 <!DOCTYPE html>
-<!--
-Template Name: NobleUI - HTML Bootstrap 5 Admin Dashboard Template
-Author: NobleUI
-Website: https://www.nobleui.com
-Portfolio: https://themeforest.net/user/nobleui/portfolio
-Contact: nobleui123@gmail.com
-Purchase: https://1.envato.market/nobleui_admin
-License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
--->
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="description"
-          content="Responsive HTML Admin Dashboard Template based on Bootstrap 5" />
-    <meta name="author" content="NobleUI" />
-    <meta name="keywords"
-          content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="N.G.HRS">
+    <meta name="author" content="MO_AL">
+    <meta name="keywords" content="N.G.HRS">
 
-    <title>NobleUI - HTML Bootstrap 5 Admin Dashboard Template</title>
+    <title>N.G.HRS - @ViewData["Title"]</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-      rel="stylesheet"
-    /> -->
+   @*  <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet">
+    <!-- End fonts --> *@
+    <!-- core:css -->
+    <link rel="stylesheet" href="~/assets/vendors/core/core.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="~/assets/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/jquery-tags-input/jquery.tagsinput.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/dropzone/dropzone.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/dropify/dist/dropify.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/pickr/themes/classic.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/flatpickr/flatpickr.min.css">
+    <!-- ---------------------------------------- -->
+    <link rel="stylesheet" href="~/assets/vendors/sweetalert2/sweetalert2.min.css">
+    <!-- ---------------------------------------- -->
+    <link rel="stylesheet" href="~/assets/vendors/prismjs/themes/prism.css">
+    <!-- ---------------------------------------- -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap"
-          rel="stylesheet" />
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/assets/fonts/feather-font/css/iconfont.css">
+    <link rel="stylesheet" href="~/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="~/assets/css/demo1/style-rtl.min.css">
+    <!-- End layout styles -->
+
+    <link rel="shortcut icon" href="~/assets/images/favicon.jpg" />
+
     <link rel="stylesheet"
           href="~/assets/fonts/feather-font/fonts/Amiri-Regular.ttf" />
     <!-- End fonts -->
-    <!-- core:css -->
-    <link rel="stylesheet" href="~/assets/vendors/core/core.css" />
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet"
-          href="~/assets/vendors/flatpickr/flatpickr.min.css" />
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet"
-          href="~/assets/fonts/feather-font/css/iconfont.css" />
-    <link rel="stylesheet"
-          href="~/assets/vendors/flag-icon-css/css/flag-icon.min.css" />
-    <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="~/assets/css/demo1/style-rtl.min.css" />
-    <!-- End layout styles -->
-
-    <link rel="shortcut icon" href="~/image/Artboard 1lo.png" />
+   
 </head>
 
 <body>
     <div class="main-wrapper">
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar">
-            <div class="sidebar-header">
+            <div style="background-color: #000 !important;" class="sidebar-header">
                 <a href="#" class="sidebar-brand mmms">
                     <img class="logo-image" src="~/assets/images/Logo/Artboard 1lo.png" alt="" />
                 </a>
@@ -145,16 +67,18 @@ License: For each use you must have a valid license purchased only from above li
             </div>
             <div class="sidebar-body">
                 <ul class="nav margin">
+
                     <li class="nav-item nav-category">الرئيسة</li>
-                    <li class="nav-item">
-                        <a href="dashboard.html" class="nav-link">
+                     <li id="Home" class="nav-item">
+                        <a asp-action="Index" asp-controller="Home"   class="nav-link link">
                             <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">لوحة التحكم</span>
                         </a>
                     </li>
+
                     <li class="nav-item nav-category">التهيئة</li>
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a id="Open" class="nav-link"
                            data-bs-toggle="collapse"
                            href="#Initialization"
                            role="button"
@@ -166,6 +90,7 @@ License: For each use you must have a valid license purchased only from above li
                         </a>
                         <div class="collapse" id="Initialization">
                             <ul class="nav sub-menu">
+                                
                                 <li class="nav-item">
 
                                     <a class="nav-link"
@@ -465,34 +390,39 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/apps/chat.html" class="nav-link">
+                        <a href="pages/apps/chat.html" class="nav-link link">
                             <i class="link-icon" data-feather="message-square"></i>
                             <span class="link-title">Chat</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/apps/calendar.html" class="nav-link">
+                        <a href="pages/apps/calendar.html" class="nav-link link">
                             <i class="link-icon" data-feather="calendar"></i>
                             <span class="link-title">Calendar</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">Components</li>
+                        <li class="nav-item nav-category">Components</li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#uiComponents"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="uiComponents">
-                            <i class="link-icon" data-feather="feather"></i>
-                            <span class="link-title">UI Kit</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="uiComponents">
-                            <ul class="nav sub-menu">
+    <a id="Open" class="menu nav-link "
+       data-bs-toggle="collapse"
+       href="#uiComponents"
+       role="button"
+       aria-expanded="false"
+       aria-controls="uiComponents">
+        <i class="link-icon" data-feather="feather"></i>
+        <span class="link-title">UI Kit</span>
+        <i class="link-arrow" data-feather="chevron-down"></i>
+    </a>
+    <div class="collapse" id="uiComponents">
+        <ul class="nav sub-menu">
+            <li id="Privacy" class="nav-item">
+    <a asp-action="Privacy" asp-controller="Home"   class="nav-link link">
+        <i class="link-icon" data-feather="box"></i>
+        <span class="link-title">Privacy  لوحة  </span>
+    </a>
+</li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/accordion.html"
-                                       class="nav-link">Accordion</a>
+                                    <a href="pages/ui-components/accordion.html" class="nav-link">Accordion</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/ui-components/alerts.html" class="nav-link">Alerts</a>
@@ -501,15 +431,13 @@ License: For each use you must have a valid license purchased only from above li
                                     <a href="pages/ui-components/badges.html" class="nav-link">Badges</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/breadcrumbs.html"
-                                       class="nav-link">Breadcrumbs</a>
+                                    <a href="pages/ui-components/breadcrumbs.html" class="nav-link">Breadcrumbs</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/ui-components/buttons.html" class="nav-link">Buttons</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/button-group.html"
-                                       class="nav-link">Button group</a>
+                                    <a href="pages/ui-components/button-group.html" class="nav-link">Button group</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/ui-components/cards.html" class="nav-link">Cards</a>
@@ -521,16 +449,13 @@ License: For each use you must have a valid license purchased only from above li
                                     <a href="pages/ui-components/collapse.html" class="nav-link">Collapse</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/dropdowns.html"
-                                       class="nav-link">Dropdowns</a>
+                                    <a href="pages/ui-components/dropdowns.html" class="nav-link">Dropdowns</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/list-group.html"
-                                       class="nav-link">List group</a>
+                                    <a href="pages/ui-components/list-group.html" class="nav-link">List group</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/media-object.html"
-                                       class="nav-link">Media object</a>
+                                    <a href="pages/ui-components/media-object.html" class="nav-link">Media object</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/ui-components/modal.html" class="nav-link">Modal</a>
@@ -542,8 +467,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <a href="pages/ui-components/navbar.html" class="nav-link">Navbar</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/pagination.html"
-                                       class="nav-link">Pagination</a>
+                                    <a href="pages/ui-components/pagination.html" class="nav-link">Pagination</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/ui-components/popover.html" class="nav-link">Popovers</a>
@@ -552,12 +476,10 @@ License: For each use you must have a valid license purchased only from above li
                                     <a href="pages/ui-components/progress.html" class="nav-link">Progress</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/scrollbar.html"
-                                       class="nav-link">Scrollbar</a>
+                                    <a href="pages/ui-components/scrollbar.html" class="nav-link">Scrollbar</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/ui-components/scrollspy.html"
-                                       class="nav-link">Scrollspy</a>
+                                    <a href="pages/ui-components/scrollspy.html" class="nav-link">Scrollspy</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/ui-components/spinners.html" class="nav-link">Spinners</a>
@@ -572,12 +494,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#advancedUI"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="advancedUI">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#advancedUI" role="button" aria-expanded="false" aria-controls="advancedUI">
                             <i class="link-icon" data-feather="anchor"></i>
                             <span class="link-title">Advanced UI</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -588,26 +505,19 @@ License: For each use you must have a valid license purchased only from above li
                                     <a href="pages/advanced-ui/cropper.html" class="nav-link">Cropper</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/advanced-ui/owl-carousel.html"
-                                       class="nav-link">Owl carousel</a>
+                                    <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Owl carousel</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/advanced-ui/sortablejs.html" class="nav-link">SortableJs</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/advanced-ui/sweet-alert.html"
-                                       class="nav-link">Sweet Alert</a>
+                                    <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">Sweet Alert</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#forms"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="forms">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#forms" role="button" aria-expanded="false" aria-controls="forms">
                             <i class="link-icon" data-feather="inbox"></i>
                             <span class="link-title">Forms</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -618,8 +528,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <a href="pages/forms/basic-elements.html" class="nav-link">Basic Elements</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/forms/advanced-elements.html"
-                                       class="nav-link">Advanced Elements</a>
+                                    <a href="pages/forms/advanced-elements.html" class="nav-link">Advanced Elements</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/forms/editors.html" class="nav-link">Editors</a>
@@ -631,12 +540,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#charts"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="charts">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#charts" role="button" aria-expanded="false" aria-controls="charts">
                             <i class="link-icon" data-feather="pie-chart"></i>
                             <span class="link-title">Charts</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -662,12 +566,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#tables"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="tables">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#tables" role="button" aria-expanded="false" aria-controls="tables">
                             <i class="link-icon" data-feather="layout"></i>
                             <span class="link-title">Table</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -684,12 +583,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#icons"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="icons">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#icons" role="button" aria-expanded="false" aria-controls="icons">
                             <i class="link-icon" data-feather="smile"></i>
                             <span class="link-title">Icons</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -710,12 +604,7 @@ License: For each use you must have a valid license purchased only from above li
                     </li>
                     <li class="nav-item nav-category">Pages</li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#general-pages"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="general-pages">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#general-pages" role="button" aria-expanded="false" aria-controls="general-pages">
                             <i class="link-icon" data-feather="book"></i>
                             <span class="link-title">Special pages</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -744,12 +633,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#authPages"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="authPages">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#authPages" role="button" aria-expanded="false" aria-controls="authPages">
                             <i class="link-icon" data-feather="unlock"></i>
                             <span class="link-title">Authentication</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -766,12 +650,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           data-bs-toggle="collapse"
-                           href="#errorPages"
-                           role="button"
-                           aria-expanded="false"
-                           aria-controls="errorPages">
+                        <a class="nav-link menu" data-bs-toggle="collapse" href="#errorPages" role="button" aria-expanded="false" aria-controls="errorPages">
                             <i class="link-icon" data-feather="cloud-off"></i>
                             <span class="link-title">Error</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -789,9 +668,7 @@ License: For each use you must have a valid license purchased only from above li
                     </li>
                     <li class="nav-item nav-category">Docs</li>
                     <li class="nav-item">
-                        <a href="https://www.nobleui.com/html/documentation/docs.html"
-                           target="_blank"
-                           class="nav-link">
+                        <a href="https://www.nobleui.com/html/documentation/docs.html" target="_blank" class="nav-link">
                             <i class="link-icon" data-feather="hash"></i>
                             <span class="link-title">Documentation</span>
                         </a>
@@ -835,17 +712,17 @@ License: For each use you must have a valid license purchased only from above li
 
         <div class="page-wrapper">
             <!-- partial:partials/_navbar.html -->
-            <nav class="navbar">
+            <nav style="background-color: #000 !important;" class="navbar">
                 <a href="#" class="sidebar-toggler">
                     <i data-feather="menu"></i>
                 </a>
                 <div class="navbar-content">
                     <form class="search-form">
-                        <div class="input-group">
-                            <div class="input-group-text">
+                        <div  class="input-group">
+                            <div style="background-color: #000 !important;" class="input-group-text">
                                 <i data-feather="search"></i>
                             </div>
-                            <input type="text"
+                            <input style=" background-color: #000 !important;" type="text"
                                    class="form-control"
                                    id="navbarForm"
                                    placeholder="ابحث هنا ...." />
@@ -1145,16 +1022,10 @@ License: For each use you must have a valid license purchased only from above li
 
             </div>
 
-            <!-- partial:partials/_footer.html -->
+            <!-- partial:../../partials/_footer.html -->
             <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between px-4 py-3 border-top small">
-                <p class="text-muted mb-1 mb-md-0">
-                    Copyright © 2022
-                    <a href="https://www.nobleui.com" target="_blank">NobleUI</a>.
-                </p>
-                <p class="text-muted">
-                    Handcrafted With
-                    <i class="mb-1 text-primary ms-1 icon-sm" data-feather="heart"></i>
-                </p>
+                <p class="text-muted mb-1 mb-md-0">Copyright © 2022 <a href="https://www.nobleui.com/" target="_blank">NobleUI</a>.</p>
+                <p class="text-muted">Handcrafted With <i class="mb-1 text-primary ms-1 icon-sm" data-feather="heart"></i></p>
             </footer>
             <!-- partial -->
         </div>
@@ -1164,15 +1035,33 @@ License: For each use you must have a valid license purchased only from above li
     <script src="~/assets/vendors/core/core.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
+    <script src="~/assets/vendors/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/assets/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="~/assets/vendors/inputmask/jquery.inputmask.min.js"></script>
+    <script src="~/assets/vendors/select2/select2.min.js"></script>
+    <script src="~/assets/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+    <script src="~/assets/vendors/jquery-tags-input/jquery.tagsinput.min.js"></script>
+    <script src="~/assets/vendors/dropzone/dropzone.min.js"></script>
+    <script src="~/assets/vendors/dropify/dist/dropify.min.js"></script>
+    <script src="~/assets/vendors/pickr/pickr.min.js"></script>
+    <script src="~/assets/vendors/moment/moment.min.js"></script>
     <script src="~/assets/vendors/flatpickr/flatpickr.min.js"></script>
+    <!-- -------------------------------------------------- -->
     <script src="~/assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="~/assets/vendors/chartjs/Chart.min.js"></script>
+    <!-- -------------------------------------------------- -->
+    <script src="~/assets/vendors/sweetalert2/sweetalert2.min.js"></script>
+    <!-- -------------------------------------------------- -->
+    <script src="~/assets/vendors/prismjs/prism.js"></script>
+    <script src="~/assets/vendors/clipboard/clipboard.min.js"></script>
+    <!-- -------------------------------------------------- -->
 
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="~/assets/vendors/feather-icons/feather.min.js"></script>
     <script src="~/assets/js/template.js"></script>
-    <script src="~/assets/js/jquery-3.6.1.min.js"></script>
+    <!-- -------------------------------------------------- -->
+    @* <script src="~/assets/js/jquery-3.6.1.min.js"></script> *@
     <script src="~/assets/js/jquery.flot-light.js"></script>
     <script src="~/assets/js/Chart.min.js"></script>
     <script src="~/assets/js/chartjs-light.js"></script>
@@ -1182,12 +1071,96 @@ License: For each use you must have a valid license purchased only from above li
     <script src="~/assets/js/jquery.flot-light.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
+   <script src="~/assets/js/bootstrap-maxlength.js"></script>
+    <script src="~/assets/js/inputmask.js"></script>
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/typeahead.js"></script>
+    <script src="~/assets/js/tags-input.js"></script>
+    <script src="~/assets/js/dropzone.js"></script>
+    <script src="~/assets/js/dropify.js"></script>
+    <script src="~/assets/js/pickr.js"></script>
+    <script src="~/assets/js/flatpickr.js"></script>
+    <!-- -------------------------------------------------- -->
     <script src="~/assets/js/dashboard-light.js"></script>
+    <!-- -------------------------------------------------- -->
+    <script src="~/assets/js/sweet-alert.js"></script>
+    <!-- -------------------------------------------------- -->
+
     <!-- End custom js for this page -->
-@*     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- -------------------------------------------------- -->
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Start ------------------------اضافي--------------------------->
+    
+      @if (ViewData["Active"] != null)
+  {
+      <script type="text/javascript">
+
+          document.getElementById("@ViewData["Active"]").classList.add("active");
+        
+      </script>
+  }
+
+  @if (ViewData["Open"] != null)
+  {
+      <script type="text/javascript">
+
+          document.getElementById("@ViewData["Open"]").classList.add("open");
+          document.getElementById("@ViewData["Open"]").classList.add("active");
+
+      </script>
+  }
+@*=============================================================================================*@
+
+  @if (ViewData["OpenOperation"] != null)
+  {
+      <script type="text/javascript">
+
+          document.getElementById("@ViewData["OpenOperation"]").classList.add("open");
+          document.getElementById("@ViewData["OpenOperation"]").classList.add("active");
+
+      </script>
+  }
+  @*=============================================================================================*@
+  @if (ViewData["OpenSubOperation"] != null)
+  {
+      <script type="text/javascript">
+
+          document.getElementById("@ViewData["OpenSubOperation"]").classList.add("open");
+          document.getElementById("@ViewData["OpenSubOperation"]").classList.add("active");
+
+      </script>
+  }
+
+  
+
+  @*=============================================================================================*@
+
+   <script type="text/javascript">
+    $('.menu-inner li > a').click(function (e) {
+
+      /*e.preventDefault();*/ // added this line to prevent default click behaviour    
+
+      // find/remove all active classes from each a
+      $('.menu-inner li > a').removeClass('active');
+
+      // add active selected a
+      $(this).addClass('active');
+    });
+
+    //=============================================================================================
+    $('.menu-inner li').click(function (e) {
+      // find/remove all active classes from each a
+      $('.menu-inner > a').removeClass('active');
+
+      // add active selected a
+      $(this).addClass('').siblings().removeClass("");
+      //e.preventDefault();
+    });
+   </Script>
+   <!-- End ------------------------اضافي--------------------------->
+
 </body>
 </html>
 

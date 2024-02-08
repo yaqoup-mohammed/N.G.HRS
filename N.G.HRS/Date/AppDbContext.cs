@@ -9,7 +9,6 @@ using N.G.HRS.Areas.PenaltiesAndViolations.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.Configuration;
 using System.Threading.Tasks.Dataflow;
-using N.G.HRS.Areas.AalariesAndWages.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 

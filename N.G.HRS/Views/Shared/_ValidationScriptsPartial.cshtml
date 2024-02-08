@@ -1,2 +1,54 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+@if (TempData["Succsess"] != null)
+{
+
+
+
+    <script type="text/javascript">
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '@TempData["Succsess"]',
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+
+        @*       Swal.fire('Excellent','Good job!','success');
+        *@
+
+    </script>
+
+}
+
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: '@TempData["Error"]',
+            showConfirmButton: false,
+            timer: 1500,
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+
+
+    </script>
+
+
+
+}
+
