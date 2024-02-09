@@ -78,24 +78,24 @@ namespace N.G.HRS.Date
                 .HasOne(p => p.financialStatements)
                 .WithOne(p => p.employee)
                 .HasForeignKey<FinancialStatements>(b => b.Id);
-            //==================================================
+            //================================================== MO-AL-MO
             //علاقة الموظف بالخبرات العملة
-            modelBuilder.Entity<Employee>()
-                .HasOne(p => p.PracticalExperiences)
-                .WithMany(p => p.EmployeeList)
-                .HasForeignKey(p => p.PracticalExperiencesId);
-            //==================================================
+            modelBuilder.Entity<PracticalExperiences>()
+                 .HasOne(p => p.Employee)
+                 .WithMany(p => p.PracticalExperiencesList)
+                 .HasForeignKey(p => p.EmployeeId);
+            //================================================== MO-AL-MO
             //علاقة الموظف بملفات الموظف
-            modelBuilder.Entity<Employee>()
-                .HasOne(p => p.StatementOfEmployeeFiles)
-                .WithMany(p => p.EmployeeList)
-                .HasForeignKey(p => p.StatementOfEmployeeFilesId);
-            //==================================================
+            modelBuilder.Entity<StatementOfEmployeeFiles>()
+                .HasOne(p => p.EmployeeOne)
+                .WithMany(p => p.StatementOfEmployeeFilesList)
+                .HasForeignKey(p => p.EmployeeId);
+            //================================================== MO-AL-MO
             //علاقة الموظف بالدورات التدريبية
-            modelBuilder.Entity<Employee>()
-                .HasOne(p => p.TrainingCourses)
-                .WithMany(p => p.EmployeeList)
-                .HasForeignKey(p => p.TrainingCoursesId);
+            modelBuilder.Entity<TrainingCourses>()
+                .HasOne(p => p.EmployeeOne)
+                .WithMany(p => p.TrainingCoursesList)
+                .HasForeignKey(p => p.EmployeeId);
             //علاقة الموظف بأجهزة البصمة
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.FingerprintDevices)
@@ -418,11 +418,11 @@ namespace N.G.HRS.Date
               .WithMany(p => p.PenaltiesAndViolationsFormsList)
               .HasForeignKey(p => p.PenaltiesId)
               .OnDelete(DeleteBehavior.NoAction);
-            //======================================================
-            modelBuilder.Entity<Employee>()
-                .HasOne(p => p.Families)
-                .WithOne(p => p.Employees)
-                .HasForeignKey<Family>(b => b.Id);
+            //======================================================MO-AL-MO
+            modelBuilder.Entity<Family>()
+                .HasOne(p => p.Employees)
+                .WithMany(p => p.FamilyList)
+                  .HasForeignKey(p => p.EmployeeId);
             //==============================================
             modelBuilder.Entity<Employee>()
               .HasMany(j => j.qualifications)
@@ -494,8 +494,9 @@ namespace N.G.HRS.Date
         public DbSet<WeekendsForFlexibleWorking> weekendsForFlexibleWorkings { get; set; }
         public DbSet<PenaltiesAndViolationsForms> penaltiesAndViolationsForms { get; set; }
         public DbSet<Departments> Departments { get; set; }
-    
+        //================================================== MO-AL-MO
         public DbSet<Family> Family { get; set; } = default!;
+        //public DbSet<Family> Family { get; set; } = default!;
         public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
         public DbSet<Universities> Universities { get; set; } = default!;
         public DbSet<Sections> Sections { get; set; } = default!;

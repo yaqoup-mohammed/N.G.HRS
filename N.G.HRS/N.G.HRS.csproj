@@ -34,11 +34,10 @@
   <ItemGroup>
     <Folder Include="Areas\AttendanceAndDeparture\Controllers\" />
     <Folder Include="Areas\AttendanceAndDeparture\Views\" />
-    <Folder Include="Areas\Employees\Controllers\" />
-    <Folder Include="Areas\Employees\ViewModel\" />
-    <Folder Include="Areas\Employees\Views\" />
     <Folder Include="Areas\Finance\Controllers\" />
     <Folder Include="Areas\Finance\Views\" />
+    <Folder Include="Areas\GeneralConfiguration\Controllers\" />
+    <Folder Include="Areas\GeneralConfiguration\Views\" />
     <Folder Include="Areas\OrganizationalChart\Controllers\" />
     <Folder Include="Areas\OrganizationalChart\Views\" />
     <Folder Include="Areas\PenaltiesAndViolations\Controllers\" />

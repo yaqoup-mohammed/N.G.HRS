@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
-    public class TrainingCourses : Base
+    public class TrainingCourses
     {
         [Key]
         public int Id { get; set; }
@@ -25,6 +25,8 @@ namespace N.G.HRS.Areas.Employees.Models
 
         public DateOnly ToDate { get; set; }
         //=====================================================
-
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
+        public Employee? EmployeeOne { get; set; }
     }
 }

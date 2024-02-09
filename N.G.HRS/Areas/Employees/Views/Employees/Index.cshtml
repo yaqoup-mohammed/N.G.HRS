@@ -1,0 +1,136 @@
+﻿@model IEnumerable<N.G.HRS.Areas.Employees.Models.Employee>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "IndexEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Index</h1>
+<p>
+    <a asp-action="AddEmployee">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfEmployment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlacementDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmploymentStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RehireDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfStoppingWork)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsedFingerprint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectToInsurance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateInsurance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sections)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FingerprintDevices)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manager)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfEmployment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlacementDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmploymentStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RehireDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfStoppingWork)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsedFingerprint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectToInsurance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateInsurance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Departments.SubAdministration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sections.SectionsName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDescription.Authorities)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FingerprintDevices.ConnectionType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manager.EmployeeName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

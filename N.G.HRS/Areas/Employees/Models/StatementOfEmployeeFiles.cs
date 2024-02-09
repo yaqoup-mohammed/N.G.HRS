@@ -1,10 +1,11 @@
-﻿using N.G.HRS.Areas.GeneralConfiguration.Models;
+﻿using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.GeneralConfiguration.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Employees.Models
 {
-    public class StatementOfEmployeeFiles : Base
+    public class StatementOfEmployeeFiles
     {
         //يرتبط بجدول ملفات الموظفين والموظفين
         [Key]
@@ -14,7 +15,9 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //==========================================
-
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; }
+        public Employee? EmployeeOne { get; set; }
         //====================================================
         public ICollection<FunctionalFiles> FunctionalFiles { get; set; }
     }

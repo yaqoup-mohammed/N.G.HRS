@@ -1,4 +1,5 @@
 ﻿
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -32,6 +33,8 @@
     <!-- ---------------------------------------- -->
     <link rel="stylesheet" href="~/assets/vendors/prismjs/themes/prism.css">
     <!-- ---------------------------------------- -->
+    <link rel="stylesheet" href="~/assets/vendors/jquery-steps/jquery.steps.css">
+    <!-- ---------------------------------------- -->
 
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -47,7 +50,8 @@
     <link rel="stylesheet"
           href="~/assets/fonts/feather-font/fonts/Amiri-Regular.ttf" />
     <!-- End fonts -->
-   
+    
+ 
 </head>
 
 <body>
@@ -70,20 +74,20 @@
 
                     <li class="nav-item nav-category">الرئيسة</li>
                      <li id="Home" class="nav-item">
-                        <a asp-action="Index" asp-controller="Home"   class="nav-link link">
+                        <a asp-action="Index" asp-controller="Home" asp-area="" class="nav-link link">
                             <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">لوحة التحكم</span>
                         </a>
                     </li>
-
+                 
                     <li class="nav-item nav-category">التهيئة</li>
                     <li class="nav-item">
-                        <a id="Open" class="nav-link"
+                        <a id="Open2" class="menu nav-link "
                            data-bs-toggle="collapse"
                            href="#Initialization"
                            role="button"
                            aria-expanded="false"
-                           aria-controls="emails">
+                           aria-controls="Initialization">
                             <i class="link-icon" data-feather="mail"></i>
                             <span class="link-title">تهيئة النظام</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -93,7 +97,7 @@
                                 
                                 <li class="nav-item">
 
-                                    <a class="nav-link"
+                                    <a class="menu nav-link"
                                        data-bs-toggle="collapse"
                                        href="#publicInitialization"
                                        role="button"
@@ -165,7 +169,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"
+                                    <a class="menu nav-link"
                                        data-bs-toggle="collapse"
                                        href="#OrganizationalChart"
                                        role="button"
@@ -202,7 +206,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"
+                                    <a class="menu nav-link"
                                        data-bs-toggle="collapse"
                                        href="#PlanningAndJobDescription"
                                        role="button"
@@ -228,20 +232,24 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
+                                <li  class="nav-item">
+                                    <a id="" class="menu nav-link"
                                        data-bs-toggle="collapse"
-                                       href="#Employees"
+                                       href="#Employeesww"
                                        role="button"
                                        aria-expanded="false"
-                                       aria-controls="Employees">
+                                       aria-controls="Employeesww">
                                         <span class="link-title">تهيئة بيانات الموظفين</span>
                                         <i class="link-arrow" data-feather="chevron-down"></i>
                                     </a>
-                                    <div class="collapse" id="Employees">
+                                    <div class="collapse" id="Employeesww">
                                         <ul class="nav sub-menu">
-                                            <li class="nav-item">
+                                            <li id="IndexEmployee" class="nav-item">
                                                 <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Index">بيانات الموظف</a>
+
+                                            </li>
+                                            <li id="AddEmployee" class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="AddEmployee">اظافة بيانات الموظف</a>
 
                                             </li>
                                             <li class="nav-item">
@@ -278,7 +286,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"
+                                    <a class="menu nav-link"
                                        data-bs-toggle="collapse"
                                        href="#AttendanceAndDeparture"
                                        role="button"
@@ -329,7 +337,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"
+                                    <a class="menu nav-link"
                                        data-bs-toggle="collapse"
                                        href="#SalariesAndWages"
                                        role="button"
@@ -362,7 +370,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li class="nav-item">
+                                <li class="menu nav-item">
                                     <a class="nav-link"
                                        data-bs-toggle="collapse"
                                        href="#PenaltiesAndViolations"
@@ -1055,6 +1063,9 @@
     <script src="~/assets/vendors/prismjs/prism.js"></script>
     <script src="~/assets/vendors/clipboard/clipboard.min.js"></script>
     <!-- -------------------------------------------------- -->
+    <script src="~/assets/vendors/jquery-steps/jquery.steps.min.js"></script>
+
+    <!-- -------------------------------------------------- -->
 
     <!-- End plugin js for this page -->
     <!-- inject:js -->
@@ -1066,9 +1077,8 @@
     <script src="~/assets/js/Chart.min.js"></script>
     <script src="~/assets/js/chartjs-light.js"></script>
     <script src="~/assets/js/chat.js"></script>
-    <script src="~/assets/js/"></script>
-    <script src="~/assets/js/jquery.flot-light.js"></script>
-    <script src="~/assets/js/jquery.flot-light.js"></script>
+    <!-- -------------------------------------------------- -->
+
     <!-- endinject -->
     <!-- Custom js for this page -->
    <script src="~/assets/js/bootstrap-maxlength.js"></script>
@@ -1085,12 +1095,15 @@
     <!-- -------------------------------------------------- -->
     <script src="~/assets/js/sweet-alert.js"></script>
     <!-- -------------------------------------------------- -->
+    <script src="~/assets/js/wizard.js"></script>
+    <!-- -------------------------------------------------- -->
 
     <!-- End custom js for this page -->
 
     <!-- -------------------------------------------------- -->
     @await RenderSectionAsync("Scripts", required: false)
-
+   
+   
     <!-- Start ------------------------اضافي--------------------------->
     
       @if (ViewData["Active"] != null)
@@ -1136,7 +1149,7 @@
   
 
   @*=============================================================================================*@
-
+@* 
    <script type="text/javascript">
     $('.menu-inner li > a').click(function (e) {
 
@@ -1158,7 +1171,7 @@
       $(this).addClass('').siblings().removeClass("");
       //e.preventDefault();
     });
-   </Script>
+   </Script> *@
    <!-- End ------------------------اضافي--------------------------->
 
 </body>

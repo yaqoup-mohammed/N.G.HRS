@@ -15,10 +15,13 @@ namespace N.G.HRS.Areas.Employees.Models
         public string? Notes { get; set; }
         //======================================================
         [ForeignKey("RelativesTypeId")]
-        public int? RelativesTypeId { get; set; }
+        [Required]
+        public int RelativesTypeId { get; set; }
         public RelativesType? RelativesType { get; set; }
         //=====================================================
-        public int EmploteeId { get; set; }
+        [ForeignKey("EmployeeId")]
+        [Required]
+        public int EmployeeId { get; set; }
         public Employee? Employees {  get; set; }
     }
 }
