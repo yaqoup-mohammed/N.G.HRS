@@ -17,11 +17,11 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("RelativesTypeId")]
         [Required]
         public int RelativesTypeId { get; set; }
-        public RelativesType? RelativesType { get; set; }
+        public virtual RelativesType? RelativesType { get; set; }
         //=====================================================
         [ForeignKey("EmployeeId")]
         [Required]
         public int EmployeeId { get; set; }
-        public Employee? Employees {  get; set; }
+        public virtual Employee? Employees {  get; set; }
     }
 }

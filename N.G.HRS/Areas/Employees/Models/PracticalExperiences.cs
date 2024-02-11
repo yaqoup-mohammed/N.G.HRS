@@ -34,7 +34,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("EmployeeId")]
         [Required]
         public int EmployeeId { get; set; }
-        public Employee? Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
 
         
 

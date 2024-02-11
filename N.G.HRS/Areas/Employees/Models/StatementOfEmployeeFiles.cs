@@ -17,7 +17,7 @@ namespace N.G.HRS.Areas.Employees.Models
         //==========================================
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
-        public Employee? EmployeeOne { get; set; }
+        public virtual Employee? EmployeeOne { get; set; }
         //====================================================
         public ICollection<FunctionalFiles> FunctionalFiles { get; set; }
     }
