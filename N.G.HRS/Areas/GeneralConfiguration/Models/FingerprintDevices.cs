@@ -21,7 +21,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string DeviceStatus { get; set; }
         [Required]
         [StringLength(50)]
-        public string ConnectionType { get; set; }
+        public string? ConnectionType { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateOnly DateOfPurchase { get; set; }
@@ -41,6 +41,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [Required]
         [StringLength(255)]
         public string DeviceSpecifications { get; set;}
+        public string? IpAddress { get; set;}
+        public bool IsConnected { get; set; }=false;
+
         [StringLength(255)]
         public string? Notes { get; set; }
         //======================================

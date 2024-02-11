@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240209234539_New")]
-    partial class New
+    [Migration("20240210185924_A2")]
+    partial class A2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -579,6 +579,31 @@ namespace N.G.HRS.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.Attendance", b =>
+                {
+                    b.Property<int>("AttendanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceId"));
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("dwInOutMode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("dwVerifyMode")
+                        .HasColumnType("int");
+
+                    b.HasKey("AttendanceId");
+
+                    b.ToTable("Attendance");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.LinkingEmployeesToShiftPeriods", b =>
                 {
                     b.Property<int>("Id")
@@ -967,6 +992,9 @@ namespace N.G.HRS.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte>("FingerPrintImage")
+                        .HasColumnType("tinyint");
 
                     b.Property<int?>("FingerprintDevicesId")
                         .HasColumnType("int");
@@ -1595,6 +1623,10 @@ namespace N.G.HRS.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ManufactureCompany")
                         .IsRequired()

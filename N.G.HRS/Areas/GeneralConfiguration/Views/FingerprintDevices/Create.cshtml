@@ -1,0 +1,225 @@
+﻿@model N.G.HRS.Areas.GeneralConfiguration.Models.FingerprintDevices
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+@if (@TempData["massage"]!=null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["massage"]
+    </div>
+    
+}
+
+<h1>Create</h1>
+
+
+<h4>FingerprintDevices</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DevicesName" class="control-label"></label>
+                <input asp-for="DevicesName" class="form-control" />
+                <span asp-validation-for="DevicesName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeviceType" class="control-label"></label>
+                <input asp-for="DeviceType" class="form-control" />
+                <span asp-validation-for="DeviceType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeviceStatus" class="control-label"></label>
+                <input asp-for="DeviceStatus" class="form-control" />
+                <span asp-validation-for="DeviceStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConnectionType" class="control-label"></label>
+                <input asp-for="ConnectionType" class="form-control" />
+                <span asp-validation-for="ConnectionType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfPurchase" class="control-label"></label>
+                <input asp-for="DateOfPurchase" class="form-control" />
+                <span asp-validation-for="DateOfPurchase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorName" class="control-label"></label>
+                <input asp-for="VendorName" class="form-control" />
+                <span asp-validation-for="VendorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorPhon" class="control-label"></label>
+                <input asp-for="VendorPhon" class="form-control" />
+                <span asp-validation-for="VendorPhon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorAdress" class="control-label"></label>
+                <input asp-for="VendorAdress" class="form-control" />
+                <span asp-validation-for="VendorAdress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufactureCompany" class="control-label"></label>
+                <input asp-for="ManufactureCompany" class="form-control" />
+                <span asp-validation-for="ManufactureCompany" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeviceSpecifications" class="control-label"></label>
+                <input asp-for="DeviceSpecifications" class="form-control" />
+                <span asp-validation-for="DeviceSpecifications" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IpAddress" class="control-label"></label>
+                <input asp-for="IpAddress" class="form-control" />
+                <span asp-validation-for="IpAddress" class="text-danger"></span>
+          
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#varyingModal" >Connect</button>
+            </div>
+@*             <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsConnected" /> @Html.DisplayNameFor(model => model.IsConnected)
+                </label>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="modal fade" id="varyingModal" tabindex="-1" aria-labelledby="varyingModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="varyingModalLabel">Connect Ip</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-action="Connect">
+                            <div class="mb-3">
+                                <label asp-for="IpAddress" class="control-label"></label>
+                                <input asp-for="IpAddress" class="form-control" />
+                                <span asp-validation-for="IpAddress" class="text-danger"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*                         <button class="btn btn-primary" onclick="showSwal('title')">Click here!</button>
+
+                                *@
+                                <input type="submit" value="Connect" class="btn btn-primary" />
+
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    var varyingModal = document.getElementById('varyingModal')
+    varyingModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-whatever')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = varyingModal.querySelector('.modal-title')
+        var modalBodyInput = varyingModal.querySelector('.modal-body input')
+
+        modalTitle.textContent = 'New message to ' + recipient
+        modalBodyInput.value = recipient
+    })
+    
+</script>
+
+   @*  @if (TempData["Connecting"]!=null && TempData["Connecting"] == "Connecting...")
+    {
+        <script>
+            showSwal = function (type) {
+                'use strict';
+            if (type === 'title') {
+                    Swal.fire(
+                        'يتم محاولة الاتصال',
+                    '@TempData["Connecting"]',
+                        'try'
+                    )
+                }
+            }
+    </script>
+    }
+@if (TempData["Connect"] != null && TempData["Connecting"] == "تم الاتصال")
+    {
+        <script>
+        showSwal = function (type) {
+            'use strict';
+            if (type === 'title') {
+                Swal.fire(
+                    'متصل',
+                    '@TempData["Connect"] ',
+                    'success'
+                )
+            }
+        }
+    </script>
+}
+@if (TempData["massage"] != null && TempData["massage"] == "الجهاز متصل!!")
+    {
+        <script>
+        showSwal = function (type) {
+            'use strict';
+            if (type === 'title') {
+                Swal.fire(
+                    '!!',
+                    '@TempData["massage"] ',
+                    'exclamation '
+                )
+            }
+        }
+    </script>
+}
+else
+{
+    <script>
+        showSwal = function (type) {
+            'use strict';
+            if (type === 'title') {
+                Swal.fire(
+                    'عذرا!',
+                    '@TempData["massage"]',
+                    'field'
+                )
+            }
+        }
+    </script>
+}
+ *@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+}

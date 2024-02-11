@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.10.4" />
+    <PackageReference Include="Azure.Identity" Version="1.11.0-beta.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
@@ -29,15 +29,13 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
     <PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
+    <PackageReference Include="ZKemkeeper" Version="1.0.2" />
+    <PackageReference Include="ZkTecoFingerPrint" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\AttendanceAndDeparture\Controllers\" />
-    <Folder Include="Areas\AttendanceAndDeparture\Views\" />
     <Folder Include="Areas\Finance\Controllers\" />
     <Folder Include="Areas\Finance\Views\" />
-    <Folder Include="Areas\GeneralConfiguration\Controllers\" />
-    <Folder Include="Areas\GeneralConfiguration\Views\" />
     <Folder Include="Areas\OrganizationalChart\Controllers\" />
     <Folder Include="Areas\OrganizationalChart\Views\" />
     <Folder Include="Areas\PenaltiesAndViolations\Controllers\" />
@@ -46,6 +44,7 @@
     <Folder Include="Areas\PlanningAndJobDescription\Views\" />
     <Folder Include="Areas\SalariesAndWages\Controllers\" />
     <Folder Include="Areas\SalariesAndWages\Views\" />
+    <Folder Include="wwwroot\Images\EmployeeFingerPrint\" />
   </ItemGroup>
 
 </Project>

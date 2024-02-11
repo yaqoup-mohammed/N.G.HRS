@@ -1,0 +1,42 @@
+﻿@model N.G.HRS.Areas.AttendanceAndDeparture.Models.Attendance
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Attendance</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dwVerifyMode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dwVerifyMode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dwInOutMode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dwInOutMode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.AttendanceId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

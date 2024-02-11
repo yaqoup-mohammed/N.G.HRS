@@ -504,6 +504,7 @@ namespace N.G.HRS.Date
         public DbSet<EmployeeAccount> EmployeeAccount { get; set; } = default!;
         public DbSet<Penalties> Penalties { get; set; } = default!;
         public DbSet<Violations> Violations { get; set; } = default!;
+        public DbSet<Attendance> Attendance { get; set; } = default!;
 
 
 
