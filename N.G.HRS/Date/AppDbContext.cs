@@ -55,10 +55,11 @@ namespace N.G.HRS.Date
                 .WithMany(p => p.EmployeeList)
                 .HasForeignKey(p => p.SectionsId);
             //علاقات الموظفين مع البيانات الشخصية
+            //========================================MO-AL-MO
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.personalData)
                 .WithOne(p => p.employee)
-                .HasForeignKey<PersonalData>(b => b.Id);
+                .HasForeignKey<PersonalData>(b => b.EmployeeId);
             //========================================
             //علاقة self مع جدول الموظفين
             modelBuilder.Entity<Employee>()
@@ -74,10 +75,11 @@ namespace N.G.HRS.Date
                 .HasForeignKey(p => p.JobDescriptionId);
 
             //علاقة الموظف بالبيانات المالية
+            //================================================== MO-AL-MO
             modelBuilder.Entity<Employee>()
                 .HasOne(p => p.financialStatements)
                 .WithOne(p => p.employee)
-                .HasForeignKey<FinancialStatements>(b => b.Id);
+                .HasForeignKey<FinancialStatements>(b => b.EmployeeId);
             //================================================== MO-AL-MO
             //علاقة الموظف بالخبرات العملة
             modelBuilder.Entity<PracticalExperiences>()
@@ -119,10 +121,11 @@ namespace N.G.HRS.Date
                 .WithMany(p => p.PersonalDataList)
                 .HasForeignKey(p => p.ReligionId);
             //البيانات الشخصية مع الضمين
+            //======================================================MO-AL-MO
             modelBuilder.Entity<Guarantees>()
                .HasOne(p => p.personalData)
                .WithOne(p => p.guarantees)
-               .HasForeignKey<PersonalData>(b => b.Id);
+               .HasForeignKey<PersonalData>(b => b.GuaranteesId);
             //البيانات الشخصية مع الحالة الاجتماعية
             modelBuilder.Entity<PersonalData>()
                 .HasOne(p => p.MaritalStatus)
@@ -135,10 +138,11 @@ namespace N.G.HRS.Date
                 .WithMany(p => p.GuaranteesList)
                 .HasForeignKey(p => p.MaritalStatusId);
             //العلاقة بين الموظف والارشيف
+            //======================================================MO-AL-MO
             modelBuilder.Entity<Employee>()
                     .HasOne(p => p.employeeArchives)
                     .WithOne(p => p.employee)
-                    .HasForeignKey<EmployeeArchives>(b => b.Id);
+                    .HasForeignKey<EmployeeArchives>(b => b.EmployeeId);
             //المؤهل مع المؤهل التعليمي
             modelBuilder.Entity<Qualifications>()
                 .HasMany(j => j.EducationalQualification)
@@ -495,8 +499,7 @@ namespace N.G.HRS.Date
         public DbSet<PenaltiesAndViolationsForms> penaltiesAndViolationsForms { get; set; }
         public DbSet<Departments> Departments { get; set; }
         //================================================== MO-AL-MO
-        public DbSet<Family> Family { get; set; } = default!;
-        //public DbSet<Family> Family { get; set; } = default!;
+        public DbSet<Family> Family { get; set; } 
         public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
         public DbSet<Universities> Universities { get; set; } = default!;
         public DbSet<Sections> Sections { get; set; } = default!;

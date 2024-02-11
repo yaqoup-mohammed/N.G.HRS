@@ -47,12 +47,12 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("DepartmentsId")]
         [Required]
         public int DepartmentsId { get; set; }//
-        public Departments? Departments { get; set; }
+        public virtual Departments? Departments { get; set; }
         //=====================================
         [ForeignKey("SectionsId")]
         [Required]
         public int SectionsId { get; set; }//
-        public Sections? Sections { get; set; }
+        public virtual Sections? Sections { get; set; }
         //=====================================
         [ForeignKey("JobDescriptionId")]
         [Required]
@@ -68,11 +68,11 @@ namespace N.G.HRS.Areas.Employees.Models
         //=====================================
         [ForeignKey("FingerprintDevicesId")]
         public int? FingerprintDevicesId { get; set; }
-        public FingerprintDevices? FingerprintDevices { get; set; }
+        public virtual FingerprintDevices? FingerprintDevices { get; set; }
         //=============================
-        public EmployeeArchives? employeeArchives { get; set; }
+        public virtual EmployeeArchives? employeeArchives { get; set; }
         //========================================================
-        public PersonalData? personalData { get; set; }
+        public virtual PersonalData? personalData { get; set; }
         public FinancialStatements? financialStatements { get; set; }
        
         //===============================================
@@ -81,7 +81,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         public int ManagerId { get; set; }//
         // Navigation property for Manager
-        public Employee? Manager { get; set; }
+        public virtual Employee? Manager { get; set; }
         // Navigation property for Subordinates 
         public List<Employee>? Subordinates { get; set; }
     

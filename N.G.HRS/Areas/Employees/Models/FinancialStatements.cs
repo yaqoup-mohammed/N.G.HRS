@@ -32,10 +32,12 @@ namespace N.G.HRS.Areas.Employees.Models
         public string? Notes { get; set; }
         //يرتبط بجدول (الموظف) وجدول (العملة)ي
         //==================================================
-        public Employee employee { get; set; }
+        public int EmployeeId { get; set; }
+
+        public virtual Employee employee { get; set; }
         //===============================================
         [ForeignKey("CurrencyId")]
         public int? CurrencyId { get; set; }
-        public Currency? Currency { get; set; }
+        public virtual Currency? Currency { get; set; }
     }
 }

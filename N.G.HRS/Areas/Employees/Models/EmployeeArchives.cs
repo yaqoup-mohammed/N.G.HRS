@@ -14,7 +14,8 @@ namespace N.G.HRS.Areas.Employees.Models
         public string Descriotion { get; set; }
         public string File { get; set; }
         //====================================================
-        public Employee employee { get; set; }
+        public int EmployeeId { get; set; }
+        public virtual Employee employee { get; set; }
 
     }
 }

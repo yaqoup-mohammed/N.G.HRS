@@ -34,13 +34,13 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=============================================
-        public PersonalData personalData { get; set; }
+        public virtual PersonalData personalData { get; set; }
         //================================================
         //يرتبط مع جدول(الموظف)وجدول (الضمين)
         //==============================================
         [ForeignKey("MaritalStatusId")]
         public int MaritalStatusId { get; set; }
-        public MaritalStatus MaritalStatus { get; set; }
+        public virtual MaritalStatus MaritalStatus { get; set; }
 
     }
 }
