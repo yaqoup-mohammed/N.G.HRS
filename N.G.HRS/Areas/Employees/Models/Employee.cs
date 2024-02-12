@@ -6,6 +6,8 @@ using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using zkemkeeper;
+
 
 namespace N.G.HRS.Areas.Employees.Models
 {
@@ -40,6 +42,8 @@ namespace N.G.HRS.Areas.Employees.Models
         [DataType(DataType.Date)]
         [Display(Name = "Date Insurance ")]
         public DateOnly? DateInsurance { get; set; }//
+        public byte FingerPrintImage { get; set; }//
+        public string? ImageFile = "~/Images/EmployeeFingerPrint/";
         [StringLength(255)]
         public string? Notes { get; set; }//
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)
@@ -102,7 +106,17 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
 
+        
+        //=========================================
+        public void FingerCapture()
+        {
+            CZKEM objCZKEM = new CZKEM();
+            var localFingerPrintImage = FingerPrintImage;
 
+            bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
+
+
+        }
 
     }
 }
