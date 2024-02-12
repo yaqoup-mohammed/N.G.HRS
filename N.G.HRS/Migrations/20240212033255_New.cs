@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A : Migration
+    public partial class New : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -93,6 +93,22 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attendance",
+                columns: table => new
+                {
+                    AttendanceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    dwVerifyMode = table.Column<int>(type: "int", nullable: false),
+                    dwInOutMode = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attendance", x => x.AttendanceId);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,6 +262,8 @@ namespace N.G.HRS.Migrations
                     VendorAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ManufactureCompany = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     DeviceSpecifications = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsConnected = table.Column<bool>(type: "bit", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -1142,6 +1160,7 @@ namespace N.G.HRS.Migrations
                     UsedFingerprint = table.Column<bool>(type: "bit", nullable: false),
                     SubjectToInsurance = table.Column<bool>(type: "bit", nullable: false),
                     DateInsurance = table.Column<DateOnly>(type: "date", nullable: true),
+                    FingerPrintImage = table.Column<byte>(type: "tinyint", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     DepartmentsId = table.Column<int>(type: "int", nullable: false),
                     SectionsId = table.Column<int>(type: "int", nullable: false),
@@ -2105,6 +2124,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Attendance");
 
             migrationBuilder.DropTable(
                 name: "basicDataForTheSalaryStatements");

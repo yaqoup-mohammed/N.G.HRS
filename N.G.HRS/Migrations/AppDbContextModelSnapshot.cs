@@ -1662,6 +1662,9 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("IpAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsConnected")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ManufactureCompany")
                         .IsRequired()
                         .HasMaxLength(255)
