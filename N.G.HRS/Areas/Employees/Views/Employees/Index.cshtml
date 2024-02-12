@@ -1,5 +1,4 @@
-﻿@* @model IEnumerable<N.G.HRS.Areas.Employees.Models.Employee> *@
-@model N.G.HRS.Areas.Employees.ViewModel.EmployeeVM
+﻿@model N.G.HRS.Areas.Employees.ViewModel.EmployeeVM
 
 @{
     ViewData["Title"] = "Create";
@@ -10,10 +9,11 @@
 
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!-- Extra large modal -->
 
 <h1>Index</h1>
 <p>
-    <a asp-action="AddEmployee">Create New</a>
+    <a asp-action="AddOrEditEmployee">Create New</a>
 </p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -71,8 +71,18 @@
                                     <td>@(employee.FingerprintDevices?.DevicesName)</td>
                                     <td>@employee.Manager?.EmployeeName </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@employee.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@employee.Id">Details</a> |
+@* 
+                                        <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal"
+                                                data-url="@Url.Action($"AddEmployee/{employee.Id}")" data-bs-target="@("#AddEmployee-" + employee.Id)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                                <!-- أيقونة تحرير... -->
+                                            </svg>
+                                        </button>
+                                        @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
+ *@
+                                        <a asp-action="AddOrEditEmployee" asp-route-id="@employee.Id">Edit</a> |
                                         <a asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
                                     </td>
                                 </tr>
@@ -123,7 +133,7 @@
                                     <td>@PracticalExperiences.Duration </td>
                                     <td>@PracticalExperiences.Employee?.EmployeeName </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@PracticalExperiences.Id">Edit</a> |
+                                        <a asp-action="AddOrEditEmployee" asp-route-id="@PracticalExperiences.Id">Edit</a> |
                                         <a asp-action="Details" asp-route-id="@PracticalExperiences.Id">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@PracticalExperiences.Id">Delete</a>
                                     </td>
@@ -172,7 +182,7 @@
                                     <td>@Family.Employees?.EmployeeName </td>
                                     <td>@Family.Notes </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@Family.Id">Edit</a> |
+                                        <a asp-action="AddOrEditEmployee" asp-route-id="@Family.Id">Edit</a> |
                                         <a asp-action="Details" asp-route-id="@Family.Id">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@Family.Id">Delete</a>
                                     </td>

@@ -14,14 +14,10 @@ namespace N.G.HRS.Areas.Employees.ViewModel
         public Qualifications Qualifications { get; set; }
         public StatementOfEmployeeFiles StatementOfEmployeeFiles { get; set; }
         public TrainingCourses TrainingCourses { get; set; }
-        //public List<Employee> Employees { get; set; } = new List<Employee>();
         public List<Employee> EmployeeList { get; set; }
         public List<PracticalExperiences> PracticalExperiencesList { get; set; }
         public List<Family> FamilyList { get; set; }
         public List<PersonalData> PersonalDataList { get; set; }
-        public EmployeeVM()
-        {
-
-        }
+        
     }
 }
