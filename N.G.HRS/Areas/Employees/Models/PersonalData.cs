@@ -16,10 +16,9 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         [Range(0, 100,ErrorMessage ="يجب ان يكون العمر اكبر من الصفر")]
         public int Age { get; set; }//
-        [Required]
         [StringLength(13)]
         [Phone]
-        public string HomePhone { get; set; }//
+        public string? HomePhone { get; set; }//
         [Required]
         [StringLength(100)]
         [EmailAddress]
@@ -30,7 +29,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public string PhoneNumber { get; set; }//
         [Required]
         [StringLength(255)]
-        public string Address { get; set; }//
+        public string? Address { get; set; }//
         [StringLength(255)]
         public string? Notes { get; set; }//
         [Required]
@@ -76,7 +75,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [ForeignKey("ReligionId")]
         [Required]
         public int ReligionId { get; set; }//
-        public virtual Religion Religion { get; set; }
+        public virtual Religion? Religion { get; set; }
         //=
         [ForeignKey("MaritalStatusId")]
         [Required]

@@ -17,7 +17,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public ICollection<Specialties> Specialties { get; set; }
         public ICollection<Universities> universities { get; set; }
 
-
         //=================================================
         //public List<Universities> universitiesList { get; set; }
         //=====================================================

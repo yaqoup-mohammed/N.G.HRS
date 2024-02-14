@@ -43,7 +43,9 @@ namespace N.G.HRS.Areas.Employees.Models
         [Display(Name = "Date Insurance ")]
         public DateOnly? DateInsurance { get; set; }//
         public byte FingerPrintImage { get; set; }//
-        public string? ImageFile = "~/Images/EmployeeFingerPrint/";
+        public string? ImageFile { get; set; }
+        [NotMapped]
+        public IFormFile ?FileUpload { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }//
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)

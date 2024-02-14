@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.Employees.ViewModel;
+using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
+using N.G.HRS.Repository.File_Upload;
 using NuGet.Protocol.Core.Types;
 using System.Drawing;
 
@@ -18,6 +20,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
     public class EmployeesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IFileUploadService _fileUploadService;
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Sections> _sectionsrepository;
         private readonly IRepository<Departments> _departmentsrepository;
@@ -30,9 +33,16 @@ namespace N.G.HRS.Areas.Employees.Controllers
         private readonly IRepository<Sex> _sexrepository;
         private readonly IRepository<Religion> _religionrepository;
         private readonly IRepository<Nationality> _nationalityrepository;
+        //private readonly IRepository<EducationalQualification> _educationalQualificationrepository;
+        //private readonly IRepository<Specialties> _specialtiesrepository;
+        //private readonly IRepository<Universities> _universitiesrepository;
+        private readonly IRepository<Qualifications> _qualificationsrepository;
         private readonly IRepository<MaritalStatus> _maritalStatusrepository;
+        private readonly IRepository<Currency> _currencyrepository;
+        private readonly IRepository<TrainingCourses> _trainingCoursesrepository;
+        private readonly IRepository<FinancialStatements> _financialStatementsrepository;
 
-        public EmployeesController(AppDbContext context, IRepository<Employee> employeeRepository,
+        public EmployeesController(AppDbContext context, IFileUploadService fileUploadService, IRepository<Employee> employeeRepository,
             IRepository<Sections> sectionsrepository,
             IRepository<Departments> departmentsrepository,
             IRepository<JobDescription> jobDescriptionrepository,
@@ -44,11 +54,19 @@ namespace N.G.HRS.Areas.Employees.Controllers
             IRepository<Sex> Sexrepository,
             IRepository<Religion> Religionrepository,
             IRepository<Nationality> Nationalityrepository,
-            IRepository<MaritalStatus> MaritalStatusrepository
+            //IRepository<EducationalQualification> EducationalQualificationrepository,
+            //IRepository<Specialties> Specialtiesrepository,
+            //IRepository<Universities> Universitiesrepository,
+            //IRepository<Qualifications> Qualificationsrepository,
+            IRepository<MaritalStatus> MaritalStatusrepository,
+            IRepository<Currency> Currencyrepository,
+            IRepository<TrainingCourses> TrainingCoursesrepository,
+            IRepository<FinancialStatements> FinancialStatementsrepository
 
             )
         {
             this._context = context;
+            this._fileUploadService = fileUploadService;
             this._employeeRepository = employeeRepository;
             this._sectionsrepository = sectionsrepository;
             this._departmentsrepository = departmentsrepository;
@@ -62,7 +80,14 @@ namespace N.G.HRS.Areas.Employees.Controllers
             this._sexrepository = Sexrepository;
             this._religionrepository = Religionrepository;
             this._nationalityrepository = Nationalityrepository;
+            //this._educationalQualificationrepository = EducationalQualificationrepository;
+            //this._specialtiesrepository = Specialtiesrepository;
+            //this._universitiesrepository = Universitiesrepository;
+            //this._qualificationsrepository = Qualificationsrepository;
             this._maritalStatusrepository = MaritalStatusrepository;
+            this._currencyrepository = Currencyrepository;
+            this._trainingCoursesrepository = TrainingCoursesrepository;
+            this._financialStatementsrepository = FinancialStatementsrepository;
         }
 
         public async Task<IActionResult> Index()
@@ -84,89 +109,70 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 .Include(p => p.Nationality).Include(p => p.Religion).Include(p => p.Sex)
                 .Include(p => p.employee).Include(p => p.guarantees).ToListAsync();
             //-------------------------------------------------------
+            var guarantees = await _context.guarantees.Include(g => g.MaritalStatus).ToListAsync();
+            //-------------------------------------------------------
+            var FinancialStatements = await _context.financialStatements.Include(f => f.Currency).Include(f => f.employee).ToListAsync();
+            //-------------------------------------------------------
+            var TrainingCourses = await _context.trainingCourses.Include(t => t.EmployeeOne).ToListAsync();
 
-            if (personalData == null|| family == null || practicalExperiences == null || employees == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                var viewModel = new EmployeeVM
+            //-------------------------------------------------------
+
+
+            var viewModel = new EmployeeVM
                 {
                     EmployeeList = employees,
                     PracticalExperiencesList = practicalExperiences,
                     FamilyList = family,
                     PersonalDataList = personalData,
+                    guaranteesList = guarantees,
+                    FinancialStatementsList = FinancialStatements,
+                    TrainingCoursesList = TrainingCourses,
 
                 };
                 return View(viewModel);
-            }
+            
   
         }
         // Example with English naming convention
-        public async Task<IActionResult> AddOrEditEmployee(int? id)
+        public async Task<IActionResult> AddEmployee()
         {
             await PopulateDropdownListsAsync();
-            var viewModel = new EmployeeVM
-            {
-                Employee = await _employeeRepository.GetByIdAsync(id),
-            };
-
-            if (id == null)
-            {
+            var viewModel = new EmployeeVM();
+             
                 return View(viewModel);
-            }
-            else
-            {
-                var employeeViewModel = new EmployeeVM
-                {
-                    PersonalData = await _personalDatarepository.GetByIdAsync(id),
-                    Employee = await _employeeRepository.GetByIdAsync(id),
-                    Family = await _familyrepository.GetByIdAsync(id),
-                    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
-                };
-              return View(employeeViewModel);
-            }
+            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEditEmployee(int? id, EmployeeVM viewModel)
+        public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
         {
-            await PopulateDropdownListsAsync();
-
-            if (viewModel != null)
+            try
             {
-                if (id != null)
+                await PopulateDropdownListsAsync();
+
+                if (viewModel.Employee != null)
                 {
-                    if (id != viewModel.Employee.Id)
-                    {
-                        return NotFound();
-                    }
 
-                    var existingEntity = await _employeeRepository.GetByIdAsync(id);
-                    if (existingEntity != null)
-                    {
-                        _context.Entry(existingEntity).State = EntityState.Detached;
-                    }
+                    // تحميل الملف باستخدام خدمة التحميل الملفات
 
-                    // Now you can safely attach the updated entity
-                    await _employeeRepository.UpdateAsync(viewModel.Employee);
-
-                    TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
+                        var filePath = await _fileUploadService.UploadFileAsync(viewModel.Employee.FileUpload, "Images");
+                        viewModel.Employee.ImageFile = filePath;
+                    
                     await _employeeRepository.AddAsync(viewModel.Employee);
 
                     TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(AddOrEditEmployee));
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة الموظف";
             }
 
             return View(viewModel);
@@ -175,86 +181,58 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEditPracticalExperiencesToEmployee(int? id  ,EmployeeVM viewModel)
+        public async Task<IActionResult> AddPracticalExperiencesToEmployee(EmployeeVM viewModel)
         {
-            // Populate ViewData for dropdown lists
-            await PopulateDropdownListsAsync();
-
-            if (viewModel != null)
+            try
             {
-                if (id != null)
-                {
-                    if (id != viewModel.PracticalExperiences.Id)
-                    {
-                        return NotFound();
-                    }
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
 
-                    var existingEntity = await _practicalExperiencesrepository.GetByIdAsync(id);
-                    if (existingEntity != null)
-                    {
-                        _context.Entry(existingEntity).State = EntityState.Detached;
-                    }
-
-                    // Now you can safely attach the updated entity
-                    await _practicalExperiencesrepository.UpdateAsync(viewModel.PracticalExperiences);
-
-                    TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
+                if (viewModel.PracticalExperiences != null)
                 {
                     await _practicalExperiencesrepository.AddAsync(viewModel.PracticalExperiences);
 
                     TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(AddOrEditEmployee));
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة الخبرات العملية للموظف";
             }
 
             return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEditFamilyToEmployee(int? id,EmployeeVM viewModel)
+        public async Task<IActionResult> AddFamilyToEmployee(EmployeeVM viewModel)
         {
-            // Populate ViewData for dropdown lists
-            await PopulateDropdownListsAsync();
-
-            if (viewModel != null)
+            try
             {
-                if (id != null)
-                {
-                    if (id != viewModel.Family.Id)
-                    {
-                        return NotFound();
-                    }
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
 
-                    var existingEntity = await _familyrepository.GetByIdAsync(id);
-                    if (existingEntity != null)
-                    {
-                        _context.Entry(existingEntity).State = EntityState.Detached;
-                    }
-
-                    // Now you can safely attach the updated entity
-                    await _familyrepository.UpdateAsync(viewModel.Family);
-
-                    TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
+                if (viewModel.Family != null)
                 {
                     await _familyrepository.AddAsync(viewModel.Family);
 
                     TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(AddOrEditEmployee));
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة العائلة للموظف";
             }
 
             return View(viewModel);
@@ -262,43 +240,118 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEditPersonalDataToEmployee(int? id, EmployeeVM viewModel)
+        public async Task<IActionResult> AddPersonalDataToEmployee( EmployeeVM viewModel)
         {
-            // Populate ViewData for dropdown lists
-            await PopulateDropdownListsAsync();
-
-            if (viewModel != null)
+            try
             {
-                if (id != null)
-                {
-                    if (id != viewModel.PersonalData.Id)
-                    {
-                        return NotFound();
-                    }
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
 
-                    var existingEntity = await _personalDatarepository.GetByIdAsync(id);
-                    if (existingEntity != null)
-                    {
-                        _context.Entry(existingEntity).State = EntityState.Detached;
-                    }
-
-                    // Now you can safely attach the updated entity
-                    await _personalDatarepository.UpdateAsync(viewModel.PersonalData);
-
-                    TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
+                if (viewModel.PersonalData != null)
                 {
                     await _personalDatarepository.AddAsync(viewModel.PersonalData);
 
                     TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(AddOrEditEmployee));
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات الشخصية للموظف";
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddGuarantees( EmployeeVM viewModel)
+        {
+            try
+            {
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
+
+                if (viewModel.Guarantees != null)
+                {
+                    await _guaranteesrepository.AddAsync(viewModel.Guarantees);
+
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة الضمانات للموظف";
+            }
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFinancialStatements(EmployeeVM viewModel)
+        {
+            try
+            {
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
+
+                if (viewModel.FinancialStatements != null)
+                {
+                    await _financialStatementsrepository.AddAsync(viewModel.FinancialStatements);
+
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات المالية للموظف";
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTrainingCourses(EmployeeVM viewModel)
+        {
+            try
+            {
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
+
+                if (viewModel.TrainingCourses != null)
+                {
+                    await _trainingCoursesrepository.AddAsync(viewModel.TrainingCourses);
+
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات المالية للموظف";
             }
 
             return View(viewModel);
@@ -335,6 +388,23 @@ namespace N.G.HRS.Areas.Employees.Controllers
             //-----------------------Sex---------------------------
             var Sex = await _sexrepository.GetAllAsync();
             ViewData["Sex"] = new SelectList(Sex, "Id", "Name");
+            //-----------------------Guarantees---------------------------
+            var Guarantees = await _guaranteesrepository.GetAllAsync();
+            ViewData["Guarantees"] = new SelectList(Guarantees, "Id", "Name");
+               //-----------------------Guarantees---------------------------
+            var Currency = await _currencyrepository.GetAllAsync();
+            ViewData["Currency"] = new SelectList(Currency, "Id", "CurrencyName");
+
+            ////-----------------------educationalQualificationr---------------------------
+            //var educationalQualificationr = await _educationalQualificationrepository.GetAllAsync();
+            //ViewData["educationalQualificationr"] = new SelectList(educationalQualificationr, "Id", "Name");
+            ////-----------------------specialties---------------------------
+            //var specialties = await _specialtiesrepository.GetAllAsync();
+            //ViewData["specialties"] = new SelectList(specialties, "Id", "Name");
+            ////-----------------------universities---------------------------
+            //var universities = await _universitiesrepository.GetAllAsync();
+            //ViewData["universities"] = new SelectList(universities, "Id", "Name");
+
             //===============================================================================================
             //---------------GuaranteesOne-------- One to One الجداول الذي العلاقة بينها--------------------------
             // استرجاع كل الضمانات
@@ -353,7 +423,14 @@ namespace N.G.HRS.Areas.Employees.Controllers
             //===============================================================================================
 
         }
-      
-   }
+        //TempData["Edit"] = "Edit";
+        //var employeeViewModel = new EmployeeVM
+        //{
+        //    PersonalData = await _personalDatarepository.GetByIdAsync(id),
+        //    Employee = await _employeeRepository.GetByIdAsync(id),
+        //    Family = await _familyrepository.GetByIdAsync(id),
+        //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
+        //};
+    }
 }
 
