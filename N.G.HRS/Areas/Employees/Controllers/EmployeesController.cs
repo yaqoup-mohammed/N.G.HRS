@@ -155,8 +155,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 {
 
                     // تحميل الملف باستخدام خدمة التحميل الملفات
-
-                        var filePath = await _fileUploadService.UploadFileAsync(viewModel.Employee.FileUpload, "Images");
+                        var file = viewModel.Employee.FileUpload;
+                        var filePath = await _fileUploadService.UploadFileAsync(file, "Upload/Images");
                         viewModel.Employee.ImageFile = filePath;
                     
                     await _employeeRepository.AddAsync(viewModel.Employee);

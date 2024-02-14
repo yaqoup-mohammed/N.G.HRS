@@ -13,6 +13,8 @@ namespace N.G.HRS.Areas.Employees.Models
         public string Notes { get; set; }
         public string Descriotion { get; set; }
         public string File { get; set; }
+        [NotMapped]
+        public IFormFile? FileUpload { get; set; }
         //====================================================
         public int EmployeeId { get; set; }
         public virtual Employee employee { get; set; }
