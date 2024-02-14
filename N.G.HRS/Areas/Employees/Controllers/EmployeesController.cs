@@ -36,7 +36,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //private readonly IRepository<EducationalQualification> _educationalQualificationrepository;
         //private readonly IRepository<Specialties> _specialtiesrepository;
         //private readonly IRepository<Universities> _universitiesrepository;
-        private readonly IRepository<Qualifications> _qualificationsrepository;
+        //private readonly IRepository<Qualifications> _qualificationsrepository;
         private readonly IRepository<MaritalStatus> _maritalStatusrepository;
         private readonly IRepository<Currency> _currencyrepository;
         private readonly IRepository<TrainingCourses> _trainingCoursesrepository;
