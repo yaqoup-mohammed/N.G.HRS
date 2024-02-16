@@ -40,6 +40,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         private readonly IRepository<MaritalStatus> _maritalStatusrepository;
         private readonly IRepository<Currency> _currencyrepository;
         private readonly IRepository<TrainingCourses> _trainingCoursesrepository;
+        private readonly IRepository<EmployeeArchives> _employeeArchivesrepository;
         private readonly IRepository<FinancialStatements> _financialStatementsrepository;
 
         public EmployeesController(AppDbContext context, IFileUploadService fileUploadService, IRepository<Employee> employeeRepository,
@@ -61,6 +62,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             IRepository<MaritalStatus> MaritalStatusrepository,
             IRepository<Currency> Currencyrepository,
             IRepository<TrainingCourses> TrainingCoursesrepository,
+            IRepository<EmployeeArchives> EmployeeArchivesrepository,
             IRepository<FinancialStatements> FinancialStatementsrepository
 
             )
@@ -87,6 +89,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             this._maritalStatusrepository = MaritalStatusrepository;
             this._currencyrepository = Currencyrepository;
             this._trainingCoursesrepository = TrainingCoursesrepository;
+            this._employeeArchivesrepository = EmployeeArchivesrepository;
             this._financialStatementsrepository = FinancialStatementsrepository;
         }
 
@@ -116,6 +119,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
             var TrainingCourses = await _context.trainingCourses.Include(t => t.EmployeeOne).ToListAsync();
 
             //-------------------------------------------------------
+            var EmployeeArchives = await _context.EmployeeArchives.Include(e => e.employee).ToListAsync();
+
+            //-------------------------------------------------------
 
 
             var viewModel = new EmployeeVM
@@ -127,6 +133,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                     guaranteesList = guarantees,
                     FinancialStatementsList = FinancialStatements,
                     TrainingCoursesList = TrainingCourses,
+                    EmployeeArchivesList = EmployeeArchives,
 
                 };
                 return View(viewModel);
@@ -351,11 +358,47 @@ namespace N.G.HRS.Areas.Employees.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it accordingly
-                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات المالية للموظف";
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات الدورات للموظف";
             }
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmployeeArchives(EmployeeVM viewModel)
+        {
+            try
+            {
+                // Populate ViewData for dropdown lists
+                await PopulateDropdownListsAsync();
+
+                if (viewModel.EmployeeArchives != null)
+                {
+                    // تحميل الملف باستخدام خدمة التحميل الملفات
+                    var file = viewModel.Employee.FileUpload;
+                    var filePath = await _fileUploadService.UploadFileAsync(file, "Upload/PDF");
+                    viewModel.Employee.ImageFile = filePath;
+                    await _employeeArchivesrepository.AddAsync(viewModel.EmployeeArchives);
+
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(AddEmployee));
+                }
+                else
+                {
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات الارشيف للموظف";
+            }
+
+            return View(viewModel);
+        }
+
+
         private async Task PopulateDropdownListsAsync()
         {
             //-----------------------Sections---------------------------

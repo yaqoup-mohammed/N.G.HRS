@@ -785,7 +785,7 @@ namespace N.G.HRS.Migrations
                     ShopAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     HomeAdress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     NumberOfDependents = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     MaritalStatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -1161,6 +1161,7 @@ namespace N.G.HRS.Migrations
                     SubjectToInsurance = table.Column<bool>(type: "bit", nullable: false),
                     DateInsurance = table.Column<DateOnly>(type: "date", nullable: true),
                     FingerPrintImage = table.Column<byte>(type: "tinyint", nullable: false),
+                    ImageFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     DepartmentsId = table.Column<int>(type: "int", nullable: false),
                     SectionsId = table.Column<int>(type: "int", nullable: false),
@@ -1276,9 +1277,9 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descriotion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    File = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descriotion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    File = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -1358,7 +1359,7 @@ namespace N.G.HRS.Migrations
                     SalaryEndDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    CurrencyId = table.Column<int>(type: "int", nullable: true)
+                    CurrencyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1367,7 +1368,8 @@ namespace N.G.HRS.Migrations
                         name: "FK_financialStatements_Currency_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currency",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_financialStatements_employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -1480,7 +1482,7 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    HomePhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    HomePhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),

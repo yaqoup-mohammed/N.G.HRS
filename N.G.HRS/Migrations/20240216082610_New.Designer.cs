@@ -12,7 +12,7 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240212033255_New")]
+    [Migration("20240216082610_New")]
     partial class New
     {
         /// <inheritdoc />
@@ -999,6 +999,9 @@ namespace N.G.HRS.Migrations
                     b.Property<int?>("FingerprintDevicesId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageFile")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JobDescriptionId")
                         .HasColumnType("int");
 
@@ -1051,18 +1054,15 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Descriotion")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("File")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -1119,7 +1119,7 @@ namespace N.G.HRS.Migrations
                     b.Property<decimal>("BasicSalary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CurrencyId")
+                    b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
@@ -1183,7 +1183,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -1249,7 +1248,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("HomePhone")
-                        .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
@@ -2900,7 +2898,9 @@ namespace N.G.HRS.Migrations
                 {
                     b.HasOne("N.G.HRS.Areas.Finance.Models.Currency", "Currency")
                         .WithMany("FinancialStatementsList")
-                        .HasForeignKey("CurrencyId");
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "employee")
                         .WithOne("financialStatements")
@@ -3267,8 +3267,7 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Guarantees", b =>
                 {
-                    b.Navigation("personalData")
-                        .IsRequired();
+                    b.Navigation("personalData");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.Currency", b =>

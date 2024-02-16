@@ -7,3 +7,11 @@ $(function() {
   $('#myDropify').dropify();
 
 });
+
+//------------------------------------------------------MO-AL-MO
+$(function () {
+    'use strict';
+
+    $('.Dropify').dropify();
+
+});

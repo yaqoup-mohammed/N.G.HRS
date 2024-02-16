@@ -14,6 +14,8 @@ namespace N.G.HRS.Areas.Employees.ViewModel
         public Qualifications Qualifications { get; set; }
         public StatementOfEmployeeFiles StatementOfEmployeeFiles { get; set; }
         public TrainingCourses TrainingCourses { get; set; }//
+        public EmployeeArchives EmployeeArchives { get; set; }//
+
         public List<Employee> EmployeeList { get; set; }
         public List<PracticalExperiences> PracticalExperiencesList { get; set; }
         public List<Family> FamilyList { get; set; }
@@ -21,6 +23,7 @@ namespace N.G.HRS.Areas.Employees.ViewModel
         public List<Guarantees> guaranteesList { get; set; }
         public List<FinancialStatements> FinancialStatementsList { get; set; }
         public List<TrainingCourses> TrainingCoursesList { get; set; }
+        public List<EmployeeArchives> EmployeeArchivesList { get; set; }
         
     }
 }
