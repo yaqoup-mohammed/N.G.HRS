@@ -376,9 +376,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 if (viewModel.EmployeeArchives != null)
                 {
                     // تحميل الملف باستخدام خدمة التحميل الملفات
-                    var file = viewModel.Employee.FileUpload;
+                    var file = viewModel.EmployeeArchives.FileUpload;
                     var filePath = await _fileUploadService.UploadFileAsync(file, "Upload/PDF");
-                    viewModel.Employee.ImageFile = filePath;
+                    viewModel.EmployeeArchives.File = filePath;
                     await _employeeArchivesrepository.AddAsync(viewModel.EmployeeArchives);
 
                     TempData["Success"] = "تم الحفظ بنجاح";

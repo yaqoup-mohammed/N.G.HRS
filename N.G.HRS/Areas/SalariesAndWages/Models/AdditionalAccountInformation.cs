@@ -14,8 +14,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public int PercentageOnTheEmployee { get; set; }
         [Required]
         [Range(1, 100)]
-        public int percentage
-        { get; set; }
+        public int percentage{ get; set; }
         public bool HealthInsuranceIncluded { get; set; }
         public bool IncludesRetirementInsurance { get; set; }
         public bool IncludesTheWorkShareInRetirementInsurance { get; set; }
