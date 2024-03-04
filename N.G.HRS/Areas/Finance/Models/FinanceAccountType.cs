@@ -1,5 +1,6 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AalariesAndWages.Models;
+using N.G.HRS.Areas.PayRoll.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.Finance.Models
@@ -18,6 +19,8 @@ namespace N.G.HRS.Areas.Finance.Models
         public List<SectionsAccounts> SectionsAccountsList { get; set; }
         //=
         public List<EmployeeAccount> EmployeeAccountsList { get; set; }
+        //=
+        public List<EntitlementsAndDeductions> EntitlementsAndDeductionsList { get; set; }
         //=
 
 

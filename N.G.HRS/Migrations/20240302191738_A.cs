@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class New : Migration
+    public partial class A : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,25 +15,22 @@ namespace N.G.HRS.Migrations
                 name: "additionalAccountInformation",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PercentageOnTheCompany = table.Column<int>(type: "int", nullable: false),
-                    PercentageOnTheEmployee = table.Column<int>(type: "int", nullable: false),
-                    percentage = table.Column<int>(type: "int", nullable: false),
-                    HealthInsuranceIncluded = table.Column<bool>(type: "bit", nullable: false),
-                    IncludesRetirementInsurance = table.Column<bool>(type: "bit", nullable: false),
-                    IncludesTheWorkShareInRetirementInsurance = table.Column<bool>(type: "bit", nullable: false),
-                    IncludesTaxCalculation = table.Column<bool>(type: "bit", nullable: false),
-                    AllowancesIncluded = table.Column<bool>(type: "bit", nullable: false),
-                    IncludesAdditionalData = table.Column<bool>(type: "bit", nullable: false),
-                    TaxFrom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Day = table.Column<DateOnly>(type: "date", nullable: false),
+                    NormalCoefficient = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    WeekendLaboratories = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OfficialHolidaysLab = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NightPeriodParameter = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LaboratoriesPerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ToDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_additionalAccountInformation", x => x.ID);
+                    table.PrimaryKey("PK_additionalAccountInformation", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,7 +45,8 @@ namespace N.G.HRS.Migrations
                     AddedToAllEmployees = table.Column<bool>(type: "bit", nullable: false),
                     CumulativeAllowance = table.Column<bool>(type: "bit", nullable: false),
                     SubjectToInsurance = table.Column<bool>(type: "bit", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Percentage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -121,12 +119,12 @@ namespace N.G.HRS.Migrations
                     RetirementInsuranceIncluded = table.Column<bool>(type: "bit", nullable: false),
                     IncludesTheWorkShareInRetirementInsurance = table.Column<bool>(type: "bit", nullable: false),
                     IncludesTaxCalculation = table.Column<bool>(type: "bit", nullable: false),
-                    TaxFrom = table.Column<bool>(type: "bit", nullable: false),
+                    TaxFrom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AllowancesIncluded = table.Column<bool>(type: "bit", nullable: false),
                     IncludesAdditionalData = table.Column<bool>(type: "bit", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Percentage = table.Column<int>(type: "int", nullable: false),
                     PercentageOnEmployee = table.Column<int>(type: "int", nullable: false),
                     PercentageOnCompany = table.Column<int>(type: "int", nullable: false)
@@ -1237,6 +1235,38 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AutomaticallyApprovedAdd_on",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    FromTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    ToTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    Hours = table.Column<double>(type: "float", nullable: false),
+                    Minutes = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AutomaticallyApprovedAdd_on", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AutomaticallyApprovedAdd_on_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AutomaticallyApprovedAdd_on_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeAccount",
                 columns: table => new
                 {
@@ -1294,6 +1324,63 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeLoans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InstallmentStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Arrest = table.Column<bool>(type: "bit", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    InstallmentAmount = table.Column<double>(type: "float", nullable: false),
+                    NumberOfInstallmentMonths = table.Column<double>(type: "float", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeLoans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeLoans_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeLoans_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeePerks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Percentage = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeePerks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeePerks_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeesQualifications",
                 columns: table => new
                 {
@@ -1313,6 +1400,44 @@ namespace N.G.HRS.Migrations
                         name: "FK_EmployeesQualifications_qualifications_qualificationsId",
                         column: x => x.qualificationsId,
                         principalTable: "qualifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EntitlementsAndDeductions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Taxable = table.Column<bool>(type: "bit", nullable: false),
+                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: true),
+                    Amount = table.Column<double>(type: "float", nullable: true),
+                    Percentage = table.Column<int>(type: "int", nullable: true),
+                    CurrencyId = table.Column<int>(type: "int", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EntitlementsAndDeductions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EntitlementsAndDeductions_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EntitlementsAndDeductions_FinanceAccountType_FinanceAccountTypeId",
+                        column: x => x.FinanceAccountTypeId,
+                        principalTable: "FinanceAccountType",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EntitlementsAndDeductions_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1639,6 +1764,80 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VacationAllowances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmplyeeId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    VacationBalance = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    CarryoverBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VacationAllowances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VacationAllowances_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeAdvances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentsId = table.Column<int>(type: "int", nullable: false),
+                    SectionId = table.Column<int>(type: "int", nullable: false),
+                    SectionsId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeAccountId = table.Column<int>(type: "int", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeAdvances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeAdvances_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeAdvances_Departments_DepartmentsId",
+                        column: x => x.DepartmentsId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeAdvances_EmployeeAccount_EmployeeAccountId",
+                        column: x => x.EmployeeAccountId,
+                        principalTable: "EmployeeAccount",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EmployeeAdvances_Sections_SectionsId",
+                        column: x => x.SectionsId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeAdvances_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FunctionalFilesOfStatementOfEmployeeFiles",
                 columns: table => new
                 {
@@ -1760,6 +1959,16 @@ namespace N.G.HRS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AutomaticallyApprovedAdd_on_DepartmentId",
+                table: "AutomaticallyApprovedAdd_on",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AutomaticallyApprovedAdd_on_EmployeeId",
+                table: "AutomaticallyApprovedAdd_on",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_boardOfDirectors_MembershipOfTheBoardOfDirectorsId",
                 table: "boardOfDirectors",
                 column: "MembershipOfTheBoardOfDirectorsId");
@@ -1850,15 +2059,70 @@ namespace N.G.HRS.Migrations
                 column: "FinanceAccountTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeAdvances_CurrencyId",
+                table: "EmployeeAdvances",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeAdvances_DepartmentsId",
+                table: "EmployeeAdvances",
+                column: "DepartmentsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeAdvances_EmployeeAccountId",
+                table: "EmployeeAdvances",
+                column: "EmployeeAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeAdvances_EmployeeId",
+                table: "EmployeeAdvances",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeAdvances_SectionsId",
+                table: "EmployeeAdvances",
+                column: "SectionsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeeArchives_EmployeeId",
                 table: "EmployeeArchives",
                 column: "EmployeeId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeLoans_CurrencyId",
+                table: "EmployeeLoans",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeLoans_EmployeeId",
+                table: "EmployeeLoans",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeePerks_EmployeeId",
+                table: "EmployeePerks",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeesQualifications_qualificationsId",
                 table: "EmployeesQualifications",
                 column: "qualificationsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntitlementsAndDeductions_CurrencyId",
+                table: "EntitlementsAndDeductions",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntitlementsAndDeductions_EmployeeId",
+                table: "EntitlementsAndDeductions",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntitlementsAndDeductions_FinanceAccountTypeId",
+                table: "EntitlementsAndDeductions",
+                column: "FinanceAccountTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Family_EmployeeId",
@@ -2074,6 +2338,11 @@ namespace N.G.HRS.Migrations
                 column: "universitiesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_VacationAllowances_EmployeeId",
+                table: "VacationAllowances",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_weekends_PeriodsId",
                 table: "weekends",
                 column: "PeriodsId");
@@ -2131,6 +2400,9 @@ namespace N.G.HRS.Migrations
                 name: "Attendance");
 
             migrationBuilder.DropTable(
+                name: "AutomaticallyApprovedAdd_on");
+
+            migrationBuilder.DropTable(
                 name: "basicDataForTheSalaryStatements");
 
             migrationBuilder.DropTable(
@@ -2143,13 +2415,22 @@ namespace N.G.HRS.Migrations
                 name: "EducationalQualificationAndQualification");
 
             migrationBuilder.DropTable(
-                name: "EmployeeAccount");
+                name: "EmployeeAdvances");
 
             migrationBuilder.DropTable(
                 name: "EmployeeArchives");
 
             migrationBuilder.DropTable(
+                name: "EmployeeLoans");
+
+            migrationBuilder.DropTable(
+                name: "EmployeePerks");
+
+            migrationBuilder.DropTable(
                 name: "EmployeesQualifications");
+
+            migrationBuilder.DropTable(
+                name: "EntitlementsAndDeductions");
 
             migrationBuilder.DropTable(
                 name: "Family");
@@ -2206,6 +2487,9 @@ namespace N.G.HRS.Migrations
                 name: "UniversitiesAndQualification");
 
             migrationBuilder.DropTable(
+                name: "VacationAllowances");
+
+            migrationBuilder.DropTable(
                 name: "weekends");
 
             migrationBuilder.DropTable(
@@ -2219,6 +2503,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "educationalQualifications");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeAccount");
 
             migrationBuilder.DropTable(
                 name: "relativesTypes");
@@ -2245,12 +2532,6 @@ namespace N.G.HRS.Migrations
                 name: "sex");
 
             migrationBuilder.DropTable(
-                name: "FinanceAccountType");
-
-            migrationBuilder.DropTable(
-                name: "FinanceAccount");
-
-            migrationBuilder.DropTable(
                 name: "specialties");
 
             migrationBuilder.DropTable(
@@ -2264,6 +2545,12 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "permanenceModels");
+
+            migrationBuilder.DropTable(
+                name: "FinanceAccountType");
+
+            migrationBuilder.DropTable(
+                name: "FinanceAccount");
 
             migrationBuilder.DropTable(
                 name: "employee");

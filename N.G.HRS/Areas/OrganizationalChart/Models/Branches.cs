@@ -13,14 +13,14 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public string BranchesName { get; set; }
         [Required]
         [StringLength (255)]
-        public string BranchesAdress { get; set; }
+        public string? BranchesAdress { get; set; }
         [Required]
         [StringLength (13)]
         [Phone]
-        public string BranchesPhone { get; set; }
+        public string? BranchesPhone { get; set; }
         [Required]
         [EmailAddress]
-        public string BranchesEmail { get; set; }
+        public string? BranchesEmail { get; set; }
         
         [StringLength(255)]
         public string? Notes { get; set; }

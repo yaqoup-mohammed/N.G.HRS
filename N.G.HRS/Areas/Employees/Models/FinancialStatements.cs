@@ -13,13 +13,13 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(100)]
         public string NatureOfEmployment { get; set; }
         [Required]
-        [Range(0, 999.99)]
+        [Range(0, 999999.99)]
         public decimal BasicSalary { get; set; }
         [Required]
 
-        public int InsuranceAccountNumber { get; set; }
+        public int? InsuranceAccountNumber { get; set; }
         [Required]
-        public int BankAccountNumber { get; set; }
+        public int? BankAccountNumber { get; set; }
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Salary Start Date")]

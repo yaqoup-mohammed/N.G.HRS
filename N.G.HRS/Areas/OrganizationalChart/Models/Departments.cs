@@ -1,5 +1,6 @@
 ﻿using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.PayRoll.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,6 +20,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public List<Sections>? SectionsList { get; set; }
         //=
         public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
+        //=
+        //=
+        public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
         //=
 
         //=========================================

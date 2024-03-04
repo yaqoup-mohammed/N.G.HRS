@@ -10,7 +10,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public bool RetirementInsuranceIncluded { get; set; }
         public bool IncludesTheWorkShareInRetirementInsurance { get; set; }
         public bool IncludesTaxCalculation { get; set; }
-        public bool TaxFrom { get; set; }
+        public string TaxFrom { get; set; }
         public bool AllowancesIncluded { get; set; }
         public bool IncludesAdditionalData { get; set; }
         [DataType(DataType.Date)]
@@ -19,7 +19,6 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         [DataType(DataType.Date)]
         [Display(Name = "To Date")]
         public DateOnly ToDate { get; set; }
-        [Required]
         [StringLength(255)]
         public string? Notes { get; set; }
         [Required]

@@ -33,16 +33,8 @@
 		<PackageReference Include="ZkTecoFingerPrint" Version="1.2.1" />
 	</ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Finance\Controllers\" />
-    <Folder Include="Areas\Finance\Views\" />
-    <Folder Include="Areas\OrganizationalChart\Controllers\" />
-    <Folder Include="Areas\OrganizationalChart\Views\" />
     <Folder Include="Areas\PenaltiesAndViolations\Controllers\" />
     <Folder Include="Areas\PenaltiesAndViolations\Views\" />
-    <Folder Include="Areas\PlanningAndJobDescription\Controllers\" />
-    <Folder Include="Areas\PlanningAndJobDescription\Views\" />
-    <Folder Include="Areas\SalariesAndWages\Controllers\" />
-    <Folder Include="Areas\SalariesAndWages\Views\" />
     <Folder Include="wwwroot\Upload\PDF\" />
   </ItemGroup>
 

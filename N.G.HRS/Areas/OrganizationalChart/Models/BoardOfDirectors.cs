@@ -26,7 +26,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         //=
         [ForeignKey("MembershipOfTheBoardOfDirectorsId")]
         public int? MembershipOfTheBoardOfDirectorsId { get; set; }
-        public MembershipOfTheBoardOfDirectors MembershipOfTheBoardOfDirectors { get; set; }
+        public MembershipOfTheBoardOfDirectors? MembershipOfTheBoardOfDirectors { get; set; }
 
         //==========================================
     }

@@ -4,6 +4,7 @@ using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using N.G.HRS.Areas.PayRoll.Models;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
@@ -24,6 +25,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
 
         //=
+        public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
+        public List<AutomaticallyApprovedAdd_on>? AutomaticallyApprovedAdd_onList { get; set; }
+
 
         //========================================
         [ForeignKey("DepartmentsId")]

@@ -3,6 +3,8 @@ using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
+using N.G.HRS.Areas.PayRoll.Models;
+using N.G.HRS.Areas.PayRoll.ModelView;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -70,6 +72,10 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<StatementOfEmployeeFiles>? StatementOfEmployeeFilesList { get; set; }
         //=====================================           
         public List<TrainingCourses>? TrainingCoursesList { get; set; }
+        //=====================================           
+        public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
+        //=====================================           
+        public List<VacationAllowances>? VacationAllowancesList { get; set; }
 
         //=====================================
         [ForeignKey("FingerprintDevicesId")]
@@ -84,8 +90,7 @@ namespace N.G.HRS.Areas.Employees.Models
         //===============================================
 
         //علاقة self v
-        [Required]
-        public int ManagerId { get; set; }//
+        public int? ManagerId { get; set; }//
         // Navigation property for Manager
         public virtual Employee? Manager { get; set; }
         // Navigation property for Subordinates 
@@ -96,15 +101,29 @@ namespace N.G.HRS.Areas.Employees.Models
         //=====================================
         public List<StaffTime>? StaffTimeList { get; set; }
         //=====================================
+        public List<EmployeeLoans>? EmployeeLoansList { get; set; }
+        //=====================================
         public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
 
         //=====================================
         public List<OneFingerprint>? OneFingerprintList { get; set; }
 
         //====================================
+        public List<EntitlementsAndDeductions>? EntitlementsAndDeductionsList { get; set; }
+
+        //====================================
+        public List<AutomaticallyApprovedAdd_on>? AutomaticallyApprovedAdd_onList { get; set; }
+
+        //====================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
         //==================================== 
         public List<Family>? FamilyList { get; set; }
+        //==================================== 
+        public List<EmployeePerks>? EmployeePerksList { get; set; }
+        //====================================
+        public List<EndOfServiceClearance>? EndOfServiceClearanceList { get; set; }
+        //==================================== 
+        //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
 

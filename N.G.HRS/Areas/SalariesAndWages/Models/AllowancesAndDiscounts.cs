@@ -16,7 +16,10 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public bool AddedToAllEmployees { get; set; }
         public bool CumulativeAllowance { get; set; }
         public bool SubjectToInsurance { get; set; }
-        public decimal Amount { get; set; }
+        [Range(1, 10000000)]
+        public decimal? Amount { get; set; } = 0;
+        [Range(1, 100)]
+        public decimal? Percentage { get; set; } = 0;
         [StringLength(255)]
         public string? Notes { get; set; }
 

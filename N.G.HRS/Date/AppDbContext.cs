@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using N.G.HRS.Areas.PayRoll.Models;
 
 namespace N.G.HRS.Date
 {
@@ -432,8 +433,24 @@ namespace N.G.HRS.Date
               .HasMany(j => j.qualifications)
               .WithMany(j => j.employees)
               .UsingEntity(j => j.ToTable("EmployeesQualifications"));
-
-
+            //===============================================
+            modelBuilder.Entity<AutomaticallyApprovedAdd_on>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.AutomaticallyApprovedAdd_onList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=================================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.EmployeeAccount)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.EmployeeAccountId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -508,6 +525,15 @@ namespace N.G.HRS.Date
         public DbSet<Penalties> Penalties { get; set; } = default!;
         public DbSet<Violations> Violations { get; set; } = default!;
         public DbSet<Attendance> Attendance { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.Finance.Models.Currency> Currency { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.Finance.Models.FinanceAccount> FinanceAccount { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on> AutomaticallyApprovedAdd_on { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances> EmployeeAdvances { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeeLoans> EmployeeLoans { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeePerks> EmployeePerks { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EndOfServiceClearance> EndOfServiceClearance { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EntitlementsAndDeductions> EntitlementsAndDeductions { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.VacationAllowances> VacationAllowances { get; set; } = default!;
 
 
 

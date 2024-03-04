@@ -1,0 +1,115 @@
+﻿@model N.G.HRS.Areas.AalariesAndWages.Models.AllowancesAndDiscounts
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+<h1>Create</h1>
+
+<h4>AllowancesAndDiscounts</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" class="form-control" >
+                    <option value="">اختر</option>
+                    <option value="Allowance">بدلات</option>
+                    <option value="Discount">خصميات</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AddedToAllEmployees" /> @Html.DisplayNameFor(model => model.AddedToAllEmployees)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CumulativeAllowance" /> @Html.DisplayNameFor(model => model.CumulativeAllowance)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SubjectToInsurance" /> @Html.DisplayNameFor(model => model.SubjectToInsurance)
+                </label>
+            </div>
+            @* ================ *@
+            <div class="form-group form-check">
+
+                <label class="form-check-label" for="showInput1">قيمة</label>
+                <input class="form-check-input" type="radio" id="showInput1" name="inputSelector" value="قيمة" checked>
+            </div>
+            <div class="form-group form-check">
+
+                <label class="form-check-label" for="showInput1">نسبة</label>
+                <input class="form-check-input" type="radio" id="showInput2" name="inputSelector" value="نسبة" >
+            </div>
+
+            @* ================ *@
+            <div class="form-group" id="input1"  style="display:block;">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" placeholder="قيمة" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="input2" style="display:none;">
+                <label asp-for="Percentage" class="control-label"></label>
+                <input asp-for="Percentage" placeholder="نسبة" class="form-control" />
+                <span asp-validation-for="Percentage" class="text-danger"></span>
+            </div>
+            @* ================= *@
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    // Get the radio buttons and input boxes elements
+    const radioInput1 = document.getElementById('showInput1');
+    const radioInput2 = document.getElementById('showInput2');
+    const input1 = document.getElementById('input1');
+    const input2 = document.getElementById('input2');
+
+    // Add event listeners to radio buttons for change event
+    radioInput1.addEventListener('change', function () {
+        if (this.checked) {
+            input1.style.display = 'block';
+            input2.style.display = 'none';
+        }
+    });
+
+    radioInput2.addEventListener('change', function () {
+        if (this.checked) {
+            input1.style.display = 'none';
+            input2.style.display = 'block';
+        }
+    });
+</script>
