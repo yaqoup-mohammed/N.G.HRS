@@ -7,6 +7,7 @@ using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PenaltiesAndViolations.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
+using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using System.Configuration;
 using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -524,7 +525,7 @@ namespace N.G.HRS.Date
         public DbSet<EmployeeAccount> EmployeeAccount { get; set; } = default!;
         public DbSet<Penalties> Penalties { get; set; } = default!;
         public DbSet<Violations> Violations { get; set; } = default!;
-        public DbSet<Attendance> Attendance { get; set; } = default!;
+        public DbSet<Periods> Periods { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.Finance.Models.Currency> Currency { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.Finance.Models.FinanceAccount> FinanceAccount { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on> AutomaticallyApprovedAdd_on { get; set; } = default!;

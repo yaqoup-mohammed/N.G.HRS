@@ -3,9 +3,9 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h1>Index</h1>
 
 <p>
@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.FlexibleWorkingHours)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WorkBetweenTwoDays)
+                @Html.DisplayNameFor(model => model.WorkBetweenTwoShifts)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FromTime)
@@ -38,7 +38,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.HoursOfWorks)
             </th>
-            <th>
+@*             <th>
                 @Html.DisplayNameFor(model => model.AddAttendanceAndDeparturePermission)
             </th>
             <th>
@@ -46,7 +46,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EarlyDeparturePermission)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.Notes)
             </th>
@@ -65,11 +65,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ToDate)
             </td>
-            <td>
+            <td style="color:red">
                 @Html.DisplayFor(modelItem => item.FlexibleWorkingHours)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.WorkBetweenTwoDays)
+                @Html.DisplayFor(modelItem => item.WorkBetweenTwoShifts)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FromTime)
@@ -80,7 +80,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.HoursOfWorks)
             </td>
-            <td>
+@*             <td>
                 @Html.DisplayFor(modelItem => item.AddAttendanceAndDeparturePermission)
             </td>
             <td>
@@ -88,7 +88,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EarlyDeparturePermission)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>

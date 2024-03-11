@@ -403,15 +403,13 @@ namespace N.G.HRS.Migrations
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     FlexibleWorkingHours = table.Column<bool>(type: "bit", nullable: false),
-                    WorkBetweenTwoShifts = table.Column<bool>(type: "bit", nullable: false),
-                    ShiftTime = table.Column<bool>(type: "bit", nullable: false),
-                    Working24Hours = table.Column<bool>(type: "bit", nullable: false),
+                    WorkBetweenTwoDays = table.Column<bool>(type: "bit", nullable: false),
                     FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoursOfWorks = table.Column<int>(type: "int", nullable: true),
+                    HoursOfWorks = table.Column<double>(type: "float", nullable: true),
                     AddAttendanceAndDeparturePermission = table.Column<bool>(type: "bit", nullable: false),
-                    AllowanceForLateAttendance = table.Column<int>(type: "int", nullable: true),
-                    EarlyDeparturePermission = table.Column<int>(type: "int", nullable: true),
+                    AllowanceForLateAttendance = table.Column<double>(type: "float", nullable: true),
+                    EarlyDeparturePermission = table.Column<double>(type: "float", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -1165,7 +1163,7 @@ namespace N.G.HRS.Migrations
                     SectionsId = table.Column<int>(type: "int", nullable: false),
                     JobDescriptionId = table.Column<int>(type: "int", nullable: false),
                     FingerprintDevicesId = table.Column<int>(type: "int", nullable: true),
-                    ManagerId = table.Column<int>(type: "int", nullable: false)
+                    ManagerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1240,25 +1238,24 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    SectionsId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     FromTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     ToTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    Hours = table.Column<double>(type: "float", nullable: false),
-                    Minutes = table.Column<int>(type: "int", nullable: false)
+                    Hours = table.Column<double>(type: "float", nullable: true),
+                    Minutes = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AutomaticallyApprovedAdd_on", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AutomaticallyApprovedAdd_on_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_AutomaticallyApprovedAdd_on_Sections_SectionsId",
+                        column: x => x.SectionsId,
+                        principalTable: "Sections",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AutomaticallyApprovedAdd_on_employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -1400,6 +1397,37 @@ namespace N.G.HRS.Migrations
                         name: "FK_EmployeesQualifications_qualifications_qualificationsId",
                         column: x => x.qualificationsId,
                         principalTable: "qualifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EndOfServiceClearance",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndOfServiceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    ReasonForClearance = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastApprovedSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ServicePeriodPerYear = table.Column<int>(type: "int", nullable: false),
+                    EndOfServiceBenefits = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AdvancesAndLoans = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VacationEntitlements = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Absence = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OtherEntitlements = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OtherDiscounts = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EndOfServiceClearance", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EndOfServiceClearance_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1959,14 +1987,14 @@ namespace N.G.HRS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutomaticallyApprovedAdd_on_DepartmentId",
-                table: "AutomaticallyApprovedAdd_on",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AutomaticallyApprovedAdd_on_EmployeeId",
                 table: "AutomaticallyApprovedAdd_on",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AutomaticallyApprovedAdd_on_SectionsId",
+                table: "AutomaticallyApprovedAdd_on",
+                column: "SectionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_boardOfDirectors_MembershipOfTheBoardOfDirectorsId",
@@ -2108,6 +2136,11 @@ namespace N.G.HRS.Migrations
                 name: "IX_EmployeesQualifications_qualificationsId",
                 table: "EmployeesQualifications",
                 column: "qualificationsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EndOfServiceClearance_EmployeeId",
+                table: "EndOfServiceClearance",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EntitlementsAndDeductions_CurrencyId",
@@ -2428,6 +2461,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "EmployeesQualifications");
+
+            migrationBuilder.DropTable(
+                name: "EndOfServiceClearance");
 
             migrationBuilder.DropTable(
                 name: "EntitlementsAndDeductions");

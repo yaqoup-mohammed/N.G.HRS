@@ -3,16 +3,16 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h1>Create</h1>
 
 <h4>PermanenceModels</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" onsubmit="return validateForm();">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PermanenceName" class="control-label"></label>
@@ -31,12 +31,12 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="FlexibleWorkingHours" /> @Html.DisplayNameFor(model => model.FlexibleWorkingHours)
+                    <input class="form-check-input" id="FlexibleWorkingHours"  name="radiobutton" asp-for="FlexibleWorkingHours" /> @Html.DisplayNameFor(model => model.FlexibleWorkingHours)
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="WorkBetweenTwoDays" /> @Html.DisplayNameFor(model => model.WorkBetweenTwoDays)
+                    <input class="form-check-input" id="WorkBetweenTwoShifts"  name="radiobutton" asp-for="WorkBetweenTwoShifts" /> @Html.DisplayNameFor(model => model.WorkBetweenTwoShifts)
                 </label>
             </div>
             <div class="form-group">
@@ -51,15 +51,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="HoursOfWorks" class="control-label"></label>
-                <input asp-for="HoursOfWorks" class="form-control" />
+                <input asp-for="HoursOfWorks" readonly style="background-color: #00000005;cursor:context-menu" class="form-control" />
                 <span asp-validation-for="HoursOfWorks" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+@*             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="AddAttendanceAndDeparturePermission" /> @Html.DisplayNameFor(model => model.AddAttendanceAndDeparturePermission)
                 </label>
-            </div>
-            <div class="form-group">
+            </div> *@
+@*             <div class="form-group">
                 <label asp-for="AllowanceForLateAttendance" class="control-label"></label>
                 <input asp-for="AllowanceForLateAttendance" class="form-control" />
                 <span asp-validation-for="AllowanceForLateAttendance" class="text-danger"></span>
@@ -68,7 +68,7 @@
                 <label asp-for="EarlyDeparturePermission" class="control-label"></label>
                 <input asp-for="EarlyDeparturePermission" class="form-control" />
                 <span asp-validation-for="EarlyDeparturePermission" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
                 <input asp-for="Notes" class="form-control" />
