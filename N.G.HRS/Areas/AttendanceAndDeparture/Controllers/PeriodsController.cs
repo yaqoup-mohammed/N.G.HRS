@@ -70,7 +70,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                         ViewData["Error"] = "وقت البدء يجب ان يكون اقل من وقت الانتهاء!!";
                         return View(periods);
                     }
-                        periods.Hours = CalculateHourOfWork(periods.FromTime, periods.ToTime);
+                        //periods.Hours = CalculateHourOfWork(periods.FromTime, periods.ToTime);
                         _context.Add(periods);
                         await _context.SaveChangesAsync();
                         ViewData["Message"] = "تمت العملية بنجاح";
@@ -131,7 +131,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
 
                     }
-                    periods.Hours = CalculateHourOfWork(periods.FromTime, periods.ToTime);
+                    //periods.Hours = CalculateHourOfWork(periods.FromTime, periods.ToTime);
                     _context.Update(periods);
                     await _context.SaveChangesAsync();
                 }

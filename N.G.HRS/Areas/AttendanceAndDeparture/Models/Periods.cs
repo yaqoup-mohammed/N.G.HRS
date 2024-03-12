@@ -37,7 +37,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool Friday { get; set;}
         [Range(0,24)]
         [Display(Name = "الساعات")]
-        public int? Hours { get; set; }
+        public string? Hours { get; set; }
         [Display(Name = "الدقائق")]
         public int? Muinutes { get; set; }
         //============================================

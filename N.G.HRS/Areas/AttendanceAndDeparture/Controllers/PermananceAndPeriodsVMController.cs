@@ -6,6 +6,7 @@ using N.G.HRS.Areas.AttendanceAndDeparture.ViewModels;
 using N.G.HRS.Areas.Employees.ViewModel;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
+using System.Collections.Generic;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 {
@@ -58,16 +59,19 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 try
                 {
-                    await PopulateDropdownListsAsync();
+                        await PopulateDropdownListsAsync();
 
+                    
                     if (PVM.permanenceModels != null && PVM.periods != null)
                     {
                        await _permanenceModelsRepository.AddAsync(PVM.permanenceModels);
                         //================================================
-                        PVM.periods.PermanenceModelsId = PVM.permanenceModels.Id;
+                        foreach (var model in PVM.periodsList)
+                        {
+                            await _periodsRepository.AddAsync(PVM.periods);
+                        }
 
-
-                        await _periodsRepository.AddAsync(PVM.periods);
+                        
 
                         TempData["Success"] = "تم الحفظ بنجاح";
                         return RedirectToAction(nameof(Index));

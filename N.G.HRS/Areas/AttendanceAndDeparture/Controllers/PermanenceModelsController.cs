@@ -15,7 +15,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
     {
         private readonly AppDbContext _context;
 
-        public PermanenceModelsController(AppDbContext context)
+        public PermanenceModelsController(AppDbContext context, Periods periods)
         {
             _context = context;
         }
@@ -282,5 +282,6 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
             return totalHours;
         }
+
     }
 }
