@@ -2,9 +2,9 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Permanence Models";
+    ViewData["Title"] = "نماذج الدوام";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Active"] = "Add";
+    ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
@@ -21,13 +21,20 @@
                 <br />
 
                 <!-- Row -->
-                <form action="/" method="post">
+                <form asp-action="Create" method="post">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
+@*                         <div class="col-sm-6" style="display: none">
+                            <div class="mb-3">
+                                <label asp-for="permanenceModels.Id"  class="control-label"></label>
+                                <input asp-for="permanenceModels.Id" id="permananceId"
+                                       class="form-control" />
+                            </div>
+                        </div>      *@                  
                         <div class="col-sm-6">
                             <div class="mb-3">
                                 <label asp-for="permanenceModels.PermanenceName" class="control-label"></label>
-                                <input asp-for="permanenceModels.PermanenceName" name="PermanenceName" id="PermanenceName"
-                                       class="form-control" />
+                                <input asp-for="permanenceModels.PermanenceName" id="PermanenceName" class="form-control" />
                                 <span asp-validation-for="permanenceModels.PermanenceName" class="text-danger"></span>
                             </div>
                         </div>
@@ -177,9 +184,15 @@
 
 
                                     <!--  -->
-                                    <form action="/" method="post">
+                                    <form asp-action="CreatePeriods" method="post">
 
                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label asp-for="periods.PermanenceModelsId" class="control-label"></label>
+                                                    <select asp-for="periods.PermanenceModelsId" asp-items="@(ViewData["permanance"] as SelectList)" id="periodPermanenceModelsId" class="form-control" asp-items="ViewBag.PermanenceModelsId"></select>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-4">
                                                 <div class="mb-3">
                                                     <label asp-for="periods.PeriodsName" class="control-label"></label>
@@ -187,26 +200,7 @@
                                                     <span asp-validation-for="periods.PeriodsName" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="mb-3">
-
-                                                    <label asp-for="periods.FromTime" class="control-label"></label>
-                                                    <input asp-for="periods.FromTime" id="startTime"
-                                                           class="form-control" />
-                                                    <span asp-validation-for="periods.FromTime"
-                                                          class="text-danger"></span>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="mb-3">
-
-                                                    <label asp-for="periods.ToTime" class="control-label"></label>
-                                                    <input asp-for="periods.ToTime" id="endTime" class="form-control" />
-                                                    <span asp-validation-for="periods.ToTime"
-                                                          class="text-danger"></span>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
 
                                         <!-- Col -->
@@ -298,59 +292,77 @@
                                                           class="text-danger"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-4">
+                                                <div class="mb-3">
+
+                                                    <label asp-for="periods.FromTime" class="control-label"></label>
+                                                    <input asp-for="periods.FromTime" id="startTime"
+                                                           class="form-control" />
+                                                    <span asp-validation-for="periods.FromTime"
+                                                          class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="mb-3">
+
+                                                    <label asp-for="periods.ToTime" class="control-label"></label>
+                                                    <input asp-for="periods.ToTime" id="endTime" class="form-control" />
+                                                    <span asp-validation-for="periods.ToTime"
+                                                          class="text-danger"></span>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="form-group">
-
-                                            <button type="button" id="addButton" class="btn btn-primary">اضافة</button>
-
-                                            <input type="submit" id="submitButton" value="انهاء"
+@*                                             <button type="button" id="addButton" class="btn btn-primary">اضافة</button>
+ *@                                            <input type="submit" id="submitButton" value="انهاء"
                                                    class="btn btn-primary" />
                                         </div>
 
                                     </form>
                                     <!-- Row -->
                                     <br />
-                                    <div id="table" class="row" style="display: none">
-                                        <div class="col-md-12 grid-margin stretch-card">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Basic Table</h6>
-                                                    <p class="text-muted mb-3">Add class <code>.table</code></p>
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>الدوام</th>
-                                                                    <th>الفترات</th>
-                                                                    <th>من وقت</th>
-                                                                    <th>الى وقت</th>
-                                                                    <th>السبت</th>
-                                                                    <th>الاحد</th>
-                                                                    <th>الاثنين</th>
-                                                                    <th>الثلاثاء</th>
-                                                                    <th>الاربعاء</th>
-                                                                    <th>الخميس</th>
-                                                                    <th>الجمعة</th>
-                                                                    <th>الساعات</th>
-                                                                    <th>الدقائق</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="temporaryTable">
-
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                    
 
                                 <!--  -->
                             </div>
+                        </div>
+                            <div id="table" class="row" style="display: none">
+                                <div class="col-md-12 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="card-title headerStyle">الفترات</h6>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>الدوام</th>
+                                                            <th>الفترات</th>
+                                                            <th>من وقت</th>
+                                                            <th>الى وقت</th>
+                                                            <th>السبت</th>
+                                                            <th>الاحد</th>
+                                                            <th>الاثنين</th>
+                                                            <th>الثلاثاء</th>
+                                                            <th>الاربعاء</th>
+                                                            <th>الخميس</th>
+                                                            <th>الجمعة</th>
+                                                            <th>الساعات</th>
+                                                            <th>الدقائق</th>
+                                                            <th>#</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="temporaryTable">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -546,6 +558,8 @@
                         
                         //=========================================================================================================
                         $(document).ready(function () {
+                            let temporaryData = []; // Array to store temporary data
+
                             const open = document.getElementById("openForm");
                             const openFormButton = document.getElementById("openFormButton");
                             const form = document.getElementById("form");
@@ -554,7 +568,6 @@
                                 open.style = `display:none;`;
                             });
                             openFormButton.addEventListener("click", function () {
-
                                 open.style = `
                                                             display:block;
 
@@ -581,59 +594,52 @@
                                                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                                                                                         z-index: 99998;
                                                                 opacity: 1; /* Initially hidden */
-                                                                transition: opacity 0.3s ease-in-out;`});
+                                                                transition: opacity 0.3s ease-in-out;`;
+                            });
                             //=========================================
-                            let temporaryData = []; // Array to store temporary data
                             const table = document.getElementById("table");
                             $("#addButton").click(function () {
-                                table.style = `display:block;`;
+
                                 const newData = {
                                     // Add input field names and their corresponding values here
-                                    fieldName1: $("#PermanenceName").val(),
-                                    fieldName2: $("#PeriodsName").val(),
-                                    fieldName3: $("#startTime").val(),
-                                    fieldName4: $("#endTime").val(),
-                                    fieldName5: $("#saturday").val(),
-                                    fieldName6: $("#sunday").val(),
-                                    fieldName7: $("#monday").val(),
-                                    fieldName8: $("#thursday").val(),
-                                    fieldName9: $("#wednesday").val(),
-                                    fieldName10: $("#tuesday").val(),
-                                    fieldName11: $("#friday").val(),
-                                    fieldName12: $("#hours").val(),
-                                    fieldName13: $("#minutes").val(),
+                                    fieldName1: $("#PeriodsName").val(),
+                                    fieldName2: $("#startTime").val(),
+                                    fieldName3: $("#endTime").val(),
+                                    fieldName4: $("#saturday").val(),
+                                    fieldName5: $("#sunday").val(),
+                                    fieldName6: $("#monday").val(),
+                                    fieldName7: $("#thursday").val(),
+                                    fieldName8: $("#wednesday").val(),
+                                    fieldName9: $("#tuesday").val(),
+                                    fieldName10: $("#friday").val(),
+                                    fieldName11: $("#hours").val(),
+                                    fieldName12: $("#minutes").val(),
+
                                     // ... add more fields as needed
                                 };
-                                if (!newData.fieldName5.checked || !newData.fieldName6.checked || !newData.fieldName7.checked || !newData.fieldName8.checked || !newData.fieldName9.checked || !newData.fieldName10.checked || !newData.fieldName11.checked) {
-                                    newData.fieldName5 = false;
-                                    newData.fieldName6 = false;
-                                    newData.fieldName7 = false;
-                                    newData.fieldName8 = false;
-                                    newData.fieldName9 = false;
-                                    newData.fieldName10 = false;
-                                    newData.fieldName11 = false;
+                                if (
+                                    !newData.fieldName1 ||
+                                    !newData.fieldName2||
+                                    !newData.fieldName3
+                                ) {
+                                    alert("Please fill in all fields");
+                                } else {
+                                    table.style = `display:block;`;
 
-                                }
-                                else {
-                                    newData.fieldName5 = true;
-                                    newData.fieldName6 = true;
-                                    newData.fieldName7 = true;
-                                    newData.fieldName8 = true;
-                                    newData.fieldName9 = true;
-                                    newData.fieldName10 = true;
-                                    newData.fieldName11 = true;
-                                }
-                            });
 
-                                // Basic validation (optional)
-                                if (!newData.fieldName2 || !newData.fieldName3 || !newData.fieldName4) { // Replace with your validation logic
-                                alert("Please fill in all required fields.");
-                                return;
-                            }
+                                    // !newData.fieldName5.checked ? newData.fieldName5.value = false : newData.fieldName5.value = "السبت";
+                                    // !newData.fieldName6.checked ? newData.fieldName6.value = false : newData.fieldName6.value = true;
+                                    // !newData.fieldName7.checked ? newData.fieldName7.value = false : newData.fieldName7.value = true;
+                                    // !newData.fieldName8.checked ? newData.fieldName8.value = false : newData.fieldName8.value = true;
+                                    // !newData.fieldName9.checked ? newData.fieldName9.value = false : newData.fieldName9.value = true;
+                                    // !newData.fieldName10.checked ? newData.fieldName10.value = false : newData.fieldName10.value = true;
+                                    // !newData.fieldName11.checked ? newData.fieldName11.value = false : newData.fieldName11.value = true;
 
-                            temporaryData.push(newData); // Add data to temporary array
 
-                            $("#temporaryTable").append(`
+
+                                    temporaryData.push(newData); // Add data to temporary array
+
+                                    $("#temporaryTable").append(`
                                 <tr>
                                 <td>${newData.fieldName1}</td>
                                 <td>${newData.fieldName2}</td>
@@ -647,31 +653,31 @@
                                 <td>${newData.fieldName10}</td>
                                 <td>${newData.fieldName11}</td>
                                 <td>${newData.fieldName12}</td>
-                                <td>${newData.fieldName13}</td>
-                                <td><button class="btn btn-danger" class="ala">Remove</button></td>
+                                <td><button class="removeButton btn btn-danger" >إزالة</button></td>
                                 </tr>
                             `);
+                                    // Clear input fields
 
-                            // Clear input fields
-                            $("#fieldName1Input").val("");
-                            $("#fieldName2Input").val("");
-                            $("#PermanenceName").val("");
-                            $("#PeriodsName").val("");
-                            $("#startTime").val("");
-                            $("#endTime").val("");
-                            $("#saturday").val(false);
-                            $("#sunday").val(false);
-                            $("#monday").val(false);
-                            $("#thursday").val(false);
-                            $("#wednesday").val(false);
-                            $("#tuesday").val(false);
-                            $("#friday").val(false);
-                            $("#hours").val("");
-                            $("#minutes").val("");
-                            // ... clear other input fields
+                                    $("#PeriodsName").val("");
+                                    $("#startTime").val("");
+                                    $("#endTime").val("");
+                                    $("#saturday").val("");
+                                    $("#sunday").val("");
+                                    $("#monday").val("");
+                                    $("#thursday").val("");
+                                    $("#wednesday").val("");
+                                    $("#tuesday").val("");
+                                    $("#friday").val("");
+                                    $("#hours").val("");
+                                    $("#minutes").val("");
+                                    // ... clear other input fields
 
-                            // Disable submit button if no data (optional)
-                            $("#submitButton").prop("disabled", temporaryData.length === 0);
+                                    // Disable submit button if no data (optional)
+                                    $("#submitButton").prop("disabled", temporaryData.length === 0);
+                                }
+                            });
+
+
                         });
 
                         $(document).on("click", ".removeButton", function () {
@@ -684,16 +690,15 @@
                         });
 
                         $("#submitButton").click(function () {
-                            // Send data to server using AJAX or other methods
-                            console.log("Temporary Data:", temporaryData); // Simulate sending to server
-
+                            // // Send data to server using AJAX or other methods
+                            // console.log("Temporary Data:", temporaryData); // Simulate sending to server
+                            $("#submitButton").val( JSON.stringify(temporaryData));
                             // Clear temporary data and table after submission (optional)
                             temporaryData = [];
                             $("#temporaryTable").empty();
                             $("#submitButton").prop("disabled", true);
                         });
 
-                        
                     </script>
 
                 }

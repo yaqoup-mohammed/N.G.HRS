@@ -1,0 +1,109 @@
+﻿@model N.G.HRS.Areas.AttendanceAndDeparture.Models.LinkingEmployeesToShiftPeriods
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<h1>Create</h1>
+
+<h4>LinkingEmployeesToShiftPeriods</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateOfStartWork"  class="control-label"></label>
+                <input asp-for="DateOfStartWork" id="DateOfStartWork" class="form-control" />
+                <span asp-validation-for="DateOfStartWork" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfEndWork" class="control-label"></label>
+                <input asp-for="DateOfEndWork" id="DateOfEndWork" class="form-control" />
+                <span asp-validation-for="DateOfEndWork" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentsId" class="control-label"></label>
+                <select asp-for="DepartmentsId" class ="form-control" asp-items="ViewBag.DepartmentsId">
+                    <option value="">......</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SectionsId" class="control-label"></label>
+                <select asp-for="SectionsId" class ="form-control" asp-items="ViewBag.SectionsId">
+                    <option value="">......</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId">
+                    <option value="">......</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PermanenceModelsId" class="control-label"></label>
+                <select asp-for="PermanenceModelsId" class ="form-control" asp-items="ViewBag.PermanenceModelsId">
+                    <option value="">......</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PeriodsId" class="control-label"></label>
+                <select asp-for="PeriodsId" class ="form-control" asp-items="ViewBag.PeriodsId">
+                    <option value="">......</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" id="calculateButton1" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        const startTimeInput = document.getElementById("DateOfStartWork");
+        const endTimeInput = document.getElementById("DateOfEndWork");
+
+        function DateValidation() {
+            if (!startTimeInput || !endTimeInput || !hoursInput) {
+                alert("يجب تحديد تاريخ البدأ والنهاية!!");
+                return;
+            }
+            if (startTimeInput > endTimeInput) {
+                alert("تاريخ النهاية يجب أن يكون اكبر من تاريخ البدأ!!");
+            }
+
+        }
+        if (calculateButton1) {
+            calculateButton1.addEventListener("click", DateValidation);
+        } else {
+            startTimeInput.addEventListener("change", DateValidation);
+            endTimeInput.addEventListener("change", DateValidation);
+        }
+    </script>
+    @if (ViewData["error"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "خطئ!!",
+                text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
+            });
+        </script>
+    }
+
+}

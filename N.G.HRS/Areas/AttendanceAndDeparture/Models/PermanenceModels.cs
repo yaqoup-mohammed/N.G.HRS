@@ -35,13 +35,13 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [DataType(DataType.Time)]
         [Display(Name = "من الساعة")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime FromTime { get; set; }
+        public DateTime? FromTime { get; set; }
 
         [DataType(DataType.Time)]
         [Display(Name = "الى الساعة")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
 
-        public DateTime ToTime { get; set; }
+        public DateTime? ToTime { get; set; }
 
         [Range(0, 24, ErrorMessage = "عدد ساعات الدوام يجب الا يتجاوز 24")]
         [Display(Name = "عدد الساعات")]

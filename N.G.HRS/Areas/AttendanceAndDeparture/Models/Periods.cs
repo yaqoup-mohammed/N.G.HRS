@@ -7,20 +7,17 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         [StringLength(50)]
         [Display(Name = " اسم الفترة")]
-        public string PeriodsName { get; set; }
-        [Required]
+        public string? PeriodsName { get; set; }
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "من الوقت")]
-        public DateTime FromTime { get; set; }
-        [Required]
+        public DateTime? FromTime { get; set; }
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "الى الوقت")]
-        public DateTime ToTime { get; set; }
+        public DateTime? ToTime { get; set; }
         [Display(Name = "السبت")]
         public bool Saturday { get; set;}
         [Display(Name = "الاحد")]
@@ -35,7 +32,6 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool Thursday { get; set;}
         [Display(Name = "الجمعة")]
         public bool Friday { get; set;}
-        [Range(0,24)]
         [Display(Name = "الساعات")]
         public string? Hours { get; set; }
         [Display(Name = "الدقائق")]
@@ -50,6 +46,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public List<Weekends>? WeekendsList { get; set; }
         public List<AdjustingTime>? AdjustingTimeList { get; set; }
         public List<Periods>? PeriodsList { get; set; }
+        public List<StaffTime>? StaffTimeList { get; set; }
 
 
         //=
