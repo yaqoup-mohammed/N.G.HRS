@@ -68,8 +68,5 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         //=
 
 
-
-
-
     }
 }

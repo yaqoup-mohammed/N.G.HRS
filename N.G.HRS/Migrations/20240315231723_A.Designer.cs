@@ -12,7 +12,7 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240309200606_A")]
+    [Migration("20240315231723_A")]
     partial class A
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace N.G.HRS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -573,31 +573,6 @@ namespace N.G.HRS.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.Attendance", b =>
-                {
-                    b.Property<int>("AttendanceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceId"));
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("dwInOutMode")
-                        .HasColumnType("int");
-
-                    b.Property<int>("dwVerifyMode")
-                        .HasColumnType("int");
-
-                    b.HasKey("AttendanceId");
-
-                    b.ToTable("Attendance");
-                });
-
             modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.LinkingEmployeesToShiftPeriods", b =>
                 {
                     b.Property<int>("Id")
@@ -751,16 +726,25 @@ namespace N.G.HRS.Migrations
                     b.Property<DateTime>("FromTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Hours")
-                        .HasColumnType("int");
+                    b.Property<string>("Hours")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Monday")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("Muinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PeriodsId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PeriodsName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("PermanenceModelsId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Saturday")
                         .HasColumnType("bit");
@@ -782,7 +766,11 @@ namespace N.G.HRS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("periods");
+                    b.HasIndex("PeriodsId");
+
+                    b.HasIndex("PermanenceModelsId");
+
+                    b.ToTable("Periods");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", b =>
@@ -792,15 +780,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("AddAttendanceAndDeparturePermission")
-                        .HasColumnType("bit");
-
-                    b.Property<double?>("AllowanceForLateAttendance")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("EarlyDeparturePermission")
-                        .HasColumnType("float");
 
                     b.Property<bool>("FlexibleWorkingHours")
                         .HasColumnType("bit");
@@ -829,7 +808,7 @@ namespace N.G.HRS.Migrations
                     b.Property<DateTime>("ToTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("WorkBetweenTwoDays")
+                    b.Property<bool>("WorkBetweenTwoShifts")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -3085,6 +3064,19 @@ namespace N.G.HRS.Migrations
                     b.Navigation("PublicHolidays");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", null)
+                        .WithMany("PeriodsList")
+                        .HasForeignKey("PeriodsId");
+
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", "PermanenceModels")
+                        .WithMany()
+                        .HasForeignKey("PermanenceModelsId");
+
+                    b.Navigation("PermanenceModels");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.StaffTime", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
@@ -3660,6 +3652,8 @@ namespace N.G.HRS.Migrations
                     b.Navigation("AdjustingTimeList");
 
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
+
+                    b.Navigation("PeriodsList");
 
                     b.Navigation("WeekendsList");
                 });

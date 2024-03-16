@@ -94,22 +94,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attendance",
-                columns: table => new
-                {
-                    AttendanceId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    dwVerifyMode = table.Column<int>(type: "int", nullable: false),
-                    dwInOutMode = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendance", x => x.AttendanceId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "basicDataForTheSalaryStatements",
                 columns: table => new
                 {
@@ -371,29 +355,6 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "periods",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Saturday = table.Column<bool>(type: "bit", nullable: false),
-                    SunDay = table.Column<bool>(type: "bit", nullable: false),
-                    Monday = table.Column<bool>(type: "bit", nullable: false),
-                    Tuesday = table.Column<bool>(type: "bit", nullable: false),
-                    Wednesday = table.Column<bool>(type: "bit", nullable: false),
-                    Thursday = table.Column<bool>(type: "bit", nullable: false),
-                    Friday = table.Column<bool>(type: "bit", nullable: false),
-                    Hours = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_periods", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "permanenceModels",
                 columns: table => new
                 {
@@ -403,13 +364,10 @@ namespace N.G.HRS.Migrations
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     FlexibleWorkingHours = table.Column<bool>(type: "bit", nullable: false),
-                    WorkBetweenTwoDays = table.Column<bool>(type: "bit", nullable: false),
+                    WorkBetweenTwoShifts = table.Column<bool>(type: "bit", nullable: false),
                     FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoursOfWorks = table.Column<double>(type: "float", nullable: true),
-                    AddAttendanceAndDeparturePermission = table.Column<bool>(type: "bit", nullable: false),
-                    AllowanceForLateAttendance = table.Column<double>(type: "float", nullable: true),
-                    EarlyDeparturePermission = table.Column<double>(type: "float", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -818,71 +776,37 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "adjustingTimes",
+                name: "Periods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StaffTimeStatues = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
-                    PeriodsId = table.Column<int>(type: "int", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_adjustingTimes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_adjustingTimes_periods_PeriodsId",
-                        column: x => x.PeriodsId,
-                        principalTable: "periods",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_adjustingTimes_permanenceModels_PermanenceModelsId",
-                        column: x => x.PermanenceModelsId,
-                        principalTable: "permanenceModels",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "weekends",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SaturDay = table.Column<bool>(type: "bit", nullable: false),
+                    Saturday = table.Column<bool>(type: "bit", nullable: false),
                     SunDay = table.Column<bool>(type: "bit", nullable: false),
-                    MonDay = table.Column<bool>(type: "bit", nullable: false),
+                    Monday = table.Column<bool>(type: "bit", nullable: false),
                     Tuesday = table.Column<bool>(type: "bit", nullable: false),
                     Wednesday = table.Column<bool>(type: "bit", nullable: false),
                     Thursday = table.Column<bool>(type: "bit", nullable: false),
                     Friday = table.Column<bool>(type: "bit", nullable: false),
-                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
-                    PeriodsId = table.Column<int>(type: "int", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
-                    NumbersOfHours = table.Column<int>(type: "int", nullable: true),
-                    PermanenceModelsId1 = table.Column<int>(type: "int", nullable: true)
+                    Hours = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Muinutes = table.Column<int>(type: "int", nullable: true),
+                    PermanenceModelsId = table.Column<int>(type: "int", nullable: true),
+                    PeriodsId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_weekends", x => x.Id);
+                    table.PrimaryKey("PK_Periods", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_weekends_periods_PeriodsId",
+                        name: "FK_Periods_Periods_PeriodsId",
                         column: x => x.PeriodsId,
-                        principalTable: "periods",
+                        principalTable: "Periods",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_weekends_permanenceModels_PermanenceModelsId",
+                        name: "FK_Periods_permanenceModels_PermanenceModelsId",
                         column: x => x.PermanenceModelsId,
-                        principalTable: "permanenceModels",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_weekends_permanenceModels_PermanenceModelsId1",
-                        column: x => x.PermanenceModelsId1,
                         principalTable: "permanenceModels",
                         principalColumn: "Id");
                 });
@@ -1036,6 +960,76 @@ namespace N.G.HRS.Migrations
                         name: "FK_company_boardOfDirectors_BoardOfDirectorsId",
                         column: x => x.BoardOfDirectorsId,
                         principalTable: "boardOfDirectors",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "adjustingTimes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StaffTimeStatues = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FromDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ToDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
+                    PeriodsId = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_adjustingTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_adjustingTimes_Periods_PeriodsId",
+                        column: x => x.PeriodsId,
+                        principalTable: "Periods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_adjustingTimes_permanenceModels_PermanenceModelsId",
+                        column: x => x.PermanenceModelsId,
+                        principalTable: "permanenceModels",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "weekends",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SaturDay = table.Column<bool>(type: "bit", nullable: false),
+                    SunDay = table.Column<bool>(type: "bit", nullable: false),
+                    MonDay = table.Column<bool>(type: "bit", nullable: false),
+                    Tuesday = table.Column<bool>(type: "bit", nullable: false),
+                    Wednesday = table.Column<bool>(type: "bit", nullable: false),
+                    Thursday = table.Column<bool>(type: "bit", nullable: false),
+                    Friday = table.Column<bool>(type: "bit", nullable: false),
+                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
+                    PeriodsId = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
+                    NumbersOfHours = table.Column<int>(type: "int", nullable: true),
+                    PermanenceModelsId1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_weekends", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_weekends_Periods_PeriodsId",
+                        column: x => x.PeriodsId,
+                        principalTable: "Periods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_weekends_permanenceModels_PermanenceModelsId",
+                        column: x => x.PermanenceModelsId,
+                        principalTable: "permanenceModels",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_weekends_permanenceModels_PermanenceModelsId1",
+                        column: x => x.PermanenceModelsId1,
+                        principalTable: "permanenceModels",
                         principalColumn: "Id");
                 });
 
@@ -1554,6 +1548,11 @@ namespace N.G.HRS.Migrations
                         principalTable: "Departments",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_linkingEmployeesToShiftPeriods_Periods_PeriodsId",
+                        column: x => x.PeriodsId,
+                        principalTable: "Periods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_linkingEmployeesToShiftPeriods_Sections_SectionsId",
                         column: x => x.SectionsId,
                         principalTable: "Sections",
@@ -1562,11 +1561,6 @@ namespace N.G.HRS.Migrations
                         name: "FK_linkingEmployeesToShiftPeriods_employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "employee",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_linkingEmployeesToShiftPeriods_periods_PeriodsId",
-                        column: x => x.PeriodsId,
-                        principalTable: "periods",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_linkingEmployeesToShiftPeriods_permanenceModels_PermanenceModelsId",
@@ -2274,6 +2268,16 @@ namespace N.G.HRS.Migrations
                 column: "ViolationsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Periods_PeriodsId",
+                table: "Periods",
+                column: "PeriodsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Periods_PermanenceModelsId",
+                table: "Periods",
+                column: "PermanenceModelsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_personalDatas_EmployeeId",
                 table: "personalDatas",
                 column: "EmployeeId",
@@ -2430,9 +2434,6 @@ namespace N.G.HRS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Attendance");
-
-            migrationBuilder.DropTable(
                 name: "AutomaticallyApprovedAdd_on");
 
             migrationBuilder.DropTable(
@@ -2577,10 +2578,7 @@ namespace N.G.HRS.Migrations
                 name: "qualifications");
 
             migrationBuilder.DropTable(
-                name: "periods");
-
-            migrationBuilder.DropTable(
-                name: "permanenceModels");
+                name: "Periods");
 
             migrationBuilder.DropTable(
                 name: "FinanceAccountType");
@@ -2593,6 +2591,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "maritalStatuses");
+
+            migrationBuilder.DropTable(
+                name: "permanenceModels");
 
             migrationBuilder.DropTable(
                 name: "JobDescription");
