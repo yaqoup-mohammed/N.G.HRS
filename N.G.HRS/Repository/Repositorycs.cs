@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Date;
 using N.G.HRS.Models;
+using NuGet.Protocol.Core.Types;
 
 namespace N.G.HRS.Repository
 {
@@ -23,6 +24,7 @@ namespace N.G.HRS.Repository
         {
             return await _context.Set<T>().FindAsync(id);
         }
+
 
         public async Task<T> AddAsync(T entity)
         {
