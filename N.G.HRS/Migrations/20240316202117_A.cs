@@ -365,8 +365,8 @@ namespace N.G.HRS.Migrations
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     FlexibleWorkingHours = table.Column<bool>(type: "bit", nullable: false),
                     WorkBetweenTwoShifts = table.Column<bool>(type: "bit", nullable: false),
-                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     HoursOfWorks = table.Column<double>(type: "float", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
@@ -781,9 +781,9 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Saturday = table.Column<bool>(type: "bit", nullable: false),
                     SunDay = table.Column<bool>(type: "bit", nullable: false),
                     Monday = table.Column<bool>(type: "bit", nullable: false),
@@ -1533,11 +1533,11 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfStartWork = table.Column<DateOnly>(type: "date", nullable: false),
                     DateOfEndWork = table.Column<DateOnly>(type: "date", nullable: false),
-                    DepartmentsId = table.Column<int>(type: "int", nullable: false),
-                    SectionsId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
-                    PeriodsId = table.Column<int>(type: "int", nullable: false)
+                    DepartmentsId = table.Column<int>(type: "int", nullable: true),
+                    SectionsId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    PermanenceModelsId = table.Column<int>(type: "int", nullable: true),
+                    PeriodsId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1719,11 +1719,18 @@ namespace N.G.HRS.Migrations
                     WorksFullTimeFromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: true),
                     PermanenceModelsId = table.Column<int>(type: "int", nullable: true),
-                    SectionsId = table.Column<int>(type: "int", nullable: true)
+                    SectionsId = table.Column<int>(type: "int", nullable: true),
+                    PeriodId = table.Column<int>(type: "int", nullable: true),
+                    PeriodsId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_staffTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_staffTimes_Periods_PeriodsId",
+                        column: x => x.PeriodsId,
+                        principalTable: "Periods",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_staffTimes_Sections_SectionsId",
                         column: x => x.SectionsId,
@@ -2348,6 +2355,11 @@ namespace N.G.HRS.Migrations
                 name: "IX_staffTimes_EmployeeId",
                 table: "staffTimes",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_staffTimes_PeriodsId",
+                table: "staffTimes",
+                column: "PeriodsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_staffTimes_PermanenceModelsId",

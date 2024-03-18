@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240316202117_A")]
+    partial class A
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -897,10 +900,10 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("MonDay")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PeriodsId")
+                    b.Property<int>("PeriodsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PermanenceModelsId")
+                    b.Property<int>("PermanenceModelsId")
                         .HasColumnType("int");
 
                     b.Property<bool>("SaturDay")
@@ -2818,6 +2821,11 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("NumbersOfHours")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PermanenceModelsId1")
+                        .HasColumnType("int");
+
+                    b.HasIndex("PermanenceModelsId1");
+
                     b.HasDiscriminator().HasValue("WeekendsForFlexibleWorking");
                 });
 
@@ -3104,12 +3112,14 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "Periods")
                         .WithMany("WeekendsList")
                         .HasForeignKey("PeriodsId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", "PermanenceModels")
                         .WithMany("WeekendsList")
                         .HasForeignKey("PermanenceModelsId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Periods");
 
@@ -3633,6 +3643,13 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.WeekendsForFlexibleWorking", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", null)
+                        .WithMany("WeekendsForFlexibleWorkingList")
+                        .HasForeignKey("PermanenceModelsId1");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.AalariesAndWages.Models.EmployeeAccount", b =>
                 {
                     b.Navigation("EmployeeAdvancesList");
@@ -3658,6 +3675,8 @@ namespace N.G.HRS.Migrations
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
 
                     b.Navigation("StaffTimesList");
+
+                    b.Navigation("WeekendsForFlexibleWorkingList");
 
                     b.Navigation("WeekendsList");
                 });

@@ -12,15 +12,15 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240312225446_A5")]
-    partial class A5
+    [Migration("20240317205035_A1")]
+    partial class A1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -587,19 +587,19 @@ namespace N.G.HRS.Migrations
                     b.Property<DateOnly>("DateOfStartWork")
                         .HasColumnType("date");
 
-                    b.Property<int>("DepartmentsId")
+                    b.Property<int?>("DepartmentsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PeriodsId")
+                    b.Property<int?>("PeriodsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PermanenceModelsId")
+                    b.Property<int?>("PermanenceModelsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SectionsId")
+                    b.Property<int?>("SectionsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -739,7 +739,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PeriodsName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -854,6 +853,12 @@ namespace N.G.HRS.Migrations
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PeriodId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PeriodsId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PermanenceModelsId")
                         .HasColumnType("int");
 
@@ -866,6 +871,8 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PeriodsId");
 
                     b.HasIndex("PermanenceModelsId");
 
@@ -2814,11 +2821,6 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("NumbersOfHours")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PermanenceModelsId1")
-                        .HasColumnType("int");
-
-                    b.HasIndex("PermanenceModelsId1");
-
                     b.HasDiscriminator().HasValue("WeekendsForFlexibleWorking");
                 });
 
@@ -2996,32 +2998,27 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Departments", "Departments")
                         .WithMany("LinkingEmployeesToShiftPeriodsList")
                         .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
                         .WithMany("LinkingEmployeesToShiftPeriodsList")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "Periods")
                         .WithMany("LinkingEmployeesToShiftPeriodsList")
                         .HasForeignKey("PeriodsId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", "PermanenceModels")
                         .WithMany("LinkingEmployeesToShiftPeriodsList")
                         .HasForeignKey("PermanenceModelsId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Sections", "Sections")
                         .WithMany("LinkingEmployeesToShiftPeriodsList")
                         .HasForeignKey("SectionsId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Departments");
 
@@ -3084,6 +3081,10 @@ namespace N.G.HRS.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "Periods")
+                        .WithMany("StaffTimeList")
+                        .HasForeignKey("PeriodsId");
+
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", "PermanenceModels")
                         .WithMany("StaffTimesList")
                         .HasForeignKey("PermanenceModelsId");
@@ -3093,6 +3094,8 @@ namespace N.G.HRS.Migrations
                         .HasForeignKey("SectionsId");
 
                     b.Navigation("Employee");
+
+                    b.Navigation("Periods");
 
                     b.Navigation("PermanenceModels");
 
@@ -3635,13 +3638,6 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("N.G.HRS.Areas.AttendanceAndDeparture.Models.WeekendsForFlexibleWorking", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", null)
-                        .WithMany("WeekendsForFlexibleWorkingList")
-                        .HasForeignKey("PermanenceModelsId1");
-                });
-
             modelBuilder.Entity("N.G.HRS.Areas.AalariesAndWages.Models.EmployeeAccount", b =>
                 {
                     b.Navigation("EmployeeAdvancesList");
@@ -3655,6 +3651,8 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("PeriodsList");
 
+                    b.Navigation("StaffTimeList");
+
                     b.Navigation("WeekendsList");
                 });
 
@@ -3665,8 +3663,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
 
                     b.Navigation("StaffTimesList");
-
-                    b.Navigation("WeekendsForFlexibleWorkingList");
 
                     b.Navigation("WeekendsList");
                 });

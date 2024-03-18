@@ -24,7 +24,7 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); 
 
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات

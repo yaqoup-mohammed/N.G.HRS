@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 {
@@ -14,12 +16,18 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
     public class WeekendsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly Periods _periods;
+        private readonly IRepository<Weekends> _weekendsRepository;
 
-        public WeekendsController(AppDbContext context)
+
+        public WeekendsController(AppDbContext context, IRepository<Weekends> weekendsRepository, Periods periods)
         {
             _context = context;
-        }
+            _weekendsRepository = weekendsRepository;
+            _periods = periods;
 
+        }
+        
         // GET: AttendanceAndDeparture/Weekends
         public async Task<IActionResult> Index()
         {
@@ -48,10 +56,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/Weekends/Create
-        public IActionResult Create()
+        public  async Task<IActionResult> Create()
         {
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "PeriodsName");
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName");
+            await PopulateDropdownListsAsync();
+
             return View();
         }
 
@@ -60,16 +68,83 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SaturDay,SunDay,MonDay,Tuesday,Wednesday,Thursday,Friday,PermanenceModelsId,PeriodsId")] Weekends weekends)
+        public async Task<IActionResult> Create([Bind("Id,SaturDay,SunDay,MonDay,Tuesday,Wednesday,Thursday,Friday,PermanenceModelsId,PeriodsId,")] Weekends weekends)
         {
+           
+            await PopulateDropdownListsAsync();
+
             if (ModelState.IsValid)
             {
-                _context.Add(weekends);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var periodid = _context.periods.Find(weekends.PeriodsId);
+
+                    var saturday = periodid.Saturday;
+                    var sunday = periodid.SunDay;
+                    var monday = periodid.Monday;
+                    var tuesday = periodid.Tuesday;
+                    var wednesday = periodid.Wednesday;
+                    var thursday = periodid.Thursday;
+                    var friday = periodid.Friday;
+
+                    if (saturday == true && weekends.SaturDay == true)
+                    {
+                        TempData["Error"] = " السبت هو يوم دوام في الفترة المحددة" + "لايمكنك نحديد يوم دوام كأجازة ";
+                        return View(weekends);
+                    }
+                    if (sunday == true && weekends.SunDay == true)
+                    {
+                        TempData["Error"] = " الأحد هو يوم دوام في الفترة المحددة " + "لايمكنك نحديد يوم دوام كأجازة ";
+                        return View(weekends);
+
+                    }
+                    if (monday == true && weekends.MonDay == true)
+                    {
+                        TempData["Error"] = " الأثنين هو يوم دوام في الفترة المحددة " + " لايمكنك نحديد يوم دوام كأجازة";
+                        return View(weekends);
+
+                    }
+                    if (tuesday == true && weekends.Tuesday == true)
+                    {
+                        TempData["Error"] = "الثلاثاء هو يوم دوام في الفترة المحددة " + "لايمكنك نحديد يوم دوام كأجازة ";
+                        return View(weekends);
+
+                    }
+                    if (wednesday == true && weekends.Wednesday == true)
+                    {
+                        TempData["Error"] = " الأربعاء هو يوم دوام في الفترة المحددة " + " لايمكنك نحديد يوم دوام كأجازة";
+                        return View(weekends);
+
+                    }
+                    if (thursday == true && weekends.Thursday == true)
+                    {
+                        TempData["Error"] = " الخميس هو يوم دوام في الفترة المحددة " + "لايمكنك نحديد يوم دوام كأجازة  ";
+                        return View(weekends);
+
+                    }
+                    else if (friday == true && weekends.Friday == true)
+                    {
+                        TempData["Error"] = " الجمعة هو يوم دوام في الفترة المحددة" + " لايمكنك نحديد يوم دوام كأجازة";
+                        return View(weekends);
+
+                    }
+                    else
+                    {
+
+
+                        _weekendsRepository.AddAsync(weekends);
+                        TempData["Success"] = "تم الحفظ بنجاح";
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "حدث خطأ ما " + ex.Message;
+                    return View(weekends);
+                }
             }
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "PeriodsName", weekends.PeriodsId);
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName", weekends.PermanenceModelsId);
+
             return View(weekends);
         }
 
@@ -81,13 +156,12 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 return NotFound();
             }
 
-            var weekends = await _context.weekends.FindAsync(id);
+            var weekends = await _weekendsRepository.GetByIdAsync(id);
             if (weekends == null)
             {
                 return NotFound();
             }
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "PeriodsName", weekends.PeriodsId);
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName", weekends.PermanenceModelsId);
+
             return View(weekends);
         }
 
@@ -98,6 +172,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SaturDay,SunDay,MonDay,Tuesday,Wednesday,Thursday,Friday,PermanenceModelsId,PeriodsId")] Weekends weekends)
         {
+            await PopulateDropdownListsAsync();
+
             if (id != weekends.Id)
             {
                 return NotFound();
@@ -107,8 +183,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 try
                 {
-                    _context.Update(weekends);
-                    await _context.SaveChangesAsync();
+                    _weekendsRepository.UpdateAsync(weekends);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +198,6 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "PeriodsName", weekends.PeriodsId);
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName", weekends.PermanenceModelsId);
             return View(weekends);
         }
 
@@ -136,10 +209,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 return NotFound();
             }
 
-            var weekends = await _context.weekends
-                .Include(w => w.Periods)
-                .Include(w => w.PermanenceModels)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var weekends = await _weekendsRepository.DeleteAsync(id);
             if (weekends == null)
             {
                 return NotFound();
@@ -153,13 +223,18 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var weekends = await _context.weekends.FindAsync(id);
-            if (weekends != null)
+            if (id != null)
             {
-                _context.weekends.Remove(weekends);
+                var weekends = await _weekendsRepository.DeleteAsync(id);
+                TempData["Success"] = "تم الحذف بنجاح";
             }
+            else
+                        {
+                TempData["Error"] = "حدث خطأ ما";
 
-            await _context.SaveChangesAsync();
+            }
+            
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -167,5 +242,16 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         {
             return _context.weekends.Any(e => e.Id == id);
         }
+        private async Task PopulateDropdownListsAsync()
+        {
+
+            
+            var periods = await _context.periods.ToListAsync();
+            ViewData["Periods"] = new SelectList(periods, "Id", "PeriodsName");
+            var permanance = await _context.permanenceModels.ToListAsync();
+            ViewData["permanance"] = new SelectList(permanance, "Id", "PermanenceName");
+
+        }
+
     }
 }
