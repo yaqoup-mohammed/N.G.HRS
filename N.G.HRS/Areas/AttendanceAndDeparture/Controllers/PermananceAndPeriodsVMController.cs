@@ -107,6 +107,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                         // Assuming PopulateDropdownListsAsync is implemented elsewhere:
                         await PopulateDropdownListsAsync(); // Call if necessary
 
+
                         // Deserialization (remove unnecessary ToString()):
                         //var periodsList = JsonConvert.DeserializeObject<List<Periods>>(data.periods.ToString());
                         //foreach (var period in periodsList)
@@ -126,7 +127,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                     }
                 }
                 catch (Exception ex)
-                {
+                { 
                     // Log the exception and provide more informative error message
                     TempData["Error"] = "حدث خطأ أثناء محاولة إضافة الفترات"; // Generic user message
 

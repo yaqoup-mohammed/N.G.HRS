@@ -63,12 +63,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         //=
         public List<Weekends>? WeekendsList { get; set; }
         //=
-        public List<WeekendsForFlexibleWorking>? WeekendsForFlexibleWorkingList { get; set; }
         public List<AdjustingTime>? AdjustingTimeList { get; set; }
         //=
-
-
-
 
 
     }

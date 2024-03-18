@@ -40,7 +40,7 @@ namespace N.G.HRS.Repository
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int Id)
+        public async Task<bool> DeleteAsync(int? Id)
         {
             var entity = await _context.Set<T>().FindAsync(Id);
             if (entity != null)

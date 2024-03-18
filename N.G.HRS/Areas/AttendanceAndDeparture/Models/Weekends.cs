@@ -16,11 +16,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool Friday { get; set;}
         //===========================
         [ForeignKey("PermanenceModelsId")]
-        public int PermanenceModelsId { get; set; }
-        public PermanenceModels PermanenceModels { get; set; }
+        public int? PermanenceModelsId { get; set; }
+        public PermanenceModels? PermanenceModels { get; set; }
         //=
         [ForeignKey("PeriodsId")]
-        public int PeriodsId { get; set; }
-        public Periods Periods { get; set; }
+        public int? PeriodsId { get; set; }
+        public Periods? Periods { get; set; }
     }
 }
