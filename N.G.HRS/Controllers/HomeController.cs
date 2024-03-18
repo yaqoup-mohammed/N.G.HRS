@@ -13,6 +13,7 @@ namespace N.G.HRS.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
             return View();

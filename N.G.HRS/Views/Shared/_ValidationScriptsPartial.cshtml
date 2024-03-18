@@ -27,5 +27,21 @@
 
 }
 
+@if(@TempData["Error"]!=null){
+
+
+       <script >
+    Swal.fire({
+        icon: 'error',
+        title: '@TempData["Error"]',
+        customClass: {
+            confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+    });
+       </script>
+
+}
+
 
 

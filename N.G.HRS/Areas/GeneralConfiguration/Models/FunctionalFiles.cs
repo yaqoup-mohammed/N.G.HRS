@@ -8,10 +8,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required (ErrorMessage = "اسم الملف  الوظيفية مطلوب!!")]
+        [Display (Name = " اسم الملف الوظيفية")]
         [StringLength(150)]
         public string FileName { get; set; }
         [StringLength(255)]
+        [Display (Name = " الملاحظة")]
         public string? Notes { get; set; }
         //===============================================
         public ICollection<StatementOfEmployeeFiles>? StatementOfEmployeeFiles { get; set;}

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A : Migration
+    public partial class A0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -158,8 +158,9 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Data = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -288,7 +289,8 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PermanenceName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -430,7 +432,7 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HolidayName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    VacationsBalance = table.Column<int>(type: "int", nullable: true),
+                    Balance = table.Column<bool>(type: "bit", nullable: false),
                     Paid = table.Column<bool>(type: "bit", nullable: false),
                     DayCount = table.Column<int>(type: "int", nullable: true),
                     RotationDuration = table.Column<int>(type: "int", nullable: true),
@@ -651,7 +653,7 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ModelName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    StatementOfConditions = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    StatementOfConditions = table.Column<string>(type: "text", maxLength: 255, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     ContractsId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -1007,11 +1009,10 @@ namespace N.G.HRS.Migrations
                     Wednesday = table.Column<bool>(type: "bit", nullable: false),
                     Thursday = table.Column<bool>(type: "bit", nullable: false),
                     Friday = table.Column<bool>(type: "bit", nullable: false),
-                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
-                    PeriodsId = table.Column<int>(type: "int", nullable: false),
+                    PermanenceModelsId = table.Column<int>(type: "int", nullable: true),
+                    PeriodsId = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
-                    NumbersOfHours = table.Column<int>(type: "int", nullable: true),
-                    PermanenceModelsId1 = table.Column<int>(type: "int", nullable: true)
+                    NumbersOfHours = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1024,11 +1025,6 @@ namespace N.G.HRS.Migrations
                     table.ForeignKey(
                         name: "FK_weekends_permanenceModels_PermanenceModelsId",
                         column: x => x.PermanenceModelsId,
-                        principalTable: "permanenceModels",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_weekends_permanenceModels_PermanenceModelsId1",
-                        column: x => x.PermanenceModelsId1,
                         principalTable: "permanenceModels",
                         principalColumn: "Id");
                 });
@@ -1579,7 +1575,7 @@ namespace N.G.HRS.Migrations
                     OneDayFingerprint = table.Column<bool>(type: "bit", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -1602,9 +1598,9 @@ namespace N.G.HRS.Migrations
                     BalanceYear = table.Column<DateOnly>(type: "date", nullable: false),
                     Balance = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    PublicHolidaysId = table.Column<int>(type: "int", nullable: false)
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    PublicHolidaysId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -2400,11 +2396,6 @@ namespace N.G.HRS.Migrations
                 name: "IX_weekends_PermanenceModelsId",
                 table: "weekends",
                 column: "PermanenceModelsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_weekends_PermanenceModelsId1",
-                table: "weekends",
-                column: "PermanenceModelsId1");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Penalties_penaltiesAndViolationsForms_PenaltiesAndViolationsFormsId",

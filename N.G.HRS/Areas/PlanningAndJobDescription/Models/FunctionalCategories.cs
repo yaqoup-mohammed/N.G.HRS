@@ -8,10 +8,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        [StringLength(150)]
+        [Required (ErrorMessage = "!!اسم الفئة مطلوب من فضلك")]
+        [Display(Name = "اسم الفئة")]
+
         public string CategoriesName { get; set; }
         [StringLength(255)]
+        [Display(Name = "الملاحظة")]
         public string? Notes { get; set; }
         //==================================================
         public List<JobDescription>? JobDescriptionsList { get; set; }

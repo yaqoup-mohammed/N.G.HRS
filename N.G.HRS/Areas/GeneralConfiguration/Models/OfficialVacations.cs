@@ -6,13 +6,16 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = " أسم الاجازة الرسمية مطلوب!!")]
+        [Display (Name = " أسم الاجازة الرسمية ")]
         [StringLength(150)]
         public string VacationsName { get; set; }
-        [Required]
+        [Display (Name =" تاريخ البدء ")]
+        [Required(ErrorMessage ="تاريخ البدء مطلوب!!")]
         [DataType(DataType.Date)]
         public DateOnly FromDate { get; set; }
-        [Required]
+        [Display (Name =" تاريخ الانتهاء ")]
+        [Required(ErrorMessage ="تاريخ الانتهاء مطلوب!!")]
         [DataType(DataType.Date)]
         public DateOnly ToDate { get; set; }
 

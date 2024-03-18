@@ -10,17 +10,20 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
+        [Display(Name = "اسم الاجازة")]
         public string HolidayName { get; set; }
-        [Range(1, 100)]
-        public int? VacationsBalance { get; set; }
+        [Display(Name = "رصيد")]
+        public bool Balance { get; set; }
+        [Display(Name = " مدفوع الاجر")]
         public bool Paid { get; set;}
-        [Range(0,100)]
+        [Range(0,31)]
+        [Display(Name = " عدد الايام الافتراضية")]
         public int? DayCount { get;set; }
         [Range(0, 100)]
-
+        [Display(Name = "مدة التدوير")]
         public int? RotationDuration { get; set; }
-        
         [StringLength(255)]
+        [Display(Name = "ملاحظات")]
         public string? Notes { get; set;}
         //=========================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }

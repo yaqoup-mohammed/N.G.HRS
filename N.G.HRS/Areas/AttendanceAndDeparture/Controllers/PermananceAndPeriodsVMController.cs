@@ -65,10 +65,15 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                     
                     if (PVM.permanenceModels != null)
                     {
+                        if(PVM.permanenceModels.FromDate >  PVM.permanenceModels.ToDate)
+                        {
+                            TempData["Error"] = "يجب ان يكون تاريخ الانتهاء اكبر من تاريخ البدء";
+                            return View(PVM);
+                        }
                         await _permanenceModelsRepository.AddAsync(PVM.permanenceModels);
                         //================================================
                         TempData["Success"] = "تم الحفظ بنجاح";
-                        return View();
+                        return View(PVM);
                         //return RedirectToAction(nameof(Index));
 
 
@@ -134,6 +139,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
         private async Task PopulateDropdownListsAsync()
         {
+
             var periods = await _appDbContext.periods.ToListAsync();
             ViewData["Periods"] = new SelectList(periods, "Id", "PeriodsName");
             var permanance = await _appDbContext.permanenceModels.ToListAsync();
