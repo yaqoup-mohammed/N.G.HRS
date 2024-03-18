@@ -657,7 +657,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -691,13 +690,14 @@ namespace N.G.HRS.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("PublicHolidaysId")
+                    b.Property<int?>("PublicHolidaysId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1534,14 +1534,17 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Data")
                         .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1827,6 +1830,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Balance")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("DayCount")
                         .HasColumnType("int");
 
@@ -1843,9 +1849,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("RotationDuration")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VacationsBalance")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -3044,14 +3047,12 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
                         .WithMany("OpeningBalancesForVacationsList")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.PublicHolidays", "PublicHolidays")
                         .WithMany("OpeningBalancesForVacationsList")
                         .HasForeignKey("PublicHolidaysId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Employee");
 
