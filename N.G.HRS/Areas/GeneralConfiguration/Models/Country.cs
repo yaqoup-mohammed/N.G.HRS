@@ -9,11 +9,13 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         [StringLength(150)]
-        
+        [Display(Name = "الدولة")]
         public string? Name { get; set; }
         [StringLength(255)]
+        [Display(Name = "الملاحظات")]
+        public string Data { get; set; }
+
         public string? Notes { get; set; }
         //=======================================================
         public List<Governorate>? governoratesList { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
+using N.G.HRS.Areas.Employees.ViewModel;
 using N.G.HRS.Date;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
@@ -51,13 +52,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration");
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "Id");
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName");
-            ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName");
+            await PopulateDropdownListsAsync();
+
             return View();
         }
 
@@ -70,22 +68,28 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(link.DateOfStartWork > link.DateOfEndWork)
+                try
                 {
-                    ViewData["error"] = "تاريخ النهاية يجب ان يكون اكبر من تاريخ الانتهاء!!";
-                    return View(link);
-                }
+                    if (link.DateOfStartWork > link.DateOfEndWork)
+                    {
+                        TempData["Error"] = "تاريخ النهاية يجب ان يكون اكبر من تاريخ الانتهاء!!";
+                        return View(link);
+                    }
                     _context.Add(link);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(link);
+                }
+
+
 
             }
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration", link.DepartmentsId);
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", link.EmployeeId);
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "Id", link.PeriodsId);
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName", link.PermanenceModelsId);
-            ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName", link.SectionsId);
+            await PopulateDropdownListsAsync();
+
             return View(link);
         }
 
@@ -102,11 +106,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 return NotFound();
             }
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration", linkingEmployeesToShiftPeriods.DepartmentsId);
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", linkingEmployeesToShiftPeriods.EmployeeId);
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "Id", linkingEmployeesToShiftPeriods.PeriodsId);
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName", linkingEmployeesToShiftPeriods.PermanenceModelsId);
-            ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName", linkingEmployeesToShiftPeriods.SectionsId);
+            await PopulateDropdownListsAsync();
+
             return View(linkingEmployeesToShiftPeriods);
         }
 
@@ -126,6 +127,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 try
                 {
+                    await PopulateDropdownListsAsync();
+
                     _context.Update(linkingEmployeesToShiftPeriods);
                     await _context.SaveChangesAsync();
                 }
@@ -142,11 +145,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration", linkingEmployeesToShiftPeriods.DepartmentsId);
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", linkingEmployeesToShiftPeriods.EmployeeId);
-            ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "Id", linkingEmployeesToShiftPeriods.PeriodsId);
-            ViewData["PermanenceModelsId"] = new SelectList(_context.permanenceModels, "Id", "PermanenceName", linkingEmployeesToShiftPeriods.PermanenceModelsId);
-            ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName", linkingEmployeesToShiftPeriods.SectionsId);
+
             return View(linkingEmployeesToShiftPeriods);
         }
 
@@ -191,6 +190,26 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         private bool LinkingEmployeesToShiftPeriodsExists(int id)
         {
             return _context.linkingEmployeesToShiftPeriods.Any(e => e.Id == id);
+        }
+
+        private async Task PopulateDropdownListsAsync()
+        {
+            var department = await _context.Departments.ToListAsync();
+            ViewData["DepartmentsId"] = new SelectList(department, "Id", "SubAdministration");
+            //====================================================
+            var section = await _context.Sections.ToListAsync();
+            ViewData["SectionsId"] = new SelectList(section, "Id", "SectionsName");
+            //=========================================================
+            var employee = await _context.employee.ToListAsync();
+            ViewData["EmployeeId"] = new SelectList(employee, "Id", "EmployeeName");
+            //============================================================
+            var permanance = await _context.permanenceModels.ToListAsync();
+            ViewData["PermanenceModelsId"] = new SelectList(permanance, "Id", "PermanenceName");
+            //============================================================
+            var period = await _context.periods.ToListAsync();
+            ViewData["PeriodsId"] = new SelectList(period, "Id", "PeriodsName");
+
+
         }
     }
 }

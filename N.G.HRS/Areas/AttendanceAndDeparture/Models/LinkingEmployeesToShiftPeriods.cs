@@ -9,12 +9,12 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="هذا الحقل مطلوب")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "من تاريخ")]
         public DateOnly DateOfStartWork { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "الى تاريخ")]
@@ -33,14 +33,20 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public Sections? Sections { get; set; }
         //=
         [ForeignKey("EmployeeId")]
+        [Display(Name = "الموظف")]
+
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
         //=
         [ForeignKey("PermanenceModelsId")]
+        [Display(Name = "الدوام")]
+
         public int? PermanenceModelsId { get; set; }
         public PermanenceModels? PermanenceModels { get; set; }
         //=
         [ForeignKey("PeriodsId")]
+        [Display(Name = "الفترة")]
+
         public int? PeriodsId { get; set; }
         public Periods? Periods { get; set; }
         //=

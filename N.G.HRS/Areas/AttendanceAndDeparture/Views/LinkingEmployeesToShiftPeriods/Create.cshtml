@@ -28,40 +28,40 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentsId" class="control-label"></label>
-                <select asp-for="DepartmentsId" class ="form-control" asp-items="ViewBag.DepartmentsId">
-                    <option value="">......</option>
+                <select asp-for="DepartmentsId" id="DepartmentsId" class="form-control" required asp-items="@(ViewData["DepartmentsId"] as SelectList)">
+                    <option value="">-- أختر الادارة --</option>
 
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="SectionsId" class="control-label"></label>
-                <select asp-for="SectionsId" class ="form-control" asp-items="ViewBag.SectionsId">
-                    <option value="">......</option>
+                <select asp-for="SectionsId" id="SectionsId" class="form-control" required asp-items="@(ViewData["SectionsId"] as SelectList)">
+                    <option value="">-- أختر قسم --</option>
 
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId">
-                    <option value="">......</option>
+                <select asp-for="EmployeeId" id="Employee" class="form-control" required asp-items="@(ViewData["EmployeeId"]as SelectList)">
+                    <option value="">-- أختر موظف --</option>
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="PermanenceModelsId" class="control-label"></label>
-                <select asp-for="PermanenceModelsId" class ="form-control" asp-items="ViewBag.PermanenceModelsId">
-                    <option value="">......</option>
+                <select asp-for="PermanenceModelsId" id="PermanenceModelsId" class="form-control" required asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
+                    <option value="">-- أختر دوام --</option>
 
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="PeriodsId" class="control-label"></label>
-                <select asp-for="PeriodsId" class ="form-control" asp-items="ViewBag.PeriodsId">
-                    <option value="">......</option>
+                <select asp-for="PeriodsId" class="form-control" id="PeriodsId" required asp-items="@(ViewData["PeriodsId"] as SelectList)">
+                    <option value="">-- أختر فترة --</option>
 
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" id="calculateButton1" class="btn btn-primary" />
+                <input type="submit" value="Create"  id="linkEmployee" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -73,37 +73,108 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+            <script>
 
-        const startTimeInput = document.getElementById("DateOfStartWork");
-        const endTimeInput = document.getElementById("DateOfEndWork");
+                const startTimeInput = document.getElementById("DateOfStartWork");
+                const endTimeInput = document.getElementById("DateOfEndWork");
 
-        function DateValidation() {
-            if (!startTimeInput || !endTimeInput || !hoursInput) {
-                alert("يجب تحديد تاريخ البدأ والنهاية!!");
-                return;
+                function DateValidation() {
+                    if (!startTimeInput || !endTimeInput || !hoursInput) {
+                        alert("يجب تحديد تاريخ البدأ والنهاية!!");
+                        return;
+                    }
+                    if (startTimeInput > endTimeInput) {
+                        alert("تاريخ النهاية يجب أن يكون اكبر من تاريخ البدأ!!");
+                    }
+
+                }
+                if (calculateButton1) {
+                    calculateButton1.addEventListener("click", DateValidation);
+                } else {
+                    startTimeInput.addEventListener("change", DateValidation);
+                    endTimeInput.addEventListener("change", DateValidation);
+                }
+            </script>
+            @if (ViewData["error"] != null)
+            {
+                <script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "خطئ!!",
+                        text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
+                    });
+                </script>
             }
-            if (startTimeInput > endTimeInput) {
-                alert("تاريخ النهاية يجب أن يكون اكبر من تاريخ البدأ!!");
+            else if (ViewData["Success"] != null)
+            {
+                <script>
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                </script>
             }
-
-        }
-        if (calculateButton1) {
-            calculateButton1.addEventListener("click", DateValidation);
-        } else {
-            startTimeInput.addEventListener("change", DateValidation);
-            endTimeInput.addEventListener("change", DateValidation);
-        }
-    </script>
-    @if (ViewData["error"] != null)
-    {
-        <script>
-            Swal.fire({
-                icon: "error",
-                title: "خطئ!!",
-                text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
-            });
-        </script>
-    }
+@*             //========================================================
+ *@            <script>
+                       document.getElementById("linkEmployee").addEventListener("click", function (event) {
+        @*             const selectElement = document.getElementById("Employee11");
+                           if (selectElement.value === "") {
+                           event.preventDefault(); // Prevent form submission
+                           Swal.fire({
+                           icon: "error",
+                           title: "خطئ....",
+                           text: "رجاء أختر موظف ",
+                           });
+                           } *@
+                                       const PeriodsId = document.getElementById("PeriodsId");
+                           if (PeriodsId.value === "") {
+                               event.preventDefault(); // Prevent form submission
+                               Swal.fire({
+                                   icon: "error",
+                                   title: "خطئ....",
+                                   text: "رجاء أختر فترة ",
+                               });
+                           }
+                           const PermanenceModelsId = document.getElementById("PermanenceModelsId");
+                           if (PermanenceModelsId.value === "") {
+                               event.preventDefault(); // Prevent form submission
+                               Swal.fire({
+                                   icon: "error",
+                                   title: "خطئ....",
+                                   text: "رجاء أختر الدوام ",
+                               });
+                           }
+                           const Employee = document.getElementById("Employee");
+                           if (Employee.value === "") {
+                               event.preventDefault(); // Prevent form submission
+                               Swal.fire({
+                                   icon: "error",
+                                   title: "خطئ....",
+                                   text: "رجاء أختر موظف ",
+                               });
+                           }
+                           const DepartmentsId = document.getElementById("DepartmentsId");
+                           if (DepartmentsId.value === "") {
+                               event.preventDefault(); // Prevent form submission
+                               Swal.fire({
+                                   icon: "error",
+                                   title: "خطئ....",
+                                   text: "رجاء أختر الادارة ",
+                               });
+                           }
+                           const SectionsId = document.getElementById("SectionsId");
+                           if (SectionsId.value === "") {
+                               event.preventDefault(); // Prevent form submission
+                               Swal.fire({
+                                   icon: "error",
+                                   title: "خطئ....",
+                                   text: "رجاء أختر القسم ",
+                               });
+                           }
+                       });
+                </script>
 
 }

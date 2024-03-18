@@ -415,7 +415,9 @@
                             // Calculate hours and minutes
                             const hours = Math.floor(timeDiff / (1000 * 60 * 60));
                             const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
+                            if (minutes == 0) {
+                            hoursInput.value = hours;
+                            }
                             // Update hours and minutes input fields
                             hoursInput.value = (hours + ":" + minutes);
                             minutesInput.value = hours * 60 + minutes; // Ensure two-digit format
@@ -441,7 +443,7 @@
                         const attendanceCheckbox = document.getElementById("AttendanceCheckbox");
                         const earlyattendance = document.getElementById("earlyAttendance");
                         const lateattendance = document.getElementById("lateAttendance");
-                        const hoursInput = document.getElementById("nnHours");
+                        const hoursInput1 = document.getElementById("nnHours");
 
                         // Initial state (hide form if checkbox is unchecked)
                         if (!checkBox.checked || !flexa.checked || !attendanceCheckbox.checked) {
@@ -474,7 +476,7 @@
                                 nFromTime.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
                                 nToTime.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
                                 nhours.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                                hoursInput.style = `background-color: #00000005;cursor:context-menu;`;
+                                hoursInput1.style = `background-color: #00000005;cursor:context-menu;`;
 
 
                                 checkBox.checked = false;
@@ -498,7 +500,7 @@
                             const startTimeInput = document.getElementById("nnFromTime");
                             const endTimeInput = document.getElementById("nnToTime");
 
-                            if (!startTimeInput || !endTimeInput || !hoursInput) {
+                            if (!startTimeInput || !endTimeInput || !hoursInput1) {
                                 console.error("Missing input elements: startTime, endTime or hours");
                                 return;
                             }
@@ -531,12 +533,12 @@
                             }
                             const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                             if (minutes == 0) {
-                                hoursInput.value = hours;
+                            hoursInput1.value = hours;
 
                             }
                             else {
                                 // Update hours and minutes input fields
-                                hoursInput.value = (hours + ":" + minutes.toString().padStart(2, "0"));
+                                 hoursInput1.value = (hours + ":" + minutes.toString().padStart(2, "0"));
 
                             }
 
@@ -569,32 +571,32 @@
                             });
                             openFormButton.addEventListener("click", function () {
                                 open.style = `
-                                                            display:block;
+                                                                                                            display:block;
 
-                                                            position: fixed;
-                                                                top: 0;
-                                                                left: 0;
-                                                                width: 100%;
-                                                                height: 100%;
-                                                                background-color: rgba(0, 0, 0, 0.5);
-                                                                backdrop-filter: blur(5px);
-                                                                z-index: 9998;`;
+                                                                                                            position: fixed;
+                                                                                                                top: 0;
+                                                                                                                left: 0;
+                                                                                                                width: 100%;
+                                                                                                                height: 100%;
+                                                                                                                background-color: rgba(0, 0, 0, 0.5);
+                                                                                                                backdrop-filter: blur(5px);
+                                                                                                                z-index: 9998;`;
 
                                 form.style = `
-                                                            width:90%;
-                                                            display:block;
-                                                            position: fixed;
-                                                                top: 50%;
-                                                                left: 50%;
-                                                                transform: translate(-50%, -50%);
-                                                                background-color: #fff;
-                                                                padding: 20px;
-                                                                border: 1px solid #ccc;
-                                                                border-radius: 5px;
-                                                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                                        z-index: 99998;
-                                                                opacity: 1; /* Initially hidden */
-                                                                transition: opacity 0.3s ease-in-out;`;
+                                                                                                            width:90%;
+                                                                                                            display:block;
+                                                                                                            position: fixed;
+                                                                                                                top: 50%;
+                                                                                                                left: 50%;
+                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                background-color: #fff;
+                                                                                                                padding: 20px;
+                                                                                                                border: 1px solid #ccc;
+                                                                                                                border-radius: 5px;
+                                                                                                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                                                                                                                        z-index: 99998;
+                                                                                                                opacity: 1; /* Initially hidden */
+                                                                                                                transition: opacity 0.3s ease-in-out;`;
                             });
                             //=========================================
                             const table = document.getElementById("table");
@@ -619,7 +621,7 @@
                                 };
                                 if (
                                     !newData.fieldName1 ||
-                                    !newData.fieldName2||
+                                    !newData.fieldName2 ||
                                     !newData.fieldName3
                                 ) {
                                     alert("Please fill in all fields");
@@ -640,22 +642,22 @@
                                     temporaryData.push(newData); // Add data to temporary array
 
                                     $("#temporaryTable").append(`
-                                <tr>
-                                <td>${newData.fieldName1}</td>
-                                <td>${newData.fieldName2}</td>
-                                <td>${newData.fieldName3}</td>
-                                <td>${newData.fieldName4}</td>
-                                <td>${newData.fieldName5}</td>
-                                <td>${newData.fieldName6}</td>
-                                <td>${newData.fieldName7}</td>
-                                <td>${newData.fieldName8}</td>
-                                <td>${newData.fieldName9}</td>
-                                <td>${newData.fieldName10}</td>
-                                <td>${newData.fieldName11}</td>
-                                <td>${newData.fieldName12}</td>
-                                <td><button class="removeButton btn btn-danger" >إزالة</button></td>
-                                </tr>
-                            `);
+                                                                                <tr>
+                                                                                <td>${newData.fieldName1}</td>
+                                                                                <td>${newData.fieldName2}</td>
+                                                                                <td>${newData.fieldName3}</td>
+                                                                                <td>${newData.fieldName4}</td>
+                                                                                <td>${newData.fieldName5}</td>
+                                                                                <td>${newData.fieldName6}</td>
+                                                                                <td>${newData.fieldName7}</td>
+                                                                                <td>${newData.fieldName8}</td>
+                                                                                <td>${newData.fieldName9}</td>
+                                                                                <td>${newData.fieldName10}</td>
+                                                                                <td>${newData.fieldName11}</td>
+                                                                                <td>${newData.fieldName12}</td>
+                                                                                <td><button class="removeButton btn btn-danger" >إزالة</button></td>
+                                                                                </tr>
+                                                                            `);
                                     // Clear input fields
 
                                     $("#PeriodsName").val("");
@@ -676,10 +678,7 @@
                                     $("#submitButton").prop("disabled", temporaryData.length === 0);
                                 }
                             });
-
-
                         });
-
                         $(document).on("click", ".removeButton", function () {
                             const index = $(this).closest("tr").index();
                             temporaryData.splice(index, 1);
@@ -700,5 +699,15 @@
                         });
 
                     </script>
+                    @if (ViewData["error"] != null)
+                    {
+                        <script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "خطئ!!",
+                                text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
+                            });
+                        </script>
+                    }
 
                 }
