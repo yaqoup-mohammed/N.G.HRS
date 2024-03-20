@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A : Migration
+    public partial class A0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -159,7 +159,7 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Data = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Data = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -1008,11 +1008,10 @@ namespace N.G.HRS.Migrations
                     Wednesday = table.Column<bool>(type: "bit", nullable: false),
                     Thursday = table.Column<bool>(type: "bit", nullable: false),
                     Friday = table.Column<bool>(type: "bit", nullable: false),
-                    PermanenceModelsId = table.Column<int>(type: "int", nullable: false),
-                    PeriodsId = table.Column<int>(type: "int", nullable: false),
+                    PermanenceModelsId = table.Column<int>(type: "int", nullable: true),
+                    PeriodsId = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(34)", maxLength: 34, nullable: false),
-                    NumbersOfHours = table.Column<int>(type: "int", nullable: true),
-                    PermanenceModelsId1 = table.Column<int>(type: "int", nullable: true)
+                    NumbersOfHours = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1025,11 +1024,6 @@ namespace N.G.HRS.Migrations
                     table.ForeignKey(
                         name: "FK_weekends_permanenceModels_PermanenceModelsId",
                         column: x => x.PermanenceModelsId,
-                        principalTable: "permanenceModels",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_weekends_permanenceModels_PermanenceModelsId1",
-                        column: x => x.PermanenceModelsId1,
                         principalTable: "permanenceModels",
                         principalColumn: "Id");
                 });
@@ -2401,11 +2395,6 @@ namespace N.G.HRS.Migrations
                 name: "IX_weekends_PermanenceModelsId",
                 table: "weekends",
                 column: "PermanenceModelsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_weekends_PermanenceModelsId1",
-                table: "weekends",
-                column: "PermanenceModelsId1");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Penalties_penaltiesAndViolationsForms_PenaltiesAndViolationsFormsId",

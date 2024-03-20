@@ -59,20 +59,20 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             if (ModelState.IsValid)
             {   
-                if(country != null)
-                {
-                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
-                    foreach (var item in data)
-                    {
-                        _context.AddAsync(item);
+                //if(country != null)
+                //{
+                    //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
+                    //foreach (var item in data)
+                    //{
+                        _context.AddAsync(country);
                         await _context.SaveChangesAsync();
-                    }
+                    //}
                     TempData["Success"] = "تم الحفظ بنجاح";
-                }
-                else
-                {
-                   TempData["Error"] = "لم تتم الإضافة، لم يتم إرسال بيانات الدول";
-                }
+                //}
+                //else
+                //{
+                //   TempData["Error"] = "لم تتم الإضافة، لم يتم إرسال بيانات الدول";
+                //}
                 return RedirectToAction(nameof(Index));
             }
             return View(country);

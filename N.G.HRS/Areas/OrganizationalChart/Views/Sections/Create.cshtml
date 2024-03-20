@@ -42,4 +42,18 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById("submit").addEventListener("click", function (event) {
+            const branches = document.getElementById("branches");
+
+            if (branches.value === "") {
+                event.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    icon: "error",
+                    title: "خطئ....",
+                    text: "رجاء أختر  الادارة!",
+                });
+            }
+        });
+    </script>
 }

@@ -8,16 +8,21 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "التاريخ")]
         [DataType(DataType.Date)]
         public DateOnly? Date { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [StringLength(150)]
+        [Display(Name = "اسم المجلس")]
+
         public string? CouncilName { get; set; }
         [StringLength(255)]
+        [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [StringLength(150)]
+        [Display(Name = "الاسم")]
         public string? NameOfMembership { get; set; }
         //=========================================
 
@@ -25,6 +30,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
 
         //=
         [ForeignKey("MembershipOfTheBoardOfDirectorsId")]
+        [Display(Name = "اسم العضوية")]
+
         public int? MembershipOfTheBoardOfDirectorsId { get; set; }
         public MembershipOfTheBoardOfDirectors? MembershipOfTheBoardOfDirectors { get; set; }
 

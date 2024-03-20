@@ -14,7 +14,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string? Name { get; set; }
         [StringLength(255)]
         [Display(Name = "الملاحظات")]
-        public string Data { get; set; }
+        public string? Data { get; set; }
 
         public string? Notes { get; set; }
         //=======================================================

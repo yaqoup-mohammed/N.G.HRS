@@ -40,10 +40,11 @@
                         <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
                         <span asp-validation-for="Notes" class="text-danger"></span>
                     </div>
-                    <button id="addButton" type="button" class="btn btn-primary"> <i data-feather="plus"></i></button>
-
-                    <input type="submit" id="submitButton" value="انهاء" class="btn btn-primary me-2" />
-
+@*                     <button id="addButton" type="button" class="btn btn-primary"> <i data-feather="plus"></i></button>
+ *@
+                    <input type="submit"  value="انهاء" class="btn btn-primary me-2" />
+@*                     <input type="submit" id="submitButton" value="انهاء" class="btn btn-primary me-2" />
+ *@
                 </form>
                 <div>
                     <br />
@@ -85,76 +86,76 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         //==================
-        $(document).ready(function () {
+        // $(document).ready(function () {
 
-            let temporaryData = []; // Array to store temporary data
-            $("#submitButton").prop("disabled", temporaryData.length === 0);
+        //     let temporaryData = []; // Array to store temporary data
+        //     $("#submitButton").prop("disabled", temporaryData.length === 0);
 
-            const table = document.getElementById("table");
-            $("#addButton").click(function () {
+        //     const table = document.getElementById("table");
+        //     $("#addButton").click(function () {
 
-                const newData = {
-                    // Add input field names and their corresponding values here
-                    fieldName1: $("#Country").val(),
-                    fieldName2: $("#CountryNotes").val(),
+        //         const newData = {
+        //             // Add input field names and their corresponding values here
+        //             fieldName1: $("#Country").val(),
+        //             fieldName2: $("#CountryNotes").val(),
 
 
-                    // ... add more fields as needed
-                };
-                if (!newData.fieldName1) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "يرجى تعبئة الحقول اولا",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                } else {
-                    table.style = `display:block;`;
+        //             // ... add more fields as needed
+        //         };
+        //         if (!newData.fieldName1) {
+        //             Swal.fire({
+        //                 icon: "error",
+        //                 title: "يرجى تعبئة الحقول اولا",
+        //                 showConfirmButton: false,
+        //                 timer: 1500
+        //             });
+        //         } else {
+        //             table.style = `display:block;`;
 
-                    temporaryData.push(newData); // Add data to temporary array
-                    $("#temporaryTable").append(`
-                                                                <tr>
-                                                                <td>#</td>
-                                                                <td>${newData.fieldName1}</td>
-                                                                <td>${newData.fieldName2}</td>
-                                                                <td><button class="removeButton btn btn-danger" >إزالة</button></td>
-                                                                </tr>
-                                        `);
+        //             temporaryData.push(newData); // Add data to temporary array
+        //             $("#temporaryTable").append(`
+        //                                                         <tr>
+        //                                                         <td>#</td>
+        //                                                         <td>${newData.fieldName1}</td>
+        //                                                         <td>${newData.fieldName2}</td>
+        //                                                         <td><button class="removeButton btn btn-danger" >إزالة</button></td>
+        //                                                         </tr>
+        //                                 `);
 
-                    // Clear input fields
+        //             // Clear input fields
 
-                    $("#Country").val("");
-                    $("#CountryNotes").val("");
+        //             $("#Country").val("");
+        //             $("#CountryNotes").val("");
 
-                    // ... clear other input fields
+        //             // ... clear other input fields
 
-                    // Disable submit button if no data (optional)
-                    $("#submitButton").prop("disabled", temporaryData.length === 0);
-                }
-            });
-        });
+        //             // Disable submit button if no data (optional)
+        //             $("#submitButton").prop("disabled", temporaryData.length === 0);
+        //         }
+        //     });
+        // });
 
-            $(document).on("click", ".removeButton", function () {
-                const index = $(this).closest("tr").index();
-                temporaryData.splice(index, 1);
-                $(this).closest("tr").remove();
+        //     $(document).on("click", ".removeButton", function () {
+        //         const index = $(this).closest("tr").index();
+        //         temporaryData.splice(index, 1);
+        //         $(this).closest("tr").remove();
 
-                // Update submit button state (optional)
-                $("#submitButton").prop("disabled", temporaryData.length === 0);
-            });
-            function addData() {
-                var add= [];
-                temporaryData.forEach(function (data) {
+        //         // Update submit button state (optional)
+        //         $("#submitButton").prop("disabled", temporaryData.length === 0);
+        //     });
+        //     function addData() {
+        //         var add= [];
+        //         temporaryData.forEach(function (data) {
 
-            }
-            $("#submitButton").click(function () {
-                // // Send data to server using AJAX or other methods
-                // console.log("Temporary Data:", temporaryData); // Simulate sending to server
-            $("#CountryData").val(JSON.stringify(temporaryData));
-                // Clear temporary data and table after submission (optional)
-                temporaryData = [];
-                $("#temporaryTable").empty();
-                $("#submitButton").prop("disabled", true);
-            });
+        //     }
+        //     $("#submitButton").click(function () {
+        //         // // Send data to server using AJAX or other methods
+        //         // console.log("Temporary Data:", temporaryData); // Simulate sending to server
+        //     $("#CountryData").val(JSON.stringify(temporaryData));
+        //         // Clear temporary data and table after submission (optional)
+        //         temporaryData = [];
+        //         $("#temporaryTable").empty();
+        //         $("#submitButton").prop("disabled", true);
+        //     });
     </script>
 }

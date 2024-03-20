@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,11 +15,15 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class MembershipOfTheBoardOfDirectorsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<MembershipOfTheBoardOfDirectors> _membershipOfTheBoardOfDirectorsRepository;
 
-        public MembershipOfTheBoardOfDirectorsController(AppDbContext context)
+
+        public MembershipOfTheBoardOfDirectorsController(AppDbContext context, IRepository<MembershipOfTheBoardOfDirectors> membershipOfTheBoardOfDirectorsRepository)
         {
             _context = context;
+            _membershipOfTheBoardOfDirectorsRepository = membershipOfTheBoardOfDirectorsRepository;
         }
+
 
         // GET: OrganizationalChart/MembershipOfTheBoardOfDirectors
         public async Task<IActionResult> Index()
@@ -59,9 +64,17 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(membershipOfTheBoardOfDirectors);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _membershipOfTheBoardOfDirectorsRepository.AddAsync(membershipOfTheBoardOfDirectors);
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(membershipOfTheBoardOfDirectors);
+                }
             }
             return View(membershipOfTheBoardOfDirectors);
         }
@@ -74,7 +87,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 return NotFound();
             }
 
-            var membershipOfTheBoardOfDirectors = await _context.membershipOfTheBoardOfs.FindAsync(id);
+            var membershipOfTheBoardOfDirectors =  await _membershipOfTheBoardOfDirectorsRepository.GetByIdAsync(id);
             if (membershipOfTheBoardOfDirectors == null)
             {
                 return NotFound();
@@ -98,8 +111,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 try
                 {
-                    _context.Update(membershipOfTheBoardOfDirectors);
-                    await _context.SaveChangesAsync();
+                    await _membershipOfTheBoardOfDirectorsRepository.UpdateAsync(membershipOfTheBoardOfDirectors);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,13 +152,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var membershipOfTheBoardOfDirectors = await _context.membershipOfTheBoardOfs.FindAsync(id);
+            var membershipOfTheBoardOfDirectors = await _membershipOfTheBoardOfDirectorsRepository.GetByIdAsync(id);
             if (membershipOfTheBoardOfDirectors != null)
             {
-                _context.membershipOfTheBoardOfs.Remove(membershipOfTheBoardOfDirectors);
+                await _membershipOfTheBoardOfDirectorsRepository.DeleteAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -154,5 +165,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             return _context.membershipOfTheBoardOfs.Any(e => e.Id == id);
         }
+ 
     }
 }

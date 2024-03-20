@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class BoardOfDirectorsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<BoardOfDirectors> _boardOfDirectorsRepository;
 
-        public BoardOfDirectorsController(AppDbContext context)
+        public BoardOfDirectorsController(AppDbContext context, IRepository<BoardOfDirectors> boardOfDirectorsRepository)
         {
             _context = context;
+            _boardOfDirectorsRepository = boardOfDirectorsRepository;
         }
 
         // GET: OrganizationalChart/BoardOfDirectors
@@ -47,9 +50,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/BoardOfDirectors/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["MembershipOfTheBoardOfDirectorsId"] = new SelectList(_context.membershipOfTheBoardOfs, "Id", "TypeOFMembership");
+            await PopulateDropdownListsAsync();
             return View();
         }
 
@@ -60,13 +63,14 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,CouncilName,Notes,NameOfMembership,MembershipOfTheBoardOfDirectorsId")] BoardOfDirectors boardOfDirectors)
         {
+            await PopulateDropdownListsAsync();
+
             if (ModelState.IsValid)
             {
-                _context.Add(boardOfDirectors);
-                await _context.SaveChangesAsync();
+
+                _boardOfDirectorsRepository.AddAsync(boardOfDirectors);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MembershipOfTheBoardOfDirectorsId"] = new SelectList(_context.membershipOfTheBoardOfs, "Id", "TypeOFMembership", boardOfDirectors.MembershipOfTheBoardOfDirectorsId);
             return View(boardOfDirectors);
         }
 
@@ -77,13 +81,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var boardOfDirectors = await _context.boardOfDirectors.FindAsync(id);
+            var boardOfDirectors = await _boardOfDirectorsRepository.GetByIdAsync(id);
             if (boardOfDirectors == null)
             {
                 return NotFound();
             }
-            ViewData["MembershipOfTheBoardOfDirectorsId"] = new SelectList(_context.membershipOfTheBoardOfs, "Id", "TypeOFMembership", boardOfDirectors.MembershipOfTheBoardOfDirectorsId);
             return View(boardOfDirectors);
         }
 
@@ -103,8 +107,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 try
                 {
-                    _context.Update(boardOfDirectors);
-                    await _context.SaveChangesAsync();
+                    await PopulateDropdownListsAsync();
+
+                    _boardOfDirectorsRepository.UpdateAsync(boardOfDirectors);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +124,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MembershipOfTheBoardOfDirectorsId"] = new SelectList(_context.membershipOfTheBoardOfs, "Id", "TypeOFMembership", boardOfDirectors.MembershipOfTheBoardOfDirectorsId);
             return View(boardOfDirectors);
         }
 
@@ -147,10 +151,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var boardOfDirectors = await _context.boardOfDirectors.FindAsync(id);
+            var boardOfDirectors = await _boardOfDirectorsRepository.GetByIdAsync(id);
             if (boardOfDirectors != null)
             {
-                _context.boardOfDirectors.Remove(boardOfDirectors);
+                _boardOfDirectorsRepository.DeleteAsync(id);
             }
 
             await _context.SaveChangesAsync();
@@ -160,6 +164,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         private bool BoardOfDirectorsExists(int id)
         {
             return _context.boardOfDirectors.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var membershipOfTheBoardOfs = await _context.membershipOfTheBoardOfs.ToListAsync();
+            ViewData["membershipOfTheBoardOfs"] = new SelectList(membershipOfTheBoardOfs, "Id", "TypeOFMembership");
+            //====================================================
         }
     }
 }
