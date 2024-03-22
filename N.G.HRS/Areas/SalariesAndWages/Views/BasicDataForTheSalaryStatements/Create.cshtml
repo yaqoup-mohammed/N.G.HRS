@@ -6,92 +6,418 @@
     Layout = "_Layout";
 
 }
-<h1>Create</h1>
 
-<h4>BasicDataForTheSalaryStatement</h4>
-<hr />
+@* ========================================= *@
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-controller="Home" asp-area=""> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index"  >بيانات الاساسية  لكشف الراتب</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            إضافة
+        </li>
+    </ol>
+</nav>
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HealthInsuranceIncluded" /> @Html.DisplayNameFor(model => model.HealthInsuranceIncluded)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RetirementInsuranceIncluded" /> @Html.DisplayNameFor(model => model.RetirementInsuranceIncluded)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IncludesTheWorkShareInRetirementInsurance" /> @Html.DisplayNameFor(model => model.IncludesTheWorkShareInRetirementInsurance)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IncludesTaxCalculation" /> @Html.DisplayNameFor(model => model.IncludesTaxCalculation)
-                </label>
-            </div>
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">  بيانات الاساسية  لكشف الراتب  </h6>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-1">
+                                <label asp-for="IncludesAdditionalData" class="form-label"></label>
+                                <select asp-for="IncludesAdditionalData" class="form-control">
+                                    <option value="Yes">نعم</option>
+                                    <option value="No">لا</option>
+                                </select>
+                                <span asp-validation-for="IncludesAdditionalData" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label asp-for="HealthInsuranceIncluded" class="form-label"></label>
+                                <select asp-for="HealthInsuranceIncluded" id="Health" class="form-control" >
+                                    <option value="Yes">نعم</option>
+                                    <option value="No">لا</option>
+                                </select>
+                                <span asp-validation-for="HealthInsuranceIncluded" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
 
-                <div class="form-group">
-                    <label asp-for="TaxFrom" class="control-label"></label>
-                    <input asp-for="TaxFrom" class="form-control" />
-                    <span asp-validation-for="TaxFrom" class="text-danger"></span>
-                </div>
-           
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AllowancesIncluded" /> @Html.DisplayNameFor(model => model.AllowancesIncluded)
-                </label>
+                        <div class="col-sm-1" style="display: flex;align-content: center;justify-content: center;align-items: center;">
+                            <div class="mb-1">
+                                <i data-feather="chevrons-left" id="healthWarning" style="color: #e9ecef;"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-4" id="Percentagegroup">
+                                <label asp-for="Percentage" class="form-label"></label>
+                                <input asp-for="Percentage" id="Percentage" placeholder="النســـ%ــبة" class="form-control" />
+                                <span asp-validation-for="Percentage" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="mb-1">
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label asp-for="AllowancesIncluded" class="form-label"></label>
+                                <select asp-for="AllowancesIncluded" class="form-control">
+                                    <option value="Yes">نعم</option>
+                                    <option value="No">لا</option>
+                                </select>
+                                <span asp-validation-for="AllowancesIncluded" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3" >
+                                <label asp-for="RetirementInsuranceIncluded" class="form-label"></label>
+                                <select asp-for="RetirementInsuranceIncluded" id="Retirement" class="form-control">
+                                    <option value="Yes">نعم</option>
+                                    <option value="No">لا</option>
+                                </select>
+                                <span asp-validation-for="RetirementInsuranceIncluded" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Col -->
+                        <div class="col-sm-1" style="display: flex;align-content: center;justify-content: center;align-items: center;">
+                            <div class="mb-1">
+                                <i data-feather="chevrons-left" id="RetirementWarning" style="color: #e9ecef;"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-4" id="employeePercentageGroup">
+                                <label asp-for="PercentageOnEmployee" class="form-label"></label>
+                                <input asp-for="PercentageOnEmployee" id="employeePercentage" placeholder="النســــ%ــبة على الموظف" class="form-control" />
+                                <span asp-validation-for="PercentageOnEmployee" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="mb-1">
+
+                            </div>
+                        </div>
+                        <!-- Col -->
+                    </div>
+                    <!-- Row -->
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label asp-for="IncludesTheWorkShareInRetirementInsurance" class="form-label"></label>
+                                <select asp-for="IncludesTheWorkShareInRetirementInsurance" id="IncludesTheWorkShareIn" class="form-control">
+                                    <option value="Yes">نعم</option>
+                                    <option value="No">لا</option>
+                                </select>
+                                <span asp-validation-for="IncludesTheWorkShareInRetirementInsurance" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        
+  
+                        <div class="col-sm-1" style="display: flex;align-content: center;justify-content: center;align-items: center;">
+                            <div class="mb-1">
+                                <i data-feather="chevrons-left" id="IncludesTheWorkShareWarning" style="color: #e9ecef;"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-4" id="PercentageOnCompanyGroup">
+                                <label asp-for="PercentageOnCompany" class="form-label"></label>
+                                <input asp-for="PercentageOnCompany" id="PercentageOnCompany" placeholder=" النســـ%ـبة على الشـــركــــة" class="form-control" />
+                                <span asp-validation-for="PercentageOnCompany" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="mb-1">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row -->
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label asp-for="IncludesTaxCalculation" class="form-label"></label>
+                                <select asp-for="IncludesTaxCalculation" id="includesTax" class="form-control">
+                                    <option value="Yes">نعم</option>
+                                    <option value="No">لا</option>
+                                </select>
+                                <span asp-validation-for="IncludesTaxCalculation" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3" id="TaxFromGroup">
+                                <label asp-for="TaxFrom" class="form-label"></label>
+                                <select asp-for="TaxFrom" class="form-control">
+                                    <option value="F1">من صافي الاستحقاق</option>
+                                    <option value="F2">من اجمالي الاستحقاق</option>
+                                </select>
+                                <span asp-validation-for="TaxFrom" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="col">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <label asp-for="FromDate" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="FromDate" id="FromFate" class="form-control" placeholder="أختر التاريخ"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="FromDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+
+
+                            <label asp-for="ToDate" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أختر التاريخ"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="ToDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="col">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <!-- Row -->
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="mb-11">
+                                <label asp-for="Notes" class="form-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+
+                        <div class="col-sm-1">
+                            <div class="mb-1">
+                                <input type="submit" id="submitButton" value="Create" class="btn btn-primary" />
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <a asp-action="Index" class="btn btn-light">Back to List</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IncludesAdditionalData" /> @Html.DisplayNameFor(model => model.IncludesAdditionalData)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="FromDate" class="control-label"></label>
-                <input asp-for="FromDate" class="form-control" />
-                <span asp-validation-for="FromDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ToDate" class="control-label"></label>
-                <input asp-for="ToDate" class="form-control" />
-                <span asp-validation-for="ToDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Percentage" class="control-label"></label>
-                <input asp-for="Percentage" class="form-control" />
-                <span asp-validation-for="Percentage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PercentageOnEmployee" class="control-label"></label>
-                <input asp-for="PercentageOnEmployee" class="form-control" />
-                <span asp-validation-for="PercentageOnEmployee" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PercentageOnCompany" class="control-label"></label>
-                <input asp-for="PercentageOnCompany" class="form-control" />
-                <span asp-validation-for="PercentageOnCompany" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    const fromDate = document.getElementById("FromFate");
+    const toDate = document.getElementById("ToDate");
+    fromDate.addEventListener("change", function () {
+        if (toDate.value !=="") {
+            if (fromDate.value >= toDate.value) {
+                Swal.fire({
+                    icon: "error",
+                    title: "تاريخ البدء يجب أن يكون اكبر من تاريخ النهاية",
+                });
+                fromDate.value = "";
+            }
+
+        }
+
+    });
+    toDate.addEventListener("change", function () {
+        if (fromDate.value != null) {
+            if (this.value <= fromDate.value) {
+                Swal.fire({
+                    icon: "error",
+                    title: "تاريخ البدء يجب أن يكون اكبر من تاريخ النهاية",
+                });
+                this.value ="";
+            }
+        }
+        else {
+                if (this.value <= fromDate.value) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "تاريخ البدء يجب أن يكون اكبر من تاريخ النهاية",
+                    });
+                    this.value = "";
+
+                }
+        }
+    });
+        const Health =document.getElementById("Health");
+        const Percentagegroup = document.getElementById("Percentagegroup");
+        const healthawrning = document.getElementById("healthWarning");
+        const submitButton = document.getElementById("submitButton");
+        const Percentage = document.getElementById("Percentage");
+        const Retirement = document.getElementById("Retirement");
+        const employeePercentageGroup = document.getElementById("employeePercentageGroup");
+        const employeePercentage = document.getElementById("employeePercentage");
+        const IncludesTheWorkShareIn = document.getElementById("IncludesTheWorkShareIn");
+        const PercentageOnCompanyGroup = document.getElementById("PercentageOnCompanyGroup");
+        const PercentageOnCompany = document.getElementById("PercentageOnCompany");
+        const retirementWarning = document.getElementById("RetirementWarning");
+        const IncludesTheWorkShareWarning = document.getElementById("IncludesTheWorkShareWarning");
+        const TaxFromGroup = document.getElementById("TaxFromGroup");
+        const IncludesTax = document.getElementById("includesTax");
+
+
+        Health.addEventListener("change", function () 
+        {
+            if (this.value != null) {
+                if (this.value == "No") {
+                    Percentagegroup.style = `pointer-events: none; filter: none; opacity: .5;`;
+                }
+                if (this.value == "Yes") {
+                    Percentagegroup.style = `pointer-events: all; filter: none; opacity: 1;`;
+                }
+            }
+
+        });
+        //======================================================
+    Retirement.addEventListener("change", function () 
+    {
+            if (this.value != null) {
+                if (this.value == "No") {
+                    employeePercentageGroup.style = `pointer-events: none; filter: none; opacity: .5;`;
+                }
+                if (this.value == "Yes") {
+                    employeePercentageGroup.style = `pointer-events: all; filter: none; opacity: 1;`;
+                }
+            }
+    });
+    //==========================================================
+        IncludesTax.addEventListener("change", function () {
+            if (this.value != null) {
+                if (this.value == "No") {
+                    TaxFromGroup.style = `pointer-events: none; filter: none; opacity: .5;`;
+                }
+                if (this.value == "Yes") {
+                    TaxFromGroup.style = `pointer-events: all; filter: none; opacity: 1;`;
+                }
+            }
+    });
+    //==========================================================
+    IncludesTheWorkShareIn.addEventListener("change", function () {
+
+            if (this.value != null) {
+                if (this.value == "No") {
+                    PercentageOnCompanyGroup.style = `pointer-events: none; filter: none; opacity: .5;`;
+                }
+                if (this.value == "Yes") {
+                    PercentageOnCompanyGroup.style = `pointer-events: all; filter: none; opacity: 1;`;
+                }
+            }
+        
+        });
+        //====================================================
+    submitButton.addEventListener("click", function () {
+            if (fromDate.value != null || toDate.value != null) {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "يجب أدخال تاريخ  !",
+                });
+            }
+
+            if (Health.value == "Yes") 
+            {
+                if (Percentage.value === "") {
+                    healthWarning.style = `color:#940202;`;
+                    Swal.fire({
+                        icon: "error",
+                        title: "يجب إدخال نسبة التامين الصحي",
+                    });
+                }
+
+            }
+            else {
+                healthWarning.style = `color: #e9ecef;`;
+            }
+            //================================================
+            if (Retirement.value == "Yes")
+            {
+                if (employeePercentage.value === "") {
+                    retirementWarning.style = `color:#940202;`;
+                    
+                    Swal.fire({
+                        icon: "error",
+                        title: "يجب إدخال نسبة التامين التقاعدي",
+                    });
+                }
+            }
+            else {
+                retirementWarning.style = `color: #e9ecef;`;
+            }
+            //================================================
+            if (IncludesTheWorkShareIn.value == "Yes")
+            {
+                if (PercentageOnCompany.value === "") {
+                    IncludesTheWorkShareWarning.style = `color:#940202;`;
+                    Swal.fire({
+                        icon: "error",
+                        title: "يجب إدخال نسبة التامين التقاعدي على الشركة!",
+                    });
+                }
+            }
+            else {
+                IncludesTheWorkShareWarning.style = `color: #e9ecef;`;
+            }
+            //=======================================================
+            if(fromDate.value > toDate.value){
+                Swal.fire({
+                    icon: "error",
+                    title: "تاريخ البدء يجب أن يكون اكبر من تاريخ النهاية",
+                });
+            }
+    });
+    //=================================================================
+</script>
 }

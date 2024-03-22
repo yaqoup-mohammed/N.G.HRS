@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240321211300_A5")]
+    partial class A5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -401,13 +404,13 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("Percentage")
+                    b.Property<int>("Percentage")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PercentageOnCompany")
+                    b.Property<int>("PercentageOnCompany")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PercentageOnEmployee")
+                    b.Property<int>("PercentageOnEmployee")
                         .HasColumnType("int");
 
                     b.Property<string>("RetirementInsuranceIncluded")

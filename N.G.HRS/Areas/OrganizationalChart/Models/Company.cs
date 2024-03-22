@@ -11,7 +11,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Required(ErrorMessage = "هذا الحق مطلوب!!")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Column(TypeName = "date.yyyy")]
         [Display(Name = "التاريخ")]
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         [Required(ErrorMessage = "هذا الحق مطلوب!!")]

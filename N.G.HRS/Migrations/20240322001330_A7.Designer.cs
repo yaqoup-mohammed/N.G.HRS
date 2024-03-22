@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240319003810_A0")]
-    partial class A0
+    [Migration("20240322001330_A7")]
+    partial class A7
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,6 +280,9 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Date")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");
 
@@ -333,6 +336,9 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("CumulativeAllowance")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(170)
@@ -342,8 +348,8 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<decimal?>("Percentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("Percentage")
+                        .HasColumnType("int");
 
                     b.Property<bool>("SubjectToInsurance")
                         .HasColumnType("bit");
@@ -358,6 +364,8 @@ namespace N.G.HRS.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CurrencyId");
+
                     b.ToTable("allowancesAndDiscounts");
                 });
 
@@ -369,39 +377,48 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("AllowancesIncluded")
-                        .HasColumnType("bit");
+                    b.Property<string>("AllowancesIncluded")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");
 
-                    b.Property<bool>("HealthInsuranceIncluded")
-                        .HasColumnType("bit");
+                    b.Property<string>("HealthInsuranceIncluded")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IncludesAdditionalData")
-                        .HasColumnType("bit");
+                    b.Property<string>("IncludesAdditionalData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IncludesTaxCalculation")
-                        .HasColumnType("bit");
+                    b.Property<string>("IncludesTaxCalculation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IncludesTheWorkShareInRetirementInsurance")
-                        .HasColumnType("bit");
+                    b.Property<string>("IncludesTheWorkShareInRetirementInsurance")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("Percentage")
+                    b.Property<int?>("Percentage")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("PercentageOnCompany")
+                    b.Property<int?>("PercentageOnCompany")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("PercentageOnEmployee")
+                    b.Property<int?>("PercentageOnEmployee")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<bool>("RetirementInsuranceIncluded")
-                        .HasColumnType("bit");
+                    b.Property<string>("RetirementInsuranceIncluded")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxFrom")
                         .IsRequired()
@@ -2922,6 +2939,15 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.AalariesAndWages.Models.AllowancesAndDiscounts", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Finance.Models.Currency", "Currency")
+                        .WithMany("AllowancesAndDiscountsList")
+                        .HasForeignKey("CurrencyId");
+
+                    b.Navigation("Currency");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.AalariesAndWages.Models.EmployeeAccount", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "employee")
@@ -3715,6 +3741,8 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.Currency", b =>
                 {
+                    b.Navigation("AllowancesAndDiscountsList");
+
                     b.Navigation("EntitlementsAndDeductionsList");
 
                     b.Navigation("FinancialStatementsList");
