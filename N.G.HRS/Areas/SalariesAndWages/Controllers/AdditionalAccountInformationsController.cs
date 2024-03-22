@@ -55,7 +55,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NormalCoefficient,WeekendLaboratories,OfficialHolidaysLab,NightPeriodParameter,LaboratoriesPerDay,FromTime,ToTime,FromDate,ToDate,Notes")] AdditionalAccountInformation additionalAccountInformation)
+        public async Task<IActionResult> Create([Bind("Id,NormalCoefficient,WeekendLaboratories,OfficialHolidaysLab,NightPeriodParameter,LaboratoriesPerDay,FromTime,ToTime,Date,FromDate,ToDate,Notes")] AdditionalAccountInformation additionalAccountInformation)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NormalCoefficient,WeekendLaboratories,OfficialHolidaysLab,NightPeriodParameter,LaboratoriesPerDay,FromTime,ToTime,FromDate,ToDate,Notes")] AdditionalAccountInformation additionalAccountInformation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NormalCoefficient,WeekendLaboratories,OfficialHolidaysLab,NightPeriodParameter,LaboratoriesPerDay,FromTime,ToTime,Date,FromDate,ToDate,Notes")] AdditionalAccountInformation additionalAccountInformation)
         {
             if (id != additionalAccountInformation.Id)
             {

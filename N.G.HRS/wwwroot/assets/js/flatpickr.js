@@ -5,12 +5,13 @@ $(function() {
   'use strict';
 
   // date picker 
-  if($('#flatpickr-date').length) {
-    flatpickr("#flatpickr-date", {
+  if($('.flatpickr-date').length) {
+    flatpickr(".flatpickr-date", {
       wrap: true,
       dateFormat: "Y-m-d",
     });
   }
+ 
 
 
   // time picker
@@ -20,6 +21,15 @@ $(function() {
       enableTime: true,
       noCalendar: true,
       dateFormat: "H:i",
+    });
+    }
+    if ($('#additionaldate-time').length) {
+        flatpickr("#additionaldate-time", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            minTime: "16:00",
+            maxTime: "22:30",
     });
   }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240322001330_A7")]
+    partial class A7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -402,12 +405,15 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("Percentage")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("PercentageOnCompany")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("PercentageOnEmployee")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("RetirementInsuranceIncluded")
@@ -1509,7 +1515,7 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("StatementOfConditions")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -1553,7 +1559,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1750,10 +1755,6 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PermanenceName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -2674,7 +2675,8 @@ namespace N.G.HRS.Migrations
 
                     b.Property<string>("CategoriesName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("CurrencyId")
                         .HasColumnType("int");

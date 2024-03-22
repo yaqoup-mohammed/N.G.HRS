@@ -12,12 +12,17 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
+<<<<<<< HEAD:N.G.HRS/Migrations/20240319003810_A0.Designer.cs
 <<<<<<<< HEAD:N.G.HRS/Migrations/20240320210857_A0.Designer.cs
     [Migration("20240320210857_A0")]
 ========
     [Migration("20240319003810_A0")]
 >>>>>>>> d0b204c1ced907a313e565ae23074c1c05dbd411:N.G.HRS/Migrations/20240319003810_A0.Designer.cs
     partial class A0
+=======
+    [Migration("20240320203011_A")]
+    partial class A
+>>>>>>> 08ab6ba58d17724fe77814f1de30c772ad04ba56:N.G.HRS/Migrations/20240320203011_A.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,6 +288,9 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Date")
+                        .HasColumnType("int");
 
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");

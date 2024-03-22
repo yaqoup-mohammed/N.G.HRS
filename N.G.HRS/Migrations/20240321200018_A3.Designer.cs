@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240321200018_A3")]
+    partial class A3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,8 +348,8 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("Percentage")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Percentage")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("SubjectToInsurance")
                         .HasColumnType("bit");
@@ -374,45 +377,39 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AllowancesIncluded")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("AllowancesIncluded")
+                        .HasColumnType("bit");
 
                     b.Property<DateOnly>("FromDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("HealthInsuranceIncluded")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("HealthInsuranceIncluded")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("IncludesAdditionalData")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IncludesAdditionalData")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("IncludesTaxCalculation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IncludesTaxCalculation")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("IncludesTheWorkShareInRetirementInsurance")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IncludesTheWorkShareInRetirementInsurance")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("Percentage")
+                    b.Property<int>("Percentage")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PercentageOnCompany")
+                    b.Property<int>("PercentageOnCompany")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PercentageOnEmployee")
+                    b.Property<int>("PercentageOnEmployee")
                         .HasColumnType("int");
 
-                    b.Property<string>("RetirementInsuranceIncluded")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("RetirementInsuranceIncluded")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TaxFrom")
                         .IsRequired()
@@ -1509,7 +1506,7 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("StatementOfConditions")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -1553,7 +1550,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -1750,10 +1746,6 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PermanenceName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -2674,7 +2666,8 @@ namespace N.G.HRS.Migrations
 
                     b.Property<string>("CategoriesName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("CurrencyId")
                         .HasColumnType("int");

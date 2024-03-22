@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 {
@@ -14,16 +15,19 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
     public class AllowancesAndDiscountsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<AllowancesAndDiscounts> _allowancesAndDiscountsRepository;
 
-        public AllowancesAndDiscountsController(AppDbContext context)
+        public AllowancesAndDiscountsController(AppDbContext context, IRepository<AllowancesAndDiscounts> allowancesAndDiscountsRepository)
         {
             _context = context;
+            _allowancesAndDiscountsRepository = allowancesAndDiscountsRepository;
         }
 
         // GET: SalariesAndWages/AllowancesAndDiscounts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.allowancesAndDiscounts.ToListAsync());
+            var appDbContext = _context.allowancesAndDiscounts.Include(a => a.Currency);
+            return View(await appDbContext.ToListAsync());
         }
 
         // GET: SalariesAndWages/AllowancesAndDiscounts/Details/5
@@ -35,6 +39,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             }
 
             var allowancesAndDiscounts = await _context.allowancesAndDiscounts
+                .Include(a => a.Currency)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (allowancesAndDiscounts == null)
             {
@@ -45,8 +50,10 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/AllowancesAndDiscounts/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await PopulateDropdownListsAsync();
+
             return View();
         }
 
@@ -55,13 +62,23 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Type,Taxable,AddedToAllEmployees,CumulativeAllowance,SubjectToInsurance,Amount,Percentage,Notes")] AllowancesAndDiscounts allowancesAndDiscounts)
+        public async Task<IActionResult> Create([Bind("Id,Name,Type,Taxable,AddedToAllEmployees,CumulativeAllowance,SubjectToInsurance,Amount,Percentage,Notes,CurrencyId")] AllowancesAndDiscounts allowancesAndDiscounts)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(allowancesAndDiscounts);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await PopulateDropdownListsAsync();
+
+                try
+                {
+                    await _allowancesAndDiscountsRepository.AddAsync(allowancesAndDiscounts);
+                    TempData["success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] =" حدثت خطأ اثناء الادخال برجاء التواصل مع مدير النظام  " + ex.Message;
+                    return View(allowancesAndDiscounts);
+                }
             }
             return View(allowancesAndDiscounts);
         }
@@ -73,8 +90,9 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var allowancesAndDiscounts = await _context.allowancesAndDiscounts.FindAsync(id);
+            var allowancesAndDiscounts = await _allowancesAndDiscountsRepository.GetByIdAsync(id);
             if (allowancesAndDiscounts == null)
             {
                 return NotFound();
@@ -87,7 +105,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Taxable,AddedToAllEmployees,CumulativeAllowance,SubjectToInsurance,Amount,Percentage,Notes")] AllowancesAndDiscounts allowancesAndDiscounts)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Taxable,AddedToAllEmployees,CumulativeAllowance,SubjectToInsurance,Amount,Percentage,Notes,CurrencyId")] AllowancesAndDiscounts allowancesAndDiscounts)
         {
             if (id != allowancesAndDiscounts.Id)
             {
@@ -96,10 +114,10 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 
             if (ModelState.IsValid)
             {
+                await PopulateDropdownListsAsync();
                 try
                 {
-                    _context.Update(allowancesAndDiscounts);
-                    await _context.SaveChangesAsync();
+                    await _allowancesAndDiscountsRepository.UpdateAsync(allowancesAndDiscounts);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,6 +144,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             }
 
             var allowancesAndDiscounts = await _context.allowancesAndDiscounts
+                .Include(a => a.Currency)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (allowancesAndDiscounts == null)
             {
@@ -140,19 +159,24 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var allowancesAndDiscounts = await _context.allowancesAndDiscounts.FindAsync(id);
+            var allowancesAndDiscounts = await _allowancesAndDiscountsRepository.GetByIdAsync(id);
             if (allowancesAndDiscounts != null)
             {
-                _context.allowancesAndDiscounts.Remove(allowancesAndDiscounts);
+                await _allowancesAndDiscountsRepository.DeleteAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AllowancesAndDiscountsExists(int id)
         {
             return _context.allowancesAndDiscounts.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var CurrencyId = await _context.Currency.ToListAsync();
+            ViewData["CurrencyId"] = new SelectList(CurrencyId, "Id", "CurrencyName");
+            //====================================================
         }
     }
 }

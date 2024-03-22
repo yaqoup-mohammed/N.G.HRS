@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A0 : Migration
+    public partial class A : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,7 @@ namespace N.G.HRS.Migrations
                     LaboratoriesPerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<int>(type: "int", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
