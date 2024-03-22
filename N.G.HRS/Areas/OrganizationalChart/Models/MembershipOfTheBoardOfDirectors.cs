@@ -7,10 +7,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب !!")]
         [StringLength(150)]
+        [Display(Name = "نوع العضوية")]
         public string TypeOFMembership { get; set; }
         [StringLength(255)]
+        [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }
         //==============================================
         public List<BoardOfDirectors>? BoardOfDirectorsList { get; set; }

@@ -10,10 +10,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [StringLength(150)]
+        [Display(Name = "الادارة")]
         public string SubAdministration { get; set; }
         [StringLength(255)]
+        [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }
         //=========================================
         //=
@@ -27,6 +29,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
 
         //=========================================
         [ForeignKey("SectorsId")]
+        [Display(Name = "القطاع")]
         public int? SectorsId { get; set; }
         public Sectors? Sectors { get; set; }
 

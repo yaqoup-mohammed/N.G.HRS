@@ -2776,11 +2776,11 @@ textarea.form-control-lg {
 
     .fc .input-group .fc-button-primary, .input-group .btn, .input-group .fc .fc-button-primary, .input-group .swal2-popup .swal2-actions button, .input-group .wizard > .actions a, .input-group div.tox .tox-button, .swal2-popup .swal2-actions .input-group button, .wizard > .actions .input-group a, div.tox .input-group .tox-button {
         position: relative;
-        z-index: 2
+        z-index: 500;
     }
 
         .fc .input-group .fc-button-primary:focus, .input-group .btn:focus, .input-group .fc .fc-button-primary:focus, .input-group .swal2-popup .swal2-actions button:focus, .input-group .wizard > .actions a:focus, .input-group div.tox .tox-button:focus, .swal2-popup .swal2-actions .input-group button:focus, .wizard > .actions .input-group a:focus, div.tox .input-group .tox-button:focus {
-            z-index: 5
+            z-index: 500;
         }
 
 .input-group-text {

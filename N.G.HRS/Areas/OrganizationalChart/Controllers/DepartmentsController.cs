@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class DepartmentsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Departments> _departmentsrepository;
 
-        public DepartmentsController(AppDbContext context)
+        public DepartmentsController(AppDbContext context, IRepository<Departments> departmentsrepository)
         {
             _context = context;
+            _departmentsrepository = departmentsrepository;
         }
 
         // GET: OrganizationalChart/Departments
@@ -47,9 +50,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/Departments/Create
-        public IActionResult Create()
+        public async Task< IActionResult> Create()
         {
-            ViewData["SectorsId"] = new SelectList(_context.sectors, "Id", "SectorsName");
+            await PopulateDropdownListsAsync();
             return View();
         }
 
@@ -62,11 +65,20 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(departments);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await PopulateDropdownListsAsync();
+
+                try
+                {
+                    await _departmentsrepository.AddAsync(departments);
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(departments);
+                }
             }
-            ViewData["SectorsId"] = new SelectList(_context.sectors, "Id", "SectorsName", departments.SectorsId);
             return View(departments);
         }
 
@@ -77,13 +89,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var departments = await _context.Departments.FindAsync(id);
+            var departments = await _departmentsrepository.GetByIdAsync(id);
             if (departments == null)
             {
                 return NotFound();
             }
-            ViewData["SectorsId"] = new SelectList(_context.sectors, "Id", "SectorsName", departments.SectorsId);
             return View(departments);
         }
 
@@ -101,10 +113,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
             if (ModelState.IsValid)
             {
+                await PopulateDropdownListsAsync();
+
                 try
                 {
-                    _context.Update(departments);
-                    await _context.SaveChangesAsync();
+                    await _departmentsrepository.UpdateAsync(departments);
+                    TempData["Success"] = "تمت العملية بنجاح";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +133,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SectorsId"] = new SelectList(_context.sectors, "Id", "SectorsName", departments.SectorsId);
             return View(departments);
         }
 
@@ -147,10 +160,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var departments = await _context.Departments.FindAsync(id);
+            var departments = await _departmentsrepository.GetByIdAsync(id);
             if (departments != null)
             {
-                _context.Departments.Remove(departments);
+                await _departmentsrepository.DeleteAsync(id);
             }
 
             await _context.SaveChangesAsync();
@@ -160,6 +173,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         private bool DepartmentsExists(int id)
         {
             return _context.Departments.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var sectors = await _context.sectors.ToListAsync();
+            ViewData["sectors"] = new SelectList(sectors, "Id", "SectorsName");
+            //====================================================
+
         }
     }
 }

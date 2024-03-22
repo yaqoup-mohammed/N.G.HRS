@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class CompaniesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Company> _CompaniesRepository;
 
-        public CompaniesController(AppDbContext context)
+        public CompaniesController(AppDbContext context, IRepository<Company> CompaniesRepository)
         {
             _context = context;
+            _CompaniesRepository = CompaniesRepository;
         }
 
         // GET: OrganizationalChart/Companies
@@ -47,9 +50,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/Companies/Create
-        public IActionResult Create()
+        public async Task< IActionResult> Create()
         {
-            ViewData["BoardOfDirectorsId"] = new SelectList(_context.boardOfDirectors, "Id", "CouncilName");
+            await PopulateDropdownListsAsync();
             return View();
         }
 
@@ -62,11 +65,20 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(company);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await PopulateDropdownListsAsync();
+
+                    await _CompaniesRepository.AddAsync(company);
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(company);
+                }
             }
-            ViewData["BoardOfDirectorsId"] = new SelectList(_context.boardOfDirectors, "Id", "CouncilName", company.BoardOfDirectorsId);
             return View(company);
         }
 
@@ -77,13 +89,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var company = await _context.company.FindAsync(id);
+            var company = await _CompaniesRepository.GetByIdAsync(id);
             if (company == null)
             {
                 return NotFound();
             }
-            ViewData["BoardOfDirectorsId"] = new SelectList(_context.boardOfDirectors, "Id", "CouncilName", company.BoardOfDirectorsId);
             return View(company);
         }
 
@@ -101,10 +113,11 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
             if (ModelState.IsValid)
             {
+                await PopulateDropdownListsAsync();
+
                 try
                 {
-                    _context.Update(company);
-                    await _context.SaveChangesAsync();
+                    await _CompaniesRepository.UpdateAsync(company);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +132,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BoardOfDirectorsId"] = new SelectList(_context.boardOfDirectors, "Id", "CouncilName", company.BoardOfDirectorsId);
             return View(company);
         }
 
@@ -147,10 +159,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var company = await _context.company.FindAsync(id);
+            var company = await _CompaniesRepository.GetByIdAsync(id);
             if (company != null)
             {
-                _context.company.Remove(company);
+                await _CompaniesRepository.DeleteAsync(id);
             }
 
             await _context.SaveChangesAsync();
@@ -160,6 +172,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         private bool CompanyExists(int id)
         {
             return _context.company.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var boardOfDirectors = await _context.boardOfDirectors.ToListAsync();
+            ViewData["boardOfDirectors"] = new SelectList(boardOfDirectors, "Id", "CouncilName");
+            //====================================================
+
         }
     }
 }

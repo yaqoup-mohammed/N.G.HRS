@@ -190,7 +190,9 @@
                                             <div class="col-sm-6">
                                                 <div class="mb-3">
                                                     <label asp-for="periods.PermanenceModelsId" class="control-label"></label>
-                                                    <select asp-for="periods.PermanenceModelsId" asp-items="@(ViewData["permanance"] as SelectList)" id="periodPermanenceModelsId" class="form-control" asp-items="ViewBag.PermanenceModelsId"></select>
+                                                    <select asp-for="periods.PermanenceModelsId" id="periodPermanenceModelsId" asp-items="@(ViewData["permanance"] as SelectList)" id="periodPermanenceModelsId" class="form-control">
+                                                        <option value="">-- أختر الدوام --</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
@@ -581,7 +583,7 @@
                                                                                                                 height: 100%;
                                                                                                                 background-color: rgba(0, 0, 0, 0.5);
                                                                                                                 backdrop-filter: blur(5px);
-                                                                                                                z-index: 9998;`;
+                                                                                                                z-index: 1051;`;
 
                                 form.style = `
                                                                                                             width:90%;
@@ -595,7 +597,7 @@
                                                                                                                 border: 1px solid #ccc;
                                                                                                                 border-radius: 5px;
                                                                                                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                                                                                        z-index: 99998;
+                                                                                                                                        z-index: 1050;
                                                                                                                 opacity: 1; /* Initially hidden */
                                                                                                                 transition: opacity 0.3s ease-in-out;`;
                             });
@@ -625,7 +627,14 @@
                                     !newData.fieldName2 ||
                                     !newData.fieldName3
                                 ) {
-                                    alert("Please fill in all fields");
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'يرجى إداخال الحقول المطلوبة',
+                                        customClass: {
+                                            confirmButton: 'btn btn-primary'
+                                        },
+                                        buttonsStyling: false
+                                    });
                                 } else {
                                     table.style = `display:block;`;
 
@@ -690,6 +699,34 @@
                         });
 
                         $("#submitButton").click(function () {
+                    const periodsInput=document.getElementById("PeriodsName");
+                            const periodPermanenceModelsId = document.getElementById("periodPermanenceModelsId");
+                            if (!periodsInput.value) {
+                                event.preventDefault(); // Prevent form submission
+
+                                Swal.fire({
+
+                                    icon: 'error',
+                                    title: 'يرجى إدخال الفترة',
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary'
+                                    },
+                                    buttonsStyling: false
+                                }); 
+                            }
+                            if (periodPermanenceModelsId.value == "") {
+                                event.preventDefault(); // Prevent form submission
+
+                                Swal.fire({
+
+                                    icon: 'error',
+                                    title: 'يرجى إختيار الدوام',
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary'
+                                    },
+                                    buttonsStyling: false
+                                });
+                            }
                             // // Send data to server using AJAX or other methods
                             // console.log("Temporary Data:", temporaryData); // Simulate sending to server
                             $("#submitButton").val( JSON.stringify(temporaryData));
@@ -700,15 +737,6 @@
                         });
 
                     </script>
-                    @if (ViewData["error"] != null)
-                    {
-                        <script>
-                            Swal.fire({
-                                icon: "error",
-                                title: "خطئ!!",
-                                text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
-                            });
-                        </script>
-                    }
+
 
                 }

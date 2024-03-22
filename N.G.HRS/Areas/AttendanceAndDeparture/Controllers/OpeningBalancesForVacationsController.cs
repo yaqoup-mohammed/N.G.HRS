@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
     public class OpeningBalancesForVacationsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<OpeningBalancesForVacations> _openingBalancesForVacationsRepository;
 
-        public OpeningBalancesForVacationsController(AppDbContext context)
+        public OpeningBalancesForVacationsController(AppDbContext context, IRepository<OpeningBalancesForVacations> openingBalancesForVacationsRepository)
         {
             _context = context;
+            _openingBalancesForVacationsRepository = openingBalancesForVacationsRepository;
         }
 
         // GET: AttendanceAndDeparture/OpeningBalancesForVacations
@@ -48,10 +51,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/OpeningBalancesForVacations/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
-            ViewData["PublicHolidaysId"] = new SelectList(_context.publicHolidays, "Id", "HolidayName");
+            await PopulateDropdownListsAsync();
+ 
             return View();
         }
 
@@ -64,12 +67,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(openingBalancesForVacations);
-                await _context.SaveChangesAsync();
+                await PopulateDropdownListsAsync();
+
+                _openingBalancesForVacationsRepository.AddAsync(openingBalancesForVacations);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", openingBalancesForVacations.EmployeeId);
-            ViewData["PublicHolidaysId"] = new SelectList(_context.publicHolidays, "Id", "HolidayName", openingBalancesForVacations.PublicHolidaysId);
             return View(openingBalancesForVacations);
         }
 
@@ -80,14 +82,13 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var openingBalancesForVacations = await _context.openingBalancesForVacations.FindAsync(id);
+            var openingBalancesForVacations = await _openingBalancesForVacationsRepository.GetByIdAsync(id);
             if (openingBalancesForVacations == null)
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", openingBalancesForVacations.EmployeeId);
-            ViewData["PublicHolidaysId"] = new SelectList(_context.publicHolidays, "Id", "HolidayName", openingBalancesForVacations.PublicHolidaysId);
             return View(openingBalancesForVacations);
         }
 
@@ -107,8 +108,9 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 try
                 {
-                    _context.Update(openingBalancesForVacations);
-                    await _context.SaveChangesAsync();
+                    await PopulateDropdownListsAsync();
+
+                    _openingBalancesForVacationsRepository.UpdateAsync(openingBalancesForVacations);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +125,6 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", openingBalancesForVacations.EmployeeId);
-            ViewData["PublicHolidaysId"] = new SelectList(_context.publicHolidays, "Id", "HolidayName", openingBalancesForVacations.PublicHolidaysId);
             return View(openingBalancesForVacations);
         }
 
@@ -153,10 +153,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var openingBalancesForVacations = await _context.openingBalancesForVacations.FindAsync(id);
+            var openingBalancesForVacations = await _openingBalancesForVacationsRepository.GetByIdAsync(id);
             if (openingBalancesForVacations != null)
             {
-                _context.openingBalancesForVacations.Remove(openingBalancesForVacations);
+                _openingBalancesForVacationsRepository.DeleteAsync(id);
             }
 
             await _context.SaveChangesAsync();
@@ -166,6 +166,20 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         private bool OpeningBalancesForVacationsExists(int id)
         {
             return _context.openingBalancesForVacations.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+
+
+            //=========================================================
+            var employee = await _context.employee.ToListAsync();
+            ViewData["EmployeeId"] = new SelectList(employee, "Id", "EmployeeName");
+            //============================================================
+            var permanance = await _context.publicHolidays.ToListAsync();
+            ViewData["publicHolidays"] = new SelectList(permanance, "Id", "HolidayName");
+
+
+
         }
     }
 }

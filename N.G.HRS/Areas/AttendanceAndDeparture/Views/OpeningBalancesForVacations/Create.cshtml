@@ -44,11 +44,15 @@
 
                         <div class="col-sm-5">
                             <label asp-for="EmployeeId" class="form-label"></label>
-                            <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                            <select asp-for="EmployeeId" id="Employee" class="form-control" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                <option value="">-- أختر الموظف --</option>
+                            </select>
                         </div>
                         <div class="col-sm-4">
                             <label asp-for="PublicHolidaysId" class="form-label"></label>
-                            <select asp-for="PublicHolidaysId" class="form-control" asp-items="ViewBag.PublicHolidaysId"></select>
+                            <select asp-for="PublicHolidaysId" id="PublicHolidays" class="form-control" asp-items="@(ViewData["publicHolidays"] as SelectList)">
+                                <option value="">-- أختر الأجازة --</option>
+                            </select>
                         </div>
                         <div class="col-sm-3">
 
@@ -109,13 +113,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        document.getElementById('#YearPicker').flatpickr({
-            shorthand: true,
-            altInput: true,
-            wrap: true,
-            dateFormat: "m-Y",
 
-        });
 
     </script>
 }
