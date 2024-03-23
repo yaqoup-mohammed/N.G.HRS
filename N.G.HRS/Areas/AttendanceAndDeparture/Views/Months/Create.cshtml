@@ -10,52 +10,119 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<h1>Create</h1>
 
-<h4>Months</h4>
-<hr />
+
+<nav class="page-breadcrumb">
+
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a asp-action="Index" asp-controller="Home" asp-area="">بيانات الشهور الرئيسة</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        تهيئة النظام
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        التهيئة العامة
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        التهيئة الحظور والانصراف
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a asp-action="Index">بيانات الشهور </a>
+
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        بيانات الشهور
+                    </li>
+                </ol>
+
+</nav>
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" >
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">  بيانات الشهور</h6>
 
-                <label asp-for="Month " class="control-label"></label>
-                <input asp-for="Month" id="Month" class="form-control"  />
-                <span asp-validation-for="Month" class="text-danger"></span>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <!-- Row -->
+                    <div class="row">
 
+                        <div class="col-sm-3">
+
+                            <div class="col-mb-3">
+                                <label asp-for="Month" class="form-label"></label>
+                                <div class="input-group flatpickr flatpickr-date">
+                                    <input asp-for="Month" id="Month" class="form-control" placeholder="أختر التاريخ"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                    <span asp-validation-for="Month" class="text-danger"></span>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+
+                            <div class="col-mb-3">
+                                <label asp-for="StartDate" class="form-label"></label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="StartDate" id="StartDate"  class="form-control" placeholder="أختر التاريخ"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                    <span asp-validation-for="StartDate" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+
+                            <div class="col-mb-3">
+
+
+                                <label asp-for="EndDate" class="form-label"></label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="EndDate" id="EndDate"  class="form-control" placeholder="أختر التاريخ"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                    <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check form-check-inline col-md-2  pt-5  mb-3  ">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Closed" /> @Html.DisplayNameFor(model => model.Closed)
+                                </label>
+                        </div>
+
+                    </div>
+
+                    <!-- Row -->
+
+
+                    <input type="submit" value="Create" class="btn btn-primary" />
+
+                    <a asp-action=" Index" class="btn btn-light">Back to List</a>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" id="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" id="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Closed" /> @Html.DisplayNameFor(model => model.Closed)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@* ============================== *@ 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    
-    
+
 
 }
 

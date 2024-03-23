@@ -11,19 +11,21 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         [Key]
         public int id { get; set; }
         [StringLength(255)]
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
         //===============================================
         [ForeignKey("FinanceAccountTypeId")]
-        public int FinanceAccountTypeId { get; set; }
-        public FinanceAccountType FinanceAccountType { get; set; }
+
+        public int? FinanceAccountTypeId { get; set; }
+        public FinanceAccountType? FinanceAccountType { get; set; }
         //=
         [ForeignKey("FinanceAccountId")]
-        public int FinanceAccountId { get; set; }
-        public FinanceAccount FinanceAccount { get; set; }
+        public int? FinanceAccountId { get; set; }
+        public FinanceAccount? FinanceAccount { get; set; }
         //=
         [ForeignKey("SectionsId")]
-        public int SectionsId { get; set; }
-        public Sections Sections { get; set; }
+        public int? SectionsId { get; set; }
+        public Sections? Sections { get; set; }
 
     }
 }

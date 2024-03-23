@@ -62,7 +62,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             if (ModelState.IsValid)
             {   
-<<<<<<< HEAD
 
                     //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
                     //foreach (var item in data)
@@ -73,7 +72,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
                 //return RedirectToAction(nameof(Create));
 
-=======
+
                 //if(country != null)
                 //{
                     //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
@@ -88,7 +87,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 //{
                 //   TempData["Error"] = "لم تتم الإضافة، لم يتم إرسال بيانات الدول";
                 //}
->>>>>>> d0b204c1ced907a313e565ae23074c1c05dbd411
                 return RedirectToAction(nameof(Index));
             }
             return View(country);

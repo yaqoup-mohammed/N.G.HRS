@@ -11,7 +11,7 @@ namespace N.G.HRS.Areas.Finance.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required (ErrorMessage = "هذا الحقل مطلوب")]
         [StringLength(70)]
         [Display(Name = "اسم العملة")]
         public string CurrencyName { get; set; }

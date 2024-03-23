@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 {
@@ -15,10 +16,12 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
     public class EmployeeAccountsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<EmployeeAccount> _employeeAccountRepository;
 
-        public EmployeeAccountsController(AppDbContext context)
+        public EmployeeAccountsController(AppDbContext context, IRepository<EmployeeAccount> employeeAccountRepository)
         {
             _context = context;
+            _employeeAccountRepository = employeeAccountRepository;
         }
 
         // GET: SalariesAndWages/EmployeeAccounts
@@ -67,9 +70,15 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employeeAccount);
-                await _context.SaveChangesAsync();
+               await _employeeAccountRepository.AddAsync(employeeAccount);
+                TempData["Success"] = "تم الحفظ بنجاح";
+                //return RedirectToAction(nameof(Create));
+
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["Error"] = "حدث خطأ ما";
             }
             ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", employeeAccount.FinanceAccountId);
             ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", employeeAccount.FinanceAccountTypeId);
@@ -85,7 +94,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
                 return NotFound();
             }
 
-            var employeeAccount = await _context.EmployeeAccount.FindAsync(id);
+            var employeeAccount = await _employeeAccountRepository.GetByIdAsync(id);
             if (employeeAccount == null)
             {
                 return NotFound();
@@ -112,8 +121,9 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             {
                 try
                 {
-                    _context.Update(employeeAccount);
-                    await _context.SaveChangesAsync();
+                    await _employeeAccountRepository.UpdateAsync(employeeAccount);
+                    TempData["Success"] = "تم التعديل بنجاح";
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,7 +136,9 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View (employeeAccount);
+                //return RedirectToAction(nameof(Index));
+
             }
             ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", employeeAccount.FinanceAccountId);
             ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", employeeAccount.FinanceAccountTypeId);
@@ -160,14 +172,16 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employeeAccount = await _context.EmployeeAccount.FindAsync(id);
+            var employeeAccount = await _employeeAccountRepository.GetByIdAsync(id);
             if (employeeAccount != null)
             {
                 _context.EmployeeAccount.Remove(employeeAccount);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData["Success"] = "تم الحذف بنجاح";
+            return RedirectToAction(nameof(Create));
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeAccountExists(int id)
