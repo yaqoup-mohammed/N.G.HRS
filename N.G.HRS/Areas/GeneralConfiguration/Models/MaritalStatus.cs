@@ -26,8 +26,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public List<Guarantees>? GuaranteesList { get; set;}
 
         
-        [StringLength(100, ErrorMessage = "أسم الدوام يجب الا يتجاوز 100 حرف !!")]
-        public string? PermanenceName { get; set; }
 
     }
 }

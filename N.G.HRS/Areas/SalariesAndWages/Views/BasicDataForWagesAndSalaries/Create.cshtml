@@ -163,36 +163,50 @@
             //=====================================
             // Set the date to the last day of the month
             dateInput.addEventListener("change", function () {
-                var month = data.getMonth() + 1;
-                console.log(month);
-                // Set the date to the last day of the month
-                date.setDate(1);
-                date.setMonth(date.getMonth() + 1);
-                date.setDate(date.getDate() - 1);
 
-                // Update the value of the second input with the last day of the month
-                lastDayInput.value = date.setDate(date.getDate() - 1);
+                if (lastDayInput.value==null){
 
-                if (lastDayInput.value != null) {
-                    const startDate = new Date(dateInput.value);
-                    const endDate = new Date(lastDayInput.value);
-                    const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-                    const daysDiff = Math.round((endDate - startDate) / oneDay);
+                    // var month = data.getMonth() + 1;
+                    // console.log(month);
+                    // Set the date to the last day of the month
+                    date.setDate(1);
+                    date.setMonth(date.getMonth() + 1);
+                    date.setDate(date.getDate() - 1);
 
-                    // Update the value of the third input with the number of days
-                    daysInput.value = daysDiff;
+                    // Update the value of the second input with the last day of the month
+                    lastDayInput.value = date.toLocaleDateString();
                 }
-                else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "خطئ....",
-                        text: "رجاء أختر موظف ",
-                    });
+                else{
+                        const startDate = new Date(dateInput.value);
+                        const endDate = new Date(lastDayInput.value);
+                        const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+                        const daysDiff = Math.round((endDate - startDate) / oneDay);
+
+                        // Update the value of the third input with the number of days
+                        daysInput.value = daysDiff;
                 }
+
+
+                // if (lastDayInput.value != null) {
+                //     const startDate = new Date(dateInput.value);
+                //     const endDate = new Date(lastDayInput.value);
+                //     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+                //     const daysDiff = Math.round((endDate - startDate) / oneDay);
+
+                //     // Update the value of the third input with the number of days
+                //     daysInput.value = daysDiff;
+                // }
+                // else {
+                //     Swal.fire({
+                //         icon: "error",
+                //         title: "خطئ....",
+                //         text: "رجاء أختر موظف ",
+                //     });
+                // }
             });
             lastDayInput.addEventListener('change', function () {
 
-                if (dateInput.value > lastDayInput.value {
+                if (dateInput.value > lastDayInput.value) {
                     Swal.fire({
                         icon: "error",
                         title: "تاريخ البدأ يجب ان يكون أصغر من تاريخ الانتهاء",
