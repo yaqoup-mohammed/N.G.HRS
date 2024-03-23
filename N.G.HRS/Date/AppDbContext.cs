@@ -13,6 +13,7 @@ using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
+using N.G.HRS.Areas.EmployeesAffsirs.Models;
 
 namespace N.G.HRS.Date
 {
@@ -450,6 +451,12 @@ namespace N.G.HRS.Date
             modelBuilder.Entity<EmployeeAdvances>()
               .HasOne(p => p.Employee)
               .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AnnualGoals>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.AnnualGoalsList)
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
+using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PayRoll.Models;
@@ -122,6 +123,8 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<EmployeePerks>? EmployeePerksList { get; set; }
         //====================================
         public List<EndOfServiceClearance>? EndOfServiceClearanceList { get; set; }
+        //====================================
+        public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //====================================

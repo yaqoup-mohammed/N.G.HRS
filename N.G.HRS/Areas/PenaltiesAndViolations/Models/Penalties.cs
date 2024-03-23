@@ -10,7 +10,7 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string PenaltiesName { get; set; }
+        public string? PenaltiesName { get; set; }
         public bool Deduction { get; set; }//خصمية
         public bool DiscountFromWorkingHours { get; set; }
         public bool DeductionFromTheDailyWage { get; set; }
@@ -22,7 +22,7 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=============================================================
-        public List<PenaltiesAndViolationsForms> PenaltiesAndViolationsFormsList { get; set;}
+        public List<PenaltiesAndViolationsForms>? PenaltiesAndViolationsFormsList { get; set;}
 
 
     }

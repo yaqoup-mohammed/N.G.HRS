@@ -160,7 +160,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
                 if (viewModel.Employee != null)
                 {
-
+                    
                     // تحميل الملف باستخدام خدمة التحميل الملفات
                         var file = viewModel.Employee.FileUpload;
                         var filePath = await _fileUploadService.UploadFileAsync(file, "Upload/Images");
