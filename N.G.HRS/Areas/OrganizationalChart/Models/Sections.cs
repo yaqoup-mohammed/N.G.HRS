@@ -15,7 +15,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Required]
         [StringLength(150)]
         [Display(Name = "القسم")]
-        public string SectionsName { get; set; }
+        public string? SectionsName { get; set; }
         [StringLength(255)]
         [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }

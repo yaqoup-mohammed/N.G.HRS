@@ -8,10 +8,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required (ErrorMessage = "  اسم التخصص مطلوب من فضلك!!")] 
+        [Display(Name = "اسم التخصص")]
         [StringLength(150)]
         public string Name { get; set; }
         [StringLength(255)]
+        [Display(Name = "الملاحضة")]
         public string? Notes { get; set; }
         //=====================================
         public ICollection<Qualifications>? qualifications { get; set; }

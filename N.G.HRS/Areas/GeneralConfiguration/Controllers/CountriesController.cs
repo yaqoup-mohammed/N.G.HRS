@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
     public class CountriesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Country> _countryRepository;
 
-        public CountriesController(AppDbContext context)
+        public CountriesController(AppDbContext context , IRepository<Country> countryRepository)
         {
             _context = context;
+            _countryRepository = countryRepository;
         }
 
         // GET: GeneralConfiguration/Countries
@@ -59,6 +62,17 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             if (ModelState.IsValid)
             {   
+
+                    //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
+                    //foreach (var item in data)
+                    //{
+                        await _countryRepository.AddAsync(country);
+                    //}
+                    TempData["Success"] = "تم الحفظ بنجاح";
+
+                //return RedirectToAction(nameof(Create));
+
+
                 //if(country != null)
                 //{
                     //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
@@ -86,7 +100,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return NotFound();
             }
 
-            var country = await _context.country.FindAsync(id);
+            var country = await _countryRepository.GetByIdAsync(id);
             if (country == null)
             {
                 return NotFound();
@@ -110,8 +124,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             {
                 try
                 {
-                    _context.Update(country);
-                    await _context.SaveChangesAsync();
+                    await _countryRepository.UpdateAsync(country);
+                    TempData["Success"] = "تم التعديل بنجاح";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,6 +139,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+                //return View(country);
             }
             return View(country);
         }
@@ -152,14 +167,17 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var country = await _context.country.FindAsync(id);
+            var country = await _countryRepository.GetByIdAsync(id);
             if (country != null)
             {
                 _context.country.Remove(country);
             }
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = "تم الحذف بنجاح";
             return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Create));
+
         }
 
         private bool CountryExists(int id)

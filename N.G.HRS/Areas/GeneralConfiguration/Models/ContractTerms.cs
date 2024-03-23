@@ -12,7 +12,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string ModelName { get; set; }
         [Required]
         [StringLength(255)]
-        public string StatementOfConditions { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Column(TypeName = "text")]
+        public string? StatementOfConditions { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
         //=========================================================

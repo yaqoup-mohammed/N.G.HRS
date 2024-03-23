@@ -8,6 +8,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]
+
         public DateOnly Month { get; set; }
         [Required]
         [DataType(DataType.Date)]

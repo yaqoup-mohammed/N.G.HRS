@@ -13,7 +13,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public decimal NormalCoefficient { get; set; }//المعامل الطبيعي
         [Required]
         [Range(1, 10)]
-[Display(Name = "المعامل الاسبوعي")]
+         [Display(Name = "المعامل الاسبوعي")]
         public decimal WeekendLaboratories { get; set; }//المعامل الاسبوعي
         [Required]
         [Range(1, 10)]

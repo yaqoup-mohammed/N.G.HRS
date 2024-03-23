@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
 {
@@ -14,11 +15,14 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
     public class JobRanksController : Controller
     {
         private readonly AppDbContext _context;
-
-        public JobRanksController(AppDbContext context)
+        private readonly IRepository<JobRanks> _jobRanksRepository;
+        public JobRanksController(AppDbContext context, IRepository<JobRanks> jobRanksRepository)
         {
             _context = context;
+            _jobRanksRepository = jobRanksRepository;
         }
+
+        
 
         // GET: PlanningAndJobDescription/JobRanks
         public async Task<IActionResult> Index()
@@ -59,9 +63,11 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(jobRanks);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+               await _jobRanksRepository.AddAsync(jobRanks);
+                TempData ["Success"] = "تمت الإضافة بنجاح";
+                return RedirectToAction(nameof(Create));
+
+                //return RedirectToAction(nameof(Index));
             }
             return View(jobRanks);
         }
@@ -74,7 +80,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                 return NotFound();
             }
 
-            var jobRanks = await _context.jobRanks.FindAsync(id);
+            var jobRanks = await _jobRanksRepository.GetByIdAsync(id);
             if (jobRanks == null)
             {
                 return NotFound();
@@ -98,8 +104,9 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
             {
                 try
                 {
-                    _context.Update(jobRanks);
-                    await _context.SaveChangesAsync();
+                    await _jobRanksRepository.UpdateAsync(jobRanks);
+                    TempData["Success"] = "تم التعديل بنجاح";
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,7 +119,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(jobRanks);
+                //return RedirectToAction(nameof(Index));
             }
             return View(jobRanks);
         }
@@ -140,14 +148,16 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jobRanks = await _context.jobRanks.FindAsync(id);
+            var jobRanks = await _jobRanksRepository.GetByIdAsync(id);
             if (jobRanks != null)
             {
                 _context.jobRanks.Remove(jobRanks);
             }
+            TempData["Success"] = "تم الحذف بنجاح";
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Create));
+
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool JobRanksExists(int id)

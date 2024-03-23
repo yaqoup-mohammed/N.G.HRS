@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.AalariesAndWages.Models.SectionsAccounts>
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "الأقسام الحسابات ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 <h1>Index</h1>
 

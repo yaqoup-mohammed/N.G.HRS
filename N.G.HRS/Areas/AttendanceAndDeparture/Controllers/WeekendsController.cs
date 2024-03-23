@@ -20,6 +20,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         private readonly IRepository<Weekends> _weekendsRepository;
 
 
+
         public WeekendsController(AppDbContext context, IRepository<Weekends> weekendsRepository, Periods periods)
         {
             _context = context;
@@ -86,7 +87,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                     var wednesday = periodid.Wednesday;
                     var thursday = periodid.Thursday;
                     var friday = periodid.Friday;
-
+                        
                     if (saturday == true && weekends.SaturDay == true)
                     {
                         TempData["Error"] = " السبت هو يوم دوام في الفترة المحددة" + "لايمكنك نحديد يوم دوام كأجازة ";
@@ -183,7 +184,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 try
                 {
-                    _weekendsRepository.UpdateAsync(weekends);
+                  await  _weekendsRepository.UpdateAsync(weekends);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

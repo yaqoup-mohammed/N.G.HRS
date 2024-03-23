@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
 {
@@ -15,10 +16,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
     public class FunctionalClassesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<FunctionalClass> _functionalClassesRepository;
 
-        public FunctionalClassesController(AppDbContext context)
+        public FunctionalClassesController(AppDbContext context, IRepository<FunctionalClass> functionalClassesRepository)
         {
             _context = context;
+            _functionalClassesRepository = functionalClassesRepository;
         }
 
         // GET: PlanningAndJobDescription/FunctionalClasses
@@ -63,9 +66,11 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(functionalClass);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+               await _functionalClassesRepository.AddAsync(functionalClass);
+                TempData["success"] = "تم الحفظ بنجاح";
+                return RedirectToAction(nameof(Create));
+
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["CurrencyId"] = new SelectList(_context.Set<Currency>(), "Id", "CurrencyCode", functionalClass.CurrencyId);
             return View(functionalClass);
@@ -79,7 +84,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                 return NotFound();
             }
 
-            var functionalClass = await _context.functionalClasses.FindAsync(id);
+            var functionalClass = await _functionalClassesRepository.GetByIdAsync(id);
             if (functionalClass == null)
             {
                 return NotFound();
@@ -104,8 +109,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
             {
                 try
                 {
-                    _context.Update(functionalClass);
-                    await _context.SaveChangesAsync();
+                   await _functionalClassesRepository.UpdateAsync(functionalClass);
+                    TempData["success"] = "تم التعديل بنجاح";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +123,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(functionalClass);
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["CurrencyId"] = new SelectList(_context.Set<Currency>(), "Id", "CurrencyCode", functionalClass.CurrencyId);
             return View(functionalClass);
@@ -148,14 +154,17 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var functionalClass = await _context.functionalClasses.FindAsync(id);
+            var functionalClass = await _functionalClassesRepository.GetByIdAsync(id);
             if (functionalClass != null)
             {
                 _context.functionalClasses.Remove(functionalClass);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData ["success"] = "تم الحذف بنجاح";
+            return RedirectToAction(nameof(Create));
+
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool FunctionalClassExists(int id)
