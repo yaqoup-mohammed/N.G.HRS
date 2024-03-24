@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class SectorsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Sectors> _sectorsRepository;
 
-        public SectorsController(AppDbContext context)
+        public SectorsController(AppDbContext context, IRepository<Sectors> sectorsRepository)
         {
             _context = context;
+            _sectorsRepository = sectorsRepository;
         }
 
         // GET: OrganizationalChart/Sectors
@@ -47,9 +50,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/Sectors/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["BranchesId"] = new SelectList(_context.branches, "Id", "BranchesName");
+            await PopulateDropdownListsAsync();
             return View();
         }
 
@@ -62,11 +65,20 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sectors);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await PopulateDropdownListsAsync();
+
+                    await _sectorsRepository.AddAsync(sectors);
+                    TempData["Success"] = "تمت العملية بنجاح!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(sectors);
+                }
             }
-            ViewData["BranchesId"] = new SelectList(_context.branches, "Id", "BranchesName", sectors.BranchesId);
             return View(sectors);
         }
 
@@ -77,13 +89,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var sectors = await _context.sectors.FindAsync(id);
+            var sectors = await _sectorsRepository.GetByIdAsync(id);
             if (sectors == null)
             {
                 return NotFound();
             }
-            ViewData["BranchesId"] = new SelectList(_context.branches, "Id", "BranchesName", sectors.BranchesId);
             return View(sectors);
         }
 
@@ -101,10 +113,11 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
             if (ModelState.IsValid)
             {
+                await PopulateDropdownListsAsync();
+
                 try
                 {
-                    _context.Update(sectors);
-                    await _context.SaveChangesAsync();
+                    await _sectorsRepository.UpdateAsync(sectors);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +132,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchesId"] = new SelectList(_context.branches, "Id", "BranchesName", sectors.BranchesId);
             return View(sectors);
         }
 
@@ -147,19 +159,24 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sectors = await _context.sectors.FindAsync(id);
+            var sectors = await _sectorsRepository.GetByIdAsync(id);
             if (sectors != null)
             {
-                _context.sectors.Remove(sectors);
+                await _sectorsRepository.DeleteAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SectorsExists(int id)
         {
             return _context.sectors.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var branches = await _context.branches.ToListAsync();
+            ViewData["branches"] = new SelectList(branches, "Id", "BranchesName");
+            //====================================================
         }
     }
 }

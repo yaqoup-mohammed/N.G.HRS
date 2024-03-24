@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
     public class FunctionalCategoriesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<FunctionalCategories> _functionalCategoriesRepository;
 
-        public FunctionalCategoriesController(AppDbContext context)
+        public FunctionalCategoriesController(AppDbContext context , IRepository<FunctionalCategories> functionalCategoriesRepository)
         {
             _context = context;
+            _functionalCategoriesRepository = functionalCategoriesRepository;
         }
 
         // GET: PlanningAndJobDescription/FunctionalCategories
@@ -59,9 +62,11 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(functionalCategories);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _functionalCategoriesRepository.AddAsync(functionalCategories);
+                TempData ["Success"] = "تمت العملية بنجاح";
+                return RedirectToAction(nameof(Create));
+
+                //return RedirectToAction(nameof(Index));
             }
             return View(functionalCategories);
         }
@@ -74,7 +79,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                 return NotFound();
             }
 
-            var functionalCategories = await _context.functionalCategories.FindAsync(id);
+            var functionalCategories = await _functionalCategoriesRepository.GetByIdAsync(id);
             if (functionalCategories == null)
             {
                 return NotFound();
@@ -98,8 +103,10 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
             {
                 try
                 {
-                    _context.Update(functionalCategories);
-                    await _context.SaveChangesAsync();
+                   await _functionalCategoriesRepository.UpdateAsync(functionalCategories);
+                    TempData["Success"] = "تمت تعديل  بنجاح";
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,7 +119,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(functionalCategories);
+                //return RedirectToAction(nameof(Index));
             }
             return View(functionalCategories);
         }
@@ -140,14 +148,17 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var functionalCategories = await _context.functionalCategories.FindAsync(id);
+            var functionalCategories = await _functionalCategoriesRepository.GetByIdAsync(id);
             if (functionalCategories != null)
             {
                 _context.functionalCategories.Remove(functionalCategories);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData["Success"] = "تم الحذف بنجاح";
+            return RedirectToAction(nameof(Create));
+
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool FunctionalCategoriesExists(int id)

@@ -12,8 +12,11 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         [Display(Name ="اسم المخالفة")]
         [StringLength(150)]
         public string? PenaltiesName { get; set; }
+<<<<<<< HEAD
         [Display(Name = "خصمية ")]
 
+=======
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
         public bool Deduction { get; set; }//خصمية
         [Display(Name = "خصم من ساعات الدوام ")]
 

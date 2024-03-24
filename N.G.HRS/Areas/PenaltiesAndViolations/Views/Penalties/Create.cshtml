@@ -1,4 +1,5 @@
 ﻿@model N.G.HRS.Areas.PenaltiesAndViolations.Models.Penalties
+<<<<<<< HEAD
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -6,10 +7,23 @@
     Layout = "_Layout";
 
 }
+=======
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "حسابات الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
 <h1>Create</h1>
 
 <h4>Penalties</h4>
 <hr />
+<<<<<<< HEAD
 
 
 @* ======================== *@
@@ -139,12 +153,66 @@
     </div>
 </div>
 @* ======================== *@
+=======
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PenaltiesName" class="control-label"></label>
+                <input asp-for="PenaltiesName" class="form-control" />
+                <span asp-validation-for="PenaltiesName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Deduction" /> @Html.DisplayNameFor(model => model.Deduction)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="DiscountFromWorkingHours" /> @Html.DisplayNameFor(model => model.DiscountFromWorkingHours)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="DeductionFromTheDailyWage" /> @Html.DisplayNameFor(model => model.DeductionFromTheDailyWage)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="DeductionFromSalary" /> @Html.DisplayNameFor(model => model.DeductionFromSalary)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Percent" class="control-label"></label>
+                <input asp-for="Percent" class="form-control" />
+                <span asp-validation-for="Percent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<<<<<<< HEAD
 
 <script>
     $(document).ready(function () {
@@ -212,4 +280,6 @@
 
     });
 </script>
+=======
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 {
@@ -14,16 +15,17 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
     public class BasicDataForWagesAndSalariesController : Controller
     {
         private readonly AppDbContext _context;
-
-        public BasicDataForWagesAndSalariesController(AppDbContext context)
+        private readonly IRepository<BasicDataForWagesAndSalaries> _BasicDataForWagesAndSalariesRepo;
+        public BasicDataForWagesAndSalariesController(AppDbContext context, IRepository<BasicDataForWagesAndSalaries> BasicDataForWagesAndSalariesRepo)
         {
             _context = context;
+            _BasicDataForWagesAndSalariesRepo = BasicDataForWagesAndSalariesRepo;
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries
         public async Task<IActionResult> Index()
         {
-            return View(await _context.basicDataForWagesAndSalaries.ToListAsync());
+            return View(await _BasicDataForWagesAndSalariesRepo.GetAllAsync());
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries/Details/5
@@ -59,8 +61,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(basicDataForWagesAndSalaries);
-                await _context.SaveChangesAsync();
+                await _BasicDataForWagesAndSalariesRepo.AddAsync(basicDataForWagesAndSalaries);
                 return RedirectToAction(nameof(Index));
             }
             return View(basicDataForWagesAndSalaries);
@@ -74,7 +75,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
                 return NotFound();
             }
 
-            var basicDataForWagesAndSalaries = await _context.basicDataForWagesAndSalaries.FindAsync(id);
+            var basicDataForWagesAndSalaries = await _BasicDataForWagesAndSalariesRepo.GetByIdAsync(id);
             if (basicDataForWagesAndSalaries == null)
             {
                 return NotFound();
@@ -98,8 +99,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             {
                 try
                 {
-                    _context.Update(basicDataForWagesAndSalaries);
-                    await _context.SaveChangesAsync();
+                    await _BasicDataForWagesAndSalariesRepo.UpdateAsync(basicDataForWagesAndSalaries);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,13 +140,12 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var basicDataForWagesAndSalaries = await _context.basicDataForWagesAndSalaries.FindAsync(id);
+            var basicDataForWagesAndSalaries = await _BasicDataForWagesAndSalariesRepo.GetByIdAsync(id);
             if (basicDataForWagesAndSalaries != null)
             {
-                _context.basicDataForWagesAndSalaries.Remove(basicDataForWagesAndSalaries);
+                await _BasicDataForWagesAndSalariesRepo.DeleteAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

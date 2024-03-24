@@ -9,33 +9,46 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="هذا الحقل مطلوب")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "من تاريخ")]
         public DateOnly DateOfStartWork { get; set; }
-        [Required]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "الى تاريخ")]
         public DateOnly DateOfEndWork { get; set;}
         //===================================================
         //=
         [ForeignKey("DepartmentsId")]
-        public int DepartmentsId { get; set; }
-        public Departments Departments { get; set; }
+        [Display(Name = "الادارة")]
+
+        public int? DepartmentsId { get; set; }
+        public Departments? Departments { get; set; }
         //=
         [ForeignKey("SectionsId")]
-        public int SectionsId { get; set; }
-        public Sections Sections { get; set; }
+        [Display(Name = "القسم")]
+        public int? SectionsId { get; set; }
+        public Sections? Sections { get; set; }
         //=
         [ForeignKey("EmployeeId")]
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        [Display(Name = "الموظف")]
+
+        public int? EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
         //=
         [ForeignKey("PermanenceModelsId")]
-        public int PermanenceModelsId { get; set; }
-        public PermanenceModels PermanenceModels { get; set; }
+        [Display(Name = "الدوام")]
+
+        public int? PermanenceModelsId { get; set; }
+        public PermanenceModels? PermanenceModels { get; set; }
         //=
         [ForeignKey("PeriodsId")]
-        public int PeriodsId { get; set; }
-        public Periods Periods { get; set; }
+        [Display(Name = "الفترة")]
+
+        public int? PeriodsId { get; set; }
+        public Periods? Periods { get; set; }
         //=
     }
 }

@@ -1,7 +1,10 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Date;
 using N.G.HRS.Models;
+using NuGet.Protocol.Core.Types;
+
 
 namespace N.G.HRS.Repository
 {
@@ -24,12 +27,17 @@ namespace N.G.HRS.Repository
             return await _context.Set<T>().FindAsync(id);
         }
 
+
         public async Task<T> AddAsync(T entity)
         {
             _context.Set<T>().Add(entity);
+
             await _context.SaveChangesAsync();
+
+
             return entity;
         }
+        
 
         public async Task<T> UpdateAsync(T entity)
         {
@@ -38,7 +46,7 @@ namespace N.G.HRS.Repository
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(int Id)
+        public async Task<bool> DeleteAsync(int? Id)
         {
             var entity = await _context.Set<T>().FindAsync(Id);
             if (entity != null)
@@ -56,6 +64,12 @@ namespace N.G.HRS.Repository
             }
             return false;
         }
+
+        public Task AddAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public static implicit operator Repository<T>(Repository<BaseModel> v)
         {
             return new Repository<T>(v._context);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class BranchesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Branches> _branchesRepository;
 
-        public BranchesController(AppDbContext context)
+        public BranchesController(AppDbContext context, IRepository<Branches> branchesRepository)
         {
             _context = context;
+            _branchesRepository = branchesRepository;
         }
 
         // GET: OrganizationalChart/Branches
@@ -50,12 +53,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/Branches/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.company, "Id", "CompanyName");
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name");
-            ViewData["DirectorateId"] = new SelectList(_context.directorates, "Id", "Name");
-            ViewData["GovernorateId"] = new SelectList(_context.governorates, "Id", "Name");
+            await PopulateDropdownListsAsync();
             return View();
         }
 
@@ -68,14 +68,20 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(branches);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await PopulateDropdownListsAsync();
+                    await _branchesRepository.AddAsync(branches);
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(branches);
+                }
             }
-            ViewData["CompanyId"] = new SelectList(_context.company, "Id", "CompanyName", branches.CompanyId);
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name", branches.CountryId);
-            ViewData["DirectorateId"] = new SelectList(_context.directorates, "Id", "Name", branches.DirectorateId);
-            ViewData["GovernorateId"] = new SelectList(_context.governorates, "Id", "Name", branches.GovernorateId);
+
             return View(branches);
         }
 
@@ -86,16 +92,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 return NotFound();
             }
-
-            var branches = await _context.branches.FindAsync(id);
+            await PopulateDropdownListsAsync();
+            var branches = await _branchesRepository.GetByIdAsync(id);
             if (branches == null)
             {
                 return NotFound();
             }
-            ViewData["CompanyId"] = new SelectList(_context.company, "Id", "CompanyName", branches.CompanyId);
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name", branches.CountryId);
-            ViewData["DirectorateId"] = new SelectList(_context.directorates, "Id", "Name", branches.DirectorateId);
-            ViewData["GovernorateId"] = new SelectList(_context.governorates, "Id", "Name", branches.GovernorateId);
+
             return View(branches);
         }
 
@@ -113,10 +116,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
             if (ModelState.IsValid)
             {
+                await PopulateDropdownListsAsync();
                 try
                 {
-                    _context.Update(branches);
-                    await _context.SaveChangesAsync();
+                    await _branchesRepository.UpdateAsync(branches);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,10 +134,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CompanyId"] = new SelectList(_context.company, "Id", "CompanyName", branches.CompanyId);
-            ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name", branches.CountryId);
-            ViewData["DirectorateId"] = new SelectList(_context.directorates, "Id", "Name", branches.DirectorateId);
-            ViewData["GovernorateId"] = new SelectList(_context.governorates, "Id", "Name", branches.GovernorateId);
+
             return View(branches);
         }
 
@@ -165,19 +165,33 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var branches = await _context.branches.FindAsync(id);
+            var branches = await _branchesRepository.GetByIdAsync(id);
             if (branches != null)
             {
-                _context.branches.Remove(branches);
+               await _branchesRepository.DeleteAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BranchesExists(int id)
         {
             return _context.branches.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var country = await _context.country.ToListAsync();
+            ViewData["country"] = new SelectList(country, "Id", "Name");
+            //====================================================
+            var directorates = await _context.directorates.ToListAsync();
+            ViewData["directorates"] = new SelectList(directorates, "Id", "Name");
+            //====================================================
+            var governorates = await _context.governorates.ToListAsync();
+            ViewData["governorates"] = new SelectList(governorates, "Id", "Name");
+            //====================================================
+            var company = await _context.company.ToListAsync();
+            ViewData["company"] = new SelectList(company, "Id", "CompanyName");
+            //====================================================
         }
     }
 }

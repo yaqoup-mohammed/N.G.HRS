@@ -7,11 +7,13 @@ using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PenaltiesAndViolations.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
+using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using System.Configuration;
 using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
+using N.G.HRS.Areas.EmployeesAffsirs.Models;
 
 namespace N.G.HRS.Date
 {
@@ -23,7 +25,7 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); 
 
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
@@ -451,6 +453,12 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeAdvancesList)
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AnnualGoals>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.AnnualGoalsList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -524,7 +532,7 @@ namespace N.G.HRS.Date
         public DbSet<EmployeeAccount> EmployeeAccount { get; set; } = default!;
         public DbSet<Penalties> Penalties { get; set; } = default!;
         public DbSet<Violations> Violations { get; set; } = default!;
-        public DbSet<Attendance> Attendance { get; set; } = default!;
+        public DbSet<Periods> Periods { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.Finance.Models.Currency> Currency { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.Finance.Models.FinanceAccount> FinanceAccount { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on> AutomaticallyApprovedAdd_on { get; set; } = default!;

@@ -8,13 +8,16 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
     {
         [Key]  
         public int Id { get; set; }
-        [Required]
+        [Required (ErrorMessage = "!!  اسم الدرجة الوظيفية مطلوب من فضلك")]
+        [Display(Name = "اسم الدرجة الوظيفية")]
         [StringLength(150)]
         public string Name { get; set; }
-        [Required]
+        [Required (ErrorMessage = "!!المرتب الاساسي مطلوب من فضلك")]
+        [Display(Name = "المرتب الاساسي")]
         [Range(0, 999999.999)]
         public decimal BasicSalary { get; set; }
         [StringLength(255)]
+        [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }
         //===============================================
         [ForeignKey("CurrencyId")]

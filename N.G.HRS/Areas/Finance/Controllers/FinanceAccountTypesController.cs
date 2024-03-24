@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.Finance.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.Finance.Controllers
     public class FinanceAccountTypesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<FinanceAccountType> _repositoryRepository;
 
-        public FinanceAccountTypesController(AppDbContext context)
+        public FinanceAccountTypesController(AppDbContext context, IRepository<FinanceAccountType> repositoryRepository)
         {
             _context = context;
+            _repositoryRepository = repositoryRepository;
         }
 
         // GET: Finance/FinanceAccountTypes
@@ -59,8 +62,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(financeAccountType);
-                await _context.SaveChangesAsync();
+               await _repositoryRepository.AddAsync(financeAccountType);
+                TempData["Success"] = "تم الحفظ بنجاح";
                 return RedirectToAction(nameof(Index));
             }
             return View(financeAccountType);
@@ -74,7 +77,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
                 return NotFound();
             }
 
-            var financeAccountType = await _context.FinanceAccountType.FindAsync(id);
+            var financeAccountType = await _repositoryRepository.GetByIdAsync(id);
             if (financeAccountType == null)
             {
                 return NotFound();
@@ -99,7 +102,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
                 try
                 {
                     _context.Update(financeAccountType);
-                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "تم التعديل بنجاح";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,13 +143,14 @@ namespace N.G.HRS.Areas.Finance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var financeAccountType = await _context.FinanceAccountType.FindAsync(id);
+            var financeAccountType = await _repositoryRepository.GetByIdAsync(id);
             if (financeAccountType != null)
             {
                 _context.FinanceAccountType.Remove(financeAccountType);
             }
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = "تم الحذف بنجاح";
             return RedirectToAction(nameof(Index));
         }
 

@@ -7,11 +7,14 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required (ErrorMessage = "اسم الرتبة الوظيفة مطلوب ")]
+        [Display (Name = "اسم الرتبة الوظيفة")]
         [StringLength(150)]
         public string RankName { get; set; }
         [StringLength(255)]
+        [Display (Name = "ملاحظات")]
         public string? Notes { get; set; }
+
         //=====================================
         public List<JobDescription>? JobDescriptionList { get; set; }
 

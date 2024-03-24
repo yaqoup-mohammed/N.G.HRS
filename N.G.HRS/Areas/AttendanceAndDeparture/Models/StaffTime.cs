@@ -24,6 +24,9 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [ForeignKey("SectionsId")]
         public int? SectionsId { get; set; }
         public Sections? Sections { get; set; }
+        [ForeignKey("PeriodId")]
+        public int? PeriodId { get; set; }
+        public Periods? Periods { get; set; }
 
 
 

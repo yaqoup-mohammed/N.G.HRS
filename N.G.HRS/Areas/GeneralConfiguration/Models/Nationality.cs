@@ -8,9 +8,11 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = " أسم الجنسية مطلوب!!")]
+        [Display(Name = " أسم الجنسية ")]
         [StringLength(150)]
-        public string NationalityName { get; set; }
+        public string? NationalityName { get; set; }
+        [Display(Name = "ملاحظات")]
         [StringLength(255)]
         public string? Notes { get; set; }
         //===========================================

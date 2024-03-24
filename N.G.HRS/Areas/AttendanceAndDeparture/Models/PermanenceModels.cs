@@ -10,88 +10,52 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        [StringLength(100)]
-        public string PermanenceName { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        public DateOnly FromDate { 
-            get { 
-            if(FromDate>ToDate)
-                {
-                    throw new Exception("يجب ان يكون تاريخ البدء اقل من تاريخ الانتهاء");
-                }
-            else if(FromDate < DateOnly.FromDateTime(DateTime.Now))
-                {
-                    throw new Exception("يجب ان لا يكون تاريخ البدء اصغر من التاريخ الحالي");
-                }
-                    return FromDate;
-            } set { } }
-        [Required]
-        [DataType(DataType.Date)]
-        public DateOnly ToDate { 
-            get { 
-            if(FromDate > ToDate)
-                {
-                    throw new Exception("يجب ان يكون تاريخ الانتهاء اكبر من تاريخ البدء");
-                }
-                return ToDate;
 
-            } set { } }
+        [Required(ErrorMessage = "أسم الدوام مطلوب!!")]
+        [Display(Name = "أسم الدوام")]
+        [StringLength(100, ErrorMessage = "أسم الدوام يجب الا يتجاوز 100 حرف !!")]
+        public string PermanenceName { get; set; }
+
+        [Required(ErrorMessage = "تاريخ البدأ مطلوب!!")]
+        [Display(Name = " من تاريخ")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateOnly FromDate { get; set; }
+
+        [Required(ErrorMessage = "تاريخ الانتهاء مطلوب!!")]
+        [Display(Name = "الى تاريخ")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateOnly ToDate { get; set; }
+        [Display(Name = " دوام مرن")]
         public bool FlexibleWorkingHours { get; set; }
-        public bool WorkBetweenTwoDays { get; set; }
-        //public bool ShiftTime { get; set; }
-        //public bool Working24Hours { get; set; }
+        [Display(Name = " دوام بين يومين")]
+        public bool WorkBetweenTwoShifts { get; set; }
+        
         [DataType(DataType.Time)]
-        public DateTime FromTime { 
-            get {
-            if(FromTime > ToTime)
-                {
-                    throw new Exception("يجب ان يكون وقت البدء اقل من وقت النهاية");
-                }
-            else if (FromTime.TimeOfDay < DateTime.Now.TimeOfDay)
-                {
-                    throw new Exception("يجب ان لا يكون وقت البدء اصغر من وقت الحالي");
-                }
-                    return FromTime;
-            } set { } }
+        [Display(Name = "من الساعة")]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime? FromTime { get; set; }
+
         [DataType(DataType.Time)]
-        public DateTime ToTime { 
-            get {
-            if(FromTime > ToTime)
-                {
-                    throw new Exception("يجب ان يكون وقت النهاية اكبر من وقت البدء");
-                }
-            return ToTime;
-            } set { } }
-        [Range(0, 24)]
-        public double? HoursOfWorks { 
-            get {
-                try
-                {
-                    if (FlexibleWorkingHours)
-                    {
-                        return CalculateHourOfWork();
-                    }
-                    else if(WorkBetweenTwoDays) 
-                    {
-                    return CalculateHourOfWorkBetweenDays();
-                    }
-                    else 
-                    {
-                        return CalculateHourOfWork();
-                    }
-                }
-                catch
-                {
-                    throw new Exception("يجب ان تكون تاريخ البدء اقل من تاريخ الانتهاء");
-                }
-            } set { } }
-        public bool AddAttendanceAndDeparturePermission { get; set; }
-        public double? AllowanceForLateAttendance { get; set; }//سماحية حظور متأخر
-        public double? EarlyDeparturePermission { get; set; }//سماحية مغادرة مبكرة
-        [StringLength(255)]
-        public string? Notes {  get; set; }
+        [Display(Name = "الى الساعة")]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+
+        public DateTime? ToTime { get; set; }
+
+        [Range(0, 24, ErrorMessage = "عدد ساعات الدوام يجب الا يتجاوز 24")]
+        [Display(Name = "عدد الساعات")]
+        public double? HoursOfWorks { get; set; }
+
+        //public bool AddAttendanceAndDeparturePermission { get; set; }
+
+        //public int? AllowanceForLateAttendance { get; set; }
+
+        //public int? EarlyDeparturePermission { get; set; }
+
+        [StringLength(255, ErrorMessage = "عدد الاحرف يجب الا يتجاوز 255")]
+        [Display(Name = "الملاحظات")]
+        public string? Notes { get; set; }
         //==========================================
         public List<StaffTime>? StaffTimesList { get; set; }
         //=
@@ -99,56 +63,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         //=
         public List<Weekends>? WeekendsList { get; set; }
         //=
-        public List<WeekendsForFlexibleWorking>? WeekendsForFlexibleWorkingList { get; set; }
         public List<AdjustingTime>? AdjustingTimeList { get; set; }
         //=
-
-        //public  double CalculateHourOfWorkBetweenDays()
-        //{
-        //    DateOnly nextDay = FromDate.AddDays(1);
-        //    DateTime firstDate = new DateTime(FromDate.Year, FromDate.Month, FromDate.Day, FromTime.Hour, FromTime.Minute, FromTime.Second);
-        //    DateTime secondDate = new DateTime(nextDay.Year,nextDay.Month,nextDay.Day, ToTime.Hour, ToTime.Minute, ToTime.Second);
-
-        //    TimeSpan timeSpan = secondDate - firstDate;
-
-        //    double totalHours = timeSpan.Days * 24 + timeSpan.Hours;
-
-        //    return totalHours;
-        //}
-        public  double CalculateHourOfWorkBetweenDays()
-        {
-            DateOnly nextDay = FromDate.AddDays(1);
-            DateTime firstDate = new DateTime(FromDate.Year, FromDate.Month, FromDate.Day, FromTime.Hour, FromTime.Minute, FromTime.Second);
-            DateTime secondDate = new DateTime(nextDay.Year,nextDay.Month,nextDay.Day, ToTime.Hour, ToTime.Minute, ToTime.Second);
-
-            if(AddAttendanceAndDeparturePermission)
-            {
-                TimeSpan withPermission = secondDate.AddMinutes(-EarlyDeparturePermission??0) - firstDate.AddMinutes(AllowanceForLateAttendance??0);
-
-                return withPermission.TotalHours;
-            }
-            TimeSpan timeSpan = secondDate - firstDate;
-
-            double totalHours = timeSpan.Hours;
-
-            return totalHours;
-        }
-        public double CalculateHourOfWork()
-        {
-            DateTime firstTime = new DateTime(FromDate.Year, FromDate.Month, FromDate.Day, FromTime.Hour, FromTime.Minute, FromTime.Second);
-            DateTime secondTime = new DateTime(FromDate.Year, FromDate.Month, FromDate.Day, ToTime.Hour, ToTime.Minute, ToTime.Second);
-            if (AddAttendanceAndDeparturePermission)
-            {
-                TimeSpan withPermission = secondTime.AddMinutes(-EarlyDeparturePermission ?? 0) - firstTime.AddMinutes(AllowanceForLateAttendance ?? 0);
-
-                return withPermission.TotalHours;
-            }
-            TimeSpan timeSpan = secondTime - firstTime;
-
-            int totalHours = timeSpan.Hours;
-
-            return totalHours;
-        }
 
 
     }

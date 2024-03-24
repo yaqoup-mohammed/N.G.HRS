@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.Finance.Controllers
 {
@@ -14,11 +15,15 @@ namespace N.G.HRS.Areas.Finance.Controllers
     public class CurrenciesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Currency> _repository;
 
-        public CurrenciesController(AppDbContext context)
+        public CurrenciesController(AppDbContext context, IRepository<Currency> repository)
         {
             _context = context;
+            _repository = repository;
         }
+
+        
 
         // GET: Finance/Currencies
         public async Task<IActionResult> Index()
@@ -59,8 +64,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(currency);
-                await _context.SaveChangesAsync();
+                await _repository.AddAsync(currency);
+                TempData["Success"] = "تمت العملية بنجاح";
                 return RedirectToAction(nameof(Index));
             }
             return View(currency);
@@ -98,8 +103,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
             {
                 try
                 {
-                    _context.Update(currency);
-                    await _context.SaveChangesAsync();
+                   await _repository.UpdateAsync(currency);
+                    TempData ["Success"] = "تمت تعديل بنجاح";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,10 +145,11 @@ namespace N.G.HRS.Areas.Finance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var currency = await _context.Currency.FindAsync(id);
+            var currency = await _repository.GetByIdAsync(id);
             if (currency != null)
             {
                 _context.Currency.Remove(currency);
+                TempData["Success"] = "تمت الحذف بنجاح";
             }
 
             await _context.SaveChangesAsync();

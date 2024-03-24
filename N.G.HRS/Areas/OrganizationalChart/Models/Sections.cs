@@ -14,8 +14,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string SectionsName { get; set; }
+        [Display(Name = "القسم")]
+        public string? SectionsName { get; set; }
         [StringLength(255)]
+        [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }
 
         //=============================================
@@ -31,6 +33,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
 
         //========================================
         [ForeignKey("DepartmentsId")]
+        [Display(Name = "الادارة")]
         public int? DepartmentsId { get; set; }
         public Departments? Departments { get; set; }
         //=

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
     public class JobDescriptionsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<JobDescription> _jobDescriptionRepository;
 
-        public JobDescriptionsController(AppDbContext context)
+        public JobDescriptionsController(AppDbContext context, IRepository<JobDescription> jobDescriptionRepository)
         {
             _context = context;
+            _jobDescriptionRepository = jobDescriptionRepository;
         }
 
         // GET: PlanningAndJobDescription/JobDescriptions
@@ -66,9 +69,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(jobDescription);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+              await  _jobDescriptionRepository.AddAsync(jobDescription);
+                TempData["Success"] = "تمت الإضافة بنجاح";
+                return RedirectToAction(nameof(Create));
+
+
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["FunctionalCategoriesId"] = new SelectList(_context.functionalCategories, "Id", "CategoriesName", jobDescription.FunctionalCategoriesId);
             ViewData["FunctionalClassId"] = new SelectList(_context.functionalClasses, "Id", "Name", jobDescription.FunctionalClassId);
@@ -84,7 +90,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                 return NotFound();
             }
 
-            var jobDescription = await _context.JobDescription.FindAsync(id);
+            var jobDescription = await _jobDescriptionRepository.GetByIdAsync(id);
             if (jobDescription == null)
             {
                 return NotFound();
@@ -111,8 +117,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
             {
                 try
                 {
-                    _context.Update(jobDescription);
-                    await _context.SaveChangesAsync();
+                   await _jobDescriptionRepository.UpdateAsync(jobDescription);
+                    TempData["Success"] = "تم التعديل بنجاح";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,7 +131,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(jobDescription);
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["FunctionalCategoriesId"] = new SelectList(_context.functionalCategories, "Id", "CategoriesName", jobDescription.FunctionalCategoriesId);
             ViewData["FunctionalClassId"] = new SelectList(_context.functionalClasses, "Id", "Name", jobDescription.FunctionalClassId);
@@ -159,14 +166,17 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jobDescription = await _context.JobDescription.FindAsync(id);
+            var jobDescription = await _jobDescriptionRepository.GetByIdAsync(id);
             if (jobDescription != null)
             {
                 _context.JobDescription.Remove(jobDescription);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData["Success"] = "تم الحذف بنجاح";
+            return RedirectToAction(nameof(Create));
+
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool JobDescriptionExists(int id)

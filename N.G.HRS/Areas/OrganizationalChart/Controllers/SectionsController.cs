@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     public class SectionsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Sections> _SectionsRepository;
 
-        public SectionsController(AppDbContext context)
+        public SectionsController(AppDbContext context, IRepository<Sections> SectionsRepository)
         {
             _context = context;
+            _SectionsRepository = SectionsRepository;
         }
 
         // GET: OrganizationalChart/Sections
@@ -47,10 +50,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/Sections/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration");
-            return View();
+            await PopulateDropdownListsAsync();
+                return View();
         }
 
         // POST: OrganizationalChart/Sections/Create
@@ -62,11 +65,20 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sections);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await PopulateDropdownListsAsync();
+                    await _SectionsRepository.AddAsync(sections);
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                    return View(sections);
+                }
+
             }
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration", sections.DepartmentsId);
             return View(sections);
         }
 
@@ -77,13 +89,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 return NotFound();
             }
+            await PopulateDropdownListsAsync();
 
-            var sections = await _context.Sections.FindAsync(id);
+            var sections = await _SectionsRepository.GetByIdAsync(id);
             if (sections == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration", sections.DepartmentsId);
             return View(sections);
         }
 
@@ -103,8 +115,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 try
                 {
-                    _context.Update(sections);
-                    await _context.SaveChangesAsync();
+                    await PopulateDropdownListsAsync();
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    await _SectionsRepository.UpdateAsync(sections);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +132,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentsId"] = new SelectList(_context.Departments, "Id", "SubAdministration", sections.DepartmentsId);
             return View(sections);
         }
 
@@ -147,19 +159,25 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sections = await _context.Sections.FindAsync(id);
+            var sections = await _SectionsRepository.GetByIdAsync(id);
             if (sections != null)
             {
-                _context.Sections.Remove(sections);
+                await _SectionsRepository.DeleteAsync(id);
+                TempData["Success"] = "تمت العملية بنجاح";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SectionsExists(int id)
         {
             return _context.Sections.Any(e => e.Id == id);
+        }
+        private async Task PopulateDropdownListsAsync()
+        {
+            var Departments = await _context.Departments.ToListAsync();
+            ViewData["Departments"] = new SelectList(Departments, "Id", "SubAdministration");
+            //====================================================
         }
     }
 }

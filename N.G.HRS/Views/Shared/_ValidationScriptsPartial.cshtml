@@ -11,7 +11,7 @@
         Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: '@TempData["Success"]',
+            title: '@TempData["Success"]',  
             showConfirmButton: false,
             timer: 1500,
             customClass: {
@@ -26,27 +26,32 @@
     </script>
 
 }
+<<<<<<< HEAD
 
-@if (TempData["Error"] != null)
-{
-    <script type="text/javascript">
-
-        Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            title: '@TempData["Error"]',
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        });
+@if(@TempData["Error"]!=null){
 
 
+       <script >
+    Swal.fire({
+        icon: 'error',
+        title: '@TempData["Error"]',
+        customClass: {
+            confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+    });
+       </script>
+}
+@if(@TempData["Error"]!=null){
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: '@TempData["Error"]',
+        customClass: {
+            confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+    });
     </script>
 
-
-
 }
-

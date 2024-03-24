@@ -33,10 +33,11 @@
                 @Html.DisplayNameFor(model => model.SubjectToInsurance)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                @Html.DisplayNameFor(model => model.Amount)/ @Html.DisplayNameFor(model => model.Percentage)
             </th>
+  
             <th>
-                @Html.DisplayNameFor(model => model.Percentage)
+                @Html.DisplayNameFor(model => model.Currency)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Notes)
@@ -50,10 +51,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
+                @if (item.Type != null)
+                {
+                    @if (item.Type == "Discount")
+                    {
+                        <td>
+                            <h5>خصم</h5>
+                        </td>
+                    }
+                    @if (item.Type == "Allowance")
+                    {
+                        <td>
+                            <h5>بدل</h5>
+                        </td>
+                    }
+                }
+                <td>
                 @Html.DisplayFor(modelItem => item.Taxable)
             </td>
             <td>
@@ -65,11 +78,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.SubjectToInsurance)
             </td>
+                @if (item.Percentage != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Percentage) <span>%</span>
+                    </td>
+                }
+                @if (item.Amount != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                }
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Percentage)
+                    @Html.DisplayFor(modelItem => item.Currency.CurrencyCode)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Notes)
