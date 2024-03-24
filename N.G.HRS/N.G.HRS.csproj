@@ -33,8 +33,6 @@
 		<PackageReference Include="ZkTecoFingerPrint" Version="1.2.1" />
 	</ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\PenaltiesAndViolations\Controllers\" />
-    <Folder Include="Areas\PenaltiesAndViolations\Views\" />
     <Folder Include="wwwroot\Upload\PDF\" />
   </ItemGroup>
 

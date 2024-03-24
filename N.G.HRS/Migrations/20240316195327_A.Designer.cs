@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240303142341_A15")]
-    partial class A15
+    [Migration("20240316195327_A")]
+    partial class A
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -796,11 +796,11 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("AddAttendanceAndDeparturePermission")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("AllowanceForLateAttendance")
-                        .HasColumnType("int");
+                    b.Property<double?>("AllowanceForLateAttendance")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("EarlyDeparturePermission")
-                        .HasColumnType("int");
+                    b.Property<double?>("EarlyDeparturePermission")
+                        .HasColumnType("float");
 
                     b.Property<bool>("FlexibleWorkingHours")
                         .HasColumnType("bit");
@@ -811,8 +811,8 @@ namespace N.G.HRS.Migrations
                     b.Property<DateTime>("FromTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HoursOfWorks")
-                        .HasColumnType("int");
+                    b.Property<double?>("HoursOfWorks")
+                        .HasColumnType("float");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
@@ -823,19 +823,13 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("ShiftTime")
-                        .HasColumnType("bit");
-
                     b.Property<DateOnly>("ToDate")
                         .HasColumnType("date");
 
                     b.Property<DateTime>("ToTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("WorkBetweenTwoShifts")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Working24Hours")
+                    b.Property<bool>("WorkBetweenTwoDays")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

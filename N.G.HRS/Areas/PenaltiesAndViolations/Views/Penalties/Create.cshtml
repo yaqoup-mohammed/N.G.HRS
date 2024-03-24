@@ -1,0 +1,215 @@
+﻿@model N.G.HRS.Areas.PenaltiesAndViolations.Models.Penalties
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+<h1>Create</h1>
+
+<h4>Penalties</h4>
+<hr />
+
+
+@* ======================== *@
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            العقوبات
+        </li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">العقوبات</h6>
+
+                <form asp-action="Create">
+                    <div class="row ">
+                        <div class="mb-3 col-md-12">
+                          
+                            <label asp-for="PenaltiesName" class="form-label">اسم العقوبة </label>
+                            <input asp-for="PenaltiesName" class="form-control" id="exampleInputUsername1" />
+                            <span asp-validation-for="PenaltiesName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!-- Row -->
+
+                    <div class="mb-3">
+                        <div>
+                            <div class="form-check form-check-inline">
+                    
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Deduction" id="checkInline1" /> @Html.DisplayNameFor(model => model.Deduction)
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Row -->
+
+                    <div id="gender1" class="mb-3">
+                        <label class="form-label">خصم من</label>
+                        <div>
+                            <div id="gender1" class="form-check form-check-inline">
+                               
+                                <label class="form-check-label" for="gender1">
+                                    <input class="form-check-input" asp-for="DeductionFromSalary" /> @Html.DisplayNameFor(model => model.DeductionFromSalary)
+                                </label>
+                            </div>
+                            <div id="gender2" class="form-check form-check-inline">
+                                
+
+                                <label class="form-check-label" for="gender2">
+                                    <input class="form-check-input" asp-for="DeductionFromTheDailyWage" /> @Html.DisplayNameFor(model => model.DeductionFromTheDailyWage)
+                                </label>
+                            </div>
+                            <div id="gender3" class="form-check form-check-inline">
+                   
+                                <label class="form-check-label" for="gender3">
+                                    <input class="form-check-input" asp-for="DiscountFromWorkingHours" /> @Html.DisplayNameFor(model => model.DiscountFromWorkingHours)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row -->
+
+                    <div class="mb-3">
+                        <label class="form-label"> طريقة الخصم</label>
+                        <div>
+                            <div class=" col-sm-6" id="valueClass" style="display:none;">
+                                
+                                <label asp-for="Value"  class="form-label"></label>
+                                <input asp-for="Value"  class="form-control" id="gender1" />
+                                <span asp-validation-for="Value" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-sm-6" id="PercentClass" style="display:none;">
+                              
+                                <label asp-for="Percent" class="form-label"></label>
+                                <input asp-for="Percent"  class="form-control" id="gender2" />
+                                <span asp-validation-for="Percent" class="text-danger"></span>
+                            </div>
+
+                            <div id="gender4" class="row">
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label class="form-check-label"> القيمة</label>
+                                        <input type="checkbox" name="valuepercentage"  id="valueButton"  class="form-check-input" placeholder="Enter first name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label class="form-check-label"> نسبة</label>
+                                        <input type="checkbox" name="valuepercentage" id="percentageButton" class="form-check-input" placeholder="Enter first name">
+                                    </div>
+                                </div><!-- Col -->
+
+                            </div><!-- Row -->
+                        </div>
+                    </div>
+                    <!-- Row -->
+                    <div class="mb-3">
+                    
+                        <label asp-for="Notes" cclass="form-label"></label>
+                        <input asp-for="Notes" class="form-control" id="exampleInputPassword1" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary me-2">
+                        Submit
+                    </button>
+                    <button class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@* ======================== *@
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(document).ready(function () {
+
+
+
+
+            const valueButton = document.getElementById("valueButton");
+            const percentageButton = document.getElementById("percentageButton");
+            const PercentClass = document.getElementById("PercentClass");
+            const valueClass = document.getElementById("valueClass");
+
+            valueButton.addEventListener("change", function () {
+
+                if (valueButton.checked) {
+                    console.log(valueButton)
+                    valueClass.style = `display:block; pointer-events:all ; filter: none; opacity: 1;`;
+                    PercentClass.style = `display:none;`;
+                    percentageButton.checked = false
+                }
+                else {
+                    valueClass.style = `pointer-events: none; filter: none; opacity: .5;`;
+                }
+
+            });
+            percentageButton.addEventListener("change", function () {
+
+                if (percentageButton.checked) {
+                    PercentClass.style = `display:block; pointer-events:all ; filter: none; opacity: 1;`;
+                    valueClass.style = `display:none;`;
+                    valueButton.checked = false
+
+                }
+                else {
+                    PercentClass.style = `pointer-events: none; filter: none; opacity: .5;`;
+
+                }
+
+            });
+            //================================================================================================
+            const checkInline1 = document.getElementById("checkInline1");
+            const gender2 = document.getElementById("gender2");
+            const gender3 = document.getElementById("gender3");
+            const gender1 = document.getElementById("gender1");
+
+
+
+            gender1.style = `pointer-events: none; filter: none; opacity: .5;`;
+            gender4.style = `pointer-events: none; filter: none; opacity: .5;`;
+
+
+            checkInline1.addEventListener("change", function () {
+                if (checkInline1.checked) {
+
+                    gender1.style = ` pointer-events:all ; filter: none; opacity: 1;`;
+                    gender4.style = ` pointer-events:all ; filter: none; opacity: 1;`
+
+                }
+                else {
+
+                    gender1.style = `pointer-events: none; filter: none; opacity: .5;`;
+                    gender4.style = `pointer-events: none; filter: none; opacity: .5;`;
+                }
+            });
+
+    });
+</script>
+}
