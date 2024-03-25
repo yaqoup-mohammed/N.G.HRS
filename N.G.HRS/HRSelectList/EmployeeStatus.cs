@@ -1,4 +1,4 @@
-﻿namespace N.G.HRS.SelectList
+﻿namespace N.G.HRS.HRSelectList
 {
     public class EmployeeStatus
     {

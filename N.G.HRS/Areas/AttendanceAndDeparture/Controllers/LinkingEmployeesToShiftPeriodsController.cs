@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
-using N.G.HRS.Areas.Employees.ViewModel;
 using N.G.HRS.Date;
-using System.Web;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 {
