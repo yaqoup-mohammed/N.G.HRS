@@ -53,7 +53,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public Governorate? Governorate { get; set; }
         //=
         [ForeignKey("DirectorateId")]
-        [Display(Name = "الادارة")]
+        [Display(Name = "المديرية")]
         public int? DirectorateId { get; set; }
         public Directorate? Directorate { get; set; }
         //======
