@@ -1,4 +1,5 @@
 ﻿using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,12 +10,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "اسم  الوظيفة مطلوب من فضلك")]
+        [Required(ErrorMessage = "اسم  الوظيفة مطلوب ")]
         [Display(Name = "اسم  الوظيفة")]
         [StringLength(150)]     
         public string JopName { get; set; }
 
-        [Required (ErrorMessage = "اسم  المؤهل الوظيفي مطلوب من فضلك")]
+        [Required (ErrorMessage = "اسم  المؤهل الوظيفي مطلوب ")]
         [Display(Name = "اسم المؤهل")]
         [StringLength(255)]
         public string JobQualifications { get; set; }
@@ -22,7 +23,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         [Required ]
         [StringLength(255)]
         public string Authorities { get; set; }
-        [Required (ErrorMessage = "المسؤولية الوظيفة مطلوبة من فضلك")]
+        [Required (ErrorMessage = "المسؤولية الوظيفة مطلوبة ")]
         [Display(Name = "مسؤولية الوظيفة")]
         [StringLength(255)]
         public string Responsibilities { get; set; }
@@ -48,6 +49,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         public int? JobRanksId { get; set; }
 
         public JobRanks? JobRanks { get; set; }
+
+        //===============================================
+        public List<EmployeeMovements>? EmployeeMovementsList { get; set; }
+        //public string? CurrentJop { get; internal set; }
+        //====================================
+
 
     }
 }

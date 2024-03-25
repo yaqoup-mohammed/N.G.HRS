@@ -78,7 +78,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                     //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
                     //foreach (var item in data)
                     //{
-                        _context.AddAsync(country);
+                        await _countryRepository.AddAsync(country);
                         await _context.SaveChangesAsync();
                     //}
                     TempData["Success"] = "تم الحفظ بنجاح";

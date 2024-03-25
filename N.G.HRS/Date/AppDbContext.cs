@@ -459,6 +459,19 @@ namespace N.G.HRS.Date
               .WithMany(p => p.AnnualGoalsList)
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeMovements>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.EmployeeMovementsList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeMovements>()
+              .HasOne(p => p.jopdescription)
+              .WithMany(p => p.EmployeeMovementsList)
+              .HasForeignKey(p => p.jopdescriptionId)
+              .OnDelete(DeleteBehavior.NoAction);
+
 
 
         }
@@ -542,6 +555,8 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.PayRoll.Models.EndOfServiceClearance> EndOfServiceClearance { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.PayRoll.Models.EntitlementsAndDeductions> EntitlementsAndDeductions { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.PayRoll.Models.VacationAllowances> VacationAllowances { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
 
 
 

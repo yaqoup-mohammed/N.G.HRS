@@ -10,7 +10,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب !!")]
         [StringLength(150)]
         [Display(Name = "نوع العضوية")]
-        public string TypeOFMembership { get; set; }
+        public string? TypeOFMembership { get; set; }
         [StringLength(255)]
         [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }

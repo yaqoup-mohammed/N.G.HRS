@@ -67,9 +67,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 try
                 {
                     await _membershipOfTheBoardOfDirectorsRepository.AddAsync(membershipOfTheBoardOfDirectors);
-                    TempData["Success"] = "تمت العملية بنجاح";
+                   TempData["Success"] = "تمت العملية بنجاح";
                     return RedirectToAction(nameof(Index));
                 }
+
                 catch (Exception ex)
                 {
                     TempData["Error"] = ex.Message;

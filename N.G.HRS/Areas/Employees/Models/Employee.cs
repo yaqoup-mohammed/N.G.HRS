@@ -117,6 +117,7 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //====================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
+        public List<EmployeeMovements>? EmployeeMovementsList { get; set; }
         //==================================== 
         public List<Family>? FamilyList { get; set; }
         //==================================== 
