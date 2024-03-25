@@ -1,0 +1,156 @@
+﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativePromotions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<h1>Create</h1>
+
+<h4>AdministrativePromotions</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentsId" class="control-label"></label>
+                <select asp-for="DepartmentsId" id="DepartmentsId" class="form-control" asp-items="@(ViewData["Departments"] as SelectList)">
+                    <option value="">-- أختر الادارة--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class="form-control" id="EmployeeId" >
+                    <option value="">-- أختر موظف --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FromDate" class="control-label"></label>
+                <input asp-for="FromDate" id="fromDate" class="form-control" />
+                <span asp-validation-for="FromDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToDate" class="control-label"></label>
+                <input asp-for="ToDate" id="toDate" class="form-control" />
+                <span asp-validation-for="ToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+
+            $.ajax({
+                url: '/EmployeesAffsirs/AdministrativePromotions/LoadEmployees',
+                type: 'GET',
+                success: function (data) {
+                    $.each(data, function (i, item) {
+
+                        $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
+
+
+                    });
+                }
+            });
+
+            //=================================
+            $("#DepartmentsId").on("change", function () {
+                var id = $(this).val();
+                // $('#EmployeeId').empty();   
+                // $('#EmployeeId').append('<option value="">-- أختر موظف --</option>')
+                if (id !== "") {
+                    $.ajax({
+                        url: '/EmployeesAffsirs/AdministrativePromotions/LoadDepartments?id=' + id,
+                        type: 'GET',
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+
+                                $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
+
+
+                            });
+                        }
+                    });
+
+                }
+            });
+            //===========================================
+            $("#toDate").on("change", function () {
+                if ($('#fromDate').val() > $('#toDate').val() ) {
+                    event.preventDefault(); // Prevent form submission
+                    Swal.fire({
+                        icon: "error",
+                        title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
+                    });
+                    $('#toDate').empty();
+                }
+            });
+            //===========================================
+            $("#submit").on("click", function () {
+                if ($('#fromDate').val() > $('#toDate').val() ) {
+                    event.preventDefault(); // Prevent form submission
+                    Swal.fire({
+                        icon: "error",
+                        title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
+                    });
+                    $('#toDate').val()="";
+                }
+
+                if ($('#DepartmentsId').val() === "") {
+                    event.preventDefault(); // Prevent form submission
+                    Swal.fire({
+                        icon: "error",
+                        title: "رجاء أختر الادارة ",
+                    });
+                }
+                if ($('#EmployeeId').val() === "") {
+                    event.preventDefault(); // Prevent form submission
+                    Swal.fire({
+                        icon: "error",
+                        title: "رجاء أختر الموظف ",
+                    });
+                }
+            });
+
+
+        });
+        
+        
+    </script>
+    @if (TempData["Done"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: "succes",
+                title: "@TempData["Done"] ",
+            });
+        </script>
+
+    }
+}

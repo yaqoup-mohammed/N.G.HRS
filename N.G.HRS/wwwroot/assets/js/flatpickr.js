@@ -10,6 +10,7 @@ $(function() {
     flatpickr(".flatpickr-date", {
       wrap: true,
         dateFormat: "Y-m-d",
+    locale:ar,
       
     });
   }

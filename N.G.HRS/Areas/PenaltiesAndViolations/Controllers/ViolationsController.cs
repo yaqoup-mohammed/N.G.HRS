@@ -7,30 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PenaltiesAndViolations.Models;
 using N.G.HRS.Date;
-using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
 {
     [Area("PenaltiesAndViolations")]
-    public class PenaltiesController : Controller
+    public class ViolationsController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IRepository<Penalties> _Penalties;
 
-        public PenaltiesController(AppDbContext context, IRepository<Penalties> Penalties)
+        public ViolationsController(AppDbContext context)
         {
             _context = context;
-            _Penalties = Penalties;
-
         }
 
-        // GET: PenaltiesAndViolations/Penalties
+        // GET: PenaltiesAndViolations/Violations
         public async Task<IActionResult> Index()
         {
-            return View(await _Penalties.GetAllAsync());
+            return View(await _context.Violations.ToListAsync());
         }
 
-        // GET: PenaltiesAndViolations/Penalties/Details/5
+        // GET: PenaltiesAndViolations/Violations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,40 +34,39 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
                 return NotFound();
             }
 
-            var penalties = await _context.Penalties
+            var violations = await _context.Violations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (penalties == null)
+            if (violations == null)
             {
                 return NotFound();
             }
 
-            return View(penalties);
+            return View(violations);
         }
 
-        // GET: PenaltiesAndViolations/Penalties/Create
+        // GET: PenaltiesAndViolations/Violations/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PenaltiesAndViolations/Penalties/Create
+        // POST: PenaltiesAndViolations/Violations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PenaltiesName,Deduction,DiscountFromWorkingHours,DeductionFromTheDailyWage,DeductionFromSalary,Value,Percent,Notes")] Penalties penalties)
+        public async Task<IActionResult> Create([Bind("Id,ViolationsName,Notes")] Violations violations)
         {
             if (ModelState.IsValid)
             {
-                await _Penalties.AddAsync(penalties);
-
-                TempData ["Success"] = "تم الحفظ بنجاح";
+                _context.Add(violations);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(penalties);
+            return View(violations);
         }
 
-        // GET: PenaltiesAndViolations/Penalties/Edit/5
+        // GET: PenaltiesAndViolations/Violations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,22 +74,22 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
                 return NotFound();
             }
 
-            var penalties = await _Penalties.GetByIdAsync(id);
-            if (penalties == null)
+            var violations = await _context.Violations.FindAsync(id);
+            if (violations == null)
             {
                 return NotFound();
             }
-            return View(penalties);
+            return View(violations);
         }
 
-        // POST: PenaltiesAndViolations/Penalties/Edit/5
+        // POST: PenaltiesAndViolations/Violations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PenaltiesName,Deduction,DiscountFromWorkingHours,DeductionFromTheDailyWage,DeductionFromSalary,Value,Percent,Notes")] Penalties penalties)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ViolationsName,Notes")] Violations violations)
         {
-            if (id != penalties.Id)
+            if (id != violations.Id)
             {
                 return NotFound();
             }
@@ -103,12 +98,12 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
             {
                 try
                 {
-                    await _Penalties.UpdateAsync(penalties);
-                    TempData["Success"] = "تم التعديل بنجاح";
+                    _context.Update(violations);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PenaltiesExists(penalties.Id))
+                    if (!ViolationsExists(violations.Id))
                     {
                         return NotFound();
                     }
@@ -119,10 +114,10 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(penalties);
+            return View(violations);
         }
 
-        // GET: PenaltiesAndViolations/Penalties/Delete/5
+        // GET: PenaltiesAndViolations/Violations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,33 +125,34 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
                 return NotFound();
             }
 
-            var penalties = await _context.Penalties
+            var violations = await _context.Violations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (penalties == null)
+            if (violations == null)
             {
                 return NotFound();
             }
 
-            return View(penalties);
+            return View(violations);
         }
 
-        // POST: PenaltiesAndViolations/Penalties/Delete/5
+        // POST: PenaltiesAndViolations/Violations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var penalties = await _Penalties.GetByIdAsync(id);
-            if (penalties != null)
+            var violations = await _context.Violations.FindAsync(id);
+            if (violations != null)
             {
-                await _Penalties.DeleteAsync(id);
+                _context.Violations.Remove(violations);
             }
-            TempData["Success"] = "تم الحذف بنجاح";
+
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PenaltiesExists(int id)
+        private bool ViolationsExists(int id)
         {
-            return _context.Penalties.Any(e => e.Id == id);
+            return _context.Violations.Any(e => e.Id == id);
         }
     }
 }

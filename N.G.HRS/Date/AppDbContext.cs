@@ -460,18 +460,23 @@ namespace N.G.HRS.Date
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
-            modelBuilder.Entity<EmployeeMovements>()
+            modelBuilder.Entity<AdministrativePromotions>()
               .HasOne(p => p.Employee)
-              .WithMany(p => p.EmployeeMovementsList)
+              .WithMany(p => p.AdministrativePromotionsList)
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
-            modelBuilder.Entity<EmployeeMovements>()
-              .HasOne(p => p.jopdescription)
-              .WithMany(p => p.EmployeeMovementsList)
-              .HasForeignKey(p => p.jopdescriptionId)
+            modelBuilder.Entity<AdministrativePromotions>()
+              .HasOne(p => p.Departments)
+              .WithMany(p => p.AdministrativePromotionsList)
+              .HasForeignKey(p => p.DepartmentsId)
               .OnDelete(DeleteBehavior.NoAction);
-
+            //=======================================
+            modelBuilder.Entity<EmploymentStatusManagement>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.EmploymentStatusManagementList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -555,8 +560,8 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.PayRoll.Models.EndOfServiceClearance> EndOfServiceClearance { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.PayRoll.Models.EntitlementsAndDeductions> EntitlementsAndDeductions { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.PayRoll.Models.VacationAllowances> VacationAllowances { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativePromotions> AdministrativePromotions { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; } = default!;
 
 
 

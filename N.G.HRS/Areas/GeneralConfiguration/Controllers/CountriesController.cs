@@ -63,14 +63,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             if (ModelState.IsValid)
             {   
 
-                    //var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Country>>(country.Data);
-                    //foreach (var item in data)
-                    //{
-                        await _countryRepository.AddAsync(country);
-                    //}
-                    TempData["Success"] = "تم الحفظ بنجاح";
-
-                //return RedirectToAction(nameof(Create));
 
 
                 //if(country != null)
@@ -79,7 +71,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                     //foreach (var item in data)
                     //{
                         await _countryRepository.AddAsync(country);
-                        await _context.SaveChangesAsync();
                     //}
                     TempData["Success"] = "تم الحفظ بنجاح";
                 //}

@@ -110,9 +110,12 @@
                                         <div class="col-md-3 col-12 mb-3 ">
                                             <label asp-for="Employee.EmploymentStatus" class="form-label"> الحالة الوظيفية</label>
                                             <select asp-for="Employee.EmploymentStatus" class="js-example-basic-single form-select">
-                                                <option> مثبت</option>
-                                                <option> متعاقد</option>
-                                                <option> متدرب</option>
+                                                <option value="Sticky"> مثبت</option>
+                                                <option value="Contracted"> متعاقد</option>
+                                                <option value="trainee"> متدرب</option>
+                                                <option value="continuous"> مستمر</option>
+                                                <option value="suspended">موقف</option>
+                                                <option value="finshed"> تم إنهاء الخدمة</option>
 
                                             </select>
                                             <span asp-validation-for="Employee.EmploymentStatus" class="text-danger"></span>

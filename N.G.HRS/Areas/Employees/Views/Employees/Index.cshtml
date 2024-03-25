@@ -108,7 +108,7 @@
                                         @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
  *@
                                         <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
-                                        <a asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
+                                        <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
                                     </td>
                                 </tr>
                                 
@@ -544,5 +544,28 @@
 @section Scripts {
 
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#emploteeDelete").on("click", function () {
+            var id= this.value;
+            if (id != "") {
 
+                $.ajax({
+                    url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + id,
+                    type: 'GET',
+                    success: function (data) {
+                        console.log(data);
+                        $('#employeeStatus').val(data.employmentStatus);
+                        $('#dateOfHire').val(data.dateOfEmployment);
+                        $('#dateOfstiky').val(data.placementDate);
+                        $('#select').val(data.employmentStatus).change();
+                        console.log(data.employmentStatus);
+
+                    }
+                });
+            }
+        
+        
+        });
+
+    </script>
 }

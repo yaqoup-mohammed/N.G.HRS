@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Date;
-
 namespace N.G.HRS.Areas.PayRoll.Controllers
 {
     [Area("PayRoll")]

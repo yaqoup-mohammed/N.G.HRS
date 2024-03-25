@@ -108,6 +108,7 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //=====================================
         public List<OneFingerprint>? OneFingerprintList { get; set; }
+        public List<AdministrativePromotions>? AdministrativePromotionsList { get; set; }
 
         //====================================
         public List<EntitlementsAndDeductions>? EntitlementsAndDeductionsList { get; set; }
@@ -125,13 +126,13 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public List<EndOfServiceClearance>? EndOfServiceClearanceList { get; set; }
         //====================================
+        public List<EmploymentStatusManagement>? EmploymentStatusManagementList { get; set; }
+        //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
-
-        
         //=========================================
         public void FingerCapture()
         {
@@ -139,8 +140,6 @@ namespace N.G.HRS.Areas.Employees.Models
             var localFingerPrintImage = FingerPrintImage;
 
             bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
-
-
         }
 
     }
