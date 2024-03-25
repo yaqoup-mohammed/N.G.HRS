@@ -15,18 +15,31 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
     public class PenaltiesController : Controller
     {
         private readonly AppDbContext _context;
+<<<<<<< HEAD
+        private readonly IRepository<Penalties> _Penalties;
+
+        public PenaltiesController(AppDbContext context, IRepository<Penalties> Penalties)
+        {
+            _context = context;
+            _Penalties = Penalties;
+=======
         private readonly IRepository<Penalties> _repository;
 
         public PenaltiesController(AppDbContext context, IRepository<Penalties> repository)
         {
             _context = context;
             _repository = repository;
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
         }
 
         // GET: PenaltiesAndViolations/Penalties
         public async Task<IActionResult> Index()
         {
+<<<<<<< HEAD
+            return View(await _Penalties.GetAllAsync());
+=======
             return View(await _context.Penalties.ToListAsync());
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
         }
 
         // GET: PenaltiesAndViolations/Penalties/Details/5
@@ -62,8 +75,13 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
         {
             if (ModelState.IsValid)
             {
+<<<<<<< HEAD
+                await _Penalties.AddAsync(penalties);
+                TempData ["Success"] = "تمت العملية بنجاح";
+=======
                 await _repository.AddAsync(penalties);
                 TempData ["Success"] = "تم الحفظ بنجاح";
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
                 return RedirectToAction(nameof(Index));
             }
             return View(penalties);
@@ -77,7 +95,11 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
                 return NotFound();
             }
 
+<<<<<<< HEAD
+            var penalties = await _Penalties.GetByIdAsync(id);
+=======
             var penalties = await _repository.GetByIdAsync(id);
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
             if (penalties == null)
             {
                 return NotFound();
@@ -101,8 +123,12 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
             {
                 try
                 {
+<<<<<<< HEAD
+                    await _Penalties.UpdateAsync(penalties);
+=======
                   await  _repository.UpdateAsync(penalties);
                     TempData["Success"] = "تم التعديل بنجاح";
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -143,6 +169,14 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+<<<<<<< HEAD
+            var penalties = await _Penalties.GetByIdAsync(id);
+            if (penalties != null)
+            {
+                 _context.Remove(penalties);
+            }
+
+=======
             var penalties = await _repository.GetByIdAsync(id);
             if (penalties != null)
             {
@@ -151,6 +185,7 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
 
             await _context.SaveChangesAsync();
             TempData["Success"] = "تم الحذف بنجاح";
+>>>>>>> 66ea88f1417c4dca0add2df6a92ef28220b85e02
             return RedirectToAction(nameof(Index));
         }
 

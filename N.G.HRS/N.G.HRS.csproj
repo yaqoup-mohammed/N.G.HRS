@@ -35,6 +35,12 @@
 		<PackageReference Include="ZkTecoFingerPrint" Version="1.2.1" />
 	</ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+
+    <Folder Include="Areas\EmployeesAffsirs\Controllers\" />
+    <Folder Include="Areas\EmployeesAffsirs\Views\" />
+>>>>>>> 76eec9d58cca52a34e3d882af87e97ab88e29d41
     <Folder Include="wwwroot\Upload\PDF\" />
   </ItemGroup>
 
