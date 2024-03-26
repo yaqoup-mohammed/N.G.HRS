@@ -28,7 +28,7 @@
 }
 <<<<<<< HEAD
 
-@if(@TempData["Error"]!=null){
+@if(TempData["Error"]!=null){
 
 
        <script >
@@ -42,11 +42,13 @@
     });
        </script>
 }
-@if(@TempData["Error"]!=null){
+@if (TempData["SystemError"] != null)
+{
     <script>
     Swal.fire({
         icon: 'error',
-        title: '@TempData["Error"]',
+        title: 'حدث خطئ في النظام 😢',
+        text: '@TempData["SystemError"]';
         customClass: {
             confirmButton: 'btn btn-primary'
         },

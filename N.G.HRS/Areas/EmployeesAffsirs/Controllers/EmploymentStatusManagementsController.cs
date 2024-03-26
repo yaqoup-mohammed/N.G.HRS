@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Date;
+using N.G.HRS.HRSelectList;
 using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
@@ -52,6 +53,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // GET: EmployeesAffsirs/EmploymentStatusManagements/Create
         public IActionResult Create()
         {
+            EmployeeStatus();
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             return View();
         }
@@ -65,8 +67,21 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _EmploymentStatusManagement.AddAsync(employmentStatusManagement);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+
+
+                    EmployeeStatus();
+                    await _EmploymentStatusManagement.AddAsync(employmentStatusManagement);
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch(Exception ex)
+                {
+                    TempData["SystemError"] = ex.Message;
+                    return View(employmentStatusManagement);
+                }
+
             }
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employmentStatusManagement.EmployeeId);
             return View(employmentStatusManagement);
@@ -170,12 +185,10 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
                     if (employee != null)
                     {
                         return Ok(employee);
-
                     }
                     else
                     {
                         TempData["Message"] = "لم يتم العثور على الموظف المطلوب!";
-
                         return Ok();
                     }
                 }
@@ -183,7 +196,6 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
                 {
                     TempData["Message"] = ex.Message;
                     return Ok();
-
                 }
             }
             else
@@ -192,9 +204,21 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
                 return Ok();
             }
         }
-        public void EmployeeStatusList()
+        public void EmployeeStatus()
         {
-
+            List<EmployeeStatusList> employeeStatus = new List<EmployeeStatusList>
+            {
+                new EmployeeStatusList () { id = 1, name = "مثبت" },
+                new EmployeeStatusList () { id = 2, name = "متعاقد" },
+                new EmployeeStatusList () { id = 3, name = "متدرب" },
+                new EmployeeStatusList () { id = 4, name = "مستمر" },
+                new EmployeeStatusList () { id = 5, name = "موقف" },
+                new EmployeeStatusList () { id = 6, name = "تم إنهاء الخدمة" },
+                new EmployeeStatusList () { id = 7, name = "حارس أمن" }
+            };
+            SelectList listItems = new SelectList(employeeStatus, "id", "name");
+            ViewData["Employee"] = listItems;
         }
+        
     }
 }
