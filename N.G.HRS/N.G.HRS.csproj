@@ -35,7 +35,6 @@
 		<PackageReference Include="ZkTecoFingerPrint" Version="1.2.1" />
 	</ItemGroup>
   <ItemGroup>
-
     <Folder Include="wwwroot\Upload\PDF\" />
   </ItemGroup>
 

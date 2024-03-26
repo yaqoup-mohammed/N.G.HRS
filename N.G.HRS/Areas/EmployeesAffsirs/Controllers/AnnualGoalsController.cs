@@ -152,7 +152,6 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             {
                 _context.AnnualGoals.Remove(annualGoals);
             }
-
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

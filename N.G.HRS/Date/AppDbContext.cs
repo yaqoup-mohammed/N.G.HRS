@@ -435,6 +435,7 @@ namespace N.G.HRS.Date
               .HasMany(j => j.qualifications)
               .WithMany(j => j.employees)
               .UsingEntity(j => j.ToTable("EmployeesQualifications"));
+
             //===============================================
             modelBuilder.Entity<AutomaticallyApprovedAdd_on>()
               .HasOne(p => p.Employee)
@@ -476,6 +477,18 @@ namespace N.G.HRS.Date
               .HasOne(p => p.Employee)
               .WithMany(p => p.EmploymentStatusManagementList)
               .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeMovements>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.EmployeeMovementsList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeMovements>()
+              .HasOne(p => p.jopdescription)
+              .WithMany(p => p.EmployeeMovementsList)
+              .HasForeignKey(p => p.jopdescriptionId)
               .OnDelete(DeleteBehavior.NoAction);
 
 
@@ -562,6 +575,8 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.PayRoll.Models.VacationAllowances> VacationAllowances { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativePromotions> AdministrativePromotions { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
 
 
 

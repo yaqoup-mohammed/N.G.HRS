@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Date;
-using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
 {
@@ -15,13 +14,10 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
     public class EmployeeMovementsController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IRepository<EmployeeMovements> _employeeMovementsRepository;
 
-        public EmployeeMovementsController(AppDbContext context, IRepository<EmployeeMovements> employeeMovementsRepository)
+        public EmployeeMovementsController(AppDbContext context)
         {
             _context = context;
-            _employeeMovementsRepository = employeeMovementsRepository;
-
         }
 
         // GET: EmployeesAffsirs/EmployeeMovements
@@ -55,7 +51,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         public IActionResult Create()
         {
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
-            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "JopName");
+            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "Authorities");
             return View();
         }
 
@@ -68,24 +64,12 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-
-                //تحديث البيانات الجدول     
-                var emp = _context.employee.Find(employeeMovements.EmployeeId);
-                if (emp != null)
-                {
-                    emp.JobDescriptionId = employeeMovements.jopdescriptionId;
-                    _context.employee.Update(emp);
-                }
-                //تحديث البيانات الجدول     
-
-
-                await _employeeMovementsRepository.AddAsync(employeeMovements);
-                TempData ["Success"] = "تم الحفظ بنجاح";
+                _context.Add(employeeMovements);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeMovements.EmployeeId);
-            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "JopName", employeeMovements.jopdescriptionId);
+            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "Authorities", employeeMovements.jopdescriptionId);
             return View(employeeMovements);
         }
 
@@ -97,13 +81,13 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
                 return NotFound();
             }
 
-            var employeeMovements = await _employeeMovementsRepository.GetByIdAsync(id);
+            var employeeMovements = await _context.EmployeeMovements.FindAsync(id);
             if (employeeMovements == null)
             {
                 return NotFound();
             }
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeMovements.EmployeeId);
-            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "JopName", employeeMovements.jopdescriptionId);
+            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "Authorities", employeeMovements.jopdescriptionId);
             return View(employeeMovements);
         }
 
@@ -123,8 +107,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             {
                 try
                 {
-                    await   _employeeMovementsRepository.UpdateAsync(employeeMovements);
-                    TempData ["Success"] = "تم التعديل  بنجاح";
+                    _context.Update(employeeMovements);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,7 +124,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeMovements.EmployeeId);
-            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "JopName", employeeMovements.jopdescriptionId);
+            ViewData["jopdescriptionId"] = new SelectList(_context.JobDescription, "Id", "Authorities", employeeMovements.jopdescriptionId);
             return View(employeeMovements);
         }
 
@@ -169,14 +153,13 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employeeMovements = await _employeeMovementsRepository.GetByIdAsync(id);
+            var employeeMovements = await _context.EmployeeMovements.FindAsync(id);
             if (employeeMovements != null)
             {
                 _context.EmployeeMovements.Remove(employeeMovements);
             }
 
             await _context.SaveChangesAsync();
-            TempData ["Success"] = "تم الحذف بنجاح";
             return RedirectToAction(nameof(Index));
         }
 
