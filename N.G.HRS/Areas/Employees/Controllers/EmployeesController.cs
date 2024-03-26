@@ -8,6 +8,7 @@ using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
+using N.G.HRS.HRSelectList;
 using N.G.HRS.Repository;
 using N.G.HRS.Repository.File_Upload;
 using NuGet.Protocol.Core.Types;
@@ -464,7 +465,18 @@ namespace N.G.HRS.Areas.Employees.Controllers
             var filteredManage = ManagerOne.Where(g => !_context.personalDatas.Any(pd => pd.EmployeeId == g.Id));
             ViewData["ManagerOne"] = new SelectList(filteredManage, "Id", "EmployeeName");
             //===============================================================================================
-
+            List<EmployeeStatusList> employeeStatus = new List<EmployeeStatusList>
+            {
+                new EmployeeStatusList () { id = 1, name = "مثبت" },
+                new EmployeeStatusList () { id = 2, name = "متعاقد" },
+                new EmployeeStatusList () { id = 3, name = "متدرب" },
+                new EmployeeStatusList () { id = 4, name = "مستمر" },
+                new EmployeeStatusList () { id = 5, name = "موقف" },
+                new EmployeeStatusList () { id = 6, name = "تم إنهاء الخدمة" },
+                new EmployeeStatusList () { id = 7, name = "حارس أمن" }
+            };
+            SelectList listItems = new SelectList(employeeStatus, "id", "name");
+            ViewData["Employee"] = listItems;
         }
         //TempData["Edit"] = "Edit";
         //var employeeViewModel = new EmployeeVM
@@ -475,5 +487,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
     }
+
 }
 

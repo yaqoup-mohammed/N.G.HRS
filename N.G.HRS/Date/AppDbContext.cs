@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
+using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
 
 namespace N.G.HRS.Date
 {
@@ -490,6 +491,14 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeMovementsList)
               .HasForeignKey(p => p.jopdescriptionId)
               .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeViolations>()
+              .HasOne(p => p.Violations)
+              .WithMany(p => p.EmployeeViolationsList)
+              .HasForeignKey(p => p.ViolationId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            //=======================================
 
 
         }
@@ -577,10 +586,7 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
-
-
-
-
-
+        public DbSet<N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models.EmployeeViolations> EmployeeViolations { get; set; } = default!;
+        public object Employee { get; internal set; }
     }
 }

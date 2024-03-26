@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PenaltiesAndViolations.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
     public class PenaltiesAndViolationsFormsController : Controller
     {
         private readonly AppDbContext _context;
+        //private readonly IRepository <PenaltiesAndViolationsForms> _penaltiesAndViolationsFormsRepository;
 
-        public PenaltiesAndViolationsFormsController(AppDbContext context)
+        public PenaltiesAndViolationsFormsController(AppDbContext context, IRepository<PenaltiesAndViolationsForms> penaltiesAndViolationsFormsRepository)
         {
             _context = context;
+            //_penaltiesAndViolationsFormsRepository = penaltiesAndViolationsFormsRepository;
         }
 
         // GET: PenaltiesAndViolations/PenaltiesAndViolationsForms

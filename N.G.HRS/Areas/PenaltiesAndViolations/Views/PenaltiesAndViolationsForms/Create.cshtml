@@ -42,7 +42,7 @@
                     <div class="row ">
                         <div class="mb-3 col-md-6">
                             
-                            <label asp-for="Name" class="form-label">اسم المخالفة</label>
+                            <label asp-for="Name" class="form-label">اسم النموذج</label>
                             <input asp-for="Name" class="form-control" id="exampleInputUsername1" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
@@ -50,6 +50,13 @@
                            
                             <label asp-for="ViolationsId" class="form-label"> نوع المخالفة </label>
                             <select asp-for="ViolationsId" class="form-control" asp-items="ViewBag.ViolationsId"></select>
+
+                        </div>
+                        <div class="mb-3 col-md-6">
+                           
+                            <label asp-for="PenaltiesId" class="form-label"> نوع العقوبة </label>
+                            <select asp-for="PenaltiesId" class="form-control" asp-items="ViewBag.PenaltiesId"></select>
+
                         </div>
 
                         <!-- Row -->
