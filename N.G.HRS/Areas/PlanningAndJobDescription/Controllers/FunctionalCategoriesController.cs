@@ -62,12 +62,30 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _functionalCategoriesRepository.AddAsync(functionalCategories);
-                TempData ["Success"] = "تمت العملية بنجاح";
-                return RedirectToAction(nameof(Create));
+                try
+                {
+                    var exist =_context.functionalCategories.Any(x => x.CategoriesName == functionalCategories.CategoriesName);
+                    if (!exist)
+                    {
+                        await _functionalCategoriesRepository.AddAsync(functionalCategories);
+                        TempData["Success"] = "تمت العملية بنجاح";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    {
+                        TempData["Error"] = "هذه الفئة موجودة بالفعل";
+                        return View(functionalCategories);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["SystemError"] = ex.Message;
+                    return View(functionalCategories);
+                }
 
                 //return RedirectToAction(nameof(Index));
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
+
             return View(functionalCategories);
         }
 

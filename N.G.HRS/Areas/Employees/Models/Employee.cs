@@ -21,7 +21,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public int Id { get; set; }
         [Required]
         [Range(0, 500000)]
-        public int EmployeeNumber { get; set; }//
+        public string? EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
         public string EmployeeName { get; set; }//

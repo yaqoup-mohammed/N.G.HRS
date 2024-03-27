@@ -67,18 +67,29 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
             {
                 try
                 {
-                    await PopulateDropdownListsAsync();
+                    var number= _context.company.Count();
+                    if (number == 1)
+                    {
+                        TempData["Error"] = "لا يمكن إضافة اكثر من شركة !!";
+                        return View(company);
+                    }
+                    else
+                    {
+                        await PopulateDropdownListsAsync();
 
-                    await _CompaniesRepository.AddAsync(company);
-                    TempData["Success"] = "تمت العملية بنجاح";
-                    return RedirectToAction(nameof(Index));
+                        await _CompaniesRepository.AddAsync(company);
+                        TempData["Success"] = "تمت العملية بنجاح";
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (Exception ex)
                 {
-                    TempData["Error"] = ex.Message;
+                    TempData["SystemError"] = ex.Message;
                     return View(company);
                 }
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
+
             return View(company);
         }
 
