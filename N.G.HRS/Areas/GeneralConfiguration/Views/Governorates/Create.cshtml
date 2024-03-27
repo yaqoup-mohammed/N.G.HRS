@@ -28,7 +28,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class ="form-control" asp-items="ViewBag.CountryId"></select>
+                <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId">
+                    <option value="">  </option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -63,12 +63,31 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-               await _jobRanksRepository.AddAsync(jobRanks);
-                TempData ["Success"] = "تمت الإضافة بنجاح";
-                return RedirectToAction(nameof(Create));
+                try
+                {
+                    var exist=_context.jobRanks.Any(x => x.RankName == jobRanks.RankName);
+                    if (!exist)
+                    {
+                        await _jobRanksRepository.AddAsync(jobRanks);
+                        TempData["Success"] = "تمت الإضافة بنجاح";
+                        return RedirectToAction(nameof(Create));
+                    }
+                    else
+                    {
+                        TempData["Error"] = "هذه الفئة موجودة بالفعل";
+                        return View(jobRanks);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["SystemError"] = ex.Message;
+                    return View(jobRanks);
+                }
 
                 //return RedirectToAction(nameof(Index));
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
+
             return View(jobRanks);
         }
 

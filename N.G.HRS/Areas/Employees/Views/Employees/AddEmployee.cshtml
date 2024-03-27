@@ -65,7 +65,7 @@
 
                                         <div class="col-md-5 col-12 mb-3">
                                             <label asp-for="Employee.EmployeeNumber" class="form-label">الرقم الوظيفي</label>
-                                            <input asp-for="Employee.EmployeeNumber" type="text" class="form-control" placeholder="الرقم الوظيفي " />
+                                            <input asp-for="Employee.EmployeeNumber" readonly id="EmployeeNumber" type="text" class="form-control" placeholder="الرقم الوظيفي " />
                                             <span asp-validation-for="Employee.EmployeeNumber" class="text-danger"></span>
 
                                         </div>
@@ -119,9 +119,9 @@
                                         </div>
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.DateOfEmployment" class="form-label">تاريخ التوضيف</label>
-                                            <div class="input-group flatpickr" id="flatpickr-date">
+                                            <div class="input-group flatpickr flatpickr-date" id="">
 
-                                                <input asp-for="Employee.DateOfEmployment" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="Employee.DateOfEmployment" id="DateOfEmployment" type="date" class="form-control" placeholder="Select date" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -131,8 +131,8 @@
                                         </div>
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.PlacementDate" class="form-label">تاريخ التثبيت</label>
-                                            <div class="input-group flatpickr" id="flatpickr-date">
-                                                <input asp-for="Employee.PlacementDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="Employee.PlacementDate" id="PlacementDate" type="date" class="form-control" placeholder="Select date" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -1099,7 +1099,32 @@
                 $("#age").val(age);
             }
         }
+        //====================================================
+        
+            var rand= Math.random().toString(36).substring(2, 15) + Math.abs(Date.now()).toString(36).substring(0, 3);
+        if (rand != null) {
+
+            $.ajax({
+                url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + rand,
+                type: 'GET',
+                success: function (data) {
+                    console.log(data);
+                    $('#employeeStatus').val(data.employmentStatus);
+                    $('#dateOfHire').val(data.dateOfEmployment);
+                    $('#dateOfstiky').val(data.placementDate);
+                    $('#select').val(data.employmentStatus).change();
+
+                }
+            });
+        }
+        var EmployeeNum = "5500" + rand;
+            $('#EmployeeNumber').val(EmployeeNum).change();
+
+
+
     });
+    //========================================================
+
 </script>
 @section Scripts {
     @{
