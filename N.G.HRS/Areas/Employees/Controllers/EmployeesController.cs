@@ -403,17 +403,17 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             return View(viewModel);
         }
-        //public string EmployeeNumber(string id)
-        //{
-        //    if (id != null)
-        //    {
-        //       var employeeNumber = _context.employee.Any(e => e.EmployeeNumber == id);
-        //        if (employeeNumber)
-        //        {
-        //            return Ok(employeeNumber);
-        //        }
-        //    }
-        //}
+        public bool EmployeeNumber(string id)
+        {
+            if (id != null)
+            {
+                var employeeNumber = _context.employee.Any(e => e.EmployeeNumber == id);
+                if (!employeeNumber)
+                {
+                    return true;                }
+            }
+            return false;
+        }
 
 
         private async Task PopulateDropdownListsAsync()

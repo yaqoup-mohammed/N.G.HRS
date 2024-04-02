@@ -1,5 +1,6 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
@@ -38,6 +39,8 @@ namespace N.G.HRS.Areas.Finance.Models
             public List<FinancialStatements>? FinancialStatementsList { get; set; }
             public List<EntitlementsAndDeductions>? EntitlementsAndDeductionsList { get; set; }
             public List<AllowancesAndDiscounts>? AllowancesAndDiscountsList { get; set; }
+        public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
+
         //=
 
 

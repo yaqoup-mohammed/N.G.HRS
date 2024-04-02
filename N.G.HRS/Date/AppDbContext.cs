@@ -490,6 +490,18 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeMovementsList)
               .HasForeignKey(p => p.jopdescriptionId)
               .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AdministrativeDecisions>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.AdministrativeDecisionsList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AdministrativeDecisions>()
+              .HasOne(p => p.Currency)
+              .WithMany(p => p.AdministrativeDecisionsList)
+              .HasForeignKey(p => p.CurrencyId)
+              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -577,6 +589,7 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativeDecisions> AdministrativeDecisions { get; set; } = default!;
 
 
 

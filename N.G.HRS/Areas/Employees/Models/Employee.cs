@@ -128,6 +128,8 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public List<EmploymentStatusManagement>? EmploymentStatusManagementList { get; set; }
         //====================================
+        public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
+        //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }

@@ -1100,31 +1100,42 @@
             }
         }
         //====================================================
-        
-            var rand= Math.random().toString(36).substring(2, 15) + Math.abs(Date.now()).toString(36).substring(0, 3);
-        if (rand != null) {
-
-            $.ajax({
-                url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + rand,
-                type: 'GET',
-                success: function (data) {
-                    console.log(data);
-                    $('#employeeStatus').val(data.employmentStatus);
-                    $('#dateOfHire').val(data.dateOfEmployment);
-                    $('#dateOfstiky').val(data.placementDate);
-                    $('#select').val(data.employmentStatus).change();
-
-                }
-            });
-        }
-        var EmployeeNum = "5500" + rand;
-            $('#EmployeeNumber').val(EmployeeNum).change();
-
+       
 
 
     });
     //========================================================
+    $('#DateOfEmployment').change(function () {
+        var inputDate = this.val();
+        // Get today's date
+        const today = new Date();
 
+        // Extract year, month (0-indexed), and day from today's date
+        const todayYear = today.getFullYear();
+        const todayMonth = today.getMonth();
+        const todayDay = today.getDate();
+
+        // Check if input date is provided and valid
+        if (!inputDate || isNaN(inputDate.getTime())) {
+            console.error("Invalid input date format. Please provide a valid date.");
+            return;
+        }
+
+        // Extract year, month, and day from input date
+        const inputDateObj = new Date(inputDate);
+        const inputYear = inputDateObj.getFullYear();
+        const inputMonth = inputDateObj.getMonth();
+        const inputDay = inputDateObj.getDate();
+
+        // Calculate sum of year, month, and day for both dates
+        const todaySum = todayYear + todayMonth + todayDay;
+        const inputSum = inputYear + inputMonth + inputDay;
+
+        // Calculate the total sum of both dates
+        const totalSum = todaySum + inputSum;
+        var employeeNumber = "5500" + totalSum;
+        $('#EmployeeNumber').val(employeeNumber);
+    });
 </script>
 @section Scripts {
     @{

@@ -69,12 +69,39 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             {
                 try
                 {
+                    var employee = await _context.employee.FindAsync(employmentStatusManagement.EmployeeId);
+                    if (employee != null )
+                    {
+                        if(employmentStatusManagement.EmployeeStatus != null)
+                        {
+                            if(employmentStatusManagement.EmployeeStatus != employee.EmploymentStatus)
+                            {
+                                employee.EmploymentStatus = employmentStatusManagement.EmployeeStatus;
+                                _context.employee.Update(employee);
+                                EmployeeStatus();
+                                await _EmploymentStatusManagement.AddAsync(employmentStatusManagement);
+                                TempData["Success"] = "تم الحفظ بنجاح";
+                                return RedirectToAction(nameof(Index));
+                            }
+                            else
+                            {
+                                TempData["Error"] = "بيانات الموظف موجود بالفعل يرجى التأكد من الحالة الموظف!!";
+                                return View(employmentStatusManagement);
+                            }
+                        }
+                        else
+                        {
+                            TempData["Error"] = "يرجى أختيار حالة الموظف";
+                            return View(employmentStatusManagement);
+                        }
+                    }
+                    else
+                    {
+                        TempData["Error"] = "يرجى إختيار موظف";
+                        return View(employmentStatusManagement);
+                    }
 
 
-                    EmployeeStatus();
-                    await _EmploymentStatusManagement.AddAsync(employmentStatusManagement);
-                    TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(Index));
                 }
                 catch(Exception ex)
                 {
