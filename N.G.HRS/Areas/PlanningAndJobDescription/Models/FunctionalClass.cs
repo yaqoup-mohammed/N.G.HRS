@@ -21,7 +21,9 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         public string? Notes { get; set; }
         //===============================================
         [ForeignKey("CurrencyId")]
+        [Display(Name = "العملة")]
         public int? CurrencyId { get; set; }
+        [Display(Name = "العملة")]
         public Currency? Currency { get; set; }
         //=========================================
         public List<JobDescription>? JobDescriptionsList { get; set; }

@@ -75,10 +75,11 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["Error"] = ex.Message;
+                    TempData["SystemError"] = ex.Message;
                     return View(sectors);
                 }
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
             return View(sectors);
         }
 
