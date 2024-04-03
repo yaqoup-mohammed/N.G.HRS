@@ -492,7 +492,6 @@ namespace N.G.HRS.Date
               .HasForeignKey(p => p.jopdescriptionId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
-<<<<<<< HEAD
             modelBuilder.Entity<EmployeeViolations>()
               .HasOne(p => p.Violations)
               .WithMany(p => p.EmployeeViolationsList)
@@ -500,7 +499,7 @@ namespace N.G.HRS.Date
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             //=======================================
-=======
+
             modelBuilder.Entity<AdministrativeDecisions>()
               .HasOne(p => p.Employee)
               .WithMany(p => p.AdministrativeDecisionsList)
@@ -512,7 +511,6 @@ namespace N.G.HRS.Date
               .WithMany(p => p.AdministrativeDecisionsList)
               .HasForeignKey(p => p.CurrencyId)
               .OnDelete(DeleteBehavior.NoAction);
->>>>>>> 0bf515168e29510121b30e320e9561ff750f33ca
 
 
         }
@@ -600,16 +598,13 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
-<<<<<<< HEAD
         public DbSet<N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models.EmployeeViolations> EmployeeViolations { get; set; } = default!;
         public object Employee { get; internal set; }
-=======
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativeDecisions> AdministrativeDecisions { get; set; } = default!;
 
 
 
 
 
->>>>>>> 0bf515168e29510121b30e320e9561ff750f33ca
     }
 }
