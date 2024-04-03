@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SharePoint.Client;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
@@ -164,12 +165,40 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 _context.country.Remove(country);
             }
 
-            await _context.SaveChangesAsync();
             TempData["Success"] = "تم الحذف بنجاح";
             return RedirectToAction(nameof(Index));
             //return RedirectToAction(nameof(Create));
 
         }
+       
+
+
+        [HttpPost]
+        public async Task<IActionResult> SaveCountryData(string country, string notes)
+        {
+            try
+            {
+                // إنشاء كائن دولة لتخزين البيانات المستلمة
+                var newCountry = new Country
+                {
+                    Name = country,
+                    Notes = notes
+                };
+
+                // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
+                   _context.country.Add(newCountry);
+                await _context.SaveChangesAsync();
+                // إرجاع رسالة نجاح
+                return Ok("تم حفظ البيانات بنجاح!");
+            }
+            catch (Exception ex)
+            {
+                // في حال حدوث أي خطأ، يمكنك إرجاع رسالة خطأ أو استثناء للتحكم في السلوك
+                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
+            }
+        }
+
+
 
         private bool CountryExists(int id)
         {
