@@ -69,6 +69,12 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             {
                 try
                 {
+
+
+                    EmployeeStatus();
+                    await _EmploymentStatusManagement.AddAsync(employmentStatusManagement);
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(Index));
                     var employee = await _context.employee.FindAsync(employmentStatusManagement.EmployeeId);
                     if (employee != null )
                     {

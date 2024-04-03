@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
+using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
 {
@@ -14,10 +16,12 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
     public class AnnualGoalsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<AnnualGoals> _annualGoalsRepository;
 
-        public AnnualGoalsController(AppDbContext context)
+        public AnnualGoalsController(AppDbContext context, IRepository<AnnualGoals> annualGoalsRepository)
         {
             _context = context;
+            _annualGoalsRepository = annualGoalsRepository;
         }
 
         // GET: EmployeesAffsirs/AnnualGoals
@@ -47,81 +51,142 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AnnualGoals/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
-            return View();
+            if (id != null)
+            {
+                var annualGoals = await _annualGoalsRepository.GetByIdAsync(id);
+                if (annualGoals == null)
+                {
+                    return NotFound();
+                }
+                PopulateDropDownLists();
+                return View(annualGoals);
+            }
+            else
+            {
+                PopulateDropDownLists();
+                return View();
+            }
+
+
+
+
         }
 
-        // POST: EmployeesAffsirs/AnnualGoals/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ViolationsAndPenaltiesAffairs/EmployeeViolations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,EmployeeId,Notes,Goals")] AnnualGoals annualGoals)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(annualGoals);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", annualGoals.EmployeeId);
-            return View(annualGoals);
-        }
-
-        // GET: EmployeesAffsirs/AnnualGoals/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Create(int? id, AnnualGoals annualGoals )
         {
             if (id == null)
             {
-                return NotFound();
-            }
-
-            var annualGoals = await _context.AnnualGoals.FindAsync(id);
-            if (annualGoals == null)
-            {
-                return NotFound();
-            }
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", annualGoals.EmployeeId);
-            return View(annualGoals);
-        }
-
-        // POST: EmployeesAffsirs/AnnualGoals/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmployeeId,Notes,Goals")] AnnualGoals annualGoals)
-        {
-            if (id != annualGoals.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(annualGoals);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AnnualGoalsExists(annualGoals.Id))
+                    try
                     {
-                        return NotFound();
+                        await _annualGoalsRepository.AddAsync( annualGoals);
+                        TempData["Success"] = "تم الحفظ بنجاح";
+                        return RedirectToAction(nameof(Index));
+
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        throw;
+                        TempData["SystemError"] = ex.Message;
+                        return View(annualGoals);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                PopulateDropDownLists();
+                TempData["Error"] = "حدث خطأ ما قد تكون البيانات خاطئة تأكد من صحة البيانات ثم  حاول مرة اخرى";
+                return View(annualGoals);
             }
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", annualGoals.EmployeeId);
-            return View(annualGoals);
+            else
+            {
+                if (id != annualGoals.Id)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        await _annualGoalsRepository.UpdateAsync(annualGoals);
+                        TempData["Success"] = "تم التعديل بنجاح";
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!AnnualGoalsExists(annualGoals.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                PopulateDropDownLists();
+                return View(annualGoals);
+            }
         }
+
+
+        // GET: EmployeesAffsirs/AnnualGoals/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var annualGoals = await _annualGoalsRepository.GetByIdAsync(id);
+        //    if (annualGoals == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    PopulateDropDownLists();
+        //    return View(annualGoals);
+        //}
+
+        //// POST: EmployeesAffsirs/AnnualGoals/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmployeeId,Notes,Goals")] AnnualGoals annualGoals)
+        //{
+        //    if (id != annualGoals.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //           await _annualGoalsRepository.UpdateAsync(annualGoals);
+        //            TempData ["Success"] = "تمت التعديل بنجاح";
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!AnnualGoalsExists(annualGoals.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        //return RedirectToAction(nameof(Index));
+        //        return View(annualGoals);
+        //    }
+        //    PopulateDropDownLists();
+        //    return View(annualGoals);
+        //}
 
         // GET: EmployeesAffsirs/AnnualGoals/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -147,18 +212,28 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var annualGoals = await _context.AnnualGoals.FindAsync(id);
+            var annualGoals = await _annualGoalsRepository.GetByIdAsync(id);
             if (annualGoals != null)
             {
                 _context.AnnualGoals.Remove(annualGoals);
             }
+             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData ["Success"] = "تم الحذف بنجاح";
+            return RedirectToAction(nameof(Create));
         }
 
         private bool AnnualGoalsExists(int id)
         {
             return _context.AnnualGoals.Any(e => e.Id == id);
         }
+
+        private void PopulateDropDownLists()
+        {
+            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
+        }
+
     }
+
+    
 }

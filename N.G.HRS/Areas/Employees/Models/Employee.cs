@@ -135,6 +135,8 @@ namespace N.G.HRS.Areas.Employees.Models
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
+        public string? CurrentJop { get; internal set; }
+
         //=========================================
         public void FingerCapture()
         {
