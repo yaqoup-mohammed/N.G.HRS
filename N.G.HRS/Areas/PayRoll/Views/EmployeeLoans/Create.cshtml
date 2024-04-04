@@ -17,7 +17,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
+                    <option value="">  </option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
@@ -31,24 +33,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
+                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId">
+                    <option value="">  </option>
+
+                </select>
             </div>
-            <div class="form-group form-check">
+            <div id="Arrest" class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Arrest" /> @Html.DisplayNameFor(model => model.Arrest)
                 </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
+            <div id="Amount" class="form-group">
+                <label asp-for="Amount"  class="control-label"></label>
+                <input asp-for="Amount"  class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="InstallmentAmount" class="form-group">
                 <label asp-for="InstallmentAmount" class="control-label"></label>
                 <input asp-for="InstallmentAmount" class="form-control" />
                 <span asp-validation-for="InstallmentAmount" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="NumberOfInstallmentMonths" class="form-group">
                 <label asp-for="NumberOfInstallmentMonths" class="control-label"></label>
                 <input asp-for="NumberOfInstallmentMonths" class="form-control" />
                 <span asp-validation-for="NumberOfInstallmentMonths" class="text-danger"></span>
@@ -59,7 +64,7 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -71,4 +76,19 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.getElementById("submit").addEventListener("click", function (event) {
+            const EmployeeId = document.getElementById("EmployeeId");
+            if (EmployeeId.value === "") {
+                event.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    icon: "error",
+                    title: "خطئ....",
+                    text: "رجاء أختر الموظف  ",
+                });
+            }
+        });
+
+</script>
 }

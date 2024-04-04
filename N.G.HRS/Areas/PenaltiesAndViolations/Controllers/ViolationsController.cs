@@ -99,7 +99,7 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
                 try
                 {
                     _context.Update(violations);
-                    await _context.SaveChangesAsync( );
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

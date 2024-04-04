@@ -59,20 +59,10 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Add(publicAdministration);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = "تمت العملية بنجاح";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    TempData["SystemError"] = ex.Message;
-                    return View(publicAdministration);
-                }
+                _context.Add(publicAdministration);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
             return View(publicAdministration);
         }
 

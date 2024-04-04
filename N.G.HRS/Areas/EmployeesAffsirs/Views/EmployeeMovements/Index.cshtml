@@ -1,12 +1,7 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements>
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "تبديل الموظفين";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Active"] = "AddEmployee";
-    ViewData["Open"] = "Open2";
-    ViewData["OpenOperation"] = "OpenOperation2";
+    ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
@@ -30,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.Employee)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.jopdescription.JopName)
+                @Html.DisplayNameFor(model => model.jopdescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CurrentJop)
@@ -57,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.jopdescription.JopName)
+                @Html.DisplayFor(modelItem => item.jopdescription.Authorities)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CurrentJop)
@@ -66,9 +61,7 @@
                 @Html.DisplayFor(modelItem => item.LastJop)
             </td>
             <td>
-@*                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
- *@                    <a asp-action="Create" asp-route-id="@item.Id">Edit</a> |
-                    |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>

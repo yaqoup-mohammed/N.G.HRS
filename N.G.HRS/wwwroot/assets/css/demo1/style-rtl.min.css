@@ -360,9 +360,7 @@ select {
     padding: 0;
     border-style: none
 }
-.padding {
-    padding-bottom: 15px !important;
-}
+
 textarea {
     resize: vertical
 }

@@ -5,8 +5,6 @@ namespace N.G.HRS.Areas.Employees.ViewModel
     public class EmployeeVM
     {
         
-
-
         public Employee Employee { get; set; } //
         public Family Family { get; set; }//
         public FinancialStatements FinancialStatements { get; set; }//

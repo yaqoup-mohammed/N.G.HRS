@@ -9,7 +9,8 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage ="هذا الحق مطلوب")]
-        [Display(Name ="اسم العقوبة")]
+        [Display(Name ="اسم المخالفة")]
+        [StringLength(150)]
         public string? PenaltiesName { get; set; }
         [Display(Name = "خصمية ")]
         public bool Deduction { get; set; }//خصمية

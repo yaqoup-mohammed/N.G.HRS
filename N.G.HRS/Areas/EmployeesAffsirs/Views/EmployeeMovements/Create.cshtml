@@ -1,18 +1,13 @@
 ﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
-    ViewData["Title"] = "تبديل الموظفين";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Active"] = "AddEmployee";
-    ViewData["Open"] = "Open2";
-    ViewData["OpenOperation"] = "OpenOperation2";
+    ViewData["Title"] = "Create";
 }
 
+<h1>Create</h1>
 
-<h1>تبديل الموظفين</h1>
-
-@* <h4>EmployeeMovements</h4>
- *@<hr />
+<h4>EmployeeMovements</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -34,15 +29,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="@(ViewData["EmployeeId"] as SelectList)">
-                    <option value="">--اختر الموظف--</option>
-                </select>
+                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                 <label asp-for="jopdescriptionId" class="control-label"></label>
-                <select asp-for="jopdescriptionId"  id="jopdescriptionId" class="form-control" asp-items="@(ViewData["jopdescriptionId"] as SelectList)">
-                    <option value="">--اختر الوظيفة--</option>
-                </select>
+                <select asp-for="jopdescriptionId" class ="form-control" asp-items="ViewBag.jopdescriptionId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="CurrentJop" class="control-label"></label>
@@ -55,7 +46,7 @@
                 <span asp-validation-for="LastJop" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -68,84 +59,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-<script>
-    document.getElementById("submit").addEventListener("click", function (event) {
-        const EmployeeId = document.getElementById("EmployeeId");
-        if (EmployeeId.value === "") {
-            event.preventDefault(); // Prevent form submission
-            Swal.fire({
-                icon: "error",
-                title: "خطئ....",
-                text: "رجاء أختر  الموظف",
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                timer: 5000, // زمن الإغلاق التلقائي بالميللي ثانية
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.getHtmlContainer().querySelector('audio').remove();
-                }
-            });
-        }
-    });
-
-</script>
-<script>
-    document.getElementById("submit").addEventListener("click", function (event) {
-        const jopdescriptionId = document.getElementById("jopdescriptionId");
-        if (jopdescriptionId.value === "") {
-            event.preventDefault(); // Prevent form submission
-            Swal.fire({
-                icon: "error",
-                title: "خطئ....",
-                text: "رجاء أختر   الوظيفة",
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                timer: 5000, // زمن الإغلاق التلقائي بالميللي ثانية
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.getHtmlContainer().querySelector('audio').remove();
-                }
-            });
-        }
-    });
-
-    // ========================================================================================
-    $('#EmployeeId').change(function () {
-        var employeeId = $(this).val();
-        $.ajax({
-            url: '/EmployeesAffsirs/GetEmployeeCurrentJob', // تعديل المسار حسب المسار الفعلي لطلب معلومات الوظيفة الحالية
-            type: 'GET',
-            dataType: 'json',
-            data: { employeeId: employeeId },
-            success: function (data) {
-                $('#CurrentJop').val(data.currentJob); // تحديث حقل الوظيفة الحالية في النموذج بالقيمة المستلمة
-            },
-            error: function () {
-                console.log('حدث خطأ أثناء جلب معلومات الوظيفة الحالية');
-            }
-        });
-    });
-
-</script>
-
-@* <script>
-    // التقاط حدث تغيير القيمة لحقل الوظيفة
-    document.getElementById('jopdescriptionId').addEventListener('change', function () {
-        // الحصول على القيمة المحددة لحقل الوظيفة
-        var selectedJobText = this.options[this.selectedIndex].text;
-
-        // الحصول على عناصر DOM لحقول CurrentJop و LastJop
-        var currentJopInput = document.getElementById('CurrentJop');
-        var lastJopInput = document.getElementById('LastJop');
-
-        // تحديث قيم CurrentJop و LastJop بناءً على القيمة المحددة للوظيفة
-        var currentJopValue = currentJopInput.value;
-        var lastJopValue = selectedJobText;
-        currentJopInput.value = selectedJobText;
-        lastJopInput.value = currentJopValue;
-    });
-    // ===============================================================
-</script> *@
-
-
-

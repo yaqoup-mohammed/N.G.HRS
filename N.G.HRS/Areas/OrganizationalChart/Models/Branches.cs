@@ -40,29 +40,21 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Display(Name = "الشركة ")]
 
         public int? CompanyId { get; set; }
-        [Display(Name = "الشركة ")]
-
         public Company? Company { get; set; }
         //=
         [ForeignKey("CountryId")]
         [Display(Name = "الدولة")]
         public int? CountryId { get; set; }
-        [Display(Name = "الدولة")]
-
         public Country? Country { get; set; }
         //=
         [ForeignKey("GovernorateId")]
         [Display(Name = "المحافظة")]
         public int? GovernorateId { get; set; }
-        [Display(Name = "المحافظة")]
-
         public Governorate? Governorate { get; set; }
         //=
         [ForeignKey("DirectorateId")]
         [Display(Name = "المديرية")]
         public int? DirectorateId { get; set; }
-        [Display(Name = "المديرية")]
-
         public Directorate? Directorate { get; set; }
         //======
         //===

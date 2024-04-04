@@ -59,88 +59,11 @@
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
             <td>
-                <a asp-action="Create" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" id="Delete" class="btn-danger" asp-route-id="@item.Id">Delete</a> |
-
-
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-            @* <div id="openForm" style="display: block">
-                <div id="form" class="row rowmargin">
-                    <div class="modal">
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure you want to delete
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.Employee)
-                                    </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayNameFor(model => model.Employee.EmployeeName)
-                                    </dd><h3>?</h3>
-                                </div>
-                                <div class="modal-footer">
-                                    <form asp-action="Delete" method="post" id="deleteForm">
-                                        <input type="hidden" asp-for="@item.Id" />
-                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> *@
 }
-
     </tbody>
 </table>
-@* @await Html.PartialAsync("_Delete")
- *@
-@section Scripts {
-@*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(document).ready(function () {
-            closeFormButton.addEventListener("click", function () {
-                open.style = `display:none;`;
-            });
-            $('#Delete').click(function () {
-                $('#form').style = `
-                                                                                                                    display:block;
-
-                                                                                                                    position: fixed;
-                                                                                                                        top: 0;
-                                                                                                                        left: 0;
-                                                                                                                        width: 100%;
-                                                                                                                        height: 100%;
-                                                                                                                        background-color: rgba(0, 0, 0, 0.5);
-                                                                                                                        backdrop-filter: blur(5px);
-                                                                                                                        z-index: 1051;`;
-
-                form.style = `
-                                                                                                                    width:90%;
-                                                                                                                    display:block;
-                                                                                                                    position: fixed;
-                                                                                                                        top: 50%;
-                                                                                                                        left: 50%;
-                                                                                                                        transform: translate(-50%, -50%);
-                                                                                                                        background-color: #fff;
-                                                                                                                        padding: 20px;
-                                                                                                                        border: 1px solid #ccc;
-                                                                                                                        border-radius: 5px;
-                                                                                                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                                                                                                z-index: 1050;
-                                                                                                                        opacity: 1; /* Initially hidden */
-                                                                                                                        transition: opacity 0.3s ease-in-out;`;
-            });
-        });
-    </script>
- *@
-}

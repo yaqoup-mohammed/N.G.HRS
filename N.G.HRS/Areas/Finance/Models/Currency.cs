@@ -1,6 +1,5 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.Employees.Models;
-using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +14,7 @@ namespace N.G.HRS.Areas.Finance.Models
         [Required (ErrorMessage = "هذا الحقل مطلوب")]
         [StringLength(70)]
         [Display(Name = "اسم العملة")]
-        public string CurrencyName { get; set; }
+        public string? CurrencyName { get; set; }
         [Required]
         [StringLength(70)]
         [DataType(DataType.Currency)]
@@ -39,7 +38,7 @@ namespace N.G.HRS.Areas.Finance.Models
             public List<FinancialStatements>? FinancialStatementsList { get; set; }
             public List<EntitlementsAndDeductions>? EntitlementsAndDeductionsList { get; set; }
             public List<AllowancesAndDiscounts>? AllowancesAndDiscountsList { get; set; }
-        public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
+            public List<EmployeeLoans>? EmployeeLoansList { get; set; }
 
         //=
 

@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
-using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
 
 namespace N.G.HRS.Date
 {
@@ -491,26 +490,6 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeMovementsList)
               .HasForeignKey(p => p.jopdescriptionId)
               .OnDelete(DeleteBehavior.NoAction);
-            //=======================================
-            modelBuilder.Entity<EmployeeViolations>()
-              .HasOne(p => p.Violations)
-              .WithMany(p => p.EmployeeViolationsList)
-              .HasForeignKey(p => p.ViolationId)
-              .OnDelete(DeleteBehavior.NoAction);
-            //=======================================
-            //=======================================
-
-            modelBuilder.Entity<AdministrativeDecisions>()
-              .HasOne(p => p.Employee)
-              .WithMany(p => p.AdministrativeDecisionsList)
-              .HasForeignKey(p => p.EmployeeId)
-              .OnDelete(DeleteBehavior.NoAction);
-            //=======================================
-            modelBuilder.Entity<AdministrativeDecisions>()
-              .HasOne(p => p.Currency)
-              .WithMany(p => p.AdministrativeDecisionsList)
-              .HasForeignKey(p => p.CurrencyId)
-              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -577,30 +556,27 @@ namespace N.G.HRS.Date
         public DbSet<Departments> Departments { get; set; }
         //================================================== MO-AL-MO
         public DbSet<Family> Family { get; set; } 
-        public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
-        public DbSet<Universities> Universities { get; set; } = default!;
-        public DbSet<Sections> Sections { get; set; } = default!;
-        public DbSet<JobDescription> JobDescription { get; set; } = default!;
-        public DbSet<EmployeeAccount> EmployeeAccount { get; set; } = default!;
-        public DbSet<Penalties> Penalties { get; set; } = default!;
-        public DbSet<Violations> Violations { get; set; } = default!;
-        public DbSet<Periods> Periods { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.Finance.Models.Currency> Currency { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.Finance.Models.FinanceAccount> FinanceAccount { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on> AutomaticallyApprovedAdd_on { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances> EmployeeAdvances { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeeLoans> EmployeeLoans { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeePerks> EmployeePerks { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.EndOfServiceClearance> EndOfServiceClearance { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.EntitlementsAndDeductions> EntitlementsAndDeductions { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.PayRoll.Models.VacationAllowances> VacationAllowances { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativePromotions> AdministrativePromotions { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models.EmployeeViolations> EmployeeViolations { get; set; } = default!;
-        public object Employee { get; internal set; }
-        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativeDecisions> AdministrativeDecisions { get; set; } = default!;
+        public DbSet<EmployeeArchives> EmployeeArchives { get; set; }  
+        public DbSet<Universities> Universities { get; set; }  
+        public DbSet<Sections> Sections { get; set; }  
+        public DbSet<JobDescription> JobDescription { get; set; }  
+        public DbSet<EmployeeAccount> EmployeeAccount { get; set; }  
+        public DbSet<Penalties> Penalties { get; set; }  
+        public DbSet<Violations> Violations { get; set; }  
+        public DbSet<Periods> Periods { get; set; }  
+        public DbSet<N.G.HRS.Areas.Finance.Models.Currency> Currency { get; set; }  
+        public DbSet<N.G.HRS.Areas.Finance.Models.FinanceAccount> FinanceAccount { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on> AutomaticallyApprovedAdd_on { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances> EmployeeAdvances { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeeLoans> EmployeeLoans { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EmployeePerks> EmployeePerks { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EndOfServiceClearance> EndOfServiceClearance { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.EntitlementsAndDeductions> EntitlementsAndDeductions { get; set; }  
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.VacationAllowances> VacationAllowances { get; set; }  
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativePromotions> AdministrativePromotions { get; set; }  
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement> EmploymentStatusManagement { get; set; }  
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements> EmployeeMovements { get; set; }  
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AnnualGoals> AnnualGoals { get; set; }  
 
 
 

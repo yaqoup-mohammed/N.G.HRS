@@ -55,8 +55,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // GET: SalariesAndWages/EmployeeAccounts/Create
         public IActionResult Create()
         {
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id");
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id");
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name");
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             return View();
         }
@@ -80,8 +80,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             {
                 TempData["Error"] = "حدث خطأ ما";
             }
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", employeeAccount.FinanceAccountId);
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", employeeAccount.FinanceAccountTypeId);
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name", employeeAccount.FinanceAccountId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", employeeAccount.FinanceAccountTypeId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeAccount.EmployeeId);
             return View(employeeAccount);
         }
@@ -99,8 +99,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             {
                 return NotFound();
             }
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", employeeAccount.FinanceAccountId);
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", employeeAccount.FinanceAccountTypeId);
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name", employeeAccount.FinanceAccountId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", employeeAccount.FinanceAccountTypeId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeAccount.EmployeeId);
             return View(employeeAccount);
         }
