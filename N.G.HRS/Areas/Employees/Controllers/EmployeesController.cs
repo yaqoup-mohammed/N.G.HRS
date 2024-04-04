@@ -502,6 +502,36 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    Family = await _familyrepository.GetByIdAsync(id),
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
+
+        public async Task<IActionResult> EmployeeData(int id)
+        {
+            if (id != 0)
+            {
+                try
+                {
+                    var employee = await _context.employee.FirstOrDefaultAsync(X => X.Id == id);
+                    if (employee != null)
+                    {
+                        return Ok(employee);
+                    }
+                    else
+                    {
+                        TempData["Message"] = "لم يتم العثور على الموظف المطلوب!";
+                        return Ok();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = ex.Message;
+                    return Ok();
+                }
+            }
+            else
+            {
+                TempData["Message"] = "أختر الموظف";
+                return Ok();
+            }
+        }
     }
 
 }

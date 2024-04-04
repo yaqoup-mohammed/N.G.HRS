@@ -27,10 +27,10 @@ namespace N.G.HRS.Areas.Employees.Models
         public string EmployeeName { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Employment")]
-        public DateOnly DateOfEmployment { get; set; }//
+        public DateOnly? DateOfEmployment { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Placement Date")]
-        public DateOnly PlacementDate { get; set; }//تاريخ التثبيت//
+        public DateOnly? PlacementDate { get; set; }//تاريخ التثبيت//
         [Required]
         [StringLength(100)]
         public string EmploymentStatus { get; set; }//

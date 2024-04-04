@@ -19,14 +19,14 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="card">
                         <div class="card-header">
-                            <h3>إدارة الحالة الوظيفية الموظف</h3>
+                            <h3>القرارات الإدارية</h3>
                         </div>
                         <div class="card-body">
                             <div class="row" style="padding-bottom: 15px;">
                                 <div class="col-md-6">
                                     <label asp-for="Date" class="form-label"></label>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="Date" class="form-control" placeholder="Select time"
+                                        <input asp-for="Date" class="form-control" id="Date" placeholder="Select Date"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label asp-for="DecisionsType" class="form-label"></label>
-                                    <select asp-for="DecisionsType" class="js-example-basic-single  form-select">
+                                    <select asp-for="DecisionsType" id="DecisionsType" class="js-example-basic-single  form-select">
                                         <option value="" disabled selected> </option>
                                         <option value="1"> التوظيف واعتماد الراتب </option>
                                         <option value="2">زيادة الراتب </option>
@@ -50,13 +50,13 @@
 
                                 <div class="col-md-6">
                                     <label asp-for="EmployeeId" class="form-label"></label>
-                                    <select asp-for="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)">
+                                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)">
                                         <option value="" disabled selected> </option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label asp-for="EmployeeStatus" class="form-label"></label>
-                                    <select asp-for="EmployeeStatus" class="js-example-basic-single  form-select" asp-items="@(ViewData["Status"] as SelectList)">
+                                    <select asp-for="EmployeeStatus" id="EmployeeStatus" class="js-example-basic-single  form-select" asp-items="@(ViewData["Status"] as SelectList)">
                                         <option value="" disabled selected> </option>
                                     </select>
                                     <span asp-validation-for="EmployeeStatus" class="text-danger"></span>
@@ -64,7 +64,7 @@
                                 <div class="col-md-3">
                                     <label asp-for="SalaryStartDate" class="form-label"></label>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="SalaryStartDate" class="form-control" placeholder="Select time"
+                                        <input asp-for="SalaryStartDate" id="SalaryStartDate" class="form-control" placeholder="Select time"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -78,14 +78,14 @@
                             <div class="row " style="padding-bottom: 15px;">
                                 <div class="col-md-5">
                                     <label asp-for="Salary" class="form-label"></label>
-                                    <input asp-for="Salary" class="form-control" />
+                                    <input asp-for="Salary" id="employeeSalary" class="form-control" />
                                     <span asp-validation-for="Salary" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-3">
                                 </div>
                                 <div class="col-md-4">
                                     <label asp-for="CurrencyId" class="form-label"></label>
-                                    <select asp-for="CurrencyId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Currency"] as SelectList)">
+                                    <select asp-for="CurrencyId" id="CurrencyId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Currency"] as SelectList)">
                                         <option value="" disabled selected> </option>
                                     </select>
                                 </div>
@@ -114,19 +114,15 @@
                                     <span asp-validation-for="Note" class="text-danger"></span>
                                 </div>
                             </div>
-
-
-                                        <input type="submit" id="submit" value="إنشاء" class="btn btn-primary" />
-                                        <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
-
-
+                                <input type="submit" id="submit" value="إنشاء" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
                             </div>
                         </div>
 
                 </form>
             </div>
             <div class="col-md-4">
-                <div class="card">
+                <div class="card" id="dateOfHireGroup">
                     <div class="card-header">
                         <h3>بيانات الموظف الحالية</h3>
                     </div>
@@ -144,13 +140,13 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="form-label"> الوظيفة</label>
-                                <input type="text" class="form-control" placeholder="الوظيفة" id="employeeStatus" readonly />
+                                <input type="text" class="form-control" placeholder="الوظيفة" id="employeeJop" readonly />
 
                             </div>
 
                             <div class="col-md-12">
                                 <label class="form-label">تاريخ التوظيف</label>
-                                <div class="input-group flatpickr " id="flatpickr-time">
+                                <div class="input-group flatpickr flatpickr-date" id="dateOfHireGroup">
                                     <input type="date" class="form-control" id="dateOfHire" placeholder="تاريخ التوظيف" readonly data-input />
 
                                     <span class="input-group-text input-group-addon" data-toggle>
@@ -160,9 +156,9 @@
                                 </div>
 
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12"  id="employeeSalaryGroup">
                                 <label class="form-label">الراتب </label>
-                                <input type="text" class="form-control" placeholder=" الراتب" id="employeeNo" readonly />
+                                <input type="text" class="form-control" placeholder=" الراتب" id="employeeSalary" readonly />
                             </div>
                         </div>
                     </div>
@@ -180,47 +176,127 @@
     }
     <script>
         $(document).ready(function () {
-            $("#employee").on("change", function () {
+            const emplGroup=document.getElementById("employeeSalaryGroup");
+            const DecisionsType=document.getElementById("DecisionsType");
+            const employeeSalary=document.getElementById("employeeSalary");
+            const employeeNo=document.getElementById("employeeNo");
+            const employeeStatus=document.getElementById("employeeStatus");
+            const dateOfHire=document.getElementById("dateOfHire");
+            const branch=document.getElementById("branch");
+            const date=document.getElementById("Date");
+            const dateOfHireGroup = document.getElementById("dateOfHireGroup");
+            dateOfHireGroup.style = `pointer-events: none; filter: none; opacity: .9;`;
+            //=======================================
+            // data.valueAsDate = new Date();
+            // $('#Date').datepicker({ dateFormat: 'dd/mm/yy' }).loaded(function () {
+            //     $(this).datepicker('setDate', new Date());
+            // });
+
+            //========================================
+            emplGroup.style = "display: none";
+            $('#DecisionsType').change(function () {
+                if (this.value == 1) {
+                    emplGroup.style = "display: none";
+                }
+                else  {
+                    emplGroup.style = "display: block";
+                }
+
+            });
+            //=====================================
+
+            $("#EmployeeId").on("change", function () {
+
                 var id = this.value;
+                console.log(id);
+
                 if (id != "") {
 
                     $.ajax({
-                        url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + id,
+                        url: '/EmployeesAffsirs/AdministrativeDecisions/EmployeeData?id=' + id,
                         type: 'GET',
                         success: function (data) {
+                            // console.log(data);
                             $('#dateOfHire').val(data.dateOfEmployment);
-                            $('#dateOfstiky').val(data.placementDate);
-                            $('#select').val(data.employmentStatus).change();
-                            switch (data.employmentStatus) {
-                                case "1":
-                                    $('#employeeStatus').val("مثبت");
-                                    break;
-                                case "2":
-                                    $('#employeeStatus').val("متعاقد");
-                                    break;
-                                case "3":
-                                    $('#employeeStatus').val("متدرب");
-                                    break;
-                                case "4":
-                                    $('#employeeStatus').val("مستمر");
-                                    break;
-                                case "5":
-                                    $('#employeeStatus').val("موقف");
-                                    break;
-                                case "6":
-                                    $('#employeeStatus').val("تم إنهاء الخدمة");
-                                    break;
-                                case "7":
-                                    $('#employeeStatus').val("حارس أمن");
-                                    break;
-                                default:
-                                    $('#employeeStatus').val(data.employmentStatus);
-                                    break;
+                            $('#employeeNo').val(data.employeeNumber);
+                            $('#EmployeeStatus').val(data.employmentStatus).change();
 
-                            }
 
+                        },
+                        error: function (data) {
+                            // console.log('Error:', data);
+                            Swal.fire({
+                                icon: "error",
+                                title:data,
+                            });
                         }
                     });
+                    //=================================================================
+                        $.ajax({
+                        url: '/EmployeesAffsirs/AdministrativeDecisions/FinincialData?id=' + id,
+                        type: 'GET',
+                        success: function (data) {
+                            // console.log(data);
+                            $('#CurrencyId').val(data.currencyId).change();
+                            $('#SalaryStartDate').val(data.salaryStartDate);
+                            $('#employeeSalary').val(data.basicSalary);
+
+
+                        },
+                        error: function (data) {
+                            // console.log('Error:', data);
+                            Swal.fire({
+                                icon: "error",
+                                title:data,
+                            });
+                        }
+                    });
+                    //=================================================================
+                        $.ajax({
+                        url: '/EmployeesAffsirs/AdministrativeDecisions/JopData?id=' + id,
+                        type: 'GET',
+                        success: function (data) {
+                            // console.log(data);
+                            window.console.log(data);
+                            // $('#CurrencyId').val(data.currencyId).change();
+                            // $('#SalaryStartDate').val(data.salaryStartDate);
+                            $('#employeeJop').val(data.jopName);
+
+
+                        },
+                        // error: function (data) {
+                        //     // console.log('Error:', data);
+                        //     $('#employeeJop').val(data.jopName);
+
+                        //     Swal.fire({
+                        //         icon: "error",
+                        //         title:data,
+                        //     });
+                        // }
+                    });
+                    //=================================================================
+
+
+
+                    // $.ajax({
+                    //     url: '/EmployeesAffsirs/AdministrativeDecisions/BranchData?id=' + id,
+                    //     type: 'GET',
+                    //     success: function (data) {
+                    //         // console.log(data);
+                    //         // $('#dateOfHire').val(data.dateOfEmployment);
+                    //         // $('#employeeNo').val(data.employeeNumber);
+                    //         // $('#employeeSalary').val(data.employmentStatus).change();
+
+
+                    //     },
+                    //     error: function (data) {
+                    //         // console.log('Error:', data);
+                    //         Swal.fire({
+                    //             icon: "error",
+                    //             title:data,
+                    //         });
+                    //     }
+                    // });
                 }
                 else {
                     Swal.fire({
@@ -238,30 +314,6 @@
                 }
 
             });
-            //===============================================
-            $("#submit").click(function () {
-                var employee = $("#employee").val();
-                var select = $("#select").val();
-                if (employee == "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أختيار موظف",
-                    });
-                    event.preventDefault();
-
-                }
-                if (select == "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أختيار موظف",
-                    });
-                    event.preventDefault();
-
-                }
-            });
-
 
         });
     </script>

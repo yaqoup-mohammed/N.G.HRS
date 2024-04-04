@@ -10,7 +10,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Models
         public int Id { get; set; }
         [Display(Name = "التاريخ")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         [Display(Name = "طبيعة التوظيف")]
         public string? EmployeeStatus { get; set; }
@@ -20,7 +20,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Models
         public Employee? Employee { get; set; }
         [Display(Name = "تاريخ بداية الاجر")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime SalaryStartDate { get; set; }
         [Display(Name = "الراتب")]
         public decimal Salary { get; set; }
