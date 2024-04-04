@@ -1,4 +1,5 @@
-﻿using N.G.HRS.Areas.Employees.Models;
+﻿using Microsoft.Graph;
+using N.G.HRS.Areas.Employees.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

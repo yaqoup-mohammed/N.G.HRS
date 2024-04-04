@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PenaltiesAndViolations.Models;
+using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
 
@@ -148,10 +149,13 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Controllers
             var penalties = await _Penalties.GetByIdAsync(id);
             if (penalties != null)
             {
-                await _Penalties.DeleteAsync(id);
+                _context.Penalties.Remove(penalties);
             }
+            await _context.SaveChangesAsync();
+
             TempData["Success"] = "تم الحذف بنجاح";
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Create));
         }
 
         private bool PenaltiesExists(int id)

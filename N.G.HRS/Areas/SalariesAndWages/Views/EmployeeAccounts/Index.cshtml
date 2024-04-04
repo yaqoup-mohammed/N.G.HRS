@@ -40,10 +40,10 @@
                 @Html.DisplayFor(modelItem => item.employee.EmployeeName)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.FinanceAccountType.Name)
+                @Html.DisplayFor(modelItem => item.FinanceAccountType.Id)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.FinanceAccount.Name)
+                @Html.DisplayFor(modelItem => item.FinanceAccount.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

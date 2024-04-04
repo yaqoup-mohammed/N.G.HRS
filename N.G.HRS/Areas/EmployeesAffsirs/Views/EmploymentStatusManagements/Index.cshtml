@@ -1,8 +1,17 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.EmployeesAffsirs.Models.EmploymentStatusManagement>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0bf515168e29510121b30e320e9561ff750f33ca
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 
 <h1>Index</h1>
 
@@ -30,9 +39,35 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
             </td>
-            <td>
+@*             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeStatus)
-            </td>
+            </td> *@
+                @switch ( item.EmployeeStatus)
+                {
+                    case "1":
+                        <td >مثبت</td >
+               break;
+                    case "2":
+                        <td >متعاقد</td >
+               break;
+                    case "3":
+                        <td >متدرب</td >
+               break;
+                    case "4":
+                        <td >مستمر</td >
+               break;
+               case "5":
+                        <td >موقف</td >
+               break;
+               case "6":
+                        <td >تم إنهاء الخدمة</td >
+               break;
+               case "7":
+                        <td >حارس أمن</td >
+               break;
+                    default:
+                        break;
+                });
             <td>
                 @Html.DisplayFor(modelItem => item.StatusDate)
             </td>
