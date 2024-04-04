@@ -18,7 +18,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Display(Name = "اسم الشركة")]
         public string CompanyName { get; set; }
         [Required(ErrorMessage = "هذا الحق مطلوب!!")]
-        [Range(0, 1000000000000)]
+        [Range(0, 1000000000)]
         [Display(Name = "رقم الرخصة")]
         public int LicenseNumber { get; set; }
         [Required(ErrorMessage = "هذا الحق مطلوب!!")]

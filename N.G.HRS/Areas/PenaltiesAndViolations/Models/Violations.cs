@@ -9,11 +9,11 @@ namespace N.G.HRS.Areas.PenaltiesAndViolations.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string ViolationsName { get; set; }
+        public string? ViolationsName { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
         //========================================
-        public List<PenaltiesAndViolationsForms> PenaltiesAndViolationsFormsList { get; set; }
+        public List<PenaltiesAndViolationsForms>? PenaltiesAndViolationsFormsList { get; set; }
 
     }
 }

@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Branches.BranchesName)
+                @Html.DisplayFor(modelItem => item.Branches.BranchesAdress)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -48,6 +48,3 @@
 }
     </tbody>
 </table>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

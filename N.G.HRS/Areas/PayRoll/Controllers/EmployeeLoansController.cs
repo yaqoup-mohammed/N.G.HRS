@@ -48,11 +48,30 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/EmployeeLoans/Create
-        public IActionResult Create()
+        public async  Task<IActionResult> Create(int? id)
         {
-            ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode");
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
-            return View();
+            if (id == null)
+            {
+                ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode");
+                ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
+                return View();
+            }
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var employeeLoans = await _context.EmployeeLoans.FindAsync(id);
+                if (employeeLoans == null)
+                {
+                    return NotFound();
+                }
+                ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeLoans.CurrencyId);
+                ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeLoans.EmployeeId);
+                return View(employeeLoans);
+            }
         }
 
         // POST: PayRoll/EmployeeLoans/Create
@@ -60,17 +79,51 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmployeeId,Date,InstallmentStartDate,CurrencyId,Arrest,Amount,InstallmentAmount,NumberOfInstallmentMonths,Notes")] EmployeeLoans employeeLoans)
+        public async Task<IActionResult> Create(int? id, EmployeeLoans employeeLoans)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                _context.Add(employeeLoans);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(employeeLoans);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeLoans.CurrencyId);
+                ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeLoans.EmployeeId);
+                return View(employeeLoans);
             }
-            ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeLoans.CurrencyId);
-            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeLoans.EmployeeId);
-            return View(employeeLoans);
+            else
+            {
+                    if (id != employeeLoans.Id)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(employeeLoans);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!EmployeeLoansExists(employeeLoans.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeLoans.CurrencyId);
+                ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeLoans.EmployeeId);
+                return View(employeeLoans);
+            }
         }
 
         // GET: PayRoll/EmployeeLoans/Edit/5

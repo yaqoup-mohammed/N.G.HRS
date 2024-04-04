@@ -12,46 +12,50 @@ namespace N.G.HRS.Areas.PayRoll.Models
         private double _numberOfHours;
         private int _numerOfMinutes;
 
-
+        //================================================
         public int Id { get; set; }
         public int? SectionsId { get; set; }
         public Sections? Sections { get; set; }
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-
+        //=========================================
+        [Required(ErrorMessage="هذا الحقل مطلوب")]
+        [Display(Name="التاريخ")]
         [DataType(DataType.Date)]
+
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "من تاريخ   ")]
+
 
         [DataType(DataType.Date)]
         public DateOnly FromDate { get; set; }
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "الى تاريخ ")]
 
         [DataType(DataType.Date)]
         public DateOnly ToDate { get; set; }
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "من")]
+
         [DataType(DataType.Time)]
         public TimeOnly FromTime { get; set; }
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "الى")]
+
         [DataType(DataType.Time)]
         public TimeOnly ToTime { get; set; }
-        public double? Hours
+
+        public string? Hours
         {
-            get
-            {
-                return _numberOfHours;
-            }
-            set
-            {
-                _numberOfHours = CalculateHours();
-            }
+            get;
+            set;
         }
         public int? Minutes
         {
-            get
-            {
-                return _numerOfMinutes;
-            }
-            set
-            {
-                _numerOfMinutes = CalculateMinutesBetween();
-            }
+            get;
+            set;
+           
         }
 
         public double CalculateHours()

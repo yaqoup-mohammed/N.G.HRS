@@ -13,7 +13,7 @@
 <h4>AdministrativePromotions</h4>
 <hr />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -22,15 +22,15 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class="js-example-basic-single  form-select" id="EmployeeId" asp-items="@(ViewData["employee"] as SelectList)">
-                    <option value="">-- أختر موظف --</option>
+                <label asp-for="DepartmentsId" class="control-label"></label>
+                <select asp-for="DepartmentsId" id="DepartmentsId" class="form-control" asp-items="@(ViewData["Departments"] as SelectList)">
+                    <option value="">-- أختر الادارة--</option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="DepartmentsId" class="control-label"></label>
-                <select asp-for="DepartmentsId" id="DepartmentsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Departments"] as SelectList)">
-                    <option value="">-- أختر الادارة--</option>
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class="form-control" id="EmployeeId" >
+                    <option value="">-- أختر موظف --</option>
                 </select>
             </div>
 
@@ -66,78 +66,60 @@
         $(document).ready(function () {
 
 
-            // $.ajax({
-            //     url: '/EmployeesAffsirs/AdministrativePromotions/LoadEmployees',
-            //     type: 'GET',
-            //     success: function (data) {
-            //         $.each(data, function (i, item) {
+            $.ajax({
+                url: '/EmployeesAffsirs/AdministrativePromotions/LoadEmployees',
+                type: 'GET',
+                success: function (data) {
+                    $.each(data, function (i, item) {
 
-            //             $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
+                        $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
 
 
-            //         });
-            //     }
-            // });
+                    });
+                }
+            });
 
             //=================================
-            $("#EmployeeId").on("change", function () {
-                var id = this.value;
-                if (id != "") {
+            $("#DepartmentsId").on("change", function () {
+                var id = $(this).val();
+                // $('#EmployeeId').empty();   
+                // $('#EmployeeId').append('<option value="">-- أختر موظف --</option>')
+                if (id !== "") {
                     $.ajax({
-                        url: '/EmployeesAffsirs/AdministrativePromotions/LoudData?id=' + id,
+                        url: '/EmployeesAffsirs/AdministrativePromotions/LoadDepartments?id=' + id,
                         type: 'GET',
                         success: function (data) {
-                            $('#DepartmentsId').val(data.departmentsId).change();
+                            $.each(data, function (i, item) {
+
+                                $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
+
+
+                            });
                         }
                     });
-                }
-                else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أختيار موظف",
-                    });
-                    $("#DepartmentsId").empty().change();
-                    this.value = "";
-                    event.preventDefault();
-                }
 
+                }
             });
             //===========================================
             $("#toDate").on("change", function () {
-                if ($('#fromDate').val() !== "") {
-                    if ($('#fromDate').val() > $('#toDate').val()) {
-                        event.preventDefault(); // Prevent form submission
-                        Swal.fire({
-                            icon: "error",
-                            title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
-                        });
-                        $('#toDate').empty();
-                    }
-                }
-            });
-            //===========================================
-            $("#fromDate").on("change", function () {
-                if ($('#toDate').val() !== "") {
-                    if ($('#fromDate').val() > $('#toDate').val()) {
-                        event.preventDefault(); // Prevent form submission
-                        Swal.fire({
-                            icon: "error",
-                            title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
-                        });
-                        $('#toDate').empty();
-                    }
-                }
-            });
-            //===========================================
-            $("#submit").on("click", function () {
-                if ($('#fromDate').val() > $('#toDate').val()) {
+                if ($('#fromDate').val() > $('#toDate').val() ) {
                     event.preventDefault(); // Prevent form submission
                     Swal.fire({
                         icon: "error",
                         title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
                     });
                     $('#toDate').empty();
-                    $('#fromDate').empty();
+                }
+            });
+            //===========================================
+            $("#submit").on("click", function () {
+                if ($('#fromDate').val() > $('#toDate').val() ) {
+                    event.preventDefault(); // Prevent form submission
+                    Swal.fire({
+                        icon: "error",
+                        title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
+                    });
+                    $('#toDate').val()="";
                 }
 
                 if ($('#DepartmentsId').val() === "") {
@@ -158,6 +140,8 @@
 
 
         });
+        
+        
     </script>
     @if (TempData["Done"] != null)
     {
@@ -165,16 +149,6 @@
             Swal.fire({
                 icon: "succes",
                 title: "@TempData["Done"] ",
-            });
-        </script>
-
-    }
-    @if (TempData["Message"] != null)
-    {
-        <script>
-            Swal.fire({
-                icon: "succes",
-                title: "@TempData["Message"] ",
             });
         </script>
 

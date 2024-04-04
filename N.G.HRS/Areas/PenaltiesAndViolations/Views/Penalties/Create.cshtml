@@ -1,8 +1,7 @@
 ﻿@model N.G.HRS.Areas.PenaltiesAndViolations.Models.Penalties
-
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "حسابات الموظفين";
+    ViewData["Title"] = " العقوبات";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -43,7 +42,7 @@
                 <form asp-action="Create">
                     <div class="row ">
                         <div class="mb-3 col-md-12">
-                          
+
                             <label asp-for="PenaltiesName" class="form-label">اسم العقوبة </label>
                             <input asp-for="PenaltiesName" class="form-control" id="exampleInputUsername1" />
                             <span asp-validation-for="PenaltiesName" class="text-danger"></span>
@@ -54,7 +53,7 @@
                     <div class="mb-3">
                         <div>
                             <div class="form-check form-check-inline">
-                    
+
                                 <label class="form-check-label">
                                     <input class="form-check-input" asp-for="Deduction" id="checkInline1" /> @Html.DisplayNameFor(model => model.Deduction)
                                 </label>
@@ -68,20 +67,20 @@
                         <label class="form-label">خصم من</label>
                         <div>
                             <div id="gender1" class="form-check form-check-inline">
-                               
+
                                 <label class="form-check-label" for="gender1">
                                     <input class="form-check-input" asp-for="DeductionFromSalary" /> @Html.DisplayNameFor(model => model.DeductionFromSalary)
                                 </label>
                             </div>
                             <div id="gender2" class="form-check form-check-inline">
-                                
+
 
                                 <label class="form-check-label" for="gender2">
                                     <input class="form-check-input" asp-for="DeductionFromTheDailyWage" /> @Html.DisplayNameFor(model => model.DeductionFromTheDailyWage)
                                 </label>
                             </div>
                             <div id="gender3" class="form-check form-check-inline">
-                   
+
                                 <label class="form-check-label" for="gender3">
                                     <input class="form-check-input" asp-for="DiscountFromWorkingHours" /> @Html.DisplayNameFor(model => model.DiscountFromWorkingHours)
                                 </label>
@@ -90,28 +89,28 @@
                     </div>
                     <!-- Row -->
 
-                    <div class="mb-3">
+                    <div id="gender4" class="mb-3">
                         <label class="form-label"> طريقة الخصم</label>
                         <div>
                             <div class=" col-sm-6" id="valueClass" style="display:none;">
-                                
-                                <label asp-for="Value"  class="form-label"></label>
-                                <input asp-for="Value"  class="form-control" id="gender1" />
+
+                                <label asp-for="Value" class="form-label"></label>
+                                <input asp-for="Value" class="form-control" id="gender1" />
                                 <span asp-validation-for="Value" class="text-danger"></span>
                             </div>
 
                             <div class="col-sm-6" id="PercentClass" style="display:none;">
-                              
+
                                 <label asp-for="Percent" class="form-label"></label>
-                                <input asp-for="Percent"  class="form-control" id="gender2" />
+                                <input asp-for="Percent" class="form-control" id="gender2" />
                                 <span asp-validation-for="Percent" class="text-danger"></span>
                             </div>
 
-                            <div id="gender4" class="row">
+                            <div class="row">
                                 <div class="col-sm-2">
                                     <div class="mb-2">
                                         <label class="form-check-label"> القيمة</label>
-                                        <input type="checkbox" name="valuepercentage"  id="valueButton"  class="form-check-input" placeholder="Enter first name">
+                                        <input type="checkbox" name="valuepercentage" id="valueButton" class="form-check-input" placeholder="Enter first name">
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -126,7 +125,7 @@
                     </div>
                     <!-- Row -->
                     <div class="mb-3">
-                    
+
                         <label asp-for="Notes" cclass="form-label"></label>
                         <input asp-for="Notes" class="form-control" id="exampleInputPassword1" />
                         <span asp-validation-for="Notes" class="text-danger"></span>
@@ -142,67 +141,19 @@
     </div>
 </div>
 @* ======================== *@
-=======
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PenaltiesName" class="control-label"></label>
-                <input asp-for="PenaltiesName" class="form-control" />
-                <span asp-validation-for="PenaltiesName" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Deduction" /> @Html.DisplayNameFor(model => model.Deduction)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DiscountFromWorkingHours" /> @Html.DisplayNameFor(model => model.DiscountFromWorkingHours)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DeductionFromTheDailyWage" /> @Html.DisplayNameFor(model => model.DeductionFromTheDailyWage)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DeductionFromSalary" /> @Html.DisplayNameFor(model => model.DeductionFromSalary)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" class="form-control" />
-                <span asp-validation-for="Value" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Percent" class="control-label"></label>
-                <input asp-for="Percent" class="form-control" />
-                <span asp-validation-for="Percent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
 
 
@@ -241,8 +192,8 @@
             });
             //================================================================================================
             const checkInline1 = document.getElementById("checkInline1");
-            const gender2 = document.getElementById("gender2");
-            const gender3 = document.getElementById("gender3");
+            // const gender2 = document.getElementById("gender2");
+            const gender4 = document.getElementById("gender4");
             const gender1 = document.getElementById("gender1");
 
 
@@ -265,6 +216,7 @@
                 }
             });
 
-    });
-</script>
+        });
+    </script>
+
 }
