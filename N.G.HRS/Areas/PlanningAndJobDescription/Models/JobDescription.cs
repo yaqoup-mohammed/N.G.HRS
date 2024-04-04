@@ -22,6 +22,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
 
         [Required ]
         [StringLength(255)]
+        [Display(Name = "السلطات")]
         public string Authorities { get; set; }
         [Required (ErrorMessage = "المسؤولية الوظيفة مطلوبة ")]
         [Display(Name = "مسؤولية الوظيفة")]
@@ -33,20 +34,26 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         //============================================
         //=========================================
         [ForeignKey("FunctionalCategoriesId")]
-        [Display(Name = "تصنيف الوظيفة")]
+        [Display(Name = "الفئات الوظيفة")]
         public int? FunctionalCategoriesId { get; set; }
-        
+        [Display(Name = "الفئات الوظيفة")]
+
         public FunctionalCategories? FunctionalCategories { get; set; }
         //=
         [ForeignKey("FunctionalClassId")]
+        [Display(Name = "الدرجة الوظيفة")]
 
         public int? FunctionalClassId { get; set; }
+        [Display(Name = "الدرجة الوظيفة")]
+
         public FunctionalClass? FunctionalClass { get; set; }
         //=
         [ForeignKey("JobRanksId")]
 
         
+        [Display(Name = "الرتبة الوظيفية")]
         public int? JobRanksId { get; set; }
+        [Display(Name = "الرتبة الوظيفية")]
 
         public JobRanks? JobRanks { get; set; }
 

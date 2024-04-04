@@ -15,9 +15,10 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         [Range(0, 999999.99)]
         public decimal BasicSalary { get; set; }
+        [Required]
 
         public int? InsuranceAccountNumber { get; set; }
-
+        [Required]
         public int? BankAccountNumber { get; set; }
         [Required]
         [DataType(DataType.Date)]

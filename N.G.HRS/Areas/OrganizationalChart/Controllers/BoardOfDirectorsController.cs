@@ -61,16 +61,27 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,CouncilName,Notes,NameOfMembership,MembershipOfTheBoardOfDirectorsId")] BoardOfDirectors boardOfDirectors)
+        public async Task<IActionResult> Create( BoardOfDirectors boardOfDirectors)
         {
             await PopulateDropdownListsAsync();
 
             if (ModelState.IsValid)
             {
+                try
+                {
 
-                _boardOfDirectorsRepository.AddAsync(boardOfDirectors);
-                return RedirectToAction(nameof(Index));
+                    await _boardOfDirectorsRepository.AddAsync(boardOfDirectors);
+                    TempData["Success"] = "تمت العملية بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["SystemError"] = ex.Message;
+                    return View(boardOfDirectors);
+                }
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
+
             return View(boardOfDirectors);
         }
 

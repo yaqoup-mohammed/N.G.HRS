@@ -161,16 +161,19 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
                 if (viewModel.Employee != null)
                 {
-                    
-                    // تحميل الملف باستخدام خدمة التحميل الملفات
-                        var file = viewModel.Employee.FileUpload;
-                        var filePath = await _fileUploadService.UploadFileAsync(file, "Upload/Images");
-                        viewModel.Employee.ImageFile = filePath;
-                    
-                    await _employeeRepository.AddAsync(viewModel.Employee);
-
-                    TempData["Success"] = "تم الحفظ بنجاح";
-                    return RedirectToAction(nameof(AddEmployee));
+                    var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
+                    if (!exist)
+                    {
+                        await _employeeRepository.AddAsync(viewModel.Employee);
+                        TempData["Success"] = "تم الحفظ بنجاح";
+                        return RedirectToAction(nameof(AddEmployee));
+                    }
+                    else
+                    {
+                        TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
+                        return View(viewModel);
+                    }
+    
                 }
                 else
                 {
@@ -180,8 +183,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it accordingly
-                TempData["Error"] = "حدث خطأ أثناء محاولة إضافة الموظف";
+                TempData["SystemError"]=ex.Message;  
+                return View(viewModel);
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
 
             return View(viewModel);
         }
@@ -398,6 +403,17 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             return View(viewModel);
         }
+        public bool EmployeeNumber(string id)
+        {
+            if (id != null)
+            {
+                var employeeNumber = _context.employee.Any(e => e.EmployeeNumber == id);
+                if (!employeeNumber)
+                {
+                    return true;                }
+            }
+            return false;
+        }
 
 
         private async Task PopulateDropdownListsAsync()
@@ -486,36 +502,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    Family = await _familyrepository.GetByIdAsync(id),
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
-
-        public async Task<IActionResult> EmployeeData(int id)
-        {
-            if (id != 0)
-            {
-                try
-                {
-                    var employee = await _context.employee.FirstOrDefaultAsync(X => X.Id == id);
-                    if (employee != null)
-                    {
-                        return Ok(employee);
-                    }
-                    else
-                    {
-                        TempData["Message"] = "لم يتم العثور على الموظف المطلوب!";
-                        return Ok();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    TempData["Message"] = ex.Message;
-                    return Ok();
-                }
-            }
-            else
-            {
-                TempData["Message"] = "أختر الموظف";
-                return Ok();
-            }
-        }
     }
 
 }

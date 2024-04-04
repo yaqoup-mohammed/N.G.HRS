@@ -21,16 +21,16 @@ namespace N.G.HRS.Areas.Employees.Models
         public int Id { get; set; }
         [Required]
         [Range(0, 500000)]
-        public int EmployeeNumber { get; set; }//
+        public string? EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
         public string EmployeeName { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Employment")]
-        public DateOnly? DateOfEmployment { get; set; }//
+        public DateOnly DateOfEmployment { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Placement Date")]
-        public DateOnly? PlacementDate { get; set; }//تاريخ التثبيت//
+        public DateOnly PlacementDate { get; set; }//تاريخ التثبيت//
         [Required]
         [StringLength(100)]
         public string EmploymentStatus { get; set; }//
@@ -128,11 +128,15 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public List<EmploymentStatusManagement>? EmploymentStatusManagementList { get; set; }
         //====================================
+        public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
+        //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
+        public string? CurrentJop { get; internal set; }
+
         //=========================================
         public void FingerCapture()
         {

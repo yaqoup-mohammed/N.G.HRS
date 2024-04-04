@@ -29,5 +29,6 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Models
         [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
 
+
     }
 }

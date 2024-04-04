@@ -1,6 +1,7 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.AalariesAndWages.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using N.G.HRS.Areas.PayRoll.Models;

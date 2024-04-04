@@ -156,7 +156,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             var openingBalancesForVacations = await _openingBalancesForVacationsRepository.GetByIdAsync(id);
             if (openingBalancesForVacations != null)
             {
-                await _openingBalancesForVacationsRepository.DeleteAsync(id);
+                _openingBalancesForVacationsRepository.DeleteAsync(id);
             }
 
             await _context.SaveChangesAsync();

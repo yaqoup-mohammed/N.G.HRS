@@ -34,7 +34,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label asp-for="EmployeeStatus" class="form-label"></label>
-                                            <select asp-for="EmployeeStatus" asp-items="@(ViewData["Employee"]  as SelectList)" id="select" class="js-example-basic-single  form-select">
+                                    <select asp-for="EmployeeStatus" asp-items="@(ViewData["Employee"]  as SelectList)" id="select" class="js-example-basic-multiple form-select">
                                                 <option value="">   </option>
                                             </select>
                                             <span asp-validation-for="EmployeeStatus" class="text-danger"></span>
@@ -46,6 +46,8 @@
                                             <label asp-for="StatusDate" class="form-label"></label>
                                             <div class="input-group flatpickr  flatpickr-date" id="flatpickr-date">
                                                 <input asp-for="StatusDate" id="ToDate" class="form-control" placeholder="أختر التاريخ"data-input />
+                                            <div class="input-group flatpickr  flatpickr-date" >
+                                                <input asp-for="StatusDate" class="form-control" placeholder="أختر التاريخ" data-input />
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -122,11 +124,36 @@
                         url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + id,
                         type: 'GET',
                         success: function (data) {
-                            console.log(data);
-                            $('#employeeStatus').val(data.employmentStatus);
-                            $('#dateOfHire').val(data.dateOfEmployment);
-                            $('#dateOfstiky').val(data.placementDate);
-                            $('#select').val(data.employmentStatus).change();
+                                $('#dateOfHire').val(data.dateOfEmployment);
+                                $('#dateOfstiky').val(data.placementDate);
+                                $('#select').val(data.employmentStatus).change();
+                                switch (data.employmentStatus) {
+                                    case "1":
+                                        $('#employeeStatus').val("مثبت");
+                                        break;
+                                    case "2":
+                                        $('#employeeStatus').val("متعاقد");
+                                        break;
+                                    case "3":
+                                        $('#employeeStatus').val("متدرب");
+                                        break;
+                                    case "4":
+                                        $('#employeeStatus').val("مستمر");
+                                        break;
+                                    case "5":
+                                        $('#employeeStatus').val("موقف");
+                                        break;
+                                    case "6":
+                                        $('#employeeStatus').val("تم إنهاء الخدمة");
+                                        break;
+                                    case "7":
+                                        $('#employeeStatus').val("حارس أمن");
+                                        break;
+                                    default:
+                                        $('#employeeStatus').val(data.employmentStatus);
+                                        break;
+
+                            }
 
                         }
                     });
@@ -136,6 +163,14 @@
                         icon: "error",
                         title: "الرجاء أختيار موظف",
                     });
+                    const status = document.getElementById("employeeStatus");
+                    const dateOfHire = document.getElementById("dateOfHire");
+                    const dateOfstiky = document.getElementById("dateOfstiky");
+                    status.value = "";
+                    dateOfHire.value = "";
+                    dateOfstiky.value = "";
+                    $('#select').val("").change();
+                    event.preventDefault();
                 }
 
             });
@@ -149,6 +184,8 @@
                         icon: "error",
                         title: "الرجاء أختيار موظف",
                     });
+                    event.preventDefault();
+
                 }
                 if (select == "") {
                     event.preventDefault();
@@ -156,6 +193,8 @@
                         icon: "error",
                         title: "الرجاء أختيار موظف",
                     });
+                    event.preventDefault();
+
                 }
             });
 
