@@ -1,5 +1,4 @@
 ﻿using N.G.HRS.Areas.AalariesAndWages.Models;
-using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.PayRoll.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

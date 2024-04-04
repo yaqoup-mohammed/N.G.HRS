@@ -21,7 +21,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public int Id { get; set; }
         [Required]
         [Range(0, 500000)]
-        public string? EmployeeNumber { get; set; }//
+        public int EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
         public string EmployeeName { get; set; }//
@@ -128,15 +128,11 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public List<EmploymentStatusManagement>? EmploymentStatusManagementList { get; set; }
         //====================================
-        public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
-        //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
-        public string? CurrentJop { get; internal set; }
-
         //=========================================
         public void FingerCapture()
         {

@@ -27,12 +27,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentsId" class="control-label"></label>
-                <select asp-for="DepartmentsId" class="js-example-basic-single form-select" asp-items="@(ViewData["Departments"] as SelectList)">
-                    <option value=""></option>
+                <select asp-for="DepartmentsId" id="DepartmentsId" class="form-control" asp-items="@(ViewData["Departments"] as SelectList)">
+                    <option value="">   </option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -43,17 +43,19 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
         document.getElementById("submit").addEventListener("click", function (event) {
-            const branches = document.getElementById("branches");
+            const DepartmentsId = document.getElementById("DepartmentsId");
 
-            if (branches.value === "") {
+            if (DepartmentsId.value === "") {
                 event.preventDefault(); // Prevent form submission
                 Swal.fire({
                     icon: "error",
                     title: "خطئ....",
-                    text: "رجاء أختر  الادارة!",
+                    text: "رجاء أختر  الادارة",
                 });
             }
         });

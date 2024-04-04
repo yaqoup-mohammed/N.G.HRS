@@ -66,31 +66,12 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var exist=_context.functionalClasses.Any(x => x.Name == functionalClass.Name);
-                    if (!exist)
-                    {
-                        await _functionalClassesRepository.AddAsync(functionalClass);
-                        TempData["success"] = "تم الحفظ بنجاح";
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        TempData["Error"] = "الاسم موجود مسبقا";
-                        return View(functionalClass);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    TempData["SystemError"] = ex.Message;
-                    return View(functionalClass);
-                }
+               await _functionalClassesRepository.AddAsync(functionalClass);
+                TempData["success"] = "تم الحفظ بنجاح";
+                return RedirectToAction(nameof(Create));
 
                 //return RedirectToAction(nameof(Index));
             }
-            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
             ViewData["CurrencyId"] = new SelectList(_context.Set<Currency>(), "Id", "CurrencyCode", functionalClass.CurrencyId);
             return View(functionalClass);
         }

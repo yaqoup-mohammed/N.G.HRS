@@ -31,7 +31,6 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             return View(await appDbContext.ToListAsync());
         }
 
-
         // GET: EmployeesAffsirs/AdministrativePromotions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -53,27 +52,10 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AdministrativePromotions/Create
-
-        public async Task<IActionResult> Create(int? id)
+        public async Task<IActionResult> Create()
         {
-            if(id != null)
-            {
-                await PopulateDropdownListsAsync();
-
-                var administrativePromotions = await _administrativePromotionsRepository.GetByIdAsync(id);
-                if (administrativePromotions == null)
-                {
-                    return NotFound();
-                }
-                return View(administrativePromotions);
-            }
-            else
-            {
-                await PopulateDropdownListsAsync();
-                return View();
-            }
-
-
+            await PopulateDropdownListsAsync();
+            return View();
         }
 
         // POST: EmployeesAffsirs/AdministrativePromotions/Create
@@ -81,85 +63,79 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, AdministrativePromotions administrativePromotions)
+        public async Task<IActionResult> Create([Bind("Id,Date,EmployeeId,DepartmentsId,FromDate,ToDate,Notes")] AdministrativePromotions administrativePromotions)
         {
-            if(id== null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                await PopulateDropdownListsAsync();
+                var empl = _context.employee.Find(administrativePromotions.EmployeeId);
+                empl.DepartmentsId = administrativePromotions.DepartmentsId;
+                //_context.employee.Update(_employee);
+                var dep = _context.Departments.Find(administrativePromotions.DepartmentsId);
+                if (empl !=null)
                 {
-                    try
-                    {
-                        await PopulateDropdownListsAsync();
-                        var empl = _context.employee.Find(administrativePromotions.EmployeeId);
-                        //empl.DepartmentsId = administrativePromotions.DepartmentsId;
-                        //_context.employee.Update(_employee);
-                        var dep = _context.Departments.Find(administrativePromotions.DepartmentsId);
-                        if (empl != null && dep != null)
-                        {
-                            if (empl.DepartmentsId == administrativePromotions.DepartmentsId)
-                            {
-                                TempData["Error"] = "يجب تحديث بيانات الموظف " + empl.EmployeeName + " لأنه لم يتم تحديثه بعد";
-                                return View(administrativePromotions);
-                            }   
-                            else
-                            {
-                                while(administrativePromotions.FromDate == DateTime.Now) {
-                                    empl.DepartmentsId = administrativePromotions.DepartmentsId;
-                                    TempData["Success"] = "تم تحديث بيانات الموظف " + empl.EmployeeName + " بنجاح";
-                                    _context.employee.Update(empl);
-                                    _context.SaveChanges();
-                                    break;
-                                }
-
-
-                            }
-
-                        }
-                        TempData["Success"] = "تم الحفظ بنجاح" + "سيتم نقل الموظف " + empl.EmployeeName + " الي إدارة " + dep.SubAdministration + " بتاريخ " + administrativePromotions.FromDate.ToString("dd/MM/yyyy"); ;
-                        await _administrativePromotionsRepository.AddAsync(administrativePromotions);
-                        return RedirectToAction(nameof(Index));
-                    }
-                    catch(Exception ex)
-                    {
-                        TempData["SystemError"] = ex.Message;
-                        return View(administrativePromotions);
-                    }
+                    _context.employee.Update(empl);
                 }
-                return View(administrativePromotions);
+                TempData["Success"] = "تم الحفظ بنجاح";
+                TempData["Done"] = "سيتم نقل الموظف " + empl.EmployeeName + " الي إدارة " + dep.SubAdministration + " بتاريخ " + administrativePromotions.FromDate.ToString("dd/MM/yyyy"); ;
+                await _administrativePromotionsRepository.AddAsync(administrativePromotions);
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                if (id != administrativePromotions.Id)
-                {
-                    TempData["Error"] = "هذا الموظف ليس موجود !!";
-                    return NotFound();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    await PopulateDropdownListsAsync();
-                    try
-                    {
-                        await _administrativePromotionsRepository.UpdateAsync(administrativePromotions);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!AdministrativePromotionsExists(administrativePromotions.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(administrativePromotions);
-            }
+            return View(administrativePromotions);
         }
 
-       
+        // GET: EmployeesAffsirs/AdministrativePromotions/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            await PopulateDropdownListsAsync();
+
+            var administrativePromotions = await _administrativePromotionsRepository.GetByIdAsync(id);
+            if (administrativePromotions == null)
+            {
+                return NotFound();
+            }
+            return View(administrativePromotions);
+        }
+
+        // POST: EmployeesAffsirs/AdministrativePromotions/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmployeeId,DepartmentsId,FromDate,ToDate,Notes")] AdministrativePromotions administrativePromotions)
+        {
+            if (id != administrativePromotions.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await PopulateDropdownListsAsync();
+                try
+                {
+                    await _administrativePromotionsRepository.UpdateAsync(administrativePromotions);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AdministrativePromotionsExists(administrativePromotions.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(administrativePromotions);
+        }
+
         // GET: EmployeesAffsirs/AdministrativePromotions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -177,7 +153,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
                 return NotFound();
             }
 
-            return PartialView("_Delete",administrativePromotions);
+            return View(administrativePromotions);
         }
 
         // POST: EmployeesAffsirs/AdministrativePromotions/Delete/5
@@ -209,37 +185,29 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             var Departments = await _context.Departments.ToListAsync();
             ViewData["Departments"] = new SelectList(Departments, "Id", "SubAdministration");
         }
-
-        public IActionResult LoudData(int id)
+        public IActionResult LoadDepartments(int? id)
         {
-            if (id != 0)
-            {
-                try
-                {
-                    var employee = _context.employee.Find(id);
-                    if (employee != null)
+            if (id !=0)
                     {
-                       return Ok(employee);
-                    }
-                    else
-                    {
-                        TempData["Message"] = "لم يتم العثور على الموظف المطلوب!";
-                        return Ok();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    TempData["Message"] = ex.Message;
-                    return Ok();
-                }
+                var employee = _context.employee.Where(e => e.DepartmentsId == id).ToList();
+                return Ok(employee);
+
             }
             else
             {
-                TempData["Message"] = "أختر الموظف";
-                return Ok();
+                var employee = _context.employee.ToList();
+                return Ok(employee);
             }
-        }
-    
 
+        }
+        public IActionResult LoadEmployees()
+        {
+
+                var employee = _context.employee.ToList();
+                return Ok(employee);
+            
+
+        }
+            
     }
 }

@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.PenaltiesAndViolations.Models.PenaltiesAndViolationsForms>
 
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "المخالفات والعفوبات ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 <h1>Index</h1>

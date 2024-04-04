@@ -1,12 +1,13 @@
 ﻿@model N.G.HRS.Areas.PenaltiesAndViolations.Models.PenaltiesAndViolationsForms
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = " المخالفات والعقوبات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
-
 
 <h1>Create</h1>
 
@@ -39,24 +40,19 @@
                 <h6 class="card-title">نماذج المخالفات والعقوبات</h6>
 
                 <form asp-action="Create">
-                    <div class="row ">
+                    <div id="Violations" class="row ">
                         <div class="mb-3 col-md-6">
                             
-                            <label asp-for="Name" class="form-label">اسم النموذج</label>
+                            <label asp-for="Name" class="form-label">اسم المخالفة</label>
                             <input asp-for="Name" class="form-control" id="exampleInputUsername1" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div  class="mb-3 col-md-6">
                            
-                            <label asp-for="ViolationsId" class="form-label"> نوع المخالفة </label>
-                            <select asp-for="ViolationsId" class="form-control" asp-items="ViewBag.ViolationsId"></select>
-
-                        </div>
-                        <div class="mb-3 col-md-6">
-                           
-                            <label asp-for="PenaltiesId" class="form-label"> نوع العقوبة </label>
-                            <select asp-for="PenaltiesId" class="form-control" asp-items="ViewBag.PenaltiesId"></select>
-
+                            <label asp-for="ViolationsId"  class="form-label"> نوع المخالفة </label>
+                            <select asp-for="ViolationsId" class="form-control" asp-items="ViewBag.ViolationsId">
+                                <option value="">  </option>
+                            </select>
                         </div>
 
                         <!-- Row -->
@@ -72,7 +68,7 @@
                         <span asp-validation-for="Notes" class="text-danger"></span>
                     </div>
 
-                    <button type="submit" class="btn btn-primary me-2">
+                    <button type="submit" id="submit" class="btn btn-primary me-2">
                         Submit
                     </button>
                     <button class="btn btn-secondary">Cancel</button>
@@ -86,7 +82,22 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+   
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    document.getElementById("submit").addEventListener("click", function (event) {
+        const ViolationsId = document.getElementById("ViolationsId");
+        if (ViolationsId.value === "") {
+            event.preventDefault(); // Prevent form submission
+            Swal.fire({
+                icon: "error",
+                title: "خطئ....",
+                text: "رجاء أختر  نوع المخالفة",
+            });
+        }
+    });
+
+</script>

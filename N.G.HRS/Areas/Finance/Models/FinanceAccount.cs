@@ -16,13 +16,13 @@ namespace N.G.HRS.Areas.Finance.Models
         public string Name { get; set; }
         [Required]
         [Display( Name = "نوع الحساب" )]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [Display( Name = "الملاحظات" )]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         //==========================================
-        public List<EmployeeAccount> EmployeeAccountsList { get; set; }
+        public List<EmployeeAccount>? EmployeeAccountsList { get; set; }
         //=
-        public List<SectionsAccounts> SectionsAccountsList { get; set; }
+        public List<SectionsAccounts>? SectionsAccountsList { get; set; }
     }
 }
