@@ -1,0 +1,99 @@
+﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.Permits
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+
+
+<h1>Create</h1>
+
+<h4>Permits</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" id="IsNotEmployee" asp-for="IsNotEmployee" /> @Html.DisplayNameFor(model => model.IsNotEmployee)
+                </label>
+            </div>
+            <div class="form-group" id="EmployeeGroup">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                    <option value="">    </option>
+                    </select>
+            </div>
+            <div class="form-group" >
+                <label asp-for="PermitsType" class="control-label"></label>
+                <select asp-for="PermitsType" class="js-example-basic-single  form-select">
+                    <option value="">    </option>
+                    <option value="">دخول</option>
+                    <option value=""> خروج </option>
+                    </select>
+            </div>
+            <div class="form-group" id="NotEmployeeGroup" style="display:none">
+                <label asp-for="NotEmployee" class="control-label"></label>
+                <input asp-for="NotEmployee" class="form-control" />
+                <span asp-validation-for="NotEmployee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purpose" class="control-label"></label>
+                <input asp-for="Purpose" class="form-control" />
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        $(document).ready(function () {
+            $("#NotEmployeeGroup").hide();
+
+            if ($('#IsNotEmployee').is(':checked')) {
+                $("#EmployeeGroup").hide();
+                $("#NotEmployeeGroup").show();
+            }
+            else {
+                $("#EmployeeGroup").show();
+                $("#NotEmployeeGroup").hide();
+            }
+            $('#IsNotEmployee').change(function () {
+                if ($('#IsNotEmployee').is(':checked')) {
+                    $("#EmployeeGroup").hide();
+                    $("#NotEmployeeGroup").show();
+                }
+                else {
+                    $("#EmployeeGroup").show();
+                    $("#NotEmployeeGroup").hide();
+                }
+            });
+        
+        });
+    </script>
+}

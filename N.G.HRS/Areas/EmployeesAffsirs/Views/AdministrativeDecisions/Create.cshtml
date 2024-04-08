@@ -24,9 +24,9 @@
                         <div class="card-body">
                             <div class="row" style="padding-bottom: 15px;">
                                 <div class="col-md-6">
-                                    <label asp-for="Date" class="form-label"></label>
+                                    <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="Date" class="form-control" placeholder="Select time"
+                                        <input asp-for="Date" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -36,8 +36,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label asp-for="DecisionsType" class="form-label"></label>
-                                    <select asp-for="DecisionsType" class="js-example-basic-single  form-select">
+                                    <label asp-for="DecisionsType" class="form-label"></label><span class="text-danger">*</span>
+                                    <select asp-for="DecisionsType" id="DecisionsType" class="js-example-basic-single  form-select">
                                         <option value="" disabled selected> </option>
                                         <option value="1"> التوظيف واعتماد الراتب </option>
                                         <option value="2">زيادة الراتب </option>
@@ -48,23 +48,23 @@
                             </div>
                             <div class="row " style="padding-bottom: 15px;">
 
-                                <div class="col-md-6">
-                                    <label asp-for="EmployeeId" class="form-label"></label>
-                                    <select asp-for="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)">
-                                        <option value="" disabled selected> </option>
+                                <div class="col-md-5 col-12 mb-3">
+                                    <label asp-for="EmployeeId" class="form-label"></label><span class="text-danger">*</span>
+                                    @* <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)"> *@
+                                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" >
                                     </select>
                                 </div>
-                                <div class="col-md-3">
-                                    <label asp-for="EmployeeStatus" class="form-label"></label>
-                                    <select asp-for="EmployeeStatus" class="js-example-basic-single  form-select" asp-items="@(ViewData["Status"] as SelectList)">
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label asp-for="EmployeeStatus" class="form-label"></label><span class="text-danger">*</span>
+                                    <select asp-for="EmployeeStatus" class="js-example-basic-single  form-select" id="EmployeeStatus" asp-items="@(ViewData["Status"] as SelectList)">
                                         <option value="" disabled selected> </option>
                                     </select>
                                     <span asp-validation-for="EmployeeStatus" class="text-danger"></span>
                                 </div>
-                                <div class="col-md-3">
-                                    <label asp-for="SalaryStartDate" class="form-label"></label>
+                                <div class="col-md-4 col-12 mb-3" id="SalaryStartDateGroup">
+                                    <label asp-for="SalaryStartDate" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="SalaryStartDate" class="form-control" placeholder="Select time"
+                                        <input asp-for="SalaryStartDate" id="SalaryStartDate" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -75,26 +75,38 @@
 
                                 </div>
                             </div>
-                            <div class="row " style="padding-bottom: 15px;">
-                                <div class="col-md-5">
-                                    <label asp-for="Salary" class="form-label"></label>
-                                    <input asp-for="Salary" class="form-control" />
-                                    <span asp-validation-for="Salary" class="text-danger"></span>
+                            <div class="row mb-2" style="padding-bottom: 15px;" id="SalaryGroup">
+                                <div class="col-md-5 col-12 mb-3">
+                                    <label asp-for="Salary" class="form-label"></label><span class="text-danger">*</span>
+                                    <input asp-for="Salary" id="Salary" class="form-control" />
+                                    <span asp-validation-for="Salary"  class="text-danger"></span>
                                 </div>
-                                <div class="col-md-3">
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="CurrencyId" class="form-label"></label>
-                                    <select asp-for="CurrencyId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Currency"] as SelectList)">
+
+                                <div class="col-md-3 col-12 mb-3" id="CurrencyGroup">
+                                    <label asp-for="CurrencyId" class="form-label"></label><span class="text-danger">*</span>
+                                    <select asp-for="CurrencyId" id="CurrencyId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Currency"] as SelectList)">
                                         <option value="" disabled selected> </option>
                                     </select>
+                                </div>
+                                <div class="col-md-4 col-12 mb-3" id="SalaryEndtDateGroup">
+                                    <label asp-for="SalaryEndtDate" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="SalaryEndtDate" id="SalaryEndtDate" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="SalaryEndtDate" class="text-danger"></span>
+
+                                    </div>
+
                                 </div>
                             </div>
 
                             <div class="row " style="padding-bottom: 15px;">
                                 <div class="col-md-12">
-                                    <label asp-for="EmployeementReson" class="form-label"></label>
-                                    <input asp-for="EmployeementReson" class="form-control" />
+                                    <label asp-for="EmployeementReson" class="form-label"><span class="actionPluse" style="display:none">أسباب الزيادة </span><span style="display:none" class="actionMinus">أسباب الخفض</span><span style="display:none" class="actionEmplotee">أسباب التوظيف </span><span class="text-danger">*</span></label>
+                                    <input asp-for="EmployeementReson" id="EmployeementReson" class="form-control" />
                                     <span asp-validation-for="EmployeementReson" class="text-danger"></span>
                                 </div>
 
@@ -102,8 +114,8 @@
 
                             <div class="row " style="padding-bottom: 15px;">
                                 <div class="col-md-12">
-                                    <label asp-for="EmployeementOn" class="form-label"></label>
-                                    <input asp-for="EmployeementOn" class="form-control" />
+                                    <label asp-for="EmployeementOn" class="form-label"><span style="display:none" class="actionPluse">الزيادة بناء على</span><span style="display:none" class="actionMinus">الخفض بناء على</span><span style="display:none" class="actionEmplotee">التوظيف بناء على</span><span class="text-danger">*</span></label>
+                                    <input asp-for="EmployeementOn" id="EmployeementOn" class="form-control" />
                                     <span asp-validation-for="EmployeementOn" class="text-danger"></span>
                                 </div>
                             </div>
@@ -116,22 +128,22 @@
                             </div>
 
 
-                                        <input type="submit" id="submit" value="إنشاء" class="btn btn-primary" />
-                                        <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
+                            <input type="submit" id="submit" value="إنشاء" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
 
 
-                            </div>
                         </div>
+                    </div>
 
                 </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" >
                 <div class="card">
                     <div class="card-header">
                         <h3>بيانات الموظف الحالية</h3>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
+                    <div class="card-body" >
+                        <div class="row" id="InfoGroup" style="pointer-events: none; filter: none; opacity: .8;">
                             <div class="col-sm-12">
                                 <label class="form-label"> الفرع</label>
                                 <input type="text" class="form-control" placeholder="الفرع" id="branch" readonly />
@@ -144,7 +156,7 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="form-label"> الوظيفة</label>
-                                <input type="text" class="form-control" placeholder="الوظيفة" id="employeeStatus" readonly />
+                                <input type="text" class="form-control" placeholder="الوظيفة" id="employeeJop" readonly />
 
                             </div>
 
@@ -160,9 +172,9 @@
                                 </div>
 
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" id="employeeSalaryGroup" style="display:none">
                                 <label class="form-label">الراتب </label>
-                                <input type="text" class="form-control" placeholder=" الراتب" id="employeeNo" readonly />
+                                <input type="text" class="form-control" placeholder=" الراتب" id="employeeSalary" readonly />
                             </div>
                         </div>
                     </div>
@@ -180,89 +192,225 @@
     }
     <script>
         $(document).ready(function () {
-            $("#employee").on("change", function () {
-                var id = this.value;
-                if (id != "") {
+            $(".actionEmplotee").show();
 
-                    $.ajax({
-                        url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + id,
-                        type: 'GET',
-                        success: function (data) {
-                            $('#dateOfHire').val(data.dateOfEmployment);
-                            $('#dateOfstiky').val(data.placementDate);
-                            $('#select').val(data.employmentStatus).change();
-                            switch (data.employmentStatus) {
-                                case "1":
-                                    $('#employeeStatus').val("مثبت");
-                                    break;
-                                case "2":
-                                    $('#employeeStatus').val("متعاقد");
-                                    break;
-                                case "3":
-                                    $('#employeeStatus').val("متدرب");
-                                    break;
-                                case "4":
-                                    $('#employeeStatus').val("مستمر");
-                                    break;
-                                case "5":
-                                    $('#employeeStatus').val("موقف");
-                                    break;
-                                case "6":
-                                    $('#employeeStatus').val("تم إنهاء الخدمة");
-                                    break;
-                                case "7":
-                                    $('#employeeStatus').val("حارس أمن");
-                                    break;
-                                default:
-                                    $('#employeeStatus').val(data.employmentStatus);
-                                    break;
+            $("#EmployeeStatus").on("change", function () {
 
-                            }
-
-                        }
-                    });
+                const start = document.getElementById("SalaryStartDateGroup");
+                const end = document.getElementById("SalaryEndtDateGroup");
+                const salarygroup = document.getElementById("SalaryGroup");
+                const currencygroup = document.getElementById("CurrencyGroup");
+                if (this.value == 3 || this.value == 6) {
+                    start.style = `pointer-events: none; filter: none; opacity: .7;`;;
+                    end.style = `pointer-events: none; filter: none; opacity: .7;`;
+                    currencygroup.style = `pointer-events: none; filter: none; opacity: .7;`;
+                    salarygroup.style = `pointer-events: none; filter: none; opacity: .7;`;
+                    // $("#Salary").val("");
+                    // $("#SalaryStartDate").val("");
+                    // $("#SalaryEndtDate").val("");
+                    // $("#CurrencyId").val("").change();
                 }
                 else {
+                    start.style = `pointer-events: all; filter: none; opacity: 1;`;
+                    end.style = `pointer-events: all; filter: none; opacity: 1;`;
+                    currencygroup.style = `pointer-events: all; filter: none; opacity: 1;`;
+                    salarygroup.style = `pointer-events: all; filter: none; opacity: 1;`;
+                }
+
+
+            });
+                $("#DecisionsType").on("change", function () {
+                $("#EmployeeId").empty();
+                $("#dateOfHire").val("");
+                $("#employeeNo").val("");
+                $("#EmployeeStatus").val("").change();
+                $("#employeeJop").val("");
+                $("#branch").val("");
+                $("#SalaryStartDate").val("");
+                $("#SalaryEndtDate").val("");
+
+                var id = this.value;
+                if (id != "") {
+                    if (id != 1) {
+                        $("#employeeSalaryGroup").show();
+                        $(".actionEmplotee").hide();
+
+                    }
+                    else {
+                        $("#employeeSalaryGroup").hide();
+                        $(".actionEmplotee").show();
+
+                    }
+                    if (id == 2) {
+                        $(".actionPluse").show();
+                        $(".actionEmplotee").hide();
+
+                    }
+                    else {
+                        $(".actionPluse").hide();
+                    }
+                    if (id == 3) {
+                        $(".actionMinus").show();
+                        $(".actionEmplotee").hide();
+
+                    }
+                    else {
+                        $(".actionMinus").hide();
+                    }
+
+                    $.ajax({
+                        url:
+                            "/EmployeesAffsirs/AdministrativeDecisions/GetEmployee?id=" + id,
+                        type: "GET",
+                        success: function (data) {
+                            $("#EmployeeId").append(`<option value="" selected> </option>`);
+
+                            $.each(data.employeeList, function (i, item) {
+                                $("#EmployeeId").append(`<option value=" ${item.id}" > ${item.name}  </option>`);
+
+                            }
+                            );
+
+                        },
+                        error: function (data) {
+                            Swal.fire({
+                                icon: "error",
+                                title: data,
+                            });
+                        },
+                    });
+
+                }
+
+            });
+            //==========================================
+            $("#EmployeeId").on("change", function () {
+                $("#dateOfHire").val("");
+                $("#employeeNo").val("");
+                $("#EmployeeStatus").val("").change();
+                $("#employeeJop").val("");
+                $("#branch").val("");
+
+                var id = this.value;
+                if (id != "") {
+                    $.ajax({
+                        url:
+                            "/EmployeesAffsirs/AdministrativeDecisions/EmployeeData?id=" + id,
+                        type: "GET",
+                        success: function (data) {
+
+                            $("#dateOfHire").val(data.dateOfEmployment);
+                            $("#employeeNo").val(data.employeeNumber);
+                            $("#EmployeeStatus").val(data.employmentStatus).change();
+                        },
+                    });
+
+                    //====================================
+                    $.ajax({
+                        url:
+                            "/EmployeesAffsirs/AdministrativeDecisions/JopData?id=" + id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data.jopList, function (i, item) {
+                                $("#employeeJop").val(item.name);
+                            });
+
+                        },
+                    });
+                    //====================================
+                    $.ajax({
+                        url:
+                            "/EmployeesAffsirs/AdministrativeDecisions/SalaryData?id=" + id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            $.each(data.statementsList, function (i, item) {
+                                $("#employeeSalary").val(item.name);
+                                $("#Salary").val(item.name);
+                                $("#SalaryStartDate").val(item.date);
+                                $("#CurrencyId").val(item.currency).change();
+                            });
+
+                        },
+                    });
+                    //====================================
+                    $.ajax({
+                        url:
+                            "/EmployeesAffsirs/AdministrativeDecisions/BranchData?id=" + id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data.branchList, function (i, item) {
+                                $("#branch").val(item.name);
+
+                            });
+
+                        },
+                    });
+                } else {
                     Swal.fire({
                         icon: "error",
                         title: "الرجاء أختيار موظف",
                     });
                     const status = document.getElementById("employeeStatus");
                     const dateOfHire = document.getElementById("dateOfHire");
-                    const dateOfstiky = document.getElementById("dateOfstiky");
                     status.value = "";
                     dateOfHire.value = "";
-                    dateOfstiky.value = "";
-                    $('#select').val("").change();
+                    $("#EmployeeStatus").val("").change();
                     event.preventDefault();
                 }
-
             });
             //===============================================
             $("#submit").click(function () {
-                var employee = $("#employee").val();
-                var select = $("#select").val();
-                if (employee == "") {
+                if ($("#EmployeeId").val() == "") {
+
                     event.preventDefault();
                     Swal.fire({
                         icon: "error",
                         title: "الرجاء أختيار موظف",
                     });
-                    event.preventDefault();
-
                 }
-                if (select == "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أختيار موظف",
-                    });
-                    event.preventDefault();
-
+                if ($("#EmployeeStatus").val() != 6 || $("#EmployeeStatus").val()!=3) {
+                    if ($("#SalaryStartDate").val() == "") {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: "error",
+                            title: `الرجاء ادخال <span class="text-danger">تاريخ بداية الاجر</span>`,
+                        });
+                    }
+                    else if ($("#Salary").val() == "") {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: "error",
+                            title: `الرجاء ادخال <span class="text-danger">الراتب</span>`,
+                        });
+                    }
+                    else if ($("#SalaryEndtDate").val()=="" ) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: "error",
+                            title: `الرجاء ادخال <span class="text-danger">تاريخ نهاية الاجر</span>`,
+                        });
+                    }
+                    else if ($("#EmployeementReson").val() == "") {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: "error",
+                            title: `الرجاء ادخال <span class="text-danger">أسباب التوظيف</span>`,
+                        });
+                    }
+                    else if ($("#EmployeementOn").val() == "") {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: "error",
+                            title: `الرجاء ادخال حقل <span class="text-danger">التوظيف بناء على</span>`,
+                        });
+                    }
                 }
+
             });
-
-
         });
     </script>
     @if (TempData["Message"] != null)

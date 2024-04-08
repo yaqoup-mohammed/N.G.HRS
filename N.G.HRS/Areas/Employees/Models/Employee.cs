@@ -24,26 +24,33 @@ namespace N.G.HRS.Areas.Employees.Models
         public string? EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
-        public string EmployeeName { get; set; }//
+        public string? EmployeeName { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Employment")]
-        public DateOnly DateOfEmployment { get; set; }//
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? DateOfEmployment { get; set; }//
         [DataType(DataType.Date)]
-        [Display(Name = "Placement Date")]
-        public DateOnly PlacementDate { get; set; }//تاريخ التثبيت//
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? PlacementDate { get; set; }//تاريخ التثبيت//
         [Required]
         [StringLength(100)]
-        public string EmploymentStatus { get; set; }//
+        public string? EmploymentStatus { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Rehire Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateOnly? RehireDate { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Stopping Work")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateOnly? DateOfStoppingWork { get; set; }//
         public bool UsedFingerprint { get; set; }//
         public bool SubjectToInsurance { get; set; }//خاضع للتامين //
         [DataType(DataType.Date)]
         [Display(Name = "Date Insurance ")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateOnly? DateInsurance { get; set; }//
         public byte FingerPrintImage { get; set; }//
         public string? ImageFile { get; set; }
@@ -77,6 +84,9 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
         //=====================================           
         public List<VacationAllowances>? VacationAllowancesList { get; set; }
+
+        //=====================================
+        public List<Permits>? PermitsList { get; set; }
 
         //=====================================
         [ForeignKey("FingerprintDevicesId")]

@@ -1142,7 +1142,7 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeNumber = table.Column<int>(type: "int", nullable: false),
+                    EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeName = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: false),
                     DateOfEmployment = table.Column<DateOnly>(type: "date", nullable: false),
                     PlacementDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -1159,7 +1159,8 @@ namespace N.G.HRS.Migrations
                     SectionsId = table.Column<int>(type: "int", nullable: false),
                     JobDescriptionId = table.Column<int>(type: "int", nullable: false),
                     FingerprintDevicesId = table.Column<int>(type: "int", nullable: true),
-                    ManagerId = table.Column<int>(type: "int", nullable: true)
+                    ManagerId = table.Column<int>(type: "int", nullable: true),
+                    CurrentJop = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1227,6 +1228,38 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AdministrativeDecisions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    SalaryStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    EmployeementReson = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DecisionsType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeementOn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdministrativeDecisions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdministrativeDecisions_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AdministrativeDecisions_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AdministrativePromotions",
                 columns: table => new
                 {
@@ -1261,7 +1294,7 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Goals = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -1402,8 +1435,8 @@ namespace N.G.HRS.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateDown = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    jopdescriptionId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    jopdescriptionId = table.Column<int>(type: "int", nullable: true),
                     CurrentJop = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastJop = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -1596,8 +1629,8 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NatureOfEmployment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InsuranceAccountNumber = table.Column<int>(type: "int", nullable: false),
-                    BankAccountNumber = table.Column<int>(type: "int", nullable: false),
+                    InsuranceAccountNumber = table.Column<int>(type: "int", nullable: true),
+                    BankAccountNumber = table.Column<int>(type: "int", nullable: true),
                     SalaryStartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     SalaryEndDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -1987,12 +2020,44 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeViolations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ViolationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOnly = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Discounts = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ReceiptOfNotifications = table.Column<bool>(type: "bit", nullable: false),
+                    Exempt = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    ViolationId = table.Column<int>(type: "int", nullable: true),
+                    PenaltiesId = table.Column<int>(type: "int", nullable: true),
+                    NumberPenalties = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeViolations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeViolations_Violations_ViolationId",
+                        column: x => x.ViolationId,
+                        principalTable: "Violations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EmployeeViolations_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Penalties",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PenaltiesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    PenaltiesName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Deduction = table.Column<bool>(type: "bit", nullable: false),
                     DiscountFromWorkingHours = table.Column<bool>(type: "bit", nullable: false),
                     DeductionFromTheDailyWage = table.Column<bool>(type: "bit", nullable: false),
@@ -2016,8 +2081,8 @@ namespace N.G.HRS.Migrations
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     NumberOfTime = table.Column<int>(type: "int", nullable: false),
-                    ViolationsId = table.Column<int>(type: "int", nullable: false),
-                    PenaltiesId = table.Column<int>(type: "int", nullable: false)
+                    ViolationsId = table.Column<int>(type: "int", nullable: true),
+                    PenaltiesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -2043,6 +2108,16 @@ namespace N.G.HRS.Migrations
                 name: "IX_adjustingTimes_PermanenceModelsId",
                 table: "adjustingTimes",
                 column: "PermanenceModelsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdministrativeDecisions_CurrencyId",
+                table: "AdministrativeDecisions",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdministrativeDecisions_EmployeeId",
+                table: "AdministrativeDecisions",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdministrativePromotions_DepartmentsId",
@@ -2263,6 +2338,21 @@ namespace N.G.HRS.Migrations
                 name: "IX_EmployeesQualifications_qualificationsId",
                 table: "EmployeesQualifications",
                 column: "qualificationsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeViolations_EmployeeId",
+                table: "EmployeeViolations",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeViolations_PenaltiesId",
+                table: "EmployeeViolations",
+                column: "PenaltiesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeViolations_ViolationId",
+                table: "EmployeeViolations",
+                column: "ViolationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmploymentStatusManagement_EmployeeId",
@@ -2533,6 +2623,13 @@ namespace N.G.HRS.Migrations
                 column: "PermanenceModelsId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_EmployeeViolations_Penalties_PenaltiesId",
+                table: "EmployeeViolations",
+                column: "PenaltiesId",
+                principalTable: "Penalties",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Penalties_penaltiesAndViolationsForms_PenaltiesAndViolationsFormsId",
                 table: "Penalties",
                 column: "PenaltiesAndViolationsFormsId",
@@ -2544,14 +2641,17 @@ namespace N.G.HRS.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Penalties_penaltiesAndViolationsForms_PenaltiesAndViolationsFormsId",
-                table: "Penalties");
+                name: "FK_penaltiesAndViolationsForms_Penalties_PenaltiesId",
+                table: "penaltiesAndViolationsForms");
 
             migrationBuilder.DropTable(
                 name: "additionalAccountInformation");
 
             migrationBuilder.DropTable(
                 name: "adjustingTimes");
+
+            migrationBuilder.DropTable(
+                name: "AdministrativeDecisions");
 
             migrationBuilder.DropTable(
                 name: "AdministrativePromotions");
@@ -2609,6 +2709,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "EmployeesQualifications");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeViolations");
 
             migrationBuilder.DropTable(
                 name: "EmploymentStatusManagement");
@@ -2794,10 +2897,10 @@ namespace N.G.HRS.Migrations
                 name: "country");
 
             migrationBuilder.DropTable(
-                name: "penaltiesAndViolationsForms");
+                name: "Penalties");
 
             migrationBuilder.DropTable(
-                name: "Penalties");
+                name: "penaltiesAndViolationsForms");
 
             migrationBuilder.DropTable(
                 name: "Violations");
