@@ -18,22 +18,24 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" id="Directorate" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
+                <input asp-for="Notes" id="DirectorateNotes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GovernorateId" class="control-label"></label>
-                <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId">
+                <label asp-for="GovernorateId"  class="control-label"></label>
+                <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId" as SelectList>
+@*                     <select asp-for="GovernorateId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)">
+ *@
                     <option value="">   </option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="حفظ " class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -43,6 +45,116 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<!-- جدول البيانات المؤقتة -->
+<table id="temporaryTable" class="table" style="display:none;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th> المديريات</th>
+            <th>الملاحظات</th>
+            <th>المحافظة</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<input type="submit" value=" حفظ البيانات " class="btn btn-primary me-2" id="saveDataBtn" />
+
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
+    <script>
+        $(document).ready(function () {
+            var counter = 1;
+
+            // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
+            $("#saveDataBtn").click(function () {
+                $("#temporaryTable tr").each(function () {
+                    var directorate = $(this).find("td:eq(1)").text();
+                    var notes = $(this).find("td:eq(2)").text();
+                    var governorateName = $(this).find("td:eq(3)").text();     // استخراج اسم المحافظة
+                    var governorateId = $(this).find("td:eq(4)").text();// استخراج Id الدولة
+                    if (directorate ) {
+                        SaveDirectorateyData(directorate, notes ? notes : "" , governorateId);
+                    }
+                });
+            });
+
+            $("form").submit(function (event) {
+                event.preventDefault();
+                var directorate = $("#Directorate").val();
+                var notes = $("#DirectorateNotes").val();
+                var governorateId = $("#GovernorateId").val();
+                var governorateName = $("#GovernorateId option:selected").text(); // استخراج اسم الدولة
+
+               
+
+                // تحقق فقط من مديرية لا غير
+                if (directorate) {
+                    $("#temporaryTable tbody").append(
+                        "<tr>" +
+                        "<td>" + counter + "</td>" +
+                        "<td contenteditable='true' class='directorate'>" + directorate + "</td>" +
+                        "<td contenteditable='true' class='notes'>" + notes + "</td>" +
+                        "<td contenteditable='true' class='governorateName'>" + governorateName + "</td>" + // عرض اسم الدولة
+                        "<td style='display:none' class='governorateId'>" + governorateId + "</td>" + // إضافة Id الدولة (لإرساله إلى الخادم)
+                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
+                        "</tr>"
+                    );
+                    counter++;
+                    $("#Directorate").val('');
+                    $("#DirectorateNotes").val('');
+                    $("#GovernorateId").val('');
+
+                    $("#temporaryTable").show();
+                }
+            });
+
+            $(document).on("click", ".delete-row", function () {
+                $(this).closest("tr").remove();
+                counter--;
+            });
+        });
+
+        function SaveDirectorateyData(directorate, notes, governorateId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveDirectorateyData", "Directorates")",
+                data: { directorate: directorate, notes: notes, governorateId: governorateId },
+                success: function (response) {
+                    // alert("تم حفظ البيانات بنجاح!");
+                    // لاحاجة لعرض رسالة النجاح، فقط قم بتوجيه المستخدم إلى الصفحة Index
+                    window.location.href = "@Url.Action("Index")";
+                },
+                error: function (xhr, status, error) {
+                    alert("حدث خطأ أثناء حفظ البيانات: " + error);
+                }
+            });
+        }
+
+
+        $("#submit").click(function () {
+            var GovernorateId = $("#GovernorateId").val();
+            var select = $("#select").val();
+            if (GovernorateId == "") {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "الرجاء أختيار المحافظة",
+                });
+                event.preventDefault();
+
+            }
+           
+        });
+
+
+    </script>
+
+    
+
 }
