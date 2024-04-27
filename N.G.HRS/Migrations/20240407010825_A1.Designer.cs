@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240407010825_A1")]
+    partial class A1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -951,7 +954,7 @@ namespace N.G.HRS.Migrations
                     b.Property<DateOnly?>("DateInsurance")
                         .HasColumnType("date");
 
-                    b.Property<DateTime?>("DateOfEmployment")
+                    b.Property<DateTime>("DateOfEmployment")
                         .HasColumnType("datetime2");
 
                     b.Property<DateOnly?>("DateOfStoppingWork")
@@ -993,8 +996,8 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime?>("PlacementDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("PlacementDate")
+                        .HasColumnType("date");
 
                     b.Property<DateOnly?>("RehireDate")
                         .HasColumnType("date");
@@ -1111,19 +1114,17 @@ namespace N.G.HRS.Migrations
 
                     b.Property<string>("NatureOfEmployment")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime?>("SalaryEndDate")
-                        .IsRequired()
+                    b.Property<DateTime>("SalaryEndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("SalaryStartDate")
-                        .IsRequired()
+                    b.Property<DateTime>("SalaryStartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -1435,7 +1436,7 @@ namespace N.G.HRS.Migrations
                     b.Property<DateTime?>("SalaryEndtDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("SalaryStartDate")
+                    b.Property<DateTime>("SalaryStartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -1573,39 +1574,6 @@ namespace N.G.HRS.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("EmploymentStatusManagement");
-                });
-
-            modelBuilder.Entity("N.G.HRS.Areas.EmployeesAffsirs.Models.Permits", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsNotEmployee")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NotEmployee")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Purpose")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Permits");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.Currency", b =>
@@ -3643,16 +3611,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("N.G.HRS.Areas.EmployeesAffsirs.Models.Permits", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
-                        .WithMany("PermitsList")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.ContractTerms", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Contracts", "Contracts")
@@ -4068,8 +4026,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("OneFingerprintList");
 
                     b.Navigation("OpeningBalancesForVacationsList");
-
-                    b.Navigation("PermitsList");
 
                     b.Navigation("PracticalExperiencesList");
 

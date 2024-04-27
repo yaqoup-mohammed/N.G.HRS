@@ -21,7 +21,11 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Models
         [Display(Name = "تاريخ بداية الاجر")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime SalaryStartDate { get; set; }
+        public DateTime? SalaryStartDate { get; set; }
+        [Display(Name = "تاريخ نهاية الاجر")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? SalaryEndtDate { get; set; }
         [Display(Name = "الراتب")]
         public decimal Salary { get; set; }
         [Display(Name = "العملة")]

@@ -8,53 +8,89 @@
 {
 
     <script type="text/javascript">
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: '@TempData["Success"]',  
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        });
+            console.log("@TempData["Success"]");
+            alert("@TempData["Success"]");
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '@TempData["Success"]',
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+           @*       Swal.fire('Excellent','Good job!','success');
+               *@
 
-        @*       Swal.fire('Excellent','Good job!','success');
-        *@
+           </script>
 
+           }
+
+@if (TempData["Error"] != null)
+{
+
+
+    <script>
+        event.preventDefault();
+            alert("@TempData["Error"]");
+            console.log("@TempData["Error"]");
+            Swal.fire({
+                icon: 'error',
+                title: '@TempData["Error"]',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
     </script>
-
-}
-<<<<<<< HEAD
-
-@if(TempData["Error"]!=null){
-
-
-       <script >
-    Swal.fire({
-        icon: 'error',
-        title: '@TempData["Error"]',
-        customClass: {
-            confirmButton: 'btn btn-primary'
-        },
-        buttonsStyling: false
-    });
-       </script>
 }
 @if (TempData["SystemError"] != null)
 {
     <script>
-    Swal.fire({
-        icon: 'error',
-        title: 'حدث خطئ في النظام 😢',
-        text: '@TempData["SystemError"]';
-        footer:'<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
-        customClass: {
-            confirmButton: 'btn btn-primary'
-        },
-        buttonsStyling: false
-    });
+        event.preventDefault();
+            console.log("@TempData["SystemError"]");
+            alert("@TempData["SystemError"]");
+            Swal.fire({
+                icon: 'error',
+                title: 'حدث خطئ في النظام 😢',
+                text: '@TempData["SystemError"]';
+                footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        
+    </script>
+
+}@if (TempData["Reload"] != null)
+{
+    <script>
+            
+            let timerInterval;
+            Swal.fire({
+                title: "جاري فحص البيانات",
+                html: "@TempData["Reload"] <b></b> milliseconds.",
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log("I was closed by the timer");
+                }
+            });
     </script>
 
 }

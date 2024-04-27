@@ -506,6 +506,12 @@ namespace N.G.HRS.Date
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
+            modelBuilder.Entity<Permits>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.PermitsList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
             modelBuilder.Entity<AdministrativeDecisions>()
               .HasOne(p => p.Currency)
               .WithMany(p => p.AdministrativeDecisionsList)
@@ -601,6 +607,7 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models.EmployeeViolations> EmployeeViolations { get; set; } = default!;
         public object Employee { get; internal set; }
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativeDecisions> AdministrativeDecisions { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.Permits> Permits { get; set; } = default!;
 
 
 

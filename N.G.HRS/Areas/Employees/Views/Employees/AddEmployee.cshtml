@@ -66,6 +66,7 @@
                                         <div class="col-md-5 col-12 mb-3">
                                             <label asp-for="Employee.EmployeeNumber" class="form-label">الرقم الوظيفي</label>
                                             <input asp-for="Employee.EmployeeNumber" id="EmployeeNumber" type="text" class="form-control" placeholder="الرقم الوظيفي " />
+
                                             <span asp-validation-for="Employee.EmployeeNumber" class="text-danger"></span>
 
                                         </div>
@@ -109,7 +110,7 @@
                                         </div>
                                         <div class="col-md-3 col-12 mb-3 ">
                                             <label asp-for="Employee.EmploymentStatus" class="form-label"> الحالة الوظيفية</label>
-                                            <select asp-for="Employee.EmploymentStatus" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="Employee.EmploymentStatus" id="EmploymentStatus" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">   </option>
 
 
@@ -119,9 +120,9 @@
                                         </div>
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.DateOfEmployment" class="form-label">تاريخ التوضيف</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="">
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
 
-                                                <input asp-for="Employee.DateOfEmployment" id="DateOfEmployment" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="Employee.DateOfEmployment" id="DateOfEmployment"  class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -132,7 +133,7 @@
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.PlacementDate" class="form-label">تاريخ التثبيت</label>
                                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="Employee.PlacementDate" id="PlacementDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="Employee.PlacementDate" id="PlacementDate"  class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -162,29 +163,31 @@
 
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
-                                            <label asp-for="Employee.DateInsurance" class="form-label"> تاريخ التأمين</label>
-                                            <div class="input-group flatpickr" id="flatpickr-date">
-                                                <input asp-for="Employee.DateInsurance" type="date" class="form-control" placeholder="Select date" data-input>
+                                            <label asp-for="Employee.DateInsurance" class="form-label">تاريخ التأمين</label>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="Employee.DateInsurance" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
-                                                <span asp-validation-for="Employee.DateInsurance" class="text-danger"></span>
                                             </div>
+                                            <span asp-validation-for="Employee.DateInsurance" class="text-danger"></span>
+
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
-                                            <label asp-for="Employee.DateOfStoppingWork" class="form-label">تاريخ إيقاف التوظيف:</label>
-                                            <div class="input-group flatpickr" id="flatpickr-date">
-                                                <input asp-for="Employee.DateOfStoppingWork" type="date" class="form-control" placeholder="Select date" data-input>
+                                            <label asp-for="Employee.DateOfStoppingWork" class="form-label">تاريخ إيقاف التوظيف</label>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="Employee.DateOfStoppingWork" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
                                             </div>
                                             <span asp-validation-for="Employee.DateOfStoppingWork" class="text-danger"></span>
+
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.RehireDate" class="form-label">تاريخ إعادة التوظيف</label>
-                                            <div class="input-group flatpickr" id="flatpickr-date">
-                                                <input asp-for="Employee.RehireDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="Employee.RehireDate" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -357,7 +360,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.DateOfBirth" class="form-label">تاريخ الميلاد:</label>
                                                 <div class="input-group flatpickr" id="flatpickr-date">
-                                                    <input asp-for="PersonalData.DateOfBirth" id="birthdate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                    <input asp-for="PersonalData.DateOfBirth" id="birthdate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                     <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                 </div>
                                                 <span asp-validation-for="PersonalData.DateOfBirth" class="text-danger"></span>
@@ -507,7 +510,7 @@
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.ReleaseDate" class="form-label">تاريخ الاصدار:</label>
                                                             <div class="input-group flatpickr" id="flatpickr-date">
-                                                                <input asp-for="PersonalData.ReleaseDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                                <input asp-for="PersonalData.ReleaseDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                                 <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                             </div>
                                                             <span asp-validation-for="PersonalData.ReleaseDate" class="text-danger"></span>
@@ -518,7 +521,7 @@
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.CardExpiryDate" class="form-label">تاريخ الانتهاء:</label>
                                                             <div class="input-group flatpickr" id="flatpickr-date">
-                                                                <input asp-for="PersonalData.CardExpiryDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                                <input asp-for="PersonalData.CardExpiryDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                                 <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                             </div>
                                                             <span asp-validation-for="PersonalData.CardExpiryDate" class="text-danger"></span>
@@ -604,7 +607,7 @@
                                             <label asp-for="PracticalExperiences.FromDate" class="form-label">من تاريخ:</label>
                                             <div class="input-group flatpickr" id="flatpickr-date">
 
-                                                <input asp-for="PracticalExperiences.FromDate" id="fromDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="PracticalExperiences.FromDate" id="fromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -618,7 +621,7 @@
                                             <label asp-for="PracticalExperiences.ToDate" class="form-label">الى تاريخ:</label>
                                             <div class="input-group flatpickr" id="flatpickr-date">
 
-                                                <input asp-for="PracticalExperiences.ToDate" id="toDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="PracticalExperiences.ToDate" id="toDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -787,40 +790,36 @@
                                         <div class="col-sm-4">
                                             <div class="mb-3">
                                                 <label asp-for="FinancialStatements.NatureOfEmployment" class="form-label">طبيعة التوظيف</label>
-                                                <select asp-for="FinancialStatements.NatureOfEmployment" class="js-example-basic-single form-select">
-                                                    <option value=""> .....</option>
-                                                     <option> رسمي</option>
-                                                     <option> متدرب</option>
-                                                    <option> متعاقد</option>
-                                                    <option> بالاجر اليومي</option>
+                                                <select asp-for="FinancialStatements.NatureOfEmployment" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
+                                                    <option value=""> </option>
 
                                                 </select>
                                                 <span asp-validation-for="FinancialStatements.NatureOfEmployment" class="text-danger"></span>
                                             </div>
                                         </div>
                                             <!-- Col -->
-                                            <div class="col-sm-4">
-                                                <div class="mb-3">
-                                                    <label asp-for="FinancialStatements.SalaryStartDate" class="form-label">تاريخ بداية الاجر:</label>
-                                                    <div class="input-group flatpickr" id="flatpickr-date">
-                                                    <input asp-for="FinancialStatements.SalaryStartDate" type="date" class="form-control" placeholder="Select date" data-input>
-                                                        <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
+                                        <div class="col-md-4 col-12 mb-3">
+                                            <label asp-for="FinancialStatements.SalaryStartDate" class="form-label">تاريخ بداية الأجر</label>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="FinancialStatements.SalaryStartDate" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <span class="input-group-text input-group-addon" data-toggle>
+                                                    <i data-feather="calendar"></i>
+                                                </span>
+                                            </div>  
+                                            <span asp-validation-for="FinancialStatements.SalaryStartDate" class="text-danger"></span>
 
-                                                </div>                                  
-                                                <span asp-validation-for="FinancialStatements.SalaryStartDate" class="text-danger"></span>
-                                                </div>
+                                        </div>
+                                        <div class="col-md-4 col-12 mb-3">
+                                            <label asp-for="FinancialStatements.SalaryEndDate" class="form-label">تاريخ نهاية الأجر </label>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="FinancialStatements.SalaryEndDate" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <span class="input-group-text input-group-addon" data-toggle>
+                                                    <i data-feather="calendar"></i>
+                                                </span>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="mb-3">
-                                                    <label asp-for="FinancialStatements.SalaryEndDate" class="form-label">تاريخ نهاية الاجر:</label>
-                                                    <div class="input-group flatpickr" id="flatpickr-date">
-                                                        <input asp-for="FinancialStatements.SalaryStartDate" type="text" class="form-control" placeholder="Select date" data-input>
-                                                        <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
-                                                </div>                                               
-                                                <span asp-validation-for="FinancialStatements.SalaryStartDate" class="text-danger"></span>
+                                            <span asp-validation-for="FinancialStatements.SalaryEndDate" class="text-danger"></span>
 
-                                                </div>
-                                            </div>
+                                        </div>
                                             <!-- Col -->
                                         </div>
 
@@ -837,7 +836,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"> الى</label>
                                                     <div class="input-group flatpickr" id="flatpickr-date">
-                                                        <input type="text" class="form-control" placeholder="Select date" data-input>
+                                                        <input type="text" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                         <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                     </div>
                                                 </div>
@@ -914,7 +913,7 @@
                                             <label asp-for="TrainingCourses.FromDate" class="form-label">من تاريخ:</label>
                                             <div class="input-group flatpickr" id="flatpickr-date">
 
-                                                <input asp-for="TrainingCourses.FromDate" id="fromDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="TrainingCourses.FromDate" id="fromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -928,7 +927,7 @@
                                             <label asp-for="TrainingCourses.ToDate" class="form-label">الى تاريخ:</label>
                                             <div class="input-group flatpickr" id="flatpickr-date">
 
-                                                <input asp-for="TrainingCourses.ToDate" id="toDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="TrainingCourses.ToDate" id="toDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -992,7 +991,7 @@
                                             <label asp-for="EmployeeArchives.Date" class="form-label"> التاريخ:</label>
                                             <div class="input-group flatpickr" id="flatpickr-date">
 
-                                                <input asp-for="EmployeeArchives.Date" id="fromDate" type="date" class="form-control" placeholder="Select date" data-input>
+                                                <input asp-for="EmployeeArchives.Date" id="fromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -1076,6 +1075,26 @@
 <!-- سكريبت لحساب الفارق بين تاريخ الميلاد والتاريخ الحالي لحساب العمروتحديث حقل الإدخال -->
 <script>
     $(document).ready(function () {
+        $('#RehireDateGroup').prop('disabled', true);
+        $('#DateOfStoppingWorkGroup').prop('disabled', true);
+
+        //========================================
+        $('#EmploymentStatus').change(function () {
+
+            if(this.value==3||this.value==6)
+            {
+                $('#PlacementDate').prop('disabled', true);
+
+
+            }
+            else{
+                $('#PlacementDate').prop('disabled', false);
+
+            }
+        });
+
+
+        //========================================
         // استمع إلى حدث تغيير تاريخ الميلاد
         $("#birthdate").change(function () {
             updateAge();
