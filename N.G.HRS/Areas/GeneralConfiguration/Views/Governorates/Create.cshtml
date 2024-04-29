@@ -1,48 +1,177 @@
-﻿@model N.G.HRS.Areas.GeneralConfiguration.Models.Governorate
+﻿    @model N.G.HRS.Areas.GeneralConfiguration.Models.Governorate
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = " المحافظات";
+    ViewData["Title"] = "المحافظات";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 <h1>Create</h1>
 
 <h4>Governorate</h4>
 <hr />
-<div class="row">
+<div class="row" >
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" id="GovernorateId" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
+                <input asp-for="Notes"  id="GovernorateNotes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId">
+@*                 <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId">  >
+ *@                    <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId" as SelectList>
+
                     <option value="">  </option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="حفظ " class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        <!-- جدول البيانات المؤقتة -->
+        <table id="temporaryTable" class="table" style="display:none;">
+            <thead >
+                <tr>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+                    <th>#</th>
+                   <th> المحافظة</th>
+                    <th>الملاحظات</th>
+                    <th>الدولة</th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <input type="submit" value=" حفظ البيانات " class="btn btn-primary me-2" id="saveDataBtn" />
+
+
+
+        @section Scripts {
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var counter = 1;
+
+            // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
+            $("#saveDataBtn").click(function () {
+                $("#temporaryTable tr").each(function () {
+                    var governorate = $(this).find("td:eq(1)").text();
+                    var notes = $(this).find("td:eq(2)").text();
+                    var countryName = $(this).find("td:eq(3)").text(); // استخراج اسم الدولة
+                    var countryId = $(this).find("td:eq(4)").text(); // استخراج Id الدولة
+
+                    if (governorate) {
+                        SaveGovernorateData(governorate, notes ? notes : "", countryId); // إرسال Id الدولة إلى الخادم
+                    }
+                });
+            });
+
+            $("form").submit(function (event) {
+                event.preventDefault();
+                var governorate = $("#GovernorateId").val();
+                var notes = $("#GovernorateNotes").val();
+                var countryId = $("#CountryId").val();
+                var countryName = $("#CountryId option:selected").text(); // استخراج اسم الدولة
+
+                // تحقق فقط من وجود المحافظة
+                if (governorate) {
+                    $("#temporaryTable tbody").append(
+                        "<tr>" +
+                        "<td>" + counter + "</td>" +
+                        "<td contenteditable='true' class='governorate'>" + governorate + "</td>" +
+                        "<td contenteditable='true' class='notes'>" + notes + "</td>" +
+                        "<td contenteditable='true' class='countryName'>" + countryName + "</td>" + // عرض اسم الدولة
+                        "<td style='display:none' class='countryId'>" + countryId + "</td>" + // إضافة Id الدولة (لإرساله إلى الخادم)
+                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
+                        "</tr>"
+                    );
+                    counter++;
+                    $("#GovernorateId").val('');
+                    $("#GovernorateNotes").val('');
+                    $("#CountryId").val('');
+
+                    $("#temporaryTable").show();
+                }
+            });
+
+            $(document).on("click", ".delete-row", function () {
+                $(this).closest("tr").remove();
+                counter--;
+            });
+        });
+
+        function SaveGovernorateData(governorate, notes, countryId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveGovernorateData", "Governorates")",
+                data: { governorate: governorate, notes: notes, countryId: countryId },
+                success: function (response) {
+                    // alert("تم حفظ البيانات بنجاح!");
+                    // لاحاجة لعرض رسالة النجاح، فقط قم بتوجيه المستخدم إلى الصفحة Index
+                    window.location.href = "@Url.Action("Index")";
+                },
+                error: function (xhr, status, error) {
+                    alert("حدث خطأ أثناء حفظ البيانات: " + error);
+                }
+            });
+        }
+
+
+        $("#submit").click(function () {
+            var CountryId = $("#CountryId").val();
+            var select = $("#select").val();
+            if (CountryId == "") {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "الرجاء أختيار الدولة",
+                });
+                event.preventDefault();
+
+            }
+
+        });
+
+        $("#submit").click(function () {
+            var GovernorateId = $("#GovernorateId").val();
+            var select = $("#select").val();
+            if (GovernorateId == "") {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "الرجاء أختيار المحافظة",
+                });
+                event.preventDefault();
+
+            }
+
+        });
+
+
+    </script>
+
+
+        }
+        
+
+   
+

@@ -437,3 +437,46 @@
     </div>
 </div>
 <!-- row -->
+
+<div class="row" mb-3>
+    <div class="col-md-3">First Value</div>
+    <div class="col-md-9"><input type="text" id="txtval1" class="form-control" /> </div>
+
+
+</div>
+<div class="row" mb-3>
+    <div class="col-md-3">Seconed Value</div>
+    <div class="col-md-9"><input type="text" id="txtval2" class="form-control" /> </div>
+
+
+</div>
+<div class="row" mb-3>
+    <div class="col-md-3"><a href="javasecript:void(0)" class="btn btn-success" onclick="fnSum()">SUM</a> </div> 
+    <div class="col-md-9"> </div>
+
+</div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-9" id="divResult"> </div>
+
+</div>
+<script type="text/javascript">
+    // $(docment).ready(function () {
+    //     console.log("ready!!");
+    //     alert("yaqoup");
+
+    // });
+    function fnSum() {
+        var x = $("#txtval1").val();
+        var y = $("#txtva2").val();
+
+        var z = x+y;
+          // $("#divResult").val(z);
+          
+        alert(z)
+
+
+
+    }
+
+</script>
