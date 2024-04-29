@@ -12,15 +12,15 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240407222219_A4")]
-    partial class A4
+    [Migration("20240428140507_A2")]
+    partial class A2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -693,8 +693,8 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("Balance")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("BalanceYear")
-                        .HasColumnType("date");
+                    b.Property<int>("BalanceYear")
+                        .HasColumnType("int");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
@@ -729,11 +729,11 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("Friday")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("FromTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly?>("FromTime")
+                        .HasColumnType("time");
 
-                    b.Property<string>("Hours")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Hours")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Monday")
                         .HasColumnType("bit");
@@ -760,8 +760,8 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("Thursday")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ToTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly?>("ToTime")
+                        .HasColumnType("time");
 
                     b.Property<bool>("Tuesday")
                         .HasColumnType("bit");
@@ -862,9 +862,6 @@ namespace N.G.HRS.Migrations
                     b.Property<int?>("PeriodId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PeriodsId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("PermanenceModelsId")
                         .HasColumnType("int");
 
@@ -878,7 +875,7 @@ namespace N.G.HRS.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("PeriodsId");
+                    b.HasIndex("PeriodId");
 
                     b.HasIndex("PermanenceModelsId");
 
@@ -1592,6 +1589,9 @@ namespace N.G.HRS.Migrations
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("For")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsNotEmployee")
                         .HasColumnType("bit");
 
@@ -1599,6 +1599,9 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PermitsType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Purpose")
@@ -2188,6 +2191,113 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Universities");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DonorSide")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsConnected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PerDay")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PerHour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PerMinute")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PeriodsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubstituteStaffMemberId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("VacationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PeriodsId");
+
+                    b.HasIndex("SectionId");
+
+                    b.HasIndex("SubstituteStaffMemberId");
+
+                    b.HasIndex("VacationId");
+
+                    b.ToTable("StaffVacations");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.VacationBalance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Annual")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Editorial")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Expendables")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Residual")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShiftHour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Transferred")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("VacationBalance");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.BoardOfDirectors", b =>
@@ -3350,7 +3460,7 @@ namespace N.G.HRS.Migrations
 
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "Periods")
                         .WithMany("StaffTimeList")
-                        .HasForeignKey("PeriodsId");
+                        .HasForeignKey("PeriodId");
 
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", "PermanenceModels")
                         .WithMany("StaffTimesList")
@@ -3681,6 +3791,53 @@ namespace N.G.HRS.Migrations
                         .HasForeignKey("CountryId");
 
                     b.Navigation("CountryOne");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("StaffVacationsList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "Period")
+                        .WithMany("StaffVacationsList")
+                        .HasForeignKey("PeriodsId");
+
+                    b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Sections", "Sections")
+                        .WithMany("StaffVacationsList")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "SubstituteStaffMember")
+                        .WithMany("SubstituteStaffMemberList")
+                        .HasForeignKey("SubstituteStaffMemberId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.PublicHolidays", "Vacation")
+                        .WithMany("StaffVacationsList")
+                        .HasForeignKey("VacationId");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Period");
+
+                    b.Navigation("Sections");
+
+                    b.Navigation("SubstituteStaffMember");
+
+                    b.Navigation("Vacation");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.VacationBalance", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employees")
+                        .WithMany("VacationBalanceList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.BoardOfDirectors", b =>
@@ -4024,6 +4181,8 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("StaffTimeList");
 
+                    b.Navigation("StaffVacationsList");
+
                     b.Navigation("WeekendsList");
                 });
 
@@ -4078,13 +4237,19 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("StaffTimeList");
 
+                    b.Navigation("StaffVacationsList");
+
                     b.Navigation("StatementOfEmployeeFilesList");
 
                     b.Navigation("Subordinates");
 
+                    b.Navigation("SubstituteStaffMemberList");
+
                     b.Navigation("TrainingCoursesList");
 
                     b.Navigation("VacationAllowancesList");
+
+                    b.Navigation("VacationBalanceList");
 
                     b.Navigation("employeeArchives");
 
@@ -4173,6 +4338,8 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.PublicHolidays", b =>
                 {
                     b.Navigation("OpeningBalancesForVacationsList");
+
+                    b.Navigation("StaffVacationsList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.RelativesType", b =>
@@ -4234,6 +4401,8 @@ namespace N.G.HRS.Migrations
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
 
                     b.Navigation("SectionsAccountsList");
+
+                    b.Navigation("StaffVacationsList");
 
                     b.Navigation("staffTimeList");
                 });

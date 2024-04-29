@@ -23,7 +23,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // GET: AttendanceAndDeparture/StaffTimes
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.staffTimes.Include(s => s.Employee).Include(s => s.PermanenceModels).Include(s => s.Sections);
+            var appDbContext = _context.staffTimes.Include(s => s.Employee).Include(s => s.Periods).Include(s => s.PermanenceModels).Include(s => s.Sections);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -37,6 +37,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
             var staffTime = await _context.staffTimes
                 .Include(s => s.Employee)
+                .Include(s => s.Periods)
                 .Include(s => s.PermanenceModels)
                 .Include(s => s.Sections)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -49,7 +50,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/StaffTimes/Create
-        public async Task< IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
 
@@ -65,7 +66,25 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         {
             if (ModelState.IsValid)
             {
-                await PopulateDropdownListsAsync();
+                var employee = _context.employee.FirstOrDefault(x => x.Id == staffTime.EmployeeId);
+                if (employee != null)
+                {
+                    var period = _context.Periods.FirstOrDefault(x => x.Id == staffTime.PeriodId);
+
+                    var balance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == staffTime.EmployeeId);
+                    if (balance != null && period != null)
+                    {
+                        balance.ShiftHour += period.Hours.Value;
+                        _context.VacationBalance.Update(balance);
+                    }
+                    else
+                    {
+                        balance.ShiftHour += period.Hours.Value;
+                        _context.VacationBalance.Add(balance);
+                    }
+
+                }
+
 
                 _context.Add(staffTime);
                 await _context.SaveChangesAsync();
@@ -113,8 +132,26 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
                 try
                 {
-                    _context.Update(staffTime);
-                    await _context.SaveChangesAsync();
+                    var period = _context.Periods.FirstOrDefault(x => x.Id == staffTime.PeriodId);
+                    if (period != null)
+                    {
+                        var balance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == staffTime.EmployeeId);
+                        if (balance != null)
+                        {
+
+                                balance.ShiftHour -= period.Hours.Value;
+                                _context.VacationBalance.Update(balance);
+                                await _context.SaveChangesAsync();
+
+                                balance.ShiftHour += period.Hours.Value;
+                                _context.VacationBalance.Update(balance);
+                                _context.Update(staffTime);
+                                await _context.SaveChangesAsync();
+                            
+                        }
+
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,6 +171,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             return View(staffTime);
         }
 
+
         // GET: AttendanceAndDeparture/StaffTimes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -144,6 +182,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
             var staffTime = await _context.staffTimes
                 .Include(s => s.Employee)
+                .Include(s => s.Periods)
                 .Include(s => s.PermanenceModels)
                 .Include(s => s.Sections)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -163,6 +202,14 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             var staffTime = await _context.staffTimes.FindAsync(id);
             if (staffTime != null)
             {
+                var result = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == staffTime.EmployeeId);
+                var period = _context.Periods.FirstOrDefault(x => x.Id == staffTime.PeriodId);
+                if (result != null && period != null)
+                {
+                    result.ShiftHour -= period.Hours.Value;
+                    _context.VacationBalance.Update(result);
+                }
+
                 _context.staffTimes.Remove(staffTime);
             }
 
@@ -174,6 +221,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         {
             return _context.staffTimes.Any(e => e.Id == id);
         }
+
         private async Task PopulateDropdownListsAsync()
         {
             //var department = await _context.Departments.ToListAsync();
@@ -192,6 +240,66 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             ViewData["PeriodsId"] = new SelectList(period, "Id", "PeriodsName");
 
 
+        }
+        public IActionResult GetEmployee(int? id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+
+            }
+            else
+            {
+                var employee = _context.employee.FirstOrDefault(x => x.Id == id);
+                return Json(employee);
+            }
+        }
+        public IActionResult GetPermanenceModels(int? id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+
+            }
+            else
+            {
+                var permanance = _context.periods.Where(x => x.PermanenceModelsId == id).ToList().Select(x => new { id = x.Id, name = x.PeriodsName, from = x.FromTime, to = x.ToTime, hours = x.Hours });
+                return Json(permanance);
+            }
+        }
+        public IActionResult CheackGetPermanenceModels(int? id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+
+            }
+            else
+            {
+                var permanance = _context.staffTimes.Include(x => x.PermanenceModels).Where(x => x.EmployeeId == id).Select(x => new { id = x.PermanenceModelsId,perId=x.PeriodId, name = x.PermanenceModels.PermanenceName});
+                if (permanance != null)
+                {
+                    return Json(permanance);
+                }
+            }
+            return NotFound();
+        }
+        public IActionResult CheackPeriod(int? id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+
+            }
+            else
+            {
+                var permanance = _context.staffTimes.Where(x => x.EmployeeId == id).Select(x => new { id=x.PeriodId});
+                if (permanance != null)
+                {
+                    return Json(permanance);
+                }
+            }
+            return NotFound();
         }
     }
 }

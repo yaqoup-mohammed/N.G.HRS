@@ -10,90 +10,233 @@
 
 
 
-<h1>Create</h1>
 
-<h4>Permits</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-action="index" asp-controller="Home" asp-area=""> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item ">
+            عمليات النظام
+        </li>
+        <li class="breadcrumb-item ">
+            الشؤون الادارية
+        </li>
+        <li class="breadcrumb-item " aria-current="page">
+            <a asp-action="index"> التصاريح</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <h6 style="display:inline-block">جديد</h6>
+        </li>
+    </ol>
+</nav>
+
+<br />
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title"><h3>جديد</h3></div>
+        <hr />
+        <div class="row  " >
+            <div class="col-md-12">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row mb-3 set" >
+                        <div class="form-group col-md-4">
+                            <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="Date" class="form-control" placeholder="أدخل التاريخ"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="Date" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6" id="NotEmployeeGroup" style="display:none">
+                            <label asp-for="NotEmployee" class="form-label"></label><span class="text-danger">*</span>
+                            <input asp-for="NotEmployee" id="NotEmployee" class="form-control" />
+                            <span asp-validation-for="NotEmployee" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6" id="EmployeeGroup">
+                            <label asp-for="EmployeeId" class="form-label"></label><span class="text-danger">*</span>
+                            <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                <option value="">    </option>
+                            </select>
+                        </div>
+                        <div class="form-group form-check col-md-2">
+                            <label class="form-check-label">
+                                <input class="form-check-input" id="IsNotEmployee" asp-for="IsNotEmployee" /> @Html.DisplayNameFor(model => model.IsNotEmployee)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-4">
+                            <label asp-for="PermitsType" class="form-label"> </label><span class="text-danger">*</span>
+                            <select asp-for="PermitsType" id="PermitsType" class="js-example-basic-single  form-select">
+                                <option value="">    </option>
+                                <option value="in">دخول</option>
+                                <option value="out"> خروج </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label asp-for="For" class="form-label">
+                                <span id="in">إدخال</span><span id="out">إخراج</span>
+                                <span id="purposeFor">نوع التصريح</span>
+                            </label><span class="text-danger">*</span>
+                            <input asp-for="For" id="for" class="form-control" />
+                            <span asp-validation-for="For" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Purpose" class="form-label"></label><span class="text-danger">*</span>
+                        <input asp-for="Purpose" id="purpose" class="form-control" />
+                        <span asp-validation-for="Purpose" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Note" class="form-label"></label>
+                        <input asp-for="Note" class="form-control" />
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-light">Back to List</a>
+
+                    </div>
+                </form>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" id="IsNotEmployee" asp-for="IsNotEmployee" /> @Html.DisplayNameFor(model => model.IsNotEmployee)
-                </label>
-            </div>
-            <div class="form-group" id="EmployeeGroup">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
-                    <option value="">    </option>
-                    </select>
-            </div>
-            <div class="form-group" >
-                <label asp-for="PermitsType" class="control-label"></label>
-                <select asp-for="PermitsType" class="js-example-basic-single  form-select">
-                    <option value="">    </option>
-                    <option value="">دخول</option>
-                    <option value=""> خروج </option>
-                    </select>
-            </div>
-            <div class="form-group" id="NotEmployeeGroup" style="display:none">
-                <label asp-for="NotEmployee" class="control-label"></label>
-                <input asp-for="NotEmployee" class="form-control" />
-                <span asp-validation-for="NotEmployee" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Purpose" class="control-label"></label>
-                <input asp-for="Purpose" class="form-control" />
-                <span asp-validation-for="Purpose" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Note" class="control-label"></label>
-                <input asp-for="Note" class="form-control" />
-                <span asp-validation-for="Note" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+        </div>
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
 
         $(document).ready(function () {
             $("#NotEmployeeGroup").hide();
-
+            $('#in').hide();
+            $('#out').hide();
             if ($('#IsNotEmployee').is(':checked')) {
                 $("#EmployeeGroup").hide();
+                $("#Employee").val("").change();
                 $("#NotEmployeeGroup").show();
             }
             else {
                 $("#EmployeeGroup").show();
                 $("#NotEmployeeGroup").hide();
+                $("#NotEmployee").val("");
             }
             $('#IsNotEmployee').change(function () {
                 if ($('#IsNotEmployee').is(':checked')) {
                     $("#EmployeeGroup").hide();
+                    $("#Employee").val("").change();
                     $("#NotEmployeeGroup").show();
                 }
                 else {
                     $("#EmployeeGroup").show();
                     $("#NotEmployeeGroup").hide();
+                    $("#NotEmployee").val("");
                 }
             });
-        
+            $('#PermitsType').change(function () {
+                if (this.value == "") {
+                    $('#purposeFor').show();
+                    $('#in').hide();
+                    $('#out').hide();
+
+                }
+                else if (this.value == "in") {
+                    $('#purposeFor').hide();
+                    $('#in').show();
+                    $('#out').hide();
+
+                }
+                else if (this.value == "out") {
+                    $('#purposeFor').hide();
+                    $('#in').hide();
+                    $('#out').show();
+                }
+
+            });
+            $('#submit').click(function () {
+                if ($('#IsNotEmployee').is(':checked')) {
+                    if ($("#NotEmployee").val() == "") {
+                        event.preventDefault();
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'يرجى إدخال اسم حامل التصريح!!',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                    }
+
+                }
+                else{
+                    if ($("#Employee").val() == "") {
+                        event.preventDefault();
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'يرجى إدخال الموظف!!',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                    }
+                }
+                if ($("#purpose").val() == "") {
+                    event.preventDefault();
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال حقل الغرض!!',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+                if ($("#for").val() == "") {
+                    event.preventDefault();
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال حقل نوع التصريح /بإدخال / بإخراج!!',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+                if ($("#PermitsType").val() == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال حقل نوع التصريح !!',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+            });
+
+
         });
     </script>
 }

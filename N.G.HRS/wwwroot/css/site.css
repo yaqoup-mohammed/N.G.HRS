@@ -401,3 +401,45 @@ span[data-img-src]::after {
     width: var(--width);
     background-repeat: no-repeat;
 }
+.set {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+.read-only {
+    pointer-events: none;
+    filter: none;
+    opacity: .8;
+}
+.space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.index-title {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 24px !important;
+    width: 15% !important;
+}
+/*======================================================*/
+.alertclose {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    font-size: 25px;
+    color: #808080ad;
+    float: left;
+    position: relative;
+    bottom: 16px;
+}
+hr.message-inner-separator {
+    clear: both;
+    margin-bottom: 0px;
+    border-bottom: 2px solid;
+}

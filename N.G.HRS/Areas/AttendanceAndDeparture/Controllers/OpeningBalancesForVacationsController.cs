@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
+using OfficeDevPnP.Core.Extensions;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 {
@@ -26,7 +28,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // GET: AttendanceAndDeparture/OpeningBalancesForVacations
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.openingBalancesForVacations.Include(o => o.Employee).Include(o => o.PublicHolidays);
+            var appDbContext = _context.openingBalancesForVacations.Include(o => o.Employee).Include(o => o.PublicHolidays).OrderBy(x => x.EmployeeId);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -69,7 +71,136 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             {
                 await PopulateDropdownListsAsync();
 
-                _openingBalancesForVacationsRepository.AddAsync(openingBalancesForVacations);
+                if (openingBalancesForVacations.EmployeeId == 0)
+                {
+                    try
+                    {
+
+
+
+                        var employees = await _context.employee.ToListAsync();
+                        foreach (var emp in employees)
+                        {
+                            var openBalance= await _context.openingBalancesForVacations.Where(x=>x.PublicHolidaysId==openingBalancesForVacations.PublicHolidaysId && x.EmployeeId==emp.Id && x.BalanceYear==openingBalancesForVacations.BalanceYear).FirstOrDefaultAsync();
+                            if (openBalance == null )
+                            {
+                                    var voc = new OpeningBalancesForVacations
+                                    {
+                                        BalanceYear = openingBalancesForVacations.BalanceYear,
+                                        Balance = openingBalancesForVacations.Balance,
+                                        Date = openingBalancesForVacations.Date,
+                                        Notes = openingBalancesForVacations.Notes,
+                                        PublicHolidaysId = openingBalancesForVacations.PublicHolidaysId,
+                                        EmployeeId = emp.Id
+
+                                    };
+                                var vacatiBalance=_context.VacationBalance.Where(x=>x.EmployeeId==emp.Id ).FirstOrDefault();
+                                if (vacatiBalance != null)
+                                {
+                                    vacatiBalance.Editorial += openingBalancesForVacations.Balance;
+                                    if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                                    {
+                                        vacatiBalance.Annual = openingBalancesForVacations.Balance;
+
+                                    }
+                                     _context.VacationBalance.Update(vacatiBalance);
+
+                                }
+                                else
+                                {
+                                    if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                                    {
+                                        var vacaBalance = new VacationBalance
+                                        {
+                                            Editorial = openingBalancesForVacations.Balance,
+                                            EmployeeId = emp.Id,
+                                            Annual = openingBalancesForVacations.Balance
+
+                                        };
+                                        _context.VacationBalance.Add(vacaBalance);
+
+                                    }
+                                    else
+                                    {
+                                        var vacaBalance = new VacationBalance
+                                        {
+                                            Editorial = openingBalancesForVacations.Balance,
+                                            EmployeeId = emp.Id,
+                                            Annual = openingBalancesForVacations.Balance
+
+                                        };
+                                        _context.VacationBalance.Add(vacaBalance);
+
+                                    }
+                                    //if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                                    //{
+                                    //    vacationBalance.Annual = openingBalancesForVacations.Balance;
+
+                                    //}
+                                }
+                                await _openingBalancesForVacationsRepository.AddAsync(voc);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        await _context.SaveChangesAsync();
+
+                        //await _context.SaveChangesAsync();
+                        TempData["Success"] = "تمت الاضافة لكافة الموظفين";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["SystemError"]= ex.Message;
+                        return View();
+                    }
+                }
+                //=====================================
+                var vacationBalance = _context.VacationBalance.Where(x => x.EmployeeId == openingBalancesForVacations.EmployeeId).FirstOrDefault();
+                if (vacationBalance != null)
+                {
+                    vacationBalance.Editorial += openingBalancesForVacations.Balance;
+                    if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                    {
+                        vacationBalance.Annual = openingBalancesForVacations.Balance;
+
+                    }
+                    _context.VacationBalance.Update(vacationBalance);
+
+                }
+                else
+                {
+                    if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                    {
+                        var vacaBalance = new VacationBalance
+                        {
+                            Editorial = openingBalancesForVacations.Balance,
+                            EmployeeId = openingBalancesForVacations.EmployeeId.Value,
+                            Annual = openingBalancesForVacations.Balance
+
+                        };
+                        _context.VacationBalance.Add(vacaBalance);
+
+                    }
+                    else
+                    {
+                        var vacaBalance = new VacationBalance
+                        {
+                            Editorial = openingBalancesForVacations.Balance,
+                            EmployeeId = openingBalancesForVacations.EmployeeId.Value,
+                            Annual = openingBalancesForVacations.Balance
+
+                        };
+                        _context.VacationBalance.Add(vacaBalance);
+
+                    }
+
+                }
+
+                    //=====================================
+                    await _openingBalancesForVacationsRepository.AddAsync(openingBalancesForVacations);
                 return RedirectToAction(nameof(Index));
             }
             return View(openingBalancesForVacations);
@@ -110,7 +241,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 {
                     await PopulateDropdownListsAsync();
 
-                    _openingBalancesForVacationsRepository.UpdateAsync(openingBalancesForVacations);
+                    await _openingBalancesForVacationsRepository.UpdateAsync(openingBalancesForVacations);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -156,10 +287,9 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             var openingBalancesForVacations = await _openingBalancesForVacationsRepository.GetByIdAsync(id);
             if (openingBalancesForVacations != null)
             {
-                _openingBalancesForVacationsRepository.DeleteAsync(id);
+                await _openingBalancesForVacationsRepository.DeleteAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -177,9 +307,17 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             //============================================================
             var permanance = await _context.publicHolidays.ToListAsync();
             ViewData["publicHolidays"] = new SelectList(permanance, "Id", "HolidayName");
+        }
 
-
-
+       public IActionResult Vocation(int id)
+        {
+            var voc=_context.publicHolidays.FirstOrDefault(e => e.Id == id);
+            if (voc != null)
+            {
+                return Json(voc);
+            }
+            TempData["Error"] = "لم يتم العثور على بيانات!!";
+            return View();
         }
     }
 }

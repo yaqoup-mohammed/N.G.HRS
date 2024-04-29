@@ -3,64 +3,296 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "نماذج الدوام";
+    ViewData["Title"] = "دوام الموظف";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Create</h1>
 
-<h4>StaffTime</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card mb-2">
+    <div class="card-body">
+        <span><a asp-action="Index" asp-controller="Home" asp-area="">الرئيسة</a></span>/
+        <span>تهيئة الحظور والإنصراف</span>/
+        <span><a asp-action="Index">دوام الموظف</a></span>/
+        <span>جديد</span>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title"> دوام الموظف</h2>
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="WorksFullTimeFromDate" class="control-label"></label>
-                <input asp-for="WorksFullTimeFromDate" class="form-control" />
-                <span asp-validation-for="WorksFullTimeFromDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" id class="control-label"></label>
-                <select asp-for="EmployeeId" class="form-control" asp-items="@(ViewData["EmployeeId"]as SelectList)">
-                    <option value="">-- أختر موظف --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PermanenceModelsId" class="control-label"></label>
-                <select asp-for="PermanenceModelsId" class="form-control" asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
-                    <option value="">-- أختر الدوام --</option>
+            <div class="row set mb-3">
+                <div class="form-group col-md-3" id="ToDateGroup">
+                    <label asp-for="WorksFullTimeFromDate" class="form-label"></label><span class="text-danger">*</span>
+                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                        <input asp-for="WorksFullTimeFromDate" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
+                               data-input />
+                        <span class="input-group-text input-group-addon" data-toggle>
+                            <i data-feather="calendar"></i>
+                        </span>
+                        <span asp-validation-for="WorksFullTimeFromDate" class="text-danger"></span>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SectionsId" class="control-label"></label>
-                <select asp-for="SectionsId" class="form-control" asp-items="@(ViewData["SectionsId"] as SelectList)">
-                    <option value="">-- أختر القسم --</option>
+                    </div>
+                </div>
+                <div class="form-group col-md-5">
+                    <label asp-for="EmployeeId" class="form-label"></label>
+                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"]as SelectList)">
+                        <option value="" disabled selected></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="SectionsId" class="form-label"></label>
+                    <select asp-for="SectionsId" id="SectionsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["SectionsId"] as SelectList)">
+                        <option value="" disabled selected></option>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PeriodId" class="control-label"></label>
-                <select asp-for="PeriodId" class="form-control" asp-items="@(ViewData["PeriodsId"] as SelectList)">
-                    <option value="">-- أختر الفترة --</option>
+                    </select>
+                </div>
 
-                </select>
-                <span asp-validation-for="PeriodId" class="text-danger"></span>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label asp-for="PermanenceModelsId" class="form-label"></label>
+                    <select asp-for="PermanenceModelsId" id="PermanenceModelsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
+                        <option value="" disabled selected></option>
+
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="PeriodId" class="form-label"></label>
+                    @* <select asp-for="PeriodId" class="js-example-basic-single  form-select" asp-items="@(ViewData["PeriodsId"] as SelectList)"> *@
+                    <select asp-for="PeriodId" id="PeriodId" class="js-example-basic-single  form-select">
+                        <option value="" disabled selected></option>
+                        <option value="" disabled>أختر الدوام</option>
+
+                    </select>
+                    <span asp-validation-for="PeriodId" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-light">الرجوع الى القائمة</a>
+
             </div>
         </form>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    <script>
+        $(document).ready(function () {
+            //==============================================
+            $("#EmployeeId").change(function () {
+                const id = this.value;
+                if (id != "") {
+
+                    $.ajax({
+                        url:
+                            "/AttendanceAndDeparture/StaffTimes/GetEmployee?id=" + id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data != "") {
+
+                                $("#SectionsId").val(data.sectionsId).change();
+
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: `هذا الموظف لا ينتمي الى  قسم 🙄 `,
+                                });
+                            }
+                        },
+                    });
+
+
+                }
+            });
+            //==============================================
+            $("#PeriodId").change(function () {
+                const id = this.value;
+                const employeeId = $("#EmployeeId").val();
+
+                if (id != "") {
+                    $.ajax({
+                        url:
+                            "/AttendanceAndDeparture/StaffTimes/CheackPeriod?id=" + employeeId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data != "") {
+
+                                $.each(data, function (i, item) {
+                                    if (item.id == id) {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: `هذا الموظف  ينتمي لهذه الفترة بالفعل, يرجى اختيار فترة أخرى!!`,
+                                        });
+                                        // $("#PeriodId").val("").change();
+                                    }
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                });
+                            }
+                        }
+
+                    });
+
+                }
+                else {
+
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى أختيار دوام بالشكل الصحيح!!`,
+                    });
+                }
+
+
+            });
+            $("#PermanenceModelsId").change(function () {
+                const id = this.value;
+                const employeeId = $("#EmployeeId").val();
+                console.log(employeeId);
+                if ( employeeId != null) {
+
+
+                        $.ajax({
+                            url:
+                                "/AttendanceAndDeparture/StaffTimes/GetPermanenceModels?id=" + id,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data != "") {
+                                $("#PeriodId").empty();
+                                    $("#PeriodId").append('<option value="" disabled selected></option>');
+
+                                    $.each(data, function (i, item) {
+                                        var from = item.from;
+                                        var to = item.to;
+                                        from = from.substring(0, 5);
+                                        to = to.substring(0, 5);
+                                        $("#PeriodId").append('<option value="' + item.id + '">' + item.name + "  " + from + " ~ " + to + " = " + item.hours + " ساعات " + '</option>');
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                    });
+                                }
+                            }
+
+                        });
+                        //==================================================
+                        $.ajax({
+                            url:
+                                "/AttendanceAndDeparture/StaffTimes/CheackGetPermanenceModels?id=" + employeeId,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $.each(data, function (i, item) {
+                                    if (data != "") {
+
+                                        if (item.id != "") {
+                                            if (item.id != id) {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: ` هذا الموظف ينتمي الى  دوام <span class="text-danger">${item.name}</span>  بالفعل ,لايمكن للموظف ان ينتمي الى أكثر من دوام`,
+                                                });
+
+                                                $("#PermanenceModelsId").val(item.id).change();
+                                            }
+                                        }
+                                    }
+                                    else {
+
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                        });
+                                    }
+                                });
+
+
+                            }
+
+                        });
+                    
+                }
+                else {
+
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى أختيار الموظف أولا !!`,
+                    });
+                }
+            });
+            $("#submit").click(function () {
+                if ($("#EmployeeId").val() == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار الموظف🤨`,
+                    });
+                }
+                else if ($("#PermanenceModelsId").val() == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار الدوام🤨`,
+
+                    });
+                }
+                if ($("#PeriodId").val() == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار الدوام🤨`,
+
+                    });
+                }
+                if ($("#ToDate").val() == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار التاريخ🤨`,
+
+                    });
+                }
+
+
+
+
+            });
+
+            //=================================================================
+            // window.onload = function () {
+            //     const date = document.getElementById('ToDate');
+
+            //     // Option 1: Preset to today's date on page load
+            //     const today = new Date();
+            //     date.value = today.toISOString().slice(0, 10);
+            // }
+            //=================================================================
+
+            //=================================================================
+        });
+
+    </script>
 }

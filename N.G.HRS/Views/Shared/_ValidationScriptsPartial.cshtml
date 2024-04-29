@@ -8,12 +8,11 @@
 {
 
     <script type="text/javascript">
-            console.log("@TempData["Success"]");
-            alert("@TempData["Success"]");
+
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: '@TempData["Success"]',
+                title: '@TempData["Success"]😎',
                 showConfirmButton: false,
                 timer: 1500,
                 customClass: {
@@ -21,8 +20,7 @@
                 },
                 buttonsStyling: false
             });
-           @*       Swal.fire('Excellent','Good job!','success');
-               *@
+
 
            </script>
 
@@ -34,11 +32,10 @@
 
     <script>
         event.preventDefault();
-            alert("@TempData["Error"]");
-            console.log("@TempData["Error"]");
+
             Swal.fire({
                 icon: 'error',
-                title: '@TempData["Error"]',
+                title: '@TempData["Error"]🙄',
                 customClass: {
                     confirmButton: 'btn btn-primary'
                 },
@@ -50,12 +47,11 @@
 {
     <script>
         event.preventDefault();
-            console.log("@TempData["SystemError"]");
-            alert("@TempData["SystemError"]");
+
             Swal.fire({
                 icon: 'error',
                 title: 'حدث خطئ في النظام 😢',
-                text: '@TempData["SystemError"]';
+                text: '@TempData["SystemError"]😪';
                 footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
                 customClass: {
                     confirmButton: 'btn btn-primary'
@@ -69,6 +65,7 @@
 {
     <script>
             
+
             let timerInterval;
             Swal.fire({
                 title: "جاري فحص البيانات",

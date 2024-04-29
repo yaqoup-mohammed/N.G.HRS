@@ -799,7 +799,7 @@ namespace N.G.HRS.Migrations
                     Wednesday = table.Column<bool>(type: "bit", nullable: false),
                     Thursday = table.Column<bool>(type: "bit", nullable: false),
                     Friday = table.Column<bool>(type: "bit", nullable: false),
-                    Hours = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Hours = table.Column<int>(type: "int", nullable: true),
                     Muinutes = table.Column<int>(type: "int", nullable: true),
                     PermanenceModelsId = table.Column<int>(type: "int", nullable: true),
                     PeriodsId = table.Column<int>(type: "int", nullable: true)
@@ -1144,8 +1144,8 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeName = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: false),
-                    DateOfEmployment = table.Column<DateOnly>(type: "date", nullable: false),
-                    PlacementDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PlacementDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EmploymentStatus = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     RehireDate = table.Column<DateOnly>(type: "date", nullable: true),
                     DateOfStoppingWork = table.Column<DateOnly>(type: "date", nullable: true),
@@ -1236,7 +1236,8 @@ namespace N.G.HRS.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    SalaryStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SalaryStartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SalaryEndtDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false),
                     EmployeementReson = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -1627,12 +1628,12 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NatureOfEmployment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NatureOfEmployment = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InsuranceAccountNumber = table.Column<int>(type: "int", nullable: true),
                     BankAccountNumber = table.Column<int>(type: "int", nullable: true),
-                    SalaryStartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SalaryEndDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SalaryStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SalaryEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false)
@@ -1728,7 +1729,7 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BalanceYear = table.Column<DateOnly>(type: "date", nullable: false),
+                    BalanceYear = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -1747,6 +1748,31 @@ namespace N.G.HRS.Migrations
                         name: "FK_openingBalancesForVacations_publicHolidays_PublicHolidaysId",
                         column: x => x.PublicHolidaysId,
                         principalTable: "publicHolidays",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PermitsType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsNotEmployee = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    NotEmployee = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    For = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Purpose = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permits_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
                         principalColumn: "Id");
                 });
 
@@ -1878,6 +1904,59 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StaffVacations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VacationId = table.Column<int>(type: "int", nullable: true),
+                    SectionId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    PeriodsId = table.Column<int>(type: "int", nullable: true),
+                    IsConnected = table.Column<bool>(type: "bit", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PerDay = table.Column<int>(type: "int", nullable: false),
+                    PerHour = table.Column<int>(type: "int", nullable: false),
+                    PerMinute = table.Column<int>(type: "int", nullable: false),
+                    Accepted = table.Column<bool>(type: "bit", nullable: false),
+                    SubstituteStaffMemberId = table.Column<int>(type: "int", nullable: true),
+                    DonorSide = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StaffVacations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StaffVacations_Periods_PeriodsId",
+                        column: x => x.PeriodsId,
+                        principalTable: "Periods",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StaffVacations_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StaffVacations_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StaffVacations_employee_SubstituteStaffMemberId",
+                        column: x => x.SubstituteStaffMemberId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StaffVacations_publicHolidays_VacationId",
+                        column: x => x.VacationId,
+                        principalTable: "publicHolidays",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "statementOfEmployeeFiles",
                 columns: table => new
                 {
@@ -1944,6 +2023,30 @@ namespace N.G.HRS.Migrations
                         principalTable: "employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VacationBalance",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Editorial = table.Column<int>(type: "int", nullable: false),
+                    Annual = table.Column<int>(type: "int", nullable: false),
+                    Transferred = table.Column<int>(type: "int", nullable: false),
+                    Expendables = table.Column<int>(type: "int", nullable: false),
+                    Residual = table.Column<int>(type: "int", nullable: false),
+                    ShiftHour = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VacationBalance", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VacationBalance_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -2506,6 +2609,11 @@ namespace N.G.HRS.Migrations
                 column: "PermanenceModelsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Permits_EmployeeId",
+                table: "Permits",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_personalDatas_EmployeeId",
                 table: "personalDatas",
                 column: "EmployeeId",
@@ -2593,6 +2701,31 @@ namespace N.G.HRS.Migrations
                 column: "SectionsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StaffVacations_EmployeeId",
+                table: "StaffVacations",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StaffVacations_PeriodsId",
+                table: "StaffVacations",
+                column: "PeriodsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StaffVacations_SectionId",
+                table: "StaffVacations",
+                column: "SectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StaffVacations_SubstituteStaffMemberId",
+                table: "StaffVacations",
+                column: "SubstituteStaffMemberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StaffVacations_VacationId",
+                table: "StaffVacations",
+                column: "VacationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_statementOfEmployeeFiles_EmployeeId",
                 table: "statementOfEmployeeFiles",
                 column: "EmployeeId");
@@ -2610,6 +2743,11 @@ namespace N.G.HRS.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_VacationAllowances_EmployeeId",
                 table: "VacationAllowances",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VacationBalance_EmployeeId",
+                table: "VacationBalance",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
@@ -2753,6 +2891,9 @@ namespace N.G.HRS.Migrations
                 name: "permissionToAttendAndLeaves");
 
             migrationBuilder.DropTable(
+                name: "Permits");
+
+            migrationBuilder.DropTable(
                 name: "personalDatas");
 
             migrationBuilder.DropTable(
@@ -2771,6 +2912,9 @@ namespace N.G.HRS.Migrations
                 name: "staffTimes");
 
             migrationBuilder.DropTable(
+                name: "StaffVacations");
+
+            migrationBuilder.DropTable(
                 name: "trainingCourses");
 
             migrationBuilder.DropTable(
@@ -2778,6 +2922,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "VacationAllowances");
+
+            migrationBuilder.DropTable(
+                name: "VacationBalance");
 
             migrationBuilder.DropTable(
                 name: "weekends");
@@ -2807,9 +2954,6 @@ namespace N.G.HRS.Migrations
                 name: "statementOfEmployeeFiles");
 
             migrationBuilder.DropTable(
-                name: "publicHolidays");
-
-            migrationBuilder.DropTable(
                 name: "guarantees");
 
             migrationBuilder.DropTable(
@@ -2823,6 +2967,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "specialties");
+
+            migrationBuilder.DropTable(
+                name: "publicHolidays");
 
             migrationBuilder.DropTable(
                 name: "Universities");

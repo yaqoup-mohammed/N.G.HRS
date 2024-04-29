@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 
 namespace N.G.HRS.Date
 {
@@ -322,6 +323,13 @@ namespace N.G.HRS.Date
               .WithMany(p => p.StaffTimesList)
               .HasForeignKey(p => p.PermanenceModelsId);
             //=
+            //==============================================
+            //دوام الموظفين مع نماذج الفترة
+            modelBuilder.Entity<StaffTime>()
+              .HasOne(p => p.Periods)
+              .WithMany(p => p.StaffTimeList)
+              .HasForeignKey(p => p.PeriodId);
+            //=
             //دوام الموظف مع الاقسام
             modelBuilder.Entity<StaffTime>()
               .HasOne(p => p.Sections)
@@ -516,6 +524,30 @@ namespace N.G.HRS.Date
               .HasOne(p => p.Currency)
               .WithMany(p => p.AdministrativeDecisionsList)
               .HasForeignKey(p => p.CurrencyId)
+              .OnDelete(DeleteBehavior.NoAction);  
+            //=======================================
+            modelBuilder.Entity<StaffVacations>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.StaffVacationsList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<StaffVacations>()
+              .HasOne(p => p.Sections)
+              .WithMany(p => p.StaffVacationsList)
+              .HasForeignKey(p => p.SectionId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<StaffVacations>()
+              .HasOne(p => p.SubstituteStaffMember)
+              .WithMany(p => p.SubstituteStaffMemberList)
+              .HasForeignKey(p => p.SubstituteStaffMemberId)
+              .OnDelete(DeleteBehavior.NoAction);
+                        //=======================================
+            modelBuilder.Entity<VacationBalance>()
+              .HasOne(p => p.Employees)
+              .WithMany(p => p.VacationBalanceList)
+              .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
 
 
@@ -608,6 +640,8 @@ namespace N.G.HRS.Date
         public object Employee { get; internal set; }
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativeDecisions> AdministrativeDecisions { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.Permits> Permits { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations> StaffVacations { get; set; } = default!;
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.VacationBalance> VacationBalance { get; set; } = default!;
 
 
 

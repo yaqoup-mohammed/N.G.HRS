@@ -3,6 +3,7 @@ using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.PayRoll.ModelView;
@@ -82,8 +83,14 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<TrainingCourses>? TrainingCoursesList { get; set; }
         //=====================================           
         public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
+        //=====================================
+        public List<StaffVacations>? StaffVacationsList { get; set; }
+        //=====================================
+        public List<StaffVacations>? SubstituteStaffMemberList { get; set; }
         //=====================================           
         public List<VacationAllowances>? VacationAllowancesList { get; set; }
+        //=====================================           
+        public List<VacationBalance>? VacationBalanceList { get; set; }
 
         //=====================================
         public List<Permits>? PermitsList { get; set; }

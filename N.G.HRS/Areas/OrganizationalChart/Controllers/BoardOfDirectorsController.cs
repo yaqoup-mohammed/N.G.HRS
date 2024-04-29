@@ -88,6 +88,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // GET: OrganizationalChart/BoardOfDirectors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            await PopulateDropdownListsAsync();
+
             if (id == null)
             {
                 return NotFound();
@@ -116,11 +118,13 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
             if (ModelState.IsValid)
             {
+                await PopulateDropdownListsAsync();
+
                 try
                 {
                     await PopulateDropdownListsAsync();
 
-                    _boardOfDirectorsRepository.UpdateAsync(boardOfDirectors);
+                    await _boardOfDirectorsRepository.UpdateAsync(boardOfDirectors);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

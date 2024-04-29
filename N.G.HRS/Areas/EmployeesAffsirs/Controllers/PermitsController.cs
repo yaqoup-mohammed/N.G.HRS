@@ -83,13 +83,24 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         {
             if (id == null)
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    await _Permits.AddAsync(permits);
-                    return RedirectToAction(nameof(Index));
-                }
-                ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", permits.EmployeeId);
+                    if (ModelState.IsValid)
+                    {
+                        await _Permits.AddAsync(permits);
+                        TempData["Success"] = "تمت الاضافة بنجاح";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", permits.EmployeeId);
+                    TempData["Error"] = "خطئ في البيانات!!";
                 return View(permits);
+                }
+                catch (Exception ex)
+                {
+
+                    TempData["Error"] = ex.Message;
+                    return View(permits);
+                }
             }
             else
             {
