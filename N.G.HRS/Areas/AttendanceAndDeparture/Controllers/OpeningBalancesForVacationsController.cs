@@ -97,10 +97,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                                 var vacatiBalance=_context.VacationBalance.Where(x=>x.EmployeeId==emp.Id ).FirstOrDefault();
                                 if (vacatiBalance != null)
                                 {
-                                    vacatiBalance.Editorial += openingBalancesForVacations.Balance;
+                                    vacatiBalance.Editorial += (openingBalancesForVacations.Balance* vacatiBalance.ShiftHour) *60;
                                     if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
                                     {
-                                        vacatiBalance.Annual = openingBalancesForVacations.Balance;
+                                        vacatiBalance.Annual = (openingBalancesForVacations.Balance * vacatiBalance.ShiftHour) * 60;
 
                                     }
                                      _context.VacationBalance.Update(vacatiBalance);
@@ -108,30 +108,31 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                                 }
                                 else
                                 {
-                                    if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
-                                    {
-                                        var vacaBalance = new VacationBalance
-                                        {
-                                            Editorial = openingBalancesForVacations.Balance,
-                                            EmployeeId = emp.Id,
-                                            Annual = openingBalancesForVacations.Balance
+                                    TempData["Error"] = "هذا الموظف لا ينتمي الى دوام يرجى تسجيل الدوام للموظف";
+                                    //if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                                    //{
+                                    //    var vacaBalance = new VacationBalance
+                                    //    {
+                                    //        Editorial = (openingBalancesForVacations.Balance * vacatiBalance.ShiftHour) * 60,
+                                    //        EmployeeId = emp.Id,
+                                    //        Annual = (openingBalancesForVacations.Balance * vacatiBalance.ShiftHour) * 60
 
-                                        };
-                                        _context.VacationBalance.Add(vacaBalance);
+                                    //    };
+                                    //    _context.VacationBalance.Add(vacaBalance);
 
-                                    }
-                                    else
-                                    {
-                                        var vacaBalance = new VacationBalance
-                                        {
-                                            Editorial = openingBalancesForVacations.Balance,
-                                            EmployeeId = emp.Id,
-                                            Annual = openingBalancesForVacations.Balance
+                                    //}
+                                    //else
+                                    //{
+                                    //    var vacaBalance = new VacationBalance
+                                    //    {
+                                    //        Editorial = (openingBalancesForVacations.Balance * vacatiBalance.ShiftHour) * 60,
+                                    //        EmployeeId = emp.Id,
+                                    //        Annual = (openingBalancesForVacations.Balance * vacatiBalance.ShiftHour) * 60
 
-                                        };
-                                        _context.VacationBalance.Add(vacaBalance);
+                                    //    };
+                                    //    _context.VacationBalance.Add(vacaBalance);
 
-                                    }
+                                    //}
                                     //if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
                                     //{
                                     //    vacationBalance.Annual = openingBalancesForVacations.Balance;
@@ -161,10 +162,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 var vacationBalance = _context.VacationBalance.Where(x => x.EmployeeId == openingBalancesForVacations.EmployeeId).FirstOrDefault();
                 if (vacationBalance != null)
                 {
-                    vacationBalance.Editorial += openingBalancesForVacations.Balance;
+                    vacationBalance.Editorial += (openingBalancesForVacations.Balance * vacationBalance.ShiftHour) * 60;
                     if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
                     {
-                        vacationBalance.Annual = openingBalancesForVacations.Balance;
+                        vacationBalance.Annual = (openingBalancesForVacations.Balance * vacationBalance.ShiftHour) * 60;
 
                     }
                     _context.VacationBalance.Update(vacationBalance);
@@ -172,30 +173,32 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                 }
                 else
                 {
-                    if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
-                    {
-                        var vacaBalance = new VacationBalance
-                        {
-                            Editorial = openingBalancesForVacations.Balance,
-                            EmployeeId = openingBalancesForVacations.EmployeeId.Value,
-                            Annual = openingBalancesForVacations.Balance
+                    //if (openingBalancesForVacations.PublicHolidaysId == 1 && openingBalancesForVacations.BalanceYear == DateTime.Now.Year)
+                    //{
+                    //    var vacaBalance = new VacationBalance
+                    //    {
+                    //        Editorial = (openingBalancesForVacations.Balance * vacationBalance.ShiftHour) * 60,
+                    //        EmployeeId = openingBalancesForVacations.EmployeeId.Value,
+                    //        Annual = (openingBalancesForVacations.Balance * vacationBalance.ShiftHour) * 60
 
-                        };
-                        _context.VacationBalance.Add(vacaBalance);
+                    //    };
+                    //    _context.VacationBalance.Add(vacaBalance);
 
-                    }
-                    else
-                    {
-                        var vacaBalance = new VacationBalance
-                        {
-                            Editorial = openingBalancesForVacations.Balance,
-                            EmployeeId = openingBalancesForVacations.EmployeeId.Value,
-                            Annual = openingBalancesForVacations.Balance
+                    //}
+                    //else
+                    //{
 
-                        };
-                        _context.VacationBalance.Add(vacaBalance);
+                        TempData["Error"] = "هذا الموظف لا ينتمي الى دوام يرجى تسجيل الدوام للموظف";
+                        //var vacaBalance = new VacationBalance
+                        //{
+                        //    Editorial = (openingBalancesForVacations.Balance * vacationBalance.ShiftHour) * 60,
+                        //    EmployeeId = openingBalancesForVacations.EmployeeId.Value,
+                        //    Annual = (openingBalancesForVacations.Balance * vacationBalance.ShiftHour) * 60
 
-                    }
+                        //};
+                        //_context.VacationBalance.Add(vacaBalance);
+
+                    
 
                 }
 
@@ -287,6 +290,24 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             var openingBalancesForVacations = await _openingBalancesForVacationsRepository.GetByIdAsync(id);
             if (openingBalancesForVacations != null)
             {
+                var vacationBalance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == openingBalancesForVacations.EmployeeId );
+
+                if (vacationBalance != null)
+                {
+                    if (openingBalancesForVacations.PublicHolidaysId == 1)
+                    {
+                        vacationBalance.Annual -= openingBalancesForVacations.Balance;
+                        _context.VacationBalance.Update(vacationBalance);
+
+                    }
+                    else
+                    {
+                        vacationBalance.Editorial -= openingBalancesForVacations.Balance;
+                        _context.VacationBalance.Update(vacationBalance);
+
+                    }
+                }
+                await _context.SaveChangesAsync();  
                 await _openingBalancesForVacationsRepository.DeleteAsync(id);
             }
 
@@ -319,5 +340,6 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             TempData["Error"] = "لم يتم العثور على بيانات!!";
             return View();
         }
+
     }
 }

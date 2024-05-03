@@ -193,7 +193,22 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         //================================================
-        public async Task<IActionResult> EmployeeOnSection(int? id)
+        public IActionResult GetSection(int? id)
+        {
+            if (id == 0)
+            {
+                return Json(new { error = "لم يتم العثور على أي قسم" });
+            }
+            else
+            {
+                var sect =  _context.employee.Where(x => x.Id == id).Select(x=> new {id= x.SectionsId}).FirstOrDefault();
+
+                return Json(new { sect });
+            
+            }
+        }
+        //=======================================================
+            public async Task<IActionResult> EmployeeOnSection(int? id)
         {
             if (id == 0)
             {
@@ -277,7 +292,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             }
                         }
 
-                        var employeePeriod = _context.periods.Where(x => employeePeriodIds.Contains(x.Id)).ToList();
+                        var employeePeriod = _context.periods.Where(x => employeePeriodIds.Contains(x.Id)).Select(x => new { id = x.Id, name = x.PeriodsName }).ToList();
 
                         return Json(employeePeriod);
                     }
@@ -305,23 +320,12 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 var employee = _context.employee.Where(x => x.Id == id).FirstOrDefault();
                 if (employee != null)
                 {
-                    var vacationsbalance = _context.openingBalancesForVacations.Where(x => x.EmployeeId == id).ToList();
+                    var vacationsbalance = _context.openingBalancesForVacations.Include(x=>x.PublicHolidays).Where(x => x.EmployeeId == id).Select(x => new {id=x.PublicHolidaysId,name=x.PublicHolidays.HolidayName,balance=x.Balance,year=x.BalanceYear}).ToList();
 
                     if (vacationsbalance != null)
                     {
-                        int[] employeevacationIds = new int[vacationsbalance.Count];
-                        int index = 0;
-                        foreach (var item in vacationsbalance)
-                        {
-                            if (item.PublicHolidaysId.HasValue)
-                            {
-                                employeevacationIds[index] = item.PublicHolidaysId.Value;
-                                index++;
-                            }
-                        }
-                        var employeePeriod = _context.publicHolidays.Where(x => employeevacationIds.Contains(x.Id)).ToList();
-                        var employeePeriodList = employeePeriod.Select(x => new { id = x.Id, name = x.HolidayName,isBalance = x.Balance , });
-                        return Json(employeePeriodList);
+                       
+                        return Json(new { vacationsbalance });
                     }
                     else
                     {
@@ -402,16 +406,50 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     }
                     else
                     {
-                        var vacationBalanceList
-                         = vacationBalance.Select(x => new {
+                        var vacationBalanceList= vacationBalance.Select(x => new {
                             annul = x.Annual,
                             editorial = x.Editorial,
                             transferred = x.Transferred,
                             residual = x.Residual,
-                            expendables = x.Expendables
-                        });
+                            expendables = x.Expendables,
+                            shiftHour = x.ShiftHour,
+                         });
                         return Json(new { vacationBalanceList });
                         //return Json(new { vacationBalanceList });
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+
+                }
+            }
+
+            else
+            {
+                return BadRequest("Invalid id");
+            }
+        }
+        public IActionResult ShiftHour(int? id)
+        {
+            if (id != 0)
+            {
+                var employee = _context.employee.FirstOrDefault(x => x.Id == id);
+                if (employee != null)
+                {
+                    var vacationBalance = _context.VacationBalance.Where(x => x.EmployeeId == id).Select(x=>new { shiftHour = x.ShiftHour}).FirstOrDefault();
+                    if (vacationBalance == null)
+                    {
+                        TempData["Error"] = "الموظف المحدد لا يمتلك اي أجازات ☹";
+                        return Ok();
+
+
+                    }
+                    else
+                    {
+                        //return Json(vacationBalance);
+                        return Json(new { vacationBalance });
                     }
 
                 }

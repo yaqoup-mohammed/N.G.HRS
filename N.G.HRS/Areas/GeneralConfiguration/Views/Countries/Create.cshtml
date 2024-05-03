@@ -42,15 +42,11 @@
                         <span asp-validation-for="Notes" class="text-danger"></span>
                     </div>
 
-                    <input type="submit"  id="submit" value="انهاء" class="btn btn-primary me-2" />
-
-
-
+                    <input type="submit"  id="submit" value="إضافة" class="btn btn-primary me-2" />
+                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
+                    <a asp-action="Index" class="btn btn-light">عودة الى القائمة</a>
                 </form>
-                <div>
-                    <br />
-                    <a asp-action="Index" class="btn btn-light">Back to List</a>
-                </div>
+
             </div>
         </div>
     </div>
@@ -80,7 +76,6 @@
         </div>
     </div>
 </div>
-<input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
 
 
 @section Scripts {

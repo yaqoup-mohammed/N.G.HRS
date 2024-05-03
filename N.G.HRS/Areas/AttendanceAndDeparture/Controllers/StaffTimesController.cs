@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Date;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
@@ -66,23 +67,84 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employee = _context.employee.FirstOrDefault(x => x.Id == staffTime.EmployeeId);
-                if (employee != null)
+                if (staffTime.EmployeeId == 0)
                 {
-                    var period = _context.Periods.FirstOrDefault(x => x.Id == staffTime.PeriodId);
-
-                    var balance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == staffTime.EmployeeId);
-                    if (balance != null && period != null)
+                    var employeeLisr = _context.employee.ToList();
+                    foreach (var item in employeeLisr)
                     {
-                        balance.ShiftHour += period.Hours.Value;
-                        _context.VacationBalance.Update(balance);
-                    }
-                    else
-                    {
-                        balance.ShiftHour += period.Hours.Value;
-                        _context.VacationBalance.Add(balance);
-                    }
+                        var staffime = _context.staffTimes.FirstOrDefault(x => x.EmployeeId == item.Id);
+                        if (staffime == null)
+                        {
+                            StaffTime staff = new StaffTime
+                            {
+                                EmployeeId = item.Id,
+                                WorksFullTimeFromDate = staffTime.WorksFullTimeFromDate,
+                                SectionsId = item.SectionsId,
+                                PermanenceModelsId = staffTime.PermanenceModelsId,
+                                PeriodId = staffTime.PeriodId,
 
+                            };
+
+                            
+                                var period = _context.Periods.FirstOrDefault(x => x.Id == staffTime.PeriodId);
+                                if (period != null)
+                                {
+                                    var balance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == item.Id);
+                                    if (balance != null)
+                                    {
+                                        balance.ShiftHour += period.Hours.Value;
+                                        _context.VacationBalance.Update(balance);
+                                    }
+                                    else
+                                    {
+                                        VacationBalance vacation = new VacationBalance
+                                        {
+                                            EmployeeId = item.Id,
+                                            ShiftHour = period.Hours.Value
+                                        };
+                                        _context.VacationBalance.Add(vacation);
+                                    }
+                                }
+                            
+                            _context.staffTimes.Add(staff);
+                            await _context.SaveChangesAsync();
+
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+
+                }
+                else
+                {
+
+
+                    var employee = _context.employee.FirstOrDefault(x => x.Id == staffTime.EmployeeId);
+                    if (employee != null)
+                    {
+                        var period = _context.Periods.FirstOrDefault(x => x.Id == staffTime.PeriodId);
+                        if (period != null)
+                        {
+                            var balance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == staffTime.EmployeeId);
+                            if (balance != null)
+                            {
+                                balance.ShiftHour += period.Hours.Value;
+                                _context.VacationBalance.Update(balance);
+                            }
+                            else
+                            {
+                                VacationBalance vacation = new VacationBalance
+                                {
+                                    EmployeeId = staffTime.EmployeeId.Value,
+                                    ShiftHour = period.Hours.Value
+                                };
+                                _context.VacationBalance.Add(vacation);
+                            }
+                        }
+                    }
                 }
 
 
@@ -139,15 +201,15 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                         if (balance != null)
                         {
 
-                                balance.ShiftHour -= period.Hours.Value;
-                                _context.VacationBalance.Update(balance);
-                                await _context.SaveChangesAsync();
+                            balance.ShiftHour -= period.Hours.Value;
+                            _context.VacationBalance.Update(balance);
+                            await _context.SaveChangesAsync();
 
-                                balance.ShiftHour += period.Hours.Value;
-                                _context.VacationBalance.Update(balance);
-                                _context.Update(staffTime);
-                                await _context.SaveChangesAsync();
-                            
+                            balance.ShiftHour += period.Hours.Value;
+                            _context.VacationBalance.Update(balance);
+                            _context.Update(staffTime);
+                            await _context.SaveChangesAsync();
+
                         }
 
                     }
@@ -276,7 +338,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             }
             else
             {
-                var permanance = _context.staffTimes.Include(x => x.PermanenceModels).Where(x => x.EmployeeId == id).Select(x => new { id = x.PermanenceModelsId,perId=x.PeriodId, name = x.PermanenceModels.PermanenceName});
+                var permanance = _context.staffTimes.Include(x => x.PermanenceModels).Where(x => x.EmployeeId == id).Select(x => new { id = x.PermanenceModelsId, perId = x.PeriodId, name = x.PermanenceModels.PermanenceName });
                 if (permanance != null)
                 {
                     return Json(permanance);
@@ -293,7 +355,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             }
             else
             {
-                var permanance = _context.staffTimes.Where(x => x.EmployeeId == id).Select(x => new { id=x.PeriodId});
+                var permanance = _context.staffTimes.Where(x => x.EmployeeId == id).Select(x => new { id = x.PeriodId });
                 if (permanance != null)
                 {
                     return Json(permanance);

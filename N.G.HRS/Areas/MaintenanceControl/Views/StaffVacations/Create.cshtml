@@ -26,7 +26,7 @@
                                 <div class="form-group col-md-5 ">
                                     <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="Date" class="form-control" placeholder="أدخل التاريخ"
+                                        <input asp-for="Date" id="Date" tabindex="1" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -38,63 +38,63 @@
                                 <div class="form-group col-md-2">
                                 </div>
                                 <div class="form-group col-md-5">
-                                    <label asp-for="SectionId" class="control-label"></label>
-                                    <select asp-for="SectionId" id="Section" class="js-example-basic-single  form-select" asp-items="@(ViewData["SectionId"] as SelectList)">
+                                    <label asp-for="EmployeeId" class="control-label"></label>
+                                    <select asp-for="EmployeeId" id="Employee" tabindex="2" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
                                         <option value=""></option>
-                                        <option value="0"> كافة الأقسام </option>
                                     </select>
                                 </div>
                             </div>
+
                             <div class="row set mb-2">
                                 <div class="form-group col-md-5">
-                                    <label asp-for="EmployeeId" class="control-label"></label>
-                                    <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                    <label asp-for="SectionId" class="control-label"></label>
+                                    <select asp-for="SectionId" id="Section" tabindex="3" class="js-example-basic-single  form-select" asp-items="@(ViewData["SectionId"] as SelectList)">
                                         <option value=""></option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 ">
                                     <div class="form-group form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" id="PeriodCheck" type="checkbox" /> <span>حساب الاجازة من خلال الفترات</span>
+                                            <input class="form-check-input" tabindex="4" id="PeriodCheck" type="checkbox" /> <span>حساب الاجازة من خلال الفترات</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4" id="PeriodGroup">
                                     <label asp-for="PeriodsId" class="control-label"></label>
-                                    <select asp-for="PeriodsId" id="PeriodsId" class="js-example-basic-single  form-select" >
+                                    <select asp-for="PeriodsId" id="PeriodsId" class="js-example-basic-single  form-select">
                                         <option value="0" disabled>يرجى  أختيار الموظف</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row  mb-2" style="display:none" id="PeriodTimeGroup">
-                                <div class="form-group col-md-3  read-only">
+                                <div class="form-group col-md-5  read-only">
                                     <label class="control-label">بداية الفترة</label>
                                     <input type="time" class="form-control" id="StartPeriod" />
                                 </div>
-                                <div class="form-group col-md-3  read-only">
-                                    <label  class="control-label">نهاية الفترة</label>
+                                <div class="form-group col-md-5  read-only">
+                                    <label class="control-label">نهاية الفترة</label>
                                     <input type="time" class="form-control" id="EndPeriod" />
                                 </div>
                             </div>
 
                             <div class="row set mb-2 ">
-                            <div class="form-group col-md-5">
-                                <label asp-for="VacationId" class="control-label"></label>
-                                @* <select asp-for="VacationId" id="Vocation" class="js-example-basic-single  form-select" asp-items="@(ViewData["VacationId"] as SelectList)"> *@
-                                <select asp-for="VacationId" id="Vocation" class="js-example-basic-single  form-select" >
+                                <div class="form-group col-md-5">
+                                    <label asp-for="VacationId" class="control-label"></label>
+                                    @* <select asp-for="VacationId" id="Vocation" class="js-example-basic-single  form-select" asp-items="@(ViewData["VacationId"] as SelectList)"> *@
+                                    <select asp-for="VacationId" tabindex="5" id="Vocation" class="js-example-basic-single  form-select">
                                         <option value="" disabled>يرجى  أختيار الموظف</option>
-                                </select>
-                            </div>
-                                <div class="form-group form-check col-md-1">
+                                    </select>
+                                </div>
+                                <div class="form-group form-check col-md-1" id="IsConnectedGroup">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" id="IsConnected" asp-for="IsConnected" /> @Html.DisplayNameFor(model => model.IsConnected)
+                                        <input class="form-check-input" tabindex="6" id="IsConnected" asp-for="IsConnected" /> @Html.DisplayNameFor(model => model.IsConnected)
                                     </label>
                                 </div>
                                 <div class="form-group col-md-3" id="FromDateGroup">
                                     <label asp-for="FromDate" class="form-label"></label>
                                     <span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أدخل التاريخ"
+                                        <input asp-for="FromDate" tabindex="7" id="FromDate" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -105,7 +105,7 @@
                                 <div class="form-group col-md-3" id="ToDateGroup">
                                     <label asp-for="ToDate" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
+                                        <input asp-for="ToDate" tabindex="8" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -115,71 +115,64 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
-
                             <div class="row set mb-2">
                                 <div class="form-group col-md-3  read-only">
-                                <label asp-for="PerDay" id="PerDay" class="control-label"></label>
-                                <input asp-for="PerDay" class="form-control" />
-                                <span asp-validation-for="PerDay" class="text-danger"></span>
+                                    <label asp-for="PerDay" class="control-label"></label>
+                                    <input asp-for="PerDay" id="PerDay" class="form-control" />
+                                    <span asp-validation-for="PerDay" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-md-3  read-only">
-                                    <label asp-for="PerHour" id="PerHour" class="control-label"></label>
-                                    <input asp-for="PerHour" class="form-control" />
+                                    <label asp-for="PerHour" class="control-label"></label>
+                                    <input asp-for="PerHour" id="PerHour" class="form-control" />
                                     <span asp-validation-for="PerHour" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-md-3  read-only">
-                                    <label asp-for="PerMinute" id="PerMinute" class="control-label"></label>
-                                    <input asp-for="PerMinute" class="form-control" />
+                                    <label asp-for="PerMinute" class="control-label"></label>
+                                    <input asp-for="PerMinute" id="PerMinute" class="form-control" />
                                     <span asp-validation-for="PerMinute" class="text-danger"></span>
                                 </div>
                                 <div class="form-group form-check col-md-3">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" asp-for="Accepted" /> @Html.DisplayNameFor(model => model.Accepted)
+                                        <input class="form-check-input" tabindex="9" asp-for="Accepted" /> @Html.DisplayNameFor(model => model.Accepted)
                                     </label>
                                 </div>
                             </div>
-
                             <div class="row set mb-3">
                                 <div class="col-md-3">
                                     <div class="form-group form-check ">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" id="SubEmployee" type="checkbox" /> <span>الموظف البديل</span>
+                                            <input class="form-check-input" tabindex="10" id="SubEmployee" type="checkbox" /> <span>الموظف البديل</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4" id="SubEmployeeGroup">
-                                <label asp-for="SubstituteStaffMemberId" class="control-label"></label>
-                                    <select asp-for="SubstituteStaffMemberId" id="SubstituteStaffMemberId" class="js-example-basic-single  form-select" >
-                                    <option value=""> </option>
-                                    <option value="">يرجى إختيار الموظف</option>
-                                </select>
-                            </div>
-                                <div class="form-group col-md-5">
+                                    <label asp-for="SubstituteStaffMemberId" class="control-label"></label>
+                                    <select asp-for="SubstituteStaffMemberId" id="SubstituteStaffMemberId" class="js-example-basic-single  form-select">
+                                        <option value=""> </option>
+                                        <option value="">يرجى إختيار الموظف</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-5 mb-3">
                                     <label asp-for="DonorSide" class="control-label"></label>
-                                    <input asp-for="DonorSide" class="form-control" />
+                                    <input asp-for="DonorSide" id="DonorSide" tabindex="11" class="form-control" />
                                     <span asp-validation-for="DonorSide" class="text-danger"></span>
                                 </div>
-                            </div>                         
+                            </div>
 
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label asp-for="Reason" class="control-label"></label>
-                                <input asp-for="Reason" class="form-control" />
+                                <input asp-for="Reason" id="Reason" tabindex="12" class="form-control" />
                                 <span asp-validation-for="Reason" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label asp-for="Note" class="control-label"></label>
-                                <input asp-for="Note" class="form-control" />
+                                <input asp-for="Note" tabindex="13" class="form-control" />
                                 <span asp-validation-for="Note" class="text-danger"></span>
                             </div>
-@*                             <input type="hidden" asp-for="Editorial" id="Editorial" class="form-control" /> الافتتاحي 
-                            <input type="hidden" asp-for="Annual" id="Annual" class="form-control" /> سنوي 
-                            <input type="hidden" asp-for="Transferred" id="Transferred" class="form-control" /> منقول 
-                            <input type="hidden" asp-for="Expendables" id="Expendables" class="form-control" /> مستهلك 
+                            @*                             <input type="hidden" asp-for="Editorial" id="Editorial" class="form-control" /> الافتتاحي
+                            <input type="hidden" asp-for="Annual" id="Annual" class="form-control" /> سنوي
+                            <input type="hidden" asp-for="Transferred" id="Transferred" class="form-control" /> منقول
+                            <input type="hidden" asp-for="Expendables" id="Expendables" class="form-control" /> مستهلك
                             <input type="hidden" asp-for="Residual" id="Residual" class="form-control" /> متبقي  *@
                             <div class="form-group">
                                 <input type="submit" id="Submit" value="Create" class="btn btn-primary" />
@@ -192,8 +185,8 @@
                 <div class="col-md-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                        <div class="car-title">
-                                <h4 >ملخص الاجازة بالــ</h4>
+                            <div class="car-title">
+                                <h4>ملخص الاجازة بالــ</h4>
 
                             </div>
                             <div class="table-responsive">
@@ -212,31 +205,31 @@
                                             <td id="opening"></td>
                                             <td id="openingHours"></td>
                                             <td id="openingMinute"></td>
-                                        </tr>           
+                                        </tr>
                                         <tr>
                                             <th>السنوي:</th>
                                             <td id="annualDays"></td>
                                             <td id="annualHours"></td>
                                             <td id="annualMinute"></td>
-                                        </tr>                
+                                        </tr>
                                         <tr>
                                             <th>المنقول:</th>
                                             <td id="TransferredDats"></td>
                                             <td id="TransferredHours"></td>
                                             <td id="TransferredMinute"></td>
-                                        </tr>             
+                                        </tr>
                                         <tr>
                                             <th>الاجمالي:</th>
                                             <td id="totalDays"></td>
                                             <td id="totalHours"></td>
                                             <td id="totalMinute"></td>
-                                        </tr>            
+                                        </tr>
                                         <tr>
                                             <th>المستهلك:</th>
                                             <td id="ExpendablesDays"></td>
                                             <td id="ExpendablesHours"></td>
                                             <td id="ExpendablesMinute"></td>
-                                        </tr>               
+                                        </tr>
                                         <tr>
                                             <th>المتبقي:</th>
                                             <td id="ResidualDays"></td>
@@ -264,7 +257,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-<script>
+    <script>
         $(document).ready(function () {
             const Periodcheckbox = document.getElementById('PeriodCheck');
             const periodgroup = document.getElementById('PeriodGroup');
@@ -277,15 +270,19 @@
 
             Periodcheckbox.addEventListener('change', function () {
                 $('#PeriodsId').val("").change();
+                $('#EndPeriod').val("");
+                $('#StartPeriod').val("");
 
                 if (Periodcheckbox.checked) {
                     periodgroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
                     $('#PeriodTimeGroup').show();
+                    $('#IsConnectedGroup').addClass = "read-only";
 
                 }
                 else {
                     $('#PeriodTimeGroup').hide();
                     periodgroup.style = `pointer-events: none; filter: none; opacity: .6;`;
+                    $('#IsConnectedGroup').removeClass = "read-only";
 
                 }
             });
@@ -302,8 +299,18 @@
 
                 }
             });
+            Connectcheckbox.addEventListener('change', function () {
+                $("#PerDay").val('');
+                $("#PerHour").val('');
+                $("#PerMinute").val('');
+                $("#FromDate").val('');
+                $("#ToDate").val('');
+
+
+            });
 
             $('#FromDate').change(function () {
+
                 if (Connectcheckbox.checked) {
                     if ($('#ToDate').val() != null) {
                         if ($('#FromDate').val() > $('#ToDate').val()) {
@@ -316,50 +323,142 @@
 
 
                 }
+                // $('#ToDate').val($('#FromDate').val());
 
             });
             $('#ToDate').change(function () {
+                const from = $('#FromDate').val();
+                const employee = $('#Employee').val();
+
                 if (Connectcheckbox.checked) {
                     if ($('#FromDate').val() != null && $('#FromDate').val() > $('#ToDate').val()) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
-                            });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
+                        });
                     }
                 }
                 else {
                     if ($('#FromDate').val() != null && $('#FromDate').val() != $('#ToDate').val()) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: `يجب تحديد خيار <span class='text-danger'>متصل</span> اذا لم تكن الاجازة ليوم واحد`,
-                            });
-                            $('#ToDate').val($('#FromDate').val());
+                        Swal.fire({
+                            icon: 'error',
+                            title: `يجب تحديد خيار <span class='text-danger'>متصل</span> اذا لم تكن الاجازة ليوم واحد`,
+                        });
+                        $('#ToDate').val($('#FromDate').val());
                     }
                 }
-            });
-            $('#Section').change(function () {
-                $("#Employee").empty();
-                if(this.value!=null){
+                if (!Periodcheckbox.checked) {
+                    //==================================================================
+                    // Create Date objects from the input dates
+                    const startDate = new Date(from);
+                    const endDate = new Date(this.value);
+
+                    // Handle invalid inputs (non-date values)
+                    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'يرجى إدخال تواريخ صحيحة',
+                        });
+                    }
+                    // Ensure startDate is before endDate for consistent calculation
+                    if (startDate > endDate) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
+                        });
+                    }
+
+                    // Get the time difference in milliseconds
+                    const timeDiff = endDate.getTime() - startDate.getTime();
+                    // Convert milliseconds to days (factor in 1000 milliseconds/second, 3600 seconds/hour, 24 hours/day)
+                    const days = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+
+
+                    //==================================================================
                     $.ajax({
                         url:
-                            "/MaintenanceControl/StaffVacations/GetEmployee?id=" + this.value,
+                            "/MaintenanceControl/StaffVacations/ShiftHour?id=" + employee,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
                             $.each(data, function (i, item) {
-                                $("#Employee").append('<option value=""></option>');
-                                $("#Employee").append('<option value="'+item.id+'">'+item.name+'</option>');
+                                console.log(days);
+                                if (!Periodcheckbox.checked) {
+                                    if (days === 0) {
+                                        $("#PerDay").val(1);
+
+                                        $("#PerHour").val(item.shiftHour);
+
+                                        $("#PerMinute").val(item.shiftHour * 60);
+
+                                    }
+                                    else {
+
+                                        $("#PerDay").val(days);
+                                        $("#PerHour").val(days * item.shiftHour);
+
+                                        $("#PerMinute").val((days * item.shiftHour) * 60);
+                                    }
+                                }
+                                // var total = item.editorial + item.transferred;
+                                // $('#annualDays').append((item.annul / item.shiftHour) / 60);
+                                // $('#annualHours').append(item.annul / item.shiftHour);
+                                // $('#annualMinute').append(item.annul);
+                                // $('#opening').append((item.editorial / item.shiftHour) / 60);
+                                // $('#openingHours').append(item.editorial / item.shiftHour);
+                                // $('#openingMinute').append(item.editorial);
+                                // $('#TransferredDats').append((item.transferred / item.shiftHour) / 60);
+                                // $('#TransferredHours').append(item.transferred / item.shiftHour);
+                                // $('#TransferredMinute').append(item.transferred);
+                                // $('#totalDays').append((total / item.shiftHour) / 60);
+                                // $('#totalHours').append(total / item.shiftHour);
+                                // $('#totalMinute').append(total);
+                                // $('#ExpendablesDays').append((item.expendables / item.shiftHour) / 60);
+                                // $('#ExpendablesHours').append(item.expendables / item.shiftHour);
+                                // $('#ExpendablesMinute').append(item.expendables);
+                                // $('#ResidualDays').append((item.residual / item.shiftHour) / 60);
+                                // $('#ResidualHours').append(item.residual / item.shiftHour);
+                                // $('#ResidualMinute').append(item.residual);
+
+
+
                             });
 
                         },
                     });
                 }
+
             });
+
             //==================================================================
             $('#PeriodsId').change(function () {
                 $("#StartPeriod").empty();
                 $("#EndPeriod").empty();
-                if(this.value!=""){
+                //=================================
+                const from = $('#FromDate').val();
+                const To = $('#ToDate').val();
+                // Create Date objects from the input dates
+                const startDate = new Date(from);
+                const endDate = new Date(To);
+
+                // Handle invalid inputs (non-date values)
+                if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال تواريخ صحيحة',
+                    });
+                }
+                // Ensure startDate is before endDate for consistent calculation
+                if (startDate > endDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
+                    });
+                }
+
+                //==================================
+                if (this.value != "") {
                     $.ajax({
                         url:
                             "/MaintenanceControl/StaffVacations/EmployeeShiftTime?id=" + this.value,
@@ -369,12 +468,20 @@
                             console.log(data);
                             $("#StartPeriod").val(data.fromTime)
                             $("#EndPeriod").val(data.toTime);
+                            //========
+                           
+                                $('#PerDay').val(0);
+                                $('#PerHour').val(data.hours);
 
+                                $('#PerMinute').val(data.muinutes);
+                            
                         },
                     });
                 }
             });
             $('#Employee').change(function () {
+
+
                 $("#PeriodsId").empty();
                 $("#SubstituteStaffMemberId").empty();
                 $("#Vocation").empty();
@@ -396,16 +503,38 @@
                 $('#ResidualDays').empty();
                 $('#ResidualHours').empty();
                 $('#ResidualMinute').empty();
-                if(this.value!=null){
+                $("#PerDay").val('');
+                $("#PerHour").val('');
+                $("#PerMinute").val('');
+                $("#FromDate").val('');
+                $("#ToDate").val('');
+
+
+
+                if (this.value != null) {
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/StaffVacations/GetSection?id=" + this.value,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                $("#Section").val(item.id).change();
+                            });
+
+                        },
+                    });
+                    //=======================================================
                     $.ajax({
                         url:
                             "/MaintenanceControl/StaffVacations/EmployeePeriod?id=" + this.value,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
+                            $("#PeriodsId").append('<option value=""></option>');
+
                             $.each(data, function (i, item) {
-                                $("#PeriodsId").append('<option value=""></option>');
-                                $("#PeriodsId").append('<option value="' + item.id + '">' + item.periodsName + '</option>');
+                                $("#PeriodsId").append('<option value="' + item.id + '">' + item.name + '</option>');
                             });
 
                         },
@@ -417,9 +546,10 @@
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            $.each(data, function (i, item) {
+                            console.log(data.vacationsbalance);
+                            $.each(data.vacationsbalance, function (i, item) {
                                 $("#Vocation").append('<option value=""></option>');
-                                $("#Vocation").append('<option value="' + item.id + '">' + item.name + '</option>');
+                                $("#Vocation").append('<option value="' + item.id + '">' + "الاجازة : " + item.name + " , " + " لسنة : " + item.year + " , " + " الرصيد: " + item.balance + " يوم " + '</option>');
                             });
 
                         },
@@ -447,25 +577,26 @@
                         dataType: "json",
                         success: function (data) {
                             $.each(data.vacationBalanceList, function (i, item) {
+
                                 var total = item.editorial + item.transferred;
-                                $('#annualDays').append(item.annul);
-                                $('#annualHours').append(item.annul * 24);
-                                $('#annualMinute').append((item.annul * 24)*60);
-                                $('#opening').append(item.editorial);
-                                $('#openingHours').append(item.editorial * 24);
-                                $('#openingMinute').append((item.editorial * 24) * 60);
-                                $('#TransferredDats').append(item.transferred);
-                                $('#TransferredHours').append(item.transferred * 24);
-                                $('#TransferredMinute').append((item.transferred * 24) * 60);
-                                $('#totalDays').append(total);
-                                $('#totalHours').append(total * 24);
-                            $('#totalMinute').append((total * 24)*60);
-                                $('#ExpendablesDays').append(item.expendables);
-                                $('#ExpendablesHours').append(item.expendables * 24);
-                            $('#ExpendablesMinute').append((item.expendables * 24)*60);
-                                $('#ResidualDays').append(item.residual);
-                                $('#ResidualHours').append(item.residual * 24);
-                            $('#ResidualMinute').append((item.residual * 24)*60);
+                                $('#annualDays').append((item.annul / item.shiftHour) / 60);
+                                $('#annualHours').append(item.annul / 60);
+                                $('#annualMinute').append(item.annul);
+                                $('#opening').append((item.editorial / item.shiftHour) / 60);
+                                $('#openingHours').append(item.editorial / 60);
+                                $('#openingMinute').append(item.editorial);
+                                $('#TransferredDats').append((item.transferred / item.shiftHour) / 60);
+                                $('#TransferredHours').append(item.transferred / 60);
+                                $('#TransferredMinute').append(item.transferred);
+                                $('#totalDays').append((total / item.shiftHour) / 60);
+                                $('#totalHours').append(total / item.shiftHour);
+                                $('#totalMinute').append(total);
+                                $('#ExpendablesDays').append((item.expendables / item.shiftHour) / 60);
+                                $('#ExpendablesHours').append(item.expendables / 60);
+                                $('#ExpendablesMinute').append(item.expendables);
+                                $('#ResidualDays').append((item.residual / item.shiftHour) / 60);
+                                $('#ResidualHours').append(item.residual / 60);
+                                $('#ResidualMinute').append(item.residual);
 
 
 
@@ -475,12 +606,105 @@
                     });
                 }
             });
+            //================================================================
+            window.onload = function () {
+                const date = document.getElementById('Date');
 
+                // Option 1: Preset to today's date on page load
+                const today = new Date();
+                date.value = today.toISOString().slice(0, 10);
+            }
+            $('#Submit').click(function () {
+                if ($('#DonorSide').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى أختيار  جهة منح الاجازة!!',
+                    });
+                }  
+                if ($('#Reason').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى أختيار سبب الاجازة !!',
+                    });
+                }      
+             
+                if ($('#Date').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال التاريخ😶',
+                    });
+                }
+                if (Periodcheckbox.checked && $("#PeriodsId").val()=="") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال الفترة😶',
+                    });
+                }
+                if ($('#FromDate').val() =="") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال تاريخ البداية!!',
+                    });
+                }
+                if ($('#ToDate').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إدخال تاريخ النهاية!!',
+                    });
+                }
+                if (Connectcheckbox.checked ) {
+                    if ($('#FromDate').val() > $('#ToDate').val()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
+                        });
+                    }
+                }
+                if ($('#Vocation').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى اختيار الأجازة😶',
+                    });
+                }                if ($('#Section').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى اختيار القسم😶',
+                    });
+                }
+               else{
+                    const employee = $('#Employee').val();
+                    const section = $('#Section').val();
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/StaffVacations/GetSection?id=" + employee,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                console.log(item.id);
+                                console.log(section);
+                                if (!(item.id == section)) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'الموظف المحدد لا ينتمي الى هذا القسم,يرجى اختيار نفس قسم الموظف😑',
+                                    });
+                                }
+                            });
 
+                        },
+                    });
+               }
+                if ($('#Employee').val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى أختيار الموظف اولا!!',
+                    });
+                }
+            });
 
         });
 
-</script>
+    </script>
 
 }
 
