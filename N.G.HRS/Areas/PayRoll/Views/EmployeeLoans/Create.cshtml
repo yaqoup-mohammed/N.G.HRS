@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "_Layout";
-
 }
 
 <h1>Create</h1>
@@ -13,15 +12,17 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="loanForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
+                    <option value="">  </option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" class="form-control" readonly />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,11 +32,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
+                <select asp-for="CurrencyId" class="form-control" asp-items="ViewBag.CurrencyId">
+                    <option value="">  </option>
+                </select>
             </div>
-            <div class="form-group form-check">
+            <div id="ArrestCheckbox" class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Arrest" /> @Html.DisplayNameFor(model => model.Arrest)
+                    <input class="form-check-input" id="ArrestCheckbox" asp-for="Arrest" /> @Html.DisplayNameFor(model => model.Arrest)
                 </label>
             </div>
             <div class="form-group">
@@ -44,14 +47,14 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InstallmentAmount" class="control-label"></label>
-                <input asp-for="InstallmentAmount" class="form-control" />
-                <span asp-validation-for="InstallmentAmount" class="text-danger"></span>
+                <label asp-for="NumberOfInstallmentMonths" class="control-label"></label>
+                <input asp-for="NumberOfInstallmentMonths" class="form-control" id="NumberOfInstallmentMonths" />
+                <span asp-validation-for="NumberOfInstallmentMonths" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumberOfInstallmentMonths" class="control-label"></label>
-                <input asp-for="NumberOfInstallmentMonths" class="form-control" />
-                <span asp-validation-for="NumberOfInstallmentMonths" class="text-danger"></span>
+                <label asp-for="InstallmentAmount" class="control-label"></label>
+                <input asp-for="InstallmentAmount" class="form-control" id="InstallmentAmount" readonly />
+                <span asp-validation-for="InstallmentAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
@@ -59,7 +62,7 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -69,6 +72,94 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#Date').val(new Date().toISOString().split('T')[0]);
+        });
+
+        $('#ArrestCheckbox input').change(function () {
+            if ($(this).is(":checked")) {
+                $('#loanForm').submit(function (event) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: "error",
+                        title: `لا يمكن ان يكون خيار <span class="text-danger">إيقاف التقسيط</span> مفعل!!`,
+                        showCloseButton: true // لإظهار زر إغلاق
+                    });
+                });
+            } else {
+                $('#loanForm').off("submit");
+            }
+        });
+
+        //============================
+        $(document).ready(function () {
+            $('#Date').val(new Date().toISOString().split('T')[0]);
+
+            // تحديث تاريخ بداية القسط لكي يكون أقل من تاريخ بداية القسط الأصلي
+            $('#InstallmentStartDate').change(function () {
+                var startDate = new Date($('#Date').val());
+                var installmentStartDate = new Date($(this).val());
+
+                if (installmentStartDate < startDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'تاريخ بداية القسط يجب أن لا يسبق تاريخ بداية القسط الأصلي.'
+                    });
+                    $(this).val('');
+                }
+            });
+        });
+
+        //============================
+        function validateInputs() {
+            const amountInput = document.getElementById("Amount");
+            const amount = parseFloat(amountInput.value);
+
+            const monthsInput = document.getElementById("NumberOfInstallmentMonths");
+            const months = parseFloat(monthsInput.value);
+
+            // التحقق من صحة المبلغ
+            if (isNaN(amount)) {
+                amountInput.nextElementSibling.textContent = "يرجى إدخال قيمة صالحة للمبلغ";
+                return false; // يمنع استمرار العملية
+            } else {
+                amountInput.nextElementSibling.textContent = "";
+            }
+
+            // التحقق من صحة عدد الأشهر
+            if (isNaN(months) || months <= 0) {
+                monthsInput.nextElementSibling.textContent = "يرجى إدخال عدد أشهر صالح";
+                return false; // يمنع استمرار العملية
+            } else {
+                monthsInput.nextElementSibling.textContent = "";
+            }
+
+            return true; // يسمح بالاستمرار لوصول الى حساب القسط الشهري
+        }
+
+        // حساب الأقساط الشهرية وعرضها للمستخدم
+        function calculateInstallments() {
+            if (validateInputs()) {
+                const amount = parseFloat(document.getElementById("Amount").value);
+                const months = parseFloat(document.getElementById("NumberOfInstallmentMonths").value);
+
+                const installment = amount / months;
+                document.getElementById("InstallmentAmount").value = installment.toFixed(2);
+            }
+        }
+
+        // استدعاء الوظيفة عند تغيير قيمة المبلغ
+        document.getElementById("Amount").addEventListener("change", calculateInstallments);
+
+        // استدعاء الوظيفة عند تغيير عدد الأشهر
+        document.getElementById("NumberOfInstallmentMonths").addEventListener("change", calculateInstallments);
+    </script>
 }
+

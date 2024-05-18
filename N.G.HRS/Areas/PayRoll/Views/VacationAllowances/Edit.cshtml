@@ -1,7 +1,9 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.VacationAllowances
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
 }
 
 <h1>Edit</h1>
@@ -19,9 +21,9 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmplyeeId" class="control-label"></label>
-                <input asp-for="EmplyeeId" class="form-control" />
-                <span asp-validation-for="EmplyeeId" class="text-danger"></span>
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <input asp-for="EmployeeId" class="form-control" />
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VacationBalance" class="control-label"></label>

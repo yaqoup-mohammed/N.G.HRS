@@ -55,8 +55,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // GET: SalariesAndWages/EmployeeAccounts/Create
         public IActionResult Create()
         {
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id");
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id");
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name");
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             return View();
         }

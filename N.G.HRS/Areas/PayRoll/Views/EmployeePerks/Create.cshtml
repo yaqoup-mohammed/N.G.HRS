@@ -1,15 +1,16 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeePerks
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "اكرامية الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 <h1>Create</h1>
 
-<h4>EmployeePerks</h4>
+<h4>اكرامية الموظفين</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,8 +23,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
+                    <option value="">اختر الموظف</option>
+                </select>
             </div>
+
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
@@ -45,8 +49,10 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
             </div>
+            <!-- حقل مخفي لتخزين قيمة الراتب -->
+            <input type="hidden" id="EmployeeSalary" />
         </form>
     </div>
 </div>
@@ -54,7 +60,83 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // تحقق من اختيار اسم الموظف قبل الإرسال
+            $("#submit").click(function (event) {
+                var employeeId = $("#EmployeeId").val();
+                if (employeeId === "") {
+                    event.preventDefault(); // منع إرسال النموذج
+                    Swal.fire({
+                        icon: "error",
+                        title: "خطأ",
+                        text: "يرجى اختيار الموظف",
+                    });
+                }
+            });
+
+            // تضليل حقل النسبة عند إدخال قيمة في حقل الكمية
+            $("#Amount").change(function () {
+                var amountValue = $(this).val();
+                amountValue !== '' ? $('#Percentage').prop('disabled', true) : $('#Percentage').prop('disabled', false);
+            });
+
+            // حساب النسبة عند تغيير قيمة الكمية
+            $("#Amount").change(function () {
+                var amount = $(this).val();
+                var salary = $("#EmployeeSalary").val();
+                if (!isNaN(amount) && !isNaN(salary) && salary > 0) {
+                    var percentage = (amount / salary) * 100;
+                    $("#Percentage").val(percentage.toFixed(2)); // تحديد عدد الأرقام بعد الفاصلة
+                }
+            });
+
+            // استرجاع الراتب عند اختيار اسم الموظف
+            $("#EmployeeId").change(function () {
+                var employeeId = $(this).val();
+                $("#Amount").val('');
+                $("#Percentage").val('');
+                if (employeeId !== "") {
+                    // قم بفحص ما إذا كان الموظف لديه راتب
+                    $.ajax({
+                        url: '/PayRoll/EmployeePerks/financialStatementsnclude?id=' + employeeId,
+                        type: 'GET',
+                        success: function (data) {
+                            var salary = data.salary;
+                            if (salary > 0) {
+                                $("#EmployeeSalary").val(salary);
+                                $('#Percentage').prop('disabled', false);
+                            } else {
+                                $("#EmployeeSalary").val('');
+                                $('#Percentage').prop('disabled', true);
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: "error",
+                                title: "خطأ",
+                                text: "حدث خطأ أثناء فحص الراتب"
+                            });
+                        }
+                    });
+                } else {
+                    $('#Percentage').prop('disabled', false);
+                }
+            });
+
+            // حساب الكمية عند تغيير النسبة
+            $("#Percentage").change(function () {
+                var percentage = $(this).val();
+                var salary = $("#EmployeeSalary").val();
+                if (!isNaN(salary) && salary > 0 && !isNaN(percentage)) {
+                    var amount = (salary * percentage) / 100;
+                    $("#Amount").val(amount.toFixed(4)); // تحديد عدد الأرقام بعد الفاصلة
+                }
+            });
+        });
+    </script>
 }

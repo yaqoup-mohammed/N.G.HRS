@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Date;
-using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.Finance.Controllers
 {
@@ -15,18 +14,17 @@ namespace N.G.HRS.Areas.Finance.Controllers
     public class FinanceAccountTypesController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IRepository<FinanceAccountType> _repositoryRepository;
 
-        public FinanceAccountTypesController(AppDbContext context, IRepository<FinanceAccountType> repositoryRepository)
+        public FinanceAccountTypesController(AppDbContext context)
         {
             _context = context;
-            _repositoryRepository = repositoryRepository;
         }
 
         // GET: Finance/FinanceAccountTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FinanceAccountType.ToListAsync());
+            var appDbContext = _context.FinanceAccountType.Include(f => f.FinanceAccount);
+            return View(await appDbContext.ToListAsync());
         }
 
         // GET: Finance/FinanceAccountTypes/Details/5
@@ -38,6 +36,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
             }
 
             var financeAccountType = await _context.FinanceAccountType
+                .Include(f => f.FinanceAccount)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (financeAccountType == null)
             {
@@ -50,6 +49,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // GET: Finance/FinanceAccountTypes/Create
         public IActionResult Create()
         {
+            ViewData["FinanceAccountId"] = new SelectList(_context.FinanceAccount, "Id", "Name");
             return View();
         }
 
@@ -58,14 +58,15 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Type,AccountNumber,Description")] FinanceAccountType financeAccountType)
+        public async Task<IActionResult> Create([Bind("Id,Name,FinanceAccountId,AccountNumber,Note")] FinanceAccountType financeAccountType)
         {
             if (ModelState.IsValid)
             {
-               await _repositoryRepository.AddAsync(financeAccountType);
-                TempData["Success"] = "تم الحفظ بنجاح";
+                _context.Add(financeAccountType);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FinanceAccountId"] = new SelectList(_context.FinanceAccount, "Id", "Name", financeAccountType.FinanceAccountId);
             return View(financeAccountType);
         }
 
@@ -77,11 +78,12 @@ namespace N.G.HRS.Areas.Finance.Controllers
                 return NotFound();
             }
 
-            var financeAccountType = await _repositoryRepository.GetByIdAsync(id);
+            var financeAccountType = await _context.FinanceAccountType.FindAsync(id);
             if (financeAccountType == null)
             {
                 return NotFound();
             }
+            ViewData["FinanceAccountId"] = new SelectList(_context.FinanceAccount, "Id", "Name", financeAccountType.FinanceAccountId);
             return View(financeAccountType);
         }
 
@@ -90,7 +92,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,AccountNumber,Description")] FinanceAccountType financeAccountType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,FinanceAccountId,AccountNumber,Note")] FinanceAccountType financeAccountType)
         {
             if (id != financeAccountType.Id)
             {
@@ -102,7 +104,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
                 try
                 {
                     _context.Update(financeAccountType);
-                    TempData["Success"] = "تم التعديل بنجاح";
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,6 +119,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FinanceAccountId"] = new SelectList(_context.FinanceAccount, "Id", "Name", financeAccountType.FinanceAccountId);
             return View(financeAccountType);
         }
 
@@ -129,6 +132,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
             }
 
             var financeAccountType = await _context.FinanceAccountType
+                .Include(f => f.FinanceAccount)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (financeAccountType == null)
             {
@@ -143,14 +147,13 @@ namespace N.G.HRS.Areas.Finance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var financeAccountType = await _repositoryRepository.GetByIdAsync(id);
+            var financeAccountType = await _context.FinanceAccountType.FindAsync(id);
             if (financeAccountType != null)
             {
                 _context.FinanceAccountType.Remove(financeAccountType);
             }
 
             await _context.SaveChangesAsync();
-            TempData["Success"] = "تم الحذف بنجاح";
             return RedirectToAction(nameof(Index));
         }
 

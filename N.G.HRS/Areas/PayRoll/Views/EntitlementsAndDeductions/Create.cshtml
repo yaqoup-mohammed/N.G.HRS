@@ -4,44 +4,50 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "_Layout";
-
 }
 
 <h1>Create</h1>
 
-<h4>EntitlementsAndDeductions</h4>
+<h4>إستحقاقات وإستقطاعات</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="entitlementForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" id="dateId" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Month" class="control-label"></label>
-                <input asp-for="Month" class="form-control" />
+                <input asp-for="Month" id="monthId" class="form-control" />
                 <span asp-validation-for="Month" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+                <select asp-for="Type" id="typeId" class="form-control">
+                    <option value=""></option>
+                    <option value="1">إستحقاقات</option>
+                    <option value="2">استقطاعات</option>
+                </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
                 </label>
+                <span asp-validation-for="Taxable" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FinanceAccountTypeId" class="control-label"></label>
-                <select asp-for="FinanceAccountTypeId" class ="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
+                <select asp-for="FinanceAccountTypeId" class="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
+                <span asp-validation-for="FinanceAccountTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
@@ -55,7 +61,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
+                <select asp-for="CurrencyId" class="form-control" asp-items="ViewBag.CurrencyId"></select>
+                <span asp-validation-for="CurrencyId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Note" class="control-label"></label>
@@ -63,7 +70,7 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -73,6 +80,71 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById("submit").addEventListener("click", function (event) {
+            const typeId = document.getElementById("typeId");
+            if (typeId.value === "") {
+                event.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    icon: "error",
+                    title: "خطئ....",
+                    text: "رجاء أختر  النوع",
+                });
+            }
+        });
+
+        document.getElementById("submit").addEventListener("click", function (event) {
+            const dateId = document.getElementById("dateId");
+            if (dateId.value === "") {
+                event.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    icon: "error",
+                    title: "خطئ....",
+                    text: "رجاء أختر  التاريخ",
+                });
+            }
+        });
+        
+        document.getElementById("submit").addEventListener("click", function (event) {
+            const monthId = document.getElementById("monthId");
+            if (monthId.value === "") {
+                event.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    icon: "error",
+                    title: "خطئ....",
+                    text: "رجاء أختر  الشهر",
+                });
+            }
+        }); 
+
+    
+
+    </script>
+    <script>
+        document.getElementById("submit").addEventListener("click", function (event) {
+            const monthId = document.getElementById("monthId");
+            const enteredMonth = parseInt(monthId.value.trim());
+
+            if (enteredMonth > 12) {
+                event.preventDefault(); // منع إرسال النموذج
+
+                // عرض رسالة الخطأ باستخدام SweetAlert
+                Swal.fire({
+                    icon: "error",
+                    title: "خطأ",
+                    text: "لا يمكن أن يزيد عدد الأشهر عن 12",
+                });
+            }
+        });
+    </script>
+
+
 }
+
+   

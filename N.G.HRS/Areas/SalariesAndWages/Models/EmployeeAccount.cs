@@ -28,7 +28,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public FinanceAccountType? FinanceAccountType { get; set; }
         //=
         [ForeignKey("FinanceAccountId")]
-        [Display(Name = "معرف الحساب المالي")]
+        [Display(Name = "الحساب المالي")]
         public int? FinanceAccountId { get; set; }
         public FinanceAccount? FinanceAccount { get; set; }
 

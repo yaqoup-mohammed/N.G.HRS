@@ -65,7 +65,7 @@
 
                                         <div class="col-md-5 col-12 mb-3">
                                             <label asp-for="Employee.EmployeeNumber" class="form-label">الرقم الوظيفي</label>
-                                            <input asp-for="Employee.EmployeeNumber" readonly id="EmployeeNumber" type="text" class="form-control" placeholder="الرقم الوظيفي " />
+                                            <input asp-for="Employee.EmployeeNumber"  id="EmployeeNumber" type="text" class="form-control" placeholder="الرقم الوظيفي " />
                                             <span asp-validation-for="Employee.EmployeeNumber" class="text-danger"></span>
 
                                         </div>
@@ -802,7 +802,7 @@
                                             <div class="col-sm-4">
                                                 <div class="mb-3">
                                                     <label asp-for="FinancialStatements.SalaryStartDate" class="form-label">تاريخ بداية الاجر:</label>
-                                                    <div class="input-group flatpickr" id="flatpickr-date">
+                                                <div class="input-group flatpickr flatpickr-date" >
                                                     <input asp-for="FinancialStatements.SalaryStartDate" type="date" class="form-control" placeholder="Select date" data-input>
                                                         <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
 
@@ -813,12 +813,11 @@
                                             <div class="col-sm-4">
                                                 <div class="mb-3">
                                                     <label asp-for="FinancialStatements.SalaryEndDate" class="form-label">تاريخ نهاية الاجر:</label>
-                                                    <div class="input-group flatpickr" id="flatpickr-date">
-                                                        <input asp-for="FinancialStatements.SalaryStartDate" type="text" class="form-control" placeholder="Select date" data-input>
+                                                <div class="input-group flatpickr flatpickr-date" >
+                                                    <input asp-for="FinancialStatements.SalaryEndDate" type="text" class="form-control" placeholder="Select date" data-input>
                                                         <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                 </div>                                               
-                                                <span asp-validation-for="FinancialStatements.SalaryStartDate" class="text-danger"></span>
-
+                                                <span asp-validation-for="FinancialStatements.SalaryEndDate" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <!-- Col -->

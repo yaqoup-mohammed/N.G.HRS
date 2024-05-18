@@ -451,6 +451,24 @@ namespace N.G.HRS.Date
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Currency)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.CurrencyId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Departments)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.DepartmentId)
+              .OnDelete(DeleteBehavior.NoAction);          
+            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Sections)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.SectionId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
               .HasOne(p => p.Employee)
               .WithMany(p => p.EmployeeAdvancesList)
               .HasForeignKey(p => p.EmployeeId)
@@ -510,6 +528,12 @@ namespace N.G.HRS.Date
               .HasOne(p => p.Currency)
               .WithMany(p => p.AdministrativeDecisionsList)
               .HasForeignKey(p => p.CurrencyId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<VacationAllowances>()
+              .HasOne(p => p.Employee)
+              .WithMany(p => p.VacationAllowancesList)
+              .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
 
 

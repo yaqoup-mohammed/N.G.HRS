@@ -40,6 +40,7 @@ namespace N.G.HRS.Areas.Finance.Models
             public List<EntitlementsAndDeductions>? EntitlementsAndDeductionsList { get; set; }
             public List<AllowancesAndDiscounts>? AllowancesAndDiscountsList { get; set; }
         public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
+        public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
 
         //=
 
