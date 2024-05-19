@@ -44,6 +44,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         //===============================================================
         public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
         //===============================================================
+        public List<AttendanceRecord>? AttendanceRecordList { get; set; }
+        //===============================================================
+        public List<EmployeePermissions>? EmployeePermissionsList { get; set; }
+
+        //===============================================================
         public List<StaffVacations>? StaffVacationsList { get; set; }
 
         public List<Weekends>? WeekendsList { get; set; }

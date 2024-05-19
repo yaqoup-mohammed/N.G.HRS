@@ -20,7 +20,7 @@
                         <h3> أجازات الموظفين</h3>
                     </div>
                     <div class="card-body">
-                        <form asp-action="Create">
+                        <form asp-action="Create" id="form">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row mb-2">
                                 <div class="form-group col-md-5 ">
@@ -118,22 +118,22 @@
                             <div class="row set mb-2">
                                 <div class="form-group col-md-3  read-only">
                                     <label asp-for="PerDay" class="control-label"></label>
-                                    <input asp-for="PerDay" id="PerDay" class="form-control" />
+                                    <input asp-for="PerDay" id="PerDay" readonly class="form-control" />
                                     <span asp-validation-for="PerDay" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-md-3  read-only">
                                     <label asp-for="PerHour" class="control-label"></label>
-                                    <input asp-for="PerHour" id="PerHour" class="form-control" />
+                                    <input asp-for="PerHour" id="PerHour" readonly class="form-control" />
                                     <span asp-validation-for="PerHour" class="text-danger"></span>
                                 </div>
-                                <div class="form-group col-md-3  read-only">
+                                <div class="form-group col-md-3 read-only ">
                                     <label asp-for="PerMinute" class="control-label"></label>
-                                    <input asp-for="PerMinute" id="PerMinute" class="form-control" />
+                                    <input asp-for="PerMinute" id="PerMinute" readonly class="form-control" />
                                     <span asp-validation-for="PerMinute" class="text-danger"></span>
                                 </div>
                                 <div class="form-group form-check col-md-3">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" tabindex="9" asp-for="Accepted" /> @Html.DisplayNameFor(model => model.Accepted)
+                                        <input class="form-check-input" tabindex="9" id="Accepted" asp-for="Accepted" /> @Html.DisplayNameFor(model => model.Accepted)
                                     </label>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                             <input type="hidden" asp-for="Expendables" id="Expendables" class="form-control" /> مستهلك
                             <input type="hidden" asp-for="Residual" id="Residual" class="form-control" /> متبقي  *@
                             <div class="form-group">
-                                <input type="submit" id="Submit" value="Create" class="btn btn-primary" />
+                                <input type="button" id="Submit" value="Create" class="btn btn-primary" />
                             </div>
                         </form>
                     </div>
@@ -234,9 +234,9 @@
                                             <th>المتبقي:</th>
                                             <td id="ResidualDays"></td>
                                             <td id="ResidualHours"></td>
-                                            <td id="ResidualMinute"></td>
+                                            <td> <input id="ResidualMinute" readonly type="number" style="background-color:none; width:60px; border:none; pointer-events: none;" /></td>
                                         </tr>
-
+                                        لا
                                     </tbody>
                                 </table>
                             </div>
@@ -259,269 +259,239 @@
     }
     <script>
         $(document).ready(function () {
-            const Periodcheckbox = document.getElementById('PeriodCheck');
-            const periodgroup = document.getElementById('PeriodGroup');
-            const Connectcheckbox = document.getElementById('IsConnected');
-            const subEmployee = document.getElementById('SubEmployee');
-            const subEmployeeGroup = document.getElementById('SubEmployeeGroup');
+            const Periodcheckbox = document.getElementById("PeriodCheck");
+            const periodgroup = document.getElementById("PeriodGroup");
+            const Connectcheckbox = document.getElementById("IsConnected");
+            const subEmployee = document.getElementById("SubEmployee");
+            const subEmployeeGroup = document.getElementById("SubEmployeeGroup");
+            const isConnectedGroup = document.getElementById("IsConnectedGroup");
+            const Accepted = document.getElementById("Accepted");
+            const SubEmployee = document.getElementById("SubEmployee");
 
             periodgroup.style = `pointer-events: none; filter: none; opacity: .6;`;
             subEmployeeGroup.style = `pointer-events: none; filter: none; opacity: .6;`;
 
-            Periodcheckbox.addEventListener('change', function () {
-                $('#PeriodsId').val("").change();
-                $('#EndPeriod').val("");
-                $('#StartPeriod').val("");
+            Periodcheckbox.addEventListener("change", function () {
+                $("#PeriodsId").val("").change();
+                $("#EndPeriod").val("");
+                $("#StartPeriod").val("");
+                $("#PerDay").val("");
+                $("#PerHour").val("");
+                $("#PerMinute").val("");
+                $("#FromDate").val("");
+                $("#ToDate").val("");
+                isConnectedGroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
 
                 if (Periodcheckbox.checked) {
                     periodgroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
-                    $('#PeriodTimeGroup').show();
-                    $('#IsConnectedGroup').addClass = "read-only";
-
-                }
-                else {
-                    $('#PeriodTimeGroup').hide();
+                    $("#PeriodTimeGroup").show();
+                    isConnectedGroup.style = `pointer-events: none; filter: none; opacity: .6;`;
+                } else {
+                    $("#PeriodTimeGroup").hide();
                     periodgroup.style = `pointer-events: none; filter: none; opacity: .6;`;
-                    $('#IsConnectedGroup').removeClass = "read-only";
-
+                    isConnectedGroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
                 }
             });
 
-            subEmployee.addEventListener('change', function () {
-                $('#SubstituteStaffMemberId').val("").change();
+            subEmployee.addEventListener("change", function () {
+                $("#SubstituteStaffMemberId").val("").change();
 
                 if (subEmployee.checked) {
                     subEmployeeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
-
-                }
-                else {
+                } else {
                     subEmployeeGroup.style = `pointer-events: none; filter: none; opacity: .6;`;
-
                 }
             });
-            Connectcheckbox.addEventListener('change', function () {
-                $("#PerDay").val('');
-                $("#PerHour").val('');
-                $("#PerMinute").val('');
-                $("#FromDate").val('');
-                $("#ToDate").val('');
-
-
+            Connectcheckbox.addEventListener("change", function () {
+                $("#PerDay").val("");
+                $("#PerHour").val("");
+                $("#PerMinute").val("");
+                $("#FromDate").val("");
+                $("#ToDate").val("");
             });
 
-            $('#FromDate').change(function () {
-
+            $("#FromDate").change(function () {
                 if (Connectcheckbox.checked) {
-                    if ($('#ToDate').val() != null) {
-                        if ($('#FromDate').val() > $('#ToDate').val()) {
+                    if ($("#ToDate").val() != "") {
+                        if ($("#FromDate").val() > $("#ToDate").val()) {
                             Swal.fire({
-                                icon: 'error',
-                                title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
+                                icon: "error",
+                                title: "تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية",
                             });
                         }
                     }
-
-
                 }
                 // $('#ToDate').val($('#FromDate').val());
-
             });
-            $('#ToDate').change(function () {
-                const from = $('#FromDate').val();
-                const employee = $('#Employee').val();
 
-                if (Connectcheckbox.checked) {
-                    if ($('#FromDate').val() != null && $('#FromDate').val() > $('#ToDate').val()) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
-                        });
+            $("#ToDate").change(function () {
+                const from = $("#FromDate").val();
+                const employee = $("#Employee").val();
+                const perMinute2 = document.getElementById("PerMinute").value;
+
+                if (employee != "") {
+                    //=====================================================================
+                    if (Connectcheckbox.checked) {
+                        if (
+                            $("#FromDate").val() != "" &&
+                            $("#ToDate").val() != "" &&
+                            $("#FromDate").val() > $("#ToDate").val()
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية",
+                            });
+                        }
+                        if ($("#FromDate").val() == $("#ToDate").val()) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "اذا كانت الاجازة في نفس اليوم يجب ايقاف تحديد خيار <span class='text-danger'>متصل</span>",
+                            });
+                                                    $("#ToDate").val("");
+
+                        }
+                    } else {
+                        if (
+                            $("#FromDate").val() != "" &&
+                            $("#ToDate").val() != "" &&
+                            $("#FromDate").val() != $("#ToDate").val()
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: `يجب تحديد خيار <span class='text-danger'>متصل</span> اذا لم تكن الاجازة ليوم واحد`,
+                            });
+                            $('#ToDate').val($('#FromDate').val());
+                        }
                     }
-                }
-                else {
-                    if ($('#FromDate').val() != null && $('#FromDate').val() != $('#ToDate').val()) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: `يجب تحديد خيار <span class='text-danger'>متصل</span> اذا لم تكن الاجازة ليوم واحد`,
-                        });
-                        $('#ToDate').val($('#FromDate').val());
-                    }
-                }
-                if (!Periodcheckbox.checked) {
-                    //==================================================================
-                    // Create Date objects from the input dates
+                    //===================================================
                     const startDate = new Date(from);
                     const endDate = new Date(this.value);
-
-                    // Handle invalid inputs (non-date values)
                     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'يرجى إدخال تواريخ صحيحة',
-                        });
+                        return "Invalid input: Please enter valid date strings.";
                     }
+
                     // Ensure startDate is before endDate for consistent calculation
-                    if (startDate > endDate) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
-                        });
-                    }
 
                     // Get the time difference in milliseconds
                     const timeDiff = endDate.getTime() - startDate.getTime();
+
                     // Convert milliseconds to days (factor in 1000 milliseconds/second, 3600 seconds/hour, 24 hours/day)
                     const days = Math.floor(timeDiff / (1000 * 3600 * 24));
+                    if (!(Periodcheckbox.checked)) {
 
-
-
-                    //==================================================================
-                    $.ajax({
-                        url:
-                            "/MaintenanceControl/StaffVacations/ShiftHour?id=" + employee,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
-                            $.each(data, function (i, item) {
-                                console.log(days);
-                                if (!Periodcheckbox.checked) {
-                                    if (days === 0) {
+                        //===================================================
+                        $.ajax({
+                            url: "/MaintenanceControl/StaffVacations/ShiftHour?id=" + employee,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $.each(data, function (i, item) {
+                                    if (!Connectcheckbox.checked && days === 0) {
                                         $("#PerDay").val(1);
 
                                         $("#PerHour").val(item.shiftHour);
 
                                         $("#PerMinute").val(item.shiftHour * 60);
+                                    } else {
+                                        if (days === 0) {
+                                            $("#PerDay").val(1);
 
+                                            $("#PerHour").val(item.shiftHour);
+
+                                            $("#PerMinute").val(item.shiftHour * 60);
+                                        }
+                                        else {
+                                            $("#PerDay").val(days);
+                                            $("#PerHour").val(days * item.shiftHour);
+
+                                            $("#PerMinute").val(days * item.shiftHour * 60);
+                                        }
                                     }
-                                    else {
-
-                                        $("#PerDay").val(days);
-                                        $("#PerHour").val(days * item.shiftHour);
-
-                                        $("#PerMinute").val((days * item.shiftHour) * 60);
-                                    }
-                                }
-                                // var total = item.editorial + item.transferred;
-                                // $('#annualDays').append((item.annul / item.shiftHour) / 60);
-                                // $('#annualHours').append(item.annul / item.shiftHour);
-                                // $('#annualMinute').append(item.annul);
-                                // $('#opening').append((item.editorial / item.shiftHour) / 60);
-                                // $('#openingHours').append(item.editorial / item.shiftHour);
-                                // $('#openingMinute').append(item.editorial);
-                                // $('#TransferredDats').append((item.transferred / item.shiftHour) / 60);
-                                // $('#TransferredHours').append(item.transferred / item.shiftHour);
-                                // $('#TransferredMinute').append(item.transferred);
-                                // $('#totalDays').append((total / item.shiftHour) / 60);
-                                // $('#totalHours').append(total / item.shiftHour);
-                                // $('#totalMinute').append(total);
-                                // $('#ExpendablesDays').append((item.expendables / item.shiftHour) / 60);
-                                // $('#ExpendablesHours').append(item.expendables / item.shiftHour);
-                                // $('#ExpendablesMinute').append(item.expendables);
-                                // $('#ResidualDays').append((item.residual / item.shiftHour) / 60);
-                                // $('#ResidualHours').append(item.residual / item.shiftHour);
-                                // $('#ResidualMinute').append(item.residual);
-
-
-
-                            });
-
-                        },
-                    });
+                                });
+                            },
+                        });
+                    }
                 }
+                else {
+                    if (
+                        $("#FromDate").val() != "" &&
+                        $("#ToDate").val() != "" &&
+                        $("#FromDate").val() != $("#ToDate").val()
+                    ) {
+                        Swal.fire({
+                            icon: "error",
+                            title: `يرجى إختيار الموظف أولا!!`,
+                        });
 
+                    }
+                }
             });
 
             //==================================================================
-            $('#PeriodsId').change(function () {
+            $("#PeriodsId").change(function () {
                 $("#StartPeriod").empty();
                 $("#EndPeriod").empty();
                 //=================================
-                const from = $('#FromDate').val();
-                const To = $('#ToDate').val();
-                // Create Date objects from the input dates
-                const startDate = new Date(from);
-                const endDate = new Date(To);
-
-                // Handle invalid inputs (non-date values)
-                if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى إدخال تواريخ صحيحة',
-                    });
-                }
-                // Ensure startDate is before endDate for consistent calculation
-                if (startDate > endDate) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
-                    });
-                }
 
                 //==================================
                 if (this.value != "") {
                     $.ajax({
                         url:
-                            "/MaintenanceControl/StaffVacations/EmployeeShiftTime?id=" + this.value,
+                            "/MaintenanceControl/StaffVacations/EmployeeShiftTime?id=" +
+                            this.value,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            console.log(data);
-                            $("#StartPeriod").val(data.fromTime)
+                            $("#StartPeriod").val(data.fromTime);
                             $("#EndPeriod").val(data.toTime);
                             //========
-                           
-                                $('#PerDay').val(0);
-                                $('#PerHour').val(data.hours);
 
-                                $('#PerMinute').val(data.muinutes);
-                            
+                            $("#PerDay").val(0);
+                            $("#PerHour").val(data.hours);
+
+                            $("#PerMinute").val(data.muinutes);
                         },
                     });
                 }
             });
-            $('#Employee').change(function () {
-
-
+            var residual = 0;
+            $("#Employee").change(function () {
                 $("#PeriodsId").empty();
                 $("#SubstituteStaffMemberId").empty();
                 $("#Vocation").empty();
-                $('#annualDays').empty();
-                $('#annualHours').empty();
-                $('#annualMinute').empty();
-                $('#opening').empty();
-                $('#openingHours').empty();
-                $('#openingMinute').empty();
-                $('#TransferredDats').empty();
-                $('#TransferredHours').empty();
-                $('#TransferredMinute').empty();
-                $('#totalDays').empty();
-                $('#totalHours').empty();
-                $('#totalMinute').empty();
-                $('#ExpendablesDays').empty();
-                $('#ExpendablesHours').empty();
-                $('#ExpendablesMinute').empty();
-                $('#ResidualDays').empty();
-                $('#ResidualHours').empty();
-                $('#ResidualMinute').empty();
-                $("#PerDay").val('');
-                $("#PerHour").val('');
-                $("#PerMinute").val('');
-                $("#FromDate").val('');
-                $("#ToDate").val('');
-
-
+                $("#annualDays").empty();
+                $("#annualHours").empty();
+                $("#annualMinute").empty();
+                $("#opening").empty();
+                $("#openingHours").empty();
+                $("#openingMinute").empty();
+                $("#TransferredDats").empty();
+                $("#TransferredHours").empty();
+                $("#TransferredMinute").empty();
+                $("#totalDays").empty();
+                $("#totalHours").empty();
+                $("#totalMinute").empty();
+                $("#ExpendablesDays").empty();
+                $("#ExpendablesHours").empty();
+                $("#ExpendablesMinute").empty();
+                $("#ResidualDays").empty();
+                $("#ResidualHours").empty();
+                $("#ResidualMinute").empty();
+                $("#PerDay").val("");
+                $("#PerHour").val("");
+                $("#PerMinute").val("");
+                $("#FromDate").val("");
+                $("#ToDate").val("");
 
                 if (this.value != null) {
                     $.ajax({
-                        url:
-                            "/MaintenanceControl/StaffVacations/GetSection?id=" + this.value,
+                        url: "/MaintenanceControl/StaffVacations/GetSection?id=" + this.value,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
                             $.each(data, function (i, item) {
                                 $("#Section").val(item.id).change();
                             });
-
                         },
                     });
                     //=======================================================
@@ -534,175 +504,504 @@
                             $("#PeriodsId").append('<option value=""></option>');
 
                             $.each(data, function (i, item) {
-                                $("#PeriodsId").append('<option value="' + item.id + '">' + item.name + '</option>');
+                                $("#PeriodsId").append(
+                                    '<option value="' + item.id + '">' + item.name + "</option>"
+                                );
                             });
-
                         },
                     });
                     //=======================================================
                     $.ajax({
                         url:
-                            "/MaintenanceControl/StaffVacations/EmployeeVocationList?id=" + this.value,
+                            "/MaintenanceControl/StaffVacations/EmployeeVocationList?id=" +
+                            this.value,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            console.log(data.vacationsbalance);
-                            $.each(data.vacationsbalance, function (i, item) {
-                                $("#Vocation").append('<option value=""></option>');
-                                $("#Vocation").append('<option value="' + item.id + '">' + "الاجازة : " + item.name + " , " + " لسنة : " + item.year + " , " + " الرصيد: " + item.balance + " يوم " + '</option>');
-                            });
+                            $("#Vocation").append('<option value=""></option>');
 
+                            $.each(data.vacationsbalance, function (i, item) {
+                                $("#Vocation").append(
+                                    '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    "الاجازة : " +
+                                    item.name +
+                                    " , " +
+                                    " لسنة : " +
+                                    item.year +
+                                    " , " +
+                                    " الرصيد: " +
+                                    item.balance +
+                                    " يوم " +
+                                    "</option>"
+                                );
+                            });
                         },
                     });
                     //=======================================================
                     $.ajax({
-                        url:
-                            "/MaintenanceControl/StaffVacations/SubEmployee?id=" + this.value,
+                        url: "/MaintenanceControl/StaffVacations/SubEmployee?id=" + this.value,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
                             $.each(data, function (i, item) {
-
                                 $("#SubstituteStaffMemberId").append('<option value=""></option>');
-                                $("#SubstituteStaffMemberId").append('<option value="' + item.id + '">' + item.name + '</option>');
+                                $("#SubstituteStaffMemberId").append(
+                                    '<option value="' + item.id + '">' + item.name + "</option>"
+                                );
                             });
-
                         },
                     });
                     //=======================================================
                     $.ajax({
                         url:
-                            "/MaintenanceControl/StaffVacations/EmployeeVocationBalance?id=" + this.value,
+                            "/MaintenanceControl/StaffVacations/EmployeeVocationBalance?id=" +
+                            this.value,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
                             $.each(data.vacationBalanceList, function (i, item) {
-
                                 var total = item.editorial + item.transferred;
-                                $('#annualDays').append((item.annul / item.shiftHour) / 60);
-                                $('#annualHours').append(item.annul / 60);
-                                $('#annualMinute').append(item.annul);
-                                $('#opening').append((item.editorial / item.shiftHour) / 60);
-                                $('#openingHours').append(item.editorial / 60);
-                                $('#openingMinute').append(item.editorial);
-                                $('#TransferredDats').append((item.transferred / item.shiftHour) / 60);
-                                $('#TransferredHours').append(item.transferred / 60);
-                                $('#TransferredMinute').append(item.transferred);
-                                $('#totalDays').append((total / item.shiftHour) / 60);
-                                $('#totalHours').append(total / item.shiftHour);
-                                $('#totalMinute').append(total);
-                                $('#ExpendablesDays').append((item.expendables / item.shiftHour) / 60);
-                                $('#ExpendablesHours').append(item.expendables / 60);
-                                $('#ExpendablesMinute').append(item.expendables);
-                                $('#ResidualDays').append((item.residual / item.shiftHour) / 60);
-                                $('#ResidualHours').append(item.residual / 60);
-                                $('#ResidualMinute').append(item.residual);
-
-
-
+                                var residual = total - item.expendables;
+                                var residualHours = residual / item.shiftHour;
+                                var residualDay = (residual / item.shiftHour) * 60;
+                                $("#annualDays").append(item.annul / item.shiftHour / 60);
+                                $("#annualHours").append(item.annul / 60);
+                                $("#annualMinute").append(item.annul);
+                                $("#opening").append(item.editorial / item.shiftHour / 60);
+                                $("#openingHours").append(item.editorial / 60);
+                                $("#openingMinute").append(item.editorial);
+                                $("#TransferredDats").append(
+                                    item.transferred / item.shiftHour / 60
+                                );
+                                $("#TransferredHours").append(item.transferred / 60);
+                                $("#TransferredMinute").append(item.transferred);
+                                $("#totalDays").append(total / item.shiftHour / 60);
+                                $("#totalHours").append(total / 60);
+                                $("#totalMinute").append(total);
+                                $("#ExpendablesDays").append(
+                                    item.expendables / item.shiftHour / 60
+                                );
+                                $("#ExpendablesHours").append(item.expendables / 60);
+                                $("#ExpendablesMinute").append(item.expendables);
+                                $("#ResidualDays").append(residual / item.shiftHour / 60);
+                                $("#ResidualHours").append(residual / 60);
+                                $("#ResidualMinute").val(residual);
                             });
-
                         },
                     });
                 }
             });
             //================================================================
             window.onload = function () {
-                const date = document.getElementById('Date');
+                const date = document.getElementById("Date");
 
                 // Option 1: Preset to today's date on page load
                 const today = new Date();
                 date.value = today.toISOString().slice(0, 10);
-            }
-            $('#Submit').click(function () {
-                if ($('#DonorSide').val() == "") {
+            };
+            //================================================================
+
+
+            //================================================================
+            $("#Submit").click(function () {
+                const r = $("#ResidualMinute").val();
+                const employee = $("#Employee").val();
+                const vocation = $("#Vocation").val();
+                const section = $("#Section").val();
+                const perDay = $("#PerDay").val();
+                const perHour = $("#PerHour").val();
+                const form = document.getElementById("form");
+                const perMinute2 = parseInt($("#PerMinute").val());
+                //======================================================
+                //======================================================
+                if (!(Accepted.checked)) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'يرجى أختيار  جهة منح الاجازة!!',
+                        title: `يرجى تفعيل خيار تم قبول الطلب!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
                     });
-                }  
-                if ($('#Reason').val() == "") {
+                    event.preventDefault();
+                }
+                if ($("#DonorSide").val() == "") {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى أختيار سبب الاجازة !!',
+                        icon: "error",
+                        title: "يرجى إدخال جهة منح الاجازة!!",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
                     });
-                }      
-             
-                if ($('#Date').val() == "") {
+                    event.preventDefault();
+
+                }
+                if ($("#Reason").val() == "") {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى إدخال التاريخ😶',
+                        icon: "error",
+                        title: "يرجى إدخال سبب الاجازة!!",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (SubEmployee.checked && $("#SubstituteStaffMemberId").val() == "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "يرجى اختيار الموظف البديل!!",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
                     });
                 }
-                if (Periodcheckbox.checked && $("#PeriodsId").val()=="") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى إدخال الفترة😶',
-                    });
-                }
-                if ($('#FromDate').val() =="") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى إدخال تاريخ البداية!!',
-                    });
-                }
-                if ($('#ToDate').val() == "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى إدخال تاريخ النهاية!!',
-                    });
-                }
-                if (Connectcheckbox.checked ) {
-                    if ($('#FromDate').val() > $('#ToDate').val()) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية',
-                        });
-                    }
-                }
-                if ($('#Vocation').val() == "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى اختيار الأجازة😶',
-                    });
-                }                if ($('#Section').val() == "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يرجى اختيار القسم😶',
-                    });
-                }
-               else{
-                    const employee = $('#Employee').val();
-                    const section = $('#Section').val();
+                //===
+                if (r != "" || r != 0) {
                     $.ajax({
                         url:
-                            "/MaintenanceControl/StaffVacations/GetSection?id=" + employee,
+                            "/MaintenanceControl/StaffVacations/CheackVocationBalance?id=" + employee,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            //==============================================================
+                            $.each(data, function (i, item) {
+                                const total = item.editorial + item.transferred;
+                                const residual = total - item.expendables;
+                                const residualHours = residual / 60;
+                                const residualDay = residual / item.shiftHour / 60;
+                                if (residual !== 0) {
+                                    if (residual < perMinute2) {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            iconColor: "#d33",
+                                            confirmButtonColor: "#d33",
+                                            confirmButtonText: "حسنا",
+                                            title: `الرصيد المتبقي لا يكفي ,المتبقي من الاجازة هو ${residualDay} يوم و ${residualHours} ساعة و ${residual} دقيقة `,
+                                        });
+                                        event.preventDefault();
+                                    }
+                                }
+                                else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        iconColor: "#d33",
+                                        title: `رصيد الموظف المحدد هو 0 , لا يمكن لهذا الموظف ان يأخذ اجازة!! `,
+                                        confirmButtonColor: "#d33",
+                                        confirmButtonText: "حسنا",
+                                    });
+                                    event.preventDefault();
+                                }
+                            });
+                        },
+                    });
+                    //===
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/StaffVacations/OpeningBalancesForVacations?id=" + vocation,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            //==============================================================
+                            $.each(data, function (i, item) {
+                                const shifftHours = perHour / perDay;
+                                const balanceM = (item.balance * shifftHours) * 60;
+                                Swal.fire({
+                                    title: ` رصيد الأجازة<span class="text-danger">${item.name}</span>  هو <span class="text-danger">${item.balance}</span> يوم ,بينما مدة الاجازة المحددة هو <span class="text-danger">${perDay}</span> يوم ,هل تريد المتابعة؟`,
+                                    icon: "info",
+                                    iconColor: "#e5b540",
+                                    showCancelButton: true,
+                                    confirmButtonText: "متابعة",
+                                    cancelButtonText: `عدم المتابعة`,
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonColor: "#e5b540",
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        if (r == 0 || r < 0 || r < perMinute2) {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: `الرصيد غير كافي!! `,
+                                                iconColor: "#d33",
+                                                confirmButtonColor: "#d33",
+                                                confirmButtonText: "حسنا",
+                                            });
+                                            event.preventDefault();
+                                        }
+                                        if ($("#DonorSide").val() == "") {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "يرجى إدخال جهة منح الاجازة!!",
+                                                iconColor: "#d33",
+                                                confirmButtonColor: "#d33",
+                                                confirmButtonText: "حسنا",
+                                            });
+                                            event.preventDefault();
+
+                                        }
+                                        if ($("#Reason").val() == "") {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "يرجى إدخال سبب الاجازة!!",
+                                                iconColor: "#d33",
+                                                confirmButtonColor: "#d33",
+                                                confirmButtonText: "حسنا",
+                                            });
+                                            event.preventDefault();
+
+                                        }
+                                        if ($("#FromDate").val() == "") {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "يرجى ادخال تاريخ البداية",
+                                                iconColor: "#d33",
+                                                confirmButtonColor: "#d33",
+                                                confirmButtonText: "حسنا",
+                                            });
+                                            event.preventDefault();
+                                        }
+                                        if ($("#ToDate").val() == "") {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "يرجى ادخال تاريخ النهاية ",
+                                                iconColor: "#d33",
+                                                confirmButtonColor: "#d33",
+                                                confirmButtonText: "حسنا",
+                                            });
+                                            event.preventDefault();
+                                        }
+                                        else {
+                                            form.submit();
+                                        }
+                                    } else if (result.isDenied) {
+                                        Swal.fire("Changes are not saved", "", "info");
+                                        event.preventDefault();
+
+                                    }
+                                });
+                                if (balanceM < perMinute2){
+                                    Swal.fire({
+                                        title: ` رصيد الأجازة<span class="text-danger">${item.name}</span>  هو <span class="text-danger">${item.balance}</span> يوم ,بينما مدة الاجازة المحددة هو <span class="text-danger">${perDay}</span> يوم ,هل تريد المتابعة؟`,
+                                        icon: "info",
+                                        iconColor: "#e5b540",
+                                        showCancelButton: true,
+                                        confirmButtonText: "متابعة",
+                                        cancelButtonText: `عدم المتابعة`,
+                                        cancelButtonColor: "#d33",
+                                        confirmButtonColor: "#e5b540",
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            if (r == 0 || r < 0 || r < perMinute2) {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: `الرصيد غير كافي!! `,
+                                                    iconColor: "#d33",
+                                                    confirmButtonColor: "#d33",
+                                                    confirmButtonText: "حسنا",
+                                                });
+                                                event.preventDefault();
+                                            }
+                                            if ($("#DonorSide").val() == "") {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "يرجى إدخال جهة منح الاجازة!!",
+                                                    iconColor: "#d33",
+                                                    confirmButtonColor: "#d33",
+                                                    confirmButtonText: "حسنا",
+                                                });
+                                                event.preventDefault();
+
+                                            }
+                                            if ($("#Reason").val() == "") {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "يرجى إدخال سبب الاجازة!!",
+                                                    iconColor: "#d33",
+                                                    confirmButtonColor: "#d33",
+                                                    confirmButtonText: "حسنا",
+                                                });
+                                                event.preventDefault();
+
+                                            }
+                                            if ($("#FromDate").val() == "") {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "يرجى ادخال تاريخ البداية",
+                                                    iconColor: "#d33",
+                                                    confirmButtonColor: "#d33",
+                                                    confirmButtonText: "حسنا",
+                                                });
+                                                event.preventDefault();
+                                            }
+                                            if ($("#ToDate").val() == "") {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "يرجى ادخال تاريخ النهاية ",
+                                                    iconColor: "#d33",
+                                                    confirmButtonColor: "#d33",
+                                                    confirmButtonText: "حسنا",
+                                                });
+                                                event.preventDefault();
+                                            }
+                                            else {
+                                                form.submit();
+                                            }
+                                        } else if (result.isDenied) {
+                                            Swal.fire("Changes are not saved", "", "info");
+                                            event.preventDefault();
+
+                                        }
+                                    });
+                                }
+
+                            });
+                        },
+                    });
+
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `الرصيد غير كافي!! `,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                //===
+                if (perMinute2 == 0 || perMinute2 == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `عدد دقائق الاجازة لا يمكن ان يكون فارغ أو يكون 0!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                //=
+                if (!(Connectcheckbox.checked) && $("#ToDate").val() != $("#FromDate").val()) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "اذا لم يكن الخيار <span class='text-danger'>متصل</span> مفعل ,إذا يجب ان يكون تاريخ البداية يساوي تاريخ النهاية!!",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                //=
+                if ($("#FromDate").val() == "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "يرجى ادخال تاريخ البداية",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if ($("#ToDate").val() == "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "يرجى ادخال تاريخ النهاية ",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if ($("#FromDate").val() > $("#ToDate").val()) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "تاريخ البداية يجب ان يكون اصغر من تاريخ النهاية",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (vocation == "" || vocation == 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى أختيار الاجازة!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (Periodcheckbox.checked && $("#PeriodsId").val() == "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "يرجى اختيار الفترة!!",
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                //=
+                if (section != "" || section != 0) {
+                    $.ajax({
+                        url: "/MaintenanceControl/StaffVacations/GetSection?id=" + employee,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
                             $.each(data, function (i, item) {
-                                console.log(item.id);
-                                console.log(section);
-                                if (!(item.id == section)) {
+                                if (item.id != section) {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'الموظف المحدد لا ينتمي الى هذا القسم,يرجى اختيار نفس قسم الموظف😑',
+                                        title: `الموظف لا ينتمي الى القسم المحدد,يرجى أختيار قسم الموظف`,
+                                        iconColor: "#d33",
+                                        confirmButtonColor: "#d33",
+                                        confirmButtonText: "حسنا",
                                     });
+                                    event.preventDefault();
                                 }
                             });
-
                         },
                     });
-               }
-                if ($('#Employee').val() == "") {
+
+                } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'يرجى أختيار الموظف اولا!!',
+                        title: `يرجى أختيار القسم!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
                     });
+                    event.preventDefault();
                 }
-            });
+                //=
+                if (employee == "" || employee == 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى أختيار الموظف!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                //=
+                if ($("#Date").val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار التاريخ !!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
 
+
+            });
+            //===============================================================
         });
+
+
 
     </script>
 

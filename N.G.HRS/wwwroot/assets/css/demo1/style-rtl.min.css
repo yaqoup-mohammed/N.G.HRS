@@ -23182,37 +23182,30 @@ body {
         .sidebar .sidebar-header .sidebar-toggler span + span {
             margin-top: 4px
         }
-
     .sidebar .sidebar-header .sidebar-toggler.active span:nth-child(1) {
         -webkit-animation: ease .6s top forwards;
         animation: ease .6s top forwards
     }
-
     .sidebar .sidebar-header .sidebar-toggler.not-active span:nth-child(1) {
         -webkit-animation: ease .6s top-2 forwards;
         animation: ease .6s top-2 forwards
     }
-
     .sidebar .sidebar-header .sidebar-toggler.active span:nth-child(2) {
         -webkit-animation: ease .6s scaled forwards;
         animation: ease .6s scaled forwards
     }
-
     .sidebar .sidebar-header .sidebar-toggler.not-active span:nth-child(2) {
         -webkit-animation: ease .6s scaled-2 forwards;
         animation: ease .6s scaled-2 forwards
     }
-
     .sidebar .sidebar-header .sidebar-toggler.active span:nth-child(3) {
         -webkit-animation: ease .6s bottom forwards;
         animation: ease .6s bottom forwards
     }
-
     .sidebar .sidebar-header .sidebar-toggler.not-active span:nth-child(3) {
         -webkit-animation: ease .6s bottom-2 forwards;
         animation: ease .6s bottom-2 forwards
     }
-
 @-webkit-keyframes top {
     0% {
         top: 0;
@@ -23444,12 +23437,12 @@ body {
     .sidebar .sidebar-body .nav {
         display: flex;
         flex-direction: column;
-        padding: 115px 0px 50px 0px
     }
 
         .sidebar .sidebar-body .nav .nav-item {
             position: relative;
             padding-top: 2px;
+            font-size: 17px
         }
 
             .sidebar .sidebar-body .nav .nav-item .nav-link {
@@ -23460,6 +23453,7 @@ body {
                 white-space: unset;
                 color: #000;
                 border-radius: 0.2rem;
+                font-size: 15px
             }
 
                 .sidebar .sidebar-body .nav .nav-item .nav-link .link-icon {
@@ -23472,7 +23466,8 @@ body {
 
                 .sidebar .sidebar-body .nav .nav-item .nav-link .link-title {
                     margin-right: 30px;
-                    font-size: 14px;
+                    font-size: 17px;
+                    font-weight
                     -webkit-transition: all .2s ease-in-out;
                     transition: all .2s ease-in-out
                 }
@@ -23495,8 +23490,8 @@ body {
                 }
 
                 .sidebar .sidebar-body .nav .nav-item .nav-link[aria-expanded="true"] {
-                    color: #e5b540;
-                    background-color: #fbf5e4;
+                    color: #000;
+                    background-color: #fbf5e457;
                 }
 
                     .sidebar
@@ -23547,8 +23542,9 @@ body {
                 background-color: #fbf5e4;
             }
             .sidebar .sidebar-body .nav .nav-item.active .menu {
-                color: #e5b540;
-                background-color: #fbf5e4;
+                color: #000 !important;
+                font-weight: bold !important;
+                background-color: #fbf5e4 !important;
             }
                 .sidebar .sidebar-body .nav .nav-item.active .nav-link::before {
                     content: "";
@@ -23563,7 +23559,7 @@ body {
                     fill: rgba(239, 243, 255, 0.5);
                     color: #e5b540;
                 }
-
+                    
         .sidebar .sidebar-body .nav.sub-menu {
             padding: 5px 26px 15px 0;
         }
@@ -23575,7 +23571,7 @@ body {
                 .sidebar .sidebar-body .nav.sub-menu .nav-item .nav-link {
                     height: 30px;
                     color: #000;
-                    font-size: 13px;
+                    font-size: 15px !important;
                     -webkit-transition: all .3s ease-in-out;
                     transition: all .3s ease-in-out
                 }
@@ -23596,19 +23592,22 @@ body {
                     }
 
                     .sidebar .sidebar-body .nav.sub-menu .nav-item .nav-link.active {
-                        color: #e5b540;
-                        /*background-color: #fbf5e4;*/
+                        color: #000 !important;
+                        font-weight: bold !important;
+                        border: 1px solid #fbf5e4 !important;
+                        background: #fbf5e4 !important;
                     }
 
                         .sidebar .sidebar-body .nav.sub-menu .nav-item .nav-link.active::before {
-                            border: 1px solid #e5b540;
-                            background: #e5b540
+                            border: 1px solid #e5b540 !important;
+                            background: #e5b540 !important;
                         }
 
                 .sidebar .sidebar-body .nav.sub-menu .nav-item:hover .nav-link {
-                    color: #e5b540;
-/*                    background-color: #fbf5e4;
-*/                    margin-right: 3px
+                    color: #000 !important;
+                    border: 1px solid #fbf5e457 !important;
+                    background-color: #fbf5e457 !important;
+                    margin-right: 3px !important;
                 }
 
                     .sidebar .sidebar-body .nav.sub-menu .nav-item:hover .nav-link::before {
@@ -26644,3 +26643,6 @@ div.tox .tox-dialog__body {
                 -webkit-transform: scale(1);
                 transform: scale(1);
             }
+        .margin{
+            margin-top:130px;
+        }

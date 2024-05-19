@@ -83,7 +83,7 @@
                 @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Period.Id)
+                @Html.DisplayFor(modelItem => item.PeriodsId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsConnected)
@@ -127,3 +127,8 @@
 }
     </tbody>
 </table>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

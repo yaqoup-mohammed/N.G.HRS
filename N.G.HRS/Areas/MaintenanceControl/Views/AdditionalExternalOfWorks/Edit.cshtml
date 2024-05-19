@@ -1,0 +1,93 @@
+﻿@model N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<h1>Edit</h1>
+
+<h4>AdditionalExternalOfWork</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstituteEmployeeId" class="control-label"></label>
+                <select asp-for="SubstituteEmployeeId" class="form-control" asp-items="ViewBag.SubstituteEmployeeId"></select>
+                <span asp-validation-for="SubstituteEmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FromDate" class="control-label"></label>
+                <input asp-for="FromDate" class="form-control" />
+                <span asp-validation-for="FromDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToDate" class="control-label"></label>
+                <input asp-for="ToDate" class="form-control" />
+                <span asp-validation-for="ToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FromTime" class="control-label"></label>
+                <input asp-for="FromTime" class="form-control" />
+                <span asp-validation-for="FromTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToTime" class="control-label"></label>
+                <input asp-for="ToTime" class="form-control" />
+                <span asp-validation-for="ToTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hours" class="control-label"></label>
+                <input asp-for="Hours" class="form-control" />
+                <span asp-validation-for="Hours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Minutes" class="control-label"></label>
+                <input asp-for="Minutes" class="form-control" />
+                <span asp-validation-for="Minutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mission" class="control-label"></label>
+                <input asp-for="Mission" class="form-control" />
+                <span asp-validation-for="Mission" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskDestination" class="control-label"></label>
+                <input asp-for="TaskDestination" class="form-control" />
+                <span asp-validation-for="TaskDestination" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

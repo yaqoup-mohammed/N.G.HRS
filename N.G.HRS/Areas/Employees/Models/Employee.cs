@@ -10,7 +10,6 @@ using N.G.HRS.Areas.PayRoll.ModelView;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using zkemkeeper;
 
 
 namespace N.G.HRS.Areas.Employees.Models
@@ -135,6 +134,10 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //====================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
+        //====================================
+        public List<EmployeePermissions>? EmployeePermissionsList { get; set; }
+        //====================================
+        public List<EmployeePermissions>? SupervisorEPList { get; set; }
         public List<EmployeeMovements>? EmployeeMovementsList { get; set; }
         //==================================== 
         public List<Family>? FamilyList { get; set; }
@@ -149,19 +152,22 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
-        //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
+        public List<AttendanceRecord>? AttendanceRecordList { get; set; }
+        //====================================
+        public List<AdditionalExternalOfWork>? AdditionalExternalOfWorkList { get; set; }
+        public List<AdditionalExternalOfWork>? SEAEOWList { get; set; }//Substitute Employee Additional External Of Work List
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
         public string? CurrentJop { get; internal set; }
 
         //=========================================
-        public void FingerCapture()
-        {
-            CZKEM objCZKEM = new CZKEM();
-            var localFingerPrintImage = FingerPrintImage;
+        //public void FingerCapture()
+        //{
+        //    CZKEM objCZKEM = new CZKEM();
+        //    var localFingerPrintImage = FingerPrintImage;
 
-            bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
-        }
+        //    bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
+        //}
 
     }
 }

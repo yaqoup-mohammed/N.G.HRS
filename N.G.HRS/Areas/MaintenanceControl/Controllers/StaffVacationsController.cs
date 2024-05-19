@@ -76,9 +76,56 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(staffVacations);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var balance = _context.VacationBalance.FirstOrDefault(x => x.EmployeeId == staffVacations.EmployeeId);
+                    if (balance != null)
+                    {
+                        var rest = (balance.Editorial + balance.Transferred) - balance.Expendables;
+                        //if (rest < staffVacations.PerMinute || rest == 0)
+                        //{
+
+
+                        //    TempData["Error"] = "الرصيد لا يكفي ";
+                        //    return View(staffVacations);
+                        //}
+                        //else { 
+                            if (staffVacations.VacationId == 1)
+                            {
+                                if (balance.Annual < staffVacations.PerMinute)
+                                {
+                                    balance.Annual -= balance.Annual;
+                                    balance.Expendables += staffVacations.PerMinute;
+                                    _context.VacationBalance.Update(balance);
+
+                                }
+                                else
+                                {
+                                    balance.Annual -= staffVacations.PerMinute;
+                                    balance.Expendables += staffVacations.PerMinute;
+                                    _context.VacationBalance.Update(balance);
+                                }
+
+                            }
+                            else
+                            {
+
+                                balance.Expendables += staffVacations.PerMinute;
+                                _context.VacationBalance.Update(balance);
+                            }
+                        }
+
+                    //}
+                    _context.Add(staffVacations);
+
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "تم الحفظ بنجاح";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["SystemError"] =ex.Message;
+                }
             }
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", staffVacations.EmployeeId);
             ViewData["PeriodsId"] = new SelectList(_context.periods, "Id", "Id", staffVacations.PeriodsId);
@@ -270,6 +317,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
         }
 
+
         public IActionResult EmployeePeriod(int? id)
         {
             if (id != 0)
@@ -320,8 +368,38 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 var employee = _context.employee.Where(x => x.Id == id).FirstOrDefault();
                 if (employee != null)
                 {
-                    var vacationsbalance = _context.openingBalancesForVacations.Include(x=>x.PublicHolidays).Where(x => x.EmployeeId == id).Select(x => new {id=x.PublicHolidaysId,name=x.PublicHolidays.HolidayName,balance=x.Balance,year=x.BalanceYear}).ToList();
+                    var vacationsbalance = _context.openingBalancesForVacations.Include(x=>x.PublicHolidays).Where(x => x.EmployeeId == id && x.BalanceYear==DateTime.Now.Year).Select(x => new {id=x.PublicHolidaysId,name=x.PublicHolidays.HolidayName,balance=x.Balance,year=x.BalanceYear}).ToList();
 
+                    if (vacationsbalance != null)
+                    {
+                       
+                        return Json(new { vacationsbalance });
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    return NotFound();
+
+                }
+            }
+
+            else
+            {
+                return BadRequest("Invalid id");
+            }
+        }
+        public IActionResult VocationList(int? empid, int? id)
+        {
+            if (id != 0)
+            {
+                var employee = _context.employee.Where(x => x.Id == id).FirstOrDefault();
+                if (employee != null)
+                {
+                    var vacationsbalance = _context.openingBalancesForVacations.Include(x=>x.PublicHolidays).Where(x => x.EmployeeId == empid && x.PublicHolidaysId==id).Select(x => new {id=x.PublicHolidaysId,name=x.PublicHolidays.HolidayName,balance=x.Balance,year=x.BalanceYear}).ToList();
                     if (vacationsbalance != null)
                     {
                        
@@ -431,6 +509,55 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 return BadRequest("Invalid id");
             }
         }
+        public IActionResult CheackVocationBalance(int? id)
+        {
+            if (id != 0)
+            {
+                var employee = _context.employee.FirstOrDefault(x => x.Id == id);
+                if (employee != null)
+                {
+                    var vacationBalance = _context.VacationBalance.Where(x => x.EmployeeId == id).Select(x => new{
+                        annul = x.Annual,
+                        editorial = x.Editorial,
+                        transferred = x.Transferred,
+                        residual = x.Residual,
+                        expendables = x.Expendables,
+                        shiftHour = x.ShiftHour,
+                    }).FirstOrDefault();
+                    if (vacationBalance == null)
+                    {
+                        TempData["Error"] = "الموظف المحدد لا يمتلك اي أجازات ☹";
+                        return Ok();
+
+
+                    }
+                    else
+                    {
+                        //var vacationBalanceList= vacationBalance.Select(x => new {
+                        //    annul = x.Annual,
+                        //    editorial = x.Editorial,
+                        //    transferred = x.Transferred,
+                        //    residual = x.Residual,
+                        //    expendables = x.Expendables,
+                        //    shiftHour = x.ShiftHour,
+                        // });
+                        return Json(new { vacationBalance } );
+                        //return Json(new { vacationBalanceList });
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+
+                }
+            }
+
+            else
+            {
+                return BadRequest("Invalid id");
+            }
+        }
         public IActionResult ShiftHour(int? id)
         {
             if (id != 0)
@@ -458,6 +585,31 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     return NotFound();
 
                 }
+            }
+
+            else
+            {
+                return BadRequest("Invalid id");
+            }
+        }
+        public IActionResult OpeningBalancesForVacations(int? id)
+        {
+            if (id != 0)
+            {
+                
+                    var vacationBalance = _context.openingBalancesForVacations.Include(x => x.PublicHolidays).Where(x => x.PublicHolidaysId == id).Select(x => new { id = x.PublicHolidaysId, name = x.PublicHolidays.HolidayName, balance = x.Balance}).FirstOrDefault();
+                    if (vacationBalance == null)
+                    {
+                        TempData["Error"] = "الموظف المحدد لا يمتلك اي أجازات ☹";
+                        return Ok();
+                    }
+                    else
+                    {
+                        //return Json(vacationBalance);
+                        return Json(new { vacationBalance });
+                    }
+
+                
             }
 
             else
