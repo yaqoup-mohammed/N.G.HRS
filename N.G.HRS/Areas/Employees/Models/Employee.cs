@@ -3,13 +3,13 @@ using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.PayRoll.ModelView;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using zkemkeeper;
 
 
 namespace N.G.HRS.Areas.Employees.Models
@@ -84,8 +84,14 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<TrainingCourses>? TrainingCoursesList { get; set; }
         //=====================================           
         public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
+        //=====================================
+        public List<StaffVacations>? StaffVacationsList { get; set; }
+        //=====================================
+        public List<StaffVacations>? SubstituteStaffMemberList { get; set; }
         //=====================================           
         public List<VacationAllowances>? VacationAllowancesList { get; set; }
+        //=====================================           
+        public List<VacationBalance>? VacationBalanceList { get; set; }
 
         //=====================================
         public List<Permits>? PermitsList { get; set; }
@@ -130,6 +136,10 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //====================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
+        //====================================
+        public List<EmployeePermissions>? EmployeePermissionsList { get; set; }
+        //====================================
+        public List<EmployeePermissions>? SupervisorEPList { get; set; }
         public List<EmployeeMovements>? EmployeeMovementsList { get; set; }
         //==================================== 
         public List<Family>? FamilyList { get; set; }
@@ -146,18 +156,22 @@ namespace N.G.HRS.Areas.Employees.Models
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //==================================== 
+        public List<AttendanceRecord>? AttendanceRecordList { get; set; }
+        //====================================
+        public List<AdditionalExternalOfWork>? AdditionalExternalOfWorkList { get; set; }
+        public List<AdditionalExternalOfWork>? SEAEOWList { get; set; }//Substitute Employee Additional External Of Work List
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
         public string? CurrentJop { get; internal set; }
 
         //=========================================
-        public void FingerCapture()
-        {
-            CZKEM objCZKEM = new CZKEM();
-            var localFingerPrintImage = FingerPrintImage;
+        //public void FingerCapture()
+        //{
+        //    CZKEM objCZKEM = new CZKEM();
+        //    var localFingerPrintImage = FingerPrintImage;
 
-            bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
-        }
+        //    bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
+        //}
 
     }
 }

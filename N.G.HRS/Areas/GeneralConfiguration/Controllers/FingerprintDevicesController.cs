@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
-using zkemkeeper;
+using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 {
@@ -10,8 +10,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
     public class FingerprintDevicesController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly FingerprintDevices _finger;
-
+        //private readonly ZkemClient _ZK;
+        //public FingerprintDevicesController(AppDbContext context, ZkemClient zkClient)
+        //{
+        //    _context = context;
+        //    _ZK = zkClient;
+        //}
         public FingerprintDevicesController(AppDbContext context)
         {
             _context = context;
@@ -53,13 +57,21 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,DevicesName,DeviceType,DeviceStatus,ConnectionType,DateOfPurchase,VendorName,VendorPhon,VendorAdress,ManufactureCompany,DeviceSpecifications,IpAddress,IsConnected,Notes")] FingerprintDevices fingerprintDevices)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(fingerprintDevices);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(fingerprintDevices);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(fingerprintDevices);
             }
-            return View(fingerprintDevices);
+            catch (Exception ex)
+            {
+                TempData["SystemError"]=ex.Message;
+                return View(fingerprintDevices);
+            }
         }
 
         // GET: GeneralConfiguration/FingerprintDevices/Edit/5
@@ -149,219 +161,20 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         private bool FingerprintDevicesExists(int id)
         {
             return _context.fingerprintDevices.Any(e => e.Id == id);
-        } 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Connect(string? ipAddress)
-        {
-            if (ipAddress != null)
-            {
-                var isConnected = new FingerprintDevices();
-                
-                if (isConnected.IsConnected == false)
-                {
-                    try
-                    {
-                        TempData["massage"] = "جاري الاتصال....";
-                        CZKEM objCZKEM = new CZKEM();
-                        if (objCZKEM.Connect_Net(ipAddress, (int)CONSTANTS.PORT))
-                        {
-                            objCZKEM.SetDeviceTime2(objCZKEM.MachineNumber, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                            var newFingerprintDevices = new FingerprintDevices
-                            {
-                                IsConnected = true,
-                                IpAddress = ipAddress
-                            };
-                            _context.fingerprintDevices.Update(newFingerprintDevices);
-                            await _context.SaveChangesAsync();
-                            if (isConnected.IsConnected == true)
-                            {
-                                TempData["massage"] = "تم الاتصال";
-                                TempData["massage"] = "Obtaining attendance data...";
-                            }
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        TempData["massage"] = ex.Message;
-
-                    }
-                }
-                else
-                {
-                    TempData["massage"] = "الجهاز متصل!!";
-                }
-            }
-            else
-            {
-                TempData["massage"]= "ادخل IP";
-            }
-            
-            return RedirectToAction(nameof(Create));
         }
-        public enum CONSTANTS
-        {
-            PORT = 4370,
-        }
-        static void Main(string ipAddress)
-        {
-            Console.WriteLine("Connecting...");
-            CZKEM objCZKEM = new CZKEM();
-            if (objCZKEM.Connect_Net(ipAddress, (int)CONSTANTS.PORT))
-            {
-                objCZKEM.SetDeviceTime2(objCZKEM.MachineNumber, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                Console.WriteLine("Connection Successful!");
-                Console.WriteLine("Obtaining attendance data...");
-            }
-            else
-            {
-                Console.WriteLine("Connection Failed!");
-            }
+        //public IActionResult CheackConnection(string ip)
+        //{
+        //    try
+        //    {
+        //        var result = _ZK.Connect_Net(ip);
+        //        return View(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["SystemError"] = ex.Message;
+        //        return View();
+        //    }
+        //}
 
-            if (objCZKEM.ReadGeneralLogData(objCZKEM.MachineNumber))
-            {
-                //ArrayList logs = new ArrayList();
-                string log;
-                string dwEnrollNumber;
-                int dwVerifyMode;
-                int dwInOutMode;
-                int dwYear;
-                int dwMonth;
-                int dwDay;
-                int dwHour;
-                int dwMinute;
-                int dwSecond;
-                int dwWorkCode = 1;
-                int AWorkCode;
-                objCZKEM.GetWorkCode(dwWorkCode, out AWorkCode);
-                objCZKEM.SaveTheDataToFile(objCZKEM.MachineNumber, "attendance.txt", 1);
-                while (true)
-                {
-                    if (!objCZKEM.SSR_GetGeneralLogData(
-                    objCZKEM.MachineNumber,
-                    out dwEnrollNumber,
-                    out dwVerifyMode,
-                    out dwInOutMode,
-                    out dwYear,
-                    out dwMonth,
-                    out dwDay,
-                    out dwHour,
-                    out dwMinute,
-                    out dwSecond,
-                    ref AWorkCode
-                    ))
-                    {
-                        break;
-                    }
-                    log = "User ID:" + dwEnrollNumber + " " + verificationMode(dwVerifyMode) + " " + InorOut(dwInOutMode) + " " + dwDay + "/" + dwMonth + "/" + dwYear + " " + time(dwHour) + ":" + time(dwMinute) + ":" + time(dwSecond);
-                    Console.WriteLine(log);
-                    //logs.Add(log);
-
-
-                }
-            }
-            //Console.ReadLine();
-        }
-
-        static void getAttendanceLogs(CZKEM objCZKEM)
-        {
-            string log;
-            string dwEnrollNumber;
-            int dwVerifyMode;
-            int dwInOutMode;
-            int dwYear;
-            int dwMonth;
-            int dwDay;
-            int dwHour;
-            int dwMinute;
-            int dwSecond;
-            int dwWorkCode = 1;
-            int AWorkCode;
-            objCZKEM.GetWorkCode(dwWorkCode, out AWorkCode);
-            objCZKEM.SaveTheDataToFile(objCZKEM.MachineNumber, "attendance.txt", 1);
-            while (true)
-            {
-                if (!objCZKEM.SSR_GetGeneralLogData(
-                objCZKEM.MachineNumber,
-                out dwEnrollNumber,
-                out dwVerifyMode,
-                out dwInOutMode,
-                out dwYear,
-                out dwMonth,
-                out dwDay,
-                out dwHour,
-                out dwMinute,
-                out dwSecond,
-                ref AWorkCode
-                ))
-                {
-                    break;
-                }
-                log = "User ID:" + dwEnrollNumber + " " + verificationMode(dwVerifyMode) + " " + InorOut(dwInOutMode) + " " + dwDay + "/" + dwMonth + "/" + dwYear + " " + time(dwHour) + ":" + time(dwMinute) + ":" + time(dwSecond);
-                Console.WriteLine(log);
-            }
-        }
-
-        static string time(int Time)
-        {
-            string stringTime = "";
-            if (Time < 10)
-            {
-                stringTime = "0" + Time.ToString();
-            }
-            else
-            {
-                stringTime = Time.ToString();
-            }
-            return stringTime;
-        }
-
-        static string verificationMode(int verifyMode)
-        {
-            String mode = "";
-            switch (verifyMode)
-            {
-                case 0:
-                    mode = "Password";
-                    break;
-                case 1:
-                    mode = "Fingerprint";
-                    break;
-                case 2:
-                    mode = "Card";
-                    break;
-            }
-            return mode;
-        }
-
-        static string InorOut(int InOut)
-        {
-            string InOrOut = "";
-            switch (InOut)
-            {
-                case 0:
-                    InOrOut = "IN";
-                    break;
-                case 1:
-                    InOrOut = "OUT";
-                    break;
-                case 2:
-                    InOrOut = "BREAK-OUT";
-                    break;
-                case 3:
-                    InOrOut = "BREAK-IN";
-                    break;
-                case 4:
-                    InOrOut = "OVERTIME-IN";
-                    break;
-                case 5:
-                    InOrOut = "OVERTIME-OUT";
-                    break;
-
-            }
-            return InOrOut;
-        }
-        //===============================================
-        //===============================================
     }
 }

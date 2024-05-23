@@ -405,3 +405,159 @@ span[data-img-src]::after {
     width: var(--width);
     background-repeat: no-repeat;
 }
+.set {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+.read-only {
+    pointer-events: none;
+    filter: none;
+    opacity: .8;
+}
+.space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.index-title {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 24px !important;
+    width: 15% !important;
+}
+/*======================================================*/
+.alertclose {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    font-size: 25px;
+    color: #808080ad;
+    float: left;
+    position: relative;
+    bottom: 16px;
+}
+hr.message-inner-separator {
+    clear: both;
+    margin-bottom: 0px;
+    border-bottom: 2px solid;
+}
+/*=============================================================================*/
+.percentage-container {
+    display: flex;
+    align-items: center;
+}
+
+    .percentage-container .percentage {
+        width: 100px;padding-right: 20px;
+    }
+
+    .percentage-container span {
+        margin-left: -20px;pointer-events: none;
+    }
+.fixed-column {
+    position: sticky;
+    left: 0;
+    background-color: #f1f1f1; /* Background color for fixed column */
+    z-index: 1; /* Ensure the fixed column is above the other cells */
+}
+.sub-menu li a {
+    font-size:15px;
+    font-family: 'Noto Naskh Arabic','Times New Roman', Times, serif;
+}
+/*=====================================================*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: rtl; /* Right-to-left direction */
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    transform: translateX(0); /* Sidebar is visible by default */
+}
+
+    .sidebar.open {
+        transform: translateX(0); /* Show the sidebar */
+    }
+
+    .sidebar.closed {
+        transform: translateX(100%); /* Hide the sidebar */
+    }
+
+.sidebar-menu, .nested-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+    .sidebar-menu li {
+        padding: 8px 16px;
+        text-align: right; /* Align text to the right */
+    }
+
+        .sidebar-menu li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+            .sidebar-menu li a:hover {
+                background-color: #575757;
+            }
+
+.nested-menu {
+    display: none; /* Hide nested menus by default */
+    padding-right: 20px; /* Indent nested items */
+}
+
+.sidebar-menu li.open .nested-menu {
+    display: block; /* Show nested menu when parent is clicked */
+}
+
+.close-btn, .open-btn {
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.open-btn {
+    right: 10px;
+}
+
+#main-content {
+    padding: 20px;
+    margin-right: 250px; /* Adjust according to sidebar width */
+    transition: margin-right 0.5s;
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    #main-content {
+        margin-right: 0;
+    }
+
+    .open-btn {
+        right: 10px;
+    }
+}

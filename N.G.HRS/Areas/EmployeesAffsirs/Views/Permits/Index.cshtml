@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.EmployeesAffsirs.Models.Permits>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
 }
 
 <h1>Index</h1>
@@ -23,6 +26,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NotEmployee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.For)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Purpose)
@@ -52,6 +58,9 @@
                 @Html.DisplayFor(modelItem => item.Purpose)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.For)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
@@ -63,3 +72,8 @@
 }
     </tbody>
 </table>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
