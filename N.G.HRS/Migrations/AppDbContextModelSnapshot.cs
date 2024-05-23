@@ -1265,8 +1265,7 @@ namespace N.G.HRS.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.HasIndex("GuaranteesId")
-                        .IsUnique();
+                    b.HasIndex("GuaranteesId");
 
                     b.HasIndex("MaritalStatusId");
 
@@ -1598,6 +1597,9 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+
+                    b.Property<int>("PermitsType")
+                        .HasColumnType("int");
                     b.Property<string>("PermitsType")
                         .HasColumnType("nvarchar(max)");
 
@@ -3767,9 +3769,9 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Guarantees", "guarantees")
-                        .WithOne("personalData")
-                        .HasForeignKey("N.G.HRS.Areas.Employees.Models.PersonalData", "GuaranteesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("PersonalDataList")
+                        .HasForeignKey("GuaranteesId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.MaritalStatus", "MaritalStatus")
@@ -4511,7 +4513,7 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Guarantees", b =>
                 {
-                    b.Navigation("personalData");
+                    b.Navigation("PersonalDataList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.Currency", b =>
