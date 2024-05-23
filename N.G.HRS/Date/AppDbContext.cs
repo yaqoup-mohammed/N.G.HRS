@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
+using N.G.HRS.Areas.Employees.Controllers;
 
 namespace N.G.HRS.Date
 {
@@ -126,10 +127,12 @@ namespace N.G.HRS.Date
                 .HasForeignKey(p => p.ReligionId);
             //البيانات الشخصية مع الضمين
             //======================================================MO-AL-MO
-            modelBuilder.Entity<Guarantees>()
-               .HasOne(p => p.personalData)
-               .WithOne(p => p.guarantees)
-               .HasForeignKey<PersonalData>(b => b.GuaranteesId);
+            modelBuilder.Entity<PersonalData>()
+               .HasOne(p => p.guarantees)
+               .WithMany(p => p.PersonalDataList)
+               .HasForeignKey(b => b.GuaranteesId)
+               .OnDelete(DeleteBehavior.NoAction);
+
             //البيانات الشخصية مع الحالة الاجتماعية
             modelBuilder.Entity<PersonalData>()
                 .HasOne(p => p.MaritalStatus)
@@ -582,6 +585,9 @@ namespace N.G.HRS.Date
         public DbSet<PenaltiesAndViolationsForms> penaltiesAndViolationsForms { get; set; }
         public DbSet<Departments> Departments { get; set; }
         //================================================== MO-AL-MO
+        //public DbSet<EmployeeSequence> EmployeeSequence { get; set; }
+
+        //================================================== 
         public DbSet<Family> Family { get; set; } 
         public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
         public DbSet<Universities> Universities { get; set; } = default!;

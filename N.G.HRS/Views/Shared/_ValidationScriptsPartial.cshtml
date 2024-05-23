@@ -8,8 +8,7 @@
 {
 
     <script type="text/javascript">
-            console.log("@TempData["Success"]");
-            alert("@TempData["Success"]");
+            
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -33,9 +32,7 @@
 
 
     <script>
-        event.preventDefault();
-            alert("@TempData["Error"]");
-            console.log("@TempData["Error"]");
+           
             Swal.fire({
                 icon: 'error',
                 title: '@TempData["Error"]',
@@ -44,14 +41,14 @@
                 },
                 buttonsStyling: false
             });
+        event.preventDefault();
+
     </script>
 }
 @if (TempData["SystemError"] != null)
 {
     <script>
-        event.preventDefault();
-            console.log("@TempData["SystemError"]");
-            alert("@TempData["SystemError"]");
+            
             Swal.fire({
                 icon: 'error',
                 title: 'حدث خطئ في النظام 😢',
@@ -62,7 +59,8 @@
                 },
                 buttonsStyling: false
             });
-        
+        event.preventDefault();
+
     </script>
 
 }@if (TempData["Reload"] != null)
