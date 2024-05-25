@@ -2,16 +2,11 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
-}
-@if (@TempData["massage"]!=null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["massage"]
-    </div>
-    
+    ViewData["Title"] = " الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 <h1>Create</h1>
@@ -78,15 +73,11 @@
                 <label asp-for="IpAddress" class="control-label"></label>
                 <input asp-for="IpAddress" class="form-control" />
                 <span asp-validation-for="IpAddress" class="text-danger"></span>
-          
+              </div>
             <div class="form-group">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#varyingModal" >Connect</button>
             </div>
-@*             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsConnected" /> @Html.DisplayNameFor(model => model.IsConnected)
-                </label>
-            </div> *@
+
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
                 <input asp-for="Notes" class="form-control" />

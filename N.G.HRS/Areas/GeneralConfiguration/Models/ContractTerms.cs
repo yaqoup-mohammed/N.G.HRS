@@ -9,13 +9,17 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string ModelName { get; set; }
+        [Display(Name ="نوع العقد")]
+        public string? ModelName { get; set; }
+        //===============================================================
         [Required]
         [StringLength(255)]
         [DataType(DataType.MultilineText)]
         [Column(TypeName = "text")]
         public string? StatementOfConditions { get; set; }
+
         [StringLength(255)]
+        [Display(Name ="ملاحظة")]
         public string? Notes { get; set; }
         //=========================================================
         [ForeignKey("ContractsId")]
