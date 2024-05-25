@@ -2,12 +2,13 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "نماذج الدوام";
+    ViewData["Title"] = "الدولة";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 <h1>جديد</h1>
 
 <h4>الدول</h4>
@@ -18,7 +19,7 @@
         <li class="breadcrumb-item"><a href="../../../dashboard.html"> الرئيسة</a></li>
         <li class="breadcrumb-item active" aria-current="page"> تهيئة النظام</li>
         <li class="breadcrumb-item active" aria-current="page"> التهيئة العامة</li>
-        <li class="breadcrumb-item active" aria-current="page"> <a asp-action="Index" >دليل الدول</a>              </li>
+        <li class="breadcrumb-item active" aria-current="page"> <a asp-action="Index">دليل الدول</a>              </li>
     </ol>
 </nav>
 
@@ -27,56 +28,57 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">دليل الدول</h6>
-                @Html.HiddenFor(x=>x.Data,new {id="CountryData"})
-                <form asp-action="Create">
+                @Html.HiddenFor(x => x.Data, new { id = "CountryData" })
+                <form asp-action="Create" id="countryForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" />
+                        <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" asp-items="ViewBag.Country" as SelectList />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Notes"  class="form-label"></label>
+                        <label asp-for="Notes" class="form-label"></label>
                         <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
                         <span asp-validation-for="Notes" class="text-danger"></span>
                     </div>
-@*                     <button id="addButton" type="button" class="btn btn-primary"> <i data-feather="plus"></i></button>
- *@
-                    <input type="submit"  value="انهاء" class="btn btn-primary me-2" />
- 
-                    @* <input type="submit" id="submitButton" value="انهاء" class="btn btn-primary me-2" /> *@
+                    <div>
+                        <button type="button" id="submit" class="btn btn-primary me-2">اظافة</button>
 
 
-@*                     <input type="submit" id="submitButton" value="انهاء" class="btn btn-primary me-2" />
- *@
+                        <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
 
+                        <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a>
+                        <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+
+
+                    </div>
                 </form>
-                <div>
-                    <br />
-                    <a asp-action="Index" class="btn btn-light">Back to List</a>
-                </div>
+                    <input type="submit"  id="submit" value="إضافة" class="btn btn-primary me-2" />
+                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
+                    <a asp-action="Index" class="btn btn-light">عودة الى القائمة</a>
+                </form>
+
             </div>
         </div>
     </div>
-
 </div>
+
 <div id="table" class="row" style="display: none">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title headerStyle">الفترات</h6>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table id="temporaryTable" class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>الدولة</th>
                                 <th>الملاحظات</th>
                                 <th>#</th>
-
                             </tr>
                         </thead>
-                        <tbody id="temporaryTable">
+                        <tbody>
                         </tbody>
                     </table>
                 </div>
@@ -86,81 +88,156 @@
 </div>
 
 
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <!-- SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script>
-        //==================
-        // $(document).ready(function () {
+        $(document).ready(function () {
+            var counter = 1;
 
-        //     let temporaryData = []; // Array to store temporary data
-        //     $("#submitButton").prop("disabled", temporaryData.length === 0);
+            // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
+            $("#saveDataBtn").click(function () {
+                // عرض رسالة تأكيد الحفظ
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "هل تريد حفظ جميع البيانات؟",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، قم بالحفظ!',
+                    cancelButtonText: 'لا، الغاء الحفظ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // قم بحفظ البيانات
+                        $("#temporaryTable tr").each(function () {
+                            var country = $(this).find("td:eq(1)").text();
+                            var notes = $(this).find("td:eq(2)").text();
 
-        //     const table = document.getElementById("table");
-        //     $("#addButton").click(function () {
+                            if (country) {
+                                saveCountryData(country, notes ? notes : "");
+                            }
 
-        //         const newData = {
-        //             // Add input field names and their corresponding values here
-        //             fieldName1: $("#Country").val(),
-        //             fieldName2: $("#CountryNotes").val(),
+                            Swal.fire(
+                                'تم الحفظ!',
+                                'تم حفظ جميع البيانات بنجاح.',
+                                'success'
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+
+            // إضافة بيانات إلى الجدول عند النقر على زر "اظافة"
+            $("#submit").click(function () {
+                var country = $("#Country").val();
+                var notes = $("#CountryNotes").val();
+
+                if (country) {
+                    $("#temporaryTable tbody").append(
+                        "<tr>" +
+                        "<td>" + counter + "</td>" +
+                        "<td>" + country + "</td>" +
+                        "<td>" + notes + "</td>" +
+                        "<td><button type='button' class='btn btn-danger delete-row'>حذف</button></td>" +
+                        "</tr>"
+                    );
+                    counter++;
+                    $("#Country").val('');
+                    $("#CountryNotes").val('');
+
+                    // عرض الجدول وزر الحفظ بعد إضافة بيانات جديدة
+                    $("#table").show();
+                    $("#saveDataBtn").show();
+                    $("#clearTableBtn").show();
+                }
+            });
+
+            // حذف صف من الجدول
+            $(document).on("click", ".delete-row", function () {
+                $(this).closest("tr").remove();
+                counter--;
+
+                Swal.fire(
+                    'تم الحذف!',
+                    'تم حذف  البيانات بنجاح.',
+                    'success'
+                );
+
+                if ($("#temporaryTable tbody tr").length === 0) {
+                    $("#saveDataBtn").hide();
+                    $("#table").hide();
+                    $("#clearTableBtn").hide();
+                }
+            });
+
+            // حذف الكل
+            $("#clearTableBtn").click(function () {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "سيتم حذف جميع البيانات!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذف الكل'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tbody").empty();
+                        counter = 1;
+
+                        $("#saveDataBtn").hide();
+                        $("#table").hide();
+                        $("#clearTableBtn").hide();
 
 
-        //             // ... add more fields as needed
-        //         };
-        //         if (!newData.fieldName1) {
-        //             Swal.fire({
-        //                 icon: "error",
-        //                 title: "يرجى تعبئة الحقول اولا",
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             });
-        //         } else {
-        //             table.style = `display:block;`;
+                        Swal.fire(
+                            'تم الحذف!',
+                            'تم حذف جميع البيانات بنجاح.',
+                            'success'
+                        );
+                    }
+                });
+            });
 
-        //             temporaryData.push(newData); // Add data to temporary array
-        //             $("#temporaryTable").append(`
-        //                                                         <tr>
-        //                                                         <td>#</td>
-        //                                                         <td>${newData.fieldName1}</td>
-        //                                                         <td>${newData.fieldName2}</td>
-        //                                                         <td><button class="removeButton btn btn-danger" >إزالة</button></td>
-        //                                                         </tr>
-        //                                 `);
+            // دالة لحفظ البيانات
+            function saveCountryData(country, notes) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SaveCountryData", "Countries")",
+                    data: { country: country, notes: notes },
+                    success: function (response) {
+                        // لا يوجد شيء يجب القيام به هنا
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire(
+                            'خطأ!',
+                            'حدث خطأ أثناء حفظ البيانات: ' + error,
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
 
-        //             // Clear input fields
-
-        //             $("#Country").val("");
-        //             $("#CountryNotes").val("");
-
-        //             // ... clear other input fields
-
-        //             // Disable submit button if no data (optional)
-        //             $("#submitButton").prop("disabled", temporaryData.length === 0);
-        //         }
-        //     });
-        // });
-
-        //     $(document).on("click", ".removeButton", function () {
-        //         const index = $(this).closest("tr").index();
-        //         temporaryData.splice(index, 1);
-        //         $(this).closest("tr").remove();
-
-        //         // Update submit button state (optional)
-        //         $("#submitButton").prop("disabled", temporaryData.length === 0);
-        //     });
-        //     function addData() {
-        //         var add= [];
-        //         temporaryData.forEach(function (data) {
-
-        //     }
-        //     $("#submitButton").click(function () {
-        //         // // Send data to server using AJAX or other methods
-        //         // console.log("Temporary Data:", temporaryData); // Simulate sending to server
-        //     $("#CountryData").val(JSON.stringify(temporaryData));
-        //         // Clear temporary data and table after submission (optional)
-        //         temporaryData = [];
-        //         $("#temporaryTable").empty();
-        //         $("#submitButton").prop("disabled", true);
-        //     });
+        $("#submit").click(function () {
+            var Country = $("#Country").val();
+            if (Country == "") {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "الرجاء أختيار الدولة",
+                });
+            }
+        });
     </script>
 }

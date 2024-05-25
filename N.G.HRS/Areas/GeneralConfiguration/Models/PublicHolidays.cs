@@ -1,4 +1,5 @@
 ﻿using N.G.HRS.Areas.AttendanceAndDeparture.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,6 +28,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public string? Notes { get; set;}
         //=========================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
+        public List<StaffVacations>? StaffVacationsList { get; set; }
+
 
     }
 }

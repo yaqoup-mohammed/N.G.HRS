@@ -3,13 +3,13 @@ using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.PayRoll.ModelView;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using zkemkeeper;
 
 
 namespace N.G.HRS.Areas.Employees.Models
@@ -19,31 +19,39 @@ namespace N.G.HRS.Areas.Employees.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
-        [Range(0, 500000)]
-        public string? EmployeeNumber { get; set; }//
+       
+        public int EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
-        public string EmployeeName { get; set; }//
+        public string? EmployeeName { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Employment")]
-        public DateOnly DateOfEmployment { get; set; }//
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? DateOfEmployment { get; set; }//
         [DataType(DataType.Date)]
-        [Display(Name = "Placement Date")]
-        public DateOnly PlacementDate { get; set; }//تاريخ التثبيت//
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? PlacementDate { get; set; }//تاريخ التثبيت//
         [Required]
         [StringLength(100)]
-        public string EmploymentStatus { get; set; }//
+        public string? EmploymentStatus { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Rehire Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateOnly? RehireDate { get; set; }//
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Stopping Work")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateOnly? DateOfStoppingWork { get; set; }//
         public bool UsedFingerprint { get; set; }//
         public bool SubjectToInsurance { get; set; }//خاضع للتامين //
         [DataType(DataType.Date)]
         [Display(Name = "Date Insurance ")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateOnly? DateInsurance { get; set; }//
         public byte FingerPrintImage { get; set; }//
         public string? ImageFile { get; set; }
@@ -51,6 +59,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public IFormFile ?FileUpload { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }//
+
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)
         //========================================================
         [ForeignKey("DepartmentsId")]
@@ -75,8 +84,17 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<TrainingCourses>? TrainingCoursesList { get; set; }
         //=====================================           
         public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
+        //=====================================
+        public List<StaffVacations>? StaffVacationsList { get; set; }
+        //=====================================
+        public List<StaffVacations>? SubstituteStaffMemberList { get; set; }
         //=====================================           
         public List<VacationAllowances>? VacationAllowancesList { get; set; }
+        //=====================================           
+        public List<VacationBalance>? VacationBalanceList { get; set; }
+
+        //=====================================
+        public List<Permits>? PermitsList { get; set; }
 
         //=====================================
         [ForeignKey("FingerprintDevicesId")]
@@ -118,6 +136,10 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //====================================
         public List<OpeningBalancesForVacations>? OpeningBalancesForVacationsList { get; set; }
+        //====================================
+        public List<EmployeePermissions>? EmployeePermissionsList { get; set; }
+        //====================================
+        public List<EmployeePermissions>? SupervisorEPList { get; set; }
         public List<EmployeeMovements>? EmployeeMovementsList { get; set; }
         //==================================== 
         public List<Family>? FamilyList { get; set; }
@@ -133,19 +155,24 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
         //==================================== 
         //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
+        //==================================== 
+        public List<AttendanceRecord>? AttendanceRecordList { get; set; }
+        //====================================
+        public List<AdditionalExternalOfWork>? AdditionalExternalOfWorkList { get; set; }
+        public List<AdditionalExternalOfWork>? SEAEOWList { get; set; }//Substitute Employee Additional External Of Work List
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
         public string? CurrentJop { get; internal set; }
         public double? Salary { get; internal set; }
 
         //=========================================
-        public void FingerCapture()
-        {
-            CZKEM objCZKEM = new CZKEM();
-            var localFingerPrintImage = FingerPrintImage;
+        //public void FingerCapture()
+        //{
+        //    CZKEM objCZKEM = new CZKEM();
+        //    var localFingerPrintImage = FingerPrintImage;
 
-            bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
-        }
+        //    bool fingerprintData = objCZKEM.CaptureImage(true, 500, 500, ref localFingerPrintImage, ImageFile);
+        //}
 
     }
 }

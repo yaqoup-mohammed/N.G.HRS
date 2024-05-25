@@ -44,44 +44,42 @@
 
                         <div class="col-sm-5">
                             <label asp-for="EmployeeId" class="form-label"></label>
-                            <select asp-for="EmployeeId" id="Employee" class="form-control" asp-items="@(ViewData["EmployeeId"] as SelectList)">
-                                <option value="">-- أختر الموظف --</option>
+                            <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                <option value=""></option>
+                                <option value="0"> إضافة لكل الموظفين </option>
                             </select>
                         </div>
                         <div class="col-sm-4">
                             <label asp-for="PublicHolidaysId" class="form-label"></label>
-                            <select asp-for="PublicHolidaysId" id="PublicHolidays" class="form-control" asp-items="@(ViewData["publicHolidays"] as SelectList)">
-                                <option value="">-- أختر الأجازة --</option>
+                            <select asp-for="PublicHolidaysId" id="PublicHolidays" class="js-example-basic-single  form-select" asp-items="@(ViewData["publicHolidays"] as SelectList)">
+                                <option value=""> </option>
                             </select>
                         </div>
-                        <div class="col-sm-3">
 
-                            <label asp-for="Date" class="form-label"></label>
-                            <div class="input-group flatpickr" id="flatpickr-date">
-                                <input asp-for="Date" class="form-control" placeholder="أختر التاريخ" />
-                                <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
+
+                            <div class="col-sm-3">
+                                <label asp-for="Date" class="form-label"></label>
+                                <div class="input-group flatpickr flatpickr-date" id="">
+                                    <input asp-for="Date" class="form-control" placeholder="ادخل التاريخ" data-input data-inputmask="'alias': 'yyyy'" />
+                                    <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
+                                </div>
+                                <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
-                            <span asp-validation-for="Date" class="text-danger"></span>
-                        </div>
-                    </div>
+                            </div>
                     <br />
                     <div class="row">
-
-
                         <div class="col-sm-5">
                             <label asp-for="BalanceYear" class="form-label"></label>
-                            <div class="input-group flatpickr" id="YearPicker">
-                                <input asp-for="BalanceYear" class="form-control"  placeholder="أختر السنة" data-input data-inputmask="'alias': 'yyyy'" />
-                                <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
-                            </div>
+                            <select asp-for="BalanceYear" id="yearSelect"  class="js-example-basic-single  form-select" placeholder="أختر السنة">
+                            <option></option>
+                            </select>
                             <span asp-validation-for="BalanceYear" class="text-danger"></span>
                         </div>
                         <div class="col-sm-4">
                             <label asp-for="Balance" class="form-label"></label>
-                            <input asp-for="Balance" class="form-control" placeholder="الـــرصــيــد" />
+                            <input asp-for="Balance" id="balance" class="form-control" placeholder="الـــرصــيــد" />
                             <span asp-validation-for="Balance" class="text-danger"></span>
                         </div>
-
                     </div>
                     <br />
                     <!-- Row -->
@@ -95,7 +93,7 @@
                     <br />
                     <div class="row">
                         <div class="mb-2">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="submit" id="submit" value="Create" class="btn btn-primary" />
                             
                             <a asp-action="Index">Back to List</a>
                         </div>                      
@@ -113,7 +111,91 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
+        $(document).ready(function () {
+            $('#PublicHolidays').change(function () {
+                $("#balance").val("");
 
+                if (this.value != "") {
+                    var id = this.value;
+                    $.ajax({
+                        url:
+                            "/AttendanceAndDeparture/OpeningBalancesForVacations/Vocation?id=" + id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            // console.log(data);
+                            $("#balance").val(data.dayCount);
+                        },
+                    });
+
+
+                }
+            });
+            $('#submit').click(function () {
+                if ($('#balance').val() == '') {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى ادخال رصيد الاجازة',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+                else if ($('#Employee').val() == '') {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى اختيار الموظف',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+                else if($('#yearSelect').val() == '') {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى اختيار السنة',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+                else if ($('#PublicHolidays').val() == '') {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى اختيار الجازة  ',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+
+
+        
+            
+            });
+            function populateYears() {
+                const currentYear = new Date().getFullYear();
+                const selectElement = document.getElementById("yearSelect"); // Replace with your select element's ID
+
+                for (let year = currentYear; year <= currentYear + 10; year++) {
+                    const option = document.createElement("option");
+                    option.value = year;
+                    option.textContent = year;
+                    selectElement.appendChild(option);
+                }
+            }
+
+            // Call the function to populate the select element on page load
+            window.onload = populateYears;
+        });
 
     </script>
 }

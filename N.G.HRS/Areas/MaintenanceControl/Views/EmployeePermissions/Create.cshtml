@@ -1,0 +1,482 @@
+﻿@model N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "أذونات الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<div class="card">
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>أذونات الموظفين</h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row set mb-3">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="EmployeeId" class="form-label"></label>
+                                    <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="ViewBag.EmployeeId">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group form-check ">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" asp-for="BetweenToDate" id="BetweenTwoDate" type="checkbox" /> <span> تكليف بين تاريخين</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4 ">
+                                    <label asp-for="FromDate" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="FromDate" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="SupervisorId" class="form-label"></label>
+                                    <select asp-for="SupervisorId" id="Supervisor" class="js-example-basic-single  form-select">
+                                        <option value="" disabled>أختر الموظف أولا</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2 ">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div id="ToDateGroup">
+
+                                        <label asp-for="ToDate" class="form-label"></label><span class="text-danger">*</span>
+                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
+                                                   data-input />
+                                            <span class="input-group-text input-group-addon" data-toggle>
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                            <span asp-validation-for="ToDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-3">
+                                    <label asp-for="PeriodId" class="form-label"></label>
+                                    <select asp-for="PeriodId" id="Period" class="js-example-basic-single  form-select">
+                                        <option value="" selected disabled></option>
+                                        <option value="" disabled>أختر الموظف أولا</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label asp-for="PermissionId" class="form-label"></label>
+                                    <select asp-for="PermissionId" id="Permission" class="js-example-basic-single  form-select" asp-items="ViewBag.PermissionId">
+                                        <option value="" selected disabled></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-3 ">
+                                    <label asp-for="FromTime" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr " id="flatpickr-time">
+                                        <input asp-for="FromTime" id="FromTime" class="form-control" placeholder="أدخل الوقت" data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="clock"></i>
+                                        </span>
+                                        <span asp-validation-for="FromTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <label asp-for="ToTime" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr " id="flatpickr-time1">
+                                        <input asp-for="ToTime" id="ToTime" class="form-control" placeholder="أدخل الوقت" data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="clock"></i>
+                                        </span>
+                                        <span asp-validation-for="ToTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-2 read-only ">
+                                    <label asp-for="Duration" class="form-label"></label>
+                                    <div style="display: flex; align-items: center;">
+                                        <input asp-for="Duration" id="Duration" class="form-control" style="width: 100px;padding-right: 20px;" min="0" max="100" />
+                                        <span style="margin-right: -20px;pointer-events: none;color: #e5b540;font-size: 20px;font-weight: bold;font-family: math;">%</span>
+                                    </div>
+                                    <span asp-validation-for="Duration" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-2 read-only">
+                                    <label asp-for="Hours" class="form-label"></label>
+                                    <input asp-for="Hours" id="Hours" class="form-control" />
+                                    <span asp-validation-for="Hours" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-2 read-only">
+                                    <label asp-for="Minutes" class="form-label"></label>
+                                    <input asp-for="Minutes" id="Minutes" class="form-control" />
+                                    <span asp-validation-for="Minutes" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-12 mb-3">
+                                    <label asp-for="Reason" class="form-label"></label>
+                                    <input asp-for="Reason" id="Reason" class="form-control" />
+                                    <span asp-validation-for="Reason" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label asp-for="Note" class="form-label"></label>
+                                    <input asp-for="Note" class="form-control" />
+                                    <span asp-validation-for="Note" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="">
+                                <input type="submit" id="Submit" value="جديد" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            const validator = new ValidationFromMe();
+            const betweenTwoDate = document.getElementById('BetweenTwoDate');
+            const toDateGroup = document.getElementById('ToDateGroup');
+
+            if (betweenTwoDate.checked) {
+                // toDateGroup.style.display = 'block';
+                validator.show('ToDateGroup');
+            } else {
+                toDateGroup.style.display = 'none';
+                // validator.hide('ToDateGroup');
+            }
+            betweenTwoDate.addEventListener('change', function () {
+                $('#FromDate').val("");
+                $('#ToDate').val("");
+                if (betweenTwoDate.checked) {
+                    // toDateGroup.style.display = 'block';
+                    validator.show('ToDateGroup');
+                } else {
+                    toDateGroup.style.display = 'none';
+                    // validator.hide('ToDateGroup');
+                }
+            });
+            //============================
+            $('#FromDate').change(function () {
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+                const checkDate = validator.isStartDateBeforeEndDate(fromDate, toDate)
+
+                if (this.value != "") {
+
+                    if (toDate != "") {
+                        if (checkDate || fromDate == toDate) {
+
+                            validator.softErrorMessage(`تاريخ البداية يجب أن يكون أصغر من وقت النهاية!!`);
+                            $('#FromDate').val("");
+                        }
+
+                    }
+                }
+            });
+            $('#Period').change(function () {
+                $('#FromTime').val("");
+                $('#ToTime').val("");
+                $('#Duration').val("");
+                $('#Minutes').val("");
+                $('#Hours').val("");
+            });
+            $('#FromTime').change(function () {
+                const from = $('#FromTime').val();
+                const to = $('#ToTime').val();
+                const period = $('#Period').val();
+                const employee = $('#Employee').val();
+                const checkTime = validator.isStartTimeAfterEndTime(from, to);
+                if (period != null) {
+                    if (to != "") {
+                        if (checkTime || from == to) {
+                            //=
+                            validator.softErrorMessage(`وقت البداية يجب أن يكون أصغر من وقت النهاية!!`);
+                            //=
+                        }
+                        else {
+                            var m = validator.calculateHoursBetweenWith24(from, to);
+                            var minutes = m.minutes;
+                            $.ajax({
+                                url:
+                                    "/MaintenanceControl/EmployeePermissions/Perios?id=" + period,
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.id != 0) {
+                                        const from12 = validator.convertTo24HourFormat(from);
+                                        const timeFromData = validator.calculateMius(data.fromTime);
+                                        const timeToData = validator.calculateMius(data.toTime);
+                                        const to12 = validator.convertTo24HourFormat(to);
+                                        if (from12 >= timeFromData && from12 <= timeToData) {
+                                            if (to12 >= timeFromData && to12 <= timeToData) {
+                                                var periodMinutes = validator.calculateMinuteDifference(data.fromTime, data.toTime);
+                                                var hour = minutes / 60;
+                                                var duration = (minutes / periodMinutes) * 100;
+                                                $('#Duration').val(duration.toFixed(2));
+                                                $('#Minutes').val(minutes);
+                                                if (hour > 0 || minutes > 0) {
+                                                    if (hour < 1) {
+                                                        $('#Hours').val(hour.toFixed(2));
+                                                    }
+                                                    else {
+                                                        const hours = parseInt(minutes / 60);
+                                                        $('#Hours').val(hours);
+                                                    }
+                                                }
+                                                else {
+                                                    validator.softErrorMessage(`عدد الساعات او الدقائق غير صحيح!!`);
+                                                    $('#ToTime').val("");
+                                                }
+                                            }
+                                            else {
+                                                var conFrom = validator.convertTimeTo12(data.fromTime);
+                                                var conTo = validator.convertTimeTo12(data.toTime);
+                                                validator.softErrorMessage(`يجب أن يكون حقل إلى وقت  بين ${conFrom} و ${conTo} !!`);
+                                                $('#ToTime').val("");
+                                                $('#Duration').val("");
+                                                $('#Minutes').val("");
+                                                $('#Hours').val("");
+                                            }
+                                        }
+                                        else {
+                                            var conFrom = validator.convertTimeTo12(data.fromTime);
+                                            var conTo = validator.convertTimeTo12(data.toTime);
+                                            validator.softErrorMessage(`يجب أن يكون حقل من وقت  بين ${conFrom} و ${conTo} !!`);
+                                            $('#FromTime').val("");
+                                            $('#Duration').val("");
+                                            $('#Minutes').val("");
+                                            $('#Hours').val("");
+                                        }
+                                    }
+                                },
+                            });
+                        }
+                    }
+                }
+                else {
+                    validator.softErrorMessage(`يرجى اختيار الفترة أولا!!`);
+                    this.value = "";
+                }
+            });
+            $('#ToTime').change(function () {
+                const from = $('#FromTime').val();
+                const to = $('#ToTime').val();
+                const period = $('#Period').val();
+                const employee = $('#Employee').val();
+                const checkTime = validator.isStartTimeAfterEndTime(from, to);
+                if (period != null) {
+                    if (from != "") {
+                        if (checkTime || from == to) {
+                            //=
+                            validator.softErrorMessage(`وقت البداية يجب أن يكون أصغر من وقت النهاية!!`);
+                            //=
+                        }
+                        else {
+                            var m = validator.calculateHoursBetweenWith24(from, to);
+                            var minutes = m.minutes;
+                            $.ajax({
+                                url:
+                                    "/MaintenanceControl/EmployeePermissions/Perios?id=" + period,
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.id != 0) {
+                                        const from12 = validator.convertTo24HourFormat(from);
+                                        console.log(from12 + " :from12");
+                                        const timeFromData = validator.calculateMius(data.fromTime);
+                                        console.log(timeFromData + " :timeFromData");
+                                        const timeToData = validator.calculateMius(data.toTime);
+                                        console.log(timeToData + " :timeToData");
+                                        const to12 = validator.convertTo24HourFormat(to);
+                                        console.log(to12 + " :to12");
+
+                                        if (from12 >= timeFromData && from12 <= timeToData) {
+                                            if (to12 >= timeFromData && to12 <= timeToData) {
+                                                var periodMinutes = validator.calculateMinuteDifference(data.fromTime, data.toTime);
+                                                var hour = minutes / 60;
+                                                var duration = (minutes / periodMinutes) * 100;
+                                                $('#Duration').val(duration.toFixed(2));
+                                                $('#Minutes').val(minutes);
+                                                if (hour > 0 || minutes > 0) {
+                                                    if (hour < 1) {
+                                                        $('#Hours').val(hour.toFixed(2));
+                                                    }
+                                                    else {
+                                                        const hours = parseInt(minutes / 60);
+                                                        $('#Hours').val(hours);
+                                                    }
+                                                }
+                                                else {
+                                                    validator.softErrorMessage(`عدد الساعات او الدقائق غير صحيح!!`);
+                                                    $('#ToTime').val("");
+                                                }
+                                            }
+                                            else {
+                                                var conFrom = validator.convertTimeTo12(data.fromTime);
+                                                var conTo = validator.convertTimeTo12(data.toTime);
+                                                validator.softErrorMessage(`يجب أن يكون حقل إلى وقت  بين ${conFrom} و ${conTo} !!`);
+                                                $('#ToTime').val("");
+                                                $('#Duration').val("");
+                                                $('#Minutes').val("");
+                                                $('#Hours').val("");
+                                            }
+                                        }
+                                        else {
+                                            var conFrom = validator.convertTimeTo12(data.fromTime);
+                                            var conTo = validator.convertTimeTo12(data.toTime);
+                                            validator.softErrorMessage(`يجب أن يكون حقل من وقت  بين ${conFrom} و ${conTo} !!`);
+                                            $('#FromTime').val("");
+                                            $('#Duration').val("");
+                                            $('#Minutes').val("");
+                                            $('#Hours').val("");
+                                        }
+                                    }
+                                },
+                            });
+                        }
+                    }
+                }
+                else {
+                    validator.softErrorMessage(`يرجى اختيار الفترة أولا!!!`);
+                    this.value = "";
+                }
+            });
+            $('#ToDate').on('change', function () {
+                // $('#ToTime').val("");
+                // $('#Hours').val("");
+                // $('#Minutes').val("");
+                // $('#TotalHours').val("");
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+                const checkDate = validator.isStartDateBeforeEndDate(fromDate, toDate)
+                if (this.value != "") {
+                    if (fromDate != "") {
+                        if (checkDate || fromDate == toDate) {
+                            validator.softErrorMessage(`تاريخ البداية يجب أن يكون أصغر من وقت النهاية!!`);
+                            $('#ToDate').val("");
+                        }
+                    }
+                }
+            });
+            $('#Employee').change(function () {
+                $('#Supervisor').empty();
+
+                const employee = this.value;
+                if (employee != 0) {
+
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/EmployeePermissions/GetEmployee?id=" +
+                            this.value,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                if (item.id != null) {
+                                    $('#Supervisor').append(`<option value="${item.id}">${item.name} </option>`);
+
+                                }
+                                else {
+                                    $('#Supervisor').empty();
+                                    $('#Supervisor').append(`<option value=""  disabled>الموظف لا يمتلك مشرف مباشر</option>`);
+
+                                }
+
+                            });
+                        },
+                    });
+                    //========
+                    $('#Period').empty();
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/EmployeePermissions/GetPerios?id=" +
+                            this.value,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('#Period').append(`<option value="" selected disabled></option>`);
+                            $.each(data.employee, function (i, item) {
+                                if (item.id != null) {
+
+                                    var from = validator.convertTimeTo12(item.from);
+                                    var to = validator.convertTimeTo12(item.to);
+                                    $('#Period').append(`<option value="${item.id}">${item.name}    ${to} ~~ ${from} </option>`);
+                                }
+                                else {
+                                    $('#Period').empty();
+                                    $('#Period').append(`<option value=""  disabled>الموظف لا ينتمي الى فترة</option>`);
+
+                                }
+                            });
+                        },
+                    });
+                }
+            });
+            //===================================================
+            $('#Submit').click(function () {
+                const betweenTwoDate = document.getElementById('BetweenTwoDate');
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+                const checkDate = validator.isStartDateBeforeEndDate(fromDate, toDate)
+                if (betweenTwoDate.checked) {
+                    if (toDate != "") {
+                        if (checkDate) {
+                            validator.softErrorMessage(`تاريخ البداية يجب أن يكون أصغر من وقت النهاية!!`);
+                        }
+                    }
+                    else {
+                        validator.softErrorMessage(`يرجى تعبئة حقل إلى تاريخ!!`);
+
+                    }
+                }
+                if ($('#Minutes').val() == "") {
+                    validator.softErrorMessage(`يرجى أحتساب عدد الدقائق!!`);
+                }
+                if ($('#Reason').val() == "") {
+                    validator.softErrorMessage(`يرجى تعبئة حقل السبب!!`);
+                }
+                if ($('#Permission').val() == null) {
+                    validator.softErrorMessage(`يرجى إختيار الإذن أولا!!`);
+                }
+                if ($('#Period').val() == null) {
+                    validator.softErrorMessage(`يرجى إختيار الفترة أولا!!`);
+                }
+
+                if ($('#FromDate').val() == "") {
+                    validator.softErrorMessage(`يرجى تعبئة حقل من تاريخ!!`);
+                }
+                if ($('#Employee').val() == null) {
+                    validator.softErrorMessage(`يرجى إختيار الموظف أولا!!`);
+                }
+            });
+
+        });
+    </script>
+}

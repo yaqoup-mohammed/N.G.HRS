@@ -10,31 +10,33 @@ namespace N.G.HRS.Areas.Employees.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [StringLength(100)]
-        public string NatureOfEmployment { get; set; }
+        [StringLength(3)]
+        public string? NatureOfEmployment { get; set; }
         [Required]
-        [Range(0, 999999.99)]
+        [Range(1, 999999999.99)]
         public decimal BasicSalary { get; set; }
-        [Required]
-
+        [Range(1, 9999999999999999.99)]
         public int? InsuranceAccountNumber { get; set; }
-        [Required]
+        [Range(1, 9999999999999999.99)]
+
         public int? BankAccountNumber { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Salary Start Date")]
-        public DateOnly SalaryStartDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? SalaryStartDate { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Salary End Date")]
-        public DateOnly SalaryEndDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? SalaryEndDate { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }
         //يرتبط بجدول (الموظف) وجدول (العملة)ي
         //==================================================
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
-        public virtual Employee employee { get; set; }
+        public virtual Employee? employee { get; set; }
         //===============================================
         [ForeignKey("CurrencyId")]
         public int CurrencyId { get; set; }

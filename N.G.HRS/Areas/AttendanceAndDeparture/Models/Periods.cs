@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using N.G.HRS.Areas.MaintenanceControl.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
@@ -11,13 +12,13 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Display(Name = " اسم الفترة")]
         public string? PeriodsName { get; set; }
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "من الوقت")]
-        public DateTime? FromTime { get; set; }
+        public TimeOnly? FromTime { get; set; }
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "الى الوقت")]
-        public DateTime? ToTime { get; set; }
+        public TimeOnly? ToTime { get; set; }
         [Display(Name = "السبت")]
         public bool Saturday { get; set;}
         [Display(Name = "الاحد")]
@@ -33,7 +34,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Display(Name = "الجمعة")]
         public bool Friday { get; set;}
         [Display(Name = "الساعات")]
-        public string? Hours { get; set; }
+        public int? Hours { get; set; }
         [Display(Name = "الدقائق")]
         public int? Muinutes { get; set; }
         //============================================
@@ -42,12 +43,18 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public PermanenceModels? PermanenceModels { get; set; } 
         //===============================================================
         public List<LinkingEmployeesToShiftPeriods>? LinkingEmployeesToShiftPeriodsList { get; set; }
+        //===============================================================
+        public List<AttendanceRecord>? AttendanceRecordList { get; set; }
+        //===============================================================
+        public List<EmployeePermissions>? EmployeePermissionsList { get; set; }
+
+        //===============================================================
+        public List<StaffVacations>? StaffVacationsList { get; set; }
 
         public List<Weekends>? WeekendsList { get; set; }
         public List<AdjustingTime>? AdjustingTimeList { get; set; }
         public List<Periods>? PeriodsList { get; set; }
         public List<StaffTime>? StaffTimeList { get; set; }
-
 
         //=
 

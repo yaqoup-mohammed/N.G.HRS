@@ -4,27 +4,25 @@
 //import flatpickr from 'src/styles/flatpickr.min.css';
 $(function() {
   'use strict';
-
-  // date picker 
-  if($('.flatpickr-date').length) {
-    flatpickr(".flatpickr-date", {
-      wrap: true,
-        dateFormat: "Y-m-d",
-    locale:ar,
-      
-    });
-  }
- 
+    // date picker 
+    if ($('.flatpickr-date').length) {
+        flatpickr(".flatpickr-date", {
+            wrap: true,
+            dateFormat: "Y-m-d",
+        });
+    }
 
 
-  // time picker
-  if($('#flatpickr-time').length) {
-    flatpickr("#flatpickr-time", {
-      wrap: true,
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-    });
+    // time picker
+    if ($('.flatpickr-time1').length) {
+        flatpickr(".flatpickr-time1", {
+            wrap: true,
+            enableTime: true,
+            noCalendar: true,
+            time_24hr: false,
+            //dateFormat: "h:i",
+            dateFormat: "h:i K",
+        });
     }
     //if ($('#flatpickr-month').length) {
     //    flatpickr("#flatpickr-month", {
@@ -42,9 +40,9 @@ $(function() {
         flatpickr("#additionaldate-time", {
             enableTime: true,
             noCalendar: true,
-            dateFormat: "H:i",
-            minTime: "16:00",
-            maxTime: "22:30",
+            time_24hr: false,
+            dateFormat: "h:i K",
+            //dateFormat: "h:i",            
     });
   }
 

@@ -59,9 +59,30 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(publicHolidays);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var count =  _context.publicHolidays.Count();
+                if (count == 0)
+                {
+                    PublicHolidays publicHolidays1 = new PublicHolidays
+                    {
+                        //Id = 1,
+                        HolidayName = "سنوي",
+                        Balance = true,
+                        Paid = true,
+                        DayCount = 30,
+                        RotationDuration = 5,
+                    };
+
+                    await _context.AddAsync(publicHolidays1);
+                    await _context.SaveChangesAsync();
+                    _context.Add(publicHolidays);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else { 
+                    _context.Add(publicHolidays);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(publicHolidays);
         }

@@ -2,12 +2,13 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = " المحافظات";
+    ViewData["Title"] = "المحافظات";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 <h1>Create</h1>
 
 <h4>Governorate</h4>
@@ -18,31 +19,213 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" id="Governorate" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
+                <input asp-for="Notes" id="GovernorateNotes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId">
+                <select asp-for="CountryId" id="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId">
                     <option value="">  </option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="submit" value="اضافة " class="btn btn-primary" />
+                <input type="submit" value=" حفظ البيانات " class="btn btn-primary me-2" id="saveDataBtn" style="display:none" />
+
+                <a asp-action="Index" class="btn btn-primary">الرجوع الى القائمة</a>
+                <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<table id="temporaryTable" class="table" style="display:none;">
+    <thead> 
+        <tr>
+            <th>#</th>
+            <th> المحافظة</th>
+            <th>الملاحظات</th>
+            <th>الدولة</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+        $(document).ready(function () {
+            var counter = 1;
+
+            $("#saveDataBtn").click(function () 
+            {
+                Swal.fire({
+                        title: 'هل أنت متأكد؟',
+                        text: "هل تريد حفظ جميع البيانات؟",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'نعم!',
+                        cancelButtonText: 'لا '
+                    }).then((result) => {
+                        if (result.isConfirmed) 
+                        {
+                            $("#temporaryTable tr").each(function () {
+                                var governorate = $(this).find("td:eq(1)").text();
+                                var notes = $(this).find("td:eq(2)").text();
+                                var countryId = $(this).find("td:eq(4)").text();
+                                if (governorate && countryId)
+                                {
+                                    SaveGovernorateData(governorate, notes ? notes : "", countryId);
+                                }
+
+                        
+                        });
+                    }
+                });
+            });
+
+            $("form").submit(function (event) {
+                event.preventDefault();
+                var governorate = $("#Governorate").val();
+                var notes = $("#GovernorateNotes").val();
+                var countryId = $("#CountryId").val();
+                var countryName = $("#CountryId option:selected").text();
+
+                if (governorate && countryId) {
+                    $("#temporaryTable tbody").append(
+                        "<tr>" +
+                        "<td>" + counter + "</td>" +
+                        "<td>" + governorate + "</td>" +
+                        "<td>" + notes + "</td>" +
+                        "<td>" + countryName + "</td>" +
+                        "<td style='display:none' class='countryId'>" + countryId + "</td>" +
+                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
+                        "</tr>"
+
+                    );
+                    counter++;
+                    $("#Governorate").val('');
+                    $("#GovernorateNotes").val('');
+                    $("#CountryId").val('');
+   
+                    $("#clearTableBtn").show();
+                    $("#temporaryTable").show();
+                    $("#saveDataBtn").show();
+                  
+                }
+
+            });
+
+            $(document).on("click", ".delete-row", function ()
+            {
+                $(this).closest("tr").remove();
+                counter--;
+                Swal.fire(
+                    'تم الحذف!',
+                    'تم حذف البيانات بنجاح.',
+                    'success'
+                );
+
+                if ($("#temporaryTable tbody tr").length === 0) {
+                    $("#saveDataBtn").hide();
+                    $("#clearTableBtn").hide();
+
+
+
+
+                }
+               
+            });
+
+           
+
+            $("#clearTableBtn").click(function () {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "هل تريد حذف جميع البيانات!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذف الكل'
+                 }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tbody").empty();
+                        counter = 1;
+                        $("#saveDataBtn").hide();
+                        $("#clearTableBtn").hide();
+                        $("#temporaryTable").hide();
+
+
+
+                        Swal.fire(
+                            'تم الحذف!',
+                            'تم حذف جميع البيانات بنجاح.',
+                            'success'
+                        );
+                    }
+                });
+            });
+        });
+
+        function SaveGovernorateData(governorate, notes, countryId)
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveGovernorateData", "Governorates")",
+                data: { governorate: governorate, notes: notes, countryId: countryId },
+                success: function (response) {
+                  
+                    // No need to display success message, just redirect to Index page
+                     Swal.fire(
+                            'تم الحفظ!',
+                            'تم حفظ جميع البيانات بنجاح.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
+                            }
+                        });
+                },
+                error: function (xhr, status, error)
+                {
+                    alert("حدث خطأ أثناء حفظ البيانات: " + error);
+                }
+            });
+        }
+
+        $("#submit").click(function () {
+            var CountryId = $("#CountryId").val();
+            if (CountryId == "") {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "الرجاء أختيار الدولة",
+                });
+            }
+        });
+
+        $("#submit").click(function () {
+            var GovernorateId = $("#GovernorateId").val();
+            if (GovernorateId == "")
+            {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "الرجاء أختيار المحافظة",
+                });
+            }
+        });
+    </script>
 }

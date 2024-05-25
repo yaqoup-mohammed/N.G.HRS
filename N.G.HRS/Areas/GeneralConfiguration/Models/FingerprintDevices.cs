@@ -11,40 +11,51 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
+        [Display(Name = "أسم الجهاز")]
         public string DevicesName { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "نوع الجهاز")]
+
         public string DeviceType { get; set; }
         [Required]
         [StringLength(50)]
+        [Display(Name = "حالة الجهاز")]
+
         public string DeviceStatus { get; set; }
         [Required]
         [StringLength(50)]
+        [Display(Name = "نوع الاتصال")]
         public string? ConnectionType { get; set; }
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "تاريخ الشراء")]
         public DateOnly DateOfPurchase { get; set; }
-        [Required]
         [StringLength(150)]
-        public string VendorName { get; set; }
-        [Required]
+        [Display(Name = "اسم المورد")]
+        public string? VendorName { get; set; }
         [StringLength(13)]
         [Phone]
-        public string VendorPhon{ get; set;}
+        [Display(Name = "هاتف المورد")]
+        public string? VendorPhon{ get; set;}
+        [StringLength(255)]
+        [Display(Name = "عنوان المورد")]
+        public string? VendorAdress { get; set;}
         [Required]
         [StringLength(255)]
-        public string VendorAdress { get; set;}
-        [Required]
-        [StringLength(255)]
+        [Display(Name = "الشركة المصنعة")]
         public string ManufactureCompany { get; set;}
         [Required]
         [StringLength(255)]
+        [Display(Name = "وصف الجهاز")]
         public string DeviceSpecifications { get; set;}
+        [Display(Name = "عنوان IP")]
         public string? IpAddress { get; set;}
-        public bool IsConnected { get; set; }=false;
-
+        [Display(Name = " متصل")]
+        public bool IsConnected { get; set; }
         [StringLength(255)]
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
         //======================================
     }

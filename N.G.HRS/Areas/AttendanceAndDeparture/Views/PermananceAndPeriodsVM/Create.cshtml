@@ -238,9 +238,9 @@
                                             <div class="col-md-2 stretch-card">
                                                 <div class="form-check form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input class="form-check-input" id="thursday"
-                                                               asp-for="periods.Thursday" />
-                                                        @Html.DisplayNameFor(model => model.periods.Monday)
+                                                        <input class="form-check-input" id="tuesday"
+                                                               asp-for="periods.Tuesday" />
+                                                        @Html.DisplayNameFor(model => model.periods.Tuesday)
                                                     </label>
                                                 </div>
                                             </div>
@@ -275,26 +275,8 @@
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="mb-3">
-                                                    <label asp-for="periods.Hours" class="control-label"></label>
-                                                    <input asp-for="periods.Hours" id="hours"
-                                                           style="background-color: #00000005;cursor:context-menu" readonly
-                                                           class="form-control" />
-                                                    <span asp-validation-for="periods.Hours" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="mb-3">
-                                                    <label asp-for="periods.Muinutes" class="control-label"></label>
-                                                    <input asp-for="periods.Muinutes"
-                                                           style="background-color: #00000005;cursor:context-menu" readonly
-                                                           id="minutes" class="form-control" />
-                                                    <span asp-validation-for="periods.Muinutes"
-                                                          class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
+
+                                            <div class="col-sm-3">
                                                 <div class="mb-3">
 
                                                     <label asp-for="periods.FromTime" class="control-label"></label>
@@ -305,7 +287,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="mb-3">
 
                                                     <label asp-for="periods.ToTime" class="control-label"></label>
@@ -314,7 +296,25 @@
                                                           class="text-danger"></span>
                                                 </div>
                                             </div>
-
+                                            <div class="col-sm-3">
+                                                <div class="mb-3">
+                                                    <label asp-for="periods.Hours" class="control-label"></label>
+                                                    <input asp-for="periods.Hours" id="hours"
+                                                           style="background-color: #00000005;cursor:context-menu" readonly
+                                                           class="form-control" />
+                                                    <span asp-validation-for="periods.Hours" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="mb-3">
+                                                    <label asp-for="periods.Muinutes" class="control-label"></label>
+                                                    <input asp-for="periods.Muinutes"
+                                                           style="background-color: #00000005;cursor:context-menu" readonly
+                                                           id="minutes" class="form-control" />
+                                                    <span asp-validation-for="periods.Muinutes"
+                                                          class="text-danger"></span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
 @*                                             <button type="button" id="addButton" class="btn btn-primary">اضافة</button>
@@ -422,7 +422,8 @@
                             hoursInput.value = hours;
                             }
                             // Update hours and minutes input fields
-                            hoursInput.value = (hours + ":" + minutes);
+                            hoursInput.value = hours ;
+                            console.log(hours);
                             minutesInput.value = hours * 60 + minutes; // Ensure two-digit format
                         }
 
@@ -528,20 +529,22 @@
                             const timeDiff = endDate.getTime() - startDate.getTime();
 
                             // Calculate hours and minutes
-                            const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                            if(flex.checked && hours > 24){
+                            const hours1 = Math.floor(timeDiff / (1000 * 60 * 60));
+                            if(flex.checked && hours1 > 24){
                                     alert("يجب ان يكون الوقت اقل من 24");
                                     return;
                                 
                             }
                             const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                             if (minutes == 0) {
-                            hoursInput1.value = hours;
+                            hoursInput1.value = hours1;
+                            console.log(hours1);
+                            
 
                             }
                             else {
                                 // Update hours and minutes input fields
-                                 hoursInput1.value = (hours + ":" + minutes.toString().padStart(2, "0"));
+                                 hoursInput1.value = (hours1 + ":" + minutes.toString().padStart(2, "0"));
 
                             }
 
@@ -639,15 +642,7 @@
                                     table.style = `display:block;`;
 
 
-                                    // !newData.fieldName5.checked ? newData.fieldName5.value = false : newData.fieldName5.value = "السبت";
-                                    // !newData.fieldName6.checked ? newData.fieldName6.value = false : newData.fieldName6.value = true;
-                                    // !newData.fieldName7.checked ? newData.fieldName7.value = false : newData.fieldName7.value = true;
-                                    // !newData.fieldName8.checked ? newData.fieldName8.value = false : newData.fieldName8.value = true;
-                                    // !newData.fieldName9.checked ? newData.fieldName9.value = false : newData.fieldName9.value = true;
-                                    // !newData.fieldName10.checked ? newData.fieldName10.value = false : newData.fieldName10.value = true;
-                                    // !newData.fieldName11.checked ? newData.fieldName11.value = false : newData.fieldName11.value = true;
-
-
+                                   
 
                                     temporaryData.push(newData); // Add data to temporary array
 

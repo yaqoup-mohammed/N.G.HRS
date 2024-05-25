@@ -1,0 +1,691 @@
+﻿@model N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "تكليف عمل إضافي / خارجي";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<div class="card">
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>  تكليف عمل إضافي / خارجي</h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row mb-3 set">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="EmployeeId" class="form-label"></label><span class="text-danger">*</span>
+                                    <select asp-for="EmployeeId" id="Employee" tabindex="1" class="js-example-basic-single  form-select" asp-items="ViewBag.EmployeeId">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label asp-for="Assignment" class="form-label"></label><span class="text-danger">*</span>
+                                    <select asp-for="Assignment" id="Assignment" tabindex="2" class="js-example-basic-single  form-select" asp-items="@(ViewData["Assignment"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group form-check ">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" tabindex="3" asp-for="BetweenToDate" id="BetweenToDate" type="checkbox" /> <span> تكليف بين تاريخين</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group form-check " id="SubstituteEmployeeCheckboxGroup" style="display:none">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" tabindex="4" id="SubstituteEmployee" type="checkbox" /> <span> الموظف البديل</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-4 ">
+                                    <label asp-for="FromDate" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="FromDate" id="FromDate" tabindex="5" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="FromDate" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4 ">
+                                    <div id="ToDateGroup">
+                                        <label asp-for="ToDate" class="form-label"></label><span class="text-danger">*</span>
+                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <input asp-for="ToDate" tabindex="6" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
+                                                   data-input />
+                                            <span class="input-group-text input-group-addon" data-toggle>
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                            <span asp-validation-for="ToDate" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4" id="SubstituteEmployeeGroup" style="display:none">
+                                    <label asp-for="SubstituteEmployeeId" class="form-label"></label>
+                                    <select asp-for="SubstituteEmployeeId" tabindex="7" id="SubstituteEmployeeId" class="js-example-basic-single  form-select">
+                                        <option value="" selected disabled></option>
+                                        <option value="" disabled>أختر الموظف أولا</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row space-between mb-3">
+                                <div class="form-group col-md-3 ">
+                                    <label asp-for="FromTime" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr" id="flatpickr-time">
+                                        <input asp-for="FromTime"  tabindex="8" id="FromTime" class="form-control" placeholder="أدخل الوقت"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="clock"></i>
+                                        </span>
+                                        <span asp-validation-for="FromTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 ">
+                                    <label asp-for="ToTime" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr" id="flatpickr-time1">
+                                        <input asp-for="ToTime" tabindex="8" id="FromTime" class="form-control" placeholder="أدخل الوقت"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="clock"></i>
+                                        </span>
+                                        <span asp-validation-for="ToTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-md-2 read-only ">
+                                    <label asp-for="Hours" class="form-label"></label><span class="text-danger">*</span>
+                                    <input asp-for="Hours" id="Hours"  class="form-control" />
+                                    <span asp-validation-for="Hours" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-2 read-only">
+                                    <label asp-for="Minutes" class="form-label"></label><span class="text-danger">*</span>
+                                    <input asp-for="Minutes"  id="Minutes" class="form-control" />
+                                    <span asp-validation-for="Minutes" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-2 read-only">
+                                    <label asp-for="TotalHours" class="form-label"></label><span class="text-danger">*</span>
+                                    <input asp-for="TotalHours"  id="TotalHours" class="form-control" />
+                                    <span asp-validation-for="TotalHours" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Mission" class="form-label"></label><span class="text-danger">*</span>
+                                <textarea asp-for="Mission" tabindex="10" id="Mission" class="form-control"></textarea>
+                                <span asp-validation-for="Mission" class="text-danger"></span>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-6" id="TaskDestinationGroup" style="display:none">
+                                    <label asp-for="TaskDestination" class="form-label"></label><span class="text-danger">*</span>
+                                    <input asp-for="TaskDestination" tabindex="11" id="TaskDestination" class="form-control" />
+                                    <span asp-validation-for="TaskDestination" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Note" class="form-label"></label>
+                                    <input asp-for="Note" tabindex="12" class="form-control" />
+                                    <span asp-validation-for="Note" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" tabindex="13" id="Submit" value="جديد" class="btn btn-primary" />
+                                <a asp-action="Index" tabindex="14" class="btn btn-light">رجوع الى القائمة</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+
+            const betweenToDate = document.getElementById('BetweenToDate');
+            const substituteEmployee = document.getElementById('SubstituteEmployee');
+            const substituteEmployeeGroup = document.getElementById('SubstituteEmployeeGroup');
+            if (betweenToDate.checked) {
+                $('#ToDateGroup').show();
+            }
+            else {
+                $('#ToDateGroup').hide();
+            }
+            //===================================================================================
+            // if ($('#Assignment').value == 2) {
+            //     // if (substituteEmployee.checked) {
+
+            //     $('#SubstituteEmployeeGroup').show();
+            //     // substituteEmployeeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
+
+            // }
+            // else {
+            //     $('#SubstituteEmployeeGroup').hide();
+            //     // substituteEmployeeGroup.style = `pointer-events: none; filter: none; opacity: .6;`;
+            // }
+
+            //===================================================================================
+            $('#Assignment').change(function () {
+                if (this.value !== "") {
+                    if (this.value == 1) {
+                        $('#TaskDestinationGroup').hide();
+                        $('#SubstituteEmployeeGroup').hide();
+                        $('#SubstituteEmployeeCheckboxGroup').hide();
+                    }
+                    else {
+                        $('#TaskDestinationGroup').show();
+
+                        $('#SubstituteEmployeeCheckboxGroup').show();
+                        if (substituteEmployee.checked) {
+                            $('#SubstituteEmployeeGroup').show();
+                            substituteEmployeeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
+
+                        }
+                        else {
+                            // substituteEmployeeGroup.hide();
+                            $('#SubstituteEmployeeGroup').show();
+                            substituteEmployeeGroup.style = `pointer-events: none; filter: none; opacity: .6;`;
+                        }
+
+
+                    }
+
+                }
+            });
+            $('#BetweenToDate').change(function () {
+                $('#ToDate').val("");
+                $('#FromTime').val("");
+                $('#ToTime').val("");
+                $('#Hours').val("");
+                $('#TotalHours').val("");
+                $('#Minutes').val("");
+                if (betweenToDate.checked) {
+                    $('#ToDateGroup').show();
+
+                    // $('#ToDate').style=`pointer-events:all ; filter: none; opacity: 1;`;
+                }
+                else {
+                    $('#ToDateGroup').hide();
+
+                    // $('#ToDate').style = `pointer-events: none; filter: none; opacity: .6;`;
+                }
+            });
+            //===================================================================================
+            $('#SubstituteEmployee').change(function () {
+                const assignment = $('#Assignment').val();
+                console.log("1");
+                if (assignment == 2) {
+                    console.log("2");
+                    if (substituteEmployee.checked) {
+                        substituteEmployeeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`;
+                    }
+                    else {
+                        substituteEmployeeGroup.style = `pointer-events: none; filter: none; opacity: .6;`;
+                    }
+                }
+            });
+
+            //===================================================================================
+            //===================================================================================
+            $('#FromDate').on('change', function () {
+
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+                if (toDate != "") {
+                    if (fromDate > toDate || fromDate == toDate) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `تاريخ البداية يجب أن يكون أصغر من تاريخ النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        fromDate.value = "";
+                    }
+                }
+
+            });
+            $('#ToDate').on('change', function () {
+                $('#ToTime').val("");
+                $('#Hours').val("");
+                $('#Minutes').val("");
+                $('#TotalHours').val("");
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+
+                if (fromDate != "" || fromDate == toDate) {
+                    if (fromDate > toDate) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `تاريخ البداية يجب أن يكون أصغر من تاريخ النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        toDate.value = "";
+                    }
+
+                }
+            });
+            //===================================================
+            $('#FromTime').on('change', function () {
+                const fromTime = $('#FromTime').val();
+                const toTime = $('#ToTime').val();
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+                const totalHours = $('#TotalHours').val();
+                const cheackTime = isStartTimeAfterEndTime(fromTime, toTime);
+                const calculateHours = calculateHoursBetween(fromTime, toTime);
+                const hours = calculateHours.hours;
+                const minutes = calculateHours.minutes;
+                const days = calculateDaysDifference(fromDate, toDate);
+                // console.log(cheackTime);
+                if (toTime != "") {
+                    if (cheackTime) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `وقت البداية يجب أن يكون أصغر من وقت النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        fromTime.value = "";
+                        hours.value = "";
+                        minutes.value = "";
+                        totalHours.value = "";
+                    }
+                    else {
+                        if (hours < 0) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `الوقت يجب أن يكون في نفس اليوم !!`,
+                                iconColor: "#d33",
+                                confirmButtonColor: "#d33",
+                                confirmButtonText: "حسنا",
+                            });
+                            fromTime.value = "";
+                            hours.value = "";
+                            minutes.value = "";
+                            totalHours.value = "";
+                        }
+                        else {
+                            if (betweenToDate.checked) {
+                                if (fromDate === toDate) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: `تاريخ البداية يجب ان لا يساوي تاريخ النهاية!!`,
+                                        iconColor: "#d33",
+                                        confirmButtonColor: "#d33",
+                                        confirmButtonText: "حسنا",
+                                    });
+                                }
+                                const DmH = days * hours;
+                                const DmM = days * minutes;
+                                $('#TotalHours').val(DmH);
+                                $('#Hours').val(hours);
+                                $('#Minutes').val(minutes);
+                            } else {
+                                $('#TotalHours').val(hours);
+
+                                $('#Hours').val(hours);
+                                $('#Minutes').val(minutes);
+                            }
+                        }
+                    }
+                }
+            });
+            $('#ToTime').on('change', function () {
+                const fromTime = $('#FromTime').val();
+                const toTime = $('#ToTime').val();
+                const totalHours = $('#TotalHours').val();
+                const cheackTime = isStartTimeAfterEndTime(fromTime, toTime);
+                const calculateHours = calculateHoursBetween(fromTime, toTime);
+                const hours = calculateHours.hours;
+                const minutes = calculateHours.minutes;
+                const fromDate = $('#FromDate').val();
+                const toDate = $('#ToDate').val();
+                const days = calculateDaysDifference(fromDate, toDate);
+
+
+                if (fromTime != "") {
+
+                    if (cheackTime) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `وقت البداية يجب أن يكون أصغر من وقت النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        fromTime.value = "";
+                        hours.value = "";
+                        minutes.value = "";
+                        totalHours.value = "";
+                    }
+                    else {
+                        if (hours < 0) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `الوقت يجب أن يكون في نفس اليوم !!`,
+                                iconColor: "#d33",
+                                confirmButtonColor: "#d33",
+                                confirmButtonText: "حسنا",
+                            });
+                            fromTime.value = "";
+                            hours.value = "";
+                            minutes.value = "";
+                            totalHours.value = "";
+                        }
+                        else {
+                            if (betweenToDate.checked) {
+                                if (fromDate === toDate) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: `تاريخ البداية يجب ان لا يساوي تاريخ النهاية!!`,
+                                        iconColor: "#d33",
+                                        confirmButtonColor: "#d33",
+                                        confirmButtonText: "حسنا",
+                                    });
+                                }
+                                const DmH = days * hours;
+                                const DmM = days * minutes;
+                                $('#TotalHours').val(DmH);
+                                $('#Hours').val(hours);
+                                $('#Minutes').val(minutes);
+
+                            } else {
+                                $('#TotalHours').val(hours);
+
+                                $('#Hours').val(hours);
+                                $('#Minutes').val(minutes);
+                            }
+                        }
+                    }
+                }
+
+            });
+
+
+
+
+            //===================================================================================
+            //===================================================================================
+            $('#Employee').on('change', function () {
+                $('#SubstituteEmployeeId').empty();
+                if (this.value != "") {
+                    $('#SubstituteEmployeeId').append(`<option value="" disabled selected></option>`);
+
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/AdditionalExternalOfWorks/GetEmployees?id=" +
+                            this.value,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log("dsdsdsdsdsdsdsdsdsd")
+                            $.each(data.employees, function (i, item) {
+                                $('#SubstituteEmployeeId').append(`<option value="${item.id}">${item.name} </option>`);
+
+                            });
+                        },
+                    });
+                }
+
+            });
+
+
+
+            //===================================================================================
+            //===================================================================================
+            $('#Submit').click(function () {
+                const employee = $('#Employee').val();
+                const fromDate = $('#FromDate').val();
+                const minutes = $('#Minutes').val();
+                const hours = $('#Hours').val();
+                const toDate = $('#ToDate').val();
+                const substituteEmployeeId = $('#SubstituteEmployeeId').val();
+                const fromTime = $('#FromTime').val();
+                const toTime = $('#ToTime').val();
+                const taskDestination = $('#TaskDestination').val();
+                const mission = $('#Mission').val();
+                const betweenToDate = document.getElementById('BetweenToDate');
+                const substituteEmployee = document.getElementById('SubstituteEmployee');
+                const cheackTime = isStartTimeAfterEndTime(fromTime, toTime);
+                if ($('#Assignment').value == 2) {
+                    if (taskDestination == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `يجب أدخال  جهة المهمة!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        event.preventDefault();
+                    }
+                }
+                if (mission == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب أدخال المهمة!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                } if (minutes == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب احتساب عدد الدقائق!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (hours == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب احتساب عدد الساعات!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (cheackTime) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `وقت البداية يجب أن يكون أصغر من وقت النهاية!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (toTime == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب أدخال وقت النهاية!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if (fromTime == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب أدخال وقت البداية!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+
+                if (betweenToDate.checked) {
+                    if (toDate == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `يجب إدخال تاريخ النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        event.preventDefault();
+                    }
+                    if (fromDate > ToDate) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `تاريخ البداية يجب أن يكون أصغر من وقت النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        event.preventDefault();
+                    }
+                    if (fromDate == ToDate) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `تاريخ البداية يجب ان لا يساوي تاريخ النهاية!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        event.preventDefault();
+                    }
+                }
+
+                if (fromDate == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب إدخال تاريخ البداية!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+                if ($('#Assignment').value == 2) {
+
+                    if (substituteEmployee.checked) {
+                        if (substituteEmployeeId == "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `يجب أختيار الموظف!!`,
+                                iconColor: "#d33",
+                                confirmButtonColor: "#d33",
+                                confirmButtonText: "حسنا",
+                            });
+                            event.preventDefault();
+                        }
+                    }
+                }
+
+
+                if (employee == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يجب أختيار الموظف!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    event.preventDefault();
+                }
+
+
+
+
+            });
+            //===================================================================================
+            //===================================================================================
+
+            function isStartTimeAfterEndTime(startTime, endTime) {
+                // Convert start and end times to 24-hour format for easier comparison
+                const startTime24 = convertTo24HourFormat(startTime);
+                const endTime24 = convertTo24HourFormat(endTime);
+
+                // Compare times
+                return startTime24 > endTime24;
+            }
+            //==============
+            function calculateDaysDifference(startDate, endDate) {
+                // Convert both dates to milliseconds
+                const startMillis = new Date(startDate).getTime();
+                const endMillis = new Date(endDate).getTime();
+
+                // Calculate the difference in milliseconds
+                const differenceMillis = Math.abs(endMillis - startMillis);
+
+                // Convert milliseconds to days
+                const daysDifference = Math.ceil(differenceMillis / (1000 * 60 * 60 * 24));
+
+                return daysDifference;
+            }
+            //==============
+            function calculateHoursBetween(startTime, endTime) {
+                // Convert start and end times to 24-hour format for easier calculation
+                const startTime24 = convertTo24HourFormat(startTime);
+                const endTime24 = convertTo24HourFormat(endTime);
+
+                // Calculate the difference in minutes
+                let minutesDifference = endTime24 - startTime24;
+
+                // If the difference is negative, add 24 hours to it
+                if (minutesDifference < 0) {
+                    minutesDifference += 24 * 60; // 24 hours in minutes
+                }
+                // Convert minutes to hours and minutes
+                const hours = Math.floor(minutesDifference / 60);
+                const minutes = minutesDifference;
+                return { hours, minutes };
+            }
+            //==============
+
+            function convertTo24HourFormat(time12h) {
+
+                const [time, period] = time12h.split(' ');
+                let [hours, minutes] = time.split(':');
+
+                // Convert hours to integer
+                hours = parseInt(hours);
+                minutes = parseInt(minutes);
+
+                // Adjust hours according to AM/PM
+                if (period === 'PM' && hours < 12) {
+                    hours += 12;
+                } else if (period === 'AM' && hours === 12) {
+                    hours = 0;
+                }
+
+                // Return time in minutes since midnight
+                return hours * 60 + minutes;
+            }
+            //===================================================================================
+            //===================================================================================
+
+        });
+    </script>
+}

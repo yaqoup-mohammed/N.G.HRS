@@ -156,6 +156,34 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost]
+        public async Task<IActionResult> SaveDirectorateyData(string directorate, string notes, int governorateId)
+        {
+            try
+            {
+                // إنشاء كائن دولة لتخزين البيانات المستلمة
+                var newDirectorate = new Directorate
+                {
+                    Name = directorate,
+                    Notes = notes,
+                    GovernorateId = governorateId
+                };
+
+                // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
+                _context.directorates.Add(newDirectorate);
+                await _context.SaveChangesAsync();
+
+                // إرجاع رسالة نجاح
+                return Ok("تم حفظ البيانات بنجاح!");
+            }
+            catch (Exception ex)
+            {
+                // في حال حدوث أي خطأ، يمكنك إرجاع رسالة خطأ أو استثناء للتحكم في السلوك
+                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
+            }
+        }
+
+
 
         private bool DirectorateExists(int id)
         {

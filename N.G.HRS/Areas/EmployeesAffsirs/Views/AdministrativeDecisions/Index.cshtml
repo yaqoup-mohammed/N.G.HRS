@@ -49,10 +49,50 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeStatus)
-            </td>
-            <td>
+                @switch (item.EmployeeStatus)
+                {
+                    case "1":
+                        <td>
+                            مثبت
+                        </td>
+                        break;
+                        case "2":
+                        <td>
+                            متعاقد
+                        </td>
+                        break; 
+                        case "3":
+                        <td>
+                            متدرب
+                        </td>
+                        break;  
+                        case "4":
+                        <td>
+                            مستمر
+                        </td>
+                        break;  
+                        case "5":
+                        <td>
+                            موقف
+                        </td>
+                        break;   
+                        case "6":
+                        <td>
+                            تم إنهاء الخدمة
+                        </td>
+                        break;   
+                        case "7":
+                        <td>
+                            حارس أمن
+                        </td>
+                        break;
+                        default:
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmployeeStatus)
+                        </td>
+                        break;
+                }
+                <td>
                 @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
             </td>
             <td>
