@@ -43,6 +43,9 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
                     <div class="row">
+                        <div class="col-sm-2">
+                            </div>
+
                         <div class="col-sm-4">
                             <div class="col mb-3">
                                 <label asp-for="FromDate" class="form-label"></label>
@@ -56,46 +59,59 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="col mb-3">
-                                ~
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="mb-3">
-                                <label asp-for="NumberOfMonthsDays" class="form-label"></label>
-                                <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" readonly class="form-control" />
-                                <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                    </div><!-- Row -->
-                    <div class="row">
-
-                        <!-- Col -->
-                        <div class="col-sm-4">S
-                            <div class="mb-3">
+                        <div class="col-sm-2">
+                            <div class="mb-2">
                                 <label asp-for="AbsencePerHour" class="form-label"></label>
                                 <input asp-for="AbsencePerHour" class="form-control" />
                                 <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
                             </div>
                         </div>
-                        <!-- Col -->
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <label asp-for="NumberOfMonthsDays" class="form-label"></label>
+                                <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" readonly class="form-control" />
+                                <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                    </div><!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-2">
+                        </div>
                         <div class="col-sm-4">
-                            <div class="mb-3">
+                            <div class="col mb-3">
+                                <label asp-for="ToDate" class="form-label"></label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أختر التاريخ"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                    <span asp-validation-for="ToDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                       
+                        <!-- Col -->
+                        <div class="col-sm-2">
+                            <div class="mb-2">
                                 <label asp-for="DelayPerHour" class="form-label"></label>
                                 <input asp-for="DelayPerHour" class="form-control" />
                                 <span asp-validation-for="DelayPerHour" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="mb-3">
+                        <div class="col-sm-2">
+                            <div class="mb-2">
                                 <label asp-for="OneFingerPrintPerHourDelay" class="form-label"></label>
                                 <input asp-for="OneFingerPrintPerHourDelay" class="form-control" />
                                 <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
                             </div>
                         </div>
                         <!-- Col -->
+                        <div class="col-sm-2">
+                        </div>
                     </div>
 
                     <!-- Row -->
@@ -103,6 +119,8 @@
 
                     <!-- Row -->
                     <div class="row">
+                        <div class="col-sm-2">
+                        </div>
                         <div class="col-sm-4">
                             <div class="mb-3">
                                 <label asp-for="TypeOfWage" class="form-label"></label>
@@ -120,7 +138,7 @@
 
                         <!-- Col -->
                     </div>
-                    <div class="row">
+                    <div class="row mb-3">
                         <!-- Col -->
                         <div class="col-sm-12">
                             <div class="mb-12">

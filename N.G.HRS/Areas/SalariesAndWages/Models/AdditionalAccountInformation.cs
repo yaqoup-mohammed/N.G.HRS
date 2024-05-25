@@ -26,7 +26,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public decimal NightPeriodParameter { get; set; }//معامل الفترة الليلية
         [Required]
         [Range(1, 10)]
-        [Display(Name = "المعامل اليومي")]
+        [Display(Name = "المعامل في يوم")]
         public decimal LaboratoriesPerDay { get; set; }//المعامل اليومي
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]

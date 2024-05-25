@@ -19,8 +19,8 @@ namespace N.G.HRS.FingerPrintSetting
 
             public static bool ValidateIP(string addrString)
             {
-                IPAddress address;
-                if (IPAddress.TryParse(addrString, out address))
+                
+                if (IPAddress.TryParse(addrString, out IPAddress address))
                     return true;
                 else
                     return false;
@@ -42,7 +42,6 @@ namespace N.G.HRS.FingerPrintSetting
                 try
                 {
                     IPAddress ipAddress = IPAddress.Parse(ipAdd);
-
                     Ping pingSender = new Ping();
                     PingOptions options = new PingOptions();
                     options.DontFragment = true;
@@ -96,37 +95,34 @@ namespace N.G.HRS.FingerPrintSetting
                 }
                 return actualString;
             }
+        //public static void ValidateInteger(TextBox tbx)
+        //{
+        //    string actualString = string.Empty;
+        //    char[] enteredString = tbx.Text.ToCharArray();
+        //    tbx.Text = IntegerValidation(enteredString, actualString);
+        //    tbx.Select(tbx.Text.Length, 0);
+        //}
 
-            //public static void ValidateInteger(TextBox tbx)
-            //{
-            //    string actualString = string.Empty;
-            //    char[] enteredString = tbx.Text.ToCharArray();
-            //    tbx.Text = IntegerValidation(enteredString, actualString);
-            //    tbx.Select(tbx.Text.Length, 0);
-            //}
-
-
-
-            //public static void ChangeGridProperties(DataGridView dgvMaster)
-            //{
-            //    dgvMaster.DefaultCellStyle.Font = new Font("Segoe UI", 8F);
-            //    dgvMaster.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            //    dgvMaster.RowHeadersWidth = 10;
-            //    dgvMaster.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            //    dgvMaster.RowHeadersVisible = false;
-            //    dgvMaster.RowTemplate.DefaultCellStyle.Padding = new Padding(5, 0, 10, 0);
-            //    foreach (DataGridViewColumn c in dgvMaster.Columns)
-            //    {
-            //        c.Resizable = DataGridViewTriState.False;
-            //        c.ReadOnly = true;
-            //    }
-            //    dgvMaster.AllowUserToOrderColumns = true;
-            //    dgvMaster.BackgroundColor = SystemColors.Control;
-            //    dgvMaster.BorderStyle = BorderStyle.Fixed3D;
-            //}
+        //public static void ChangeGridProperties(DataGridView dgvMaster)
+        //{
+        //    dgvMaster.DefaultCellStyle.Font = new Font("Segoe UI", 8F);
+        //    dgvMaster.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        //    dgvMaster.RowHeadersWidth = 10;
+        //    dgvMaster.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        //    dgvMaster.RowHeadersVisible = false;
+        //    dgvMaster.RowTemplate.DefaultCellStyle.Padding = new Padding(5, 0, 10, 0);
+        //    foreach (DataGridViewColumn c in dgvMaster.Columns)
+        //    {
+        //        c.Resizable = DataGridViewTriState.False;
+        //        c.ReadOnly = true;
+        //    }
+        //    dgvMaster.AllowUserToOrderColumns = true;
+        //    dgvMaster.BackgroundColor = SystemColors.Control;
+        //    dgvMaster.BorderStyle = BorderStyle.Fixed3D;
+        //}
 
 
 
-        
+ 
     }
 }
