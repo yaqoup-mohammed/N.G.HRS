@@ -9,10 +9,6 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<h1>جديد</h1>
-
-<h4>الدول</h4>
-<hr />
 
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
@@ -52,10 +48,7 @@
 
 
                     </div>
-                </form>
-                    <input type="submit"  id="submit" value="إضافة" class="btn btn-primary me-2" />
-                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
-                    <a asp-action="Index" class="btn btn-light">عودة الى القائمة</a>
+                    
                 </form>
 
             </div>
@@ -99,7 +92,7 @@
     <script>
         $(document).ready(function () {
             var counter = 1;
-
+            const v = new ValidationFromMe();
             // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
             $("#saveDataBtn").click(function () {
                 // عرض رسالة تأكيد الحفظ

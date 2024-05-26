@@ -9,23 +9,8 @@
 
     <script type="text/javascript">
             
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: '@TempData["Success"]',
-                showConfirmButton: false,
-                timer: 1500,
-                customClass: {
-                    confirmButton: 'btn btn-primary'
-                },
-                buttonsStyling: false
-            });
-           @*       Swal.fire('Excellent','Good job!','success');
-               *@
+           
 
-           </script>
-
-           }
 
         Swal.fire({
             position: 'top-end',
@@ -60,16 +45,6 @@
             });
         event.preventDefault();
 
-        event.preventDefault();
-
-        Swal.fire({
-            icon: 'error',
-            title: '@TempData["Error"]🙄',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: true
-        });
     </script>
 }
 @if (TempData["SystemError"] != null)
@@ -86,30 +61,7 @@
         buttonsStyling: false
     });
             
-            Swal.fire({
-                icon: 'error',
-                title: 'حدث خطئ في النظام 😢',
-                text: '@TempData["SystemError"]';
-                footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
-                customClass: {
-                    confirmButton: 'btn btn-primary'
-                },
-                buttonsStyling: false
-            });
-        event.preventDefault();
-
-        event.preventDefault();
-
-        Swal.fire({
-            icon: 'error',
-            title: 'حدث خطئ في النظام 😢',
-            text: '@TempData["SystemError"]😪';
-            footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        });
+            
 
     </script>
 

@@ -741,6 +741,11 @@ namespace N.G.HRS.Areas.Employees.Controllers
             try
             {
 
+
+
+
+
+
                 // إنشاء كائن لتخزين البيانات المستلمة
                 var newFinancialStatements = new FinancialStatements
                 {

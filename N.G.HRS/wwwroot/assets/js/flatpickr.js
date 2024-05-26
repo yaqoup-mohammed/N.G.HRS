@@ -37,7 +37,7 @@ $(function() {
     //    });
     //}
     if ($('#additionaldate-time').length) {
-        flatpickr("#additionaldate-time", {
+        flatpickr(" ", {
             enableTime: true,
             noCalendar: true,
             time_24hr: false,

@@ -962,9 +962,8 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(170)
                         .HasColumnType("nvarchar(170)");
 
-                    b.Property<string>("EmployeeNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EmployeeNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("EmploymentStatus")
                         .IsRequired()
@@ -1431,8 +1430,6 @@ namespace N.G.HRS.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("SalaryStartDate")
-
                     b.Property<DateTime?>("SalaryEndtDate")
                         .HasColumnType("datetime2");
 
@@ -1602,9 +1599,6 @@ namespace N.G.HRS.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-
-                    b.Property<int>("PermitsType")
-                        .HasColumnType("int");
                     b.Property<string>("PermitsType")
                         .HasColumnType("nvarchar(max)");
 
@@ -2306,7 +2300,7 @@ namespace N.G.HRS.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Duration")
+                    b.Property<double?>("Duration")
                         .HasColumnType("float");
 
                     b.Property<int>("EmployeeId")
@@ -2318,10 +2312,10 @@ namespace N.G.HRS.Migrations
                     b.Property<DateTime>("FromTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Hours")
+                    b.Property<double?>("Hours")
                         .HasColumnType("float");
 
-                    b.Property<int>("Minutes")
+                    b.Property<int?>("Minutes")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
@@ -2330,7 +2324,7 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("PeriodId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PermissionId")
+                    b.Property<int?>("PermissionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
@@ -3922,6 +3916,16 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.EmployeesAffsirs.Models.Permits", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("PermitsList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.FinanceAccountType", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Finance.Models.FinanceAccount", "FinanceAccount")
@@ -3931,14 +3935,6 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
 
                     b.Navigation("FinanceAccount");
-            modelBuilder.Entity("N.G.HRS.Areas.EmployeesAffsirs.Models.Permits", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
-                        .WithMany("PermitsList")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.ContractTerms", b =>
@@ -4025,8 +4021,7 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Permissions", "Permission")
                         .WithMany("EmployeePermissionsList")
                         .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Supervisor")
                         .WithMany("SupervisorEPList")
@@ -4449,7 +4444,6 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Employee", b =>
                 {
-
                     b.Navigation("AdditionalExternalOfWorkList");
 
                     b.Navigation("AdministrativeDecisionsList");

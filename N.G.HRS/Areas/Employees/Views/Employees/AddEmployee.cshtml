@@ -179,7 +179,7 @@
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.DateOfStoppingWork" class="form-label">تاريخ إيقاف التوظيف</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-time">
                                                 <input asp-for="Employee.DateOfStoppingWork" id="EmployeeDateOfStoppingWork" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
@@ -896,6 +896,9 @@
                                                 </div>                                               
                                                 <span asp-validation-for="FinancialStatements.SalaryEndDate" class="text-danger"></span>
                                                 </div>
+                                            </div>
+                                    </div>
+                                    <div class="row">
 
                                         <!-- Col -->
                                         <div class="col-md-4 col-12 mb-3">

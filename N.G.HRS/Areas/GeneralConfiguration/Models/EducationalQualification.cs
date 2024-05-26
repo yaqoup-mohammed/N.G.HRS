@@ -10,8 +10,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         public int Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string Name { get; set; }
+        [Display(Name = "الاسم المؤهل")]
+        public string? Name { get; set; }
         [StringLength(255)]
+        [Display(Name = "الملاحضات")]
         public string? Notes { get; set; }
         //========================================================
         public ICollection<Qualifications>? qualifications { get; set; }
