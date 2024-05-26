@@ -55,16 +55,15 @@
 
                                         <div class="col-md-5 col-12 mb-3">
                                             <label asp-for="Employee.EmployeeName" class="form-label">اسم الموظف</label>
-                                            <input asp-for="Employee.EmployeeName" id="EmployeeEmployeeName" type="text" class="form-control" placeholder="Enter first name" />
+                                            <input asp-for="Employee.EmployeeName" type="text" class="form-control" placeholder="Enter first name" />
                                             <span asp-validation-for="Employee.EmployeeName" class="text-danger"></span>
 
                                         </div>
 
-                                        
 
                                         <div class="col-md-5 col-12 mb-3">
-                                            <label asp-for="Employee.EmployeeNumber"  class="form-label">الرقم الوظيفي</label>
-                                            <input asp-for="Employee.EmployeeNumber" id="EmployeeEmployeeNumber"   type="text" class="form-control" placeholder="الرقم الوظيفي " />
+                                            <label asp-for="Employee.EmployeeNumber" class="form-label">الرقم الوظيفي</label>
+                                            <input asp-for="Employee.EmployeeNumber" id="EmployeeNumber" type="text" class="form-control" placeholder="الرقم الوظيفي " />
 
                                             <span asp-validation-for="Employee.EmployeeNumber" class="text-danger"></span>
 
@@ -76,7 +75,7 @@
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.JobDescriptionId" class="form-label">الوظيفة</label>
-                                            <select asp-for="Employee.JobDescriptionId" id="EmployeeJobDescriptionId " asp-items="@(ViewData["JobDescription"] as SelectList)" class="js-example-basic-single  form-select">
+                                            <select asp-for="Employee.JobDescriptionId" asp-items="@(ViewData["JobDescription"] as SelectList)" class="js-example-basic-single  form-select">
                                                 <option value="">  </option>
                                             </select>
                                             <span asp-validation-for="Employee.JobDescriptionId" class="text-danger"></span>
@@ -85,7 +84,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.DepartmentsId" class="form-label">الادارة</label>
-                                            <select asp-for="Employee.DepartmentsId" id="EmployeeDepartmentsId" asp-items="@(ViewData["Departments"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="Employee.DepartmentsId" asp-items="@(ViewData["Departments"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">  </option>
                                             </select>
                                             <span asp-validation-for="Employee.DepartmentsId" class="text-danger"></span>
@@ -93,7 +92,7 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.SectionsId" class="form-label">القسم</label>
-                                            <select asp-for="Employee.SectionsId" id="EmployeeSectionsId" asp-items="@(ViewData["Sections"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="Employee.SectionsId" asp-items="@(ViewData["Sections"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value=""> </option>
                                             </select>
                                             <span asp-validation-for="Employee.SectionsId" class="text-danger"></span>
@@ -101,14 +100,14 @@
                                         </div>
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.ManagerId" class="form-label">المشرف المباشر</label>
-                                            <select asp-for="Employee.ManagerId" id="EmployeeManagerId " asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="Employee.ManagerId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value=""> </option>
                                             </select>
                                             <span asp-validation-for="Employee.ManagerId" class="text-danger"></span>
 
                                         </div>
                                         <div class="col-md-3 col-12 mb-3 ">
-                                            <label asp-for="Employee.EmploymentStatus"  class="form-label"> الحالة الوظيفية</label>
+                                            <label asp-for="Employee.EmploymentStatus" class="form-label"> الحالة الوظيفية</label>
                                             <select asp-for="Employee.EmploymentStatus" id="EmploymentStatus" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">   </option>
 
@@ -121,7 +120,7 @@
                                             <label asp-for="Employee.DateOfEmployment" class="form-label">تاريخ التوضيف</label>
                                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
 
-                                                <input asp-for="Employee.DateOfEmployment" id="DateOfEmployment" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <input asp-for="Employee.DateOfEmployment" id="DateOfEmployment"  class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -132,7 +131,7 @@
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.PlacementDate" class="form-label">تاريخ التثبيت</label>
                                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="Employee.PlacementDate" id="PlacementDate" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <input asp-for="Employee.PlacementDate" id="PlacementDate"  class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -153,7 +152,7 @@
                                         </div>
                                         <div class="col-md-6 col-12 mb-3">
                                             <div class="form-check mb-3">
-                                                <input asp-for="Employee.SubjectToInsurance" id="EmployeeSubjectToInsurance " type="checkbox" class="form-check-input" id="exampleCheck1" />
+                                                <input asp-for="Employee.SubjectToInsurance" type="checkbox" class="form-check-input" id="exampleCheck1" />
                                                 <label asp-for="Employee.SubjectToInsurance" class="form-check-label" for="exampleCheck1">
                                                     خاضع للتأمين
                                                 </label>
@@ -164,7 +163,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.DateInsurance" class="form-label">تاريخ التأمين</label>
                                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="Employee.DateInsurance" id="EmployeeDateInsurance" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <input asp-for="Employee.DateInsurance" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -175,7 +174,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.DateOfStoppingWork" class="form-label">تاريخ إيقاف التوظيف</label>
                                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="Employee.DateOfStoppingWork" id="EmployeeDateOfStoppingWork" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <input asp-for="Employee.DateOfStoppingWork" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -186,7 +185,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.RehireDate" class="form-label">تاريخ إعادة التوظيف</label>
                                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="Employee.RehireDate" id="EmployeeRehireDate" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <input asp-for="Employee.RehireDate" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -221,7 +220,6 @@
                         </div>
                     </div>
                     @* ======================= *@
-
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingFive">
                             <button class="accordion-button alert alert-fill-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
@@ -239,7 +237,7 @@
                                             <div class="mb-3">
                                                 <input asp-for="Guarantees.Id" type="hidden" class="form-control" placeholder="Enter last name" />
                                                 <label asp-for="Guarantees.Name" class="form-label">اسم الضمين</label>
-                                                <input asp-for="Guarantees.Name" type="text" id="GuaranteesName1" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.Name" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.Name" class="text-danger"></span>
 
                                             </div>
@@ -248,7 +246,7 @@
                                         <div class="col-sm-5">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.PhoneNumber" class="form-label"> الموبايل</label>
-                                                <input asp-for="Guarantees.PhoneNumber" id="GuaranteesPhoneNumber" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.PhoneNumber" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.PhoneNumber" class="text-danger"></span>
 
                                             </div>
@@ -260,14 +258,14 @@
                                         <div class="col-sm-7">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.NameOfTheBusiness" class="form-label">اسم المحل التجاري</label>
-                                                <input asp-for="Guarantees.NameOfTheBusiness" id="GuaranteesNameOfTheBusiness" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.NameOfTheBusiness" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.NameOfTheBusiness" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.CommercialRegistrationNo" class="form-label">رقم السجل</label>
-                                                <input asp-for="Guarantees.CommercialRegistrationNo" id="GuaranteesCommercialRegistrationNo" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.CommercialRegistrationNo" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.CommercialRegistrationNo" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -278,7 +276,7 @@
                                         <div class="col-sm-12">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.ShopAddress" class="form-label"> عنوان المحل التجاري</label>
-                                                <input asp-for="Guarantees.ShopAddress" id="GuaranteesShopAddress1" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.ShopAddress" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.ShopAddress" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -289,14 +287,14 @@
                                         <div class="col-sm-3">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.HomeAdress" class="form-label"> عنوان السكن الدائم</label>
-                                                <input asp-for="Guarantees.HomeAdress" id="GuaranteesHomeAdress1" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.HomeAdress" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.HomeAdress" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.MaritalStatusId" class="form-label">الحالة الإجتماعية</label>
-                                                <select asp-for="Guarantees.MaritalStatusId" id="GuaranteesMaritalStatusId" asp-items="@(ViewData["MaritalStatus"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="Guarantees.MaritalStatusId" asp-items="@(ViewData["MaritalStatus"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -307,61 +305,26 @@
                                         <div class="col-sm-5">
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.NumberOfDependents" class="form-label">عدد من يعول</label>
-                                                <input asp-for="Guarantees.NumberOfDependents" id="GuaranteesNumberOfDependents" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="Guarantees.NumberOfDependents" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="Guarantees.NumberOfDependents" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class=" col-12 mb-3">
                                             <label asp-for="Guarantees.Notes" class="form-label">الملاحظة</label>
 
-                                            <textarea asp-for="Guarantees.Notes" id="GuaranteesNotes1" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
+                                            <textarea asp-for="Guarantees.Notes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
                                             <span asp-validation-for="Guarantees.Notes" class="text-danger"></span>
 
                                         </div>
                                         <!-- Col -->
                                     </div>
                                     <br />
-
-
-                                    @*                                     <button type="submit" id="submit1" class="btn btn-primary routate">حفظ</button>
-                                    *@
-                                    @*   <input type="submit" id="submit1" value="اظافة" class="btn btn-primary me-2" />
-                                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn1" style="display: none" />
-                                    *@
-
-                                    <div>
-                                        <input type="submit" id="GuaranteesSubmit" value="اظافة" class="btn btn-primary routate" />
-                                        <input type="submit" value="حفظ البيانات" class="btn btn-primary" id="GuaranteesSaveDataBtn" style="display: none" />
-                                        <button type="button" id="GuaranteesClearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary routate">حفظ</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    <!-- جدول البيانات المؤقتة -->
-                    <table id="GuaranteesTable" class="table" style="display:none;">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>اسم الظمين</th>
-                                <th>الموبايل </th>
-                                <th>اسم المحل التجاري </th>
-                                <th>رقم السجل </th>
-                                <th>عنوان المحل التجاري </th>
-                                <th>عنوان السكن الدائم </th>
-                                <th>الحالة الإجتماعية </th>
-                                <th>عدد من يعول </th>
-                                <th>الملاحظة </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-
-
-
-
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button alert alert-fill-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -382,7 +345,7 @@
                                             <div class="mb-3">
 
                                                 <label asp-for="PersonalData.EmployeeId" class="form-label"> الموظف</label>
-                                                <select asp-for="PersonalData.EmployeeId" id="PersonalDataEmployeeId" asp-items="@(ViewData["ManagerOne"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="PersonalData.EmployeeId" asp-items="@(ViewData["ManagerOne"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -394,10 +357,9 @@
                                         <div class="col-sm-5">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.DateOfBirth" class="form-label">تاريخ الميلاد:</label>
-                                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                    <input asp-for="PersonalData.DateOfBirth" id="PersonalDataDateOfBirth" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
-                                                    <span class="input-group-text input-group-addon" data-toggle>
-                                                        <i data-feather="calendar"></i>
+                                                <div class="input-group flatpickr" id="flatpickr-date">
+                                                    <input asp-for="PersonalData.DateOfBirth" id="birthdate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                    <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                 </div>
                                                 <span asp-validation-for="PersonalData.DateOfBirth" class="text-danger"></span>
 
@@ -406,7 +368,7 @@
                                         <div class="col-sm-3">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.Age" class="form-label">العمر</label>
-                                                <input asp-for="PersonalData.Age" id="PersonalDataAge" readonly class="form-control" placeholder="Enter Age" />
+                                                <input asp-for="PersonalData.Age" id="age" readonly class="form-control" placeholder="Enter Age" />
                                                 <span asp-validation-for="PersonalData.Age" class="text-danger"></span>
 
                                             </div>
@@ -417,8 +379,8 @@
                                         <!-- Col -->
                                         <div class="col-sm-3">
                                             <div class="mb-3">
-                                                <label asp-for="PersonalData.SexId" class="form-label">الجنس</label>
-                                                <select asp-for="PersonalData.SexId" id="PersonalDataSexId" asp-items="@(ViewData["Sex"] as SelectList)" class="js-example-basic-single form-select">
+                                                <label asp-for="PersonalData.SexId" class="form-label">النوع</label>
+                                                <select asp-for="PersonalData.SexId" asp-items="@(ViewData["Sex"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -428,7 +390,7 @@
                                         <div class="col-sm-3">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.NationalityId" class="form-label">الجنسية</label>
-                                                <select asp-for="PersonalData.NationalityId" id="PersonalDataNationalityId" asp-items="@(ViewData["Nationality"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="PersonalData.NationalityId" asp-items="@(ViewData["Nationality"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -438,7 +400,7 @@
                                         <div class="col-sm-3">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.ReligionId" class="form-label">الديانة</label>
-                                                <select asp-for="PersonalData.ReligionId" id="PersonalDataReligionId" asp-items="@(ViewData["Religion"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="PersonalData.ReligionId" asp-items="@(ViewData["Religion"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -449,7 +411,7 @@
                                         <div class="col-sm-3">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.MaritalStatusId" class="form-label">الحالة الإجتماعية</label>
-                                                <select asp-for="PersonalData.MaritalStatusId" id="PersonalDataMaritalStatusId" asp-items="@(ViewData["MaritalStatus"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="PersonalData.MaritalStatusId" asp-items="@(ViewData["MaritalStatus"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -465,7 +427,7 @@
                                             <div class="mb-3">
 
                                                 <label asp-for="PersonalData.GuaranteesId" class="form-label">الضمين</label>
-                                                <select asp-for="PersonalData.GuaranteesId" id="PersonalDataGuaranteesId" asp-items="@(ViewData["GuaranteesOne"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="PersonalData.GuaranteesId" asp-items="@(ViewData["GuaranteesOne"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value="">...</option>
 
                                                 </select>
@@ -478,7 +440,7 @@
                                         <div class="col-sm-4">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.HomePhone" class="form-label">هاتف المنزل</label>
-                                                <input asp-for="PersonalData.HomePhone" id="PersonalDataHomePhone" type="tel" class="form-control" maxlength="9" placeholder="___  ___  ___ or ___ ___ __" />
+                                                <input asp-for="PersonalData.HomePhone" type="text" class="form-control" placeholder="Enter PhoneNumber" />
                                                 <span asp-validation-for="PersonalData.HomePhone" class="text-danger"></span>
 
                                             </div>
@@ -486,11 +448,8 @@
                                         <div class="col-sm-4">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.PhoneNumber" class="form-label">الموبايل</label>
-                                                <input asp-for="PersonalData.PhoneNumber" id="PersonalDataPhoneNumber" type="tel" class="form-control" pattern="[0-9]{3} [0-9]{3} [0-9]{3}" inputmode="numeric" maxlength="11" placeholder="___  ___  ___ " />
-
-@*                                                 <input asp-for="PersonalData.PhoneNumber" id="PersonalDataPhoneNumber" type="text" class="form-control" placeholder="Enter PhoneNumber" />
-
- *@                                                <span asp-validation-for="PersonalData.PhoneNumber" class="text-danger"></span>
+                                                <input asp-for="PersonalData.PhoneNumber" type="text" class="form-control" placeholder="Enter PhoneNumber" />
+                                                <span asp-validation-for="PersonalData.PhoneNumber" class="text-danger"></span>
 
                                             </div>
                                         </div>
@@ -501,14 +460,14 @@
                                         <div class="col-sm-5">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.Email" class="form-label">الايميل</label>
-                                                <input asp-for="PersonalData.Email" id="PersonalDataEmail" type="email" class="form-control mb-4 mb-md-0" data-inputmask="'alias': 'email'" />
+                                                <input asp-for="PersonalData.Email" type="email" class="form-control" placeholder="Enter Email" />
                                                 <span asp-validation-for="PersonalData.Email" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-7">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.Address" class="form-label">العنوان</label>
-                                                <input asp-for="PersonalData.Address" id="PersonalDataAddress" type="text" class="form-control" placeholder="Enter Address" />
+                                                <input asp-for="PersonalData.Address" type="text" class="form-control" placeholder="Enter Address" />
                                                 <span asp-validation-for="PersonalData.Address" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -522,7 +481,7 @@
                                                     <div class="col-sm-3">
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.CardType" class="form-label"> نوع البطاقة</label>
-                                                            <select asp-for="PersonalData.CardType" id="PersonalDataCardType" class="js-example-basic-single form-select">
+                                                            <select asp-for="PersonalData.CardType" class="js-example-basic-single form-select">
                                                                 <option> شخصية</option>
                                                                 <option> جواز سفر</option>
                                                             </select>
@@ -532,14 +491,14 @@
                                                     <div class="col-sm-5">
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.CardNumber" class="form-label">رقم البطاقة</label>
-                                                            <input asp-for="PersonalData.CardNumber" id="PersonalDataCardNumber" type="tel"  class="form-control" placeholder="Enter last name" />
+                                                            <input asp-for="PersonalData.CardNumber" type="text" class="form-control" placeholder="Enter last name" />
                                                             <span asp-validation-for="PersonalData.CardNumber" class="text-danger"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.ToRelease" class="form-label">صادرة من</label>
-                                                            <input asp-for="PersonalData.ToRelease" id="PersonalDataToRelease" type="text" class="form-control" placeholder="Enter last name" />
+                                                            <input asp-for="PersonalData.ToRelease" type="text" class="form-control" placeholder="Enter last name" />
                                                             <span asp-validation-for="PersonalData.ToRelease" class="text-danger"></span>
                                                         </div>
                                                     </div>
@@ -548,12 +507,10 @@
                                                     <div class="col-sm-6">
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.ReleaseDate" class="form-label">تاريخ الاصدار:</label>
-                                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                                <input asp-for="PersonalData.ReleaseDate" id="PersonalDataReleaseDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
-                                                                <span class="input-group-text input-group-addon" data-toggle>
-                                                                    <i data-feather="calendar"></i>
+                                                            <div class="input-group flatpickr" id="flatpickr-date">
+                                                                <input asp-for="PersonalData.ReleaseDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                                <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                             </div>
-
                                                             <span asp-validation-for="PersonalData.ReleaseDate" class="text-danger"></span>
 
                                                         </div>
@@ -561,10 +518,9 @@
                                                     <div class="col-sm-6">
                                                         <div class="mb-3">
                                                             <label asp-for="PersonalData.CardExpiryDate" class="form-label">تاريخ الانتهاء:</label>
-                                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                                <input asp-for="PersonalData.CardExpiryDate" id="PersonalDataCardExpiryDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
-                                                                <span class="input-group-text input-group-addon" data-toggle>
-                                                                    <i data-feather="calendar"></i>
+                                                            <div class="input-group flatpickr" id="flatpickr-date">
+                                                                <input asp-for="PersonalData.CardExpiryDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                                <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
                                                             </div>
                                                             <span asp-validation-for="PersonalData.CardExpiryDate" class="text-danger"></span>
 
@@ -581,7 +537,7 @@
                                         <div class="col-sm-12">
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.Notes" class="form-label">الملاحظات</label>
-                                                <textarea asp-for="PersonalData.Notes" id="PersonalDataNotes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
+                                                <textarea asp-for="PersonalData.Notes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
                                                 <span asp-validation-for="PersonalData.Notes" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -593,13 +549,11 @@
 
 
                                     <br>
-                                    <button type="submit" id="PersonalDataSubmit" class="btn btn-primary routate">حفظ</button>
+                                    <button type="submit" class="btn btn-primary routate">حفظ</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button alert alert-fill-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -621,7 +575,7 @@
                                         </div>
                                         <div class=" col-10 mb-3">
                                             <label asp-for="PracticalExperiences.EmployeeId" class="form-label"> الموظف</label>
-                                            <select asp-for="PracticalExperiences.EmployeeId" id="PracticalExperiencesEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="PracticalExperiences.EmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">...</option>
 
                                             </select>
@@ -635,7 +589,7 @@
 
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="PracticalExperiences.ExperiencesName" class="form-label">اسم الخبرة</label>
-                                            <input asp-for="PracticalExperiences.ExperiencesName" id="PracticalExperiencesExperiencesName" type="text" class="form-control" placeholder="Enter  ExperiencesName" />
+                                            <input asp-for="PracticalExperiences.ExperiencesName" type="text" class="form-control" placeholder="Enter  ExperiencesName" />
                                             <span asp-validation-for="PracticalExperiences.ExperiencesName" class="text-danger"></span>
 
                                         </div>
@@ -643,18 +597,19 @@
 
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="PracticalExperiences.PlacToGainExperience" class="form-label">مكان الحصول على الخبرة:</label>
-                                            <input asp-for="PracticalExperiences.PlacToGainExperience" id="PracticalExperiencesPlacToGainExperience" type="text" class="form-control" placeholder="الرقم الوظيفي " />
+                                            <input asp-for="PracticalExperiences.PlacToGainExperience" type="text" class="form-control" placeholder="الرقم الوظيفي " />
                                             <span asp-validation-for="PracticalExperiences.PlacToGainExperience" class="text-danger"></span>
 
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="PracticalExperiences.FromDate" class="form-label">من تاريخ:</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="PracticalExperiences.FromDate" id="PracticalExperiencesFromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                            <div class="input-group flatpickr" id="flatpickr-date">
+
+                                                <input asp-for="PracticalExperiences.FromDate" id="fromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
-                                            </div> 
-
+                                                </span>
+                                            </div>
                                             <span asp-validation-for="PracticalExperiences.FromDate" class="text-danger"></span>
 
                                         </div>
@@ -662,11 +617,12 @@
 
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="PracticalExperiences.ToDate" class="form-label">الى تاريخ:</label>
+                                            <div class="input-group flatpickr" id="flatpickr-date">
 
-                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="PracticalExperiences.ToDate" id="PracticalExperiencesToDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                <input asp-for="PracticalExperiences.ToDate" id="toDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
+                                                </span>
                                             </div>
                                             <span asp-validation-for="PracticalExperiences.ToDate" class="text-danger"></span>
 
@@ -676,7 +632,7 @@
                                             <label asp-for="PracticalExperiences.Duration" class="form-label">الفترة :</label>
                                             <div class="input-group ">
 
-                                                <input asp-for="PracticalExperiences.Duration" id="PracticalExperiencesDuration" readonly class="form-control" placeholder="duration date">
+                                                <input asp-for="PracticalExperiences.Duration" id="duration" readonly class="form-control" placeholder="duration date">
                                                 <span class="input-group-text input-group-addon">
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -688,36 +644,12 @@
 
 
                                     <br>
-                                    <div>
-                                        <input type="submit" id="PracticalExperiencesSubmit" value="اظافة" class="btn btn-primary routate" />
-                                        <input type="submit" value="حفظ البيانات" class="btn btn-primary" id="PracticalExperiencesSaveDataBtn" style="display: none" />
-                                        <button type="button" id="PracticalExperiencesClearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                                    </div>
-
+                                    <button type="submit" class="btn btn-primary routate">حفظ</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-
-                    <table id="PracticalExperiencesTemporaryTable" class="table" style="display:none;">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>الموظف</th>
-                                <th>اسم الخبرة</th>
-                                <th>مكان الحصول على الخبرة</th>
-                                <th>من تاريخ</th>
-                                <th>الى تاريخ</th>
-                                <th>الفترة</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-
-
-
-                    <div class="accordion-item" id="openFamilyForm">
+                    <div class="accordion-item">
                         <h2 class="accordion-header" id="headingFour">
                             <button class="accordion-button alert alert-fill-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                 <i data-feather="move" class="icon-sm handle me-2"></i> اضافة اسرة
@@ -726,9 +658,11 @@
                         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#FaqAccordion">
                             <div class="accordion-body">
                                 <h6 class="card-title headerStyle">بيانات الأسرة</h6>
+
                                 <hr style="color: black;">
                                 <form asp-action="AddFamilyToEmployee" method="post">
                                     <div class="row">
+
                                         <div class="col-sm-1">
                                             <div class="mb-3">
                                                 <input type="hidden" class="form-control" placeholder="Enter last name" />
@@ -736,8 +670,9 @@
                                         </div>
                                         <div class=" col-10 mb-3">
                                             <label asp-for="Family.EmployeeId" class="form-label"> الموظف</label>
-                                            <select asp-for="Family.EmployeeId" id="FamilyEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="Family.EmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">...</option>
+
                                             </select>
                                             <span asp-validation-for="Family.EmployeeId" class="text-danger"></span>
                                         </div>
@@ -746,49 +681,40 @@
                                                 <input type="hidden" class="form-control" placeholder="Enter last name" />
                                             </div>
                                         </div>
+
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="Family.Name" class="form-label">الاسم:</label>
-                                            <input asp-for="Family.Name" type="text" id="FamilyName" class="form-control" placeholder="الاسم  " />
+                                            <input asp-for="Family.Name" type="text" class="form-control" placeholder="الاسم  " />
                                             <span asp-validation-for="Family.Name" class="text-danger"></span>
+
                                         </div>
+
+
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="Family.RelativesTypeId" class="form-label"> صلة القرابة</label>
-                                            <select asp-for="Family.RelativesTypeId " id="FamilyRelativesTypeId" asp-items="@(ViewData["RelativesType"] as SelectList)" class="js-example-basic-single form-select">
+                                            <select asp-for="Family.RelativesTypeId" asp-items="@(ViewData["RelativesType"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">...</option>
+
                                             </select>
                                             <span asp-validation-for="Family.RelativesTypeId" class="text-danger"></span>
                                         </div>
                                         <div class=" col-12 mb-3">
                                             <label asp-for="Family.Notes" class="form-label">الملاحظة</label>
-                                            <textarea asp-for="Family.Notes" id="FamilyNotes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
+
+                                            <textarea asp-for="Family.Notes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
                                             <span asp-validation-for="Family.Notes" class="text-danger"></span>
 
                                         </div>
+
                                     </div>
+
+
                                     <br>
-                                    <div>
-                                        <input type="submit" id="FamilySubmit" value="اظافة" class="btn btn-primary routate" />
-                                        <input type="submit" value="حفظ البيانات" class="btn btn-primary" id="FamilySaveDataBtn" style="display: none" />
-                                        <button type="button" id="FamilyClearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary routate">حفظ</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    <table id="FamilytemporaryTable" class="table" style="display:none;">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>الموظف</th>
-                                <th>الاسم</th>
-                                <th>صلة القرابة</th>
-                                <th>الملاحظة</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingSix">
@@ -803,88 +729,88 @@
                                 <hr style="color: black;">
 
                                 <form asp-action="AddFinancialStatements" method="post">
-
-                                    <div class="row">
-                                        <!-- Col -->
+                                    
+                                        <div class="row">
+                                            <!-- Col -->
                                         <div class="col-sm-5">
                                             <div class="mb-3">
                                                 <label asp-for="FinancialStatements.EmployeeId" class="form-label"> الموظف</label>
-                                                <select asp-for="FinancialStatements.EmployeeId" id="FinancialStatementsEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="FinancialStatements.EmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value=""> .....</option>
 
                                                 </select>
                                                 <span asp-validation-for="FinancialStatements.EmployeeId" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="mb-3">
+                                            <div class="col-sm-4">
+                                                <div class="mb-3">
                                                 <label asp-for="FinancialStatements.BasicSalary" class="form-label">الراتب الاساسي</label>
-                                                <input asp-for="FinancialStatements.BasicSalary" id="FinancialStatementsBasicSalary" type="text" class="form-control" placeholder="Enter last name" />
+                                                <input asp-for="FinancialStatements.BasicSalary" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="FinancialStatements.BasicSalary" class="text-danger"></span>
                                             </div>
-                                        </div>
+                                            </div>
 
-                                        <div class="col-sm-3">
-                                            <div class="mb-3">
-                                                <label asp-for="FinancialStatements.CurrencyId" class="form-label">العملة</label>
-                                                <select asp-for="FinancialStatements.CurrencyId" id="FinancialStatementsCurrencyId" asp-items="@(ViewData["Currency"] as SelectList)" class="js-example-basic-single form-select">
+                                            <div class="col-sm-3">
+                                                <div class="mb-3">
+                                                    <label asp-for="FinancialStatements.CurrencyId" class="form-label">العملة</label>
+                                                <select asp-for="FinancialStatements.CurrencyId" asp-items="@(ViewData["Currency"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value=""> .....</option>
 
-                                                </select>
+                                                </select>                                          
                                                 <span asp-validation-for="FinancialStatements.CurrencyId" class="text-danger"></span>
 
+                                                </div>
                                             </div>
+                                            <!-- Col -->
                                         </div>
-                                        <!-- Col -->
-                                    </div>
-                                    <div class="row">
-                                        <!-- Col -->
-                                        <div class="col-sm-6">
-                                            <div class="mb-3">
+                                        <div class="row">
+                                            <!-- Col -->
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
                                                 <label asp-for="FinancialStatements.InsuranceAccountNumber" class="form-label">رقم حساب التأمين</label>
-                                                <input asp-for="FinancialStatements.InsuranceAccountNumber" id="FinancialStatementsInsuranceAccountNumber" type="text" class="form-control" placeholder="Enter last name" />
+                                                    <input asp-for="FinancialStatements.InsuranceAccountNumber" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="FinancialStatements.InsuranceAccountNumber" class="text-danger"></span>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="mb-3">
-                                                <label asp-for="FinancialStatements.BankAccountNumber" class="form-label">رقم الحساب البنكي</label>
-                                                <input asp-for="FinancialStatements.BankAccountNumber" id="FinancialStatementsBankAccountNumber" type="text" class="form-control" placeholder="Enter last name" />
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label asp-for="FinancialStatements.BankAccountNumber"  class="form-label">رقم الحساب البنكي</label>
+                                                <input asp-for="FinancialStatements.BankAccountNumber" type="text" class="form-control" placeholder="Enter last name" />
                                                 <span asp-validation-for="FinancialStatements.BankAccountNumber" class="text-danger"></span>
 
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Col -->
-                                    </div>
-                                    <div class="row">
+                                            <!-- Col -->
+                                        </div>
+                                        <div class="row">
                                         <div class="col-sm-4">
                                             <div class="mb-3">
                                                 <label asp-for="FinancialStatements.NatureOfEmployment" class="form-label">طبيعة التوظيف</label>
-                                                <select asp-for="FinancialStatements.NatureOfEmployment" id="FinancialStatementsNatureOfEmployment" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
+                                                <select asp-for="FinancialStatements.NatureOfEmployment" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
                                                     <option value=""> </option>
 
                                                 </select>
                                                 <span asp-validation-for="FinancialStatements.NatureOfEmployment" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <!-- Col -->
+                                            <!-- Col -->
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="FinancialStatements.SalaryStartDate" class="form-label">تاريخ بداية الأجر</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="">
-                                                <input asp-for="FinancialStatements.SalaryStartDate" id="FinancialStatementsSalaryStartDate" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="FinancialStatements.SalaryStartDate" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
-                                            </div>
+                                            </div>  
                                             <span asp-validation-for="FinancialStatements.SalaryStartDate" class="text-danger"></span>
 
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="FinancialStatements.SalaryEndDate" class="form-label">تاريخ نهاية الأجر </label>
-                                            <div class="input-group flatpickr flatpickr-date" id="">
-                                                <input asp-for="FinancialStatements.SalaryEndDate" id="FinancialStatementsSalaryEndDate" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                                <input asp-for="FinancialStatements.SalaryEndDate" id="" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
                                                 </span>
@@ -892,60 +818,53 @@
                                             <span asp-validation-for="FinancialStatements.SalaryEndDate" class="text-danger"></span>
 
                                         </div>
-                                        <!-- Col -->
-                                    </div>
+                                            <!-- Col -->
+                                        </div>
 
-                                    @*               <div class="row eff">
-                                    <!-- Col -->
-                                    <div class="form-check form-check-inline col-sm-3">
-                                    <input type="checkbox" name="skill_check" class="form-check-input" id="checkInline1">
-                                    <label class="form-check-label" for="checkInline1">
-                                    تمديد الراتب
-                                    </label>
+                          @*               <div class="row eff">
+                                            <!-- Col -->
+                                            <div class="form-check form-check-inline col-sm-3">
+                                                <input type="checkbox" name="skill_check" class="form-check-input" id="checkInline1">
+                                                <label class="form-check-label" for="checkInline1">
+                                                    تمديد الراتب
+                                                </label>
 
-                                    </div>
-                                    <div class="col-sm-9">
-                                    <div class="mb-3">
-                                    <label class="form-label"> الى</label>
-                                    <div class="input-group flatpickr" id="flatpickr-date">
-                                    <input type="text" class="form-control" placeholder="أدخل التاريخ" data-input>
-                                    <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
-                                    </div>
-                                    </div>
-                                    </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="mb-3">
+                                                    <label class="form-label"> الى</label>
+                                                    <div class="input-group flatpickr" id="flatpickr-date">
+                                                        <input type="text" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                                        <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                    <!-- Col -->
-                                    </div> *@
-                                    <div class="row">
-                                        <!-- Col -->
-                                        <div class="col-sm-12">
-                                            <div class="mb-3">
+                                            <!-- Col -->
+                                        </div> *@
+                                        <div class="row">
+                                            <!-- Col -->
+                                            <div class="col-sm-12">
+                                                <div class="mb-3">
                                                 <label asp-for="FinancialStatements.Notes" class="form-label">الملاحظة</label>
 
-                                                <textarea asp-for="FinancialStatements.Notes" id="FinancialStatementsNotes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
+                                                <textarea asp-for="FinancialStatements.Notes" class="form-control" rows="3" placeholder="الملاحظة "></textarea>
                                                 <span asp-validation-for="FinancialStatements.Notes" class="text-danger"></span>
                                             </div>
+                                            </div>
+                                            <!-- Col -->
                                         </div>
-                                        <!-- Col -->
-                                    </div>
-                                    <!-- Row -->
-                                    <br />
+                                        <!-- Row -->
+                                        <br />
 
-
+                                   
                                     <br>
-                                    <button type="submit" id="FinancialStatementsSubmit" class="btn btn-primary routate">حفظ</button>
+                                    <button type="submit" class="btn btn-primary routate">حفظ</button>
                                 </form>
-
+                             
                             </div>
                         </div>
                     </div>
-                    @*
-                    البداية البيانات الدورات التدريبية
-                    ===================================================================================
-
-                    *@
-
-
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="TrainingCourses">
@@ -956,83 +875,76 @@
                         <div id="TrainingCourses7" class="accordion-collapse collapse" aria-labelledby="TrainingCourses" data-bs-parent="#FaqAccordion">
                             <div class="accordion-body">
                                 <h6 class="card-title headerStyle"> البيانات الدورات التدريبية </h6>
+
                                 <hr style="color: black;">
+
                                 <form asp-action="AddTrainingCourses" method="post">
+
                                     <div class="row">
-                                        <div class="col-6 mb-3">
+
+                                       
+                                        <div class=" col-6 mb-3">
                                             <label asp-for="TrainingCourses.EmployeeId" class="form-label"> الموظف</label>
-                                            <select asp-for="TrainingCourses.EmployeeId" id="TrainingCoursesEmployeeId" asp-items='@(ViewData["Manager"] as SelectList)' class="js-example-basic-single form-select">
+                                            <select asp-for="TrainingCourses.EmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">...</option>
+
                                             </select>
                                             <span asp-validation-for="TrainingCourses.EmployeeId" class="text-danger"></span>
                                         </div>
+                                      
+
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="TrainingCourses.NameCourses" class="form-label">اسم الدورة</label>
-                                            <input asp-for="TrainingCourses.NameCourses" id="TrainingCoursesNameCourses" type="text" class="form-control" placeholder="ادخل اسم الدورة" />
+                                            <input asp-for="TrainingCourses.NameCourses" type="text" class="form-control" placeholder="Enter  ExperiencesName" />
                                             <span asp-validation-for="TrainingCourses.NameCourses" class="text-danger"></span>
+
                                         </div>
+
+
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="TrainingCourses.WhereToGetIt" class="form-label">مكان الحصول عليها:</label>
-                                            <input asp-for="TrainingCourses.WhereToGetIt" id="TrainingCoursesWhereToGetIt" type="text" class="form-control" placeholder="ادخل مكان الحصول" />
+                                            <input asp-for="TrainingCourses.WhereToGetIt" type="text" class="form-control" placeholder="الرقم الوظيفي " />
                                             <span asp-validation-for="TrainingCourses.WhereToGetIt" class="text-danger"></span>
+
                                         </div>
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="TrainingCourses.FromDate" class="form-label">من تاريخ:</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="TrainingCourses.FromDate" id="TrainingCoursesFromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                            <div class="input-group flatpickr" id="flatpickr-date">
+
+                                                <input asp-for="TrainingCourses.FromDate" id="fromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
+                                                </span>
                                             </div>
                                             <span asp-validation-for="TrainingCourses.FromDate" class="text-danger"></span>
 
                                         </div>
+
+
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="TrainingCourses.ToDate" class="form-label">الى تاريخ:</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                                <input asp-for="TrainingCourses.ToDate" id="TrainingCoursesToDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
+                                            <div class="input-group flatpickr" id="flatpickr-date">
+
+                                                <input asp-for="TrainingCourses.ToDate" id="toDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
+                                                </span>
                                             </div>
                                             <span asp-validation-for="TrainingCourses.ToDate" class="text-danger"></span>
 
                                         </div>
+
+
                                     </div>
+
+
                                     <br>
-
-                                    <div>
-                                        <button type="submit" id="TrainingCoursesSubmit" class="btn btn-primary me-2">إضافة</button>
-                                        <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="TrainingCoursesSaveDataBtn" style="display: none" />
-                                        <button type="button" id="TrainingCoursesClearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                                    </div>
-
-
+                                    <button type="submit" class="btn btn-primary routate">حفظ</button>
                                 </form>
+
                             </div>
                         </div>
                     </div>
-
-                    <!-- جدول البيانات المؤقتة -->
-                    <table id="TrainingCoursesTable" class="table" style="display:none;">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>الموظف</th>
-                                <th>اسم الدورة</th>
-                                <th>مكان الحصول عليها</th>
-                                <th>من تاريخ</th>
-                                <th>الى تاريخ</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-
-
-
-
-
-                    @*                     ================================================================================================================
-                    *@
-
 
 
 
@@ -1057,7 +969,7 @@
                                                 <div class="card-body">
                                                     <h6 class="card-title"> الملف</h6>
 
-                                                    <input asp-for="EmployeeArchives.FileUpload" id="" type="file" class="Dropify" accept=".pdf" />
+                                                    <input asp-for="EmployeeArchives.FileUpload" type="file" class="Dropify" />
                                                     <span asp-validation-for="EmployeeArchives.FileUpload" class="text-danger"></span>
 
                                                 </div>
@@ -1075,10 +987,12 @@
 
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="EmployeeArchives.Date" class="form-label"> التاريخ:</label>
-                                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <div class="input-group flatpickr" id="flatpickr-date">
+
                                                 <input asp-for="EmployeeArchives.Date" id="fromDate" type="date" class="form-control" placeholder="أدخل التاريخ" data-input>
                                                 <span class="input-group-text input-group-addon" data-toggle>
                                                     <i data-feather="calendar"></i>
+                                                </span>
                                             </div>
                                             <span asp-validation-for="EmployeeArchives.Date" class="text-danger"></span>
 
@@ -1101,7 +1015,7 @@
                                         </div>
 
 
-
+                                      
 
 
                                     </div>
@@ -1123,116 +1037,6 @@
 
 
 <script src="~/assets/js/jquery-3.6.1.min.js"></script>
-
-<script>
-        // استرجاع قيمة التسلسل الرئيسي من localStorage إذا كانت متاحة
-        let primarySequence = localStorage.getItem('primarySequence');
-        // تحويل قيمة التسلسل إلى رقم، إذا كانت متاحة، أو استخدام القيمة الافتراضية (1)
-        primarySequence = primarySequence ? parseInt(primarySequence) : 1;
-
-        // الدالة لتحديث قيمة التسلسل في localStorage
-        function updateSequenceInLocalStorage(value) {
-            localStorage.setItem('primarySequence', value.toString());
-        }
-
-        // الدالة لتوليد الرقم الوظيفي المميز
-        function generateEmployeeNumber(dateOfEmployment) {
-            const date = new Date(dateOfEmployment);
-            const year = date.getFullYear().toString().substring(2); // السنة الأولى والثانية (رقمين)
-            const month = addLeadingZero(date.getMonth() + 1); // الشهر (رقمين)
-            const day = addLeadingZero(date.getDate()); // اليوم (رقمين)
-
-            // توليد الرقم الوظيفي بحسب التاريخ
-            const employeeNumber = year + month + day + primarySequence;
-
-            // زيادة قيمة التسلسل الرئيسي
-            primarySequence++;
-
-            // تحديث قيمة التسلسل في localStorage
-            updateSequenceInLocalStorage(primarySequence);
-
-            return employeeNumber;
-        }
-
-        // الدالة لإضافة صفر إلى الأرقام الأحادية للحفاظ على النمط (مثل 01 بدلاً من 1)
-        function addLeadingZero(num) {
-            return (num < 10 ? '0' : '') + num;
-        }
-
-        // تفعيل الكود عند تغيير قيمة حقل تاريخ التوظيف
-        document.getElementById('DateOfEmployment').addEventListener('change', function () {
-            const dateOfEmployment = this.value;
-            const employeeNumberField = document.getElementById('EmployeeEmployeeNumber');
-
-            // توليد الرقم الوظيفي المميز وتعيينه إلى حقل الرقم الوظيفي
-            employeeNumberField.value = generateEmployeeNumber(dateOfEmployment);
-        });
-    
-    </script>
-
-@* <script>
-    // الدالة لتوليد الرقم الوظيفي المميز باستخدام القيمة المحدثة من قاعدة البيانات
-    function generateEmployeeNumber(dateOfEmployment, lastEmployeeNumber) {
-        const date = new Date(dateOfEmployment);
-        const year = date.getFullYear().toString().substring(2); // السنة الأولى والثانية (رقمين)
-        const month = addLeadingZero(date.getMonth() + 1); // الشهر (رقمين)
-        const day = addLeadingZero(date.getDate()); // اليوم (رقمين)
-
-        // توليد الرقم الوظيفي بحسب التاريخ والقيمة المحدثة من قاعدة البيانات
-        const employeeNumber = year + month + day + lastEmployeeNumber;
-
-        return employeeNumber;
-    }
-
-    // تفعيل الكود عند تغيير قيمة حقل تاريخ التوظيف
-    document.getElementById('DateOfEmployment').addEventListener('change', async function () {
-        const dateOfEmployment = this.value;
-        const employeeNumberField = document.getElementById('EmployeeEmployeeNumber');
-
-        // استدعاء الخادم للحصول على آخر قيمة التسلسل من قاعدة البيانات
-        const response = await fetch('/Employee/GenerateEmployeeNumber');
-        const data = await response.json();
-        const lastEmployeeNumber = data.lastEmployeeNumber;
-
-        // توليد الرقم الوظيفي المميز باستخدام القيمة المحدثة من قاعدة البيانات
-        const generatedEmployeeNumber = generateEmployeeNumber(dateOfEmployment, lastEmployeeNumber);
-
-        // تعيين الرقم الوظيفي المميز إلى حقل الرقم الوظيفي
-        employeeNumberField.value = generatedEmployeeNumber;
-    });
-</script> *@
-
-@* <script>
-    // الدالة لإضافة صفر إلى الأرقام الأحادية للحفاظ على النمط (مثل 01 بدلاً من 1)
-    function addLeadingZero(num) {
-        return (num < 10 ? '0' : '') + num;
-    }
-
-    // الدالة لتوليد الرقم الوظيفي المميز
-    function generateEmployeeNumber(dateOfEmployment, index) {
-        const date = new Date(dateOfEmployment);
-        const year = date.getFullYear().toString().substring(2); // السنة الأولى والثانية (رقمين)
-        const month = addLeadingZero(date.getMonth() + 1); // الشهر (رقمين)
-        const day = addLeadingZero(date.getDate()); // اليوم (رقمين)
-
-        // توليد الرقم الوظيفي بحسب الترتيب
-        const employeeNumber = parseInt(year + month + day) + index;
-
-        return employeeNumber.toString();
-    }
-
-    // تفعيل الكود عند تغيير قيمة حقل تاريخ التوظيف
-    document.getElementById('DateOfEmployment').addEventListener('change', function () {
-        const dateOfEmployment = this.value;
-        const employeeNameField = document.getElementById('EmployeeEmployeeName');
-        const employeeNumberField = document.getElementById('EmployeeEmployeeNumber');
-
-        // توليد الرقم الوظيفي المميز وتعيينه إلى حقل الرقم الوظيفي
-        employeeNumberField.value = generateEmployeeNumber(dateOfEmployment, 1);
-
-        // يمكنك إضافة أي تعليقات إضافية هنا حسب الحاجة
-    });
-</script> *@
 
 <!-- سكريبت لحساب الفارق بين التواريخ وتحديث حقل الإدخال -->
 <script>
@@ -1290,65 +1094,31 @@
 
         //========================================
         // استمع إلى حدث تغيير تاريخ الميلاد
-        $("#PersonalDataDateOfBirth").change(function () {
-            personalDataAge();
+        $("#birthdate").change(function () {
+            updateAge();
         });
 
-        function personalDataAge() {
-            var personalDataDateOfBirth = new Date($("#PersonalDataDateOfBirth").val());
+        // دالة لحساب العمر وتحديث حقل الإدخال
+        function updateAge() {
+            var birthdate = new Date($("#birthdate").val());
             var today = new Date();
-            var minAge = 18; // العمر الأدنى المسموح به
-            var maxAge = 100; // العمر الأقصى المسموح به
 
             // التحقق من أن تاريخ الميلاد صالح
-            if (!isNaN(personalDataDateOfBirth.getTime())) {
-                var personalDataAge = today.getFullYear() - personalDataDateOfBirth.getFullYear();
+            if (!isNaN(birthdate)) {
+                var age = today.getFullYear() - birthdate.getFullYear();
 
                 // التحقق إذا كان عيد الميلاد لم يحدث بعد في هذا العام
-                if (today.getMonth() < personalDataDateOfBirth.getMonth() || (today.getMonth() === personalDataDateOfBirth.getMonth() && today.getDate() < personalDataDateOfBirth.getDate())) {
-                    personalDataAge--;
-                }
-
-                // التحقق من أن العمر أقل من الحد الأدنى
-                if (personalDataAge < minAge) {
-                    // عرض رسالة الخطأ
-                    Swal.fire({
-                        icon: "error",
-                        title: "خطأ في التاريخ الميلاد!",
-                        text: "يجب أن يكون العمر 18 سنة أو أكبر.",
-                    });
-
-                    // إعادة تعيين قيمة حقل تاريخ الميلاد
-                    $("#PersonalDataDateOfBirth").val("");
-
-                    // إعادة تعيين قيمة حقل العمر
-                    $("#PersonalDataAge").val("");
-                    return;
-                }
-
-                // التحقق من أن العمر أكبر من الحد الأقصى
-                if (personalDataAge > maxAge) {
-                    // عرض رسالة الخطأ
-                    Swal.fire({
-                        icon: "error",
-                        title: "خطأ في التاريخ الميلاد!",
-                        text: "100 العمر لا يمكن أن يكون أكبر من " + maxAge + " سنة.",
-                    });
-
-                    // إعادة تعيين قيمة حقل تاريخ الميلاد
-                    $("#PersonalDataDateOfBirth").val("");
-
-                    // إعادة تعيين قيمة حقل العمر
-                    $("#PersonalDataAge").val("");
-                    return;
+                if (today.getMonth() < birthdate.getMonth() || (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate())) {
+                    age--;
                 }
 
                 // تحديث قيمة حقل الإدخال
-                $("#PersonalDataAge").val(personalDataAge);
+                $("#age").val(age);
             }
         }
+        //====================================================
+       
 
-        
 
     });
     //========================================================
@@ -1388,1917 +1158,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-   
-        
-        <script>
-       
-    </script>
-
-
-    
-
-
-
-
-    <!-- أضف المزيد من العناصر هنا حسب الحاجة -->
-    <script>
-        $(document).ready(function () {
-
-
-            $("#PersonalDataSubmit") .click(function (event) {
-                console.log("تم النقر على زر لحفظ !");
-                // event.preventDefault();
-
-                // تحقق من صحة جميع الحقول قبل تطبيق event.preventDefault()
-                var personalDataEmployeeId = $("#PersonalDataEmployeeId").val();
-                var personalDataDateOfBirth = $("#PersonalDataDateOfBirth").val();
-                var personalDataAge = $("#PersonalDataAge").val();
-                var personalDataSexId = $("#PersonalDataSexId").val();
-                var personalDataNationalityId = $("#PersonalDataNationalityId").val();
-                var personalDataReligionId = $("#PersonalDataReligionId").val();
-                var personalDataMaritalStatusId = $("#PersonalDataMaritalStatusId").val();
-                var personalDataGuaranteesId = $("#PersonalDataGuaranteesId").val();
-                var personalDataHomePhone = $("#PersonalDataHomePhone").val();
-                var personalDataPhoneNumber = $("#PersonalDataPhoneNumber").val();
-                var personalDataEmail = $("#PersonalDataEmail").val();
-                var personalDataAddress = $("#PersonalDataAddress").val();
-                var personalDataCardType = $("#PersonalDataCardType").val();
-                var personalDataCardNumber = $("#PersonalDataCardNumber").val();
-                var personalDataToRelease = $("#PersonalDataToRelease").val();
-                var personalDataReleaseDate = $("#PersonalDataReleaseDate").val();
-                var personalDataCardExpiryDate = $("#PersonalDataCardExpiryDate").val();
-                var personalDataNotes = $("#PersonalDataNotes").val();
-
-
-                // قم بتعيين متغير لتتبع وجود أخطاء في البيانات
-                   var hasError = false;
-                // الشروط الأخرى هنا
-                if (personalDataEmployeeId === "") {
-                    hasError= true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الموظف",
-                    });
-                } else if (personalDataDateOfBirth === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل تاريخ الميلاد",
-                    });
-                } else if (personalDataAge === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل العمر",
-                    });
-
-                } else if (personalDataSexId === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الجنس",
-                    });
-
-                } else if (personalDataNationalityId === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الجنسية",
-                    });
-
-                } else if (personalDataReligionId === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الديانة",
-                    });
-
-                } else if (personalDataMaritalStatusId === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الحالة الاجتماعية",
-                    });
-
-                } else if (personalDataGuaranteesId === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الضمين",
-                    });
-
-                } else if (personalDataHomePhone === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الهاتف المنزل",
-                    });
-
-                } else if (personalDataPhoneNumber === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل رقم الموبايل",
-                    });
-
-                } else if (personalDataEmail === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل البريد الالكتروني",
-                    });
-
-                } else if (personalDataAddress === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل العنوان",
-                    });
-
-                } else if (personalDataCardType === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل نوع البطاقة",
-                    });
-
-                } else if (personalDataCardNumber === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل رقم البطاقة",
-                    });
-                } else if (personalDataToRelease === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل صادرة من",
-                    });
-                } else if (personalDataReleaseDate === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل تاريخ الاصدار",
-                    });
-                } else if (personalDataCardExpiryDate === "") {
-                    hasError = true;
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل تاريخ الانتهاء",
-                    });
-                }
-
-            });
-
-
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/Employees/Employees/AddPersonalDataToEmployee", // تأكد من أن المسار المحدد هنا صحيح
-            //     data: $("#PersonalData").serialize(), // استبدال "yourFormId" بمعرف النموذج الخاص بك
-            //     success: function (response) {
-            //         // عرض رسالة الحفظ في وسط الشاشة
-            //         Swal.fire({
-            //             icon: "success",
-            //             title: "تم الحفظ بنجاح!",
-            //             position: "center",
-            //         }).then(function () {
-            //             // بعد الضغط على زر OK، مسح بيانات حقول النموذج مباشرة
-            //             // حذف بيانات الحقول في النموذج الحالي
-            //             $("#PersonalDataEmployeeId").val('');
-            //             $("#PersonalDataDateOfBirth").val('');
-            //             $("#PersonalDataAge").val('');
-            //             $("#PersonalDataSexId").val('');
-            //             $("#PersonalDataNationalityId").val('');
-            //             $("#PersonalDataReligionId").val('');
-            //             $("#PersonalDataMaritalStatusId").val('');
-            //             $("#PersonalDataGuaranteesId").val('');
-            //             $("#PersonalDataHomePhone").val('');
-            //             $("#PersonalDataPhoneNumber").val('');
-            //             $("#PersonalDataEmail").val('');
-            //             $("#PersonalDataAddress").val('');
-            //             $("#PersonalDataCardType").val('');
-            //             $("#PersonalDataCardNumber").val('');
-            //             $("#PersonalDataToRelease").val('');
-            //             $("#PersonalDataReleaseDate").val('');
-            //             $("#PersonalDataCardExpiryDate").val('');
-            //             $("#PersonalDataNotes").val('');
-            //         });
-            //     },
-            //     error: function () {
-            //         // في حالة حدوث خطأ، عرض رسالة الخطأ
-            //         Swal.fire({
-            //             icon: "error",
-            //             title: "حدث خطأ أثناء محاولة الحفظ!",
-            //             position: "center",
-            //         });
-            //     }
-            // });
-
-        });
-
-        
-        $(document).ready(function () {
-            $("#PersonalDataCardExpiryDate, #PersonalDataReleaseDate").on("change", function () {
-                var startDate = new Date($("#PersonalDataReleaseDate").val());
-                var endDate = new Date($("#PersonalDataCardExpiryDate").val());
-
-                // التحقق من أن التواريخ صالحة
-                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-                    if (endDate < startDate) {
-                        $("#PersonalDataReleaseDate").val("");
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء التحقق من صحة التواريخ!",
-                            text: "تاريخ النهاية يجب أن يكون بعد تاريخ البداية",
-                        });
-                    }
-                }
-            });
-        });
-
-
-
-        $(document).ready(function () {
-            // تنسيق إدخال رقم الهاتف
-            document.getElementById('PersonalDataPhoneNumber').addEventListener('input', function (e) {
-                var inputValue = e.target.value;
-                // تحويل الإدخال إلى سلسلة من الأرقام فقط
-                var numericValue = inputValue.replace(/\D/g, '');
-                // تقليص العدد إلى 11 رقمًا
-                numericValue = numericValue.substring(0, 11);
-                // تقسيم الأرقام إلى مجموعات من ثلاثة أرقام مع فراغ بينها
-                var formattedValue = numericValue.replace(/(\d{3})(?=\d)/g, '$1 ');
-
-                // تحديث قيمة الحقل للعرض الصحيح
-                e.target.value = formattedValue;
-            });
-
-            $("#PersonalDataPhoneNumber").change(function () {
-                var phoneNumber = $(this).val();
-
-                // التحقق من أن الرقم يبدأ بـ "77" أو "78" أو "71" أو "70" أو "73"
-                var regexStartsWith = /^(77|78|71|70|73)/;
-                // التحقق من أن الرقم يتكون من 9 أرقام ولا يحتوي على مسافات أو أحرف
-                var regexNumberOnly = /^\d{9}$/;
-
-                // تجميع الأرقام بدون فواصل
-                var phoneNumberDigits = phoneNumber.replace(/\D/g, '');
-
-                if (!regexStartsWith.test(phoneNumberDigits)) {
-                    // عرض رسالة الخطأ إذا لم يبدأ الرقم بأحد الأرقام المسموحة
-                    Swal.fire({
-                        icon: "error",
-                        title: "رقم الهاتف غير صحيح!!",
-                        text: "يجب أن يبدأ الرقم الهاتف بـ 77 أو 78 أو 71 أو 70 أو 73.",
-                    }).then(function () {
-                        // تغيير حقل الرقم الجديد
-                        $("#PersonalDataPhoneNumber").val("");
-                    });
-                } else if (!regexNumberOnly.test(phoneNumberDigits)) {
-                    // عرض رسالة الخطأ إذا لم يتكون الرقم من 9 أرقام
-                    Swal.fire({
-                        icon: "error",
-                        title: "رقم الهاتف غير صحيح!!",
-                        text: "يجب أن يتكون الرقم  الهاتف من 9 أرقام.",
-                    }).then(function () {
-                        // تغيير حقل الرقم الجديد
-                        $("#PersonalDataPhoneNumber").val("");
-                    });
-                }
-            });
-
-            // التحقق من صحة البيانات عند الضغط على Enter في حقل الهاتف
-            $("#PersonalDataPhoneNumber").keydown(function (event) {
-                // التحقق من الضغط على مفتاح Enter
-                if (event.keyCode === 13) {
-                    var phoneNumber = $(this).val();
-                    var regexStartsWith = /^(77|78|71|70|73)/;
-                    var regexNumberOnly = /^\d{9}$/;
-                    var phoneNumberDigits = phoneNumber.replace(/\D/g, '');
-
-                    if (!regexStartsWith.test(phoneNumberDigits) || !regexNumberOnly.test(phoneNumberDigits)) {
-                        // إذا كانت البيانات غير صحيحة، منع الخروج من الحقل
-                        event.preventDefault();
-                        event.stopPropagation();
-                        // عرض رسالة الخطأ
-                        Swal.fire({
-                            icon: "error",
-                            title: "رقم الهاتف غير صحيح!!",
-                            text: "الرجاء إدخال رقم هاتف صحيح.",
-                        });
-                    }
-                }
-            });
-        });
-
-
-        $(document).ready(function () {
-            $("#PersonalDataHomePhone, #PersonalDataPhoneNumber, #PersonalDataEmail, #PersonalDataCardNumber").change(function () {
-                var currentField = $(this);
-                var personalDataHomePhone = $("#PersonalDataHomePhone").val();
-                var personalDataPhoneNumber = $("#PersonalDataPhoneNumber").val();
-                var personalDataEmail = $("#PersonalDataEmail").val();
-                var personalDataCardNumber = $("#PersonalDataCardNumber").val();
-                var hasError = false; // متغير مؤقت لكل حقل لتتبع حالة الخطأ
-
-                // التحقق من وجود بيانات مكررة
-                if (personalDataHomePhone !== "" || personalDataPhoneNumber !== "" || personalDataEmail !== "" || personalDataCardNumber !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Employees/Employees/CheckData",
-                        data: {
-                            hp: personalDataHomePhone, phone: personalDataPhoneNumber,
-                            email: personalDataEmail, card: personalDataCardNumber
-                        },
-                        success: function (data) {
-                            if (data != 0) {
-                                switch (data) {
-                                    case 1:
-                                        hasError = true;
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "هاتف المنزل موجود بالفعل!!",
-                                        });
-                                        break;
-                                    case 2:
-                                        hasError = true;
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "رقم الموبايل موجود بالفعل!!",
-                                        });
-                                        break;
-                                    case 3:
-                                        hasError = true;
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "الإيميل موجود بالفعل!!",
-                                        });
-                                        break;
-                                    case 4:
-                                        hasError = true;
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "رقم البطاقة موجود بالفعل!!",
-                                        });
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                if (hasError) {
-                                    currentField.val(""); // حذف بيانات الحقل في حالة الخطأ
-
-                                    // تحديد الحقل التالي ونقل التركيز إليه
-                                    currentField.focus();
-                                }
-                            }
-                        }
-                       
-                    });
-                }
-            });
-        });
-                $("#PersonalDataHomePhone").change(function () {
-                    var phoneNumberHomePhone = $(this).val();
-
-                    // التحقق من أن الرقم يبدأ بـ "0" أو "10"
-                    var regexStartsHomePhone = /^(10|0)/;
-                    // التحقق من أن الرقم يتكون من 9 أرقام ولا يحتوي على مسافات أو أحرف
-                    var regexOnlyHomePhone9Digits = /^\d{9}$/;
-                    var regexOnlyHomePhone8Digits = /^\d{8}$/;
-
-                    // تنظيف الرقم للتأكد من أنه يحتوي فقط على أرقام
-                    phoneNumberHomePhone = phoneNumberHomePhone.replace(/\D/g, '');
-
-                    if (!regexStartsHomePhone.test(phoneNumberHomePhone)) {
-                        // عرض رسالة الخطأ إذا لم يبدأ الرقم بأحد الأرقام المسموحة
-                        Swal.fire({
-                            icon: "error",
-                            title: "رقم الهاتف غير صحيح!!",
-                            text: "يجب أن يبدأ الرقم الهاتف بـ 10 أو 0.",
-                        }).then(function () {
-                            // تغيير حقل الرقم الجديد
-                            $("#PersonalDataHomePhone").val("");
-                        });
-                    } else {
-                        // التحقق من عدد الأرقام وفقًا لقيمة الرقم الذي يبدأ به الهاتف
-                        if (phoneNumberHomePhone.startsWith("10") && !regexOnlyHomePhone9Digits.test(phoneNumberHomePhone)) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "رقم الهاتف غير صحيح!!",
-                                text: "عند البدء بالرقم 10، يجب أن يتكون الرقم من 9 أرقام.",
-                            }).then(function () {
-                                $("#PersonalDataHomePhone").val("");
-                            });
-                        } else if (phoneNumberHomePhone.startsWith("0") && !regexOnlyHomePhone8Digits.test(phoneNumberHomePhone)) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "رقم الهاتف غير صحيح!!",
-                                text: "عند البدء بالرقم 0، يجب أن يتكون الرقم من 8 أرقام.",
-                            }).then(function () {
-                                $("#PersonalDataHomePhone").val("");
-                            });
-                        }
-                    }
-                });
-
-                $("#PersonalDataHomePhone").on("input", function () {
-                    var phoneNumberHomePhone = $(this).val();
-
-                    // التحقق من أن الرقم يحتوي فقط على أرقام
-                    var regexOnlyNumbers = /^\d+$/;
-
-                    if (!regexOnlyNumbers.test(phoneNumberHomePhone)) {
-                        // إذا تم إدخال حرف أو رمز، قم بإزالته
-                        $(this).val(phoneNumberHomePhone.replace(/\D/g, ''));
-                    }
-                });
-
-
-
-                
-        // التحقق من صحة البيانات عند الضغط على Enter في حقل الهاتف
-        $("#PersonalDataHomePhone").keydown(function (event) {
-            // التحقق من الضغط على مفتاح Enter
-            if (event.keyCode === 13) {
-                var phoneNumberHomePhone = $(this).val();
-                // التحقق من أن الرقم يبدأ بـ "0" أو "10"
-                var regexStartsHomePhone = /^(10|0)/;
-                // التحقق من أن الرقم يتكون من 9 أرقام ولا يحتوي على مسافات أو أحرف
-                var regexOnlyHomePhone9Digits = /^\d{9}$/;
-                var regexOnlyHomePhone8Digits = /^\d{8}$/;
-
-                // تنظيف الرقم للتأكد من أنه يحتوي فقط على أرقام
-                phoneNumberHomePhone = phoneNumberHomePhone.replace(/\D/g, '');
-
-                if (!regexStartsHomePhone.test(phoneNumberHomePhone) || !regexOnlyHomePhone9Digits.test(phoneNumberHomePhone)) {
-                    // إذا كانت البيانات غير صحيحة، منع الخروج من الحقل
-                    event.preventDefault();
-                    event.stopPropagation();
-                    // عرض رسالة الخطأ
-                    Swal.fire({
-                        icon: "error",
-                        title: "رقم الهاتف غير صحيح!!",
-                        text: "الرجاء إدخال رقم هاتف صحيح.",
-                    });
-                }
-            }
-        });
-
-
-
-        $(document).ready(function () {
-            $("#PersonalDataCardNumber").on("input", function () {
-                var cardNumber = $(this).val();
-                // السماح فقط بالأرقام وإزالة أي شيء آخر
-                var numbersOnly = cardNumber.replace(/\D/g, '');
-                $(this).val(numbersOnly);
-            });
-        });
-
-                    $(document).ready(function () {
-                $("#PersonalDataEmail").on("blur", function () {
-                                const v = new validate();
-                console.log(v.validateEmail($("#PersonalDataEmail").val()));
-                        if (!v.validateEmail($("#PersonalDataEmail").val())) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "بريد الكتروني غير صحيح!!",
-                                text: "الرجاء أدخال بريد الكتروني صحيح.",
-                            }).then(function () {
-                                $("#PersonalDataEmail").val("");
-                            });
-                        }
-                });
-            });
-
-           
-
-    </script>
-
-@* 
-    <script>
-    $(document).ready(function () {
-        var counter = 1;
-
-        $("#PersonalDataSubmit").click(function (event) {
-            console.log("تم النقر على زر لحفظ !");
-
-            // تحقق من صحة جميع الحقول قبل تطبيق event.preventDefault()
-            var personalDataEmployeeId = $("#PersonalDataEmployeeId").val();
-            var personalDataDateOfBirth = $("#PersonalDataDateOfBirth").val();
-            var personalDataAge = $("#PersonalDataAge").val();
-            var personalDataSexId = $("#PersonalDataSexId").val();
-            var personalDataNationalityId = $("#PersonalDataNationalityId").val();
-            var personalDataReligionId = $("#PersonalDataReligionId").val();
-            var personalDataMaritalStatusId = $("#PersonalDataMaritalStatusId").val();
-            var personalDataGuaranteesId = $("#PersonalDataGuaranteesId").val();
-            var personalDataHomePhone = $("#PersonalDataHomePhone").val();
-            var personalDataPhoneNumber = $("#PersonalDataPhoneNumber").val();
-            var personalDataEmail = $("#PersonalDataEmail").val();
-            var personalDataAddress = $("#PersonalDataAddress").val();
-            var personalDataCardType = $("#PersonalDataCardType").val();
-            var personalDataCardNumber = $("#PersonalDataCardNumber").val();
-            var personalDataToRelease = $("#PersonalDataToRelease").val();
-            var personalDataReleaseDate = $("#PersonalDataReleaseDate").val();
-            var personalDataCardExpiryDate = $("#PersonalDataCardExpiryDate").val();
-            var personalDataNotes = $("#PersonalDataNotes").val();
-            if (personalDataHomePhone !== "" || personalDataPhoneNumber !== "" || personalDataEmail !== "" || personalDataCardNumber !== "") {
-                $.ajax({
-                    type: "POST",
-                    url: "/Employees/Employees/CheckData",
-                    data: {
-                        hp: personalDataHomePhone, phone: personalDataPhoneNumber,
-                        email: personalDataEmail, card: personalDataCardNumber
-                    },
-                    success: function (data) {
-                        if (data != 0) {
-                            event.preventDefault();
-                            switch (data) {
-                                case 1:
-                                    event.preventDefault();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "هاتف المنزل موجود بالفعل!!",
-                                    });
-                                    break;
-                                case 2:
-                                    event.preventDefault();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "رقم الموبايل موجود بالفعل!!",
-                                    });
-                                    break;
-                                case 3:
-                                    event.preventDefault();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: " الإيميل موجود بالفعل!!",
-                                    });
-
-                                    break;
-                                case 4:
-                                    event.preventDefault();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "رقم البطاقة موجود بالفعل!!",
-                                    });
-
-                                    break;
-                                default:
-                                     break;
-                            }
-                        }
-                    },
-                });
-            }
-            
-                if (personalDataEmployeeId === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الموظف",
-                    });
-                } else if (personalDataDateOfBirth === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل تاريخ الميلاد",
-                    });
-                } else if (personalDataAge === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل العمر",
-                    });
-
-                } else if (personalDataSexId === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الجنس",
-                    });
-
-                } else if (personalDataNationalityId === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الجنسية",
-                    });
-
-                } else if (personalDataReligionId === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الديانة",
-                    });
-
-                } else if (personalDataMaritalStatusId === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الحالة الاجتماعية",
-                    });
-
-                } else if (personalDataGuaranteesId === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الضمين",
-                    });
-
-                } else if (personalDataHomePhone === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل الهاتف المنزل",
-                    });
-
-                } else if (personalDataPhoneNumber === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل رقم الموبايل",
-                    });
-
-                } else if (personalDataEmail === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل البريد الالكتروني",
-                    });
-
-                } else if (personalDataAddress === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل العنوان",
-                    });
-
-                } else if (personalDataCardType === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل نوع البطاقة",
-                    });
-
-                } else if (personalDataCardNumber === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل رقم البطاقة",
-                    });
-                } else if (personalDataToRelease === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل صادرة من",
-                    });
-                } else if (personalDataReleaseDate === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل تاريخ الاصدار",
-                    });
-                } else if (personalDataCardExpiryDate === "") {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أدخال حقل تاريخ الانتهاء",
-                    });
-                }
-
-
-
-                else if (personalDataCardExpiryDate < personalDataReleaseDate)
-                {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: "error",
-                        title: "تاريخ الانتهاء يجب أن يكون أكبر من تاريخ الاصدار ",
-                    });
-                }
-                // else
-                //  {
-                //     // إذا كانت البيانات مكتملة، قم بحفظها
-                //     SavePersonalData(personalDataEmployeeId,personalDataDateOfBirth,personalDataAge,personalDataSexId,personalDataNationalityId,personalDataReligionId,personalDataMaritalStatusId,personalDataGuaranteesId,personalDataHomePhone,personalDataPhoneNumber,personalDataEmail,personalDataAddress,personalDataCardType,personalDataCardNumber,personalDataToRelease,personalDataReleaseDate,personalDataCardExpiryDate,personalDataNotes);
-                // }
-            });
-
-    });
-
-
-
-    // الآن، قم بتعريف الدالة SaveFinancialStatements خارج دالة click
-    // function SavePersonalData(personalDataEmployeeId,personalDataDateOfBirth,personalDataAge,personalDataSexId,personalDataNationalityId,personalDataReligionId,personalDataMaritalStatusId,personalDataGuaranteesId,personalDataHomePhone,personalDataPhoneNumber,personalDataEmail,personalDataAddress,personalDataCardType,personalDataCardNumber,personalDataToRelease,personalDataReleaseDate,personalDataCardExpiryDate,personalDataNotes) {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/Employees/Employees/SavePersonalData", // تأكد من أن المسار المحدد هنا صحيح
-    //         data: {
-    //             personalDataEmployeeId: personalDataEmployeeId,
-    //             personalDataDateOfBirth: personalDataDateOfBirth,
-    //             personalDataAge: personalDataAge,
-    //             personalDataSexId: personalDataSexId,
-    //             personalDataNationalityId: personalDataNationalityId,
-    //             personalDataReligionId: personalDataReligionId,
-    //             personalDataMaritalStatusId: personalDataMaritalStatusId,
-    //             personalDataGuaranteesId: personalDataGuaranteesId,
-    //             personalDataHomePhone: personalDataHomePhone,
-    //             personalDataPhoneNumber: personalDataPhoneNumber,
-    //             personalDataEmail: personalDataEmail,
-    //             personalDataAddress: personalDataAddress,
-    //             personalDataCardType: personalDataCardType,
-    //             personalDataCardNumber: personalDataCardNumber,
-    //             personalDataToRelease: personalDataToRelease,
-    //             personalDataReleaseDate: personalDataReleaseDate,
-    //             personalDataCardExpiryDate: personalDataCardExpiryDate,
-    //             personalDataNotes: personalDataNotes
-
-    //         },
-    //         success: function (response) {
-    //             Swal.fire(
-    //                 'تم الحفظ!',
-    //                 'تم حفظ جميع البيانات بنجاح.',
-    //                 'success'
-    //             ).then((result) => {
-    //                 if (result.isConfirmed) {
-
-    //                     $('#collapseTwo').collapse('hide');
-
-
-
-    //                     $('#collapseThree').collapse('show');
-    //                             //                         // اكتشاف فتح النموذج الثاني
-    //                             // $('#collapseTwo button').click(function() {
-
-    //                             //     // إعادة تعيين قيم حقول النموذج الأول إلى فارغة
-    //                             //     $("#PersonalDataEmployeeId").val('');
-    //                             //     $("#PersonalDataDateOfBirth").val('');
-    //                             //     $("#PersonalDataAge").val('');
-    //                             //     $("#PersonalDataSexId").val('');
-    //                             //     $("#PersonalDataNationalityId").val('');
-    //                             //     $("#PersonalDataReligionId").val('');
-    //                             //     $("#PersonalDataMaritalStatusId").val('');
-    //                             //     $("#PersonalDataGuaranteesId").val('');
-    //                             //     $("#PersonalDataHomePhone").val('');
-    //                             //     $("#PersonalDataPhoneNumber").val('');
-    //                             //     $("#PersonalDataEmail").val('');
-    //                             //     $("#PersonalDataAddress").val('');
-    //                             //     $("#PersonalDataCardType").val('');
-    //                             //     $("#PersonalDataCardNumber").val('');
-    //                             //     $("#PersonalDataToRelease").val('');
-    //                             //     $("#PersonalDataReleaseDate").val('');
-    //                             //     $("#PersonalDataCardExpiryDate").val('');
-
-    //                             // });
-    //                     // window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
-    //                 }
-    //             });
-    //         },
-    //         error: function (xhr, status, error)
-    //          {
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "حدث خطأ أثناء حفظ البيانات: " + error,
-    //             });
-    //         }
-    //     });
-    // }
-
-
-    //     $(document).ready(function () {
-    // var counter = 1;
-
-    // $("#PersonalDataSubmit").click(function (event) {
-    //     console.log("تم النقر على زر لحفظ !");
-
-    //     // تحقق من صحة جميع الحقول قبل تطبيق event.preventDefault()
-    //     var personalDataEmployeeId = $("#PersonalDataEmployeeId").val();
-    //     var personalDataDateOfBirth = $("#PersonalDataDateOfBirth").val();
-    //     var personalDataAge = $("#PersonalDataAge").val();
-    //     var personalDataSexId = $("#PersonalDataSexId").val();
-    //     var personalDataNationalityId = $("#PersonalDataNationalityId").val();
-    //     var personalDataReligionId = $("#PersonalDataReligionId").val();
-    //     var personalDataMaritalStatusId = $("#PersonalDataMaritalStatusId").val();
-    //     var personalDataGuaranteesId = $("#PersonalDataGuaranteesId").val();
-    //     var personalDataHomePhone = $("#PersonalDataHomePhone").val();
-    //     var personalDataPhoneNumber = $("#PersonalDataPhoneNumber").val();
-    //     var personalDataEmail = $("#PersonalDataEmail").val();
-    //     var personalDataAddress = $("#PersonalDataAddress").val();
-    //     var personalDataCardType = $("#PersonalDataCardType").val();
-    //     var personalDataCardNumber = $("#PersonalDataCardNumber").val();
-    //     var personalDataToRelease = $("#PersonalDataToRelease").val();
-    //     var personalDataReleaseDate = $("#PersonalDataReleaseDate").val();
-    //     var personalDataCardExpiryDate = $("#PersonalDataCardExpiryDate").val();
-    //     var personalDataNotes = $("#PersonalDataNotes").val();
-
-    //         if (personalDataEmployeeId === "" || personalDataDateOfBirth === "" || personalDataAge === "" || personalDataSexId === "" || personalDataNationalityId === "" || personalDataReligionId === "" || personalDataMaritalStatusId === "" || personalDataGuaranteesId === "" || personalDataHomePhone === "" || personalDataPhoneNumber === "" || personalDataEmail === "" || personalDataAddress === "" || personalDataCardType === "" || personalDataCardNumber === "" || personalDataToRelease === "" || personalDataReleaseDate === "" || personalDataCardExpiryDate === "") {
-    //             // إذا كان أي من الحقول فارغة، عرض رسالة الخطأ ومنع تقديم النموذج
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "يرجى ملء جميع الحقول قبل الحفظ",
-    //             });
-    //             event.preventDefault(); // منع تقديم النموذج
-    //         }
-    //     });
-    // });
-</script> *@
-
-
-    <script>
-        $(document).ready(function () {
-            var counter = 1;
-                         //============================= اظافة بيانات المالية=======================
-            $("#FinancialStatementsSubmit").click(function (event) {
-                event.preventDefault();
-                var financialStatementsEmployeeId = $("#FinancialStatementsEmployeeId").val();
-                var financialStatementsBasicSalary = $("#FinancialStatementsBasicSalary").val();
-                var financialStatementsCurrencyId = $("#FinancialStatementsCurrencyId").val();
-                var financialStatementsInsuranceAccountNumber = $("#FinancialStatementsInsuranceAccountNumber").val();
-                var financialStatementsBankAccountNumber = $("#FinancialStatementsBankAccountNumber").val();
-                var financialStatementsNatureOfEmployment = $("#FinancialStatementsNatureOfEmployment").val();
-                var financialStatementsSalaryStartDate = $("#FinancialStatementsSalaryStartDate").val();
-                var financialStatementsSalaryEndDate = $("#FinancialStatementsSalaryEndDate").val();
-                var financialStatementsNotes = $("#FinancialStatementsNotes").val();
-
-               
-                if (financialStatementsEmployeeId === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء اختيار حقل  الموظف",
-                    });
-                } else if (financialStatementsBasicSalary === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال حقل الراتب",
-                    });
-                } else if (financialStatementsCurrencyId === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال اسم العملة ",
-                    });
-                } else if (financialStatementsInsuranceAccountNumber === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال رقم حساب التأمين",
-                    });
-                } else if (financialStatementsBankAccountNumber === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال رقم حساب البنك",
-                    });
-                } else if (financialStatementsNatureOfEmployment === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال طبيعة التوظيف",
-                    });
-                } else if (financialStatementsSalaryStartDate === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال تاريخ البداية ",
-                    });
-                } else if (financialStatementsSalaryEndDate === "")
-                {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال تاريخ النهاية ",
-                    });
-                }
-
-
-             
-                // else if (financialStatementsSalaryEndDate < financialStatementsSalaryStartDate) {
-                //     Swal.fire({
-                //         icon: "error",
-                //         title: "تاريخ النهاية يجب أن يكون أكبر من تاريخ البداية ",
-                //     });
-                // }
-
-                else {
-                    // إذا كانت البيانات مكتملة، قم بحفظها
-                    SaveFinancialStatements(financialStatementsEmployeeId, financialStatementsBasicSalary, financialStatementsCurrencyId, financialStatementsInsuranceAccountNumber, financialStatementsBankAccountNumber, financialStatementsNatureOfEmployment, financialStatementsSalaryStartDate, financialStatementsSalaryEndDate, financialStatementsNotes);
-                }
-
-
-            });
-        });
-
-        // الآن، قم بتعريف الدالة SaveFinancialStatements خارج دالة click
-        function SaveFinancialStatements(financialStatementsEmployeeId, financialStatementsBasicSalary, financialStatementsCurrencyId, financialStatementsInsuranceAccountNumber, financialStatementsBankAccountNumber, financialStatementsNatureOfEmployment, financialStatementsSalaryStartDate, financialStatementsSalaryEndDate, financialStatementsNotes) {
-            $.ajax({
-                type: "POST",
-                url: "/Employees/Employees/SaveFinancialStatements", // تأكد من أن المسار المحدد هنا صحيح
-                data: {
-                    financialStatementsEmployeeId: financialStatementsEmployeeId,
-                    financialStatementsBasicSalary: financialStatementsBasicSalary,
-                    financialStatementsCurrencyId: financialStatementsCurrencyId,
-                    financialStatementsInsuranceAccountNumber: financialStatementsInsuranceAccountNumber,
-                    financialStatementsBankAccountNumber: financialStatementsBankAccountNumber,
-                    financialStatementsNatureOfEmployment: financialStatementsNatureOfEmployment,
-                    financialStatementsSalaryStartDate: financialStatementsSalaryStartDate,
-                    financialStatementsSalaryEndDate: financialStatementsSalaryEndDate,
-                    financialStatementsNotes: financialStatementsNotes
-                },
-                success: function (response) {
-                    Swal.fire(
-                        'تم الحفظ!',
-                        'تم حفظ جميع البيانات بنجاح.',
-                        'success'
-                    ).then((result) => {
-                        if (result.isConfirmed) {
-                            $('#collapseSix').collapse('hide');
-                            $("#GuaranteesTable tbody").empty();
-                            $("#GuaranteesTable").hide();
-                            $("#GuaranteesSaveDataBtn").hide();
-                            $("#GuaranteesClearTableBtn").hide();
-
-                            $('#TrainingCourses7').collapse('show');
-                                                            // اكتشاف فتح النموذج الثاني
-                                    $('#headingSix button').click(function() {
-                                        // إعادة تعيين قيم حقول النموذج الأول إلى فارغة
-                                        $("#FinancialStatementsEmployeeId").val('');
-                                        $("#FinancialStatementsBasicSalary").val('');
-                                        $("#FinancialStatementsCurrencyId").val('');
-                                        $("#FinancialStatementsInsuranceAccountNumber").val('');
-                                        $("#FinancialStatementsBankAccountNumber").val('');
-                                        $("#FinancialStatementsNatureOfEmployment").val('');
-                                        $("#FinancialStatementsSalaryStartDate").val('');
-                                        $("#FinancialStatementsSalaryEndDate").val('');
-                                        $("#FinancialStatementsNotes").val('');
-                                    });
-                            // window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
-                        }
-                    });
-                },
-                error: function (xhr, status, error)
-                {
-                    Swal.fire({
-                        icon: "error",
-                        title: "حدث خطأ أثناء حفظ البيانات: " + error,
-                    });
-                }
-            });
-        }
-
-
-
-        $(document).ready(function () {
-            $("#FinancialStatementsSalaryStartDate, #FinancialStatementsSalaryEndDate").on("change", function () {
-                var startDate = new Date($("#FinancialStatementsSalaryStartDate").val());
-                var endDate = new Date($("#FinancialStatementsSalaryEndDate").val());
-
-                // التحقق من أن التواريخ صالحة
-                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-                    if (endDate < startDate) {
-                        $("#FinancialStatementsSalaryStartDate").val("");
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء التحقق من صحة التواريخ!",
-                            text: "تاريخ النهاية يجب أن يكون أكبر من تاريخ البداية",
-                        });
-                    }
-                }
-            });
-        });
-
-    </script>
-
-
-
-    <script>
-        //  ======================================================================== بيانات الضمين
-
-        $(document).ready(function () {
-            var counter = 1;
-
-            // حفظ البيانات المؤقتة
-            $("#GuaranteesSubmit").click(function ( event ) {
-                event.preventDefault();
-                var guaranteesName1 = $("#GuaranteesName1").val();
-                var guaranteesPhoneNumber = $("#GuaranteesPhoneNumber").val();
-                var guaranteesNameOfTheBusiness = $("#GuaranteesNameOfTheBusiness").val();
-                var guaranteesCommercialRegistrationNo = $("#GuaranteesCommercialRegistrationNo").val();
-                var guaranteesShopAddress1 = $("#GuaranteesShopAddress1").val();
-                var guaranteesHomeAdress1 = $("#GuaranteesHomeAdress1").val();
-                var guaranteesMaritalStatusId = $("#GuaranteesMaritalStatusId").val();
-                var guaranteesMaritalStatusIdName = $("#GuaranteesMaritalStatusId option:selected").text();
-                var guaranteesNumberOfDependents = $("#GuaranteesNumberOfDependents").val();
-                var guaranteesNotes1 = $("#GuaranteesNotes1").val();
-
-
-                if (guaranteesName1 === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء اختيار حقل اسم الضمين",
-                    });
-                }
-                // التحقق من إدخال حقل الاسم
-                else if (guaranteesPhoneNumber === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال حقل الموبايل",
-                    });
-                }
-                // التحقق من إدخال حقل الاسم
-                else if (guaranteesNameOfTheBusiness === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال اسم المحل التجاري",
-                    });
-                }
-                else if (guaranteesCommercialRegistrationNo === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال رقم السجل",
-                    });
-                } else if (guaranteesShopAddress1 === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال عنوان المحل التجاري",
-                    });
-                }
-                else if (guaranteesHomeAdress1 === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال عنوان المنزل",
-                    });
-                }
-                else if (guaranteesMaritalStatusId === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال الحالة الإجتماعية",
-                    });
-                }
-                else if (guaranteesNumberOfDependents === "") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال عدد من يعول",
-                    });
-                }
-
-
-                // التحقق من أن تم تحديد حقل السجل التجاري
-
-                // في حالة إدخال البيانات لكلا الحقلين
-                else {
-
-
-                    $("#GuaranteesTable tbody").append(
-                        "<tr>" +
-                        "<td>" + counter + "</td>" +
-                        "<td>" + guaranteesName1 + "</td>" +
-                        "<td>" + guaranteesPhoneNumber + "</td>" +
-                        "<td>" + guaranteesNameOfTheBusiness + "</td>" +
-                        "<td>" + guaranteesCommercialRegistrationNo + "</td>" +
-                        "<td>" + guaranteesShopAddress1 + "</td>" +
-                        "<td>" + guaranteesHomeAdress1 + "</td>" +
-                        "<td style='display:none' class='guaranteesMaritalStatusId'>" + guaranteesMaritalStatusId + "</td>" +
-                        "<td>" + guaranteesMaritalStatusIdName + "</td>" +
-                        "<td>" + guaranteesNumberOfDependents + "</td>" +
-                        "<td>" + guaranteesNotes1 + "</td>" +
-
-                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>حذف</button>" + "</td>" +
-                        "</tr>"
-                    );
-
-                    counter++;
-
-                    // مسح حقول الإدخال بعد إضافة الصف
-                    $("#GuaranteesName1").val('');
-                    $("#GuaranteesPhoneNumber").val('');
-                    $("#GuaranteesNameOfTheBusiness").val('');
-                    $("#GuaranteesCommercialRegistrationNo").val('');
-                    $("#GuaranteesShopAddress1").val('');
-                    $("#GuaranteesHomeAdress1").val('');
-                    $("#GuaranteesMaritalStatusId").val('');
-                    $("#GuaranteesNumberOfDependents").val('');
-                    $("#GuaranteesNotes1").val('');
-
-                    // عرض الجدول والأزرار
-                    $("#GuaranteesTable").show();
-                    $("#GuaranteesSaveDataBtn").show();
-                    $("#GuaranteesClearTableBtn").show();
-
-
-
-                }
-
-            });
-
-            // حذف سطر
-            $(document).on("click", ".delete-row", function () {
-                $(this).closest("tr").remove();
-                counter--;
-                Swal.fire(
-                    'تم الحذف!',
-                    'تم حذف البيانات بنجاح.',
-                    'success'
-                );
-
-                // إخفاء زر الحفظ إذا لم يكن هناك بيانات في الجدول
-                if ($("#GuaranteesTable tbody tr").length === 0) {
-                    $("#GuaranteesTable").hide();
-                    $("#GuaranteesSaveDataBtn").hide();
-                    $("#GuaranteesClearTableBtn").hide();
-
-
-                }
-            });
-
-            $("#GuaranteesClearTableBtn").click(function () {
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حذف جميع البيانات!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم، احذف الكل'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#GuaranteesTable tbody").empty();
-                        counter = 1;
-
-                        $("#GuaranteesTable").hide();
-                        $("#GuaranteesSaveDataBtn").hide();
-                        $("#GuaranteesClearTableBtn").hide();
-
-
-                        Swal.fire(
-                            'تم الحذف!',
-                            'تم حذف جميع البيانات بنجاح.',
-                            'success'
-                        );
-                    }
-                });
-            });
-
-            // حفظ البيانات النهائية
-            $("#GuaranteesSaveDataBtn").click(function ( event) {
-                event.preventDefault();
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حفظ جميع البيانات؟",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم!',
-                    cancelButtonText: 'لا '
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#GuaranteesTable tr").each(function () {
-
-                            var guaranteesName1 = $(this).find("td:eq(1)").text();
-                            var guaranteesPhoneNumber = $(this).find("td:eq(2)").text();
-                            var guaranteesNameOfTheBusiness = $(this).find("td:eq(3)").text();
-                            var guaranteesCommercialRegistrationNo = $(this).find("td:eq(4)").text();
-                            var guaranteesShopAddress1 = $(this).find("td:eq(5)").text();
-                            var guaranteesHomeAdress1 = $(this).find("td:eq(6)").text();
-                            var guaranteesMaritalStatusId = $(this).find(".guaranteesMaritalStatusId").text();
-                            var guaranteesNumberOfDependents = $(this).find("td:eq(9)").text();
-                            var guaranteesNotes1 = $(this).find("td:eq(10)").text();
-
-                            if (guaranteesName1 && guaranteesPhoneNumber && guaranteesNameOfTheBusiness && guaranteesCommercialRegistrationNo && guaranteesShopAddress1, guaranteesHomeAdress1 && guaranteesMaritalStatusId && guaranteesNumberOfDependents) {
-                                SaveGuarantees(guaranteesName1, guaranteesPhoneNumber, guaranteesNameOfTheBusiness, guaranteesCommercialRegistrationNo, guaranteesShopAddress1, guaranteesHomeAdress1, guaranteesMaritalStatusId, guaranteesNumberOfDependents, guaranteesNotes1 ? guaranteesNotes1 : "");
-                            }
-                        });
-                    }
-                });
-            });
-
-            function SaveGuarantees(guaranteesName1, guaranteesPhoneNumber, guaranteesNameOfTheBusiness, guaranteesCommercialRegistrationNo, guaranteesShopAddress1, guaranteesHomeAdress1, guaranteesMaritalStatusId, guaranteesNumberOfDependents, guaranteesNotes1) {
-                $.ajax({
-                    type: "POST",
-                    url: "/Employees/Employees/SaveGuarantees", // تأكد من أن المسار المحدد هنا صحيح
-                    data: { guaranteesName1: guaranteesName1, guaranteesPhoneNumber: guaranteesPhoneNumber, guaranteesNameOfTheBusiness: guaranteesNameOfTheBusiness, guaranteesCommercialRegistrationNo: guaranteesCommercialRegistrationNo, guaranteesShopAddress1: guaranteesShopAddress1, guaranteesHomeAdress1: guaranteesHomeAdress1, guaranteesMaritalStatusId: guaranteesMaritalStatusId, guaranteesNumberOfDependents: guaranteesNumberOfDependents, guaranteesNotes1: guaranteesNotes1 },
-                    success: function (response) {
-                        Swal.fire(
-                            'تم الحفظ!',
-                            'تم حفظ جميع البيانات بنجاح.',
-                            'success'
-                        ).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#collapseFive').collapse('hide');
-                                $("#GuaranteesTable tbody").empty();
-                                $("#GuaranteesTable").hide();
-                                $("#GuaranteesSaveDataBtn").hide();
-                                $("#GuaranteesClearTableBtn").hide();
-
-                                $('#collapseTwo').collapse('show');
-                                // window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
-                            }
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        alert("حدث خطأ أثناء حفظ البيانات: " + error);
-                    }
-                });
-            }
-        });
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-            var counter = 1;
-                console.log("سكربت الجاهزية يعمل!");
-
-            // النقر على زر "إضافة"
-            $("#TrainingCoursesSubmit").click(function (event) {
-                        console.log("تم النقر على زر الإضافة!");
-
-                event.preventDefault(); // منع التصرف الافتراضي لزر الإرسال
-
-                // احصل على القيم من الحقول
-                var employeeName = $("#TrainingCoursesEmployeeId option:selected").text();
-                var trainingCoursesEmployeeId = $("#TrainingCoursesEmployeeId").val();
-                var trainingCoursesNameCourses = $("#TrainingCoursesNameCourses").val();
-                var trainingCoursesWhereToGetIt = $("#TrainingCoursesWhereToGetIt").val();
-                var trainingCoursesFromDate = $("#TrainingCoursesFromDate").val();
-                var trainingCoursesToDate = $("#TrainingCoursesToDate").val();
-
-                               if (!trainingCoursesEmployeeId) {
-                     Swal.fire({
-                         icon: "error",
-                         title: "الرجاء اختيار حقل الموظف",
-                     });
-                 }
-                 // التحقق من إدخال حقل الاسم
-                 else if (!trainingCoursesNameCourses) {
-                     Swal.fire({
-                         icon: "error",
-                         title: "الرجاء إدخال حقل اسم الدورة",
-                     });
-                 }
-                 // التحقق من إدخال حقل مكان الحصول على الخبرة
-                 else if (!trainingCoursesWhereToGetIt) {
-                     Swal.fire({
-                         icon: "error",
-                         title: "الرجاء إدخال حقل مكان الحصول على الخبرة",
-                     });
-                 }
-                 // التحقق من إدخال تاريخ البداية
-                 else if (!trainingCoursesFromDate) {
-                     Swal.fire({
-                         icon: "error",
-                         title: "الرجاء إدخال تاريخ البداية",
-                     });
-                 }
-                 // التحقق من إدخال تاريخ النهاية
-                 else if (!trainingCoursesToDate) {
-                     Swal.fire({
-                         icon: "error",
-                         title: "الرجاء إدخال تاريخ النهاية",
-                     });
-                 }
-                 else {
-                    // التحقق من أن تاريخ النهاية أكبر من تاريخ البداية
-                    if (new Date(trainingCoursesToDate) > new Date(trainingCoursesFromDate)) {
-                        // إضافة البيانات إلى الجدول المؤقت
-                        $("#TrainingCoursesTable tbody").append(
-                            "<tr>" +
-                            "<td>" + counter + "</td>" +
-                            "<td>" + employeeName + "</td>" +
-                            "<td style='display:none' class='trainingCoursesEmployeeId'>" + trainingCoursesEmployeeId + "</td>" +
-                            "<td>" + trainingCoursesNameCourses + "</td>" +
-                            "<td>" + trainingCoursesWhereToGetIt + "</td>" +
-                            "<td>" + trainingCoursesFromDate + "</td>" +
-                            "<td>" + trainingCoursesToDate + "</td>" +
-                            "<td>" + "<button type='button' class='btn btn-danger delete-row'>حذف</button>" + "</td>" +
-                            "</tr>"
-                        );
-                        counter++;
-
-                        // مسح حقول الإدخال
-                        $("#TrainingCoursesNameCourses").val('');
-                        $("#TrainingCoursesWhereToGetIt").val('');
-                        $("#TrainingCoursesFromDate").val('');
-                        $("#TrainingCoursesToDate").val('');
-
-                        $("#TrainingCoursesClearTableBtn").show();
-                        $("#TrainingCoursesTable").show();
-                        $("#TrainingCoursesSaveDataBtn").show();
-                    } else
-                    {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'خطأ',
-                            html: '<span style="font-size: 25px;">تاريخ النهاية يجب أن يكون أكبر من تاريخ البداية.</span>',
-
-
-                        });
-                    }
-
-                }
-            });
-
-            // باقي السكربت هنا...
-
-             // حذف الكل
-            $("#TrainingCoursesClearTableBtn").click(function () {
-
-
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حذف جميع البيانات!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم، احذف الكل'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#TrainingCoursesTable tbody").empty();
-                        counter = 1;
-
-                        $("#TrainingCoursesTable").hide();
-                        $("#TrainingCoursesSaveDataBtn").hide();
-                        $("#TrainingCoursesClearTableBtn").hide();
-
-                        Swal.fire(
-                            'تم الحذف!',
-                            'تم حذف جميع البيانات بنجاح.',
-                            'success'
-                        );
-                    }
-                });
-            });
-
-                  // حفظ البيانات المؤقتة
-                $("#TrainingCoursesSaveDataBtn").click(function () {
-                         console.log("سكربت الجاهزية يعمل الى الخادم!");
-                         event.preventDefault();
-
-                    Swal.fire({
-                        title: 'هل أنت متأكد؟',
-                        text: "هل تريد حفظ جميع البيانات؟",
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'نعم!',
-                        cancelButtonText: 'لا '
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-
-                            $("#TrainingCoursesTable tr").each(function () {
-                                // استخراج الأحداث
-                                var employeeName = $(this).find("td:eq(1)").text();
-                                var trainingCoursesEmployeeId = $(this).find("td:eq(2)").text();
-                                var trainingCoursesNameCourses = $(this).find("td:eq(3)").text();
-                                var trainingCoursesWhereToGetIt = $(this).find("td:eq(4)").text();
-                                var trainingCoursesFromDate = $(this).find("td:eq(5)").text();
-                                var trainingCoursesToDate = $(this).find("td:eq(6)").text();
-
-
-
-
-
-                                if (trainingCoursesEmployeeId && trainingCoursesNameCourses && trainingCoursesWhereToGetIt && trainingCoursesFromDate && trainingCoursesToDate) {
-
-                                    // التحقق من أن تاريخ النهاية أكبر من تاريخ البداية
-                                    if (new Date(trainingCoursesToDate) > new Date(trainingCoursesFromDate)) {
-                                        SaveTrainingCourses(trainingCoursesEmployeeId, trainingCoursesNameCourses, trainingCoursesWhereToGetIt, trainingCoursesFromDate, trainingCoursesToDate);
-                                    }
-
-
-                                }
-                            });
-
-
-                        }
-                    });
-                });
-
-
-            function SaveTrainingCourses(trainingCoursesEmployeeId, trainingCoursesNameCourses, trainingCoursesWhereToGetIt, trainingCoursesFromDate, trainingCoursesToDate) {
-         // ثم حفظها على الخادم
-         $.ajax({
-             type: "POST",
-             url: "/Employees/Employees/SaveTrainingCourses",         //  و هذه طريقة
-             data: { trainingCoursesEmployeeId: trainingCoursesEmployeeId, trainingCoursesNameCourses: trainingCoursesNameCourses, trainingCoursesWhereToGetIt: trainingCoursesWhereToGetIt, trainingCoursesFromDate: trainingCoursesFromDate, trainingCoursesToDate: trainingCoursesToDate },
-             success: function (response) {
-
-
-                 Swal.fire(
-                     'تم الحفظ!',
-                     'تم حفظ جميع البيانات بنجاح.',
-                     'success'
-                 ).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#TrainingCourses7').collapse('hide');
-                                $("#TrainingCoursesTable tbody").empty();
-                                $("#TrainingCoursesTable").hide();
-                                $("#TrainingCoursesSaveDataBtn").hide();
-                                $("#TrainingCoursesClearTableBtn").hide();
-
-
-                                $('#EmployeeArchives8').collapse('show');
-
-                         // window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
-                     }
-                 });
-
-             },
-             error: function (xhr, status, error)
-             {
-                 alert("حدث خطأ أثناء حفظ البيانات: " + error);
-             }
-         });
-              }
-
-        });
-
-
-
-
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-            var counter = 1;
-
-            // حفظ البيانات المؤقتة
-            $("#PracticalExperiencesSubmit").click(function ( event) {
-                event.preventDefault();
-                var practicalExperiencesEmployeeId = $("#PracticalExperiencesEmployeeId").val();
-                var practicalExperiencesEmployeeIdName = $("#PracticalExperiencesEmployeeId option:selected").text();
-                var practicalExperiencesExperiencesName = $("#PracticalExperiencesExperiencesName").val();
-                var practicalExperiencesPlacToGainExperience = $("#PracticalExperiencesPlacToGainExperience").val();
-                var practicalExperiencesFromDate = $("#PracticalExperiencesFromDate").val();
-                var practicalExperiencesToDate = $("#PracticalExperiencesToDate").val();
-                var practicalExperiencesDuration = $("#PracticalExperiencesDuration").val();
-                // التحقق من إدخال حقل الموظف
-                if (!practicalExperiencesEmployeeId) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء اختيار حقل الموظف",
-                    });
-                }
-                // التحقق من إدخال حقل الاسم
-                else if (!practicalExperiencesExperiencesName) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال حقل اسم الخبرة",
-                    });
-                }
-                // التحقق من إدخال حقل مكان الحصول على الخبرة
-                else if (!practicalExperiencesPlacToGainExperience) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال حقل مكان الحصول على الخبرة",
-                    });
-                }
-                // التحقق من إدخال تاريخ البداية
-                else if (!practicalExperiencesFromDate) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال تاريخ البداية",
-                    });
-                }
-                // التحقق من إدخال تاريخ النهاية
-                else if (!practicalExperiencesToDate) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال تاريخ النهاية",
-                    });
-                }
-                // في حالة إدخال البيانات لكلا الحقلين
-                else {
-                    // حساب الفارق بين التواريخ
-                    var startDate = new Date(practicalExperiencesFromDate);
-                    var endDate = new Date(practicalExperiencesToDate);
-                    var dateDifference = endDate - startDate;
-
-                    // التحقق من أن تاريخ النهاية بعد تاريخ البداية
-                    if (dateDifference >= 0) {
-                        // إضافة البيانات إلى الجدول المؤقت
-                        $("#PracticalExperiencesTemporaryTable tbody").append(
-                            "<tr>" +
-                            "<td>" + counter + "</td>" +
-                            "<td style='display:none' class='practicalExperiencesEmployeeId'>" + practicalExperiencesEmployeeId + "</td>" +
-                            "<td>" + practicalExperiencesEmployeeIdName + "</td>" +
-                            "<td>" + practicalExperiencesExperiencesName + "</td>" +
-                            "<td>" + practicalExperiencesPlacToGainExperience + "</td>" +
-                            "<td>" + practicalExperiencesFromDate + "</td>" +
-                            "<td>" + practicalExperiencesToDate + "</td>" +
-                            "<td>" + practicalExperiencesDuration + "</td>" +
-                            "<td>" + "<button type='button' class='btn btn-danger delete-row'>حذف</button>" + "</td>" +
-                            "</tr>"
-                        );
-                        counter++;
-
-                        // مسح حقول الإدخال بعد إضافة الصف
-                        $("#PracticalExperiencesEmployeeId").val('');
-                        $("#PracticalExperiencesExperiencesName").val('');
-                        $("#PracticalExperiencesPlacToGainExperience").val('');
-                        $("#PracticalExperiencesFromDate").val('');
-                        $("#PracticalExperiencesToDate").val('');
-                        $("#PracticalExperiencesDuration").val('');
-
-                        // عرض الجدول والأزرار
-                        $("#PracticalExperiencesTemporaryTable").show();
-                        $("#PracticalExperiencesSaveDataBtn").show();
-                        $("#PracticalExperiencesClearTableBtn").show();
-                    } else {
-                        // عرض رسالة خطأ إذا كان التاريخ النهائي قبل التاريخ البداية
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء التحقق من صحة التواريخ!",
-                            text: "تاريخ النهاية يجب أن يكون بعد تاريخ البداية",
-                        });
-                    }
-                }
-            });
-
-            // حذف سطر
-            $(document).on("click", ".delete-row", function () {
-                $(this).closest("tr").remove();
-                counter--;
-                Swal.fire(
-                    'تم الحذف!',
-                    'تم حذف البيانات بنجاح.',
-                    'success'
-                );
-
-                // إخفاء زر الحفظ إذا لم يكن هناك بيانات في الجدول
-                if ($("#PracticalExperiencesTemporaryTable tbody tr").length === 0) {
-                    $("#PracticalExperiencesTemporaryTable").hide();
-                    $("#PracticalExperiencesSaveDataBtn").hide();
-                    $("#PracticalExperiencesClearTableBtn").hide();
-                }
-            });
-
-            // حذف الكل
-            $("#PracticalExperiencesClearTableBtn").click(function () {
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حذف جميع البيانات!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم، احذف الكل'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#PracticalExperiencesTemporaryTable tbody").empty();
-                        counter = 1;
-
-                        $("#PracticalExperiencesTemporaryTable").hide();
-                        $("#PracticalExperiencesSaveDataBtn").hide();
-                        $("#PracticalExperiencesClearTableBtn").hide();
-
-                        Swal.fire(
-                            'تم الحذف!',
-                            'تم حذف جميع البيانات بنجاح.',
-                            'success'
-                        );
-                    }
-                });
-            });
-
-            // حفظ البيانات النهائية
-            $("#PracticalExperiencesSaveDataBtn").click(function ( event ) {
-                event.preventDefault();
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حفظ جميع البيانات؟",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم!',
-                    cancelButtonText: 'لا '
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        SavePracticalExperiencesData();
-                    }
-                });
-            });
-
-            // حساب الفارق بين التواريخ وتحديث حقل الإدخال "الفترة" مباشرة
-            $("#PracticalExperiencesFromDate, #PracticalExperiencesToDate").on("change", function () {
-                var startDate = new Date($("#PracticalExperiencesFromDate").val());
-                var endDate = new Date($("#PracticalExperiencesToDate").val());
-
-                // التحقق من أن التواريخ صالحة
-                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-                    var dateDifference = endDate - startDate;
-                    if (dateDifference >= 0) {
-                        var days = Math.floor(dateDifference / (1000 * 60 * 60 * 24));
-                        var hours = Math.floor((dateDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((dateDifference % (1000 * 60 * 60)) / (1000 * 60));
-
-                        $("#PracticalExperiencesDuration").val(days + " يوم - " + hours + " ساعة - " + minutes + " دقيقة");
-                    } else {
-                        $("#PracticalExperiencesDuration").val("");
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء التحقق من صحة التواريخ!",
-                            text: "تاريخ النهاية يجب أن يكون بعد تاريخ البداية",
-                        });
-                    }
-                }
-            });
-
-            // دالة لحساب الفارق بين التواريخ وتحديث حقل الإدخال "الفترة" مباشرة
-            function calculateDateDifference() {
-                var startDate = new Date($("#PracticalExperiencesFromDate").val());
-                var endDate = new Date($("#PracticalExperiencesToDate").val());
-
-                // التحقق من أن التواريخ صالحة
-                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-                    var dateDifference = endDate - startDate;
-                    if (dateDifference >= 0) {
-                        var days = Math.floor(dateDifference / (1000 * 60 * 60 * 24));
-                        var hours = Math.floor((dateDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((dateDifference % (1000 * 60 * 60)) / (1000 * 60));
-                        console.log(hours);
-                        console.log(minutes);
-                        $("#PracticalExperiencesDuration").val(days + " يوم - " + hours + " ساعة - " + minutes + " دقيقة");
-                    } else {
-                        $("#PracticalExperiencesDuration").val("");
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء التحقق من صحة التواريخ!",
-                            text: "تاريخ النهاية يجب أن يكون بعد تاريخ البداية",
-                        });
-                    }
-                }
-            }
-
-            // استمع إلى حدث تغيير تاريخ البداية
-            $("#PracticalExperiencesFromDate").on("change", calculateDateDifference);
-
-            // استمع إلى حدث تغيير تاريخ النهاية
-            $("#PracticalExperiencesToDate").on("change", calculateDateDifference);
-
-            // دالة لحفظ البيانات النهائية
-            function SavePracticalExperiencesData() {
-                $("#PracticalExperiencesTemporaryTable tr").each(function () {
-
-                    // التحقق من أن البيانات موجودة
-
-                    var practicalExperiencesEmployeeId = $(this).find(".practicalExperiencesEmployeeId").text();
-                    var practicalExperiencesExperiencesName = $(this).find("td:eq(3)").text();
-                    var practicalExperiencesPlacToGainExperience = $(this).find("td:eq(4)").text();
-                    var practicalExperiencesFromDate = $(this).find("td:eq(5)").text();
-                    var practicalExperiencesToDate = $(this).find("td:eq(6)").text();
-                    var practicalExperiencesDuration = $(this).find("td:eq(7)").text();
-
-
-                    // التحقق من أن البيانات موجودة
-                    if (practicalExperiencesEmployeeId && practicalExperiencesExperiencesName && practicalExperiencesPlacToGainExperience && practicalExperiencesFromDate && practicalExperiencesToDate && practicalExperiencesDuration) {
-                        SavePracticalExperiences(practicalExperiencesEmployeeId, practicalExperiencesExperiencesName, practicalExperiencesPlacToGainExperience, practicalExperiencesFromDate, practicalExperiencesToDate, practicalExperiencesDuration);
-                    }
-                    // else {
-                    //     Swal.fire(
-                    //         'خطأ!',
-                    //         'يوجد بيانات مفقودة.',
-                    //         'error'
-                    //     );
-                    // }
-                });
-            }
-
-            function SavePracticalExperiences(practicalExperiencesEmployeeId, practicalExperiencesExperiencesName, practicalExperiencesPlacToGainExperience, practicalExperiencesFromDate, practicalExperiencesToDate, practicalExperiencesDuration) {
-                $.ajax({
-                    type: "POST",
-                    url: "/Employees/Employees/SavePracticalExperiences", // تأكد من أن المسار المحدد هنا صحيح
-                    data: { practicalExperiencesEmployeeId, practicalExperiencesExperiencesName, practicalExperiencesPlacToGainExperience, practicalExperiencesFromDate, practicalExperiencesToDate, practicalExperiencesDuration },
-                    success: function (response) {
-                        Swal.fire(
-                            'تم الحفظ!',
-                            'تم حفظ جميع البيانات بنجاح.',
-                            'success'
-                        ).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#collapseThree').collapse('hide');
-                                $("#PracticalExperiencesTemporaryTable").hide();
-                                $("#PracticalExperiencesSaveDataBtn").hide();
-                                $("#PracticalExperiencesClearTableBtn").hide();
-
-
-                                $('#collapseFour').collapse('show');
-
-                                // window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
-                            }
-                        });
-                    },
-                    error: function ()
-                    {
-                        // عرض رسالة خطأ في حالة فشل الاتصال
-                        Swal.fire({
-                            icon: "error",
-                            title: "خطأ في الحفظ!",
-                            text: "حدث خطأ أثناء حفظ البيانات1.",
-                        });
-                    }
-                });
-            }
-        });
-
-
-    </script>
-    <script>
-        // //======================================================================== الاسرة
-        $(document).ready(function () {
-            var counter = 1;
-
-            //      حفظ البيانات المؤقتة
-
-
-            $("#FamilySubmit").click(function ( event ) {
-                event.preventDefault();
-
-
-
-
-                //========================
-                var familyEmployeeId = $("#FamilyEmployeeId").val();
-                var familyEmployeeIdName = $("#FamilyEmployeeId option:selected").text();
-                var familyName = $("#FamilyName").val();
-                var familyRelativesTypeId = $("#FamilyRelativesTypeId").val();
-                var familyRelativesTypeIdName = $("#FamilyRelativesTypeId option:selected").text();
-                var familyNotes = $("#FamilyNotes").val();
-
-                // التحقق من إدخال حقل الموظف
-                if (!familyEmployeeId) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء اختيار حقل الموظف",
-                    });
-                }
-                // التحقق من إدخال حقل الاسم
-                else if (!familyName) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال حقل الاسم",
-                    });
-                }
-                // التحقق من إدخال حقل الاسم
-                else if (!familyRelativesTypeId) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء إدخال صلة القرابة",
-                    });
-                }
-                //  في حالة إدخال البيانات لكلا الحقلين
-                else {
-
-
-                    $("#FamilytemporaryTable tbody").append(
-                        "<tr>" +
-                        "<td>" + counter + "</td>" +
-                        "<td style='display:none' class='familyEmployeeId'>" + familyEmployeeId + "</td>" +
-                        "<td>" + familyEmployeeIdName + "</td>" +
-                        "<td>" + familyName + "</td>" +
-                        "<td style='display:none' class='familyRelativesTypeId'>" + familyRelativesTypeId + "</td>" +
-                        "<td>" + familyRelativesTypeIdName + "</td>" +
-                        "<td>" + familyNotes + "</td>" +
-                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>حذف</button>" + "</td>" +
-                        "</tr>"
-                    );
-
-                    counter++;
-
-                    //  مسح حقول الإدخال بعد إضافة الصف
-                    $("#FamilyEmployeeId").val('');
-                    $("#FamilyName").val('');
-                    $("#FamilyRelativesTypeId").val('');
-                    $("#FamilyNotes").val('');
-
-                    $("#FamilytemporaryTable").show();
-                    $("#FamilySaveDataBtn").show();
-                    $("#FamilyClearTableBtn").show();
-
-                    // // إخفاء الفورم وفتحه مرة أخرى
-                    // $('#collapseFour').collapse('hide').on('hidden.bs.collapse', function () {
-                    //     $('#collapseFour').collapse('show');
-                    // });
-
-                }
-
-
-
-
-
-            });
-
-
-
-            // حذف سطر
-            $(document).on("click", ".delete-row", function () {
-                $(this).closest("tr").remove();
-                counter--;
-                Swal.fire(
-                    'تم الحذف!',
-                    'تم حذف البيانات بنجاح.',
-                    'success'
-                );
-
-                // زر الحفظ إذا لم يكن هناك بيانات في الجدول
-                if ($("#FamilytemporaryTable tbody tr").length === 0) {
-                    $("#FamilytemporaryTable").hide();
-                    $("#FamilySaveDataBtn").hide();
-                    $("#FamilyClearTableBtn").hide();
-                }
-            });
-
-            $("#FamilyClearTableBtn").click(function () {
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حذف جميع البيانات!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم، احذف الكل'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#FamilytemporaryTable tbody").empty();
-                        counter = 1;
-                        $("#FamilytemporaryTable").hide();
-                        $("#FamilySaveDataBtn").hide();
-                        $("#FamilyClearTableBtn").hide();
-
-                        Swal.fire(
-                            'تم الحذف!',
-                            'تم حذف جميع البيانات بنجاح.',
-                            'success'
-                        );
-                        $("#collapseFour").collapse('hide');
-
-                    }
-                });
-            });
-
-            //   حفظ البيانات النهائية
-            $("#FamilySaveDataBtn").click(function (event ) {
-                 event.preventDefault();
-
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "هل تريد حفظ جميع البيانات؟",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم!',
-                    cancelButtonText: 'لا '
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#FamilytemporaryTable tr").each(function () {
-                            var familyEmployeeId = $(this).find(".familyEmployeeId").text();
-                            var familyName = $(this).find("td:eq(3)").text();
-                            var familyRelativesTypeId = $(this).find(".familyRelativesTypeId").text();
-                            var familyNotes = $(this).find("td:eq(6)").text();
-
-
-
-                            if (familyEmployeeId && familyName && familyRelativesTypeId) {
-                                SaveFamily(familyEmployeeId, familyName, familyRelativesTypeId, familyNotes);
-                            }
-                        });
-                    }
-                });
-            });
-
-            function SaveFamily(familyEmployeeId, familyName, familyRelativesTypeId, familyNotes) {
-                $.ajax({
-                    type: "POST",
-                    url: "/Employees/Employees/SaveFamily", // تأكد من أن المسار المحدد هنا صحيح
-                    data: { familyEmployeeId: familyEmployeeId, familyName: familyName, familyRelativesTypeId: familyRelativesTypeId, familyNotes: familyNotes },
-                    success: function (response) {
-                        Swal.fire(
-                            'تم الحفظ!',
-                            'تم حفظ جميع البيانات بنجاح.',
-                            'success'
-
-                        ).then((result) => {
-                            if (result.isConfirmed) {
-                                // إخفاء الفورم الأول بعد حفظ البيانات للأسرة بنجاح
-                                $('#collapseFour').collapse('hide');
-                                $("#FamilytemporaryTable tbody").empty();
-                                $("#FamilytemporaryTable").hide();
-                                $("#FamilySaveDataBtn").hide();
-                                $("#FamilyClearTableBtn").hide();
-
-                                // عرض الفورم الثاني بعد حفظ البيانات للأسرة بنجاح
-                                $('#collapseSix').collapse('show');
-                            }
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        alert("حدث خطأ أثناء حفظ البيانات: " + error);
-                    }
-                });
-            }
-        });
-    </script>
-
-
 }
