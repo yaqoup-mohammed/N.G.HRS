@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,19 +20,20 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity" Version="1.11.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+		<PackageReference Include="Azure.Identity" Version="1.12.0" />
+		<PackageReference Include="EPPlus" Version="7.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -41,12 +42,15 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
 		<PackageReference Include="SharePointPnPCoreOnline" Version="3.28.2012" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-		<PackageReference Include="System.Drawing.Common" Version="8.0.5" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
 		<PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
 		<PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\Upload\PDF\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\MaintenanceControl\Views\UplodeFingerPrintFromDeviceVM\Create.cshtml" />
   </ItemGroup>
 
 </Project>

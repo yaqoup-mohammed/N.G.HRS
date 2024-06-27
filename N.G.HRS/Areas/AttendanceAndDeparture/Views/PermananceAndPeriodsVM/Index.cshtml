@@ -1,4 +1,5 @@
-﻿@model IEnumerable<N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods>
+﻿@model N.G.HRS.Areas.AttendanceAndDeparture.ViewModels.PermanenceModelsAndPeriodsVM
+
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,6 +8,8 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 
 }
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <h1>Index</h1>
 
 <p>
@@ -16,95 +19,105 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PeriodsName)
+             #
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FromTime)
+                أسم الدوام
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ToTime)
+                أسم الفترة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Saturday)
+                من ةقت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SunDay)
+                الى وقت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Monday)
+                السبت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tuesday)
+                الاحد
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Wednesday)
+
+                الاثنين
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Thursday)
+                الثلاثاء
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Friday)
+                الاربعاء
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Hours)
+                الخميس
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Muinutes)
+                الجمعة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PermanenceModels)
+                الساعات
             </th>
+            <th>
+                الدقائق
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodsName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FromTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Saturday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SunDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Monday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tuesday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wednesday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Thursday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Friday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Muinutes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.periodsList)
+        {
+            <tr>
+                <td>
+                    #
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PeriodsName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromTime.HasValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToTime.HasValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Saturday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SunDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Monday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tuesday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wednesday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thursday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Friday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Muinutes)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item .Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item .Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item .Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

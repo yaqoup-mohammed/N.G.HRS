@@ -130,9 +130,6 @@ namespace N.G.HRS.FingerPrintSetting
         {
             return objCZKEM.GetUserTmpEx(dwMachineNumber, dwEnrollNumber, dwFingerIndex, out Flag, out TmpData, out TmpLength);
         }
-        //=======================================================
-        //=======================================================
-
 
         public bool GetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out string TmpData, out int TmpLength)
         {
@@ -190,10 +187,10 @@ namespace N.G.HRS.FingerPrintSetting
         }
 
 
-        //public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
-        //{
-        //    return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
-        //}
+        public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
+        {
+            return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
+        }
 
         public bool SSR_EnableUser(int dwMachineNumber, string dwEnrollNumber, bool bFlag)
         {
@@ -1358,13 +1355,6 @@ namespace N.G.HRS.FingerPrintSetting
         {
             throw new NotImplementedException();
         }
-
-        public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
-        {
-            return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
-        }
-
-
 
 
         #endregion

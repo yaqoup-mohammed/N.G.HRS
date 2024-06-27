@@ -14,11 +14,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "من الوقت")]
-        public TimeOnly? FromTime { get; set; }
+        public DateTime? FromTime { get; set; }
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "الى الوقت")]
-        public TimeOnly? ToTime { get; set; }
+        public DateTime? ToTime { get; set; }
         [Display(Name = "السبت")]
         public bool Saturday { get; set;}
         [Display(Name = "الاحد")]
@@ -38,6 +38,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Display(Name = "الدقائق")]
         public int? Muinutes { get; set; }
         //============================================
+        [Display(Name = "الدوام")]
         public int? PermanenceModelsId { get; set; }
         [Display(Name = "نوع الدوام")]
         public PermanenceModels? PermanenceModels { get; set; } 
@@ -57,6 +58,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public List<StaffTime>? StaffTimeList { get; set; }
 
         //=
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessing { get; set; }
 
 
 

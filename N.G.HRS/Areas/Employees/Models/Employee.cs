@@ -20,7 +20,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [Range(0, 500000)]
+        [Range(0, 99999999999999)]
         public string? EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
@@ -78,6 +78,8 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<PracticalExperiences>? PracticalExperiencesList { get; set; }
         //=====================================
         public List<StatementOfEmployeeFiles>? StatementOfEmployeeFilesList { get; set; }
+        //=====================================
+        public List<AdditionalUnsupportedEmployees>? AdditionalUnsupportedEmployeesList { get; set; }
         //=====================================           
         public List<TrainingCourses>? TrainingCoursesList { get; set; }
         //=====================================           
@@ -90,6 +92,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<VacationAllowances>? VacationAllowancesList { get; set; }
         //=====================================           
         public List<VacationBalance>? VacationBalanceList { get; set; }
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessingList { get; set; }
 
         //=====================================
         public List<Permits>? PermitsList { get; set; }

@@ -16,6 +16,7 @@ using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
 using N.G.HRS.Areas.MaintenanceControl.Models;
+using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Date
 {
@@ -27,8 +28,25 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); 
-
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AttendanceStatus>().HasData(
+            new AttendanceStatus() { Id = 1, Name = "حضور" },
+            new AttendanceStatus() { Id = 2, Name = "غياب" },
+            new AttendanceStatus() { Id = 3, Name = "سماحية انصراف مبكر" },
+            new AttendanceStatus() { Id = 4, Name = "سماحية حضور متأخر" },
+            new AttendanceStatus() { Id = 5, Name = "اذن" },
+            new AttendanceStatus() { Id = 6, Name = "اجازة" },
+            new AttendanceStatus() { Id = 7, Name = "اجازة رسمية" },
+            new AttendanceStatus() { Id = 8, Name = "اجازة اسبوعية" },
+            new AttendanceStatus() { Id = 9, Name = "إضافي معتمد" },
+            new AttendanceStatus() { Id = 10, Name = "إضافي غير معتمد" },
+            new AttendanceStatus() { Id = 11, Name = "انصراف بدون عذر" },
+            new AttendanceStatus() { Id = 12, Name = "تأخير" },
+            new AttendanceStatus() { Id = 13, Name = "غياب نصف يوم" },
+            new AttendanceStatus() { Id = 14, Name = "سماحية حضور وانصراف" },
+            new AttendanceStatus() { Id = 15, Name = "تكليف خارجي " }
+   // Add more seed data as needed
+   );
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()
@@ -591,6 +609,42 @@ namespace N.G.HRS.Date
               .WithMany(p => p.VacationBalanceList)
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
+              .HasOne(p => p.Employees)
+              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
+              .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
+              .HasOne(p => p.Section)
+              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
+              .HasForeignKey(p => p.SectionId)
+              .OnDelete(DeleteBehavior.NoAction)
+              ;//=======================================
+            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
+              .HasOne(p => p.Department)
+              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
+              .HasForeignKey(p => p.DepartmentId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
+              .HasOne(p => p.periods)
+              .WithMany(p => p.AttendanceAndAbsenceProcessing)
+              .HasForeignKey(p => p.periodId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
+              .HasOne(p => p.PermenenceModel)
+              .WithMany(p => p.AttendanceAndAbsenceProcessing)
+              .HasForeignKey(p => p.permenenceId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+              modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
+              .HasOne(p => p.AttendanceStatus)
+              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
+              .HasForeignKey(p => p.AttendanceStatusId)
+              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -657,6 +711,8 @@ namespace N.G.HRS.Date
         public DbSet<Departments> Departments { get; set; }
         //================================================== MO-AL-MO
         public DbSet<Family> Family { get; set; } 
+        public DbSet<AttendanceLog> AttendanceLog { get; set; } 
+        public DbSet<MachineInfo> MachineInfo { get; set; } 
         public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
         public DbSet<Universities> Universities { get; set; } = default!;
         public DbSet<Sections> Sections { get; set; } = default!;
@@ -684,11 +740,13 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.Permits> Permits { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations> StaffVacations { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.VacationBalance> VacationBalance { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord> AttendanceRecord { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork> AdditionalExternalOfWork { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions> EmployeePermissions { get; set; } = default!;
-
-
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord> AttendanceRecord { get; set; } 
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork> AdditionalExternalOfWork { get; set; }
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions> EmployeePermissions { get; set; } 
+        public DbSet<AdditionalUnsupportedEmployees> AdditionalUnsupportedEmployees { get; set; } 
+        public DbSet<AttendanceAndAbsenceProcessing> AttendanceAndAbsenceProcessing { get; set; } 
+        public DbSet<AttendanceStatus> AttendanceStatus { get; set; }
+       
 
 
 

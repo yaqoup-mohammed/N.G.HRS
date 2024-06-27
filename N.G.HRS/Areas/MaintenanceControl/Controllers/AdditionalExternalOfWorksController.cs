@@ -72,7 +72,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(additionalExternalOfWork);
+                await _context.AdditionalExternalOfWork.AddAsync(additionalExternalOfWork);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

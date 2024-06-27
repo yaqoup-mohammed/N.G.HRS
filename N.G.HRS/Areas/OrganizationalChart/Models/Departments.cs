@@ -1,7 +1,9 @@
 ﻿using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Areas.PayRoll.Models;
+using N.G.HRS.FingerPrintSetting;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +31,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         //=
         public List<AdministrativePromotions>? AdministrativePromotionsList { get; set; }
         //=
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessingList { get; set; }
+        //=
+        public List<MachineInfo>? MachineInfoList { get; set; }
 
         //=========================================
         [ForeignKey("SectorsId")]
