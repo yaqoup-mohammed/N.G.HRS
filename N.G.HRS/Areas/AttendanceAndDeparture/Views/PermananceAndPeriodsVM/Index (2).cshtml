@@ -1,0 +1,288 @@
+﻿@model N.G.HRS.Areas.AttendanceAndDeparture.ViewModels.PermanenceModelsAndPeriodsVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Permanence Models";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "Add";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<div class="row rowmargin">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title headerStyle">نماذج الدوام</h6>
+                <br />
+                <br />
+                <br />
+                <hr style="color: black" />
+                <br />
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="mb-3">
+                                <input type="hidden" class="form-control"
+                                       placeholder="Enter last name" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label asp-for="permanenceModels.PermanenceName" class="control-label"></label>
+                                <input asp-for="permanenceModels.PermanenceName" class="form-control" />
+                                <span asp-validation-for="permanenceModels.PermanenceName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+
+                                <label asp-for="permanenceModels.FromDate" class="control-label"></label>
+                                <input asp-for="permanenceModels.FromDate"  class="form-control" />
+                                <span asp-validation-for="permanenceModels.FromDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+
+                                <label asp-for="permanenceModels.ToDate" class="control-label"></label>
+                                <input asp-for="permanenceModels.ToDate" id="ToDate" class="form-control" />
+                                <span asp-validation-for="permanenceModels.ToDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        <!-- <div class="col-sm-2">
+                            <div class="mb-3">
+                                <input type="button" value="إيقاف" class="form-control"
+                                    placeholder="إيقاف" style="background-color: red; color: black; border: solid 1px black; font-weight: bold; " />
+                            </div>
+                        </div> -->
+                        <!-- Col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="mb-3 form-group form-check">
+
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="flexbleCheckbox" name="radiobutton" asp-for="permanenceModels.FlexibleWorkingHours" /> @Html.DisplayNameFor(model => model.permanenceModels.FlexibleWorkingHours)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="mb-3 form-group form-check">
+
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" id="myCheckbox" name="radiobutton" asp-for="permanenceModels.WorkBetweenTwoShifts" /> @Html.DisplayNameFor(model => model.permanenceModels.WorkBetweenTwoShifts)
+                                    </label>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        <div class="col-sm-3">
+                            <div class="mb-3" id="nFromTime">
+                                <label asp-for="permanenceModels.FromTime" class="control-label"></label>
+                                <input asp-for="permanenceModels.FromTime" id="nnFromTime" class="form-control" />
+                                <span asp-validation-for="permanenceModels.FromTime" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <!-- Col -->
+                        <div class="col-sm-3">
+                            <div class="mb-3" id="nToTime">
+                                <label asp-for="permanenceModels.ToTime" class="control-label"></label>
+                                <input asp-for="permanenceModels.ToTime" id="nnToTime" class="form-control" />
+                                <span asp-validation-for="permanenceModels.ToTime" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        <div class="col-sm-2">
+                            <div class="mb-3" id="nHours">
+                                <label asp-for="permanenceModels.HoursOfWorks" class="control-label"></label>
+                                <input asp-for="permanenceModels.HoursOfWorks" id="nnHours" readonly style="background-color: #00000005;cursor:context-menu" class="form-control" />
+                                <span asp-validation-for="permanenceModels.HoursOfWorks" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3 form-group form-check">
+                                <label class="form-check-label">
+                                    اضافة سماحية حضور وانصراف
+                                    <input type="checkbox" id="AttendanceCheckbox"
+                                           class="form-check" />
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        <!-- Col -->
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label class="form-label">حضور متأخر</label>
+                                <input type="number" id="lateAttendance" readonly class="form-control"
+                                       placeholder="Enter email" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label class="form-label">انصراف مبكر</label>
+                                <input type="number" id="earlyAttendance" readonly class="form-control"
+                                       placeholder="Enter email" />
+                            </div>
+                        </div>
+                        <!-- Col -->
+                    </div>
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label asp-for="permanenceModels.Notes" class="control-label"></label>
+                                <input asp-for="permanenceModels.Notes" class="form-control" />
+                                <span asp-validation-for="permanenceModels.Notes" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                    </div>
+                    <!-- Row -->
+                    <!-- ================================================================= -->
+                    <div class="row rowmargin">
+                        <div class="col-md-12 stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!--  -->
+                                    <div class="card-body">
+                                        <h6 class="card-title"
+                                            style="width:60px;  padding-bottom:3px; border-bottom:1px solid black;">
+                                            الفترات
+                                        </h6>
+                                            <div id="formFields">
+                                                <!-- Initial set of form fields -->
+                                                <div class="form-field">
+
+                                                    <!--  -->
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="mb-3">
+                                                                <label asp-for="periods.PeriodsName" class="control-label"></label>
+                                                                <input asp-for="periods.PeriodsName" class="form-control" />
+                                                                <span asp-validation-for="periods.PeriodsName" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="mb-3">
+
+                                                                    <label asp-for="periods.FromTime" class="control-label"></label>
+                                                                    <input asp-for="periods.FromTime" id="startTime" class="form-control" />
+                                                                    <span asp-validation-for="periods.FromTime" class="text-danger"></span>
+                                                            </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="mb-3">
+
+                                                            <label asp-for="periods.ToTime" class="control-label"></label>
+                                                            <input asp-for="periods.ToTime" id="endTime" class="form-control" />
+                                                            <span asp-validation-for="periods.ToTime" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Col -->
+                                                    </div>
+
+                                                    <!-- Row -->
+                                                    <div class="row">
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.Saturday" /> @Html.DisplayNameFor(model => model.periods.Saturday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.SunDay" /> @Html.DisplayNameFor(model => model.periods.SunDay)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.Monday" /> @Html.DisplayNameFor(model => model.periods.Monday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.Monday" /> @Html.DisplayNameFor(model => model.periods.Monday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.Wednesday" /> @Html.DisplayNameFor(model => model.periods.Wednesday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <input type="checkbox"
+                                                                       class="form-check-input"
+                                                                       id="checkInline" />
+                                                                <label class="form-check-label"
+                                                                       for="checkInline">
+                                                                    الخميس
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.Thursday" /> @Html.DisplayNameFor(model => model.periods.Thursday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 stretch-card">
+                                                            <div class="form-check form-check-inline">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="periods.Friday" /> @Html.DisplayNameFor(model => model.periods.Friday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="mb-3">
+                                                            <label asp-for="periods.Hours" class="control-label"></label>
+                                                            <input asp-for="periods.Hours" id="hours" class="form-control" />
+                                                            <span asp-validation-for="periods.Hours" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="mb-3">
+                                                            <label asp-for="periods.Muinutes" class="control-label"></label>
+                                                            <input asp-for="periods.Muinutes" id="minutes" class="form-control" />
+                                                            <span asp-validation-for="periods.Muinutes" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Row -->
+                                                    <br />
+                                                </div>
+                                            </div>
+                                        <button class="btn btn-primary submit" type="button"
+                                                onclick="addFormField()">
+                                            <i class="link-icon" data-feather="plus"></i>
+                                        </button>
+            </div>
+            <!--  -->
+        </div>
+    </div>
+</div>
+

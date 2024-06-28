@@ -1,0 +1,86 @@
+﻿@model N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods
+
+<h4>Periods</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreatePeriods">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PeriodsName" class="control-label"></label>
+                <input asp-for="PeriodsName" class="form-control" />
+                <span asp-validation-for="PeriodsName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FromTime" class="control-label"></label>
+                <input asp-for="FromTime" class="form-control" />
+                <span asp-validation-for="FromTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToTime" class="control-label"></label>
+                <input asp-for="ToTime" class="form-control" />
+                <span asp-validation-for="ToTime" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Saturday" /> @Html.DisplayNameFor(model => model.Saturday)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SunDay" /> @Html.DisplayNameFor(model => model.SunDay)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Monday" /> @Html.DisplayNameFor(model => model.Monday)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Tuesday" /> @Html.DisplayNameFor(model => model.Tuesday)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Wednesday" /> @Html.DisplayNameFor(model => model.Wednesday)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Thursday" /> @Html.DisplayNameFor(model => model.Thursday)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Friday" /> @Html.DisplayNameFor(model => model.Friday)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hours" class="control-label"></label>
+                <input asp-for="Hours" class="form-control" />
+                <span asp-validation-for="Hours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Muinutes" class="control-label"></label>
+                <input asp-for="Muinutes" class="form-control" />
+                <span asp-validation-for="Muinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PermanenceModelsId" class="control-label"></label>
+                <select asp-for="PermanenceModelsId" class ="form-control" asp-items="ViewBag.PermanenceModelsId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

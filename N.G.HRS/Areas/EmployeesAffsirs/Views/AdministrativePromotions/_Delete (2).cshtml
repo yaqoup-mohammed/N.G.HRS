@@ -1,0 +1,41 @@
+﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.AdministrativePromotions
+
+@* ============== *@
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete        
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Employee)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Employee.EmployeeName)
+                </dd><h3>?</h3>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Delete" method="post" id="deleteForm">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@* <script>
+    $(document).ready(function () {
+        $('.delete-confirm').click(function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            $('#deleteForm input[name=Id]').val(id);
+            $('#deleteModal').modal('show');
+        });
+    });
+</script> *@

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<N.G.HRS.Areas.PayRoll.Models.EndOfServiceClearance>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndOfServiceDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReasonForClearance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastApprovedSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicePeriodPerYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndOfServiceBenefits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdvancesAndLoans)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VacationEntitlements)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Absence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OtherEntitlements)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OtherDiscounts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndOfServiceDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReasonForClearance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastApprovedSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePeriodPerYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndOfServiceBenefits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdvancesAndLoans)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VacationEntitlements)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Absence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtherEntitlements)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtherDiscounts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
