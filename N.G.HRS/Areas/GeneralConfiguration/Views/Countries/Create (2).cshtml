@@ -1,0 +1,166 @@
+﻿@model N.G.HRS.Areas.GeneralConfiguration.Models.Country
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "نماذج الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<h1>جديد</h1>
+
+<h4>الدول</h4>
+<hr />
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../../dashboard.html"> الرئيسة</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> تهيئة النظام</li>
+        <li class="breadcrumb-item active" aria-current="page"> التهيئة العامة</li>
+        <li class="breadcrumb-item active" aria-current="page"> <a asp-action="Index" >دليل الدول</a>              </li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">دليل الدول</h6>
+                @Html.HiddenFor(x=>x.Data,new {id="CountryData"})
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Notes"  class="form-label"></label>
+                        <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+@*                     <button id="addButton" type="button" class="btn btn-primary"> <i data-feather="plus"></i></button>
+ *@
+                    <input type="submit"  value="انهاء" class="btn btn-primary me-2" />
+ 
+                    @* <input type="submit" id="submitButton" value="انهاء" class="btn btn-primary me-2" /> *@
+
+
+@*                     <input type="submit" id="submitButton" value="انهاء" class="btn btn-primary me-2" />
+ *@
+
+                </form>
+                <div>
+                    <br />
+                    <a asp-action="Index" class="btn btn-light">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="table" class="row" style="display: none">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title headerStyle">الفترات</h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الدولة</th>
+                                <th>الملاحظات</th>
+                                <th>#</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="temporaryTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        //==================
+        // $(document).ready(function () {
+
+        //     let temporaryData = []; // Array to store temporary data
+        //     $("#submitButton").prop("disabled", temporaryData.length === 0);
+
+        //     const table = document.getElementById("table");
+        //     $("#addButton").click(function () {
+
+        //         const newData = {
+        //             // Add input field names and their corresponding values here
+        //             fieldName1: $("#Country").val(),
+        //             fieldName2: $("#CountryNotes").val(),
+
+
+        //             // ... add more fields as needed
+        //         };
+        //         if (!newData.fieldName1) {
+        //             Swal.fire({
+        //                 icon: "error",
+        //                 title: "يرجى تعبئة الحقول اولا",
+        //                 showConfirmButton: false,
+        //                 timer: 1500
+        //             });
+        //         } else {
+        //             table.style = `display:block;`;
+
+        //             temporaryData.push(newData); // Add data to temporary array
+        //             $("#temporaryTable").append(`
+        //                                                         <tr>
+        //                                                         <td>#</td>
+        //                                                         <td>${newData.fieldName1}</td>
+        //                                                         <td>${newData.fieldName2}</td>
+        //                                                         <td><button class="removeButton btn btn-danger" >إزالة</button></td>
+        //                                                         </tr>
+        //                                 `);
+
+        //             // Clear input fields
+
+        //             $("#Country").val("");
+        //             $("#CountryNotes").val("");
+
+        //             // ... clear other input fields
+
+        //             // Disable submit button if no data (optional)
+        //             $("#submitButton").prop("disabled", temporaryData.length === 0);
+        //         }
+        //     });
+        // });
+
+        //     $(document).on("click", ".removeButton", function () {
+        //         const index = $(this).closest("tr").index();
+        //         temporaryData.splice(index, 1);
+        //         $(this).closest("tr").remove();
+
+        //         // Update submit button state (optional)
+        //         $("#submitButton").prop("disabled", temporaryData.length === 0);
+        //     });
+        //     function addData() {
+        //         var add= [];
+        //         temporaryData.forEach(function (data) {
+
+        //     }
+        //     $("#submitButton").click(function () {
+        //         // // Send data to server using AJAX or other methods
+        //         // console.log("Temporary Data:", temporaryData); // Simulate sending to server
+        //     $("#CountryData").val(JSON.stringify(temporaryData));
+        //         // Clear temporary data and table after submission (optional)
+        //         temporaryData = [];
+        //         $("#temporaryTable").empty();
+        //         $("#submitButton").prop("disabled", true);
+        //     });
+    </script>
+}

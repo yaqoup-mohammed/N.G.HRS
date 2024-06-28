@@ -1,0 +1,96 @@
+﻿@model N.G.HRS.Areas.AalariesAndWages.Models.BasicDataForTheSalaryStatement
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>BasicDataForTheSalaryStatement</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HealthInsuranceIncluded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HealthInsuranceIncluded)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RetirementInsuranceIncluded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RetirementInsuranceIncluded)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IncludesTheWorkShareInRetirementInsurance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IncludesTheWorkShareInRetirementInsurance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IncludesTaxCalculation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IncludesTaxCalculation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaxFrom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaxFrom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AllowancesIncluded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AllowancesIncluded)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IncludesAdditionalData)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IncludesAdditionalData)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ToDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Percentage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Percentage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PercentageOnEmployee)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PercentageOnEmployee)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PercentageOnCompany)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PercentageOnCompany)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
