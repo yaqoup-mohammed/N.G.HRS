@@ -8,9 +8,6 @@
 {
 
     <script type="text/javascript">
-            
-           
-
 
         Swal.fire({
             position: 'top-end',
@@ -34,34 +31,33 @@
 
 
     <script>
-           
-            Swal.fire({
-                icon: 'error',
-                title: '@TempData["Error"]',
-                customClass: {
-                    confirmButton: 'btn btn-primary'
-                },
-                buttonsStyling: false
-            });
         event.preventDefault();
 
+        Swal.fire({
+            icon: 'error',
+            title: '@TempData["Error"]🙄',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: true
+        });
     </script>
 }
 @if (TempData["SystemError"] != null)
 {
     <script>
-    Swal.fire({
-        icon: 'error',
-        title: 'حدث خطئ في النظام 😢',
-        text: '@TempData["SystemError"]';
-        footer:'<strong class="alert-danger">يرجى التواصل مع مدير النظام</strong>',
-        customClass: {
-            confirmButton: 'btn btn-primary'
-        },
-        buttonsStyling: false
-    });
-            
-            
+        event.preventDefault();
+
+        Swal.fire({
+            icon: 'error',
+            title: 'حدث خطئ في النظام 😢',
+            text: '@TempData["SystemError"]😪';
+            footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
 
     </script>
 

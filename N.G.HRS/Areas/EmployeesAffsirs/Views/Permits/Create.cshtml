@@ -55,29 +55,30 @@
 
                             </div>
                         </div>
-
-                        <div class="form-group col-md-6" id="NotEmployeeGroup" style="display:none">
-                            <label asp-for="NotEmployee" class="form-label"></label><span class="text-danger">*</span>
-                            <input asp-for="NotEmployee" id="NotEmployee" class="form-control" />
-                            <span asp-validation-for="NotEmployee" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6" id="EmployeeGroup">
-                            <label asp-for="EmployeeId" class="form-label"></label><span class="text-danger">*</span>
-                            <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
-                                <option value="">    </option>
-                            </select>
-                        </div>
                         <div class="form-group form-check col-md-2">
                             <label class="form-check-label">
                                 <input class="form-check-input" id="IsNotEmployee" asp-for="IsNotEmployee" /> @Html.DisplayNameFor(model => model.IsNotEmployee)
                             </label>
                         </div>
+                        <div class="form-group col-md-6" id="NotEmployeeGroup" style="display:none">
+                            <label asp-for="NotEmployee" class="form-label"></label><span class="text-danger">*</span>
+                            <input asp-for="NotEmployee" id="NotEmployee" class="form-control" />
+                            <span asp-validation-for="NotEmployee" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group col-md-6" id="EmployeeGroup">
+                            <label asp-for="EmployeeId" class="form-label"></label><span class="text-danger">*</span>
+                            <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                <option value="" selected disabled>    </option>
+                            </select>
+                        </div>
+                        
                     </div>
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
                             <label asp-for="PermitsType" class="form-label"> </label><span class="text-danger">*</span>
                             <select asp-for="PermitsType" id="PermitsType" class="js-example-basic-single  form-select">
-                                <option value="">    </option>
+                                <option value="" selected disabled>    </option>
                                 <option value="in">دخول</option>
                                 <option value="out"> خروج </option>
                             </select>
@@ -85,7 +86,7 @@
 
                         <div class="form-group col-md-8">
                             <label asp-for="For" class="form-label">
-                                <span id="in">إدخال</span><span id="out">إخراج</span>
+                                <span id="in">لـ إدخال</span><span id="out">لـ إخراج</span>
                                 <span id="purposeFor">نوع التصريح</span>
                             </label><span class="text-danger">*</span>
                             <input asp-for="For" id="for" class="form-control" />

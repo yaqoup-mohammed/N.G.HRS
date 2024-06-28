@@ -29,117 +29,136 @@
             <a asp-action="Index">بيانات الاساسية  للعمل  والاجر</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-إضافة        </li>
+            إضافة
+        </li>
     </ol>
 </nav>
+<div class="card">
 
-<div class="row">
-    <div class="col-md-12 stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">  بيانات الاساسية  للعمل والاجر  </h4>
-                <br />
-                <hr />
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="col mb-3">
-                                <label asp-for="FromDate" class="form-label"></label>
-                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                    <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أختر التاريخ"
-                                           data-input />
-                                    <span class="input-group-text input-group-addon" data-toggle>
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                    <span asp-validation-for="FromDate" class="text-danger"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> بيانات الاساسية  للعمل  والاجر   </h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="col mb-3">
+                                        <label asp-for="FromDate" class="form-label"></label>
+                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أختر التاريخ"
+                                                   data-input />
+                                            <span class="input-group-text input-group-addon" data-toggle>
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                            <span asp-validation-for="FromDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="AbsencePerHour" class="form-label"></label>
+                                        <input asp-for="AbsencePerHour" class="form-control" />
+                                        <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="NumberOfMonthsDays" class="form-label"></label>
+                                        <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" readonly class="form-control" />
+                                        <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                </div>
+                            </div><!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="col mb-3">
+                                        <label asp-for="ToDate" class="form-label"></label>
+                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أختر التاريخ"
+                                                   data-input />
+                                            <span class="input-group-text input-group-addon" data-toggle>
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                            <span asp-validation-for="ToDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Col -->
+                                <!-- Col -->
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="DelayPerHour" class="form-label"></label>
+                                        <input asp-for="DelayPerHour" class="form-control" />
+                                        <span asp-validation-for="DelayPerHour" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="OneFingerPrintPerHourDelay" class="form-label"></label>
+                                        <input asp-for="OneFingerPrintPerHourDelay" class="form-control" />
+                                        <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <!-- Col -->
+                                <div class="col-sm-2">
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="col mb-3">
-                                ~
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="mb-3">
-                                <label asp-for="NumberOfMonthsDays" class="form-label"></label>
-                                <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" readonly class="form-control" />
-                                <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
-                            </div>
-                        </div>
 
-                    </div><!-- Row -->
-                    <div class="row">
+                            <!-- Row -->
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label asp-for="TypeOfWage" class="form-label"></label>
+                                        <select asp-for="TypeOfWage" class="form-control">
+                                            <option>اختر نوع الراتب</option>
+                                            <option value="Official">رسمي</option>
+                                            <option value="Daily">يومي</option>
+                                            <option value="Contract">متعاقد</option>
 
-                        <!-- Col -->
-                        <div class="col-sm-4">S
-                            <div class="mb-3">
-                                <label asp-for="AbsencePerHour" class="form-label"></label>
-                                <input asp-for="AbsencePerHour" class="form-control" />
-                                <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
+                                        </select>
+                                        <span asp-validation-for="TypeOfWage" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <!-- Col -->
+                                <!-- Col -->
                             </div>
-                        </div>
-                        <!-- Col -->
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="DelayPerHour" class="form-label"></label>
-                                <input asp-for="DelayPerHour" class="form-control" />
-                                <span asp-validation-for="DelayPerHour" class="text-danger"></span>
+                            <div class="row mb-3">
+                                <!-- Col -->
+                                <div class="col-sm-6">
+                                    <div class="mb-6">
+                                        <label asp-for="Notes" class="form-label"></label>
+                                        <input asp-for="Notes" class="form-control" />
+                                        <span asp-validation-for="Notes" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Col -->
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="OneFingerPrintPerHourDelay" class="form-label"></label>
-                                <input asp-for="OneFingerPrintPerHourDelay" class="form-control" />
-                                <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <!-- Col -->
+
+                            <!-- Row -->
+
+                            <input type="submit" value="إنشاء" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
+
+                        </form>
+
                     </div>
-
-                    <!-- Row -->
-                    
-
-                    <!-- Row -->
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="TypeOfWage" class="form-label"></label>
-                                <select asp-for="TypeOfWage" class="form-control" >
-                                    <option>اختر نوع الراتب</option>
-                                    <option value="Official">رسمي</option>
-                                    <option value="Daily">يومي</option>
-                                    <option value="Contract">متعاقد</option>
-
-                                </select>
-                                <span asp-validation-for="TypeOfWage" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <!-- Col -->
-
-                        <!-- Col -->
-                    </div>
-                    <div class="row">
-                        <!-- Col -->
-                        <div class="col-sm-12">
-                            <div class="mb-12">
-                                <label asp-for="Notes" class="form-label"></label>
-                                <input asp-for="Notes" class="form-control" />
-                                <span asp-validation-for="Notes" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <!-- Col -->
-                    </div>
-
-                    <!-- Row -->
-
-                    <input type="submit" value="إنشاء" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-light">Back to List</a>
-
-                </form>
-
+                </div>
             </div>
         </div>
     </div>
@@ -156,7 +175,7 @@
             // Set the date to the last day of the month
             dateInput.addEventListener("change", function () {
 
-                if (lastDayInput.value==null){
+                if (lastDayInput.value == null) {
 
                     // var month = data.getMonth() + 1;
                     // console.log(month);
@@ -168,14 +187,14 @@
                     // Update the value of the second input with the last day of the month
                     lastDayInput.value = date.toLocaleDateString();
                 }
-                else{
-                        const startDate = new Date(dateInput.value);
-                        const endDate = new Date(lastDayInput.value);
-                        const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-                        const daysDiff = Math.round((endDate - startDate) / oneDay);
+                else {
+                    const startDate = new Date(dateInput.value);
+                    const endDate = new Date(lastDayInput.value);
+                    const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+                    const daysDiff = Math.round((endDate - startDate) / oneDay);
 
-                        // Update the value of the third input with the number of days
-                        daysInput.value = daysDiff;
+                    // Update the value of the third input with the number of days
+                    daysInput.value = daysDiff;
                 }
 
 
@@ -204,7 +223,7 @@
                         title: "تاريخ البدأ يجب ان يكون أصغر من تاريخ الانتهاء",
                     });
                 }
-                else{
+                else {
                     const startDate = new Date(dateInput.value);
                     const endDate = new Date(lastDayInput.value);
                     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
@@ -217,6 +236,8 @@
             });
         });
     </script>
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
 }
