@@ -12,47 +12,50 @@ namespace N.G.HRS.Areas.PayRoll.Models
         private double _numberOfHours;
         private int _numerOfMinutes;
 
-
+        //================================================
         public int Id { get; set; }
+        [Display(Name = " القسم")]
+
         public int? SectionsId { get; set; }
         public Sections? Sections { get; set; }
+        [Display(Name = " الموظف")]
+
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-
+        //=========================================
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "التاريخ")]
         [DataType(DataType.Date)]
+
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "من تاريخ   ")]
+
 
         [DataType(DataType.Date)]
         public DateOnly FromDate { get; set; }
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "الى تاريخ ")]
 
         [DataType(DataType.Date)]
         public DateOnly ToDate { get; set; }
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "من")]
+
         [DataType(DataType.Time)]
         public TimeOnly FromTime { get; set; }
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "الى")]
+
         [DataType(DataType.Time)]
         public TimeOnly ToTime { get; set; }
-        public double? Hours
-        {
-            get
-            {
-                return _numberOfHours;
-            }
-            set
-            {
-                _numberOfHours = CalculateHours();
-            }
-        }
-        public int? Minutes
-        {
-            get
-            {
-                return _numerOfMinutes;
-            }
-            set
-            {
-                _numerOfMinutes = CalculateMinutesBetween();
-            }
-        }
+        [Display(Name = "عدد الساعات")]
+
+        public string? Hours    {  get; set;   }
+        [Display(Name = "عدد الدقائق")]
+
+        public string? Minutes {  get; set;   }
+
 
         public double CalculateHours()
         {
@@ -76,7 +79,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
             }
             string endTwentyFourHourTime = endTime.ToString("HH");
 
-            var totalHours =Math.Abs( int.Parse(endTwentyFourHourTime) - int.Parse(startTwentyFourHourTime));
+            var totalHours = Math.Abs(int.Parse(endTwentyFourHourTime) - int.Parse(startTwentyFourHourTime));
             return totalHours;
         }
 
@@ -97,7 +100,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
         //    return standardHours;
         //}
-       
-        
+
+
     }
 }

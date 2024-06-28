@@ -7,12 +7,20 @@ namespace N.G.HRS.Areas.PayRoll.Models
     {
         public int Id { get; set; }
         [DataType(DataType.Date)]
+        [Display(Name = "التاريخ")]
         public DateTime Date { get; set; }
-        public int EmplyeeId { get; set; }
-        public Employee Employee { get; set; }
+        //=======================================================
+        [Display(Name="الموظف")]
+        public int EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
+        //=======================================================
+        [Display(Name = "رصيد الاجازة")]
         public double VacationBalance { get; set; }
+        [Display(Name = "المبلغ")]
         public double Amount { get; set; }
+        [Display(Name = "الرصيد المرحل")]
         public decimal CarryoverBalance { get; set; }
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
     }
 }

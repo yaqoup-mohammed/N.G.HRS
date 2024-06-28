@@ -8,112 +8,119 @@
 }
 
 
-<nav class="page-breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="../../../dashboard.html"> الرئيسة</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            تهيئة النظام
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            تهيئة الهيكل التنظيمي
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            <a asp-action="Index">مجلس الادارة</a>
+                        <nav class="page-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="../../../dashboard.html"> الرئيسة</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    تهيئة النظام
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    تهيئة الهيكل التنظيمي
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <a asp-action="Index">مجلس الادارة </a>
 
-        </li>
-    </ol>
-</nav>
-<div class="row">
-    <div class="col-md-12 stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title"              <h1 class="card-title">مجلس الادارة</h1>
+                                </li>
+                            </ol>
+                        </nav>
+<div class="card">
 
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>  مجلس الادارة</h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" role="alert" class=" alert-danger"></div>
+                            <div class="row">
+
+                                <div class="col-sm-8">
+                                    <div class="mb-3">
+                                        <label asp-for="CouncilName" class="form-label"></label>
+                                        <input asp-for="CouncilName" class="form-control"
+                                               placeholder="Enter first name" />
+                                        <span asp-validation-for="CouncilName" role="alert" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label asp-for="Date" class="form-label"></label>
+                                    <input asp-for="Date" class="form-control mb-4 mb-md-0"
+                                           data-inputmask="'alias': 'datetime'"
+                                           data-inputmask-inputformat="dd/mm/yyyy" />
+                                    <span asp-validation-for="Date" role="alert" class=" alert-danger"></span>
+                                </div>
+                                <!-- Col -->
+
+                            </div>
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <div class="mb-3">
+                                                    <label asp-for="NameOfMembership" class="form-label"></label>
+                                                    <input asp-for="NameOfMembership" class="form-control" />
+                                                    <span asp-validation-for="NameOfMembership" role="alert" class=" alert-danger"></span>
+                                                </div>
+                                            </div>
+                                            <!-- Col -->
+                                            <div class="col-sm-4">
+                                                <div class="mb-3">
+                                                    <label asp-for="MembershipOfTheBoardOfDirectorsId" class="form-label"></label>
+                                                    <select asp-for="MembershipOfTheBoardOfDirectorsId" id="memberShipSelect" class="js-example-basic-single form-select" asp-items="@(ViewData["membershipOfTheBoardOfs"] as SelectList)">
+                                                        <option value="">  </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="row">
+                                                    <!-- Col -->
+                                                    <div class="col-sm-12">
+                                                        <div class="mb-3">
+                                                            <label asp-for="Notes" class="form-label"></label>
+                                                            <input asp-for="Notes" class="form-control" />
+                                                            <span asp-validation-for="Notes" role="alert" class=" alert-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Col -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <div class="mb-3">
+                                                    <input type="submit" id="submit" value="Save" class="btn btn-primary submit" />
+c
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Row -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <br>
+
+                    </div>
                 </div>
-                <hr />
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" role="alert" class=" alert-danger"></div>
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="mb-3">
-                                <label asp-for="CouncilName" class="form-label"></label>
-                                <input asp-for="CouncilName" class="form-control"
-                                       placeholder="Enter first name" />
-                                <span asp-validation-for="CouncilName" role="alert" class=" alert-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-
-                            <label asp-for="Date" class="form-label"></label>
-                            <input asp-for="Date" class="form-control mb-4 mb-md-0"
-                                   data-inputmask="'alias': 'datetime'"
-                                   data-inputmask-inputformat="dd/mm/yyyy" />
-                            <span asp-validation-for="Date" role="alert" class=" alert-danger"></span>
-                        </div>
-                        <!-- Col -->
-
-                    </div>
-                    <div class="row">
-                        <div class="row">
-                            <!-- Col -->
-                            <div class="col-sm-12">
-                                <div class="mb-3">
-                                    <label asp-for="Notes" class="form-label"></label>
-                                    <input asp-for="Notes" class="form-control" />
-                                    <span asp-validation-for="Notes" role="alert" class=" alert-danger"></span>
-                                </div>
-                            </div>
-                            <!-- Col -->
-                        </div>
-                    </div>
-                    <!-- Row -->
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="mb-3">
-                                            <label asp-for="NameOfMembership" class="form-label"></label>
-                                            <input asp-for="NameOfMembership" class="form-control" />
-                                            <span asp-validation-for="NameOfMembership" role="alert" class=" alert-danger"></span>
-                                        </div>
-                                    </div>
-                                    <!-- Col -->
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label asp-for="MembershipOfTheBoardOfDirectorsId" class="form-label"></label>
-                                            <select asp-for="MembershipOfTheBoardOfDirectorsId" id="memberShipSelect" class="js-example-basic-single form-select" asp-items="@(ViewData["membershipOfTheBoardOfs"] as SelectList)">
-                                                <option value="">  </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <div class="mb-3">
-                                            <input type="submit" id="submit" value="Save" class="btn btn-primary submit" />
-                                            <a asp-action="Index" class="btn btn-light" style="color;white">رجوع</a>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Row -->
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-                <br>
-
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
         document.getElementById("submit").addEventListener("click", function (event) {
             const memberShipSelect = document.getElementById("memberShipSelect");

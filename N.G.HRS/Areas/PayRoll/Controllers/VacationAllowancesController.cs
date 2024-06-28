@@ -22,8 +22,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
 
         // GET: PayRoll/VacationAllowances
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.VacationAllowances.ToListAsync());
+        {  var appDbContext = _context.VacationAllowances.Include(x=>x.Employee);
+            return View(await appDbContext.ToListAsync());
         }
 
         // GET: PayRoll/VacationAllowances/Details/5
@@ -35,7 +35,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             }
 
             var vacationAllowances = await _context.VacationAllowances
-                .FirstOrDefaultAsync(m => m.Id == id);
+                 .Include(e => e.Employee)
+          .FirstOrDefaultAsync(m => m.Id == id);
             if (vacationAllowances == null)
             {
                 return NotFound();
@@ -47,6 +48,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // GET: PayRoll/VacationAllowances/Create
         public IActionResult Create()
         {
+            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
+
             return View();
         }
 
@@ -55,14 +58,16 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,EmplyeeId,VacationBalance,Amount,CarryoverBalance,Notes")] VacationAllowances vacationAllowances)
+        public async Task<IActionResult> Create([Bind("Id,Date,EmployeeId,VacationBalance,Amount,CarryoverBalance,Notes")] VacationAllowances vacationAllowances)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(vacationAllowances);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
+            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", vacationAllowances.EmployeeId);
             return View(vacationAllowances);
         }
 
@@ -79,6 +84,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             {
                 return NotFound();
             }
+            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", vacationAllowances.EmployeeId);
             return View(vacationAllowances);
         }
 
@@ -87,7 +93,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmplyeeId,VacationBalance,Amount,CarryoverBalance,Notes")] VacationAllowances vacationAllowances)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmployeeId,VacationBalance,Amount,CarryoverBalance,Notes")] VacationAllowances vacationAllowances)
         {
             if (id != vacationAllowances.Id)
             {
@@ -114,6 +120,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", vacationAllowances.EmployeeId);
             return View(vacationAllowances);
         }
 
@@ -126,6 +133,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             }
 
             var vacationAllowances = await _context.VacationAllowances
+              .Include(a => a.Employee)
+
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vacationAllowances == null)
             {
