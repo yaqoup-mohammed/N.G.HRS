@@ -47,6 +47,11 @@ namespace N.G.HRS.Date
             new AttendanceStatus() { Id = 15, Name = "تكليف خارجي " }
    // Add more seed data as needed
    );
+            modelBuilder.Entity<Assignment>().HasData(
+           new Assignment() { Id = 1, Name = "تكليف إضافي" },
+                new Assignment() { Id = 2, Name = "تكليف خارجي" }
+   // Add more seed data as needed
+   );
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()

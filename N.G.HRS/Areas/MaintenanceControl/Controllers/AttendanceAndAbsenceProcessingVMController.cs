@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Graph;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.Employees.ViewModel;
 using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Areas.MaintenanceControl.ViewModels;
+using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
 using N.G.HRS.FingerPrintSetting;
 using N.G.HRS.HRSelectList;
@@ -59,7 +61,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
         }
 
-     
+
 
         //===============================================================================
         //===============================================================================
@@ -82,7 +84,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         //    new AttendanceStatus() {Id = 14 ,Name = "سماحية حضور وانصراف"},
         //    new AttendanceStatus() {Id = 15 ,Name = "تكليف خارجي "},
         //};
-        public async Task<IActionResult> GetAttendanceStatus(DateTime from  , DateTime to)
+        public async Task<IActionResult> GetAttendanceStatus(DateTime from, DateTime to)
         {
             try
             {
@@ -167,13 +169,113 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     }
                     await _context.SaveChangesAsync();
 
+
+                    var attAbsences3 = await _context.AttendanceAndAbsenceProcessing.Include(x => x.Employees).Include(x => x.AttendanceStatus).Include(x => x.periods).Include(x => x.PermenenceModel)
+                    .Where(x => x.IsProcssessedBefore == false && x.Date >= from && x.Date <= to && x.AttendanceStatusId == 2 || x.AttendanceStatusId == 11 || x.AttendanceStatusId == 13 || x.AttendanceStatusId == 10).ToListAsync();
+                    foreach (var item in attAbsences3)
+                    {
+                        var employeePermissions = await _context.EmployeePermissions.FirstOrDefaultAsync(x => x.Date == item.Date && x.EmployeeId == item.Employees.Id && x.FromTime.TimeOfDay == item.FromTime && x.ToTime.TimeOfDay == item.ToTime);
+                        var externalwork = await _context.AdditionalExternalOfWork.FirstOrDefaultAsync(x => x.AssignmentId == 2 && x.Date == item.Date && x.EmployeeId == item.Employees.Id && x.FromTime.TimeOfDay == item.FromTime && x.ToTime.TimeOfDay == item.ToTime);
+                        var additinalwork = await _context.AdditionalExternalOfWork.FirstOrDefaultAsync(x => x.AssignmentId == 1 && x.Date == item.Date && x.EmployeeId == item.Employees.Id && x.FromTime.TimeOfDay == item.FromTime && x.ToTime.TimeOfDay == item.ToTime);
+                        var staffVacation = await _context.StaffVacations.FirstOrDefaultAsync(x =>  x.EmployeeId == item.Employees.Id && x.FromDate == item.Date );
+                        if (employeePermissions != null)
+                        {
+                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                            attendance.EmployeeId = item.Employees.Id;
+                            attendance.DepartmentId = item.Employees.DepartmentsId;
+                            attendance.SectionId = item.Employees.SectionsId;
+                            attendance.AttendanceStatusId = 15;
+                            attendance.Date = item.Date;
+                            attendance.FromTime = item.FromTime;
+                            attendance.ToTime = item.ToTime;
+                            attendance.TotalWorkMinutes = item.TotalWorkMinutes;
+                            attendance.MinutesOfLate = item.MinutesOfLate;
+                            attendance.periodId = item.periodId;
+                            attendance.permenenceId = item.permenenceId;
+                            attendance.IsProcssessed = false;
+                            attendance.IsProcssessedBefore = true;
+                            item.IsProcssessedBefore = true;
+                            employeePermissions.IsProccessed = true;
+                            _context.EmployeePermissions.Update(employeePermissions);
+                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                            _context.AttendanceAndAbsenceProcessing.Update(item);
+                        }
+                        else if (externalwork != null)
+                        {
+                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                            attendance.EmployeeId = item.Employees.Id;
+                            attendance.DepartmentId = item.Employees.DepartmentsId;
+                            attendance.SectionId = item.Employees.SectionsId;
+                            attendance.AttendanceStatusId = 5;
+                            attendance.Date = item.Date;
+                            attendance.FromTime = item.FromTime;
+                            attendance.ToTime = item.ToTime;
+                            attendance.TotalWorkMinutes = item.TotalWorkMinutes;
+                            attendance.MinutesOfLate = item.MinutesOfLate;
+                            attendance.periodId = item.periodId;
+                            attendance.permenenceId = item.permenenceId;
+                            attendance.IsProcssessed = false;
+                            attendance.IsProcssessedBefore = true;
+                            item.IsProcssessedBefore = true;
+                            externalwork.IsProccessed = true;
+                            _context.AdditionalExternalOfWork.Update(externalwork);
+                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                            _context.AttendanceAndAbsenceProcessing.Update(item);
+                        }
+                        else if (additinalwork != null && item.AttendanceStatusId == 10)
+                        {
+                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                            attendance.EmployeeId = item.Employees.Id;
+                            attendance.DepartmentId = item.Employees.DepartmentsId;
+                            attendance.SectionId = item.Employees.SectionsId;
+                            attendance.AttendanceStatusId = 9;
+                            attendance.Date = item.Date;
+                            attendance.FromTime = item.FromTime;
+                            attendance.ToTime = item.ToTime;
+                            attendance.TotalWorkMinutes = item.TotalWorkMinutes;
+                            attendance.MinutesOfLate = item.MinutesOfLate;
+                            attendance.periodId = item.periodId;
+                            attendance.permenenceId = item.permenenceId;
+                            attendance.IsProcssessed = false;
+                            attendance.IsProcssessedBefore = true;
+                            item.IsProcssessedBefore = true;
+                            additinalwork.IsProccessed = true;
+
+                            _context.AdditionalExternalOfWork.Update(additinalwork);
+                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                            _context.AttendanceAndAbsenceProcessing.Update(item);
+                        } else if (staffVacation != null )
+                        {
+                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                            attendance.EmployeeId = item.Employees.Id;
+                            attendance.DepartmentId = item.Employees.DepartmentsId;
+                            attendance.SectionId = item.Employees.SectionsId;
+                            attendance.AttendanceStatusId = 7;
+                            attendance.Date = item.Date;
+                            attendance.FromTime = item.FromTime;
+                            attendance.ToTime = item.ToTime;
+                            attendance.TotalWorkMinutes = item.TotalWorkMinutes;
+                            attendance.MinutesOfLate = item.MinutesOfLate;
+                            attendance.periodId = item.periodId;
+                            attendance.permenenceId = item.permenenceId;
+                            attendance.IsProcssessed = false;
+                            attendance.IsProcssessedBefore = true;
+                            item.IsProcssessedBefore = true;
+                            additinalwork.IsProccessed = true;
+                            _context.StaffVacations.Update(staffVacation);
+                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                            _context.AttendanceAndAbsenceProcessing.Update(item);
+                        }
+
+                        await _context.SaveChangesAsync();
+
+                    };
                     var attAbsences2 = await _context.AttendanceAndAbsenceProcessing.Include(x => x.Employees).Include(x => x.AttendanceStatus).Include(x => x.periods).Include(x => x.PermenenceModel)
                     .Where(x => x.IsProcssessed == false && x.Date >= from && x.Date <= to).Select(x => new
                     {
                         eNumber = x.Employees.EmployeeNumber,
                         eName = x.Employees.EmployeeName,
-                        attendanceStatus = x.AttendanceStatus.Name
-                    ,
+                        attendanceStatus = x.AttendanceStatus.Name,
                         permenenceModel = x.PermenenceModel.PermanenceName,
                         periods = x.periods.PeriodsName,
                         from = x.FromTime,
@@ -184,7 +286,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                         isProcessed = x.IsProcssessed,
                         isProcessedBefor = x.IsProcssessedBefore
                     }).ToListAsync();
-
                     if (attAbsences2 == null)
                     {
                         return Json(0);
@@ -192,10 +293,36 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
                     return Json(attAbsences2);
                 }
+                //else if (from != null && to == null)
+                //{
+                //    var attAbsences2 = await _context.AttendanceAndAbsenceProcessing.Include(x => x.Employees).Include(x => x.AttendanceStatus).Include(x => x.periods).Include(x => x.PermenenceModel)
+                //                        .Where(x => x.IsProcssessed == false && x.Date >= from && x.Date <= to).Select(x => new
+                //                        {
+                //                            eNumber = x.Employees.EmployeeNumber,
+                //                            eName = x.Employees.EmployeeName,
+                //                            attendanceStatus = x.AttendanceStatus.Name,
+                //                            permenenceModel = x.PermenenceModel.PermanenceName,
+                //                            periods = x.periods.PeriodsName,
+                //                            from = x.FromTime,
+                //                            to = x.ToTime,
+                //                            date = x.Date,
+                //                            minutes = x.TotalWorkMinutes,
+                //                            minutesLate = x.MinutesOfLate,
+                //                            isProcessed = x.IsProcssessed,
+                //                            isProcessedBefor = x.IsProcssessedBefore
+                //                        }).ToListAsync();
+
+                //    if (attAbsences2 == null)
+                //    {
+                //        return Json(0);
+                //    }
+                //    return Json(attAbsences2);
+
+                //}
                 else
                 {
-                    return Json(0);
 
+                    return Json(0);
                 }
 
             }
@@ -204,7 +331,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
                 return Json(new { error = ex.Message });
             }
-            
+
         }
         //===============================================================================
         //===============================================================================
@@ -220,12 +347,13 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 var period = _context.Periods.Where(x => x.Id == sT.PeriodId).FirstOrDefault();
 
 
-                var workStartTime = new TimeSpan(period.FromTime.Value.Hour, period.FromTime.Value.Minute, 0) ;
+                var workStartTime = new TimeSpan(period.FromTime.Value.Hour, period.FromTime.Value.Minute, 0);
 
                 var workEndTime = new TimeSpan(period.ToTime.Value.Hour, period.ToTime.Value.Minute, 0);// Assuming ToTime is a DateTime property and you want to extract the TimeOfDay as a TimeSpan // Assuming ToTime is a DateTime property and you want to extract the TimeOfDay as a TimeSpan
-
+                var holiday = CheckHoliday(employee.Id, workDate);
+                var officialVacations = CheckOfficialVacations(date);
                 // Logic for retrieving work end time (consider holidays, shifts, etc.)
-               
+
                 if (records.Count == 0)
                 {
                     var isWeekend = IsWeekend(workDate, sT);
@@ -251,6 +379,29 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
                         //_context.AttendanceAndAbsenceProcessing.Add(attAbsence);
                         //_context.SaveChanges();
+                        return attAbsences;
+                    }
+                   
+                    else if (holiday)
+                    {
+                        AttendanceAndAbsenceProcessing attAbsence = new AttendanceAndAbsenceProcessing()
+                        {
+                            EmployeeId = employee.Id,
+                            DepartmentId = employee.DepartmentsId,
+                            SectionId = employee.SectionsId,
+                            AttendanceStatusId = 6,
+                            Date = workDate.Date,
+                            FromTime = workStartTime,
+                            ToTime = workEndTime,
+                            TotalWorkMinutes = period.Muinutes,
+                            MinutesOfLate = 0,
+                            periodId = sT.PeriodId,
+                            permenenceId = sT.PermanenceModelsId,
+                            IsProcssessed = false,
+                            IsProcssessedBefore = false
+                        };
+                        attAbsences.Add(attAbsence);
+
                         return attAbsences;
                     }
                     else
@@ -285,23 +436,52 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     var onlyRecords = records.OrderBy(r => r.DateOnlyRecord).FirstOrDefault();
                     var onlyRecord = new TimeSpan(onlyRecords.TimeOnlyRecord.Value.Hour, onlyRecords.TimeOnlyRecord.Value.Minute, 0);
                     var late = CalculateLateMinutes(onlyRecords, workStartTime);
-                    AttendanceAndAbsenceProcessing attAbsence = new AttendanceAndAbsenceProcessing()
+                    var early = CalculateEarlyDepartureMinutes(onlyRecords, workEndTime);
+
+
+                    if (late > early)
                     {
-                        EmployeeId = employee.Id,
-                        DepartmentId = employee.DepartmentsId,
-                        SectionId = employee.SectionsId,
-                        AttendanceStatusId = 13,
-                        Date = workDate.Date,
-                        FromTime = workStartTime,
-                        ToTime = onlyRecord,
-                        TotalWorkMinutes = period.Muinutes / 2,
-                        MinutesOfLate = late,
-                        periodId = sT.PeriodId,
-                        permenenceId = sT.PermanenceModelsId,
-                        IsProcssessed = false,
-                        IsProcssessedBefore = false
-                    };
-                    attAbsences.Add(attAbsence);
+                        AttendanceAndAbsenceProcessing attAbsence = new AttendanceAndAbsenceProcessing()
+                        {
+                            EmployeeId = employee.Id,
+                            DepartmentId = employee.DepartmentsId,
+                            SectionId = employee.SectionsId,
+                            AttendanceStatusId = 13,
+                            Date = workDate.Date,
+                            FromTime = workStartTime,
+                            ToTime = onlyRecord,
+                            TotalWorkMinutes = period.Muinutes / 2,
+                            MinutesOfLate = period.Muinutes / 2,
+                            periodId = sT.PeriodId,
+                            permenenceId = sT.PermanenceModelsId,
+                            IsProcssessed = false,
+                            IsProcssessedBefore = false
+                        };
+                        attAbsences.Add(attAbsence);
+
+                    }
+                    else
+                    {
+                        AttendanceAndAbsenceProcessing attAbsence = new AttendanceAndAbsenceProcessing()
+                        {
+                            EmployeeId = employee.Id,
+                            DepartmentId = employee.DepartmentsId,
+                            SectionId = employee.SectionsId,
+                            AttendanceStatusId = 13,
+                            Date = workDate.Date,
+                            FromTime = onlyRecord,
+                            ToTime = workEndTime,
+                            TotalWorkMinutes = period.Muinutes / 2,
+                            MinutesOfLate = period.Muinutes / 2,
+                            periodId = sT.PeriodId,
+                            permenenceId = sT.PermanenceModelsId,
+                            IsProcssessed = false,
+                            IsProcssessedBefore = false
+                        };
+                        attAbsences.Add(attAbsence);
+
+                    }
+
 
                     //_context.AttendanceAndAbsenceProcessing.Add(attAbsence);
                     //_context.SaveChanges();
@@ -310,7 +490,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 else
                 {
 
-                    var ftFingerprint = records.OrderBy(r => r.DateOnlyRecord).OrderBy(x=>x.TimeOnlyRecord).FirstOrDefault();
+                    var ftFingerprint = records.OrderBy(r => r.DateOnlyRecord).OrderBy(x => x.TimeOnlyRecord).FirstOrDefault();
                     var firstFingerprint = new TimeSpan(ftFingerprint.TimeOnlyRecord.Value.Hour, ftFingerprint.TimeOnlyRecord.Value.Minute, 0); ;
 
                     var lFingerprint = records.OrderBy(r => r.DateOnlyRecord).OrderBy(x => x.TimeOnlyRecord).LastOrDefault();
@@ -340,7 +520,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             SectionId = employee.SectionsId,
                             AttendanceStatusId = 1,
                             Date = workDate.Date,
-                            FromTime = workEndTime,
+                            FromTime = workStartTime,
                             ToTime = workEndTime,
                             TotalWorkMinutes = period.Muinutes,
                             MinutesOfLate = 0,
@@ -391,7 +571,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                     TotalWorkMinutes = (int)workLate,
                                     MinutesOfLate = 0,
                                     periodId = sT.PeriodId,
-                                    permenenceId = sT.PermanenceModelsId,   
+                                    permenenceId = sT.PermanenceModelsId,
                                     IsProcssessed = false,
                                     IsProcssessedBefore = false
                                 };
@@ -464,29 +644,28 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             if (lateMinutes < workLate)
 
                             {
-                                var l = workLate - lateMinutes;
 
-                                if ( l>=10)
-                            {
-                                AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
+                                if (workLate >= 10)
                                 {
-                                    EmployeeId = employee.Id,
-                                    DepartmentId = employee.DepartmentsId,
-                                    SectionId = employee.SectionsId,
-                                    AttendanceStatusId = 10,
-                                    Date = workDate.Date,
-                                    FromTime = workEndTime,
-                                    ToTime = lastFingerprint,
-                                    TotalWorkMinutes = (int)l,
-                                    MinutesOfLate = 0,
-                                    periodId = sT.PeriodId,
-                                    permenenceId = sT.PermanenceModelsId,
-                                    IsProcssessed = false,
-                                    IsProcssessedBefore = false
-                                };
-                                attAbsences.Add(attAbsence2);
+                                    AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
+                                    {
+                                        EmployeeId = employee.Id,
+                                        DepartmentId = employee.DepartmentsId,
+                                        SectionId = employee.SectionsId,
+                                        AttendanceStatusId = 10,
+                                        Date = workDate.Date,
+                                        FromTime = workEndTime,
+                                        ToTime = lastFingerprint,
+                                        TotalWorkMinutes = (int)workLate,
+                                        MinutesOfLate = 0,
+                                        periodId = sT.PeriodId,
+                                        permenenceId = sT.PermanenceModelsId,
+                                        IsProcssessed = false,
+                                        IsProcssessedBefore = false
+                                    };
+                                    attAbsences.Add(attAbsence2);
 
-                            }
+                                }
                             }
                             return attAbsences;
 
@@ -523,8 +702,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 SectionId = employee.SectionsId,
                                 AttendanceStatusId = 11,
                                 Date = workDate.Date,
-                                FromTime = workStartTime,
-                                ToTime = lastFingerprint,
+                                FromTime = lastFingerprint,
+                                ToTime = workEndTime,
                                 TotalWorkMinutes = wFFFP,
                                 MinutesOfLate = earlyDeparture,
                                 periodId = sT.PeriodId,
@@ -556,9 +735,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             attAbsences.Add(attAbsence);
                             if (lateMinutes < workLate)
                             {
-                                var l =  workLate - lateMinutes ;
 
-                                if (l >= 10)
+                                if (workLate >= 10)
                                 {
                                     AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
                                     {
@@ -669,7 +847,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 IsProcssessedBefore = false
                             };
                             attAbsences.Add(attAbsence);
-                            if (workLate > 0)
+                            if (workLate > 10)
                             {
                                 AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
                                 {
@@ -701,7 +879,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 AttendanceStatusId = 12,
                                 Date = workDate.Date,
                                 FromTime = workStartTime,
-                                ToTime = firstFingerprint    ,
+                                ToTime = firstFingerprint,
                                 TotalWorkMinutes = fTET,
                                 MinutesOfLate = lateMinutes,
                                 periodId = sT.PeriodId,
@@ -712,28 +890,27 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             attAbsences.Add(attAbsence);
                             if (lateMinutes < workLate)
                             {
-                                    if ( workLate>=10)
-                                    {
-                                        var v = workLate - lateMinutes;
+                                if (workLate >= 10)
+                                {
 
-                                        AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
-                                        {
-                                            EmployeeId = employee.Id,
-                                            DepartmentId = employee.DepartmentsId,
-                                            SectionId = employee.SectionsId,
-                                            AttendanceStatusId = 10,
-                                            Date = workDate.Date,
-                                            FromTime = workEndTime,
-                                            ToTime = lastFingerprint,
-                                            TotalWorkMinutes = (int)v,
-                                            MinutesOfLate = 0,
-                                            periodId = sT.PeriodId,
-                                            permenenceId = sT.PermanenceModelsId,
-                                            IsProcssessed = false,
-                                            IsProcssessedBefore = false
-                                        };
-                                        attAbsences.Add(attAbsence2);
-                                    }
+                                    AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
+                                    {
+                                        EmployeeId = employee.Id,
+                                        DepartmentId = employee.DepartmentsId,
+                                        SectionId = employee.SectionsId,
+                                        AttendanceStatusId = 10,
+                                        Date = workDate.Date,
+                                        FromTime = workEndTime,
+                                        ToTime = lastFingerprint,
+                                        TotalWorkMinutes = (int)workLate,
+                                        MinutesOfLate = 0,
+                                        periodId = sT.PeriodId,
+                                        permenenceId = sT.PermanenceModelsId,
+                                        IsProcssessed = false,
+                                        IsProcssessedBefore = false
+                                    };
+                                    attAbsences.Add(attAbsence2);
+                                }
                             }
                             return attAbsences;
 
@@ -747,8 +924,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 SectionId = employee.SectionsId,
                                 AttendanceStatusId = 11,
                                 Date = workDate.Date,
-                                FromTime = lastFingerprint,
-                                ToTime = workEndTime,
+                                FromTime = workStartTime,
+                                ToTime = lastFingerprint,
                                 TotalWorkMinutes = workDuration,
                                 MinutesOfLate = earlyDeparture,
                                 periodId = sT.PeriodId,
@@ -937,10 +1114,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                
             }
             if (staffTime.Periods.SunDay == false)
             {
@@ -948,10 +1122,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+               
             }
             if (staffTime.Periods.Monday == false)
             {
@@ -959,10 +1130,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                
             }
             if (staffTime.Periods.Tuesday == false)
             {
@@ -970,10 +1138,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+               
             }
             if (staffTime.Periods.Wednesday == false)
             {
@@ -981,10 +1146,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+             
             }
             if (staffTime.Periods.Thursday == false)
             {
@@ -992,10 +1154,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                
             }
             if (staffTime.Periods.Friday == false)
             {
@@ -1003,15 +1162,59 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                
             }
             return false;
             // Check if the day is a weekend (Saturday or Sunday) or if the day is not checked in the staffTime record
             //return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday || !staffTime.DayChecked;
         }
+        public bool CheckHoliday(int employee, DateTime date)
+        {
+            var holiday = _context.StaffVacations.FirstOrDefault(x => x.EmployeeId == employee);
+            if (holiday == null)
+            {
+                return false;
+            }
+            else
+            {
+
+
+                if (holiday.IsConnected == false)
+                {
+                    if (holiday.FromDate == date)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (holiday.FromDate <= date && holiday.ToDate >= date)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        public bool CheckOfficialVacations(DateOnly date)
+        {
+            // Assuming holiday.FromDate is the start date of the holiday and holiday.ToDate is the end date of the holiday
+            // Check if the given date falls within the holiday period
+            if (_context.officialVacations.Any(holiday => holiday.FromDate <= date && holiday.ToDate >= date))
+            {
+                return true; // Employee has a holiday on the given date
+            }
+
+            return false; // Employee does not have a holiday on the given date
+        }
+
 
     }
 

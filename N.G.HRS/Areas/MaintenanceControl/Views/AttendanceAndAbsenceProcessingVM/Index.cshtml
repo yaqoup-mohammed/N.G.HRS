@@ -102,8 +102,9 @@
                                 <th>#</th>
                                 <th>رقم الموظف</th>
                                 <th>الموظف</th>
-                                <th>التاريخ</th>
                                 <th>الحالة</th>
+                                <th>التاريخ</th>
+
                                 <th>من وقت</th>
                                 <th>الى وقت</th>
                                 <th>دقائق العمل </th>
@@ -143,6 +144,7 @@
                         method: 'GET',
                         dataType: "json",
                         success: function (data) {
+                            console.log(data);
                             $.each(data, function (i, item) {
                                 var d = item.date;
                                 var d1 = d.lastIndexOf('T')
@@ -157,22 +159,28 @@
                                 var t1 = t.lastIndexOf('T');
                                 var ttime = t.substring(t1 + 1);
                                 var ttime12 = v.convertTimeTo12(ttime);
+                                //==============
+                                var h = item.minutes / 60 ;
+                                var hour = h.toFixed(1);
                                 var row = $('<tr></tr>');
                                 row.append($('<td></td>').text('#'));
                                 row.append($('<td></td>').text(item.eNumber));
                                 row.append($('<td></td>').text(item.eName));
-                                row.append($('<td></td>').text(date));
                                 row.append($('<td></td>').text(item.attendanceStatus));
+                                row.append($('<td></td>').text(date));
                                 row.append($('<td></td>').text(ftime12));
                                 row.append($('<td></td>').text(ttime12));
                                 row.append($('<td></td>').text(item.minutes));
-                                row.append($('<td></td>').text(item.minutes / 60));
+                                row.append($('<td></td>').text(hour));
                                 row.append($('<td></td>').text(item.minutesLate));
                                 row.append($('<td></td>').text(item.isProcessedBefor));
                                 row.append($('<td></td>').text(item.isProcessed));
                                 row.append($('<td></td>').text(item.permenenceModel));
                                 row.append($('<td></td>').text(item.periods));
                                 $('#machinInfo').append(row);
+                                if (item.isProcessedBefor == true) {
+                                    $('#machinInfo').style.backgroundcolor = "red";
+                                }
                             });
                             Swal.close();
                             v.softSuccessMessage('تم تحميل البيانات بنجاح ✔️');
@@ -181,7 +189,7 @@
                     let timerInterval;
 
                     Swal.fire({
-                        title: "جاري تحميل البصمات 😵",
+                        title: "جاري معالجة الحظور والانصراف 😵",
                         timer: 10000,
 
                         timerProgressBar: false,

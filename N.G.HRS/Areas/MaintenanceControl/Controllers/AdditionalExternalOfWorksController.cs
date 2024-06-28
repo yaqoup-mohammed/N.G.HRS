@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,15 +49,15 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // GET: MaintenanceControl/AdditionalExternalOfWorks/Create
         public IActionResult Create()
         {
-            List<Assignment> assignment = new List<Assignment>
-            {
-                new Assignment () { Id = 1, Name = "تكليف إضافي" },
-                new Assignment () { Id = 2, Name = "تكليف خارجي" },
+            //List<Assignment> assignment = new List<Assignment>
+            //{
+            //    new Assignment () { Id = 1, Name = "تكليف إضافي" },
+            //    new Assignment () { Id = 2, Name = "تكليف خارجي" },
 
-            };
-            SelectList listItems = new SelectList(assignment, "Id", "Name");
+            //};
+            //SelectList listItems = new SelectList(assignment, "Id", "Name");
 
-            ViewData["Assignment"] = listItems;
+            //ViewData["Assignment"] = listItems;
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             return View();

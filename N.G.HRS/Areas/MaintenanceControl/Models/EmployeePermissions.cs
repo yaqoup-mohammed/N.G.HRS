@@ -64,6 +64,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         public bool BetweenToDate { get; set; }
         [Display(Name = "الملاحظة")]
         public string? Note { get; set; }
+        public bool IsProccessed { get; set; }
 
 
 
