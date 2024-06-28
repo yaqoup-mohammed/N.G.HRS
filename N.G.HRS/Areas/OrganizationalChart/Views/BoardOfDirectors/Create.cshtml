@@ -22,32 +22,29 @@
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <a asp-action="Index">مجلس الادارة </a>
 
-                                </li>
-                            </ol>
-                        </nav>
-<div class="card">
+        </li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title"              <h1 class="card-title">مجلس الادارة</h1>
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>  مجلس الادارة</h3>
-                    </div>
-                    <div class="card-body">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" role="alert" class=" alert-danger"></div>
-                            <div class="row">
-
-                                <div class="col-sm-8">
-                                    <div class="mb-3">
-                                        <label asp-for="CouncilName" class="form-label"></label>
-                                        <input asp-for="CouncilName" class="form-control"
-                                               placeholder="Enter first name" />
-                                        <span asp-validation-for="CouncilName" role="alert" class=" alert-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                </div>
+                <hr />
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" role="alert" class=" alert-danger"></div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="mb-3">
+                                <label asp-for="CouncilName" class="form-label"></label>
+                                <input asp-for="CouncilName" class="form-control"
+                                       placeholder="Enter first name" />
+                                <span asp-validation-for="CouncilName" role="alert" class=" alert-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
 
                                     <label asp-for="Date" class="form-label"></label>
                                     <input asp-for="Date" class="form-control mb-4 mb-md-0"

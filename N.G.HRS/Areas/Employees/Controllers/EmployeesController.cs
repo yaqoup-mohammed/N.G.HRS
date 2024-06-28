@@ -168,7 +168,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                         TempData["Success"] = "تم الحفظ بنجاح";
                         return RedirectToAction(nameof(AddEmployee));
                     }
-                    else 
+                    else
                     {
                         TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
                         return View(viewModel);
@@ -335,9 +335,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             {
                 // Log the exception or handle it accordingly
                 TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات المالية للموظف";
-                TempData["Error"] = ex.Message;
-
-                return View(viewModel);
             }
 
             return View(viewModel);

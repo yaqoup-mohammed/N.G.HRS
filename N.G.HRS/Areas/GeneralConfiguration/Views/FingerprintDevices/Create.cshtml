@@ -2,19 +2,15 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
 
-    ViewData["Title"] = " الدوام";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Active"] = "AddEmployee";
-    ViewData["Open"] = "Open2";
-    ViewData["OpenOperation"] = "OpenOperation2";
 }
 @if (@TempData["massage"] != null)
 {
     <div class="alert alert-danger" role="alert">
         @TempData["massage"]
     </div>
-
 
 }
 <div class="row">
@@ -306,21 +302,26 @@
 
             $("#pingButton").click(function () {
                 const ip = $("#ipAddress").val();
-                console.log($("#ipAddress").val());
                 if (ip !== "") {
                     $.ajax({
                         url: "/GeneralConfiguration/FingerprintDevices/Ping?ip=" + ip,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            console.log(data);
                             if (data == 1) {
-                                v.softErrorMessage('الجهاز موجود😎');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'الجهاز موجود😎',
+                                    iconColor: "#28a745",
+                                    confirmButtonColor: "#28a745",
+                                    confirmButtonText: "حسنا",
+                                });
                             }
                             else if (data == 2) {
                                 v.softErrorMessage('الجهاز غير موجود😪');
 
                             }
+
                             else if (data == 3) {
                                 v.softErrorMessage('الـ IP غير صحيح');
 
@@ -348,7 +349,13 @@
                         dataType: "json",
                         success: function (data) {
                             if (data == 1) {
-                                v.softErrorMessage('الجهاز متصل😎');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'الجهاز متصل👍😎',
+                                    iconColor: "#28a745",
+                                    confirmButtonColor: "#28a745",
+                                    confirmButtonText: "حسنا",
+                                });
                             }
                             else if (data == 2) {
                                 v.softErrorMessage('قد يكون عنوان الـ IP خطئ , أو الجهاز غير موجود😪');

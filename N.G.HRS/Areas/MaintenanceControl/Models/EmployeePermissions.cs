@@ -15,7 +15,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Display(Name = "الموظف")]
         public Employee? Employee { get; set; }
         [Display(Name = "المشرف المباشر")]
-        public int SupervisorId { get; set; }
+        public int? SupervisorId { get; set; }
         [Display(Name = "المشرف المباشر")]
         public Employee? Supervisor { get; set; }
         [Display(Name = "الفترة")]
@@ -64,6 +64,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         public bool BetweenToDate { get; set; }
         [Display(Name = "الملاحظة")]
         public string? Note { get; set; }
+        public bool IsProccessed { get; set; }
 
 
 
