@@ -7,68 +7,180 @@
 
 }
 
-<h1>Create</h1>
+<div class="card">
 
-<h4>EmployeeLoans</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> EmployeeLoans   </h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" id="loanForm">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-md-4">
+                                <label asp-for="EmployeeId" class="control-label"></label>
+                                <select asp-for="EmployeeId" class="js-example-basic-single form-select" asp-items="ViewBag.EmployeeId">
+                                    <option value="" selected disabled></option>
+                                </select>
+                            </div>
+                          
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="Date" class="control-label"></label>
+                                    <input asp-for="Date" class="form-control" readonly />
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="InstallmentStartDate" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="InstallmentStartDate" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="InstallmentStartDate" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CurrencyId" class="control-label"></label>
+                                <select asp-for="CurrencyId" class="js-example-basic-single form-select" asp-items="ViewBag.CurrencyId">
+                                    <option value="" selected disabled></option>
+                                </select>
+                            </div>
+                            <div id="ArrestCheckbox" class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="ArrestCheckbox" asp-for="Arrest" /> @Html.DisplayNameFor(model => model.Arrest)
+                                </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="Amount" class="control-label"></label>
+                                    <input asp-for="Amount" class="form-control" />
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="NumberOfInstallmentMonths" class="control-label"></label>
+                                    <input asp-for="NumberOfInstallmentMonths" class="form-control" id="NumberOfInstallmentMonths" />
+                                    <span asp-validation-for="NumberOfInstallmentMonths" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="InstallmentAmount" class="control-label"></label>
+                                    <input asp-for="InstallmentAmount" class="form-control" id="InstallmentAmount" readonly />
+                                    <span asp-validation-for="InstallmentAmount" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Notes" class="control-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                            <div class="form-group ">
+                                <input type="submit" id="submit" value="Create" class="btn btn-primary " />
+                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InstallmentStartDate" class="control-label"></label>
-                <input asp-for="InstallmentStartDate" class="form-control" />
-                <span asp-validation-for="InstallmentStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Arrest" /> @Html.DisplayNameFor(model => model.Arrest)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InstallmentAmount" class="control-label"></label>
-                <input asp-for="InstallmentAmount" class="form-control" />
-                <span asp-validation-for="InstallmentAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumberOfInstallmentMonths" class="control-label"></label>
-                <input asp-for="NumberOfInstallmentMonths" class="form-control" />
-                <span asp-validation-for="NumberOfInstallmentMonths" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#Date').val(new Date().toISOString().split('T')[0]);
+        });
+
+        $('#ArrestCheckbox input').change(function () {
+            if ($(this).is(":checked")) {
+                $('#loanForm').submit(function (event) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: "error",
+                        title: `لا يمكن ان يكون خيار <span class="text-danger">إيقاف التقسيط</span> مفعل!!`,
+                        showCloseButton: true // لإظهار زر إغلاق
+                    });
+                });
+            } else {
+                $('#loanForm').off("submit");
+            }
+        });
+
+        //============================
+        $(document).ready(function () {
+            $('#Date').val(new Date().toISOString().split('T')[0]);
+
+            // تحديث تاريخ بداية القسط لكي يكون أقل من تاريخ بداية القسط الأصلي
+            $('#InstallmentStartDate').change(function () {
+                var startDate = new Date($('#Date').val());
+                var installmentStartDate = new Date($(this).val());
+
+                if (installmentStartDate < startDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'تاريخ بداية القسط يجب أن لا يسبق تاريخ بداية القسط الأصلي.'
+                    });
+                    $(this).val('');
+                }
+            });
+        });
+
+        //============================
+        function validateInputs() {
+            const amountInput = document.getElementById("Amount");
+            const amount = parseFloat(amountInput.value);
+
+            const monthsInput = document.getElementById("NumberOfInstallmentMonths");
+            const months = parseFloat(monthsInput.value);
+
+            // التحقق من صحة المبلغ
+            if (isNaN(amount)) {
+                amountInput.nextElementSibling.textContent = "يرجى إدخال قيمة صالحة للمبلغ";
+                return false; // يمنع استمرار العملية
+            } else {
+                amountInput.nextElementSibling.textContent = "";
+            }
+
+            // التحقق من صحة عدد الأشهر
+            if (isNaN(months) || months <= 0) {
+                monthsInput.nextElementSibling.textContent = "يرجى إدخال عدد أشهر صالح";
+                return false; // يمنع استمرار العملية
+            } else {
+                monthsInput.nextElementSibling.textContent = "";
+            }
+
+            return true; // يسمح بالاستمرار لوصول الى حساب القسط الشهري
+        }
+
+        // حساب الأقساط الشهرية وعرضها للمستخدم
+        function calculateInstallments() {
+            if (validateInputs()) {
+                const amount = parseFloat(document.getElementById("Amount").value);
+                const months = parseFloat(document.getElementById("NumberOfInstallmentMonths").value);
+
+                const installment = amount / months;
+                document.getElementById("InstallmentAmount").value = installment.toFixed(2);
+            }
+        }
+
+        // استدعاء الوظيفة عند تغيير قيمة المبلغ
+        document.getElementById("Amount").addEventListener("change", calculateInstallments);
+
+        // استدعاء الوظيفة عند تغيير عدد الأشهر
+        document.getElementById("NumberOfInstallmentMonths").addEventListener("change", calculateInstallments);
+    </script>
 }
+

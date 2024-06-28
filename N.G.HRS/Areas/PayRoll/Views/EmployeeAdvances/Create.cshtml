@@ -6,57 +6,80 @@
     Layout = "_Layout";
 
 }
+<div class="card">
 
-<h1>Create</h1>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> EmployeeAdvances   </h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="EmployeeId" class="control-label"></label>
+                                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="DepartmentId" class="control-label"></label>
+                                    <select asp-for="DepartmentId" id="department" class="js-example-basic-single form-select" asp-items="@(ViewData["DepartmentId"] as SelectList)" readonly>
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="departmentWarning" class="text-danger" style="display: none;">يتم تعطيل تغيير الإدارة.</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="SectionId" class="control-label"></label>
+                                    <select asp-for="SectionId" id="SectionId" class="js-example-basic-single form-select" asp-items="@(ViewData["SectionId"] as SelectList)" readonly>
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="sectionWarning" class="text-danger" style="display: none;">يتم تعطيل تغيير القسم.</span>
+                                    <span asp-validation-for="SectionId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="EmployeeAccountId" class="control-label"></label>
+                                    <select asp-for="EmployeeAccountId" id="EmployeeAccountId" class="js-example-basic-single form-select" asp-items="@(ViewData["EmployeeAccountId"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="CurrencyId" class="control-label"></label>
+                                    <select asp-for="CurrencyId" id="CurrencyId" class="js-example-basic-single form-select" asp-items="@(ViewData["CurrencyId"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="CurrencyWarning" class="text-danger" style="display: none;">يرجى تحديد العملة!</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Amount" class="control-label"></label>
+                                    <input asp-for="Amount" id="Amount" class="form-control" />
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Notes" class="control-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="submit" value="إنشاء" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
-<h4>EmployeeAdvances</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SectionId" class="control-label"></label>
-                <input asp-for="SectionId" class="form-control" />
-                <span asp-validation-for="SectionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeAccountId" class="control-label"></label>
-                <select asp-for="EmployeeAccountId" class ="form-control" asp-items="ViewBag.EmployeeAccountId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

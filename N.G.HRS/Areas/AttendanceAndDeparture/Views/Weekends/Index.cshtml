@@ -8,80 +8,93 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Index</h1>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="space-between">
+                    <h3>Weekends</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SaturDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SunDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MonDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tuesday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wednesday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Thursday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Friday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PermanenceModels)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Periods)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SaturDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SunDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MonDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tuesday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wednesday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Thursday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Friday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Periods.PeriodsName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
+                <div class="table-responsive">
+
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SaturDay)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SunDay)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MonDay)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Tuesday)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Wednesday)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Thursday)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Friday)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PermanenceModels)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Periods)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SaturDay)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SunDay)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MonDay)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tuesday)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Wednesday)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Thursday)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Friday)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Periods.PeriodsName)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>|
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
