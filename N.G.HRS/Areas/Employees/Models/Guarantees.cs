@@ -33,8 +33,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [StringLength(255)]
         public string? Notes { get; set; }
         //=============================================
-        //public virtual PersonalData? personalData { get; set; }
-        public List<PersonalData>? PersonalDataList { get; set; }
+        public virtual PersonalData? personalData { get; set; }
         //================================================
         //يرتبط مع جدول(الموظف)وجدول (الضمين)
         //==============================================

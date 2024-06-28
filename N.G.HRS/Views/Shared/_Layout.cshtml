@@ -88,247 +88,573 @@
                             <span class="link-title">لوحة التحكم</span>
                         </a>
                     </li>
-                </ul>
-                <ul class="nav mb-5">
-                    <li class="nav-item nav-category"> تهيئة النظام </li>
+                    <li class="nav-item nav-category">التهيئة</li>
+
                     <li class="nav-item nav-category">
-                        <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#publicInitialization" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">التهيئة العامة</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        <a role="button" aria-expanded="false" href="#Initialization" class="menu menu-link dropdown-button">
+                            <span class="link-title">تهيئة النظام</span>
+                            <i class="dropdown-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse" id="publicInitialization">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Countries" asp-action="Index">دليل الدول</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Governorates" asp-action="Index">دليل المحافظات</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Directorates" asp-action="Index">دليل المديريات</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Nationalities" asp-action="Index">دليل الجنسيات</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Sexes" asp-action="Index">دليل الجنس</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FingerprintDevices" asp-action="Index">دليل بيانات اجهزة البصمة</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="PublicHolidays" asp-action="Index">دليل الاجازات العامة</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="OfficialVacations" asp-action="Index">دليل الاجازات الرسمية</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Permissions" asp-action="Index">دليل الاذونات</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="RelativesTypes" asp-action="Index">دليل الاقارب</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FunctionalFiles" asp-action="Index">دليل الملفات الوظيفية</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="EducationalQualifications" asp-action="Index">دليل المؤهلات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Specialties" asp-action="Index">دليل التخصصات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Universities" asp-action="Index">دليل الجامعات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Contracts" asp-action="Index">دليل انواع العقود</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="ContractTerms" asp-action="Index">دليل شروط العقود</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="menu nav-link" data-bs-toggle="collapse" href="#OrganizationalChart" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">تهيئة الهيكل التنظيمي </span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="OrganizationalChart">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="MembershipOfTheBoardOfDirectors" asp-action="Index">عضوية مجلس الادارة </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="BoardOfDirectors" asp-action="Index">مجلس الادارة</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Companies" asp-action="Index">بيانات الشركة</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Branches" asp-action="Index">بيانات الفروع</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Sectors" asp-action="Index">بيانات القطاعات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Departments" asp-action="Index">بيانات الادارات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Sections" asp-action="Index">بيانات الاقسام</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="menu nav-link" data-bs-toggle="collapse" href="#PlanningAndJobDescription" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">تهيئة التخطيط والتوصيف الوظيفي</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="PlanningAndJobDescription">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="FunctionalCategories" asp-action="Index">الفئات الوظيفية</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="FunctionalClasses" asp-action="Index">الدرجة الوظيفية</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="JobRanks" asp-action="Index">الرتب الوظيفية</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="JobDescriptions" asp-action="Index">الوصف الوظيفي</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="menu nav-link" data-bs-toggle="collapse" href="#Employees" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">تهيئة بيانات الموظفين</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="Employees">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Index">بيانات الموظف</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="menu nav-link" data-bs-toggle="collapse" href="#AttendanceAndDeparture" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">تهيئة الحظور والانصراف</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="AttendanceAndDeparture">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="PermissionToAttendAndLeaves" asp-action="Index">سماحية الحظور والانصراف</a>
-                                </li>
-                                @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="Months" asp-action="Index">بيانات الشهور</a>
-                                </li> *@
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="PermanenceModels" asp-action="Index">نماذج الدوام</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="StaffTimes" asp-action="Index">دوام الموظفين</a>
-                                </li>
-                                @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="AdjustingTimes" asp-action="Index">ضبط الدوام</a>
-                                </li>
-                                <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="SetPeriods" asp-action="Index">ضبط الفترات</a>
-                                </li> *@
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="LinkingEmployeesToShiftPeriods" asp-action="Index">فترات المناوبة</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="OneFingerprints" asp-action="Index">البصمة الواحدة</a>
-                                </li>
-                                @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="Weekends" asp-action="Index">الاجازات الاسبوعية</a>
-                                </li> *@
-                                @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="WeekendsForFlexibleWorkings" asp-action="Index">الاجازات الاسبوعية للدوام المرن</a>
-                                </li> *@
-                                @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="Directorates" asp-action="Index">دليل اوقات الاستراحة</a>
-                                </li> *@
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="OpeningBalancesForVacations" asp-action="Index">الارصدة الافتتاحية للاجازات</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                   
-
-                    <li class="nav-item">
-                        <a class="menu nav-link" data-bs-toggle="collapse" href="#SalariesAndWages" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">تهيئة الاجور والرواتب</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="SalariesAndWages">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="BasicDataForTheSalaryStatements" asp-action="Index">البيانات الاساسية للاجور والمرتبات</a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="BasicDataForWagesAndSalaries" asp-action="Index">البيانات الاساسية لكشف الراتب</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="AdditionalAccountInformations" asp-action="Index">بيانات حساب الاضافي</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="AllowancesAndDiscounts" asp-action="Index">البدلات والخصمات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="SectionsAccounts" asp-action="Index">حسابات الاقسام</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="EmployeeAccounts" asp-action="Index">حسابات الموظفين</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="menu nav-link" data-bs-toggle="collapse" href="#PenaltiesAndViolations" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="more-vertical"></i>
-                            <span class="link-title">تهيئة العقوبات و المخالفات</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="PenaltiesAndViolations">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PenaltiesAndViolations" asp-controller="Violations" asp-action="Index">دليل المخالفات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PenaltiesAndViolations" asp-controller="Penalties" asp-action="Index">دليل العقوبات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="PenaltiesAndViolations" asp-controller="PenaltiesAndViolations" asp-action="Index">نماذج المخالفات والعقوبات</a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                 </ul>
+                <div id="Initialization" class="submenu ">
+                    <ul class="nav mb-5 ">
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#publicInitialization" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">التهيئة العامة</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="publicInitialization">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Countries" asp-action="Index">دليل الدول</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Governorates" asp-action="Index">دليل المحافظات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Directorates" asp-action="Index">دليل المديريات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Nationalities" asp-action="Index">دليل الجنسيات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Sexes" asp-action="Index">دليل الجنس</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FingerprintDevices" asp-action="Index">دليل بيانات اجهزة البصمة</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="PublicHolidays" asp-action="Index">دليل الاجازات العامة</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="OfficialVacations" asp-action="Index">دليل الاجازات الرسمية</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Permissions" asp-action="Index">دليل الاذونات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="RelativesTypes" asp-action="Index">دليل الاقارب</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FunctionalFiles" asp-action="Index">دليل الملفات الوظيفية</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="EducationalQualifications" asp-action="Index">دليل المؤهلات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Specialties" asp-action="Index">دليل التخصصات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Universities" asp-action="Index">دليل الجامعات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Contracts" asp-action="Index">دليل انواع العقود</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="ContractTerms" asp-action="Index">دليل شروط العقود</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#OrganizationalChart" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة الهيكل التنظيمي </span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="OrganizationalChart">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="MembershipOfTheBoardOfDirectors" asp-action="Index">عضوية مجلس الادارة </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="BoardOfDirectors" asp-action="Index">مجلس الادارة</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Companies" asp-action="Index">بيانات الشركة</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Branches" asp-action="Index">بيانات الفروع</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Sectors" asp-action="Index">بيانات القطاعات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Departments" asp-action="Index">بيانات الادارات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="OrganizationalChart" asp-controller="Sections" asp-action="Index">بيانات الاقسام</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#PlanningAndJobDescription" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة التخطيط والتوصيف الوظيفي</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="PlanningAndJobDescription">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="FunctionalCategories" asp-action="Index">الفئات الوظيفية</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="FunctionalClasses" asp-action="Index">الدرجة الوظيفية</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="JobRanks" asp-action="Index">الرتب الوظيفية</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="JobDescriptions" asp-action="Index">الوصف الوظيفي</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#Employees" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة بيانات الموظفين</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="Employees">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Index">بيانات الموظف</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#AttendanceAndDeparture" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة الحظور والانصراف</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="AttendanceAndDeparture">
+                                <ul class="nav sub-menu">
+                                    @* <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="PermissionToAttendAndLeaves" asp-action="Index">سماحية الحظور والانصراف</a>
+                                    </li> *@
+                                    @* <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="Months" asp-action="Index">بيانات الشهور</a>
+                                    </li> *@
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="PermananceAndPeriodsVM" asp-action="Index">نماذج الدوام</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="StaffTimes" asp-action="Index">دوام الموظفين</a>
+                                    </li>
+                                    @* <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="AdjustingTimes" asp-action="Index">ضبط الدوام</a>
+                                    </li>
+                                    <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="SetPeriods" asp-action="Index">ضبط الفترات</a>
+                                    </li> *@
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="LinkingEmployeesToShiftPeriods" asp-action="Index">فترات المناوبة</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="OneFingerprints" asp-action="Index">البصمة الواحدة</a>
+                                    </li>
+                                    @* <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="Weekends" asp-action="Index">الاجازات الاسبوعية</a>
+                                    </li> *@
+                                    @* <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="WeekendsForFlexibleWorkings" asp-action="Index">الاجازات الاسبوعية للدوام المرن</a>
+                                    </li> *@
+                                    @* <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="Directorates" asp-action="Index">دليل اوقات الاستراحة</a>
+                                    </li> *@
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="AttendanceAndDeparture" asp-controller="OpeningBalancesForVacations" asp-action="Index">الارصدة الافتتاحية للاجازات</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#SalariesAndWages" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة الاجور والرواتب</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="SalariesAndWages">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="BasicDataForTheSalaryStatements" asp-action="Index">البيانات الاساسية للاجور والمرتبات</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="BasicDataForWagesAndSalaries" asp-action="Index">البيانات الاساسية لكشف الراتب</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="AdditionalAccountInformations" asp-action="Index">بيانات حساب الاضافي</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="AllowancesAndDiscounts" asp-action="Index">البدلات والخصمات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="SectionsAccounts" asp-action="Index">حسابات الاقسام</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="SalariesAndWages" asp-controller="EmployeeAccounts" asp-action="Index">حسابات الموظفين</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#PenaltiesAndViolations" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة العقوبات و المخالفات</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="PenaltiesAndViolations">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PenaltiesAndViolations" asp-controller="Violations" asp-action="Index">دليل المخالفات</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PenaltiesAndViolations" asp-controller="Penalties" asp-action="Index">دليل العقوبات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PenaltiesAndViolations" asp-controller="PenaltiesAndViolations" asp-action="Index">نماذج المخالفات والعقوبات</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                       
+                        
+                    </ul>
+                </div>
+                @* //======================= *@
+                <ul class="nav margin">
+                    <li class="nav-item nav-category" style="margin-top: 20px">العمليات</li>
+
+                    <li class="nav-item ">
+                        <a role="button" aria-expanded="false" href="#EmployeesAffsirs" class="menu menu-link dropdown-button">
+                            <span class="link-title">شؤون الموظفين</span>
+                            <i class="dropdown-arrow" data-feather="chevron-down"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div id="EmployeesAffsirs" class="submenu ">
+                    <ul class="nav mb-5 ">
+                        <li class="nav-item ">
+                            <a class="menu nav-link text-dark" id="Open2" asp-area="OrganizationalChart" asp-controller="MembershipOfTheBoardOfDirectors" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">عرض بيانات الموظفين </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#planning" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">التخطيط والتوصيف الوظيفي</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="planning">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="EmployeesAffsirs" asp-controller="AnnualGoals" asp-action="Index">الاهداف السنوية</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#employment" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title"> التوظيف </span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="employment">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">   COMING SOON </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#advantages" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title"> المزايا</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="advantages">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="PlanningAndJobDescription" asp-controller="FunctionalCategories" asp-action="Index">COMING SOON</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#reports" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">التقارير التفصيلية</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="reports">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action=""> الموظف</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <ul class="nav ">
+                    <li class="nav-item ">
+                        <a role="button" aria-expanded="false" href="#administrativeAffairs" class="menu menu-link dropdown-button">
+                            <span class="link-title">الشؤون الإدارية</span>
+                            <i class="dropdown-arrow" data-feather="chevron-down"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div id="administrativeAffairs" class="submenu ">
+                    <ul class="nav mb-5 ">
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#Guestbook" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">سجل الزوار</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="Guestbook">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action=""> دليل بطائق الزوار</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action=""> دليل  الزوار</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">  رسائل التذكير </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">  تقرير الزوار</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-category">
+                                        <a id="Open2" class="menu nav-link text-dark" asp-area="EmployeesAffsirs" asp-controller="Permits" asp-action="Index">
+                                            <i class="link-icon" data-feather="more-vertical"></i>
+                                            <span class="link-title"> التصاريح</span>
+                                        </a>    
+                        </li>
+                        <li class="nav-item nav-category">
+
+                            <a class="menu nav-link text-dark" id="Open2" asp-area="EmployeesAffsirs" asp-controller="AdministrativeDecisions" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">  القرارات الادارية </span>
+                            </a>
+
+                        </li>
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#employmentMovement" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title"> حركة التوظيف</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="employmentMovement">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="EmployeesAffsirs" asp-controller="EmployeeMovements" asp-action="Index"> التنقل الوظيفي</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="EmployeesAffsirs" asp-controller="AdministrativePromotions" asp-action="Index"> الترفيعات الإدارية</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="EmployeesAffsirs" asp-controller="EmploymentStatusManagements   " asp-action="Index"> إدارة الحالة الوظيفية</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#violationsAndPenalties" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title"> المخالفات والجزاءات</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="violationsAndPenalties">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Countries" asp-action="Index">الاهداف السنوية</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#excellenceAndIncentives" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title"> التميز والحوافز</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="excellenceAndIncentives">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Countries" asp-action="Index">الاهداف السنوية</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link text-dark"  asp-area="GeneralConfiguration" asp-controller="Countries" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">أرشفة ملفات الشركة</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav ">
+                    <li class="nav-item ">
+                        <a role="button" aria-expanded="false" href="#permanenceMonitoring" class="menu menu-link dropdown-button">
+                            <span class="link-title">مراقبة الدوام</span>
+                            <i class="dropdown-arrow" data-feather="chevron-down"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div id="permanenceMonitoring" class="submenu ">
+                    <ul class="nav mb-5 ">
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#SurveillanceFingerprints" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">بصمات المراقبة</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="SurveillanceFingerprints">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">تحميل البصمات من اجهزة البصمة</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">استيراد البصمات من ملف نصي</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index"> تقرير بصمات أجهزة البصمة</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#Processes" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title"> العمليات</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="Processes">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AttendanceRecord" asp-action="Index">حافظة دوام </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">معالجة حضور وغياب الموظفين </a>
+                                    </li>\
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="StaffVacations" asp-action="Index">اجازات الموظفين </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AdditionalExternalOfWork" asp-action="Index">تكليف عمل </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">ترحيل الإضافي الغير معتمد </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="EmployeePermissions" asp-action="Index">اذونات الموظفين </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">تعويض دوام الموظفين </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">مقاصة دوام الموظفين </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">نقل ارصدة الاجازات</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-category">
+                            <a class="menu nav-link" id="Open2" data-bs-toggle="collapse" href="#FingerprintsReports" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">  التقارير</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="FingerprintsReports">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Coming Soon</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav ">
+                    <li class="nav-item ">
+                        <a role="button" aria-expanded="false" href="#salariesAndWages" class="menu menu-link dropdown-button">
+                            <span class="link-title"> الرواتب والاجور</span>
+                            <i class="dropdown-arrow" data-feather="chevron-down"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div id="salariesAndWages" class="submenu ">
+                    <ul class="nav mb-5 ">
+                        <li class="nav-item nav-category">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">الإضافي المعتمد تلقائيا </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">أجور الموظفين </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">بدلات وخصميات الموظفين </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">إستحقاقات وإستقطاعات </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">قروض الموظفين </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">سلف الموظفين </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">مخالصة نهاية الخدمة </span>
+                            </a> 
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">بدلات الاجازات </span>
+                            </a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">إكرامات الموظفين </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         <div class="page-wrapper">
@@ -655,7 +981,6 @@
     <!-- core:js -->
     <script src="~/assets/vendors/core/core.js"></script>
     <script src="~/js/site.js"></script>
-    <script src="~/js/v.js"></script>
     <script src="~/js/ValidationWithJS.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
@@ -733,8 +1058,42 @@
     <!-- Start ------------------------اضافي--------------------------->
     <!-- script -->
     <script>
+        //=================================================
 
+        $(document).ready(function () {
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    // Prevent the default action of the link
+                    event.preventDefault();
 
+                    // Get the current state of aria-expanded
+                    const ariaExpanded = link.getAttribute('aria-expanded') === 'true';
+
+                    // Close all submenus
+                    document.querySelectorAll('.menu-link').forEach(l => {
+                        l.setAttribute('aria-expanded', 'false');
+                        const subMenu = document.querySelector(l.getAttribute('href'));
+                        if (subMenu && subMenu.classList.contains('submenu')) {
+                            subMenu.classList.remove('show1');
+                            subMenu.classList.add('hidden');
+                        }
+                    });
+
+                    // If the clicked link was not expanded, expand it
+                    if (!ariaExpanded) {
+                        link.setAttribute('aria-expanded', 'true');
+                        const subMenu = document.querySelector(link.getAttribute('href'));
+                        if (subMenu && subMenu.classList.contains('submenu')) {
+                            subMenu.classList.remove('hidden');
+                            subMenu.classList.add('show1');
+                        }
+                    }
+                });
+            });
+
+        });
+
+        //=================================================
         if ($('.datatable').length > 0) {
             $('.datatable').DataTable({
                 dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 text-end'<'d-flex justify-content-end'fB>>>t<'d-flex align-items-center'<'me-auto'i><'mb-0'p>>",
@@ -841,3 +1200,61 @@
 </body>
 </html>
 
+<style>
+    .my_sidebar {
+        float: left;
+        width: 200px; /* عرض ثابت للشريط الجانبي */
+        height: 100%; /* ارتفاع ثابت للشريط الجانبي */
+        /*         border: 1px solid #ccc; /* حدود للشريط الجانبي */
+        */ overflow-y: auto; /* إضافة شريط تمرير عمودي إذا كان المحتوى يتجاوز الارتفاع المحدد */
+        padding: 10px; /* تباعد داخلي للشريط الجانبي */
+        background-color: #f9f9f9; /* لون خلفية للشريط الجانبي */
+        font-family: Arial, sans-serif; /* نوع الخط */
+        text-align: left; /* محاذاة النص إلى اليسار */
+    }
+
+        .my_sidebar i {
+            display: block; /* عرض الأيقونة كبلوك لتحكم بالمساحة المحيطة بها */
+            margin-bottom: 10px; /* هامش أسفل الأيقونة */
+            color: blue; /* لون الأيقونة */
+            font-size: 20px; /* حجم الأيقونة */
+            text-align: left; /* محاذاة النص داخل الأيقونة إلى اليسار */
+        }
+
+        .my_sidebar p {
+            margin: 0 0 10px 0; /* هامش للفقرات داخل الشريط الجانبي */
+            text-align: left; /* محاذاة النص داخل الفقرة إلى اليسار */
+        }
+
+    strong {
+        display: block; /* عرض النص كبلوك للتحكم بالمساحة المحيطة به */
+        margin-top: 20px; /* هامش أعلى النص */
+        text-align: left; /* محاذاة النص إلى اليسار */
+        font-size: 18px; /* حجم الخط */
+        color: #333; /* لون النص */
+    }
+
+ 
+</style>
+@* <style>
+  
+
+    .image-container {
+        width: 160px;
+        height: 160px; /* تعديل ارتفاع الصورة لتكون دائرية */
+        margin: 0 auto; /* للتوسيط أفقيًا */
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%; /* جعل الإطار دائري */
+        overflow: hidden; /* لجعل الصورة تتماشى داخل الدائرة */
+    }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+</style> *@

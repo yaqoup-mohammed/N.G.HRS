@@ -19,10 +19,9 @@ namespace N.G.HRS.Areas.Employees.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
-       
-        public int EmployeeNumber { get; set; }//
+        [Range(0, 500000)]
+        public string? EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
         public string? EmployeeName { get; set; }//
@@ -59,7 +58,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public IFormFile ?FileUpload { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }//
-
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)
         //========================================================
         [ForeignKey("DepartmentsId")]
@@ -153,8 +151,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
         //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
-        //==================================== 
-        //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //==================================== 
         public List<AttendanceRecord>? AttendanceRecordList { get; set; }
         //====================================
