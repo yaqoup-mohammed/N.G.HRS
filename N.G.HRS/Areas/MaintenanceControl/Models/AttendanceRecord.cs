@@ -26,10 +26,10 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         public DateTime TimeOnlyRecord { get; set; }
         [Display(Name = "التاريخ")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss tt}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "yyyy-MM-dd")]
         public DateTime Date { get; set; }
         [Display(Name = "الملاحظة")]
         public string? Note { get; set; }
-
     }
+    
 }

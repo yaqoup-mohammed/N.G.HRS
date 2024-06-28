@@ -168,6 +168,15 @@ class ValidationFromMe {
             confirmButtonText: "حسنا",
         });
     }
+    softSuccessMessage(message) {
+        Swal.fire({
+            icon: 'success',
+            title: message,
+            iconColor: "#28a745",
+            confirmButtonColor: "#28a745",
+            confirmButtonText: "حسنا",
+        });
+    }
     //==============
     hide(selector) {
         const element = document.getElementById(selector);
