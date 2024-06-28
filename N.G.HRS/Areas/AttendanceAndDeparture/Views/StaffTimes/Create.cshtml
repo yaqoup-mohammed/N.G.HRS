@@ -10,72 +10,76 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<div class="card">
-    <div class="card-header">
-        <h3>دوام الموظف</h3>
+<div class="card mb-2">
+    <div class="card-body">
+        <span><a asp-action="Index" asp-controller="Home" asp-area="">الرئيسة</a></span>/
+        <span>تهيئة الحظور والإنصراف</span>/
+        <span><a asp-action="Index">دوام الموظف</a></span>/
+        <span>جديد</span>
     </div>
-    <div class="card">
-        <div class="card-body">
+</div>
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title"> دوام الموظف</h2>
 
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row set mb-3">
-                    <div class="form-group col-md-3" id="ToDateGroup">
-                        <label asp-for="WorksFullTimeFromDate" class="form-label"></label><span class="text-danger">*</span>
-                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                            <input asp-for="WorksFullTimeFromDate" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
-                                   data-input />
-                            <span class="input-group-text input-group-addon" data-toggle>
-                                <i data-feather="calendar"></i>
-                            </span>
-                            <span asp-validation-for="WorksFullTimeFromDate" class="text-danger"></span>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row set mb-3">
+                <div class="form-group col-md-3" id="ToDateGroup">
+                    <label asp-for="WorksFullTimeFromDate" class="form-label"></label><span class="text-danger">*</span>
+                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                        <input asp-for="WorksFullTimeFromDate" id="ToDate" class="form-control" placeholder="أدخل التاريخ"
+                               data-input />
+                        <span class="input-group-text input-group-addon" data-toggle>
+                            <i data-feather="calendar"></i>
+                        </span>
+                        <span asp-validation-for="WorksFullTimeFromDate" class="text-danger"></span>
 
-                        </div>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label asp-for="EmployeeId" class="form-label"></label>
-                        <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"]as SelectList)">
-                            <option value="" disabled selected></option>
-                            <option value="0">إضافة لكل الموظفين</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label asp-for="SectionsId" class="form-label"></label>
-                        <select asp-for="SectionsId" id="SectionsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["SectionsId"] as SelectList)">
-                            <option value="" disabled selected></option>
-
-                        </select>
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="form-group col-md-6">
-                        <label asp-for="PermanenceModelsId" class="form-label"></label>
-                        <select asp-for="PermanenceModelsId" id="PermanenceModelsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
-                            <option value="" disabled selected></option>
-
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label asp-for="PeriodId" class="form-label"></label>
-                        @* <select asp-for="PeriodId" class="js-example-basic-single  form-select" asp-items="@(ViewData["PeriodsId"] as SelectList)"> *@
-                        <select asp-for="PeriodId" id="PeriodId" class="js-example-basic-single  form-select">
-                            <option value="" disabled selected></option>
-                            <option value="" disabled>أختر الدوام</option>
-
-                        </select>
-                        <span asp-validation-for="PeriodId" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" id="submit" value="Create" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-light">الرجوع الى القائمة</a>
-
+                <div class="form-group col-md-5">
+                    <label asp-for="EmployeeId" class="form-label"></label>
+                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"]as SelectList)">
+                        <option value="" disabled selected></option>
+                        <option value="0" >إضافة لكل الموظفين</option>
+                    </select>
                 </div>
-            </form>
+                <div class="form-group col-md-4">
+                    <label asp-for="SectionsId" class="form-label"></label>
+                    <select asp-for="SectionsId" id="SectionsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["SectionsId"] as SelectList)">
+                        <option value="" disabled selected></option>
 
-        </div>
+                    </select>
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label asp-for="PermanenceModelsId" class="form-label"></label>
+                    <select asp-for="PermanenceModelsId" id="PermanenceModelsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
+                        <option value="" disabled selected></option>
+
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="PeriodId" class="form-label"></label>
+                    @* <select asp-for="PeriodId" class="js-example-basic-single  form-select" asp-items="@(ViewData["PeriodsId"] as SelectList)"> *@
+                    <select asp-for="PeriodId" id="PeriodId" class="js-example-basic-single  form-select">
+                        <option value="" disabled selected></option>
+                        <option value="" disabled>أختر الدوام</option>
+
+                    </select>
+                    <span asp-validation-for="PeriodId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-light">الرجوع الى القائمة</a>
+
+            </div>
+        </form>
+
     </div>
 </div>
 
@@ -160,71 +164,76 @@
                 const id = this.value;
                 const employeeId = $("#EmployeeId").val();
                 console.log(employeeId);
-                if (employeeId != null) {
+                if ( employeeId != null) {
 
 
-                    $.ajax({
-                        url:
-                            "/AttendanceAndDeparture/StaffTimes/GetPermanenceModels?id=" + id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
-                            if (data != "") {
-                                $("#PeriodId").empty();
-                                $("#PeriodId").append('<option value="" disabled selected></option>');
-
-                                $.each(data, function (i, item) {
-                                    var from = item.from;
-                                    var to = item.to;
-                                    from = from.substring(0, 5);
-                                    to = to.substring(0, 5);
-                                    $("#PeriodId").append('<option value="' + item.id + '">' + item.name + "  " + from + " ~ " + to + " = " + item.hours + " ساعات " + '</option>');
-                                });
-                            }
-                            else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: `هذا الموظف لا ينتمي الى  دوام!!`,
-                                });
-                            }
-                        }
-
-                    });
-                    //==================================================
-                    $.ajax({
-                        url:
-                            "/AttendanceAndDeparture/StaffTimes/CheackGetPermanenceModels?id=" + employeeId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
-                            $.each(data, function (i, item) {
+                        $.ajax({
+                            url:
+                                "/AttendanceAndDeparture/StaffTimes/GetPermanenceModels?id=" + id,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
                                 if (data != "") {
+                                    $("#PeriodId").empty();
+                                    $("#PeriodId").append('<option value="" disabled selected></option>');
 
-                                    if (item.id != "") {
-                                        if (item.id != id) {
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: ` هذا الموظف ينتمي الى  دوام <span class="text-danger">${item.name}</span>  بالفعل ,لايمكن للموظف ان ينتمي الى أكثر من دوام`,
-                                            });
+                                    $.each(data, function (i, item) {
+                                        var f = item.from;
+                                    let spaceIndex = f.indexOf("T");
+                                    var from = f.substring(spaceIndex+1,spaceIndex+6);
 
-                                            $("#PermanenceModelsId").val(item.id).change();
-                                        }
-                                    }
-                                }
-                                else {
+                                        var t = item.to;
+                                    let spaceIndex2 = t.indexOf("T");
 
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                        var to = t.substring(spaceIndex2+1,spaceIndex2+6);
+                                        
+                                        $("#PeriodId").append('<option value="' + item.id + '">' + item.name + "  " + from + " ~ " + to + " = " + item.hours + " ساعات " + '</option>');
                                     });
                                 }
-                            });
+                                // else {
+                                //     Swal.fire({
+                                //         icon: 'error',
+                                //         title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                //     });
+                                // }
+                            }
+
+                        });
+                        //==================================================
+                        $.ajax({
+                            url:
+                                "/AttendanceAndDeparture/StaffTimes/CheackGetPermanenceModels?id=" + employeeId,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $.each(data, function (i, item) {
+                                    if (data != "") {
+
+                                        if (item.id != "") {
+                                            if (item.id != id) {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: ` هذا الموظف ينتمي الى  دوام <span class="text-danger">${item.name}</span>  بالفعل ,لايمكن للموظف ان ينتمي الى أكثر من دوام`,
+                                                });
+
+                                                $("#PermanenceModelsId").val(item.id).change();
+                                            }
+                                        }
+                                    }
+                                    else {
+
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                        });
+                                    }
+                                });
 
 
-                        }
+                            }
 
-                    });
-
+                        });
+                    
                 }
                 else {
 

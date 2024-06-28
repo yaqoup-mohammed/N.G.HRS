@@ -6,86 +6,75 @@
     Layout = "_Layout";
 
 }
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="space-between">
-                    <h3> الشركة</h3>
 
-                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+<h1>Index</h1>
 
-                </div>
-                <div class="table-responsive">
-                    <table id="dataTableExample" class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Date)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CompanyName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.LicenseNumber)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TypeOfBusinessActivity)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ComponyLogo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ComponyAddress)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Notes)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.BoardOfDirectors.CouncilName)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Date)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CompanyName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.LicenseNumber)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TypeOfBusinessActivity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ComponyLogo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ComponyAddress)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Notes)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.BoardOfDirectors.CouncilName)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicenseNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOfBusinessActivity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComponyLogo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComponyAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoardOfDirectors.CouncilName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicenseNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfBusinessActivity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponyLogo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponyAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.BoardOfDirectors.CouncilName)
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
