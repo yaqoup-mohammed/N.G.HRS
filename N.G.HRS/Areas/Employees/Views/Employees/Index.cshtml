@@ -1,0 +1,574 @@
+﻿@model N.G.HRS.Areas.Employees.ViewModel.EmployeeVM
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "IndexEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+
+}
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Index</h1>
+<p>
+        <a asp-action="AddEmployee">Create New</a>
+</p>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">بيانات الموظفين</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>EmployeeNumber</th>
+                                <th>EmployeeName</th>
+                                <th>DateOfEmployment</th>
+                                <th>PlacementDate</th>
+                                <th>EmploymentStatus</th>
+                                <th>RehireDate</th>
+                                <th>DateOfStoppingWork</th>
+                                <th>UsedFingerprint</th>
+                                <th>SubjectToInsurance</th>
+                                <th>DateInsurance</th>
+                                <th>Notes</th>
+                                <th>Departments</th>
+                                <th>Sections</th>
+                                <th>JobDescription</th>
+                                <th>FingerprintDevices</th>
+                                <th>Manager</th>
+                                <th>Image</th>
+                                <th>Action</th>
+                                
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var employee in Model.EmployeeList)
+
+                            {
+                                <tr>
+                                    <td>@employee.Id </td>
+                                    <td>@employee.EmployeeNumber </td>
+                                    <td>@employee.EmployeeName </td>
+                                    <td>@employee.DateOfEmployment </td>
+                                    <td>@employee.PlacementDate </td>
+                                    <td>@employee.EmploymentStatus </td>
+                                    <td>@employee.RehireDate </td>
+                                    <td>@employee.DateOfStoppingWork </td>
+                                    <td>@employee.UsedFingerprint </td>
+                                    <td>@employee.SubjectToInsurance </td>
+                                    <td>@employee.DateInsurance </td>
+                                    <td>@employee.Notes </td>
+                                    <td>@employee.Departments?.SubAdministration </td>
+                                    <td>@employee.Sections?.SectionsName </td>
+                                    <td>@employee.JobDescription?.JopName </td>
+                                    <td>@(employee.FingerprintDevices?.DevicesName)</td>
+                                    <td>@employee.Manager?.EmployeeName </td>
+                                    <td style="    padding-bottom: 1px;padding-top: 6px;">
+                                        
+
+                                   
+                               
+                                        <!-- Gallery start -->
+                                        <div class="baguetteBoxThree gallery">
+                                            <!-- Row start -->
+                                            @* <div class="row gutters">
+                                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">*@
+
+                                                   <a href="~/Upload/Images/@employee.ImageFile" class="effects">
+                                                        <img src="~/Upload/Images/@employee.ImageFile" class="avatar   img-thumbnail img-xs img-fluid" alt=".......">
+                                                        <div class="overlay">
+                                                            <span class="expand">+</span>
+                                                        </div>
+                                                    </a>
+                                                 </div> 
+
+@* 
+
+                                             </div>
+                                            <!-- Row end -->
+                                        </div>  *@
+                                        <!-- Gallery end -->
+                                    <td>
+@* 
+                                        <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal"
+                                                data-url="@Url.Action($"AddEmployee/{employee.Id}")" data-bs-target="@("#AddEmployee-" + employee.Id)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                                <!-- أيقونة تحرير... -->
+                                            </svg>
+                                        </button>
+                                        @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
+ *@
+                                        <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
+                                        <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
+                                    </td>
+                                </tr>
+                                
+                            }
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">بيانات الضمين</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>اسم الضمين</th>
+                                <th>رقم الهاتف</th>
+                                <th>اسم المحل التجاري</th>
+                                <th>رقم السجل</th>
+                                <th>عنوان المحل التجاري</th>
+                                <th>عنوان السكن الدائم</th>
+                                <th>الحالة الإجتماعية</th>
+                                <th>عدد من يعول</th>
+                                <th>ملاحظات</th>
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var guarantees in Model.guaranteesList)
+
+                            {
+                                <tr>
+                                    <td>@guarantees.Id </td>
+                                    <td>@guarantees.Name </td>
+                                    <td>@guarantees.PhoneNumber </td>
+                                    <td>@guarantees.NameOfTheBusiness </td>
+                                    <td>@guarantees.CommercialRegistrationNo </td>
+                                    <td>@guarantees.ShopAddress </td>
+                                    <td>@guarantees.HomeAdress </td>
+                                    <td>@guarantees.MaritalStatus?.Name </td>
+                                    <td>@guarantees.NumberOfDependents </td>
+                                    <td>@guarantees.Notes </td>
+                                    <td>
+                                        <a asp-action="" asp-route-id="@guarantees.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@guarantees.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@guarantees.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">بيانات الخبرات</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>ExperiencesName</th>
+                                <th>PlacToGainExperience</th>
+                                <th>FromDate</th>
+                                <th>ToDate</th>
+                                <th>Duration</th>
+                                <th>Employee</th>
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var PracticalExperiences in Model.PracticalExperiencesList)
+
+                            {
+                                <tr>
+                                    <td>@PracticalExperiences.Id </td>
+                                    <td>@PracticalExperiences.ExperiencesName </td>
+                                    <td>@PracticalExperiences.PlacToGainExperience </td>
+                                    <td>@PracticalExperiences.FromDate </td>
+                                    <td>@PracticalExperiences.ToDate </td>
+                                    <td>@PracticalExperiences.Duration </td>
+                                    <td>@PracticalExperiences.Employee?.EmployeeName </td>
+                                    <td>
+                                        <a asp-action="" asp-route-id="@PracticalExperiences.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@PracticalExperiences.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@PracticalExperiences.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">بيانات الأسرة</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive ">
+                    <table class=" datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>Name</th>
+                                <th>RelativesType</th>
+                                <th>Employee</th>
+                                <th>Notes</th>
+
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var Family in Model.FamilyList)
+
+                            {
+                                <tr>
+                                    <td>@Family.Id </td>
+                                    <td>@Family.Name </td>
+                                    <td>@Family.RelativesType?.RelativeName </td>
+                                    <td>@Family.Employees?.EmployeeName </td>
+                                    <td>@Family.Notes </td>
+                                    <td>
+                                        <a asp-action="" asp-route-id="@Family.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@Family.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@Family.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">البيانات المالية </h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>EmployeeName</th>
+                                <th>BasicSalary</th>
+                                <th>BankAccountNumber</th>
+                                <th>InsuranceAccountNumber</th>
+                                <th>SalaryStartDate</th>
+                                <th>SalaryEndDate</th>
+                                <th>Notes</th>
+
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var FinancialStatements in Model.FinancialStatementsList)
+
+                            {
+                                <tr>
+                                    <td>@FinancialStatements.Id </td>
+                                    <td>@FinancialStatements.employee?.EmployeeName </td>
+                                    <td>@FinancialStatements.BasicSalary  @FinancialStatements.Currency?.CurrencyName </td>
+
+                                    <td>@FinancialStatements.BankAccountNumber </td>
+                                    <td>@FinancialStatements.InsuranceAccountNumber </td>
+                                    <td>@FinancialStatements.SalaryStartDate </td>
+                                    <td>@FinancialStatements.SalaryEndDate </td>
+                                    <td>@FinancialStatements.Notes </td>
+                                    <td>
+                                        <a asp-action="" asp-route-id="@FinancialStatements.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@FinancialStatements.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@FinancialStatements.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">بيانات الدورات التدريبية</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive ">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>NameCourses</th>
+                                <th>WhereToGetIt</th>
+                                <th>FromDate</th>
+                                <th>ToDate</th>
+                                <th>Employee</th>
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var TrainingCourses in Model.TrainingCoursesList)
+
+                            {
+                                <tr>
+                                    <td>@TrainingCourses.Id </td>
+                                    <td>@TrainingCourses.NameCourses </td>
+                                    <td>@TrainingCourses.WhereToGetIt </td>
+                                    <td>@TrainingCourses.FromDate </td>
+                                    <td>@TrainingCourses.ToDate </td>
+
+                                    <td>@TrainingCourses.EmployeeOne?.EmployeeName </td>
+                                    <td>
+                                        <a asp-action="" asp-route-id="@TrainingCourses.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@TrainingCourses.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@TrainingCourses.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">البيانات الشخصية للموظف</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>DateOfBirth</th>
+                                <th>Age</th>
+                                <th>HomePhone</th>
+                                <th>Email</th>
+                                <th>PhoneNumber</th>
+                                <th>Address</th>
+                                <th>Notes</th>
+                                <th>CardType</th>
+                                <th>CardNumber</th>
+                                <th>ReleaseDate</th>
+                                <th>CardExpiryDate</th>
+                                <th>Employee</th>
+                                <th>guarantees</th>
+                                <th>Sex</th>
+                                <th>Nationality</th>
+                                <th>MaritalStatus</th>
+                                <th>Religion</th>
+
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var personaldata in Model.PersonalDataList)
+
+                            {
+                                <tr>
+                                    <td>@personaldata.Id </td>
+                                    <td>@personaldata.DateOfBirth </td>
+                                    <td>@personaldata.Age </td>
+                                    <td>@personaldata.HomePhone </td>
+                                    <td>@personaldata.Email </td>
+                                    <td>@personaldata.PhoneNumber </td>
+                                    <td>@personaldata.Address </td>
+                                    <td>@personaldata.Notes </td>
+                                    <td>@personaldata.CardType </td>
+                                    <td>@personaldata.CardNumber </td>
+                                    <td>@personaldata.ReleaseDate </td>
+                                    <td>@personaldata.CardExpiryDate </td>
+                                    <td>@personaldata.employee?.EmployeeName </td>
+                                    <td>@personaldata.guarantees?.Name </td>
+                                    <td>@personaldata.Sex?.Name </td>
+                                    <td>@personaldata.Nationality?.NationalityName </td>
+                                    <td>@personaldata.MaritalStatus?.Name </td>
+                                    <td>@personaldata.Religion?.Name </td>
+
+                                    <td>
+                                        <a asp-action="" asp-route-id="@personaldata.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@personaldata.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@personaldata.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">بيانات ملفات الموظفين</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive ">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="width: 1rem;">Id</th>
+                                <th>File</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Descriotion</th>
+                                <th>Notes</th>
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var EmployeeArchives in Model.EmployeeArchivesList)
+
+                            {
+                                <tr>
+                                    <td>@EmployeeArchives.Id </td>
+
+                                    <td style="padding-bottom: 1px;padding-top: 6px;">
+
+
+
+
+                                        <!-- Gallery start -->
+                                        <div class="baguetteBoxThree gallery">
+                                            <!-- Row start -->
+                                            @* <div class="row gutters">
+                                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">*@
+
+                                            <a href="~/Upload/PDF/@EmployeeArchives.File" class="effects">
+                                                <img src="~/Upload/PDF/@EmployeeArchives.File" class="avatar   img-thumbnail img-xs img-fluid" alt=".......">
+                                                <div class="overlay">
+                                                    <span class="expand">+</span>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        @*
+                                    </div>
+                                    <!-- Row end -->
+                                    </div>  *@
+                                        <!-- Gallery end -->
+                                    </td>
+
+                                    <td>@EmployeeArchives.employee?.EmployeeName </td>
+                                    <td>@EmployeeArchives.Date </td>
+                                    <td>@EmployeeArchives.Descriotion </td>
+                                    <td>@EmployeeArchives.Notes </td>
+
+                                    <td>
+                                        <a asp-action="" asp-route-id="@EmployeeArchives.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@EmployeeArchives.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@EmployeeArchives.Id">Delete</a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#emploteeDelete").on("click", function () {
+            var id= this.value;
+            if (id != "") {
+
+                $.ajax({
+                    url: '/EmployeesAffsirs/EmploymentStatusManagements/EmployeeData?id=' + id,
+                    type: 'GET',
+                    success: function (data) {
+                        console.log(data);
+                        $('#employeeStatus').val(data.employmentStatus);
+                        $('#dateOfHire').val(data.dateOfEmployment);
+                        $('#dateOfstiky').val(data.placementDate);
+                        $('#select').val(data.employmentStatus).change();
+                        console.log(data.employmentStatus);
+
+                    }
+                });
+            }
+        
+        
+        });
+
+    </script>
+}

@@ -1,0 +1,271 @@
+﻿@model N.G.HRS.Areas.PayRoll.Models.EntitlementsAndDeductions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html">الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">الاستحقاقات والخصومات</a>
+        </li>
+    </ol>
+</nav>
+
+
+<h1>Create</h1>
+<h4>الاستحقاقات والخصومات</h4>
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"></h4>
+                <br />
+                <hr />
+                <form asp-action="Create" id="EntitlementsAndDeductionsForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="EmployeeId" class="form-label"> الــــمـــوظــف</label>
+                                <select asp-for="EmployeeId" id="EmployeeId" class="form-select" asp-items="ViewBag.EmployeeId">
+                                    <option value=""></option>
+                                    <option value="">-- اختر الموظف --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Date" class="form-label">الــتــاريــخ</label>
+                                <input asp-for="Date" id="Date" class="form-control" placeholder=" ادخــل التــاريــخ" />
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Month" class="form-label">الـــشـــهــر</label>
+                                <input asp-for="Month" id="Month" class="form-control" placeholder=" ادخــل الـــشـــهــر" />
+                                <span asp-validation-for="Month" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Type" class="form-label">النوع</label>
+                                <input asp-for="Type" id="Type" class="form-control" placeholder=" ادخــل الــــــنـــــوع" />
+                                <span asp-validation-for="Type" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="FinanceAccountTypeId" class="form-label">نـــوع الحــســــاب الــمــالــيــة</label>
+                                <select asp-for="FinanceAccountTypeId" id="FinanceAccountTypeId" class="form-select" asp-items="ViewBag.FinanceAccountTypeId">
+                                    <option value=""></option>
+                                    <option value="">-- اختر نوع الحساب --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="CurrencyId" class="form-label">مــــعـــرف الـــعــمــلـــة</label>
+                                <select asp-for="CurrencyId" id="CurrencyId" class="form-select" asp-items="ViewBag.CurrencyId">
+                                    <option value=""></option>
+                                    <option value="">-- اختر العملة --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                 
+
+                    <div class="form-group form-check">
+                        <label class="form-check-label"> خاظع لضريبة </label>
+                            <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3 p-3 border rounded">
+                                <label>اختيار إما مبلغ أو نسبة</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" class="form-check-input me-2" id="amountCheckbox" />
+                                            <label class="form-check-label me-5" for="amountCheckbox">الـــمـــبـــلـــغ</label>
+                                            <input asp-for="Amount" id="Amount" class="form-control me-2"  placeholder="ادخــل الـــمـــبـــلـــغ" type="number" min="0" step="any" oninput="validateNumberInput(this)" disabled />
+                                            <span asp-validation-for="Amount" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-sm-6">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" class="form-check-input me-2" id="percentageCheckbox" />
+                                            <label class="form-check-label me-5" for="percentageCheckbox">الـــنــســبــة </label>
+                                            <div class="input-group">
+                                                <input asp-for="Percentage" id="Percentage" class="form-control" placeholder="ادخــل الـــنــســبــة " type="number" min="0" step="any" oninput="validateNumberInput(this)" disabled />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <span asp-validation-for="Percentage" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+
+
+                    <div class="mb-3">
+                        <label asp-for="Note" class="form-label">مــــــلاحـــظـــة</label>
+                        <input asp-for="Note" class="form-control"placeholder=" ادخــل مــــــلاحـــظـــة" />
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" id="EntitlementsAndDeductionsForm" class="btn btn-primary">حفظ</button>
+                    <a asp-action="Index" class="btn btn-light">العودة إلى القائمة</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        }
+
+    <script>
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        $(document).ready(function () {
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            function showSuccessMessage(message) {
+                Swal.fire({
+                    icon: "success",
+                    title: message,
+                }).then(() => {
+                    window.location.href = '@Url.Action("Index", "EntitlementsAndDeductions")';
+                });
+            }
+
+            $("#amountCheckbox").change(function () {
+                if (this.checked) {
+                    $("#Amount").prop('disabled', false);
+                    $("#Percentage").prop('disabled', true).val('');
+                    $("#percentageCheckbox").prop('checked', false);
+                } else {
+                    $("#Amount").prop('disabled', true).val('');
+                }
+            });
+
+            $("#percentageCheckbox").change(function () {
+                if (this.checked) {
+                    $("#Percentage").prop('disabled', false);
+                    $("#Amount").prop('disabled', true).val('');
+                    $("#amountCheckbox").prop('checked', false);
+                } else {
+                    $("#Percentage").prop('disabled', true).val('');
+                }
+            });
+
+            $("#EntitlementsAndDeductionsForm").on('submit', function (event) {
+                event.preventDefault();
+                var employeeId = $("#EmployeeId").val();
+                var date = $("#Date").val();
+                var month = parseInt($("#Month").val());
+                var type = $("#Type").val();
+                var financeAccountTypeId = $("#FinanceAccountTypeId").val();
+                var currencyId = $("#CurrencyId").val();
+
+                var amount = $("#Amount").val();
+                var percentage = $("#Percentage").val();
+                var amountChecked = $("#amountCheckbox").is(":checked");
+                var percentageChecked = $("#percentageCheckbox").is(":checked");
+
+                if (employeeId === "") {
+                    showErrorMessage("يجب اختيار اسم الموظف");
+                    return false;
+                } else if (date === "") {
+                    showErrorMessage("يجب ادخال التاريخ");
+                    return false;
+                } else if (month === "" || month < 1 || month > 12) {
+                    showErrorMessage("يجب ادخال شهر صالح (1 - 12)");
+                    return false;
+                } else if (type === "") {
+                    showErrorMessage("يجب ادخال نوع");
+                    return false;
+                } else if (financeAccountTypeId === "") {
+                    showErrorMessage("يجب اختيار نوع الحساب");
+                    return false;
+                } else if (currencyId === "") {
+                    showErrorMessage("يجب اختيار العملة");
+                    return false;
+                } else if (!amountChecked && !percentageChecked) {
+                    showErrorMessage("يجب اختيار إما مبلغ أو نسبة");
+                    return false;
+                } else if (amountChecked && amount === "") {
+                    showErrorMessage(" يجب ادخال المبلغ ");
+                    return false;
+                } else if (percentageChecked && percentage === "") {
+                    showErrorMessage(" يجب ادخال النسبة ");
+                    return false;
+                }
+
+                // إرسال البيانات باستخدام AJAX
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        showSuccessMessage("تم الحفظ بنجاح");
+                    },
+                    error: function (response) {
+                        showErrorMessage("حدث خطأ أثناء الحفظ");
+                    }
+                });
+            });
+
+            // التحقق من قيمة الشهر أثناء الكتابة وعرض رسالة الخطأ
+            $("#Month").on('input', function () {
+                var month = parseInt($(this).val());
+                if (month === 0) {
+                    showErrorMessage("لا يمكن أن يكون الشهر صفر");
+                    $(this).val('');
+                } else if (month < 1 || month > 12) {
+                    showErrorMessage("يجب ادخال شهر صالح (1 - 12)");
+                    $(this).val('');
+                }
+            });
+
+        });
+    </script>
+
+    }
+    
+

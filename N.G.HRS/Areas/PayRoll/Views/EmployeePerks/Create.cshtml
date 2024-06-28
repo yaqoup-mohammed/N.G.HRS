@@ -1,0 +1,197 @@
+﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeePerks
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "أكراميات الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html">الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">أكراميات الموظفين</a>
+        </li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">أكراميات الموظفين</h4>
+                <br />
+                <hr />
+                <form asp-action="Create" id="EmployeePerksForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="EmployeeId" class="form-label">الـــمــوظـــف</label>
+                                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
+                                    <option></option>
+                                    <option value="">--- اختر الموظف ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Date" class="form-label">الــتــاريـخ</label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="Date" id="Date" class="form-control" placeholder="أدخل التـــتاريــخ" data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Description" class="form-label">الـــوصــــف</label>
+                                <input asp-for="Description" id="Description" class="form-control" placeholder="أدخل الـــوصــــف" />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3 p-3 border rounded">
+                                <label>اختر نوع الأكرامية</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" class="form-check-input me-2" id="amountCheckbox" />
+                                            <label class="form-check-label me-5" for="amountCheckbox">مـبـلـغ</label>
+                                            <input asp-for="Amount" id="Amount" class="form-control me-2" placeholder="أدخل المــبلـــغ" type="number" min="0" step="any" oninput="validateNumberInput(this)" disabled />
+                                            <span asp-validation-for="Amount" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-sm-6">
+                                        <div class="form-check d-flex align-items-center">
+                                            <input type="checkbox" class="form-check-input me-2" id="percentageCheckbox" />
+                                            <label class="form-check-label me-5" for="percentageCheckbox">نـسـبـة</label>
+                                            <div class="input-group">
+                                                <input asp-for="Percentage" id="Percentage" class="form-control" placeholder="أدخل النسبة" disabled />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <span asp-validation-for="Percentage" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label asp-for="Notes" class="form-label">الملاحظات</label>
+                                <input asp-for="Notes" class="form-control" placeholder="الـمـلاحـظـات" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+
+                    <button type="submit" id="EmployeePerksForm" class="btn btn-primary">حفظ</button>
+                    <a asp-action="Index" class="btn btn-light">العودة إلى القائمة</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+  
+
+    <script>
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        $(document).ready(function () {
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            $("#amountCheckbox").change(function() {
+                if (this.checked) {
+                    $("#Amount").prop('disabled', false);
+                    $("#Percentage").prop('disabled', true).val('');
+                    $("#percentageCheckbox").prop('checked', false);
+                } else {
+                    $("#Amount").prop('disabled', true).val('');
+                }
+            });
+
+            $("#percentageCheckbox").change(function() {
+                if (this.checked) {
+                    $("#Percentage").prop('disabled', false);
+                    $("#Amount").prop('disabled', true).val('');
+                    $("#amountCheckbox").prop('checked', false);
+                } else {
+                    $("#Percentage").prop('disabled', true).val('');
+                }
+            });
+
+            $("#EmployeePerksForm").on('submit', function (event) {
+                var employeeId = $("#EmployeeId").val();
+                var date = $("#Date").val();
+                var description = $("#Description").val();
+                var amount = $("#Amount").val();
+                var percentage = $("#Percentage").val();
+                var amountChecked = $("#amountCheckbox").is(":checked");
+                var percentageChecked = $("#percentageCheckbox").is(":checked");
+
+                if (employeeId === "") {
+                    showErrorMessage("يجب اختيار اسم الموظف");
+                    return false;
+                } else if (date === "") { 
+                    showErrorMessage("يجب اختيار التاريخ");
+                    return false;
+                } else if (description === "") {
+                    showErrorMessage("يجب ادخال الوصف");
+                    return false;
+                } else if (!amountChecked && !percentageChecked) {
+                    showErrorMessage("يجب اختيار إما مبلغ أو نسبة");
+                    return false;
+                } else if (amountChecked && amount === "") {
+                    showErrorMessage(" يجب ادخال المبلغ ");
+                    return false;
+                } else if (percentageChecked && percentage === "") {
+                    showErrorMessage(" يجب ادخال النسبة ");
+                    return false;
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+

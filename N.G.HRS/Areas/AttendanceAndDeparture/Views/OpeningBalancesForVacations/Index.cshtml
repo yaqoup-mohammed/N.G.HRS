@@ -1,0 +1,107 @@
+﻿@model IEnumerable<N.G.HRS.Areas.AttendanceAndDeparture.Models.OpeningBalancesForVacations>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Tables</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Data Table</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="space-between">
+                    <h2 class="card-title index-title">
+                            أجازات الموظفين
+                        </h2>
+
+                        <a asp-action="Create" class="btn btn-primary">جديد</a>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table"> 
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
+
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Employee)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Balance)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BalanceYear)
+                                </th>
+
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PublicHolidays)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Notes)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+
+
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Balance)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BalanceYear)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PublicHolidays.HolidayName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Notes)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* ===================================================================================== *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,72 @@
+﻿@model N.G.HRS.Areas.PayRoll.Models.VacationAllowances
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "الدولة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<h1>Create</h1>
+
+<h4>VacationAllowances</h4>
+<h4>  بدلات الإجازات</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"> التاريخ  </label>
+                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                    <input asp-for="Date" id=" " class="form-control" />
+                    <span class="input-group-text input-group-addon" data-toggle>
+                        <i data-feather="calendar"> </i>
+                    </span>
+                  
+               </div>
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="EmplyeeId" class="control-label"> رقم الموظف</label>
+                <input asp-for="EmplyeeId" class="form-control" />
+                <span asp-validation-for="EmplyeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="VacationBalance" class="control-label">  رصيد الإجازات</label>
+                <input asp-for="VacationBalance" class="form-control" />
+                <span asp-validation-for="VacationBalance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"> المبلغ</label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="CarryoverBalance" class="control-label"> ترحيل الرصيد</label>
+                <input asp-for="CarryoverBalance" class="form-control" />
+                <span asp-validation-for="CarryoverBalance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" lass="btn btn-primary">Back to List</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

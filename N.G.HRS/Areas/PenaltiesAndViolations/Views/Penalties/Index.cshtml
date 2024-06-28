@@ -1,0 +1,83 @@
+﻿@model IEnumerable<N.G.HRS.Areas.PenaltiesAndViolations.Models.Penalties>
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "حسابات الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PenaltiesName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deduction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiscountFromWorkingHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeductionFromTheDailyWage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeductionFromSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Percent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PenaltiesName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deduction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountFromWorkingHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeductionFromTheDailyWage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeductionFromSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Percent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

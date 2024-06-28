@@ -1,0 +1,76 @@
+﻿@model N.G.HRS.Areas.AalariesAndWages.Models.BasicDataForWagesAndSalaries
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<h1>Edit</h1>
+
+<h4>BasicDataForWagesAndSalaries</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="NumberOfMonthsDays" class="control-label"></label>
+                <input asp-for="NumberOfMonthsDays" class="form-control" />
+                <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AbsencePerHour" class="control-label"></label>
+                <input asp-for="AbsencePerHour" class="form-control" />
+                <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DelayPerHour" class="control-label"></label>
+                <input asp-for="DelayPerHour" class="form-control" />
+                <span asp-validation-for="DelayPerHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OneFingerPrintPerHourDelay" class="control-label"></label>
+                <input asp-for="OneFingerPrintPerHourDelay" class="form-control" />
+                <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FromDate" class="control-label"></label>
+                <input asp-for="FromDate" class="form-control" />
+                <span asp-validation-for="FromDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToDate" class="control-label"></label>
+                <input asp-for="ToDate" class="form-control" />
+                <span asp-validation-for="ToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeOfWage" class="control-label"></label>
+                <input asp-for="TypeOfWage" class="form-control" />
+                <span asp-validation-for="TypeOfWage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,397 @@
+﻿
+
+
+
+@model N.G.HRS.Areas.AalariesAndWages.Models.AdditionalAccountInformation
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            بيانات حساب الاضافي
+        </li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title"> بيانات حساب الاضافي  </h6>
+                <form asp-action="Create" id="AdditionalForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <label asp-for="NormalCoefficient" class="form-label"> </label>
+                                <input asp-for="NormalCoefficient" id="NormalCoefficient1" class="form-control" />
+                               
+                            </div>
+                            <span asp-validation-for="NormalCoefficient" class="text-danger"></span>
+
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <label asp-for="WeekendLaboratories" class="form-label"></label>
+                                <input asp-for="WeekendLaboratories" id="WeekendLaboratories" class="form-control" />
+                                
+                            </div>
+                            <span asp-validation-for="WeekendLaboratories" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="mb-1" style="display: flex;justify-content: center; align-items: flex-start;">
+                                <div>
+                                    <span style=" border-left: 2px solid #e9ecef;font-weight: bold;height: 52px;display: inline-block;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        <div class="col-sm-3">
+                            <label asp-for="FromTime" class="form-label"></label>
+                            <div class="input-group flatpickr " id="flatpickr-time">
+                                <input asp-for="FromTime" id="FromTime" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="clock"></i>
+                                </span>
+                               
+                            </div>
+                            <span asp-validation-for="FromTime" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <label asp-for="ToTime" class="form-label"></label>
+                            <div class="input-group flatpickr " id="flatpickr-time">
+                                <input asp-for="ToTime" id="ToTime" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="clock"></i>
+                                </span>
+
+                               
+
+                            </div>
+                            <span asp-validation-for="ToTime" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Col -->
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <label asp-for="OfficialHolidaysLab" class="form-label"></label>
+                                <input asp-for="OfficialHolidaysLab" id="OfficialHolidaysLab" class="form-control" />
+                               
+                            </div>
+                            <span asp-validation-for="OfficialHolidaysLab" class="text-danger"></span>
+
+                        </div>
+
+                        <!-- Col -->
+                        <!-- Row -->
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <label asp-for="NightPeriodParameter" class="form-label"></label>
+                                <input asp-for="NightPeriodParameter" id="NightPeriodParameter" class="form-control" />
+                              
+                            </div>
+
+                            <span asp-validation-for="NightPeriodParameter" class="text-danger"></span>
+
+                        </div>
+                        <!-- Col -->
+
+                        <div class="col-sm-1">
+                            <div class="mb-1" style="display: flex;justify-content: center; align-items: flex-start;">
+                                <div>
+                                    <span style="    border-left: 2px solid #e9ecef;font-weight: bold;height: 52px;display: inline-block;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <label asp-for="LaboratoriesPerDay" class="form-label">  </label>
+                                <input asp-for="LaboratoriesPerDay" id="LaboratoriesPerDay" class="form-control" />
+                               
+                            </div>
+                            <span asp-validation-for="LaboratoriesPerDay" class="text-danger"></span>
+
+                        </div>
+                            <!-- Col -->
+                        <div class="col-sm-2">
+                            <label asp-for="Date" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="Date" id="Date" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <div>
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="mb-2" style="display: flex;justify-content: center; align-items: flex-start;">
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="mb-1" style="display: flex;justify-content: center; align-items: flex-start;">
+                                <div>
+                                    <span style="    border-left: 2px solid #e9ecef;font-weight: bold;height: 52px;display: inline-block;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <label asp-for="FromDate" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                              
+                            </div>
+                            <span asp-validation-for="FromDate" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-sm-3">
+
+
+                            <label asp-for="ToDate" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                             
+                            </div>
+                            <span asp-validation-for="ToDate" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Row -->
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-12">
+                                <label asp-for="Notes" class="form-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+
+                    </div>
+              
+                   
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="mb-1">
+                                <input type="submit" id="AdditionalForm" value="حفظ" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="mb-2">
+                                <a asp-action="Index" class="btn btn-light" class="btn btn-primary">رجوع الى القائمة</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                const v = new ValidationFromMe();
+
+                function showErrorMessage(message) {
+                    Swal.fire({
+                        icon: "error",
+                        title: message,
+                    });
+                }
+
+                // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+                const today = new Date().toISOString().split('T')[0];
+                $("#Date").val(today);
+                $("#FromDate").val(today);
+
+                // تعيين الوقت الحالي في حقل FromTime عند تحميل الصفحة بتنسيق 12 ساعة
+                const now = moment();
+                const formattedTime = now.format('hh:mm A');
+                $("#FromTime").val(formattedTime);
+
+                $("#FromDate, #ToDate").on("input", function () {
+                    var fromDate1 = $("#FromDate").val();
+                    var toDate1 = $("#ToDate").val();
+
+                    if (!isNaN(new Date(fromDate1).getTime()) && !isNaN(new Date(toDate1).getTime())) {
+                        if (new Date(toDate1) < new Date(fromDate1)) {
+                            $("#FromDate, #ToDate").val(""); // إعادة تعيين القيم
+                            showErrorMessage("تاريخ النهاية يجب أن يكون أكبر من تاريخ البداية");
+                        }
+                    }
+                });
+
+                $("#NormalCoefficient1, #WeekendLaboratories, #NightPeriodParameter, #LaboratoriesPerDay, #OfficialHolidaysLab").on('input', function () {
+                    var value = $(this).val();
+                    if (isNaN(value) || parseInt(value) === 0 || parseInt(value) > 10) {
+                        showErrorMessage(isNaN(value) ? "الرجاء إدخال قيمة رقمية صحيحة لا يقبل الحروف!" : (parseInt(value) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!"));
+                        $(this).val(''); // إعادة تعيين الحقل
+                    }
+                });
+
+                $("#FromTime, #ToTime").on('input', function () {
+                    var fromTime = $("#FromTime").val();
+                    var toTime = $("#ToTime").val();
+
+                    if (fromTime && toTime) {
+                        var fromTimeValue = moment(fromTime, 'hh:mm A');
+                        var toTimeValue = moment(toTime, 'hh:mm A');
+                        if (toTimeValue.isSameOrBefore(fromTimeValue)) {
+                            showErrorMessage("وقت النهاية يجب أن يكون أكبر من وقت البداية");
+                            $("#ToTime").val(''); // إعادة تعيين حقل "إلى وقت"
+                        }
+                    }
+                });
+
+                $("#AdditionalForm").on('submit', function (event) {
+                    event.preventDefault(); // منع إرسال النموذج بشكل افتراضي
+
+                    var normalCoefficient1 = $("#NormalCoefficient1").val();
+                    var weekendLaboratories = $("#WeekendLaboratories").val();
+                    var fromTime = $("#FromTime").val();
+                    var toTime = $("#ToTime").val();
+                    var officialHolidaysLab = $("#OfficialHolidaysLab").val();
+                    var nightPeriodParameter = $("#NightPeriodParameter").val();
+                    var date = $("#Date").val();
+                    var taboratoriesPerDay = $("#LaboratoriesPerDay").val();
+                    var fromDate = $("#FromDate").val();
+                    var toDate = $("#ToDate").val();
+
+                    // تحقق من أن الحقل "Date" يساوي تاريخ اليوم
+                    if (date !== today) {
+                        showErrorMessage("يجب أن يكون التاريخ هو تاريخ اليوم");
+                        return;
+                    }
+
+                    if (normalCoefficient1 === "") {
+                        showErrorMessage("يجب ادخال المعامل الطبيعي");
+                        return;
+                    }
+                    if (weekendLaboratories === "") {
+                        showErrorMessage("يجب ادخال المعامل الاسبوعي");
+                        return;
+                    }
+                    if (fromTime === "") {
+                        showErrorMessage("يجب ادخال من وقت");
+                        return;
+                    }
+                    if (toTime === "") {
+                        showErrorMessage("يجب ادخال الى وقت");
+                        return;
+                    }
+                    if (officialHolidaysLab === "") {
+                        showErrorMessage("يجب ادخال معامل العطلات الرسمية");
+                        return;
+                    }
+                    if (nightPeriodParameter === "") {
+                        showErrorMessage("يجب ادخال معامل الفترة الليلية");
+                        return;
+                    }
+                    if (taboratoriesPerDay === "") {
+                        showErrorMessage("يجب ادخال المعامل اليومي");
+                        return;
+                    }
+                    if (fromDate === "") {
+                        showErrorMessage("يجب تحديد من التاريخ");
+                        return;
+                    }
+                    if (toDate === "") {
+                        showErrorMessage("يجب تحديد الى التاريخ");
+                        return;
+                    }
+
+                    // التحقق من التواريخ عبر AJAX
+                    $.ajax({
+                        url: "/SalariesAndWages/AdditionalAccountInformations/Check1",
+                        type: "GET",
+                        data: { from: fromDate, to: toDate },
+                        dataType: "json",
+                        success: function (data) {
+                            switch (data) {
+                                case 1:
+                                    v.softErrorMessage("اعداد التاريخ هذا موجود مسبقا!!");
+                                    break;
+                                case 2:
+                                    v.softErrorMessage("تاريخ البداية يتداخل مع تاريخ اعداد آخر!!");
+                                    break;
+                                case 3:
+                                    v.softErrorMessage("تاريخ النهاية يتداخل مع تاريخ اعداد آخر!!");
+                                    break;
+                                case 4:
+                                    v.softErrorMessage("تاريخ هذا الاعداد يتداخل مع تاريخ اعداد آخر!!");
+                                    break;
+                                default:
+                                    $("#AdditionalForm")[0].submit(); // إذا لم يكن هناك أي خطأ، أرسل النموذج
+                                    return;
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            showErrorMessage("حدث خطأ أثناء معالجة الطلب. حاول مرة أخرى.");
+                        }
+                    });
+                });
+            });
+        </script>
+
+
+
+
+}
+

@@ -1,0 +1,116 @@
+﻿@model IEnumerable<N.G.HRS.Areas.AalariesAndWages.Models.AdditionalAccountInformation>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
+}
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">  بيانات حساب الاضافي  </h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NormalCoefficient)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WeekendLaboratories)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OfficialHolidaysLab)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NightPeriodParameter)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LaboratoriesPerDay)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FromTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FromDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Notes)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NormalCoefficient)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WeekendLaboratories)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OfficialHolidaysLab)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NightPeriodParameter)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LaboratoriesPerDay)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FromTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FromDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Notes)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

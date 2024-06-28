@@ -1,0 +1,323 @@
+﻿@model N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "حافظة الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<div class="card">
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> حافظة الدوام</h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row mb-3">
+
+                                <div class="form-group col-md-7">
+                                    <label asp-for="EmployeeId" class="form-label"></label>
+                                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single  form-select" asp-items="ViewBag.EmployeeId">
+                                        <option value="" disabled selected></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label asp-for="SectionId" class="form-label"></label>
+                                    <select asp-for="SectionId" id="SectionId" class="js-example-basic-single  form-select" asp-items="ViewBag.SectionId">
+                                        <option value="" disabled selected></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="PeriodsId" class="form-label"></label>
+                                    <select asp-for="PeriodsId" id="PeriodsId" class="js-example-basic-single  form-select">
+                                        <option value="" disabled selected></option>
+                                        <option value="" disabled>أختر الموظف أولا</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4 ">
+                                    <label asp-for="TimeOnlyRecord" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr " id="flatpickr-time">
+                                        <input asp-for="TimeOnlyRecord" id="Time" tabindex="1" class="form-control" placeholder="أدخل الوقت"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="clock"></i>
+                                        </span>
+                                        <span asp-validation-for="TimeOnlyRecord" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4 ">
+                                    <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="Date" id="Date" tabindex="1" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="Date" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <div class="form-group form-check ">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" id="AddFingerPrint" type="checkbox" /> <span>إضافة البصمات الناقصة</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="display: none">
+                                    <div class="form-group form-check ">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" /> <span>اضافة بصمات الموظفين خلال الفترة المحددة </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="display: none">
+                                    <div class="form-group form-check ">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" /> <span> إعتماد الموظف خلال فترة من الوقت</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3" id="DropifyGroup" style="display: none">
+                                <div class="col-md-12 stretch-card">
+						            <div class="card">
+							            <div class="card-body">
+								            @* <h6 class="card-title">إضافة البصمات الناقصة</h6> *@
+								            <input type="file" id="myDropify"/>
+							            </div>
+						            </div>
+					            </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Note" class="form-label"></label>
+                                <input asp-for="Note" class="form-control" />
+                                <span asp-validation-for="Note" class="text-danger"></span>
+                            </div>
+                            <div class="">
+                                <input type="submit" value="جديد" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light">رجوع الى القائمة</a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            const employee = $('#EmployeeId').val();
+            const section = $('#SectionId').val();
+            const periodsId = $('#PeriodsId').val();
+            const addFingerPrint = document.getElementById("AddFingerPrint");
+            if (addFingerPrint.checked) {
+                $('#DropifyGroup').show();
+            }
+            else {
+                $('#DropifyGroup').hide();
+            }
+            $('#AddFingerPrint').change(function () {
+                console.log("dasdsd");
+                if (addFingerPrint.checked) {
+                    $('#DropifyGroup').show();
+                }
+                else{
+                    $('#DropifyGroup').hide();
+                }
+
+            });
+
+            $('#EmployeeId').on("change", function () {
+                if (this.value != "") {
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/AttendanceRecords/EmployeeInfo?id=" +
+                            this.value,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data.employee, function (key, value) {
+
+                                $('#SectionId').val(value.id).change();
+
+                            });
+                        },
+                    });
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/AttendanceRecords/EmployeePeriod?id=" +
+                            this.value,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $('#PeriodsId').empty();
+                            $('#PeriodsId').append(`<option value="" disabled selected></option>`);
+
+                            $.each(data.period, function (key, value) {
+                                var from = convertTime(value.from);
+                                var to = convertTime(value.to);
+                                $('#PeriodsId').append(`<option value="${value.id}">${value.name}    ${to} ~~ ${from} </option>`);
+
+                            });
+                        },
+                    });
+                }
+            });
+            //======
+            $('#Time').on("change", function () {
+                const employee = $('#EmployeeId').val();
+                const periods = $('#PeriodsId').val();
+                const time = this.value;
+                console.log(time);
+                if (employee != null) {
+                    if (periods != null) {
+                        if (this.value != "") {
+
+                            $.ajax({
+                                url:
+                                    "/MaintenanceControl/AttendanceRecords/PeriodInfo?id=" + periods,
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    $.each(data, function (key, item) {
+
+                                        if (time <= item.fromTime || time >= item.toTime) {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: `الوقت يجب ان يكون بين ${item.fromTime} و ${item.toTime} !!`,
+                                                iconColor: "#d33",
+                                                confirmButtonColor: "#d33",
+                                                confirmButtonText: "حسنا",
+                                            });
+                                            $('#Time').val("");
+
+                                        }
+                                    });
+                                },
+                            });
+                        }
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `يرجى اختيار الفترة أولا!!`,
+                            iconColor: "#d33",
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "حسنا",
+                        });
+                        $('#Time').val("");
+
+                    }
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار الموظف أولا!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    $('#Time').val("");
+
+                }
+
+            });
+            $('#SectionId').on("change", function () {
+                const periodsId = $('#PeriodsId').val();
+                console.log(periodsId);
+                const employee = $('#EmployeeId').val();
+                const section = $('#SectionId').val();
+                if (employee != null) {
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/AttendanceRecords/EmployeeInfo?id=" +
+                            employee,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data.employee, function (key, value) {
+                                if (value.id != section) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: `الموظف المحدد لا ينتمي الى هذا القسم!!`,
+                                        iconColor: "#d33",
+                                        confirmButtonColor: "#d33",
+                                        confirmButtonText: "حسنا",
+                                    });
+                                    $('#SectionId').val(value.id).change();
+
+                                }
+
+                            });
+                        },
+                    });
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `يرجى اختيار الموظف أولا!!`,
+                        iconColor: "#d33",
+                        confirmButtonColor: "#d33",
+                        confirmButtonText: "حسنا",
+                    });
+                    // $('#SectionId').val("").change();
+
+                }
+
+            });
+            //=
+            //===================================
+            function convertTime(timeString) {
+                const [hours, minutes] = timeString.split(':');
+                let convertedHours = hours % 12;
+                convertedHours = convertedHours ? convertedHours : 12; // Handle midnight as 12 AM
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                return `${ampm} ${convertedHours}:${minutes}`;
+            }
+            //===
+            function isTimeBetween(startTime, endTime, compareTime) {
+                // Convert times to Date objects
+                const start = new Date("1970-01-01T" + startTime);
+                const end = new Date("1970-01-01T" + endTime);
+                const compare = new Date("1970-01-01T" + compareTime);
+
+                // Check if the start time is before the end time (if not, it's a cross-day comparison)
+                if (start < end) {
+                    return compare >= start && compare <= end;
+                } else {
+                    // If start time is after end time, it means it's a cross-day comparison
+                    // So, check if compare time is either greater than or equal to start time OR less than or equal to end time
+                    return compare >= start || compare <= end;
+                }
+            }
+        });
+
+    </script>
+}

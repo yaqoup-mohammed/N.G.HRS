@@ -1,0 +1,86 @@
+﻿@model N.G.HRS.Areas.PenaltiesAndViolations.Models.Violations
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "مخالفة الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<h1>Create</h1>
+
+<h4>Violations</h4>
+<hr />
+
+
+@* ============================= *@
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            المخالفات
+        </li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">المخالفات</h6>
+
+                <form asp-action="Create">
+                    <div class="row ">
+                        <div class="mb-3 col-md-12">
+                            
+
+                            
+                            <label asp-for="ViolationsName" class="form-label">إسم نوع المخالفة</label>
+                            <input asp-for="ViolationsName" class="form-control" id="exampleInputUsername1" />
+                            <span asp-validation-for="ViolationsName" class="text-danger"></span>
+                        </div>
+                        <!-- Row -->
+                    </div>
+
+
+
+                    <!-- Row -->
+                    <div class="mb-3">
+                    
+
+                        <label asp-for="Notes" class="form-label">الملاحظات</label>
+                        <input asp-for="Notes" class="form-control" id="exampleInputPassword1" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary me-2">
+                        Submit
+                    </button>
+                    <button class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* ============================= *@
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,215 @@
+﻿@model IEnumerable<N.G.HRS.Areas.GeneralConfiguration.Models.Directorate>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "نماذج الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<hr> <!-- هنا الخط الفاصل -->
+
+<div class="sticky-header">
+    <div class="row mb-3">
+        <div class="col-md-12 text-right">
+            <a asp-action="Create" class="btn create-btn" style="font-size: 18px;">إنشاء جديد</a>
+        </div>
+        <div class="col-md-4 mx-auto">
+            <div class="form-group position-relative">
+               
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                       @*  <label for="search">بحث  :</label> *@
+                       @*  <span class="input-group-text search-icon">
+                            <i class="fa fa-search"></i>
+                        </span> *@
+                    </div>
+                    <input type="text" id="search" class="form-control search-input" placeholder="اكتب هنا للبحث">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th data-column="name" data-order="asc">
+                @Html.DisplayNameFor(model => model.Name)
+                <span class="sort-arrow">&#x2191;&#x2193;</span>
+            </th>
+            <th data-column="notes" data-order="asc">
+                @Html.DisplayNameFor(model => model.Notes)
+                <span class="sort-arrow">&#x2191;&#x2193;</span>
+            </th>
+            <th data-column="governorate" data-order="asc">
+                @Html.DisplayNameFor(model => model.Governorate.Name)
+                <span class="sort-arrow">&#x2191;&#x2193;</span>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="countryTable">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Governorate.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // ترتيب البيانات عند تحميل الصفحة
+            sortTable("name", "asc");
+
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase().replace(/\s+/g, '');
+                $("#countryTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().replace(/\s+/g, '').indexOf(value) > -1);
+                });
+            });
+
+            // ترتيب الجدول عند النقر على رؤوس الأعمدة
+            $('th[data-column]').on('click', function () {
+                var column = $(this).data('column');
+                var order = $(this).data('order');
+                sortTable(column, order);
+                $(this).data('order', order === 'asc' ? 'desc' : 'asc');
+            });
+
+            function sortTable(column, order) {
+                var rows = $('#countryTable tr').get();
+
+                rows.sort(function (a, b) {
+                    var A = getText(a, column);
+                    var B = getText(b, column);
+
+                    if (A < B) {
+                        return order === 'asc' ? -1 : 1;
+                    }
+                    if (A > B) {
+                        return order === 'asc' ? 1 : -1;
+                    }
+                    return 0;
+                });
+
+                $.each(rows, function (index, row) {
+                    $('#countryTable').append(row);
+                });
+            }
+
+            function getText(row, column) {
+                switch (column) {
+                    case 'name':
+                        return $(row).find('td').eq(0).text();
+                    case 'notes':
+                        return $(row).find('td').eq(1).text();
+                    case 'governorate':
+                        return $(row).find('td').eq(2).text();
+                    default:
+                        return '';
+                }
+            }
+        });
+    </script>
+
+    <style>
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1000;
+            padding: 10px 0;
+            margin-top: 20px; /* قم بتعديل هذه القيمة بما يتناسب مع ما ترغب فيه */
+        }
+
+        #countryTable tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .form-group label {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .input-group-text {
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 50px 0 0 50px; /* جعل الزاوية اليسرى للأيقونة مقوسة */
+        }
+
+        .input-group-prepend {
+            display: flex;
+            align-items: center;
+        }
+
+        .fa-search {
+            color: white; /* تغيير لون الأيقونة إلى الأبيض */
+            font-size: 20px; /* تغيير حجم الأيقونة */
+        }
+
+        #search {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .table {
+            font-size: 18px;
+        }
+
+        .create-btn {
+            background-color: #ffcc00;
+            border-color: #ffcc00;
+            color: #333;
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+            .create-btn:hover {
+                background-color: #e6b800;
+                border-color: #e6b800;
+            }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .sort-arrow {
+            cursor: pointer;
+            margin-left: 5px;
+        }
+    </style>
+}

@@ -1,0 +1,359 @@
+﻿@model N.G.HRS.Areas.GeneralConfiguration.Models.Directorate
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "نماذج الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<h1>Create</h1>
+
+<h4>Directorate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="fromdir">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" id="Directorate" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" id="DirectorateNotes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GovernorateId" class="control-label"></label>
+                <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId" as SelectList>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
+                <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display:none" />
+
+                <a asp-action="Index" class="btn btn-primary">الرجوع الى القائمة</a>
+                <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                <a asp-action="ExportToExcel" class="btn btn-primary">تصدير إلى Excel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@using (Html.BeginForm("Import", "Directorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "importForm" }))
+{
+    <div class="mb-3">
+        <label class="form-label">اختر ملف Excel</label>
+        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput1">
+    </div>
+    <button type="submit" class="btn btn-primary" id="uploadBtn1" style="display: none;">تحميل الملف</button>
+    
+    <div id="fileError1" class="text-danger" style="display: none;"></div>
+}
+
+@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+ *@
+
+<!-- جدول البيانات المؤقتة -->
+<table id="temporaryTable" class="table" style="display:none;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th> المديريات</th>
+            <th>الملاحظات</th>
+            <th>المحافظة</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+   
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        document.getElementById('fileInput1').addEventListener('change', function () {
+            var uploadBtn1 = document.getElementById('uploadBtn1');
+            var fileError1 = document.getElementById('fileError1');
+            var fileName1 = this.value.toLowerCase();
+
+            // التحقق من امتداد الملف
+            if (fileName1.endsWith('.xls') || fileName1.endsWith('.xlsx')) {
+                uploadBtn1.style.display = 'inline-block'; // عرض زر التحميل
+                fileError1.style.display = 'none'; // إخفاء رسالة الخطأ
+            } else {
+                uploadBtn1.style.display = 'none'; // إخفاء زر التحميل
+                fileError1.style.display = 'block'; // عرض رسالة الخطأ
+                this.value = ''; // إعادة تعيين قيمة الملف المختار
+                Swal.fire({
+                    icon: 'error',
+                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
+                    showConfirmButton: false,
+                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
+                });
+            }
+        });
+
+        document.getElementById('uploadBtn1').addEventListener('click', function (event) {
+            event.preventDefault(); // منع السلوك الافتراضي للزر
+            var form = document.getElementById('importForm');
+            form.submit(); // تقديم النموذج يدويا
+        });
+    </script>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            var counter = 1;
+
+            // التحقق من وجود المديرية
+            function CheckDirectorateExists(directorate, callback) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CheckDirectorateyExists", "Directorates")",
+                    data: { directorate: directorate },
+                    success: function (response) {
+                        callback(response.exists);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("حدث خطأ أثناء التحقق من وجود المديرية: " + error);
+                    }
+                });
+            }
+
+
+
+
+            // حفظ البيانات المعروضة في الجدول
+            $("#saveDataBtn").click(function () {
+                Swal.fire({
+                    title: 'هل أنت متأكد أنك تريد حفظ جميع البيانات؟',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم',
+                    cancelButtonText: 'لا'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tr").each(function () {
+                            var directorate = $(this).find("td:eq(1)").text();
+                            var notes = $(this).find("td:eq(2)").text();
+                            var governorateId = $(this).find("td:eq(4)").text();
+
+                            if (directorate && governorateId) {
+                                SaveDirectorateyData(directorate, notes ? notes : "", governorateId);
+                            }
+                            // عرض رسالة بعد حفظ البيانات بنجاح
+
+
+                        });
+                    }
+                });
+            });
+
+            // إضافة بيانات جديدة إلى الجدول
+            $("form").submit(function (event) {
+                event.preventDefault();
+                var directorate = $("#Directorate").val();
+                var notes = $("#DirectorateNotes").val();
+                var governorateId = $("#GovernorateId").val();
+                var governorateName = $("#GovernorateId option:selected").text();
+
+                // التحقق من وجود المديرية قبل إرسال النموذج
+                CheckDirectorateExists(directorate, function (exists) {
+                    if (exists) {
+                        // عرض رسالة بوجود المديرية
+                        Swal.fire({
+                            icon: "error",
+                            title: "اسم المديرية موجود بالفعل في قاعدة البيانات"
+                        });
+                    }
+                    // else
+                    // {
+                    //     // إضافة البيانات إلى الجدول
+                    //     if (directorate && governorateId) {
+                    //         SaveDirectorateyData(directorate, notes, governorateId);
+                    //     }
+                    // }
+
+                    else if (directorate && governorateId) {
+                        $("#temporaryTable tbody").append(
+                            "<tr>" +
+                            "<td>" + counter + "</td>" +
+                            "<td>" + directorate + "</td>" +
+                            "<td>" + notes + "</td>" +
+                            "<td>" + governorateName + "</td>" +
+                            "<td style='display:none' class='governorateId'>" + governorateId + "</td>" +
+                            "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
+                            "</tr>"
+
+                        );
+                        counter++;
+                        $("#Directorate").val('');
+                        $("#DirectorateNotes").val('');
+                        // $("#GovernorateId").val('');
+
+                        $("#saveDataBtn").show();
+
+                        $("#temporaryTable").show();
+                        $("#clearTableBtn").show(); // إظهار زر حذف الكل بعد إضافة العنصر الأول
+                    }
+                });
+            });
+
+            // حذف صف من الجدول
+            $(document).on("click", ".delete-row", function () {
+                $(this).closest("tr").remove();
+                counter--;
+
+                Swal.fire(
+                    'تم الحذف!',
+                    'تم حذف  البيانات بنجاح.',
+                    'success'
+                );
+
+                if ($("#temporaryTable tbody tr").length === 0) {
+                    $("#saveDataBtn").hide();
+                    $("#clearTableBtn").hide(); // إخفاء زر حذف الكل إذا لم يكن هناك بيانات
+                    $("#temporaryTable").hide();
+                }
+            });
+
+            // حذف البيانات من الجدول
+            $("#clearTableBtn").click(function () {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "سيتم حذف جميع البيانات!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذف الكل'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tbody").empty(); // حذف كل عناصر الجدول في الجسم
+                        counter = 1; // إعادة تعيين العداد إلى القيمة الافتراضية
+                        $("#saveDataBtn").hide(); // إخفاء زر حفظ البيانات
+                        $("#clearTableBtn").hide(); // إخفاء زر حذف الكل بعد الحذف
+                        $("#temporaryTable").hide();
+
+                        Swal.fire(
+                            'تم الحذف!',
+                            'تم حذف جميع البيانات بنجاح.',
+                            'success'
+                        )
+                    }
+                });
+            });
+
+            // حذف صف من الجدول
+            $(document).on("click", ".delete-row", function () {
+                $(this).closest("tr").remove();
+                counter--;
+
+                Swal.fire(
+                    'تم الحذف!',
+                    'تم حذف  البيانات بنجاح.',
+                    'success'
+                );
+
+                if ($("#temporaryTable tbody tr").length === 0) {
+                    $("#saveDataBtn").hide();
+                    $("#clearTableBtn").hide(); // إخفاء زر حذف الكل إذا لم يكن هناك بيانات
+                    $("#temporaryTable").hide();
+                }
+            });
+
+            // حذف البيانات من الجدول
+            $("#clearTableBtn").click(function () {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "سيتم حذف جميع البيانات!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذف الكل'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tbody").empty(); // حذف كل عناصر الجدول في الجسم
+                        counter = 1; // إعادة تعيين العداد إلى القيمة الافتراضية
+                        $("#saveDataBtn").hide(); // إخفاء زر حفظ البيانات
+                        $("#clearTableBtn").hide(); // إخفاء زر حذف الكل بعد الحذف
+                        $("#temporaryTable").hide();
+
+                        Swal.fire(
+                            'تم الحذف!',
+                            'تم حذف جميع البيانات بنجاح.',
+                            'success'
+                        )
+                    }
+                });
+            });
+
+
+            // حفظ البيانات المدخلة
+            function SaveDirectorateyData(directorate, notes, governorateId) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SaveDirectorateyData", "Directorates")",
+                    data: { directorate: directorate, notes: notes, governorateId: governorateId },
+                    success: function (response) {
+                        Swal.fire({
+                            title: 'تم الحفظ!',
+                            text: 'تم حفظ جميع البيانات بنجاح.',
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "@Url.Action("Index")";
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'حدث خطأ أثناء حفظ البيانات',
+                            text: error
+                        });
+                    }
+                });
+            }
+
+        });
+
+         // التحقق من اختيار المحافظة قبل الإرسال
+            $("#submit").click(function () {
+                var GovernorateId = $("#GovernorateId").val();
+                if (GovernorateId == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء أختيار المحافظة",
+                    });
+                }
+            });
+
+
+            // التحقق من اختيار المحافظة قبل الإرسال
+            $("#submit").click(function () {
+                var Directorate = $("#Directorate").val();
+                if (Directorate == "") {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء أختيار  المديرية",
+                    });
+                }
+            });
+
+    </script>
+}

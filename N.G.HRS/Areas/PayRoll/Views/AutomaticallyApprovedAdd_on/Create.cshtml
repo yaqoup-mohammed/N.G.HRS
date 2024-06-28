@@ -1,0 +1,290 @@
+﻿@model N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+    @{
+        ViewData["Title"] = "الدولة";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        ViewData["Active"] = "AddEmployee";
+        ViewData["Open"] = "Open2";
+        ViewData["OpenOperation"] = "OpenOperation2";
+    }
+<h1>Create</h1>
+
+<h4>AutomaticallyApprovedAdd_on</h4>
+<h4>تمت الموافقة تلقائيا على الإضافة</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="AutomaticallyForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label">  الموظف </label >
+                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"   >
+
+                    <option value=""> -- --</option>
+                    <option value="">أرجاء اختيار الموظف </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SectionsId" class="control-label"> القسم</label>
+                <select asp-for="SectionsId" id="SectionsId" class="form-control" asp-items="ViewBag.SectionsId">
+
+                    <option value=""> -- --</option>
+                    <option value=" "> أرجاء اختيار القسم</option>
+                </select>
+            </div>
+
+           
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">  اليوم</label>
+                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                <input asp-for="Date" id="Date" class="form-control" placeholder=" اليوم" data-input />
+                    <span class="input-group-text input-group-addon" data-toggle>
+                        <i data-feather="calendar"></i>
+                    </span>
+                </div>
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <div>
+                    <label asp-for="FromDate" class="control-label"> من تاريخ</label>
+                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                        <input asp-for="FromDate" id="FromDate" class="form-control" placeholder=" الى تاريخ" data-input />
+                        <span class="input-group-text input-group-addon" data-toggle>
+                            <i data-feather="calendar"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="FromDate" class="text-danger"></span>
+                </div>
+            </div>
+          
+            <div class="form-group">
+                <div >
+                    <label asp-for="ToDate" class="control-label"> الى تاريخ</label>
+                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                        <input asp-for="ToDate" id="ToDate" class="form-control" placeholder=" الى تاريخ" data-input />
+                        <span class="input-group-text input-group-addon" data-toggle>
+                            <i data-feather="calendar"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="ToDate" class="text-danger"></span>
+                </div>
+            </div>
+
+
+         
+            <div class="form-group">
+                <label asp-for="FromTime" class="form-label"> من الوقت</label>
+                <div class="input-group flatpickr " id="flatpickr-time">
+                    <input asp-for="FromTime" id="FromTime" class="form-control" placeholder="Select time"
+                           data-input />
+                    <span class="input-group-text input-group-addon" data-toggle>
+                        <i data-feather="clock"></i>
+                    </span>
+
+                </div>
+                <span asp-validation-for="FromTime" class="text-danger"></span>
+
+            </div>
+
+           
+            <div class ="form-group">
+                <label asp-for="ToTime" class="form-label"> الى الوقت</label>
+                <div class="input-group flatpickr " id="flatpickr-time">
+                    <input asp-for="ToTime" id="ToTime" class="form-control" placeholder="Select time"
+                           data-input />
+                    <span class="input-group-text input-group-addon" data-toggle>
+                        <i data-feather="clock"></i>
+                    </span>
+
+
+                </div>
+                <span asp-validation-for="ToTime" class="text-danger"></span>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Hours" class="control-label"> الساعات</label>
+                <input asp-for="Hours" id="Hours" class="form-control" placeholder=" الساعات" />
+                <span asp-validation-for="Hours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Minutes" class="control-label"> الدقائق</label>
+                <input asp-for="Minutes" id="Minutes" class="form-control" placeholder=" الدقائق" />
+                <span asp-validation-for="Minutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="AutomaticallyForm" value="حفظ" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            const v = new ValidationFromMe();
+
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            // // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            // const today = new Date().toISOString().split('T')[0];
+            // $("#Date").val(today);
+            // $("#FromDate").val(today);
+
+            $("#FromDate, #ToDate").on("input", function () {
+                var fromDate1 = $("#FromDate").val();
+                var toDate1 = $("#ToDate").val();
+
+                if (!isNaN(new Date(fromDate1).getTime()) && !isNaN(new Date(toDate1).getTime())) {
+                    if (new Date(toDate1) < new Date(fromDate1)) {
+                        $("#FromDate, #ToDate").val(""); // إعادة تعيين القيم
+                        showErrorMessage("تاريخ النهاية يجب أن يكون أكبر من تاريخ البداية");
+                    }
+                }
+            });
+
+            $("#FromTime, #ToTime").on('input', function () {
+                var fromTime = $("#FromTime").val();
+                var toTime = $("#ToTime").val();
+
+                if (fromTime && toTime) {
+                    // تأكد من أن وقت النهاية أكبر من وقت البداية
+                    if (!isEndTimeGreaterThanStartTime(fromTime, toTime)) {
+                        $("#ToTime").val(""); // إعادة تعيين حقل وقت النهاية
+                        showErrorMessage("وقت النهاية يجب أن يكون أكبر من وقت البداية");
+                    } else {
+                        calculateTimeDifference(fromTime, toTime);
+                    }
+                }
+            });
+
+            $("#AutomaticallyForm").on('submit', function (event) {
+               
+                var sectionsId = $("#SectionsId").val();
+                var employeeId = $("#EmployeeId").val();
+                var date = $("#Date").val();
+                var fromDate = $("#FromDate").val();
+                var toDate = $("#ToDate").val();
+                var fromTime = $("#FromTime").val();
+                var toTime = $("#ToTime").val();
+                var hours = $("#Hours").val();
+                var minutes = $("#Minutes").val();
+
+                if (date !== today) {
+                    showErrorMessage("يجب أن يكون التاريخ هو تاريخ اليوم");
+                    return false;
+                }
+                if (employeeId === "") {
+                    showErrorMessage("يجب أختيار اسم الموظف");
+                    return false;
+                } else if (sectionsId === "") {
+                    showErrorMessage("يجب أختيار القسم");
+                    return false;
+                } else if (date === "") {
+                    showErrorMessage("يجب أختيار اليوم");
+                    return false;
+                }
+
+                if (fromDate === "") {
+                    showErrorMessage("يجب أدخال تاريخ البداية");
+                    return false;
+                }
+                if (toDate === "") {
+                    showErrorMessage("يجب أدخال تاريخ النهاية");
+                    return false;
+                }
+
+                if (fromTime === "") {
+                    showErrorMessage("يجب أدخال وقت البداية");
+                    return false;
+                }
+                if (toTime === "") {
+                    showErrorMessage("يجب أدخال وقت النهاية");
+                    return false;
+                }
+
+                if (hours === "") {
+                    showErrorMessage("يجب أدخال عدد الساعات");
+                    return false;
+                }
+                if (minutes === "") {
+                    showErrorMessage("يجب أدخال عدد الدقائق");
+                    return false;
+                }
+            });
+
+            // تعيين الوقت الحالي لحقل FromTime عند تحميل الصفحة
+            $("#FromTime").val(moment().format('hh:mm A'));
+
+            // Function to calculate hours and minutes between two times
+            function calculateHoursBetweenWith24(startTime, endTime) {
+                const startTime24 = convertTo24HourFormat(startTime);
+                const endTime24 = convertTo24HourFormat(endTime);
+
+                const start = moment(startTime24, 'HH:mm');
+                const end = moment(endTime24, 'HH:mm');
+
+                // Calculate difference in minutes
+                let minutesDifference = end.diff(start, 'minutes');
+
+                // If the difference is negative, add 24 hours to it
+                if (minutesDifference < 0) {
+                    minutesDifference += 24 * 60; // 24 hours in minutes
+                }
+
+                // Convert minutes to hours and remaining minutes
+                const hours = Math.floor(minutesDifference / 60);
+                const remainingMinutes = minutesDifference % 60;
+
+                return { hours, minutes: remainingMinutes, totalMinutes: minutesDifference };
+            }
+
+            // Function to convert time to 24-hour format
+            function convertTo24HourFormat(time) {
+                return moment(time, ['hh:mm A']).format('HH:mm');
+            }
+
+            // Function to check if end time is greater than start time
+            function isEndTimeGreaterThanStartTime(startTime, endTime) {
+                const startTime24 = convertTo24HourFormat(startTime);
+                const endTime24 = convertTo24HourFormat(endTime);
+
+                const start = moment(startTime24, 'HH:mm');
+                const end = moment(endTime24, 'HH:mm');
+
+                return end.isAfter(start);
+            }
+
+            // Function to calculate and display time difference
+            function calculateTimeDifference(fromTime, toTime) {
+                const timeDifference = calculateHoursBetweenWith24(fromTime, toTime);
+                const hoursDecimal = timeDifference.hours + (timeDifference.minutes / 60);
+                $("#Hours").val(hoursDecimal.toFixed(2));
+                $("#Minutes").val(timeDifference.totalMinutes);
+            }
+        });
+    </script>
+
+
+
+
+
+
+}
