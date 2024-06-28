@@ -9,18 +9,12 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="space-between">
-                    <h3>Contracts</h3>
+<h1>Index</h1>
 
-                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
-
-                </div>
-                <div class="table-responsive">
-                    <table id="dataTableExample" class="table">
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -56,12 +50,6 @@
 }
     </tbody>
 </table>
-                </div>
-                </div>
-                </div>
-                </div>
-                </div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

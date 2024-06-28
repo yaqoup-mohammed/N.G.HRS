@@ -161,26 +161,5 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         {
             return _context.EmployeePerks.Any(e => e.Id == id);
         }
-
-        public IActionResult financialStatementsnclude(int id)
-        {
-            if (id != 0)
-            {
-                var account = _context.financialStatements.FirstOrDefault(x => x.EmployeeId == id);
-                if (account != null)
-                {
-                    var salary = account.BasicSalary;
-                    return Json(new { salary });
-                }
-                else
-                {
-                    var salary = 0;
-                    return Json(new { salary });
-                }
-            }
-            return NotFound();
-        }
-
-
     }
 }

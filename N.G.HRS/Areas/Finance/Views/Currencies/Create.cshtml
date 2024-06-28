@@ -9,64 +9,50 @@
 }
 
 
+<h1>Create</h1>
+
+<h4>Currency</h4>
+<hr />
 <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>العملات</h3>
-                        </div>
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label asp-for="CurrencyName" class="control-label"></label>
-                                    <input asp-for="CurrencyName" class="form-control" />
-                                    <span asp-validation-for="CurrencyName" class="text-danger"></span>
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="CurrencyCode" class="control-label"></label>
-                                    <input asp-for="CurrencyCode" class="form-control" />
-                                    <span asp-validation-for="CurrencyCode" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label asp-for="CurrentPriceOfCurrency" class="control-label"></label>
-                                    <input asp-for="CurrentPriceOfCurrency" class="form-control" />
-                                    <span asp-validation-for="CurrentPriceOfCurrency" class="text-danger"></span>
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="PreviousPriceOfCurrency" class="control-label"></label>
-                                    <input asp-for="PreviousPriceOfCurrency" class="form-control" />
-                                    <span asp-validation-for="PreviousPriceOfCurrency" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label asp-for="CurrencyNotes" class="control-label"></label>
-                                <input asp-for="CurrencyNotes" class="form-control" />
-                                <span asp-validation-for="CurrencyNotes" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CurrencyName" class="control-label"></label>
+                <input asp-for="CurrencyName" class="form-control" />
+                <span asp-validation-for="CurrencyName" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <label asp-for="CurrencyCode" class="control-label"></label>
+                <input asp-for="CurrencyCode" class="form-control" />
+                <span asp-validation-for="CurrencyCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrencyNotes" class="control-label"></label>
+                <input asp-for="CurrencyNotes" class="form-control" />
+                <span asp-validation-for="CurrencyNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentPriceOfCurrency" class="control-label"></label>
+                <input asp-for="CurrentPriceOfCurrency" class="form-control" />
+                <span asp-validation-for="CurrentPriceOfCurrency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PreviousPriceOfCurrency" class="control-label"></label>
+                <input asp-for="PreviousPriceOfCurrency" class="form-control" />
+                <span asp-validation-for="PreviousPriceOfCurrency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
 
-
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

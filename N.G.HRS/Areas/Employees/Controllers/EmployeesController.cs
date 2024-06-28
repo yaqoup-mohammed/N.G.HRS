@@ -168,7 +168,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                         TempData["Success"] = "تم الحفظ بنجاح";
                         return RedirectToAction(nameof(AddEmployee));
                     }
-                    else 
+                    else
                     {
                         TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
                         return View(viewModel);
@@ -335,9 +335,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             {
                 // Log the exception or handle it accordingly
                 TempData["Error"] = "حدث خطأ أثناء محاولة إضافة البيانات المالية للموظف";
-                TempData["Error"] = ex.Message;
-
-                return View(viewModel);
             }
 
             return View(viewModel);
@@ -496,64 +493,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             };
             SelectList listItems = new SelectList(employeeStatus, "id", "name");
             ViewData["Employee"] = listItems;
-        }
-        public async Task<IActionResult> Profile(int Id )
-        {
-            if (Id==0 ) { 
-                return NotFound();
-            }
-            var employee= _context.employee.Include(x=>x.JobDescription).Where(e => e.Id == Id).Select(x => new { authorities = x.JobDescription.Authorities, responsibilities = x.JobDescription.Responsibilities}).FirstOrDefault();
-            var external = _context.AdditionalExternalOfWork.Where(e => e.EmployeeId == Id).ToList();
-            return View(new { employee, external });
-        }
-        public async Task<IActionResult> details(int Id )
-        {
-            if(Id == 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                var employees = await _context.employee.Include(e => e.Departments)
-                .Include(e => e.FingerprintDevices).Include(e => e.JobDescription)
-                .Include(e => e.Manager).Include(e => e.Sections).FirstOrDefaultAsync(e => e.Id == Id);
-                //-------------------------------------------------------
-                var practicalExperiences = await _context.practicalExperiences
-                    .Include(p => p.Employee).FirstOrDefaultAsync(e => e.EmployeeId == Id);
-                //-------------------------------------------------------
-                var family = await _context.Family.Include(f => f.Employees)
-                    .Include(f => f.RelativesType).FirstOrDefaultAsync(e => e.EmployeeId == Id);
-                //-------------------------------------------------------
-                var personalData = await _context.personalDatas.Include(p => p.MaritalStatus)
-                    .Include(p => p.Nationality).Include(p => p.Religion).Include(p => p.Sex)
-                    .Include(p => p.employee).Include(p => p.guarantees).FirstOrDefaultAsync(e => e.EmployeeId == Id);
-                //-------------------------------------------------------
-                var guarantees = await _context.guarantees.Include(g => g.MaritalStatus).FirstOrDefaultAsync(e => e.Id == Id);
-                //-------------------------------------------------------
-                var FinancialStatements = await _context.financialStatements.Include(f => f.Currency).Include(f => f.employee).FirstOrDefaultAsync(e => e.EmployeeId == Id);
-                //-------------------------------------------------------
-                var TrainingCourses = await _context.trainingCourses.Include(t => t.EmployeeOne).FirstOrDefaultAsync(e => e.EmployeeId == Id);
-
-                //-------------------------------------------------------
-                var EmployeeArchives = await _context.EmployeeArchives.Include(e => e.employee).FirstOrDefaultAsync(e => e.EmployeeId == Id);
-
-                //-------------------------------------------------------
-
-
-                var viewModel = new EmployeeVM
-                {
-                    Employee = employees,
-                    PracticalExperiences = practicalExperiences,
-                    Family = family,
-                    PersonalData = personalData,
-                    Guarantees = guarantees,
-                    FinancialStatements = FinancialStatements,
-                    TrainingCourses = TrainingCourses,
-                    EmployeeArchives = EmployeeArchives,
-
-                };
-                return View(viewModel);
-            }
         }
         //TempData["Edit"] = "Edit";
         //var employeeViewModel = new EmployeeVM

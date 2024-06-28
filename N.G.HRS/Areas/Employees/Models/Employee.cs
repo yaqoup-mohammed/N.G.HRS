@@ -162,7 +162,6 @@ namespace N.G.HRS.Areas.Employees.Models
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
         public string? CurrentJop { get; internal set; }
-        public double? Salary { get; internal set; }
 
         //=========================================
         //public void FingerCapture()
