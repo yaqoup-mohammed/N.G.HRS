@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
 using N.G.HRS.FingerPrintSetting;
+using System.Net;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 {
@@ -10,8 +11,28 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
     public class FingerprintDevicesController : Controller
     {
         private readonly AppDbContext _context;
+        //public ZkemClient objZkeeper;
+        //private bool isDeviceConnected = false;
+        //public bool IsDeviceConnected
+        //{
+        //    get { return isDeviceConnected; }
+        //    set
+        //    {
+        //        isDeviceConnected = value;
+        //        if (isDeviceConnected)
+        //        {
+        //            TempData["message"] = "تم الاتصال بنجاح";
+        //        }
+        //        else
+        //        {
+        //            TempData["message"] = "تم قطع الاتصال بنجاح";
+        //            objZkeeper.Disconnect();
+                    
+        //        }
+        //    }
+        //}
         //private readonly ZkemClient _ZK;
-        //public FingerprintDevicesController(AppDbContext context, ZkemClient zkClient)
+        //public FingerprintDevicesController(AppDbContext context)
         //{
         //    _context = context;
         //    _ZK = zkClient;
@@ -25,7 +46,6 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             return View(await _context.fingerprintDevices.ToListAsync());
         }
-
         // GET: GeneralConfiguration/FingerprintDevices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -162,19 +182,77 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             return _context.fingerprintDevices.Any(e => e.Id == id);
         }
-        //public IActionResult CheackConnection(string ip)
+
+        //public IActionResult Ping(string ip)
         //{
-        //    try
+        //    //1== ping is successful
+        //    //2== ping is unsuccessful
+        //    //3== ping is unvalid ip
+        //    //4== ip is null
+        //    if (string.IsNullOrEmpty(ip))
         //    {
-        //        var result = _ZK.Connect_Net(ip);
-        //        return View(result);
+        //        return Json(4);
         //    }
-        //    catch (Exception ex)
+        //    var addrString = ip.Trim();
+        //    var value = 0;
+        //    if (UniversalStatic.ValidateIP(ip))
         //    {
-        //        TempData["SystemError"] = ex.Message;
-        //        return View();
+        //        if (UniversalStatic.PingTheDevice(ip))
+        //        {
+        //            value=1;
+        //            return Json(value);
+        //        }
+        //        else
+        //        {
+        //            value = 2;
+        //            return Json(value);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        value = 3;
+        //        return Json(value);
         //    }
         //}
 
+        //=============================================================
+        //private void RaiseDeviceEvent(object sender, string actionType)
+        //{
+        //    switch (actionType)
+        //    {
+        //        case UniversalStatic.acx_Disconnect:
+        //            {
+        //                //Raise Disconnected Event
+        //                TempData["message"] = " الجهاز غير  متصل 😴";
+        //                break;
+        //            }
+
+        //        default:
+        //            break;
+        //    }
+
+        //}
+        //public IActionResult Connect(string ip)
+        //{
+        //    //1== ping is successful
+        //    //2== ping is unsuccessful
+        //    //3== ping is unvalid ip
+        //    //4== ip is null
+        //    if (string.IsNullOrEmpty(ip))
+        //    {
+        //        return Json(4);
+        //    }
+        //    var ipAddress = ip.Trim();
+        //    objZkeeper = new ZkemClient(RaiseDeviceEvent);
+        //    IsDeviceConnected = objZkeeper.Connect_Net(ipAddress, 4370);
+
+        //    if (IsDeviceConnected)
+        //    {
+        //        //return Json(IsDeviceConnected);
+        //        return Json(1);
+        //    }
+        //    //return Json(IsDeviceConnected);
+        //    return Json(2);
+        //}
     }
 }

@@ -17,7 +17,7 @@ namespace N.G.HRS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -962,8 +962,9 @@ namespace N.G.HRS.Migrations
                         .HasMaxLength(170)
                         .HasColumnType("nvarchar(170)");
 
-                    b.Property<int>("EmployeeNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeeNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmploymentStatus")
                         .IsRequired()
@@ -1267,7 +1268,8 @@ namespace N.G.HRS.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.HasIndex("GuaranteesId");
+                    b.HasIndex("GuaranteesId")
+                        .IsUnique();
 
                     b.HasIndex("MaritalStatusId");
 
@@ -1857,6 +1859,9 @@ namespace N.G.HRS.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("DevicesNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("IpAddress")
                         .HasColumnType("nvarchar(max)");
@@ -3765,9 +3770,9 @@ namespace N.G.HRS.Migrations
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Guarantees", "guarantees")
-                        .WithMany("PersonalDataList")
-                        .HasForeignKey("GuaranteesId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .WithOne("personalData")
+                        .HasForeignKey("N.G.HRS.Areas.Employees.Models.PersonalData", "GuaranteesId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.MaritalStatus", "MaritalStatus")
@@ -4515,7 +4520,7 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.Employees.Models.Guarantees", b =>
                 {
-                    b.Navigation("PersonalDataList");
+                    b.Navigation("personalData");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.Currency", b =>

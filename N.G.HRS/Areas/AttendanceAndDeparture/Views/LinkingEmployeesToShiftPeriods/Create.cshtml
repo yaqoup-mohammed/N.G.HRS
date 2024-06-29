@@ -2,122 +2,151 @@
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "حسابات الموظفين";
+    ViewData["Title"] = "ربط الموظف بفترات المناوبة";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Create</h1>
+<div class="card">
+    <div class="card-header">
+        <h3>ربط الموظف بفترات المناوبة</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                  
+                    <div class="row">
 
-<h4>LinkingEmployeesToShiftPeriods</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DateOfStartWork"  class="control-label"></label>
-                <input asp-for="DateOfStartWork" id="DateOfStartWork" class="form-control" />
-                <span asp-validation-for="DateOfStartWork" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfEndWork" class="control-label"></label>
-                <input asp-for="DateOfEndWork" id="DateOfEndWork" class="form-control" />
-                <span asp-validation-for="DateOfEndWork" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentsId" class="control-label"></label>
-                <select asp-for="DepartmentsId" id="DepartmentsId" class="form-control" required asp-items="@(ViewData["DepartmentsId"] as SelectList)">
-                    <option value="">-- أختر الادارة --</option>
+                        <div class="col-md-4">
+                            <label asp-for="EmployeeId" class="control-label"></label>
+                            <select asp-for="EmployeeId" id="Employee" class="form-control" required asp-items="@(ViewData["EmployeeId"]as SelectList)">
+                                <option value="" selected disabled></option>
+                            </select>
+                        </div>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SectionsId" class="control-label"></label>
-                <select asp-for="SectionsId" id="SectionsId" class="form-control" required asp-items="@(ViewData["SectionsId"] as SelectList)">
-                    <option value="">-- أختر قسم --</option>
+                        <div class="col-md-4">
+                            <label asp-for="DepartmentsId" class="control-label"></label>
+                            <select asp-for="DepartmentsId" id="DepartmentsId" class="js-example-basic-single  form-select" required asp-items="@(ViewData["DepartmentsId"] as SelectList)">
+                                <option value="" selected disabled></option>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" id="Employee" class="form-control" required asp-items="@(ViewData["EmployeeId"]as SelectList)">
-                    <option value="">-- أختر موظف --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PermanenceModelsId" class="control-label"></label>
-                <select asp-for="PermanenceModelsId" id="PermanenceModelsId" class="form-control" required asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
-                    <option value="">-- أختر دوام --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="SectionsId" class="control-label"></label>
+                            <select asp-for="SectionsId" id="SectionsId" class="js-example-basic-single  form-select" required asp-items="@(ViewData["SectionsId"] as SelectList)">
+                                <option value="" selected disabled></option>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PeriodsId" class="control-label"></label>
-                <select asp-for="PeriodsId" class="form-control" id="PeriodsId" required asp-items="@(ViewData["PeriodsId"] as SelectList)">
-                    <option value="">-- أختر فترة --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
 
-                </select>
+                        <div class="col-md-6">
+                            <label asp-for="PermanenceModelsId" class="control-label"></label>
+                        <select asp-for="PermanenceModelsId" id="PermanenceModelsId" class="form-control" required asp-items="@(ViewData["PermanenceModelsId"] as SelectList)">
+                            <option value="" selected disabled></option>
+
+                        </select>
+                    </div>
+                        <div class="col-md-6">
+                            <label asp-for="PeriodsId" class="control-label"></label>
+                        <select asp-for="PeriodsId" class="form-control" id="PeriodsId" required asp-items="@(ViewData["PeriodsId"] as SelectList)">
+                            <option value="" selected disabled></option>
+                        </select>
+                    </div>    
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label asp-for="DateOfStartWork" class="form-label"></label><span class="text-danger">*</span>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="DateOfStartWork" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="DateOfStartWork" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class=" col-md-6">
+                            <label asp-for="DateOfEndWork" class="form-label"></label><span class="text-danger">*</span>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="DateOfEndWork" id="DateOfEndWork" class="form-control" placeholder="أدخل التاريخ"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="DateOfEndWork" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <input type="submit" value="Create" id="linkEmployee" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
+
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create"  id="linkEmployee" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-            <script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
 
-                const startTimeInput = document.getElementById("DateOfStartWork");
-                const endTimeInput = document.getElementById("DateOfEndWork");
+        const startTimeInput = document.getElementById("DateOfStartWork");
+        const endTimeInput = document.getElementById("DateOfEndWork");
 
-                function DateValidation() {
-                    if (!startTimeInput || !endTimeInput || !hoursInput) {
-                        alert("يجب تحديد تاريخ البدأ والنهاية!!");
-                        return;
-                    }
-                    if (startTimeInput > endTimeInput) {
-                        alert("تاريخ النهاية يجب أن يكون اكبر من تاريخ البدأ!!");
-                    }
-
-                }
-                if (calculateButton1) {
-                    calculateButton1.addEventListener("click", DateValidation);
-                } else {
-                    startTimeInput.addEventListener("change", DateValidation);
-                    endTimeInput.addEventListener("change", DateValidation);
-                }
-            </script>
-            @if (ViewData["error"] != null)
-            {
-                <script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "خطئ!!",
-                        text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
-                    });
-                </script>
+        function DateValidation() {
+            if (!startTimeInput || !endTimeInput || !hoursInput) {
+                alert("يجب تحديد تاريخ البدأ والنهاية!!");
+                return;
             }
-            else if (ViewData["Success"] != null)
-            {
-                <script>
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Your work has been saved",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                </script>
+            if (startTimeInput > endTimeInput) {
+                alert("تاريخ النهاية يجب أن يكون اكبر من تاريخ البدأ!!");
             }
-@*             //========================================================
+
+        }
+        if (calculateButton1) {
+            calculateButton1.addEventListener("click", DateValidation);
+        } else {
+            startTimeInput.addEventListener("change", DateValidation);
+            endTimeInput.addEventListener("change", DateValidation);
+        }
+    </script>
+    @if (ViewData["error"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "خطئ!!",
+                text: "تاريخ الانتهاء يجب ان يكوب اكبر من تاريخ البدء!!",
+            });
+        </script>
+    }
+    else if (ViewData["Success"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    }
+    @*             //========================================================
  *@            <script>
                        document.getElementById("linkEmployee").addEventListener("click", function (event) {
         @*             const selectElement = document.getElementById("Employee11");
@@ -129,7 +158,7 @@
                            text: "رجاء أختر موظف ",
                            });
                            } *@
-                                       const PeriodsId = document.getElementById("PeriodsId");
+                                                                                     const PeriodsId = document.getElementById("PeriodsId");
                            if (PeriodsId.value === "") {
                                event.preventDefault(); // Prevent form submission
                                Swal.fire({
@@ -175,6 +204,6 @@
                                });
                            }
                        });
-                </script>
+    </script>
 
 }

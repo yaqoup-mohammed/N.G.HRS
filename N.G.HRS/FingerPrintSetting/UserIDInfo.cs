@@ -7,6 +7,5 @@
         public int BackUpNumber { get; set; }
         public int Privelage { get; set; }
         public int Enabled { get; set; }
-
     }
 }

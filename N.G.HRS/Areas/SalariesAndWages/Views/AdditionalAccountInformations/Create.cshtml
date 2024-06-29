@@ -2,9 +2,11 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "نماذج الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 
@@ -110,19 +112,35 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Col -->
-                        <div class="col-sm-3">
-                            <label asp-for="Date" class="form-label"></label>
+                        <div class="col-sm-4">
+
+                            <label asp-for="FromDate" class="form-label"></label>
                             <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                <input asp-for="Date" class="form-control" placeholder="Select time"
+                                <input asp-for="FromDate" class="form-control" placeholder="Select time"
                                        data-input />
                                 <span class="input-group-text input-group-addon" data-toggle>
                                     <i data-feather="calendar"></i>
                                 </span>
-                                <span asp-validation-for="Date" class="text-danger"></span>
+                                <span asp-validation-for="FromDate" class="text-danger"></span>
 
                             </div>
                         </div>
+                        <div class="col-sm-3">
+
+
+                            <label asp-for="ToDate" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="ToDate" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="ToDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        
 
 
 
@@ -149,32 +167,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-
-                                    <label asp-for="FromDate" class="form-label"></label>
-                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                    <input asp-for="FromDate" class="form-control" placeholder="Select time"
-                                           data-input />
-                                    <span class="input-group-text input-group-addon" data-toggle>
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                    <span asp-validation-for="FromDate" class="text-danger"></span>
-
-                                </div>
-                        </div>
                         <div class="col-sm-3">
+                            <label asp-for="Date" class="form-label"></label>
+                            <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                <input asp-for="Date" class="form-control" placeholder="Select time"
+                                       data-input />
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                                <span asp-validation-for="Date" class="text-danger"></span>
 
-
-                                    <label asp-for="ToDate" class="form-label"></label>
-                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                    <input asp-for="ToDate" class="form-control" placeholder="Select time"
-                                           data-input />
-                                    <span class="input-group-text input-group-addon" data-toggle>
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                    <span asp-validation-for="ToDate" class="text-danger"></span>
-
-                                </div>
+                            </div>
                         </div>
 
                     </div>
