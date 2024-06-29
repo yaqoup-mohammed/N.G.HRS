@@ -9,93 +9,92 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<div class="card">
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3> EmployeeLoans   </h3>
-                    </div>
-                    <div class="card-body">
-                        @* <form id="dataForm">
-                        <!-- نموذج إدخال البيانات هنا -->
-                        <!-- تأكد من تضمين جميع حقول الإدخال هنا -->
-                        <!-- زر الحفظ -->
-                        </form> *@
 
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="ViolationDate" class="control-label"></label>
-                                <input asp-for="ViolationDate" class="form-control" />
-                                <span asp-validation-for="ViolationDate" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="DateOnly" class="control-label"></label>
-                                <input asp-for="DateOnly" class="form-control" />
-                                <span asp-validation-for="DateOnly" class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="ReceiptOfNotifications" /> @Html.DisplayNameFor(model => model.ReceiptOfNotifications)
-                                </label>
-                            </div>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" id="ExemptCheckbox" asp-for="Exempt" /> @Html.DisplayNameFor(model => model.Exempt)
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="EmployeeId" class="control-label"></label>
-                                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="@(ViewData["EmployeeId"] as SelectList)">
-                                    <option value="">   </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ViolationId" class="control-label"></label>
-                                <select asp-for="ViolationId" id="ViolationId" class="form-control" asp-items="@(ViewData["ViolationsId"] as SelectList)">
-                                    <option value="">   </option>
-                                </select>
-                                <span asp-validation-for="ViolationId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="PenaltiesId" class="control-label"></label>
-                                <select asp-for="PenaltiesId" id="PenaltiesId" class="form-control" asp-items="ViewBag.PenaltiesId">
-                                    <option value="">   </option>
-                                </select>
-                            </div>
-                            <div class="form-group" id="NumberPenaltiesId">
-                                <label asp-for="NumberPenalties" class="control-label"></label>
-                                <input asp-for="NumberPenalties" class="form-control" />
-                                <span asp-validation-for="NumberPenalties" class="text-danger"></span>
-                            </div>
-                            <div class="form-group" id="ndiscount">
-                                <label asp-for="Discounts" class="control-label"></label>
-                                <input asp-for="Discounts" id="DiscountsId" class="form-control" />
-                                <span asp-validation-for="Discounts" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Note" class="control-label"></label>
-                                <input asp-for="Note" class="form-control" />
-                                <span asp-validation-for="Note" class="text-danger"></span>
-                            </div>
+    
 
 
 
-                            <div class="form-group">
-                                <input type="submit" id="submit" value="create" class="btn btn-primary" />
-                            </div>
-                            <div>
 
+<h4>مخالفات الموظف</h4>
+<hr />
+<div class="row">
 
+    <div class="col-md-4">
 
-                        </form>
-                    </div>
-                </div>
+        @* <form id="dataForm">
+        <!-- نموذج إدخال البيانات هنا -->
+        <!-- تأكد من تضمين جميع حقول الإدخال هنا -->
+        <!-- زر الحفظ -->
+        </form> *@
+
+        <form asp-action="Create" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ViolationDate" class="control-label"></label>
+                <input asp-for="ViolationDate" class="form-control" />
+                <span asp-validation-for="ViolationDate" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <label asp-for="DateOnly" class="control-label"></label>
+                <input asp-for="DateOnly" class="form-control" />
+                <span asp-validation-for="DateOnly" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ReceiptOfNotifications" /> @Html.DisplayNameFor(model => model.ReceiptOfNotifications)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" id="ExemptCheckbox" asp-for="Exempt" /> @Html.DisplayNameFor(model => model.Exempt)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                    <option value="">   </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ViolationId" class="control-label"></label>
+                <select asp-for="ViolationId" id="ViolationId" class="form-control" asp-items="@(ViewData["ViolationsId"] as SelectList)">
+                    <option value="">   </option>
+                </select>
+                <span asp-validation-for="ViolationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PenaltiesId" class="control-label"></label>
+                <select asp-for="PenaltiesId" id="PenaltiesId" class="form-control" asp-items="ViewBag.PenaltiesId">
+                    <option value="">   </option>
+                </select>
+            </div>
+            <div class="form-group" id="NumberPenaltiesId">
+                <label asp-for="NumberPenalties" class="control-label"></label>
+                <input asp-for="NumberPenalties" class="form-control" />
+                <span asp-validation-for="NumberPenalties" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="ndiscount">
+                <label asp-for="Discounts" class="control-label"></label>
+                <input asp-for="Discounts" id="DiscountsId" class="form-control" />
+                <span asp-validation-for="Discounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" id="submit" value="create" class="btn btn-primary" />
+            </div>
+            <div>
+
+
+
+        </form>
     </div>
 </div>
 
@@ -244,7 +243,7 @@
                        }
                    });
 
-
+                  
 
     </script>
 
@@ -252,50 +251,50 @@
 
 
     <script>
-        //     $(document).ready(function () {
-        //         $('#saveButton').click(function (e) {
-        //             e.preventDefault(); // منع النموذج من الإرسال بشكل افتراضي
+    //     $(document).ready(function () {
+    //         $('#saveButton').click(function (e) {
+    //             e.preventDefault(); // منع النموذج من الإرسال بشكل افتراضي
 
-        //             // جمع البيانات المدخلة
-        //             var violationDate = $('#ViolationDate').val();
-        //             var dateOnly = $('#DateOnly').val();
-        //             var receiptOfNotifications = $('#ReceiptOfNotifications').prop('checked');
-        //             var exempt = $('#ExemptCheckbox').prop('checked');
-        //             var employeeId = $('#EmployeeId').val();
-        //             var violationId = $('#ViolationId').val();
-        //             var penaltiesId = $('#PenaltiesId').val();
-        //             var numberPenalties = $('#NumberPenalties').val();
-        //             var discounts = $('#Discounts').val();
-        //             var note = $('#Note').val();
+    //             // جمع البيانات المدخلة
+    //             var violationDate = $('#ViolationDate').val();
+    //             var dateOnly = $('#DateOnly').val();
+    //             var receiptOfNotifications = $('#ReceiptOfNotifications').prop('checked');
+    //             var exempt = $('#ExemptCheckbox').prop('checked');
+    //             var employeeId = $('#EmployeeId').val();
+    //             var violationId = $('#ViolationId').val();
+    //             var penaltiesId = $('#PenaltiesId').val();
+    //             var numberPenalties = $('#NumberPenalties').val();
+    //             var discounts = $('#Discounts').val();
+    //             var note = $('#Note').val();
 
-        //             // إضافة البيانات المدخلة كصف جديد في الجدول
-        //             var newRow = `
-        //                             <tr>
-        //                                 <td>${violationDate}</td>
-        //                                 <td>${dateOnly}</td>
-        //                                 <td>${receiptOfNotifications}</td>
-        //                                 <td>${exempt}</td>
-        //                                 <td>${employeeId}</td>
-        //                                 <td>${violationId}</td>
-        //                                 <td>${penaltiesId}</td>
-        //                                 <td>${numberPenalties}</td>
-        //                                 <td>${discounts}</td>
-        //                                 <td>${note}</td>
-        //                             </tr>
-        //                         `;
-        //             $('#tableBody').append(newRow);
+    //             // إضافة البيانات المدخلة كصف جديد في الجدول
+    //             var newRow = `
+    //                             <tr>
+    //                                 <td>${violationDate}</td>
+    //                                 <td>${dateOnly}</td>
+    //                                 <td>${receiptOfNotifications}</td>
+    //                                 <td>${exempt}</td>
+    //                                 <td>${employeeId}</td>
+    //                                 <td>${violationId}</td>
+    //                                 <td>${penaltiesId}</td>
+    //                                 <td>${numberPenalties}</td>
+    //                                 <td>${discounts}</td>
+    //                                 <td>${note}</td>
+    //                             </tr>
+    //                         `;
+    //             $('#tableBody').append(newRow);
 
-        //             // إرسال البيانات إلى الخادم لحفظها هنا
-        //             // يمكنك استخدام AJAX لإرسال البيانات إلى الخادم
+    //             // إرسال البيانات إلى الخادم لحفظها هنا
+    //             // يمكنك استخدام AJAX لإرسال البيانات إلى الخادم
 
-        //             // إعادة تعيين النموذج بعد الحفظ
-        //             $('#dataForm')[0].reset();
-        //         });
-        //     });
-        // </script>
+    //             // إعادة تعيين النموذج بعد الحفظ
+    //             $('#dataForm')[0].reset();
+    //         });
+    //     });
+    // </script>
 
 
-
+ 
 
 
 

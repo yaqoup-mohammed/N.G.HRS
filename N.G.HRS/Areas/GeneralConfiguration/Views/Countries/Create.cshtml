@@ -27,37 +27,31 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>الدولة</h3>
-                        </div>
-                        @Html.HiddenFor(x => x.Data, new { id = "CountryData" })
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="mb-3col-md-4">
-                                <label asp-for="Name" class="form-label"></label>
-                                <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" asp-items="ViewBag.Country" as SelectList />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3 col-md-4">
-                                <label asp-for="Notes" class="form-label"></label>
-                                <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
-                                <span asp-validation-for="Notes" class="text-danger"></span>
-                            </div>
-
-                            <input type="submit" id="submit" value="إضافة" class="btn btn-primary me-2" />
-                            <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
-                            <a asp-action="Index" class="btn btn-light">عودة الى القائمة</a>
-                        </form>
-
+                <h6 class="card-title">دليل الدول</h6>
+                @Html.HiddenFor(x => x.Data, new { id = "CountryData" })
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" asp-items="ViewBag.Country" as SelectList />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label asp-for="Notes" class="form-label"></label>
+                        <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+
+                    <input type="submit"  id="submit" value="إضافة" class="btn btn-primary me-2" />
+                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
+                    <a asp-action="Index" class="btn btn-light">عودة الى القائمة</a>
+                </form>
+
             </div>
         </div>
     </div>
-</div>
 
+</div>
 <div id="table" class="row" style="display: none">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -89,7 +83,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-
+ 
 
     <script>
         $(document).ready(function () {
@@ -135,7 +129,7 @@
                 counter--;
             });
 
-
+           
         });
 
         function saveCountryData(country, notes) {
@@ -159,8 +153,8 @@
                 }
             });
         }
-
-        // عرض رسالة خطئ اذا لم يتم ادخال البيانات
+                                        
+                            // عرض رسالة خطئ اذا لم يتم ادخال البيانات 
 
         // ===================================================================================
 
@@ -182,13 +176,13 @@
     </script>
 
 
-
+                
 
 
 
     @* شغال *@
 
-}
+    }
 
 
 
