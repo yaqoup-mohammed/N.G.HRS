@@ -11,26 +11,26 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
     public class FingerprintDevicesController : Controller
     {
         private readonly AppDbContext _context;
-        //public ZkemClient objZkeeper;
-        //private bool isDeviceConnected = false;
-        //public bool IsDeviceConnected
-        //{
-        //    get { return isDeviceConnected; }
-        //    set
-        //    {
-        //        isDeviceConnected = value;
-        //        if (isDeviceConnected)
-        //        {
-        //            TempData["message"] = "تم الاتصال بنجاح";
-        //        }
-        //        else
-        //        {
-        //            TempData["message"] = "تم قطع الاتصال بنجاح";
-        //            objZkeeper.Disconnect();
+        public ZkemClient objZkeeper;
+        private bool isDeviceConnected = false;
+        public bool IsDeviceConnected
+        {
+            get { return isDeviceConnected; }
+            set
+            {
+                isDeviceConnected = value;
+                if (isDeviceConnected)
+                {
+                    TempData["message"] = "تم الاتصال بنجاح";
+                }
+                else
+                {
+                    TempData["message"] = "تم قطع الاتصال بنجاح";
+                    objZkeeper.Disconnect();
                     
-        //        }
-        //    }
-        //}
+                }
+            }
+        }
         //private readonly ZkemClient _ZK;
         //public FingerprintDevicesController(AppDbContext context)
         //{
@@ -183,76 +183,76 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             return _context.fingerprintDevices.Any(e => e.Id == id);
         }
 
-        //public IActionResult Ping(string ip)
-        //{
-        //    //1== ping is successful
-        //    //2== ping is unsuccessful
-        //    //3== ping is unvalid ip
-        //    //4== ip is null
-        //    if (string.IsNullOrEmpty(ip))
-        //    {
-        //        return Json(4);
-        //    }
-        //    var addrString = ip.Trim();
-        //    var value = 0;
-        //    if (UniversalStatic.ValidateIP(ip))
-        //    {
-        //        if (UniversalStatic.PingTheDevice(ip))
-        //        {
-        //            value=1;
-        //            return Json(value);
-        //        }
-        //        else
-        //        {
-        //            value = 2;
-        //            return Json(value);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        value = 3;
-        //        return Json(value);
-        //    }
-        //}
+        public IActionResult Ping(string ip)
+        {
+            //1== ping is successful
+            //2== ping is unsuccessful
+            //3== ping is unvalid ip
+            //4== ip is null
+            if (string.IsNullOrEmpty(ip))
+            {
+                return Json(4);
+            }
+            var addrString = ip.Trim();
+            var value = 0;
+            if (UniversalStatic.ValidateIP(ip))
+            {
+                if (UniversalStatic.PingTheDevice(ip))
+                {
+                    value=1;
+                    return Json(value);
+                }
+                else
+                {
+                    value = 2;
+                    return Json(value);
+                }
+            }
+            else
+            {
+                value = 3;
+                return Json(value);
+            }
+        }
 
         //=============================================================
-        //private void RaiseDeviceEvent(object sender, string actionType)
-        //{
-        //    switch (actionType)
-        //    {
-        //        case UniversalStatic.acx_Disconnect:
-        //            {
-        //                //Raise Disconnected Event
-        //                TempData["message"] = " الجهاز غير  متصل 😴";
-        //                break;
-        //            }
+        private void RaiseDeviceEvent(object sender, string actionType)
+        {
+            switch (actionType)
+            {
+                case UniversalStatic.acx_Disconnect:
+                    {
+                        //Raise Disconnected Event
+                        TempData["message"] = " الجهاز غير  متصل 😴";
+                        break;
+                    }
 
-        //        default:
-        //            break;
-        //    }
+                default:
+                    break;
+            }
 
-        //}
-        //public IActionResult Connect(string ip)
-        //{
-        //    //1== ping is successful
-        //    //2== ping is unsuccessful
-        //    //3== ping is unvalid ip
-        //    //4== ip is null
-        //    if (string.IsNullOrEmpty(ip))
-        //    {
-        //        return Json(4);
-        //    }
-        //    var ipAddress = ip.Trim();
-        //    objZkeeper = new ZkemClient(RaiseDeviceEvent);
-        //    IsDeviceConnected = objZkeeper.Connect_Net(ipAddress, 4370);
+        }
+        public IActionResult Connect(string ip)
+        {
+            //1== ping is successful
+            //2== ping is unsuccessful
+            //3== ping is unvalid ip
+            //4== ip is null
+            if (string.IsNullOrEmpty(ip))
+            {
+                return Json(4);
+            }
+            var ipAddress = ip.Trim();
+            objZkeeper = new ZkemClient(RaiseDeviceEvent);
+            IsDeviceConnected = objZkeeper.Connect_Net(ipAddress, 4370);
 
-        //    if (IsDeviceConnected)
-        //    {
-        //        //return Json(IsDeviceConnected);
-        //        return Json(1);
-        //    }
-        //    //return Json(IsDeviceConnected);
-        //    return Json(2);
-        //}
+            if (IsDeviceConnected)
+            {
+                //return Json(IsDeviceConnected);
+                return Json(1);
+            }
+            //return Json(IsDeviceConnected);
+            return Json(2);
+        }
     }
 }

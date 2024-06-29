@@ -8,52 +8,64 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+<h1>Create</h1>
+
+<h4>ContractTerms</h4>
+<hr />
 <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ModelName" class="control-label"></label>
+                <input asp-for="ModelName" class="form-control" />
+                <span asp-validation-for="ModelName" class="text-danger"></span>
+            </div>
+
+
+
+
+@*             <div class="row">
+                <div class="col-sm-12 grid-margin stretch-card">
                     <div class="card">
-                        <div class="card-header">
-                            <h3>دليل نماذج العقود</h3>
+                        <div class="card-body">
+                             <div class="editor-toolbar" role="toolbar"><button class="bold" type="button" title="Bold (Ctrl-B)" aria-label="Bold" tabindex="-1" _mstaria-label="43186"><i class="fa fa-bold"></i></button><button class="italic" type="button" title="Italic (Ctrl-I)" aria-label="Italic" tabindex="-1" _mstaria-label="74555"><i class="fa fa-italic"></i></button><button class="heading" type="button" title="Heading (Ctrl-H)" aria-label="Heading" tabindex="-1" _mstaria-label="90987"><i class="fa fa-header fa-heading"></i></button><i class="separator">|</i><button class="quote" type="button" title="Quote (Ctrl-')" aria-label="Quote" tabindex="-1" _mstaria-label="62049"><i class="fa fa-quote-left"></i></button><button class="unordered-list" type="button" title="Generic List (Ctrl-L)" aria-label="Generic List" tabindex="-1" _mstaria-label="176241"><i class="fa fa-list-ul"></i></button><button class="ordered-list" type="button" title="Numbered List (Ctrl-Alt-L)" aria-label="Numbered List" tabindex="-1" _mstaria-label="201474"><i class="fa fa-list-ol"></i></button><i class="separator">|</i><button class="link" type="button" title="Create Link (Ctrl-K)" aria-label="Create Link" tabindex="-1" _mstaria-label="150384"><i class="fa fa-link"></i></button><button class="image" type="button" title="Insert Image (Ctrl-Alt-I)" aria-label="Insert Image" tabindex="-1" _mstaria-label="173901"><i class="fa fa-image"></i></button><i class="separator">|</i><button class="preview no-disable" type="button" title="Toggle Preview (Ctrl-P)" aria-label="Toggle Preview" tabindex="-1" _mstaria-label="230568"><i class="fa fa-eye"></i></button><button class="side-by-side no-disable no-mobile" type="button" title="Toggle Side by Side (F9)" aria-label="Toggle Side by Side" tabindex="-1" _mstaria-label="303433"><i class="fa fa-columns"></i></button><button class="fullscreen no-disable no-mobile" type="button" title="Toggle Fullscreen (F11)" aria-label="Toggle Fullscreen" tabindex="-1" _mstaria-label="314509"><i class="fa fa-arrows-alt"></i></button><i class="separator">|</i><button class="guide no-disable" type="button" title="Markdown Guide" aria-label="Markdown Guide" tabindex="-1" _mstaria-label="225823"><i class="fa fa-question-circle"></i></button></div>
+                          <textarea asp-for="StatementOfConditions" class="form-control" name="tinymce" id="easyMdeExample" rows="10" style="display"></textarea>
+                            <div class="EasyMDEContainer" role="application"><div class="editor-toolbar" role="toolbar"><button class="bold" type="button" title="Bold (Ctrl-B)" aria-label="Bold" tabindex="-1" _mstaria-label="43186"><i class="fa fa-bold"></i></button><button class="italic" type="button" title="Italic (Ctrl-I)" aria-label="Italic" tabindex="-1" _mstaria-label="74555"><i class="fa fa-italic"></i></button><button class="heading" type="button" title="Heading (Ctrl-H)" aria-label="Heading" tabindex="-1" _mstaria-label="90987"><i class="fa fa-header fa-heading"></i></button><i class="separator">|</i><button class="quote" type="button" title="Quote (Ctrl-')" aria-label="Quote" tabindex="-1" _mstaria-label="62049"><i class="fa fa-quote-left"></i></button><button class="unordered-list" type="button" title="Generic List (Ctrl-L)" aria-label="Generic List" tabindex="-1" _mstaria-label="176241"><i class="fa fa-list-ul"></i></button><button class="ordered-list" type="button" title="Numbered List (Ctrl-Alt-L)" aria-label="Numbered List" tabindex="-1" _mstaria-label="201474"><i class="fa fa-list-ol"></i></button><i class="separator">|</i><button class="link" type="button" title="Create Link (Ctrl-K)" aria-label="Create Link" tabindex="-1" _mstaria-label="150384"><i class="fa fa-link"></i></button><button class="image" type="button" title="Insert Image (Ctrl-Alt-I)" aria-label="Insert Image" tabindex="-1" _mstaria-label="173901"><i class="fa fa-image"></i></button><i class="separator">|</i><button class="preview no-disable" type="button" title="Toggle Preview (Ctrl-P)" aria-label="Toggle Preview" tabindex="-1" _mstaria-label="230568"><i class="fa fa-eye"></i></button><button class="side-by-side no-disable no-mobile" type="button" title="Toggle Side by Side (F9)" aria-label="Toggle Side by Side" tabindex="-1" _mstaria-label="303433"><i class="fa fa-columns"></i></button><button class="fullscreen no-disable no-mobile" type="button" title="Toggle Fullscreen (F11)" aria-label="Toggle Fullscreen" tabindex="-1" _mstaria-label="314509"><i class="fa fa-arrows-alt"></i></button><i class="separator">|</i><button class="guide no-disable" type="button" title="Markdown Guide" aria-label="Markdown Guide" tabindex="-1" _mstaria-label="225823"><i class="fa fa-question-circle"></i></button></div><div class="CodeMirror cm-s-easymde CodeMirror-wrap" translate="no"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 15px; left: 246.188px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; min-height: 1em; outline: none;"></textarea></div><div class="CodeMirror-vscrollbar" tabindex="-1" cm-not-content="true"><div style="min-width: 1px; height: 0px;"></div></div><div class="CodeMirror-hscrollbar" tabindex="-1" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1" style="min-height: 300px;"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: -17px; border-right-width: 33px; min-height: 29px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre class="CodeMirror-line-like"><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors" style="visibility: hidden;"><div class="CodeMirror-cursor" style="left: 235.188px; top: 0px; height: 20.8px;">&nbsp;</div></div><div class="CodeMirror-code" role="presentation"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-null cm-spell-error">asddasd</span><span class="cm-formatting cm-formatting-strong cm-strong">**</span><span class="cm-strong cm-spell-error">dadadsdads</span><span class="cm-formatting cm-formatting-strong cm-strong">**</span><span class="cm-null cm-spell-error">asdasdasdd</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 33px; width: 1px; border-bottom: 0px solid transparent; top: 29px;"></div><div class="CodeMirror-gutters" style="display: none; height: 62px;"></div></div></div><div class="editor-preview-side editor-preview"></div><div class="editor-statusbar"><span class="autosave"></span><span class="lines">1</span><span class="words">3</span><span class="cursor">1:32</span></div></div>
+                            <span asp-validation-for="StatementOfConditions" class="text-danger"></span>
                         </div>
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="ModelName" class="control-label"></label>
-                                <input asp-for="ModelName" class="form-control" />
-                                <span asp-validation-for="ModelName" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Notes" class="control-label"></label>
-                                <input asp-for="Notes" class="form-control" />
-                                <span asp-validation-for="Notes" class="text-danger"></span>
-                            </div>
-
-
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
-
-                            </div>
-                        </form>
-
+                    </div>
+                </div>
+            </div> *@
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">EasyMDE</h4>
+                            <p class="text-muted mb-3">Read the <a href="https://easy-markdown-editor.tk/" target="_blank"> Official EasyMDE Documentation </a>for a full list of instructions and other options.</p>
+                            <textarea class="form-control" name="tinymce" id="easyMdeExample" rows="10" style="display: none;"></textarea><div class="EasyMDEContainer" role="application"><div class="editor-toolbar" role="toolbar"><button class="bold" type="button" title="Bold (Ctrl-B)" aria-label="Bold" tabindex="-1" _mstaria-label="43186"><i class="fa fa-bold"></i></button><button class="italic" type="button" title="Italic (Ctrl-I)" aria-label="Italic" tabindex="-1" _mstaria-label="74555"><i class="fa fa-italic"></i></button><button class="heading" type="button" title="Heading (Ctrl-H)" aria-label="Heading" tabindex="-1" _mstaria-label="90987"><i class="fa fa-header fa-heading"></i></button><i class="separator">|</i><button class="quote" type="button" title="Quote (Ctrl-')" aria-label="Quote" tabindex="-1" _mstaria-label="62049"><i class="fa fa-quote-left"></i></button><button class="unordered-list" type="button" title="Generic List (Ctrl-L)" aria-label="Generic List" tabindex="-1" _mstaria-label="176241"><i class="fa fa-list-ul"></i></button><button class="ordered-list" type="button" title="Numbered List (Ctrl-Alt-L)" aria-label="Numbered List" tabindex="-1" _mstaria-label="201474"><i class="fa fa-list-ol"></i></button><i class="separator">|</i><button class="link" type="button" title="Create Link (Ctrl-K)" aria-label="Create Link" tabindex="-1" _mstaria-label="150384"><i class="fa fa-link"></i></button><button class="image" type="button" title="Insert Image (Ctrl-Alt-I)" aria-label="Insert Image" tabindex="-1" _mstaria-label="173901"><i class="fa fa-image"></i></button><i class="separator">|</i><button class="preview no-disable" type="button" title="Toggle Preview (Ctrl-P)" aria-label="Toggle Preview" tabindex="-1" _mstaria-label="230568"><i class="fa fa-eye"></i></button><button class="side-by-side no-disable no-mobile" type="button" title="Toggle Side by Side (F9)" aria-label="Toggle Side by Side" tabindex="-1" _mstaria-label="303433"><i class="fa fa-columns"></i></button><button class="fullscreen no-disable no-mobile" type="button" title="Toggle Fullscreen (F11)" aria-label="Toggle Fullscreen" tabindex="-1" _mstaria-label="314509"><i class="fa fa-arrows-alt"></i></button><i class="separator">|</i><button class="guide no-disable" type="button" title="Markdown Guide" aria-label="Markdown Guide" tabindex="-1" _mstaria-label="225823"><i class="fa fa-question-circle"></i></button></div><div class="CodeMirror cm-s-easymde CodeMirror-wrap" translate="no"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 15px; left: 246.188px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; min-height: 1em; outline: none;"></textarea></div><div class="CodeMirror-vscrollbar" tabindex="-1" cm-not-content="true"><div style="min-width: 1px; height: 0px;"></div></div><div class="CodeMirror-hscrollbar" tabindex="-1" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1" style="min-height: 300px;"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: -17px; border-right-width: 33px; min-height: 29px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre class="CodeMirror-line-like"><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors" style="visibility: hidden;"><div class="CodeMirror-cursor" style="left: 235.188px; top: 0px; height: 20.8px;">&nbsp;</div></div><div class="CodeMirror-code" role="presentation"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-null cm-spell-error">asddasd</span><span class="cm-formatting cm-formatting-strong cm-strong">**</span><span class="cm-strong cm-spell-error">dadadsdads</span><span class="cm-formatting cm-formatting-strong cm-strong">**</span><span class="cm-null cm-spell-error">asdasdasdd</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 33px; width: 1px; border-bottom: 0px solid transparent; top: 29px;"></div><div class="CodeMirror-gutters" style="display: none; height: 62px;"></div></div></div><div class="editor-preview-side editor-preview"></div><div class="editor-statusbar"><span class="autosave"></span><span class="lines">1</span><span class="words">3</span><span class="cursor">1:32</span></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractsId" class="control-label"></label>
+                <select asp-for="ContractsId" class ="form-control" asp-items="ViewBag.ContractsId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+</div>
 
-
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
-
-
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

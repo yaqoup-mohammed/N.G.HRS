@@ -65,7 +65,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 await _educationalQualificationRepository.AddAsync(educationalQualification);
                 await Task.Delay(1000);
 
-                TempData["Success"] = "تم الحفظ بنجاح";
+                TempData["Success"] = "EducationalQualification created successfully.";
                 return RedirectToAction(nameof(Index));
             }
             return View(educationalQualification);

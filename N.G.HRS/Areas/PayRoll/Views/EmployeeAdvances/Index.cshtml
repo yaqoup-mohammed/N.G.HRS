@@ -4,81 +4,71 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "_Layout";
+
 }
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="space-between">
-                    <h3>   EmployeeAdvances</h3>
 
-                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+<h1>Index</h1>
 
-                </div>
-                <div class="table-responsive">
-                    <table id="dataTableExample" class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Employee)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DepartmentId)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SectionId)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.EmployeeAccount)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Currency)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Amount)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Notes)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Departments)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Sections)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EmployeeAccount.Id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Currency.CurrencyCode)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Amount)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Notes)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SectionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SectionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeAccount.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency.CurrencyCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
