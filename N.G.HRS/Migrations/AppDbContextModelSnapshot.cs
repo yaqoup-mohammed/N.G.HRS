@@ -17,7 +17,7 @@ namespace N.G.HRS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -728,8 +728,6 @@ namespace N.G.HRS.Migrations
 
                     b.Property<DateTime?>("FromTime")
                         .HasColumnType("datetime2");
-                    b.Property<TimeOnly?>("FromTime")
-                        .HasColumnType("time");
 
                     b.Property<int?>("Hours")
                         .HasColumnType("int");
@@ -761,8 +759,6 @@ namespace N.G.HRS.Migrations
 
                     b.Property<DateTime?>("ToTime")
                         .HasColumnType("datetime2");
-                    b.Property<TimeOnly?>("ToTime")
-                        .HasColumnType("time");
 
                     b.Property<bool>("Tuesday")
                         .HasColumnType("bit");
@@ -1008,9 +1004,6 @@ namespace N.G.HRS.Migrations
 
                     b.Property<DateOnly?>("RehireDate")
                         .HasColumnType("date");
-
-                    b.Property<double?>("Salary")
-                        .HasColumnType("float");
 
                     b.Property<int>("SectionsId")
                         .HasColumnType("int");
@@ -1696,9 +1689,6 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("FinanceAccountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1711,8 +1701,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FinanceAccountId");
 
                     b.ToTable("FinanceAccountType");
                 });
@@ -2221,9 +2209,6 @@ namespace N.G.HRS.Migrations
 
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
-                    b.Property<string>("Assignment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("BetweenToDate")
                         .HasColumnType("bit");
@@ -2593,7 +2578,6 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SupervisorId")
-                    b.Property<int>("SupervisorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ToDate")
@@ -3009,13 +2993,9 @@ namespace N.G.HRS.Migrations
 
                     b.Property<double?>("Hours")
                         .HasColumnType("float");
-                    b.Property<string>("Hours")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Minutes")
                         .HasColumnType("int");
-                    b.Property<string>("Minutes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SectionsId")
                         .HasColumnType("int");
@@ -3075,14 +3055,12 @@ namespace N.G.HRS.Migrations
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("DepartmentsId");
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmployeeAccountId");
 
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("SectionsId");
-                    b.HasIndex("SectionId");
 
                     b.ToTable("EmployeeAdvances");
                 });
@@ -3140,8 +3118,6 @@ namespace N.G.HRS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("Amount")
-                    b.Property<double?>("Amount")
-                        .IsRequired()
                         .HasColumnType("float");
 
                     b.Property<DateTime>("Date")
@@ -3152,14 +3128,12 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmployeeId")
-                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Percentage")
-                    b.Property<int?>("Percentage")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -3178,46 +3152,30 @@ namespace N.G.HRS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Absence")
-                    b.Property<decimal?>("Absence")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("AdvancesAndLoans")
-                    b.Property<decimal?>("AdvancesAndLoans")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Date")
-                    b.Property<DateTime?>("Date")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EmployeeId")
-                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("EndOfServiceBenefits")
-                    b.Property<decimal?>("EndOfServiceBenefits")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("EndOfServiceDate")
-                    b.Property<DateTime?>("EndOfServiceDate")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("LastApprovedSalary")
-                    b.Property<decimal?>("LastApprovedSalary")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("OtherDiscounts")
-                    b.Property<decimal?>("OtherDiscounts")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("OtherEntitlements")
-                    b.Property<decimal?>("OtherEntitlements")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ReasonForClearance")
@@ -3228,13 +3186,9 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
-                    b.Property<decimal?>("Total")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("VacationEntitlements")
-                    b.Property<decimal?>("VacationEntitlements")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -4322,17 +4276,6 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.FinanceAccountType", b =>
-                {
-                    b.HasOne("N.G.HRS.Areas.Finance.Models.FinanceAccount", "FinanceAccount")
-                        .WithMany("FinanceAccountTypeList")
-                        .HasForeignKey("FinanceAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FinanceAccount");
-                });
-
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.ContractTerms", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Contracts", "Contracts")
@@ -4491,8 +4434,6 @@ namespace N.G.HRS.Migrations
                         .WithMany("SupervisorEPList")
                         .HasForeignKey("SupervisorId")
                         .OnDelete(DeleteBehavior.NoAction);
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
 
                     b.Navigation("Employee");
 
@@ -4648,18 +4589,14 @@ namespace N.G.HRS.Migrations
                 {
                     b.HasOne("N.G.HRS.Areas.Finance.Models.Currency", "Currency")
                         .WithMany()
-                        .WithMany("EmployeeAdvancesList")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Departments", "Departments")
                         .WithMany("EmployeeAdvancesList")
                         .HasForeignKey("DepartmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.AalariesAndWages.Models.EmployeeAccount", "EmployeeAccount")
@@ -4678,8 +4615,6 @@ namespace N.G.HRS.Migrations
                         .WithMany("EmployeeAdvancesList")
                         .HasForeignKey("SectionsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Currency");
@@ -4719,7 +4654,6 @@ namespace N.G.HRS.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });
@@ -4731,7 +4665,6 @@ namespace N.G.HRS.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });
@@ -4765,7 +4698,6 @@ namespace N.G.HRS.Migrations
                         .WithMany("VacationAllowancesList")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Employee");
@@ -5029,8 +4961,6 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("AllowancesAndDiscountsList");
 
-                    b.Navigation("EmployeeAdvancesList");
-
                     b.Navigation("EntitlementsAndDeductionsList");
 
                     b.Navigation("FinancialStatementsList");
@@ -5043,8 +4973,6 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.FinanceAccount", b =>
                 {
                     b.Navigation("EmployeeAccountsList");
-
-                    b.Navigation("FinanceAccountTypeList");
 
                     b.Navigation("SectionsAccountsList");
                 });
