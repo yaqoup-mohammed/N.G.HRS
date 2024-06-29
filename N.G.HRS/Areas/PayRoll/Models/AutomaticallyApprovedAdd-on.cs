@@ -31,28 +31,13 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public TimeOnly FromTime { get; set; }
         [DataType(DataType.Time)]
         public TimeOnly ToTime { get; set; }
-        public double? Hours
-        {
-            get
-            {
-                return _numberOfHours;
-            }
-            set
-            {
-                _numberOfHours = CalculateHours();
-            }
-        }
-        public int? Minutes
-        {
-            get
-            {
-                return _numerOfMinutes;
-            }
-            set
-            {
-                _numerOfMinutes = CalculateMinutesBetween();
-            }
-        }
+        [Display(Name = "عدد الساعات")]
+
+        public string? Hours    {  get; set;   }
+        [Display(Name = "عدد الدقائق")]
+
+        public string? Minutes {  get; set;   }
+
 
         public double CalculateHours()
         {
