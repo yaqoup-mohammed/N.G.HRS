@@ -8,68 +8,56 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">    
-        <div class="card">
-            <div class="card-body">
-                <div class="space-between">
-                    <h3>Currency</h3>
+<h1>Index</h1>
 
-                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
-
-                </div>
-                <div class="table-responsive">
-                    <table id="dataTableExample" class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CurrencyName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CurrencyCode)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CurrencyNotes)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CurrentPriceOfCurrency)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PreviousPriceOfCurrency)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CurrencyName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CurrencyCode)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CurrencyNotes)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CurrentPriceOfCurrency)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PreviousPriceOfCurrency)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrencyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrencyCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrencyNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentPriceOfCurrency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreviousPriceOfCurrency)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPriceOfCurrency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreviousPriceOfCurrency)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
