@@ -22,18 +22,18 @@
 
                 <!-- Row -->
                 <form asp-action="Create" method="post">
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="row">
-@*                         <div class="col-sm-6" style="display: none">
-                            <div class="mb-3">
-                                <label asp-for="permanenceModels.Id"  class="control-label"></label>
-                                <input asp-for="permanenceModels.Id" id="permananceId"
-                                       class="form-control" />
-                            </div>
-                        </div>      *@                  
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row set">
+                        @*                         <div class="col-sm-6" style="display: none">
+                        <div class="mb-3">
+                        <label asp-for="permanenceModels.Id"  class="form-label"></label>
+                        <input asp-for="permanenceModels.Id" id="permananceId"
+                        class="form-control" />
+                        </div>
+                        </div>      *@
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label asp-for="permanenceModels.PermanenceName" class="control-label"></label>
+                                <label asp-for="permanenceModels.PermanenceName" class="form-label"></label>
                                 <input asp-for="permanenceModels.PermanenceName" id="PermanenceName" class="form-control" />
                                 <span asp-validation-for="permanenceModels.PermanenceName" class="text-danger"></span>
                             </div>
@@ -41,17 +41,31 @@
                         <div class="col-sm-3">
                             <div class="mb-3">
 
-                                <label asp-for="permanenceModels.FromDate" class="control-label"></label>
-                                <input asp-for="permanenceModels.FromDate" class="form-control" />
-                                <span asp-validation-for="permanenceModels.FromDate" class="text-danger"></span>
+                                <label asp-for="permanenceModels.FromDate" class="form-label"></label><span class="text-danger">*</span>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="permanenceModels.FromDate" id="pMFromDate" class="form-control" placeholder="أدخل التاريخ"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                    <span asp-validation-for="permanenceModels.FromDate" class="text-danger"></span>
+
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="mb-3">
 
-                                <label asp-for="permanenceModels.ToDate" class="control-label"></label>
-                                <input asp-for="permanenceModels.ToDate" id="ToDate" class="form-control" />
-                                <span asp-validation-for="permanenceModels.ToDate" class="text-danger"></span>
+                                <label asp-for="permanenceModels.ToDate" class="form-label"></label><span class="text-danger">*</span>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="permanenceModels.ToDate" id="pMToDate" class="form-control" placeholder="أدخل التاريخ"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                    <span asp-validation-for="permanenceModels.ToDate" class="text-danger"></span>
+
+                                </div>
                             </div>
                         </div>
                         <!-- Col -->
@@ -63,12 +77,12 @@
                         </div> -->
                         <!-- Col -->
                     </div>
-                    <div class="row">
+                    <div class="row set">
                         <div class="col-sm-2">
                             <div class="mb-3 form-group form-check">
 
                                 <label class="form-check-label">
-                                    <input class="form-check-input" id="flexbleCheckbox" name="radiobutton"
+                                    <input class="form-check-input" id="pMFlexibleWorkingHoursCheckBox" name="radiobutton"
                                            asp-for="permanenceModels.FlexibleWorkingHours" /> @Html.DisplayNameFor(model =>
                                     model.permanenceModels.FlexibleWorkingHours)
                                 </label>
@@ -78,7 +92,7 @@
                             <div class="mb-3 form-group form-check">
 
                                 <label class="form-check-label">
-                                    <input class="form-check-input" id="myCheckbox" name="radiobutton"
+                                    <input class="form-check-input" id="pMWorkBetweenTwoShiftsCheckBox" name="radiobutton"
                                            asp-for="permanenceModels.WorkBetweenTwoShifts" /> @Html.DisplayNameFor(model =>
                                     model.permanenceModels.WorkBetweenTwoShifts)
                                 </label>
@@ -86,55 +100,75 @@
                         </div>
                         <!-- Col -->
                         <div class="col-sm-3">
-                            <div class="mb-3" id="nFromTime">
-                                <label asp-for="permanenceModels.FromTime" class="control-label"></label>
-                                <input asp-for="permanenceModels.FromTime" id="nnFromTime" class="form-control" />
-                                <span asp-validation-for="permanenceModels.FromTime" class="text-danger"></span>
+                            <div class="mb-3" id="pMFromTimeGroup">
+                                <label asp-for="permanenceModels.FromTime" class="form-label"></label><span class="text-danger">*</span>
+
+                                <div class="input-group flatpickr" id="flatpickr-time">
+                                    <input asp-for="permanenceModels.FromTime" id="pMFromTime" class="form-control" placeholder="أدخل الوقت"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="clock"></i>
+                                    </span>
+                                    <span asp-validation-for="permanenceModels.FromTime" class="text-danger"></span>
+                                </div>
+
                             </div>
 
                         </div>
                         <!-- Col -->
                         <div class="col-sm-3">
-                            <div class="mb-3" id="nToTime">
-                                <label asp-for="permanenceModels.ToTime" class="control-label"></label>
-                                <input asp-for="permanenceModels.ToTime" id="nnToTime" class="form-control" />
-                                <span asp-validation-for="permanenceModels.ToTime" class="text-danger"></span>
+                            <div class="mb-3" id="pMToTimeGroup">
+                                <label asp-for="permanenceModels.ToTime" class="form-label"></label><span class="text-danger">*</span>
+
+                                <div class="input-group flatpickr" id="flatpickr-time">
+                                    <input asp-for="permanenceModels.ToTime" tabindex="8" id="pMToTime" class="form-control" placeholder="أدخل الوقت"
+                                           data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="clock"></i>
+                                    </span>
+                                    <span asp-validation-for="permanenceModels.ToTime" class="text-danger"></span>
+                                </div>
+
                             </div>
                         </div>
                         <!-- Col -->
                         <div class="col-sm-2">
-                            <div class="mb-3" id="nHours">
-                                <label asp-for="permanenceModels.HoursOfWorks" class="control-label"></label>
-                                <input asp-for="permanenceModels.HoursOfWorks" id="nnHours" 
+                            <div class="mb-3" id="pMHoursGroup">
+                                <label asp-for="permanenceModels.HoursOfWorks" class="form-label"></label>
+                                <input asp-for="permanenceModels.HoursOfWorks" id="pMHours"
                                        style="background-color: #00000005;cursor:context-menu" class="form-control" />
                                 <span asp-validation-for="permanenceModels.HoursOfWorks" class="text-danger"></span>
                             </div>
                         </div>
                         <!-- Col -->
                     </div>
-                    <div class="row">
+                    <div class="row set">
                         <div class="col-sm-4">
                             <div class="mb-3 form-group form-check">
                                 <label class="form-check-label">
                                     اضافة سماحية حضور وانصراف
-                                    <input type="checkbox" id="AttendanceCheckbox" class="form-check" />
+                                    <input asp-for="permanenceModels.AddAttendanceAndDeparturePermission" type="checkbox" id="pMAttendanceCheckbox" style="color:#e5b540;" class="form-check-input" />
                                 </label>
                             </div>
                         </div>
                         <!-- Col -->
                         <!-- Col -->
                         <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label class="form-label">حضور متأخر</label>
-                                <input type="number" id="lateAttendance" readonly class="form-control"
-                                       placeholder="Enter email" />
+                            <div class="mb-3" id="pMLateAttendanceGroup">
+                                <label asp-for="permanenceModels.AllowanceForLateAttendance" class="form-label">حضور متأخر</label>
+                                <input asp-for="permanenceModels.AllowanceForLateAttendance" type="number" id="pMLateAttendance" class="form-control"
+                                       placeholder="حضور متأخر بالدقيقة من 0 الى 60 دقيقة" />
+                                <span asp-validation-for="permanenceModels.AllowanceForLateAttendance" class="text-danger"></span>
+
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label class="form-label">انصراف مبكر</label>
-                                <input type="number" id="earlyAttendance" readonly class="form-control"
-                                       placeholder="Enter email" />
+                            <div class="mb-3" id="pMEarlyAttendanceGroup">
+                                <label asp-for="permanenceModels.EarlyDeparturePermission" class="form-label">انصراف مبكر</label>
+                                <input asp-for="permanenceModels.EarlyDeparturePermission" type="number" id="pMEarlyAttendance" class="form-control"
+                                       placeholder="انصراف مبكر بالدقيقة من 0 الى 60 دقيقة" />
+                                <span asp-validation-for="permanenceModels.EarlyDeparturePermission" class="text-danger"></span>
+
                             </div>
                         </div>
                         <!-- Col -->
@@ -143,7 +177,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="mb-3">
-                                <label asp-for="permanenceModels.Notes" class="control-label"></label>
+                                <label asp-for="permanenceModels.Notes" class="form-label"></label>
                                 <input asp-for="permanenceModels.Notes" class="form-control" />
                                 <span asp-validation-for="permanenceModels.Notes" class="text-danger"></span>
                             </div>
@@ -189,7 +223,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="mb-3">
-                                                    <label asp-for="periods.PermanenceModelsId" class="control-label"></label>
+                                                    <label asp-for="periods.PermanenceModelsId" class="form-label"></label>
                                                     <select asp-for="periods.PermanenceModelsId" id="periodPermanenceModelsId" asp-items="@(ViewData["permanance"] as SelectList)" id="periodPermanenceModelsId" class="form-control">
                                                         <option value="">-- أختر الدوام --</option>
                                                     </select>
@@ -197,12 +231,12 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="mb-3">
-                                                    <label asp-for="periods.PeriodsName" class="control-label"></label>
-                                                    <input asp-for="periods.PeriodsName"  id="PeriodsName" class="form-control" />
+                                                    <label asp-for="periods.PeriodsName" class="form-label"></label>
+                                                    <input asp-for="periods.PeriodsName" id="PeriodsName" class="form-control" />
                                                     <span asp-validation-for="periods.PeriodsName" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
 
                                         <!-- Col -->
@@ -274,32 +308,43 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="row">
+                                        <div class="row set">
 
                                             <div class="col-sm-3">
                                                 <div class="mb-3">
+                                                    <label asp-for="periods.FromTime" class="form-label"></label><span class="text-danger">*</span>
 
-                                                    <label asp-for="periods.FromTime" class="control-label"></label>
-                                                    <input asp-for="periods.FromTime" id="startTime"
-                                                           class="form-control" />
-                                                    <span asp-validation-for="periods.FromTime"
-                                                          class="text-danger"></span>
+                                                    <div class="input-group flatpickr" id="flatpickr-time">
+                                                        <input asp-for="periods.FromTime" id="peFromTime" class="form-control" placeholder="أدخل الوقت"
+                                                               data-input />
+                                                        <span class="input-group-text input-group-addon" data-toggle>
+                                                            <i data-feather="clock"></i>
+                                                        </span>
+                                                        <span asp-validation-for="periods.FromTime" class="text-danger"></span>
+                                                    </div>
+
                                                 </div>
 
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="mb-3">
+                                                    <label asp-for="periods.ToTime" class="form-label"></label><span class="text-danger">*</span>
 
-                                                    <label asp-for="periods.ToTime" class="control-label"></label>
-                                                    <input asp-for="periods.ToTime" id="endTime" class="form-control" />
-                                                    <span asp-validation-for="periods.ToTime"
-                                                          class="text-danger"></span>
+                                                    <div class="input-group flatpickr" id="flatpickr-time">
+                                                        <input asp-for="periods.ToTime" id="perToTime" class="form-control" placeholder="أدخل الوقت"
+                                                               data-input />
+                                                        <span class="input-group-text input-group-addon" data-toggle>
+                                                            <i data-feather="clock"></i>
+                                                        </span>
+                                                        <span asp-validation-for="periods.ToTime" class="text-danger"></span>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="mb-3">
-                                                    <label asp-for="periods.Hours" class="control-label"></label>
-                                                    <input asp-for="periods.Hours" id="hours"
+                                                    <label asp-for="periods.Hours" class="form-label"></label>
+                                                    <input asp-for="periods.Hours" id="perHours"
                                                            style="background-color: #00000005;cursor:context-menu" readonly
                                                            class="form-control" />
                                                     <span asp-validation-for="periods.Hours" class="text-danger"></span>
@@ -307,29 +352,29 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="mb-3">
-                                                    <label asp-for="periods.Muinutes" class="control-label"></label>
+                                                    <label asp-for="periods.Muinutes" class="form-label"></label>
                                                     <input asp-for="periods.Muinutes"
                                                            style="background-color: #00000005;cursor:context-menu" readonly
-                                                           id="minutes" class="form-control" />
+                                                           id="perMinutes" class="form-control" />
                                                     <span asp-validation-for="periods.Muinutes"
                                                           class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-@*                                             <button type="button" id="addButton" class="btn btn-primary">اضافة</button>
- *@                                            <input type="submit" id="submitButton" value="انهاء"
-                                                   class="btn btn-primary" />
+                                            @*                                             <button type="button" id="addButton" class="btn btn-primary">اضافة</button>
+                                            *@                                            <input type="submit" id="submitButton" value="انهاء"
+                                                                                                 class="btn btn-primary" />
                                         </div>
 
                                     </form>
                                     <!-- Row -->
                                     <br />
-                                    
 
-                                <!--  -->
+
+                                    <!--  -->
+                                </div>
                             </div>
-                        </div>
                             <div id="table" class="row" style="display: none">
                                 <div class="col-md-12 grid-margin stretch-card">
                                     <div class="card">
@@ -369,7 +414,7 @@
                     </div>
 
                 </div>
-
+                
 
                 @* ===================================================== *@
 
@@ -379,195 +424,259 @@
                         await Html.RenderPartialAsync("_ValidationScriptsPartial");
                     }
                     <script>
-
-                        //========================================================================================================
-                        function calculateTimeDifference() 
-                        {
-                            const startTimeInput = document.getElementById("startTime");
-                            const endTimeInput = document.getElementById("endTime");
-                            const hoursInput = document.getElementById("hours");
-                            const minutesInput = document.getElementById("minutes");
-
-                            if (!startTimeInput || !endTimeInput || !hoursInput || !minutesInput) {
-                                console.error("Missing input elements: startTime, endTime, hours, or minutes");
-                                return;
-                            }
-
-                            const startTime = startTimeInput.value.trim();
-                            const endTime = endTimeInput.value.trim();
-
-                            if (!startTime || !endTime) {
-                                console.error("Please enter both start and end times");
-                                return;
-                            }
-                            if(startTime > endTime){
-                                alert(`وقت البدأ ${startTime} يجب ان يكون قبل تاريخ النهاية${endTime}`);
-                                return;
-                            }
-
-                            // Validate time format (optional)
-                            // You can add a regular expression or a library to validate time format (HH:MM)
-
-                            // Parse string times into Date objects
-                            const startDate = new Date(`1970-01-01T${startTime}:00`);
-                            const endDate = new Date(`1970-01-01T${endTime}:00`);
-
-                            // Calculate time difference in milliseconds
-                            const timeDiff = endDate.getTime() - startDate.getTime();
-
-                            // Calculate hours and minutes
-                            const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                            if (minutes == 0) {
-                            hoursInput.value = hours;
-                            }
-                            // Update hours and minutes input fields
-                            hoursInput.value = hours ;
-                            console.log(hours);
-                            minutesInput.value = hours * 60 + minutes; // Ensure two-digit format
-                        }
-
-                        // Add event listener to a button or on change event of time inputs
-                        const calculateButton = document.getElementById("calculateButton");
-                        const startTimeInput = document.getElementById("startTime");
-                        const endTimeInput = document.getElementById("endTime");
-
-                        if (calculateButton) {
-                            calculateButton.addEventListener("click", calculateTimeDifference);
-                        } else {
-                            startTimeInput.addEventListener("change", calculateTimeDifference);
-                            endTimeInput.addEventListener("change", calculateTimeDifference);
-                        }
-                        //===========================================================================================
-                        const checkBox = document.getElementById("myCheckbox");
-                        const nFromTime = document.getElementById("nFromTime");
-                        const nToTime = document.getElementById("nToTime");
-                        const nhours = document.getElementById("nHours");
-                        const flexa = document.getElementById("flexbleCheckbox");
-                        const attendanceCheckbox = document.getElementById("AttendanceCheckbox");
-                        const earlyattendance = document.getElementById("earlyAttendance");
-                        const lateattendance = document.getElementById("lateAttendance");
-                        const hoursInput1 = document.getElementById("nnHours");
-
-                        // Initial state (hide form if checkbox is unchecked)
-                        if (!checkBox.checked || !flexa.checked || !attendanceCheckbox.checked) {
-                            nFromTime.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                            nToTime.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                            nhours.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                            earlyattendance.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                            lateattendance.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                        }
-
-
-                        checkBox.addEventListener("change", function () {
-                            if (checkBox.checked) {
-                                nFromTime.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
-                                nToTime.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                                nhours.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-
-
-                                flexa.checked = false;
-                                //============================================
-                            } else {
-                                nFromTime.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                                nToTime.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                                nhours.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-
-                            }
-                        });
-                        flexa.addEventListener("change", function () {
-                            if (flexa.checked) {
-                                nFromTime.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
-                                nToTime.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                                nhours.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                                hoursInput1.style = `background-color: #00000005;cursor:context-menu;`;
-
-
-                                checkBox.checked = false;
-                            } else {
-                                nFromTime.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                                nToTime.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                                nhours.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-
-                            }
-                        });
-                        attendanceCheckbox.addEventListener("change", function () {
-                            if (attendanceCheckbox.checked) {
-                                earlyattendance.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
-                                lateattendance.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                            } else {
-                                earlyattendance.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                                lateattendance.style = `pointer-events: none; filter: none; opacity: .5;`; // Display form
-                            }
-                        });
-                        function calculateTime() {
-                            const startTimeInput = document.getElementById("nnFromTime");
-                            const endTimeInput = document.getElementById("nnToTime");
-
-                            if (!startTimeInput || !endTimeInput || !hoursInput1) {
-                                console.error("Missing input elements: startTime, endTime or hours");
-                                return;
-                            }
-
-                            const startTime = startTimeInput.value.trim();
-                            const endTime = endTimeInput.value.trim();
-
-                            if (!startTime || !endTime) {
-                                console.error("Please enter both start and end times");
-                                return;
-                            }
-
-
-                            // Validate time format (optional)
-                            // You can add a regular expression or a library to validate time format (HH:MM)
-
-                            // Parse string times into Date objects
-                            const startDate = new Date(`1970-01-01T${startTime}:00`);
-                            const endDate = new Date(`1970-01-02T${endTime}:00`);
-
-                            // Calculate time difference in milliseconds
-                            const timeDiff = endDate.getTime() - startDate.getTime();
-
-                            // Calculate hours and minutes
-                            const hours1 = Math.floor(timeDiff / (1000 * 60 * 60));
-                            if(flex.checked && hours1 > 24){
-                                    alert("يجب ان يكون الوقت اقل من 24");
-                                    return;
-                                
-                            }
-                            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                            if (minutes == 0) {
-                            hoursInput1.value = hours1;
-                            console.log(hours1);
-                            
-
-                            }
-                            else {
-                                // Update hours and minutes input fields
-                                 hoursInput1.value = (hours1 + ":" + minutes.toString().padStart(2, "0"));
-
-                            }
-
-                        }
-
-                        // Add event listener to a button or on change event of time inputs
-                        const calculateButton1 = document.getElementById("calculateButton");
-                        const startTimeInput1 = document.getElementById("nnFromTime");
-                        const endTimeInput1 = document.getElementById("nnToTime");
-
-                        if (calculateButton1) {
-                            calculateButton1.addEventListener("click", calculateTime);
-                        } else {
-                            startTimeInput1.addEventListener("change", calculateTime);
-                            endTimeInput1.addEventListener("change", calculateTime);
-                        }
-
-                        //=================================================
-                        
-                        //=========================================================================================================
                         $(document).ready(function () {
-                            let temporaryData = []; // Array to store temporary data
+                            var v = new ValidationFromMe();
+                            //================نماذج الدوام ===============
 
+
+                            $('#pMFromDate').change(function () {
+                                var from = this.value;
+                                var to = $('#pMToDate').val();
+                                if (this.value != "") {
+                                    if (to != "") {
+                                        var check = v.isStartDateBeforeEndDate(from, to);
+                                        if (check) {
+                                            v.softErrorMessage('تاريخ البداية يجب ان  يكون قبل تاريخ النهاية!! ☹');
+                                            this.value = "";
+
+                                        }
+
+                                    }
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك تحديد تاريخ البداية!! ☹');
+                                }
+
+                            });
+                            $('#pMToDate').change(function () {
+                                var to = this.value;
+                                var from = $('#pMFromDate').val();
+                                if (this.value != "") {
+                                    if (from != "") {
+                                        var check = v.isStartDateBeforeEndDate(from, to);
+
+                                        if (check) {
+                                            v.softErrorMessage('تاريخ البداية يجب ان  يكون قبل تاريخ النهاية !! ☹');
+                                            this.value = "";
+                                        }
+
+                                    }
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك تحديد تاريخ البداية!! ☹');
+                                }
+
+                            });
+                            //=======================================
+
+                            const pMFWHCheckBox = document.getElementById("pMFlexibleWorkingHoursCheckBox");
+                            const pMWBTSCheckBox = document.getElementById("pMWorkBetweenTwoShiftsCheckBox");
+                            const pMAttCheckbox = document.getElementById("pMAttendanceCheckbox");
+                            const pMEarlyAttendanceGroup = document.getElementById("pMEarlyAttendanceGroup");
+                            const pMLateAttendanceGroup = document.getElementById("pMLateAttendanceGroup");
+                            const pMFromTimeGroup = document.getElementById("pMFromTimeGroup");
+                            const pMToTimeGroup = document.getElementById("pMToTimeGroup");
+                            const pMHoursGroup = document.getElementById("pMHoursGroup");
+                            // const flexa = document.getElementById("flexbleCheckbox");
+                            // const attendanceCheckbox = document.getElementById("AttendanceCheckbox");
+                            // const earlyattendance = document.getElementById("earlyAttendance");
+                            // const lateattendance = document.getElementById("lateAttendance");
+                            // const hoursInput1 = document.getElementById("nnHours");
+
+                            // Initial state (hide form if checkbox is unchecked)
+                            if (!pMFWHCheckBox.checked || !pMWBTSCheckBox.checked || !pMAttCheckbox.checked) {
+                                pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                pMLateAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                pMEarlyAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                            }
+                            pMFWHCheckBox.addEventListener("change", function () {
+                                if (pMFWHCheckBox.checked) {
+                                    pMWBTSCheckBox.checked = false;
+                                    pMFromTimeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
+                                    pMToTimeGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+                                    pMHoursGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+
+
+                                    //============================================
+                                } else {
+                                    pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                    pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                    pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                    $('#pMFromTime').val("");
+                                    $('#pMToTime').val("");
+                                    $('#pMHours').val("");
+                                }
+                            });
+                            //===
+                            pMWBTSCheckBox.addEventListener("change", function () {
+                                if (pMWBTSCheckBox.checked) {
+                                    $('#pMFromTime').val("");
+                                    $('#pMToTime').val("");
+                                    $('#pMHours').val("");
+                                    pMFWHCheckBox.checked = false;
+                                    pMFromTimeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
+                                    pMToTimeGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+                                    pMHoursGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+
+
+                                    //============================================
+                                } else {
+                                    $('#pMFromTime').val("");
+                                    $('#pMToTime').val("");
+                                    $('#pMHours').val("");
+                                    pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                    pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                    pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+
+                                }
+                            });
+                            //===
+                            pMAttCheckbox.addEventListener("change", function () {
+                                if (pMAttCheckbox.checked) {
+                                    $('#pMEarlyAttendance').val("");
+                                    $('#pMLateAttendance').val("");
+                                    pMEarlyAttendanceGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
+                                    pMLateAttendanceGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+
+
+                                    //============================================
+                                } else {
+                                    $('#pMEarlyAttendance').val("");
+                                    $('#pMLateAttendance').val("");
+                                    pMEarlyAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                                    pMLateAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+
+                                }
+                            });
+                            //===
+                            $('#pMFromTime').change(function () {
+                                if (this.value != "") {
+                                    if (pMWBTSCheckBox.checked || pMFWHCheckBox.checked) {
+                                        if ($('#pMToTime').val() != "") {
+                                            var cheack = v.isStartTimeAfterEndTime(this.value, $('#pMToTime').val());
+                                            if (!cheack) {
+                                                var time = v.calculateHoursBetweenWith24(this.value, $('#pMToTime').val());
+                                                $('#pMHours').val(time.hours);
+
+                                            }
+                                            else {
+                                                v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                                                $('#pMFromTime').val("");
+                                                $('#pMToTime').val("");
+                                                $('#pMHours').val("");
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        v.softErrorMessage('يجب تحديد على حقل دوام مرن او دوام بين يومين !! ☹');
+                                        $('#pMFromTime').val("");
+                                        $('#pMToTime').val("");
+                                        $('#pMHours').val("");
+                                    }
+
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
+                                }
+
+                            });
+                            $('#pMToTime').change(function () {
+                                if (this.value != "") {
+                                    if (pMWBTSCheckBox.checked || pMFWHCheckBox.checked) {
+                                        if ($('#pMFromTime').val() != "") {
+                                            var cheack = v.isStartTimeAfterEndTime($('#pMFromTime').val(), this.value);
+                                            
+                                            if (!cheack) {
+                                                var time = v.calculateHoursBetweenWith24($('#pMFromTime').val(), this.value);
+                                                $('#pMHours').val(time.hours);
+                                            }
+                                            else {
+                                                v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                                                $('#pMFromTime').val("");
+                                                $('#pMToTime').val("");
+                                                $('#pMHours').val("");
+                                            }
+                                        }
+
+                                    }
+                                    else {
+                                        v.softErrorMessage('يجب تحديد على حقل دوام مرن او دوام بين يومين !! ☹');
+                                        $('#pMFromTime').val("");
+                                        $('#pMToTime').val("");
+                                        $('#pMHours').val("");
+                                    }
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك تحديد وقت النهاية!! ☹');
+                                }
+                            });
+                            //====================================================================================================
+                            //                                  =============== Period Js =====================
+                            //====================================================================================================
+
+                            $('#peFromTime').change(function () {
+                                if (this.value != "") {
+                                    if ($('#perToTime').val() != "") {
+                                        var cheack = v.isStartTimeAfterEndTime(this.value, $('#perToTime').val());
+                                        if (!cheack) {
+                                            var time = v.calculateHoursBetweenWith24(this.value, $('#perToTime').val());
+                                            $('#perHours').val(time.hours);
+                                            $('#perMinutes').val(time.minutes);
+                                        }
+                                        else {
+                                            v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                                            $('#perMinutes').val("");
+                                            $('#perHours').val("");
+                                        }
+                                    }
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
+                                }
+
+                            });
+                            //===
+                            $('#perToTime').change(function () {
+                                if (this.value != "") {
+                                    if ($('#peFromTime').val() != "") {
+                                        var cheack = v.isStartTimeAfterEndTime($('#peFromTime').val(), this.value);
+                                        if (!cheack) {
+                                            var time = v.calculateHoursBetweenWith24($('#peFromTime').val(), this.value);
+                                            $('#perHours').val(time.hours);
+                                            $('#perMinutes').val(time.minutes);
+                                        }
+                                        else {
+                                            v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                                            $('#perMinutes').val("");
+                                            $('#perHours').val("");
+                                            $('#peFromTime').val("");
+                                            $('#perToTime').val("");
+                                        }
+                                    }
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
+                                }
+                            });
+                            //===
+                            $('#periodPermanenceModelsId').change(function () {
+                                if (this.value != "") {
+                                    
+                                }
+                                else {
+                                    v.softErrorMessage('يجب عليك اختيار الدوام !! ☹');
+                                }
+                            });
+                            //===
+
+
+
+
+                            //==========================================
+                            //============================Pub window=============================================================================
+                            let temporaryData = []; // Array to store temporary data
                             const open = document.getElementById("openForm");
                             const openFormButton = document.getElementById("openFormButton");
                             const form = document.getElementById("form");
@@ -577,37 +686,35 @@
                             });
                             openFormButton.addEventListener("click", function () {
                                 open.style = `
-                                                                                                            display:block;
+                                        display:block;
+                                        position: fixed;
+                                            top: 0;
+                                            left: 0;
+                                            width: 100%;
+                                            height: 100%;
+                                            background-color: rgba(0, 0, 0, 0.5);
+                                            backdrop-filter: blur(5px);
+                                            z-index: 1051;`;
 
-                                                                                                            position: fixed;
-                                                                                                                top: 0;
-                                                                                                                left: 0;
-                                                                                                                width: 100%;
-                                                                                                                height: 100%;
-                                                                                                                background-color: rgba(0, 0, 0, 0.5);
-                                                                                                                backdrop-filter: blur(5px);
-                                                                                                                z-index: 1051;`;
-
-                                form.style = `
-                                                                                                            width:90%;
-                                                                                                            display:block;
-                                                                                                            position: fixed;
-                                                                                                                top: 50%;
-                                                                                                                left: 50%;
-                                                                                                                transform: translate(-50%, -50%);
-                                                                                                                background-color: #fff;
-                                                                                                                padding: 20px;
-                                                                                                                border: 1px solid #ccc;
-                                                                                                                border-radius: 5px;
-                                                                                                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                                                                                        z-index: 1050;
-                                                                                                                opacity: 1; /* Initially hidden */
-                                                                                                                transition: opacity 0.3s ease-in-out;`;
+                        form.style = `
+                                        width:90%;
+                                        display:block;
+                                        position: fixed;
+                                            top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                            background-color: #fff;
+                                            padding: 20px;
+                                            border: 1px solid #ccc;
+                                            border-radius: 5px;
+                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                                                    z-index: 1050;
+                                            opacity: 1; /* Initially hidden */
+                                            transition: opacity 0.3s ease-in-out;`;
                             });
                             //=========================================
                             const table = document.getElementById("table");
                             $("#addButton").click(function () {
-
                                 const newData = {
                                     // Add input field names and their corresponding values here
                                     fieldName1: $("#PeriodsName").val(),
@@ -640,8 +747,6 @@
                                     });
                                 } else {
                                     table.style = `display:block;`;
-
-
                                     // !newData.fieldName5.checked ? newData.fieldName5.value = false : newData.fieldName5.value = "السبت";
                                     // !newData.fieldName6.checked ? newData.fieldName6.value = false : newData.fieldName6.value = true;
                                     // !newData.fieldName7.checked ? newData.fieldName7.value = false : newData.fieldName7.value = true;
@@ -649,30 +754,9 @@
                                     // !newData.fieldName9.checked ? newData.fieldName9.value = false : newData.fieldName9.value = true;
                                     // !newData.fieldName10.checked ? newData.fieldName10.value = false : newData.fieldName10.value = true;
                                     // !newData.fieldName11.checked ? newData.fieldName11.value = false : newData.fieldName11.value = true;
-
-
-
                                     temporaryData.push(newData); // Add data to temporary array
-
-                                    $("#temporaryTable").append(`
-                                                                                <tr>
-                                                                                <td>${newData.fieldName1}</td>
-                                                                                <td>${newData.fieldName2}</td>
-                                                                                <td>${newData.fieldName3}</td>
-                                                                                <td>${newData.fieldName4}</td>
-                                                                                <td>${newData.fieldName5}</td>
-                                                                                <td>${newData.fieldName6}</td>
-                                                                                <td>${newData.fieldName7}</td>
-                                                                                <td>${newData.fieldName8}</td>
-                                                                                <td>${newData.fieldName9}</td>
-                                                                                <td>${newData.fieldName10}</td>
-                                                                                <td>${newData.fieldName11}</td>
-                                                                                <td>${newData.fieldName12}</td>
-                                                                                <td><button class="removeButton btn btn-danger" >إزالة</button></td>
-                                                                                </tr>
-                                                                            `);
+                                    $("#temporaryTable").append(`                                                                                                                                                                 `);
                                     // Clear input fields
-
                                     $("#PeriodsName").val("");
                                     $("#startTime").val("");
                                     $("#endTime").val("");
@@ -686,7 +770,6 @@
                                     $("#hours").val("");
                                     $("#minutes").val("");
                                     // ... clear other input fields
-
                                     // Disable submit button if no data (optional)
                                     $("#submitButton").prop("disabled", temporaryData.length === 0);
                                 }
@@ -702,7 +785,7 @@
                         });
 
                         $("#submitButton").click(function () {
-                    const periodsInput=document.getElementById("PeriodsName");
+                            const periodsInput = document.getElementById("PeriodsName");
                             const periodPermanenceModelsId = document.getElementById("periodPermanenceModelsId");
                             if (!periodsInput.value) {
                                 event.preventDefault(); // Prevent form submission
@@ -715,7 +798,7 @@
                                         confirmButton: 'btn btn-primary'
                                     },
                                     buttonsStyling: false
-                                }); 
+                                });
                             }
                             if (periodPermanenceModelsId.value == "") {
                                 event.preventDefault(); // Prevent form submission
@@ -732,14 +815,11 @@
                             }
                             // // Send data to server using AJAX or other methods
                             // console.log("Temporary Data:", temporaryData); // Simulate sending to server
-                            $("#submitButton").val( JSON.stringify(temporaryData));
+                            $("#submitButton").val(JSON.stringify(temporaryData));
                             // Clear temporary data and table after submission (optional)
                             temporaryData = [];
                             $("#temporaryTable").empty();
                             $("#submitButton").prop("disabled", true);
                         });
-
                     </script>
-
-
                 }

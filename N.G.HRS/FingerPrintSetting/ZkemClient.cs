@@ -219,6 +219,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool GetAllUserInfo(int dwMachineNumber, ref int dwEnrollNumber, ref string Name, ref string Password, ref int Privilege, ref bool Enabled)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public bool SSR_GetGeneralLogData(int dwMachineNumber, out string dwEnrollNumber, out int dwVerifyMode, out int dwInOutMode, out int dwYear, out int dwMonth, out int dwDay, out int dwHour, out int dwMinute, out int dwSecond, ref int dwWorkCode)
 //        {
@@ -265,6 +269,8 @@
 //            objCZKEM.Disconnect();
 //        }
 
+//            objCZKEM.Disconnect();
+//        }
 
 //        public bool GetAllUserID(int dwMachineNumber, ref int dwEnrollNumber, ref int dwEMachineNumber, ref int dwBackupNumber, ref int dwMachinePrivilege, ref int dwEnable)
 //        { return objCZKEM.GetAllUserID(dwMachineNumber, dwEnrollNumber, dwEMachineNumber, dwBackupNumber, dwMachinePrivilege, dwEnable); }
@@ -292,6 +298,11 @@
 //        }
 //        #endregion
 
+//        public void GetLastError(ref int dwErrorCode)
+//        {
+//            objCZKEM.GetLastError(dwErrorCode);
+//        }
+//        #endregion
 
 //        #region 'Not Implemented'
 
@@ -309,6 +320,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool GetUserInfoByPIN2(int dwMachineNumber, ref string Name, ref string Password, ref int Privilege, ref bool Enabled)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public bool CancelBatchUpdate(int dwMachineNumber)
 //        {
@@ -330,6 +345,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool ClearAdministrators(int dwMachineNumber)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public bool ClearKeeperData(int dwMachineNumber)
 //        {
@@ -411,6 +430,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool DelUserFace(int dwMachineNumber, string dwEnrollNumber, int dwFaceIndex)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public bool EmptyCard(int dwMachineNumber)
 //        {
@@ -432,6 +455,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool EnableCustomizeVoice(int dwMachineNumber, int VoiceID, int Enable)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public bool EnableUser(int dwMachineNumber, int dwEnrollNumber, int dwEMachineNumber, int dwBackupNumber, bool bFlag)
 //        {
@@ -477,6 +504,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool GetUserTZStr(int dwMachineNumber, int dwEnrollNumber, ref string TZs)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 
 //        public bool PlayVoice(int Position, int Length)
@@ -484,6 +515,10 @@
 //            return objCZKEM.PlayVoice(Position, Length);
 //        }
 
+//        public bool PlayVoice(int Position, int Length)
+//        {
+//            return objCZKEM.PlayVoice(Position, Length);
+//        }
 
 //        public bool GetWorkCode(int WorkCodeID, out int AWorkCode)
 //        {
@@ -524,6 +559,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool ModifyPrivilege(int dwMachineNumber, int dwEnrollNumber, int dwEMachineNumber, int dwBackupNumber, int dwMachinePrivilege)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 
 //        public bool PlayVoiceByIndex(int Index)
@@ -536,6 +575,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public void PowerOnAllDevice()
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public int GetFPTempLength(ref byte dwEnrollData)
 //        {
@@ -582,6 +625,10 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool GetHoliday(int dwMachineNumber, ref string Holiday)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 
 //        public bool GetPhotoByName(int dwMachineNumber, string PhotoName, out byte PhotoData, out int PhotoLength)
@@ -619,12 +666,20 @@
 //            throw new NotImplementedException();
 //        }
 
+//        public bool GetRTLog(int dwMachineNumber)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 //        public bool GetSensorSN(int dwMachineNumber, ref string SensorSN)
 //        {
 //            throw new NotImplementedException();
 //        }
 
+//        public bool GetSensorSN(int dwMachineNumber, ref string SensorSN)
+//        {
+//            throw new NotImplementedException();
+//        }
 
 
 //        public bool GetSMS(int dwMachineNumber, int ID, ref int Tag, ref int ValidMinutes, ref string StartTime, ref string Content)

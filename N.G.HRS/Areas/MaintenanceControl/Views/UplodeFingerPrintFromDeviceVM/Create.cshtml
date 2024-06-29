@@ -12,10 +12,10 @@
 
 
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <form asp-action="Create" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="card">
@@ -24,34 +24,45 @@
                         </div>
                         <div class="card-body">
                             <div class="row mb-3 set">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="Departments.Id" class="form-label"></label><span class="text-danger">*</span>
-                                    <select asp-for="Departments.Id" id="" tabindex="1" class="js-example-basic-single  form-select" asp-items="@(ViewData["Department"] as SelectList)">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Employee.Id" class="form-label">الموظف</label><span class="text-danger">*</span>
+                                    <select asp-for="Employee.Id" id="Employee" tabindex="" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)">
+                                        @*                                         <option value="" selected disabled></option>
+                                        *@
+                                        <option value="0">كافة الموظفين</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label asp-for="Departments.Id" class="form-label"> الإدارة</label><span class="text-danger">*</span>
+                                    <select asp-for="Departments.Id" id="Departments" tabindex="1" class="js-example-basic-single  form-select" asp-items="@(ViewData["Department"] as SelectList)">
+                                        @*                                         <option value="" selected disabled></option>
+                                        *@
+                                        <option value="0">كافة الإدارات</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label asp-for="Sections.Id" class="form-label">القسم</label><span class="text-danger">*</span>
+                                    <select asp-for="Sections.Id" id="Sections" tabindex="" class="js-example-basic-single  form-select" asp-items="@(ViewData["Sections"] as SelectList)">
+                                        @*                                         <option value="" selected disabled></option>
+                                        *@
+                                        <option value="0">كافة الاقسام</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3 set">
+
+                                <div class="form-group col-md-4">
+                                    <label asp-for="FingerprintDevices.Id" class="form-label">أجهزةالبصمة</label><span class="text-danger">*</span>
+                                    <select asp-for="FingerprintDevices.Id" id="FingerprintDevices" tabindex="" class="js-example-basic-single  form-select" asp-items="@(ViewData["Device"] as SelectList)">
                                         <option value="" selected disabled></option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label asp-for="Sections.Id" class="form-label"></label><span class="text-danger">*</span>
-                                    <select asp-for="Sections.Id" id="" tabindex="2" class="js-example-basic-single  form-select" asp-items="@(ViewData["Sections"] as SelectList)">
-                                        <option value="" selected disabled></option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label asp-for="Employee.Id" class="form-label"></label><span class="text-danger">*</span>
-                                    <select asp-for="Employee.Id" id="" tabindex="2" class="js-example-basic-single  form-select" asp-items="@(ViewData["Employee"] as SelectList)">
-                                        <option value="" selected disabled></option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label asp-for="FingerprintDevices.Id" class="form-label"></label><span class="text-danger">*</span>
-                                    <select asp-for="FingerprintDevices.Id" id="Assignment" tabindex="2" class="js-example-basic-single  form-select" asp-items="@(ViewData["Device"] as SelectList)">
-                                        <option value="" selected disabled></option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4 ">
-                                    <label asp-for="FromDate" class="form-label"></label><span class="text-danger">*</span>
+                                <div class="form-group col-md-3 ">
+                                    <label asp-for="FromDate" class="form-label"> من تاريخ</label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="FromDate" id="FromDate" tabindex="5" class="form-control" placeholder="أدخل التاريخ"
+                                        <input asp-for="FromDate" id="FromDate" tabindex="" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -60,10 +71,10 @@
 
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4 ">
-                                    <label asp-for="ToDate" class="form-label"></label><span class="text-danger">*</span>
+                                <div class="form-group col-md-3 ">
+                                    <label asp-for="ToDate" class="form-label">إلى تاريخ</label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="ToDate" id="ToDate" tabindex="5" class="form-control" placeholder="أدخل التاريخ"
+                                        <input asp-for="ToDate" id="ToDate" tabindex="" class="form-control" placeholder="أدخل التاريخ"
                                                data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
@@ -72,26 +83,403 @@
 
                                     </div>
                                 </div>
-                                <div class="from-group">
-                                    <button class="btn btn-primary">
-                                        <span>تحميل </span>
-                                        <i data-feather="download"></i>
-                                    </button>
-                                    <button class="btn btn-primary">
-                                        <span>تحميل كل البصمات</span>
-                                        <i data-feather="download"></i>
-                                    </button>
-                                </div>
+                                @*  <div class="form-group col-md-10 mt-5">
+
+                                <button class="btn btn-primary" id="Submit">
+                                <span>بحث مخصص </span>
+                                <i data-feather="search" style="width: 17px;"></i>
+                                </button>
+                                <button class="btn btn-primary" id="AllInfo">
+                                <span>All User Info </span>
+                                <i data-feather="info" style="width: 17px;"></i>
+                                </button>
+                                <button class="btn btn-primary" id="AllID">
+                                <span>All User ID </span>
+                                <i data-feather="download" style="width: 17px;"></i>
+                                </button>
+                                </div> *@
                             </div>
+
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col-md-10 mb-3">
+
+            <button class="btn btn-primary" id="Submit">
+                <span>بحث مخصص </span>
+                <i data-feather="search" style="width: 17px;"></i>
+            </button>
+            <button class="btn btn-primary" id="AllInfo">
+                <span>All User Info </span>
+                <i data-feather="info" style="width: 17px;"></i>
+            </button>
+            <button class="btn btn-primary" id="AllID">
+                <span>All User ID </span>
+                <i data-feather="download" style="width: 17px;"></i>
+                       </button>
+                <button class="btn btn-primary" id="ClearLog">
+                <span>Clear Log </span>
+                <i data-feather="download" style="width: 17px;"></i>
+                </button>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 grid-margin stretch-card" >
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>رقم الجهاز</th>
+                            <th>الرقم الوظيفي</th>
+                            <th>اسم الموظف </th>
+                            <th>الادارة</th>
+                            <th>القسم</th>
+                            <th>التاريخ</th>
+                            <th>الوقت</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="machinInfo">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @* <input type="hidden" id="EmployeeId"  /> *@
+    <input type="hidden" id="departId" value="0" />
+    <input type="hidden" id="secId" value="0" />
 </div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-} 
+    <script>
+        $(document).ready(function () {
+            const v = new ValidationFromMe();
+            // $('#Departments').change(function () {
+            //     const sec = $('#secId').val();
+            //     const dep = $('#departId').val();
+            //     console.log(this.value + " :depart ");
+            //     console.log(dep + " :dep " + sec + " :sec");
+            //     if (this.value != 0) {
+            //         if (sec != 0 && dep != 0) {
+            //             if ($('#Departments').val() != dep ) {
+            //                 $('#Sections').val(0).change();
+            //                 $('#Employee').val(0).change();
+            //             }
+            //         }
+            //     }
+            // });
+            // $('#Sections').change(function () {
+            //     const sec = $('#secId').val();
+            //     const dep = $('#departId').val();
+            //     console.log(dep + " :dep " + sec + " :sec");
+            //     console.log(this.value + " :section ");
+            //     if (this.value != 0) {
+            //         if (sec != 0 && dep != 0) {
+            //             if ( $('#Sections').val() != sec) {
+
+            //                 $('#Sections').val(0).change();
+            //                 $('#Employee').val(0).change();
+            //             }
+            //         }
+            //     }
+            // });
+            $('#Employee').change(function () {
+                id = $(this).val();
+                console.log(id);
+                if (id != 0) {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/GetEmployeeData?id=' + id,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            // $.each(data, function (i, item) {
+                            $('#secId').val(data.ids);
+                            $('#departId').val(data.idd);
+                            $('#Departments').val(data.idd).change();
+                            $('#Sections').val(data.ids).change();
+                            // });
+                        }
+                    });
+                }
+            });
+
+            $('#AllInfo').click(function () {
+                const employee = $('#Employee').val();
+                $('#machinInfo').empty();
+                // const departments =   $('#Departments').val();
+                // const sections =   $('#Sections').val();
+                const fingerprintDevices = $('#FingerprintDevices').val();
+                const from = $('#FromDate').val();
+                const to = $('#ToDate').val();
+                if (fingerprintDevices == null) {
+                    event.preventDefault();
+                    v.softErrorMessage('يرجى إختيار جهاز البصمة!!');
+                }
+                $.ajax({
+                    url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/GetAllUserInfo',
+                    type: 'GET',
+                    data: { deviceId: fingerprintDevices },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data == 0) {
+                            v.softErrorMessage('يرجى إختيار جهاز البصمة!!');
+                        }
+                        else if (data == 1) {
+                            v.softErrorMessage("لم يتم العثور على أي بيانات 🤷‍♀️")
+                        }
+                        else {  
+                            $.each(data, function (i, item) {
+                                var d = item.eDate;
+                                // var d1 = d.lastIndexOf('T')
+                                // var date= d.substring(0, d1);
+                                var t = item.eTime;
+                                var t1 = t.lastIndexOf('T');
+                                var time = t.substring(t1+1);
+                                var time12 = v.convertTimeTo12(time);
+                                // console.log(item);
+                                var row = $('<tr></tr>');
+                                row.append($('<td></td>').text('#'));
+                                row.append($('<td></td>').text(item.machine ));
+                                row.append($('<td></td>').text(item.eNumber));
+                                row.append($('<td></td>').text(item.eName));
+                                row.append($('<td></td>').text(item.eDepartment));
+                                row.append($('<td></td>').text(item.eSection));
+                                row.append($('<td></td>').text(d));
+                                row.append($('<td></td>').text(time12));
+                                row.append($('<td></td>').text(item.eState));
+                                $('#machinInfo').append(row);
+                            });
+                            Swal.close();
+                            v.softSuccessMessage('تم تحميل البيانات بنجاح ✔️');
+                        }
+                    }
+                    // error: function (data) {
+                    //     v.softErrorMessage(data);
+                    // }
+                });
+                let timerInterval;
+
+                Swal.fire({
+                    title: "جاري تحميل البصمات 😵",
+                    timer: 10000,
+
+                    timerProgressBar: false,
+                    customClass: {
+                        container: '#e5b540',
+                        icon: '#e5b540',
+                        htmlContainer: '#e5b540',
+                        timerProgressBar: '#e5b540',
+                    },
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+
+                    }
+                });
+            });
+
+            $('#ClearLog').click(function () {
+                const employee = $('#Employee').val();
+                // const departments =   $('#Departments').val();
+                // const sections =   $('#Sections').val();
+                const fingerprintDevices = $('#FingerprintDevices').val();
+                const from = $('#FromDate').val();
+                const to = $('#ToDate').val();
+                if (fingerprintDevices == null) {
+                    v.softErrorMessage('يرجى إختيار جهاز البصمة!!');
+                }
+                $.ajax({
+                    url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/ClearLog',
+                    type: 'GET',
+                    data: { deviceId: fingerprintDevices },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        if(data == 1)
+                        {
+                            v.softSuccessMessage("تم المسح بنجاح");
+                        }
+                        else{
+                            v.softErrorMessage("لا يمكن الاتصال بالجهاز😪");
+                        }
+
+                    }
+                });
+            });
+            $('#AllID').click(function () {
+                const employee = $('#Employee').val();
+                // const departments =   $('#Departments').val();
+                // const sections =   $('#Sections').val();
+                const fingerprintDevices = $('#FingerprintDevices').val();
+                const from = $('#FromDate').val();
+                const to = $('#ToDate').val();
+                if (fingerprintDevices == null) {
+                    v.softErrorMessage('يرجى إختيار جهاز البصمة!!');
+                }
+                $.ajax({
+                    url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/GetAllUserId',
+                    type: 'GET',
+                    data: { deviceId: fingerprintDevices },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        if (data == 0) {
+                            v.softErrorMessage("يرجى إختيار جهاز البصمة اولا 🙄 ");
+                        }
+                        let timerInterval;
+                        Swal.fire({
+                            title: "جاري سحب اليانات 💭...",
+                            timer: 10000,
+
+                            timerProgressBar: false,
+                            customClass: {
+                                container: '#e5b540',
+                                icon: '#e5b540',
+                                htmlContainer: '#e5b540',
+                                timerProgressBar: '#e5b540',
+                            },
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const timer = Swal.getPopup().querySelector("b");
+                                timerInterval = setInterval(() => {
+                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
+
+                            }
+                        });
+                        if (data == 0) {
+                            v.softErrorMessage("لم يتم العثور على أي بيانات ");
+                        }
+                        // $.each(data, function (i, item) {
+                        // });
+                    }
+                });
+            });
+
+            $('#Submit').click(function () {
+                const employee = $('#Employee').val();
+                // const departments =   $('#Departments').val();
+                // const sections =   $('#Sections').val();
+                const fingerprintDevices = $('#FingerprintDevices').val();
+                const from = $('#FromDate').val();
+                const to = $('#ToDate').val();
+                if (fingerprintDevices == null) {
+                    v.softErrorMessage('يرجى إختيار جهاز البصمة!!');
+                }
+                else if (employee != null && fingerprintDevices != null && from != null && to != null) {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/DeviseData',
+                        type: 'GET',
+                        data: { id: employee, deviceId: fingerprintDevices, startDate: from, endDate: to },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            // $.each(data, function (i, item) {
+
+                            // });
+                        }
+                    });
+                }
+                else if (employee != null && fingerprintDevices != null && from != null && to == null) {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/DeviseData',
+                        type: 'GET',
+                        data: { id: employee, deviceId: fingerprintDevices, startDate: from },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            // $.each(data, function (i, item) {
+
+                            // });
+                        }
+                    });
+                }
+                else if (employee != null && fingerprintDevices != null && from == null && to == null) {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/DeviseData',
+                        type: 'GET',
+                        data: { id: employee, deviceId: fingerprintDevices },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            // $.each(data, function (i, item) {
+
+                            // });
+                        }
+                    });
+                }
+                else if (employee == null && fingerprintDevices != null && from != null && to != null) {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/DeviseBetweenDates',
+                        type: 'GET',
+                        data: { deviceId: fingerprintDevices, startDate: from, endDate: to },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            // $.each(data, function (i, item) {
+
+                            // });
+                        }
+                    });
+                }
+                else if (employee == null && fingerprintDevices != null && from != null && to == null) {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/DeviseBetweenDates',
+                        type: 'GET',
+                        data: { deviceId: fingerprintDevices, startDate: from },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            // $.each(data, function (i, item) {
+
+                            // });
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '/MaintenanceControl/UplodeFingerPrintFromDeviceVM/GetAllUserInfo',
+                        type: 'GET',
+                        data: { deviceId: fingerprintDevices },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            // $.each(data, function (i, item) {
+
+                            // });
+                        }
+                    });
+                }
+
+
+            });
+        });
+    </script>
+}

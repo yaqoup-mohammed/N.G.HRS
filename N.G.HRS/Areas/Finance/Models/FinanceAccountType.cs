@@ -15,8 +15,8 @@ namespace N.G.HRS.Areas.Finance.Models
         public string? Name { get; set; }
         [Required(ErrorMessage = "نوع الحساب مطلوب")]
         [Display(Name = "نوع الحساب ")]
-        public int FinanceAccountId { get; set; }
-        public FinanceAccount? FinanceAccount { get; set; }
+
+        public string? Type { get; set; }
          [Required(ErrorMessage = "رقم الحساب مطلوب")]
         [Display(Name = "رقم الحساب ")]
         public int AccountNumber { get; set; }

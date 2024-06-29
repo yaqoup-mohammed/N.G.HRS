@@ -12,7 +12,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         private double _numberOfHours;
         private int _numerOfMinutes;
 
-        //================================================
+
         public int Id { get; set; }
         [Display(Name = " القسم")]
 
@@ -22,31 +22,17 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-        //=========================================
-        [Required(ErrorMessage = "هذا الحقل مطلوب")]
-        [Display(Name = "التاريخ")]
+
         [DataType(DataType.Date)]
-
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-        [Required(ErrorMessage = "هذا الحقل مطلوب")]
-        [Display(Name = "من تاريخ   ")]
-
 
         [DataType(DataType.Date)]
         public DateOnly FromDate { get; set; }
-        [Required(ErrorMessage = "هذا الحقل مطلوب")]
-        [Display(Name = "الى تاريخ ")]
 
         [DataType(DataType.Date)]
         public DateOnly ToDate { get; set; }
-        [Required(ErrorMessage = "هذا الحقل مطلوب")]
-        [Display(Name = "من")]
-
         [DataType(DataType.Time)]
         public TimeOnly FromTime { get; set; }
-        [Required(ErrorMessage = "هذا الحقل مطلوب")]
-        [Display(Name = "الى")]
-
         [DataType(DataType.Time)]
         public TimeOnly ToTime { get; set; }
         [Display(Name = "عدد الساعات")]
@@ -79,7 +65,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
             }
             string endTwentyFourHourTime = endTime.ToString("HH");
 
-            var totalHours = Math.Abs(int.Parse(endTwentyFourHourTime) - int.Parse(startTwentyFourHourTime));
+            var totalHours =Math.Abs( int.Parse(endTwentyFourHourTime) - int.Parse(startTwentyFourHourTime));
             return totalHours;
         }
 
@@ -100,7 +86,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
         //    return standardHours;
         //}
-
-
+       
+        
     }
 }
