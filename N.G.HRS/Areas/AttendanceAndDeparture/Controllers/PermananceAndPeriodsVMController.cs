@@ -29,15 +29,15 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
             await PopulateDropdownListsAsync();
             var periods = await _appDbContext.periods.Include(e => e.PermanenceModels).ToListAsync();
-            //var permmenance = await _appDbContext.permanenceModels.ToListAsync();
+            var permmenance = await _appDbContext.permanenceModels.ToListAsync();
 
-            //var permmenanceVM = new PermanenceModelsAndPeriodsVM
-            //{
-            //    permanenceModelsList = permmenance,
-            //    periodsList = periods,
-            //};
+            var permmenanceVM = new PermanenceModelsAndPeriodsVM
+            {
+                permanenceModelsList = permmenance,
+                periodsList = periods,
+            };
 
-            return View(periods);
+            return View(permmenanceVM);
         }
         //public async Task<IActionResult> Create()
         //{
@@ -73,7 +73,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                         await _permanenceModelsRepository.AddAsync(PVM.permanenceModels);
                         //================================================
                         TempData["Success"] = "تم الحفظ بنجاح";
-                        return View();
+                        return RedirectToAction(nameof(Create)); // Redirect to the Create action();
                         //return RedirectToAction(nameof(Index));
 
 

@@ -1,0 +1,228 @@
+﻿@model N.G.HRS.Areas.MaintenanceControl.ViewModels.AttendanceAndAbsenceProcessingVM
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "معالجة الحظور والغياب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>معالجة الحضور والانصراف</h3>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row mb-3 set">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Employee.Id" class="form-label">الموظف</label><span class="text-danger">*</span>
+                                    <select asp-for="Employee.Id" id="Employee" tabindex="1" class="js-example-basic-single  form-select" asp-items="@(ViewData["employee"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Departments.Id" class="form-label">الإدارة</label><span class="text-danger">*</span>
+                                    <select asp-for="Departments.Id" id="Departments" tabindex="1" class="js-example-basic-single  form-select" asp-items="@(ViewData["Departments"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Sections.Id" class="form-label">القسم</label><span class="text-danger">*</span>
+                                    <select asp-for="Sections.Id" id="Sections" tabindex="1" class="js-example-basic-single  form-select" asp-items="@(ViewData["Sections"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3 set">
+
+
+                                <div class="form-group col-md-4 ">
+                                    <label asp-for="FromDate" class="form-label"> من تاريخ</label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="FromDate" id="FromDate" tabindex="" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="FromDate" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4 ">
+                                    <label asp-for="ToDate" class="form-label">إلى تاريخ</label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="ToDate" id="ToDate" tabindex="" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="ToDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="form-group col-md-10 mt-2">
+            <button class="btn btn-primary set" id="SubmitProcessing">
+                <span> معالجة </span>
+                <i data-feather="loader" style="width: 17px;"></i>
+            </button>
+            <button class="btn btn-primary set" id="SubmitDelete">
+                <span>  مسح المعالجة السابقة </span>
+                <i data-feather="trash-2" style="width: 17px;"></i>
+            </button>
+            <button class="btn btn-primary set" id="Submit">
+                <span> حفظ </span>
+                <i data-feather="save" style="width: 17px;"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>#</th>
+                                <th>رقم الموظف</th>
+                                <th>الموظف</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+
+                                <th>من وقت</th>
+                                <th>الى وقت</th>
+                                <th>دقائق العمل </th>
+                                <th>ساعات العمل</th>
+                                <th> دقائق الغياب</th>
+                                <th>تمت المعالجة من قبل</th>
+                                <th>تمت   قبل</th>
+                                <th>الدوام</th>
+                                <th>الفترة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="machinInfo">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            var v = new ValidationFromMe();
+            $('#SubmitProcessing').click(function () {
+                $('#machinInfo').empty();
+
+                var from = $('#FromDate').val();
+                var to = $('#ToDate').val();
+                if (from != "") {
+                    $.ajax({
+                        url:
+                            "/MaintenanceControl/AttendanceAndAbsenceProcessingVM/GetAttendanceStatus",
+                        data: { from: from, to: to },
+                        method: 'GET',
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            $.each(data, function (i, item) {
+                                var d = item.date;
+                                var d1 = d.lastIndexOf('T')
+                                var date= d.substring(0, d1);
+                                //==============
+                                var f = item.from;
+                                var f1 = f.lastIndexOf('T');
+                                var ftime = f.substring(f1 + 1);
+                                var ftime12 = v.convertTimeTo12(ftime);
+                                //==============
+                                var t = item.to;
+                                var t1 = t.lastIndexOf('T');
+                                var ttime = t.substring(t1 + 1);
+                                var ttime12 = v.convertTimeTo12(ttime);
+                                //==============
+                                var h = item.minutes / 60 ;
+                                var hour = h.toFixed(1);
+                                var row = $('<tr></tr>');
+                                row.append($('<td></td>').text('#'));
+                                row.append($('<td></td>').text(item.eNumber));
+                                row.append($('<td></td>').text(item.eName));
+                                row.append($('<td></td>').text(item.attendanceStatus));
+                                row.append($('<td></td>').text(date));
+                                row.append($('<td></td>').text(ftime12));
+                                row.append($('<td></td>').text(ttime12));
+                                row.append($('<td></td>').text(item.minutes));
+                                row.append($('<td></td>').text(hour));
+                                row.append($('<td></td>').text(item.minutesLate));
+                                row.append($('<td></td>').text(item.isProcessedBefor));
+                                row.append($('<td></td>').text(item.isProcessed));
+                                row.append($('<td></td>').text(item.permenenceModel));
+                                row.append($('<td></td>').text(item.periods));
+                                $('#machinInfo').append(row);
+                                if (item.isProcessedBefor == true) {
+                                    $('#machinInfo').style.backgroundcolor = "red";
+                                }
+                            });
+                            Swal.close();
+                            v.softSuccessMessage('تم تحميل البيانات بنجاح ✔️');
+                        },
+                    });
+                    let timerInterval;
+
+                    Swal.fire({
+                        title: "جاري معالجة الحظور والانصراف 😵",
+                        timer: 10000,
+
+                        timerProgressBar: false,
+                        customClass: {
+                            container: '#e5b540',
+                            icon: '#e5b540',
+                            htmlContainer: '#e5b540',
+                            timerProgressBar: '#e5b540',
+                        },
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+
+                        }
+                    });
+                }
+                else {
+                    event.preventDefault();
+                    v.softErrorMessage("يجب على الاقل تحديد حقل من تاريخ !!");
+                }
+
+            });
+        });
+
+    </script>
+}

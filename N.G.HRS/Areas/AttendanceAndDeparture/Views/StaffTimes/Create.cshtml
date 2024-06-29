@@ -174,23 +174,28 @@
                             dataType: "json",
                             success: function (data) {
                                 if (data != "") {
-                                $("#PeriodId").empty();
+                                    $("#PeriodId").empty();
                                     $("#PeriodId").append('<option value="" disabled selected></option>');
 
                                     $.each(data, function (i, item) {
-                                        var from = item.from;
-                                        var to = item.to;
-                                        from = from.substring(0, 5);
-                                        to = to.substring(0, 5);
+                                        var f = item.from;
+                                    let spaceIndex = f.indexOf("T");
+                                    var from = f.substring(spaceIndex+1,spaceIndex+6);
+
+                                        var t = item.to;
+                                    let spaceIndex2 = t.indexOf("T");
+
+                                        var to = t.substring(spaceIndex2+1,spaceIndex2+6);
+                                        
                                         $("#PeriodId").append('<option value="' + item.id + '">' + item.name + "  " + from + " ~ " + to + " = " + item.hours + " ساعات " + '</option>');
                                     });
                                 }
-                                else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: `هذا الموظف لا ينتمي الى  دوام!!`,
-                                    });
-                                }
+                                // else {
+                                //     Swal.fire({
+                                //         icon: 'error',
+                                //         title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                //     });
+                                // }
                             }
 
                         });
