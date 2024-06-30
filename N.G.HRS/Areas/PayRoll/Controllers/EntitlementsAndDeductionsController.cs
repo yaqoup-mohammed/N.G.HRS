@@ -51,9 +51,11 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // GET: PayRoll/EntitlementsAndDeductions/Create
         public IActionResult Create()
         {
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id");
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name");
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
+
+
             return View();
         }
 
@@ -70,9 +72,10 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", entitlementsAndDeductions.FinanceAccountTypeId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", entitlementsAndDeductions.FinanceAccountTypeId);
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", entitlementsAndDeductions.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", entitlementsAndDeductions.EmployeeId);
+            
             return View(entitlementsAndDeductions);
         }
 
@@ -89,9 +92,10 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             {
                 return NotFound();
             }
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", entitlementsAndDeductions.FinanceAccountTypeId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", entitlementsAndDeductions.FinanceAccountTypeId);
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", entitlementsAndDeductions.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", entitlementsAndDeductions.EmployeeId);
+
             return View(entitlementsAndDeductions);
         }
 
@@ -127,7 +131,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", entitlementsAndDeductions.FinanceAccountTypeId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", entitlementsAndDeductions.FinanceAccountTypeId);
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", entitlementsAndDeductions.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", entitlementsAndDeductions.EmployeeId);
             return View(entitlementsAndDeductions);

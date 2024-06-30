@@ -64,6 +64,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
                 await _BasicDataForWagesAndSalariesRepo.AddAsync(basicDataForWagesAndSalaries);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(basicDataForWagesAndSalaries);
         }
 
@@ -153,5 +154,40 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         {
             return _context.basicDataForWagesAndSalaries.Any(e => e.Id == id);
         }
+   
+        public IActionResult Check(DateOnly from, DateOnly to, int month, int apcent, int late, int fapcent)
+        {
+            var date = _context.basicDataForWagesAndSalaries.ToList();
+            if (date != null)
+            {
+                foreach (var item in date)
+                {
+                    if (item.FromDate == from && item.ToDate == to && item.NumberOfMonthsDays == month && item.AbsencePerHour == apcent && item.DelayPerHour == late && item.OneFingerPrintPerHourDelay == fapcent)
+                    {
+                        return Json(1);
+                    }
+                    else if (item.FromDate == from && item.ToDate == to)
+                    {
+                        return Json(2);
+                    }
+                    else if (item.FromDate <= from && item.ToDate >= from)
+                    {
+                        return Json(3);
+                    }
+                    else if (item.FromDate <= to && item.ToDate >= to)
+                    {
+                        return Json(4);
+                    }
+                    else if ((from <= item.ToDate && to >= item.FromDate))
+                    {
+                        return Json(5);
+                    }
+                }
+
+            }
+            return Json(0);
+        }
+
+
     }
 }

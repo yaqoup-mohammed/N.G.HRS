@@ -9,95 +9,56 @@ namespace N.G.HRS.Areas.PayRoll.Models
 {
     public class AutomaticallyApprovedAdd_on
     {
-        private double _numberOfHours;
-        private int _numerOfMinutes;
+     
 
 
         public int Id { get; set; }
+        [Required (ErrorMessage = "حقل  القسم مطلوب")]
+        [Display(Name = "القسم")]
         public int? SectionsId { get; set; }
         public Sections? Sections { get; set; }
+        [Required(ErrorMessage = "حقل  الموظف مطلوب")]
+        [Display(Name = "الموظف")]
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
 
+        [Required(ErrorMessage = "حقل  التاريخ مطلوب")]
+        [Display(Name = "التاريخ")]
         [DataType(DataType.Date)]
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "حقل  هذا مطلوب")]
+        [Display(Name = "من التاريخ")]
         public DateOnly FromDate { get; set; }
 
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "حقل  هذا مطلوب")]
+        [Display(Name = "إلى التاريخ")]
         public DateOnly ToDate { get; set; }
         [DataType(DataType.Time)]
+        [Required(ErrorMessage = "حقل  هذا مطلوب")]
+        [Display(Name = "من الوقت")]
         public TimeOnly FromTime { get; set; }
         [DataType(DataType.Time)]
+        [Required(ErrorMessage = "حقل  هذا مطلوب")]
+        [Display(Name = "إلى الوقت")]
         public TimeOnly ToTime { get; set; }
-        public double? Hours
-        {
-            get
-            {
-                return _numberOfHours;
-            }
-            set
-            {
-                _numberOfHours = CalculateHours();
-            }
-        }
-        public int? Minutes
-        {
-            get
-            {
-                return _numerOfMinutes;
-            }
-            set
-            {
-                _numerOfMinutes = CalculateMinutesBetween();
-            }
-        }
-
-        public double CalculateHours()
-        {
-            //if (FromTime > ToTime)
-            //{
-
-            //    throw new ArgumentException("وقت البدء بعد وقت النهاية.");
-
-            //}
-
-            DateTime startTime = DateTime.Parse(FromTime.ToString());
-            DateTime endTime = DateTime.Parse(ToTime.ToString());
-            if (startTime.Hour < 12)
-            {
-                startTime = startTime.AddHours(12);
-            }
-            string startTwentyFourHourTime = startTime.ToString("HH");
-            if (endTime.Hour < 12)
-            {
-                endTime = endTime.AddHours(12);
-            }
-            string endTwentyFourHourTime = endTime.ToString("HH");
-
-            var totalHours =Math.Abs( int.Parse(endTwentyFourHourTime) - int.Parse(startTwentyFourHourTime));
-            return totalHours;
-        }
-
-        public int CalculateMinutesBetween()
-        {
-            // Calculate total minutes between times
-            var totalTimeSpan = ToTime - FromTime;
-            var totalMinutes = totalTimeSpan.TotalMinutes;
-
-            return (int)totalMinutes;
-        }
-
-        //private static int GetStandardHours(DateOnly fromDate, DateOnly toDate)
-        //{
-        //    // Assuming 8 hours per day, adjust as needed
-        //    var workingDays = toDate.Day - fromDate.Day + 1;
-        //    var standardHours = workingDays * 8;
-
-        //    return standardHours;
-        //}
-       
+        [Required]
+        [Display ( Name =" الساعات")]
+      
         
+        public double? Hours { get; set; }
+        [ Required ]
+
+        [Display(Name = " الدقائق ")]
+
+        public int? Minutes { get; set; }
+
+
+
+
+
+
+
     }
 }

@@ -1,8 +1,9 @@
 ﻿@model N.G.HRS.Areas.AalariesAndWages.Models.BasicDataForTheSalaryStatement
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "نماذج الدوام";
+    ViewData["Title"] = "Employee";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -258,6 +259,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script>
+
+        // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+        const fromDate1 = new Date().toISOString().split('T')[0];
+        $("#FromFate").val(fromDate1);
+
     const fromDate = document.getElementById("FromFate");
     const toDate = document.getElementById("ToDate");
     fromDate.addEventListener("change", function () {
@@ -361,11 +367,26 @@
         });
         //====================================================
     submitButton.addEventListener("click", function () {
-            if (fromDate.value != null || toDate.value != null) {
-                event.preventDefault();
+
+            // if (fromDate.value != null || toDate.value != null) {
+            //     event.preventDefault();
+            //     Swal.fire({
+            //         icon: "error",
+            //         title: "يجب أدخال الى  تاريخ  !",
+            //     });
+            // }
+            var fromDate = $("#FromFate").val();
+            var toDate = $("#ToDate").val();
+            if (fromDate === "") {
                 Swal.fire({
                     icon: "error",
-                    title: "يجب أدخال تاريخ  !",
+                    title: "يجب أدخال من تاريخ  !",
+                });
+            }
+            else if (toDate === "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "يجب أدخال الى تاريخ  !",
                 });
             }
 
@@ -420,6 +441,8 @@
                 });
             }
     });
+    
+
     //=================================================================
 </script>
 }

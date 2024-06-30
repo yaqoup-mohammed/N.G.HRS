@@ -1,7 +1,12 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "الدولة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 <h1>Edit</h1>
@@ -20,12 +25,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
+                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SectionId" class="control-label"></label>
-                <input asp-for="SectionId" class="form-control" />
+                <select asp-for="SectionId" class="form-control" asp-items="ViewBag.SectionId"></select>
                 <span asp-validation-for="SectionId" class="text-danger"></span>
             </div>
             <div class="form-group">

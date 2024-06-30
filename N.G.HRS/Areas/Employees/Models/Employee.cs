@@ -19,12 +19,15 @@ namespace N.G.HRS.Areas.Employees.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
-        [Range(0, 99999999999999)]
-        public string? EmployeeNumber { get; set; }//
+        [RegularExpression("^[0-9]*$", ErrorMessage = "يرجى إدخال أرقام فقط")]
+
+        public int EmployeeNumber { get; set; }//
         [Required]
         [StringLength(170)]
         public string? EmployeeName { get; set; }//
+        [Required ( ErrorMessage = "الحقل هذا مطلوب")]
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Employment")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -55,9 +58,11 @@ namespace N.G.HRS.Areas.Employees.Models
         public byte FingerPrintImage { get; set; }//
         public string? ImageFile { get; set; }
         [NotMapped]
+        [Required ( ErrorMessage = "الحقل هذا مطلوب")]
         public IFormFile ?FileUpload { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }//
+
         //يرتبط مع جدول(الادارة) وجدول (القسم) وجدول (الوصف الوظيفي) وجدول (جهاز البصمة) و علاقة(self)
         //========================================================
         [ForeignKey("DepartmentsId")]
@@ -78,8 +83,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<PracticalExperiences>? PracticalExperiencesList { get; set; }
         //=====================================
         public List<StatementOfEmployeeFiles>? StatementOfEmployeeFilesList { get; set; }
-        //=====================================
-        public List<AdditionalUnsupportedEmployees>? AdditionalUnsupportedEmployeesList { get; set; }
         //=====================================           
         public List<TrainingCourses>? TrainingCoursesList { get; set; }
         //=====================================           
@@ -92,7 +95,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<VacationAllowances>? VacationAllowancesList { get; set; }
         //=====================================           
         public List<VacationBalance>? VacationBalanceList { get; set; }
-        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessingList { get; set; }
 
         //=====================================
         public List<Permits>? PermitsList { get; set; }
@@ -154,6 +156,8 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<AdministrativeDecisions>? AdministrativeDecisionsList { get; set; }
         //====================================
         public List<AnnualGoals>? AnnualGoalsList { get; set; }
+        //==================================== 
+        //public List<EmployeeWagesVM>? EmployeeWagesVM { get; set; }
         //==================================== 
         public List<AttendanceRecord>? AttendanceRecordList { get; set; }
         //====================================

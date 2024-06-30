@@ -11,7 +11,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [Required]
         [StringLength(150)]
         [Display(Name = "المديرية")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
+        public DateTime CreatedDate { get; set; }
+
         [StringLength(255)]
         [Display(Name = "ملاحظات")]
         public string? Notes { get; set; }

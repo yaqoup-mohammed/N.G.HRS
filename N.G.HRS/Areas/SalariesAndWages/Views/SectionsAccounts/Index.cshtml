@@ -8,50 +8,69 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinanceAccountType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinanceAccount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sections)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinanceAccountType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinanceAccount.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sections.SectionsName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">حساب الاقسام</h6>
+
+                <hr style="color: black;">
+                <div class="table-responsive">
+                    <table class="datatable table  nowrap w-100">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FinanceAccountType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FinanceAccount)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sections)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Notes)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Notes)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FinanceAccountType.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FinanceAccount.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sections.SectionsName)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -5,15 +5,27 @@ namespace N.G.HRS.Areas.PayRoll.Models
 {
     public class EmployeePerks//اكراميات الموظفين
     {
+        //private double _installmentAmount;
+
         public int Id { get; set; }
         [DataType(DataType.Date)]
+        [Required (ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "تاريخ الاكراميات")]
         public DateTime Date { get; set; }
+        [Required (ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "الموظف")]
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        public string Description { get; set; }
+        public Employee? Employee { get; set; }
+        [Display(Name = "الوصف")]
+        public string? Description { get; set; }
+        [Required (ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "المبلغ")]
         public double Amount { get; set; }
-        [Range(1, 100)]
+        [Required (ErrorMessage = "هذا الحقل مطلوب")]
+        [Display(Name = "نسبة ")]
+        
         public int Percentage { get; set; }
+        [Display(Name = "الملاحضات ")]
         public string? Notes { get; set; }
 
     }

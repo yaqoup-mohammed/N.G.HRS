@@ -15,36 +15,88 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="SectionsAccountsForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          
+            <div class="form-group">
+                <label asp-for="FinanceAccountTypeId" class="control-label"></label>
+                <select asp-for="FinanceAccountTypeId" id="SectionsFinanceAccountTypeId" class="form-control" asp-items="@(ViewData["FinanceAccountTypeId"] as SelectList)">
+                    <option value="" >-- --</option>
+                </select>
+                <span asp-validation-for="FinanceAccountTypeId" class="text-danger"></span> 
+
+            </div>
+            <div class="form-group">
+                <label asp-for="FinanceAccountId" class="control-label"></label>
+                <select asp-for="FinanceAccountId" class="form-control" id="SectionsFinanceAccountId" asp-items="@(ViewData["FinanceAccountId"] as SelectList)">
+                    <option value="" >-- --</option>
+                </select>
+                <span asp-validation-for="FinanceAccountId" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="SectionsId" class="control-label"></label>
+                <select asp-for="SectionsId" class="form-control" id="SectionsSectionsId" asp-items="@(ViewData["SectionsId"] as SelectList)">
+                    <option value="" >-- --</option>
+                </select>
+                <span asp-validation-for="SectionsId" class="text-danger"></span>
+
+            </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FinanceAccountTypeId" class="control-label"></label>
-                <select asp-for="FinanceAccountTypeId" class ="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="FinanceAccountId" class="control-label"></label>
-                <select asp-for="FinanceAccountId" class ="form-control" asp-items="ViewBag.FinanceAccountId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SectionsId" class="control-label"></label>
-                <select asp-for="SectionsId" class ="form-control" asp-items="ViewBag.SectionsId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+@*                 <input type="submit" id="SectionsAccountsSubmit" value="Create" class="btn btn-primary" />
+ *@                <button type="submit" id="SectionsAccountsSubmit" class="btn btn-primary routate">حفظ</button>
+                <a asp-action="Index">Back to List</a>
+
+
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#SectionsAccountsForm").submit(function (event) {
+                var sectionsFinanceAccountTypeId = $("#SectionsFinanceAccountTypeId").val();
+                var sectionsFinanceAccountId = $("#SectionsFinanceAccountId").val();
+                var sectionsSectionsId = $("#SectionsSectionsId").val();
+
+
+                if (sectionsFinanceAccountTypeId === ""  ) {
+
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار نوع الحساب!",
+                    });
+                }
+                else if (sectionsFinanceAccountId === "" ) {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار  الحساب!",
+                    });
+                }
+                else if (sectionsSectionsId === "") {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار نوع القسم !",
+                    });
+                }
+               
+            });
+        });
+    </script>
+
+
 }

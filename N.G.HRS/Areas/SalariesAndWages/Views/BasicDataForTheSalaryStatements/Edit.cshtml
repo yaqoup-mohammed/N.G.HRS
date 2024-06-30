@@ -1,7 +1,13 @@
 ﻿@model N.G.HRS.Areas.AalariesAndWages.Models.BasicDataForTheSalaryStatement
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 <h1>Edit</h1>

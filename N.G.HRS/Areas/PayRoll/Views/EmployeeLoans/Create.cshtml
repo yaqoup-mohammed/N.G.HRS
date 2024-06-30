@@ -1,74 +1,178 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeeLoans
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "الدولة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<h1>Create</h1>
+<h1>إنشاء قرض موظف</h1>
 
-<h4>EmployeeLoans</h4>
+<h4>  القرض</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Create" id="EmployeeLoansForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
             <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <label asp-for="EmployeeId" class="control-label">الموظف</label>
+                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId" required>
+                    <option value="">--- اختر الموظف ---</option>
+                </select>
             </div>
+         
+
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <div>
+                    <label asp-for="Date" class="control-label"> التاريخ</label>
+                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                        <input asp-for="Date" id="Date1" class="form-control" placeholder="أدخل التاريخ" data-input />
+                        <span class="input-group-text input-group-addon" data-toggle>
+                            <i data-feather="calendar"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
             </div>
+
             <div class="form-group">
-                <label asp-for="InstallmentStartDate" class="control-label"></label>
-                <input asp-for="InstallmentStartDate" class="form-control" />
-                <span asp-validation-for="InstallmentStartDate" class="text-danger"></span>
+                <div>
+                    <label asp-for="InstallmentStartDate" class="control-label"> تاريخ بدء القرض</label>
+                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                        <input asp-for="InstallmentStartDate" id="InstallmentStartDate" class="form-control" placeholder="أدخل التاريخ" data-input />
+                        <span class="input-group-text input-group-addon" data-toggle>
+                            <i data-feather="calendar"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="InstallmentStartDate" class="text-danger"></span>
+                </div>
             </div>
+
+          
             <div class="form-group">
-                <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
+                <label asp-for="CurrencyId" class="control-label">العملة</label>
+                <select asp-for="CurrencyId" id="CurrencyId" class="form-control" asp-items="ViewBag.CurrencyId" required></select>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Arrest" /> @Html.DisplayNameFor(model => model.Arrest)
-                </label>
+                <input class="form-check-input" asp-for="Arrest" id="Arrest" />
+                <label class="form-check-label" for="Arrest">توقيف</label>
             </div>
             <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
+                <label asp-for="Amount" class="control-label">المبلغ</label>
+                <input asp-for="Amount" id="Amount" class="form-control"  placeholder="أدخل المبلغ" required oninput="validateNumberInput(this)" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InstallmentAmount" class="control-label"></label>
-                <input asp-for="InstallmentAmount" class="form-control" />
+                <label asp-for="InstallmentAmount" class="control-label">   </label>
+                <input asp-for="InstallmentAmount" id="InstallmentAmount" class="form-control"  placeholder="أدخل مبلغ القرض" required oninput="validateNumberInput(this)" />
                 <span asp-validation-for="InstallmentAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumberOfInstallmentMonths" class="control-label"></label>
-                <input asp-for="NumberOfInstallmentMonths" class="form-control" />
+                <label asp-for="NumberOfInstallmentMonths" class="control-label">عدد شهور القرض</label>
+                <input asp-for="NumberOfInstallmentMonths" id="NumberOfInstallmentMonths" class="form-control"  placeholder="أدخل عدد الشهور" required oninput="validateNumberInput(this)" />
                 <span asp-validation-for="NumberOfInstallmentMonths" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
+                <label asp-for="Notes" class="control-label">ملاحظات</label>
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="SaveButton" value="حفظ" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">العودة إلى القائمة</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+ 
+
+     <script>
+        // لا يدخل الا ارقام فقط
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        $(document).ready(function () {
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            // حساب مبلغ القسط عند إدخال عدد الشهور
+            $("#NumberOfInstallmentMonths").on('input', function () {
+                var amount = parseFloat($("#Amount").val());
+                var numberOfInstallmentMonths = parseInt($(this).val());
+
+                if (!isNaN(amount) && !isNaN(numberOfInstallmentMonths) && numberOfInstallmentMonths > 0) {
+                    var installmentAmount = amount / numberOfInstallmentMonths;
+                    $("#InstallmentAmount").val(installmentAmount.toFixed(2)).prop('disabled', true);
+                } else {
+                    $("#InstallmentAmount").val('').prop('disabled', false);
+                }
+            });
+
+           // حساب عدد الشهور عند إدخال مبلغ القسط
+            $("#InstallmentAmount").on('input', function () {
+                var amount = parseFloat($("#Amount").val());
+                var installmentAmount = parseFloat($(this).val());
+
+                if (!isNaN(amount) && !isNaN(installmentAmount) && installmentAmount > 0) {
+                    var numberOfInstallmentMonths = amount / installmentAmount;
+                    $("#NumberOfInstallmentMonths").val(Math.ceil(numberOfInstallmentMonths)).prop('disabled', true);
+                } else {
+                    $("#NumberOfInstallmentMonths").val('').prop('disabled', false);
+                }
+            });
+
+            $("#EmployeeLoansForm").on('submit', function (event) {
+                var employeeId = $("#EmployeeId").val();
+                var date1 = $("#Date1").val();
+                var installmentStartDate = $("#InstallmentStartDate").val();
+                var currencyId = $("#CurrencyId").val();
+                var amount = $("#Amount").val();
+                var installmentAmount = $("#InstallmentAmount").val();
+                var numberOfInstallmentMonths = $("#NumberOfInstallmentMonths").val();
+                // قبل ارسال النموذج، تأكد من تمكين الحقول المعطلة
+                    $("#InstallmentAmount").prop('disabled', false);
+                    $("#NumberOfInstallmentMonths").prop('disabled', false);
+
+                if (employeeId === "") {
+                    showErrorMessage("يجب اختيار اسم الموظف");
+                    return false;
+                } else if (date1.trim() === "") {
+                    showErrorMessage("يجب اختيار اليوم");
+                    return false;
+                } else if (installmentStartDate.trim() === "") {
+                    showErrorMessage("يجب اختيار تاريخ بدء القرض");
+                    return false;
+                } else if (currencyId === "") {
+                    showErrorMessage("يجب اختيار العملة");
+                    return false;
+                } else if (amount.trim() === "") {
+                    showErrorMessage("يجب إدخال المبلغ");
+                    return false;
+                } else if (installmentAmount.trim() === "") {
+                    showErrorMessage("يجب إدخال مبلغ القسط");
+                    return false;
+                } else if (numberOfInstallmentMonths.trim() === "") {
+                    showErrorMessage("يجب إدخال عدد شهور القرض");
+                    return false;
+                }
+
+            });
+        });
+    </script> 
+
 }

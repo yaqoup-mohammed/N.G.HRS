@@ -1,0 +1,138 @@
+﻿@model N.G.HRS.Areas.RegisterAndLogin.Models.Login
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "حسابات الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title " id="loginModalLabel">تسجيل الدخول</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" class="p-4 border rounded shadow">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" id="Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" id="Password" disabled />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="JobNumber" class="control-label"></label>
+                        <input asp-for="JobNumber" class="form-control" id="EmployeeId" disabled />
+                        <span asp-validation-for="JobNumber" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <input type="submit" value="دخول" class="btn btn-primary" disabled id="submitBtn" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <style>
+        .form-control {
+            font-size: 1.2em; /* تكبير حجم النص */
+            border-radius: 10px; /* زوايا مقوسة */
+        }
+
+        .valid-input {
+            border: 3px solid green; /* تكبير حجم الحدود وتغيير اللون إلى الأخضر */
+        }
+
+        .invalid-input {
+            border: 3px solid red; /* تكبير حجم الحدود وتغيير اللون إلى الأحمر */
+        }
+
+        .btn {
+            font-size: 1.2em; /* تكبير حجم النص في الزر */
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // فتح النموذج عند تحميل الصفحة
+            $('#loginModal').modal('show');
+
+            function verifyInput(field) {
+                var email = $('#Email').val();
+                var password = $('#Password').val();
+                var employeeId = $('#EmployeeId').val();
+                var data = { field: field };
+
+                if (field === 'Email') {
+                    data.email = email;
+                } else if (field === 'Password') {
+                    data.email = email;
+                    data.password = password;
+                } else if (field === 'EmployeeId') {
+                    data.email = email;
+                    data.employeeId = employeeId;
+                }
+
+                if (email && (field !== 'Password' || password) && (field !== 'EmployeeId' || employeeId)) {
+                    $.ajax({
+                        url: '@Url.Action("VerifyAccount", "Logins")',
+                        type: 'POST',
+                        data: data,
+                        success: function (data) {
+                            if (data) {
+                                $('#' + field).removeClass('invalid-input').addClass('valid-input');
+
+                                if (field === 'Email') {
+                                    $('#Password').prop('disabled', false).focus();
+                                } else if (field === 'Password') {
+                                    $('#EmployeeId').prop('disabled', false).focus();
+                                } else if (field === 'EmployeeId') {
+                                    $('#submitBtn').prop('disabled', false);
+                                    // إعادة توجيه المستخدم بعد النجاح
+                                    // $('#loginForm').submit();
+                                }
+                            } else {
+                                $('#' + field).removeClass('valid-input').addClass('invalid-input');
+                                if (field === 'Email') {
+                                    $('#Password').prop('disabled', true);
+                                } else if (field === 'Password') {
+                                    $('#EmployeeId').prop('disabled', true);
+                                }
+                                $('#submitBtn').prop('disabled', true);
+                            }
+                        }
+                    });
+                }
+            }
+
+            $('#Email').on('blur', function () {
+                verifyInput('Email');
+            });
+
+            $('#Password').on('blur', function () {
+                verifyInput('Password');
+            });
+
+            $('#EmployeeId').on('blur', function () {
+                verifyInput('EmployeeId');
+            });
+        });
+
+    </script>
+}
