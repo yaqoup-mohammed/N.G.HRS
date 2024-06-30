@@ -55,8 +55,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // GET: SalariesAndWages/SectionsAccounts/Create
         public IActionResult Create()
         {
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id");
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id");
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name");
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name");
             ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName");
             return View();
         }
@@ -76,8 +76,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 
                 //return RedirectToAction(nameof(Index));
             }
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", sectionsAccounts.FinanceAccountId);
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", sectionsAccounts.FinanceAccountTypeId);
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name", sectionsAccounts.FinanceAccountId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", sectionsAccounts.FinanceAccountTypeId);
             ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName", sectionsAccounts.SectionsId);
             return View(sectionsAccounts);
         }
@@ -95,8 +95,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
             {
                 return NotFound();
             }
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", sectionsAccounts.FinanceAccountId);
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", sectionsAccounts.FinanceAccountTypeId);
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name", sectionsAccounts.FinanceAccountId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", sectionsAccounts.FinanceAccountTypeId);
             ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName", sectionsAccounts.SectionsId);
             return View(sectionsAccounts);
         }
@@ -135,8 +135,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
                 //return RedirectToAction(nameof(Index));
 
             }
-            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Id", sectionsAccounts.FinanceAccountId);
-            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Id", sectionsAccounts.FinanceAccountTypeId);
+            ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name", sectionsAccounts.FinanceAccountId);
+            ViewData["FinanceAccountTypeId"] = new SelectList(_context.FinanceAccountType, "Id", "Name", sectionsAccounts.FinanceAccountTypeId);
             ViewData["SectionsId"] = new SelectList(_context.Sections, "Id", "SectionsName", sectionsAccounts.SectionsId);
             return View(sectionsAccounts);
         }

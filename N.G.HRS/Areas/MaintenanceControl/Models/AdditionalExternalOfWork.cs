@@ -28,7 +28,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ToDate { get; set; }
-            [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "من وقت")]
         [DataType(DataType.Time)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss tt}")]
@@ -55,7 +55,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "نوع التكليف")]
         public int AssignmentId { get; set; }
-        public Assignment Assignment { get; set; }
+        [Display(Name = "نوع التكليف")]
+        public Assignment? Assignment { get; set; }
         public bool BetweenToDate { get; set; }
         [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
@@ -72,5 +73,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<AdditionalExternalOfWork> AdditionalExternalOfWorkList { get; set;}
     }
 }

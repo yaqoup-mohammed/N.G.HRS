@@ -11,10 +11,9 @@ namespace N.G.HRS.Areas.Employees.Models
         [DataType(DataType.Date)]
         public DateOnly Date { get; set; }
         public string? Notes { get; set; }
-        public string ?Descriotion { get; set; }
-        public string ?File { get; set; }
+        public string? Descriotion { get; set; }
+        public string? File { get; set; }
         [NotMapped]
-        [Required]
         public IFormFile? FileUpload { get; set; }
         //====================================================
         public int EmployeeId { get; set; }

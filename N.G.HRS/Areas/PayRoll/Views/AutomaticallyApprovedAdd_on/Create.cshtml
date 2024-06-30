@@ -1,13 +1,13 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.AutomaticallyApprovedAdd_on
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
-}
-<div class="card">
-
+    @{
+        ViewData["Title"] = "الدولة";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        ViewData["Active"] = "AddEmployee";
+        ViewData["Open"] = "Open2";
+        ViewData["OpenOperation"] = "OpenOperation2";
+    }
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
@@ -115,97 +115,165 @@
 
 @* ========================================================= *@
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            const v = new ValidationFromMe();
+
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            // // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            // const today = new Date().toISOString().split('T')[0];
+            // $("#Date").val(today);
+            // $("#FromDate").val(today);
+
+            $("#FromDate, #ToDate").on("input", function () {
+                var fromDate1 = $("#FromDate").val();
+                var toDate1 = $("#ToDate").val();
+
+                if (!isNaN(new Date(fromDate1).getTime()) && !isNaN(new Date(toDate1).getTime())) {
+                    if (new Date(toDate1) < new Date(fromDate1)) {
+                        $("#FromDate, #ToDate").val(""); // إعادة تعيين القيم
+                        showErrorMessage("تاريخ النهاية يجب أن يكون أكبر من تاريخ البداية");
+                    }
+                }
+            });
+
+            $("#FromTime, #ToTime").on('input', function () {
+                var fromTime = $("#FromTime").val();
+                var toTime = $("#ToTime").val();
+
+                if (fromTime && toTime) {
+                    // تأكد من أن وقت النهاية أكبر من وقت البداية
+                    if (!isEndTimeGreaterThanStartTime(fromTime, toTime)) {
+                        $("#ToTime").val(""); // إعادة تعيين حقل وقت النهاية
+                        showErrorMessage("وقت النهاية يجب أن يكون أكبر من وقت البداية");
+                    } else {
+                        calculateTimeDifference(fromTime, toTime);
+                    }
+                }
+            });
+
+            $("#AutomaticallyForm").on('submit', function (event) {
+               
+                var sectionsId = $("#SectionsId").val();
+                var employeeId = $("#EmployeeId").val();
+                var date = $("#Date").val();
+                var fromDate = $("#FromDate").val();
+                var toDate = $("#ToDate").val();
+                var fromTime = $("#FromTime").val();
+                var toTime = $("#ToTime").val();
+                var hours = $("#Hours").val();
+                var minutes = $("#Minutes").val();
+
+                if (date !== today) {
+                    showErrorMessage("يجب أن يكون التاريخ هو تاريخ اليوم");
+                    return false;
+                }
+                if (employeeId === "") {
+                    showErrorMessage("يجب أختيار اسم الموظف");
+                    return false;
+                } else if (sectionsId === "") {
+                    showErrorMessage("يجب أختيار القسم");
+                    return false;
+                } else if (date === "") {
+                    showErrorMessage("يجب أختيار اليوم");
+                    return false;
+                }
+
+                if (fromDate === "") {
+                    showErrorMessage("يجب أدخال تاريخ البداية");
+                    return false;
+                }
+                if (toDate === "") {
+                    showErrorMessage("يجب أدخال تاريخ النهاية");
+                    return false;
+                }
+
+                if (fromTime === "") {
+                    showErrorMessage("يجب أدخال وقت البداية");
+                    return false;
+                }
+                if (toTime === "") {
+                    showErrorMessage("يجب أدخال وقت النهاية");
+                    return false;
+                }
+
+                if (hours === "") {
+                    showErrorMessage("يجب أدخال عدد الساعات");
+                    return false;
+                }
+                if (minutes === "") {
+                    showErrorMessage("يجب أدخال عدد الدقائق");
+                    return false;
+                }
+            });
+
+            // تعيين الوقت الحالي لحقل FromTime عند تحميل الصفحة
+            $("#FromTime").val(moment().format('hh:mm A'));
+
+            // Function to calculate hours and minutes between two times
+            function calculateHoursBetweenWith24(startTime, endTime) {
+                const startTime24 = convertTo24HourFormat(startTime);
+                const endTime24 = convertTo24HourFormat(endTime);
+
+                const start = moment(startTime24, 'HH:mm');
+                const end = moment(endTime24, 'HH:mm');
+
+                // Calculate difference in minutes
+                let minutesDifference = end.diff(start, 'minutes');
+
+                // If the difference is negative, add 24 hours to it
+                if (minutesDifference < 0) {
+                    minutesDifference += 24 * 60; // 24 hours in minutes
+                }
+
+                // Convert minutes to hours and remaining minutes
+                const hours = Math.floor(minutesDifference / 60);
+                const remainingMinutes = minutesDifference % 60;
+
+                return { hours, minutes: remainingMinutes, totalMinutes: minutesDifference };
+            }
+
+            // Function to convert time to 24-hour format
+            function convertTo24HourFormat(time) {
+                return moment(time, ['hh:mm A']).format('HH:mm');
+            }
+
+            // Function to check if end time is greater than start time
+            function isEndTimeGreaterThanStartTime(startTime, endTime) {
+                const startTime24 = convertTo24HourFormat(startTime);
+                const endTime24 = convertTo24HourFormat(endTime);
+
+                const start = moment(startTime24, 'HH:mm');
+                const end = moment(endTime24, 'HH:mm');
+
+                return end.isAfter(start);
+            }
+
+            // Function to calculate and display time difference
+            function calculateTimeDifference(fromTime, toTime) {
+                const timeDifference = calculateHoursBetweenWith24(fromTime, toTime);
+                const hoursDecimal = timeDifference.hours + (timeDifference.minutes / 60);
+                $("#Hours").val(hoursDecimal.toFixed(2));
+                $("#Minutes").val(timeDifference.totalMinutes);
+            }
+        });
+    </script>
+
+
+
+
+
+
 }
-<script>
-
-    function calculateTimeDifference() {
-        const startTimeInput = document.getElementById("startTime");
-        const endTimeInput = document.getElementById("endTime");
-        const hoursInput = document.getElementById("hours");
-        const minutesInput = document.getElementById("minutes");
-
-        if (!startTimeInput || !endTimeInput || !hoursInput || !minutesInput) {
-            console.error("Missing input elements: startTime, endTime, hours, or minutes");
-            return;
-        }
-
-        const startTime = startTimeInput.value.trim();
-        const endTime = endTimeInput.value.trim();
-
-        if (!startTime || !endTime) {
-            console.error("Please enter both start and end times");
-            return;
-        }
-        if (startTime > endTime) {
-            alert(`وقت البدأ ${startTime} يجب ان يكون قبل تاريخ النهاية${endTime}`);
-            return;
-        }
-
-        // Validate time format (optional)
-        // You can add a regular expression or a library to validate time format (HH:MM)
-
-        // Parse string times into Date objects
-        const startDate = new Date(`1970-01-01T${startTime}:00`);
-        const endDate = new Date(`1970-01-01T${endTime}:00`);
-
-        // Calculate time difference in milliseconds
-        const timeDiff = endDate.getTime() - startDate.getTime();
-
-        // Calculate hours and minutes
-        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        if (minutes == 0) {
-            hoursInput.value = hours;
-        }
-        // Update hours and minutes input fields
-        hoursInput.value = (hours + ":" + minutes);
-        minutesInput.value = hours * 60 + minutes; // Ensure two-digit format
-    }
-
-    // Add event listener to a button or on change event of time inputs
-    const calculateButton = document.getElementById("calculateButton");
-    const startTimeInput = document.getElementById("startTime");
-    const endTimeInput = document.getElementById("endTime");
-
-    if (calculateButton) {
-        calculateButton.addEventListener("click", calculateTimeDifference);
-    } else {
-        startTimeInput.addEventListener("change", calculateTimeDifference);
-        endTimeInput.addEventListener("change", calculateTimeDifference);
-    }
-</script>
-
-@* =============================================== *@
-
-<script>
-    document.getElementById("submit").addEventListener("click", function (event) {
-        const EmployeeId = document.getElementById("EmployeeId");
-        if (EmployeeId.value === "") {
-            event.preventDefault(); // Prevent form submission
-            Swal.fire({
-                icon: "error",
-                title: "خطئ....",
-                text: "رجاء أختر  الموظف",
-            });
-        }
-    });
-
-</script>
-@* ================================================ *@
-<script>
-    document.getElementById("submit").addEventListener("click", function (event) {
-        const SectionsId = document.getElementById("SectionsId");
-        if (SectionsId.value === "") {
-            event.preventDefault(); // Prevent form submission
-            Swal.fire({
-                icon: "error",
-                title: "خطئ....",
-                text: "رجاء أختر  القسم",
-            });
-        }
-    });
-
-</script>

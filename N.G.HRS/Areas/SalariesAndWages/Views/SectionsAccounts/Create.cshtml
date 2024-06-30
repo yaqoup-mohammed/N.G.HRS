@@ -53,7 +53,42 @@
 
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#SectionsAccountsForm").submit(function (event) {
+                var sectionsFinanceAccountTypeId = $("#SectionsFinanceAccountTypeId").val();
+                var sectionsFinanceAccountId = $("#SectionsFinanceAccountId").val();
+                var sectionsSectionsId = $("#SectionsSectionsId").val();
+
+
+                if (sectionsFinanceAccountTypeId === ""  ) {
+
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار نوع الحساب!",
+                    });
+                }
+                else if (sectionsFinanceAccountId === "" ) {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار  الحساب!",
+                    });
+                }
+                else if (sectionsSectionsId === "") {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار نوع القسم !",
+                    });
+                }
+               
+            });
+        });
+    </script>
+
+
 }

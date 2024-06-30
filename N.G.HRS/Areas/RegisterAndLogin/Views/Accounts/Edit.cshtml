@@ -1,0 +1,83 @@
+﻿@model N.G.HRS.Areas.RegisterAndLogin.Models.Account
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "حسابات الموظفين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<h1>Edit</h1>
+
+<h4>Account</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <input asp-for="EmployeeId" class="form-control" />
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CanShow" /> @Html.DisplayNameFor(model => model.CanShow)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CanEdit" /> @Html.DisplayNameFor(model => model.CanEdit)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CanAdd" /> @Html.DisplayNameFor(model => model.CanAdd)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CanDelete" /> @Html.DisplayNameFor(model => model.CanDelete)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ShowMaleImages" /> @Html.DisplayNameFor(model => model.ShowMaleImages)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ShowFemaleImages" /> @Html.DisplayNameFor(model => model.ShowFemaleImages)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

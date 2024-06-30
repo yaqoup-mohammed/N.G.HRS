@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
+using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
+using OfficeOpenXml;
 //using N.G.HRS.Areas.GeneralConfiguration.Models;
 namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 {
@@ -14,10 +19,13 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
     public class GovernoratesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<Governorate> _governorateRepository;
 
-        public GovernoratesController(AppDbContext context)
+
+        public GovernoratesController(AppDbContext context, IRepository<Governorate> governorateRepository)
         {
             _context = context;
+            _governorateRepository = governorateRepository;
         }
 
         // GET: GeneralConfiguration/Governorates
@@ -70,6 +78,107 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             return View(governorate);
         }
 
+
+        //============================استيراد ملف اكسل الى قاعدة البيانات=======
+        public async Task<IActionResult> Import(IFormFile file)
+        {
+            if (file == null || file.Length <= 0)
+            {
+                ModelState.AddModelError("File", "يرجى تحديد ملف للتحميل.");
+                return View("Import");
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    int rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++) // تجاوز الصف الأول بسبب العنوان
+                    {
+                        string governorateName = worksheet.Cells[row, 1].Value?.ToString().Trim();
+                        string notes = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                        string countryName = worksheet.Cells[row, 3].Value?.ToString().Trim();
+
+                        if (!string.IsNullOrEmpty(governorateName) && !string.IsNullOrEmpty(countryName))
+                        {
+                            // البحث عن الدولة باستخدام اسمها
+                            var country = await _context.country.FirstOrDefaultAsync(c => c.Name == countryName);
+                            if (country == null)
+                            {
+                                // إذا لم تكن الدولة موجودة، يمكنك إنشاؤها أو التعامل مع هذا السيناريو بما يتناسب مع تطبيقك
+                                ModelState.AddModelError("Country", $"الدولة '{countryName}' غير موجودة في قاعدة البيانات.");
+                                continue; // الانتقال إلى السجل التالي في حالة عدم وجود الدولة
+                            }
+
+                            // البحث عن المحافظة باستخدام اسمها ومعرف الدولة
+                            var existingGovernorate = await _context.governorates
+                                .FirstOrDefaultAsync(g => g.Name == governorateName && g.CountryId == country.Id);
+
+                            if (existingGovernorate != null)
+                            {
+                                // إذا كانت المحافظة موجودة بالفعل، قم بتحديث الملاحظات
+                                existingGovernorate.Notes = notes;
+                                _context.governorates.Update(existingGovernorate); // تحديث المحافظة في قاعدة البيانات
+                            }
+                            else
+                            {
+                                // إذا لم تكن المحافظة موجودة، قم بإضافتها إلى قاعدة البيانات مع معرّف الدولة المحدد
+                                var newGovernorate = new Governorate
+                                {
+                                    Name = governorateName,
+                                    Notes = notes,
+                                    CountryId = country.Id // تعيين معرّف الدولة
+                                };
+                                _context.governorates.Add(newGovernorate);
+                            }
+                        }
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var governorates = await _context.governorates.Include(g => g.CountryOne).ToListAsync();
+
+            // Create Excel file
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial; // Required for EPPlus
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Governorates");
+
+                // Headers
+                worksheet.Cells["A1"].Value = "المحافظة";
+                worksheet.Cells["B1"].Value = "Notes";
+                worksheet.Cells["C1"].Value = "الدولة";
+
+                // Data
+                int row = 2;
+                foreach (var item in governorates)
+                {
+                    worksheet.Cells[string.Format("A{0}", row)].Value = item.Name;
+                    worksheet.Cells[string.Format("B{0}", row)].Value = item.Notes;
+                    worksheet.Cells[string.Format("C{0}", row)].Value = item.CountryOne?.Name ?? "N/A";
+                    row++;
+                }
+
+                // Auto fit columns
+                worksheet.Cells.AutoFitColumns();
+
+                // Convert to bytes and return as a file download
+                var fileBytes = package.GetAsByteArray();
+                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Governorates.xlsx");
+            }
+        }
         // GET: GeneralConfiguration/Governorates/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -147,7 +256,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var governorate = await _context.governorates.FindAsync(id);
+            var governorate = await _governorateRepository.GetByIdAsync(id);
             if (governorate != null)
             {
                 _context.governorates.Remove(governorate);
@@ -160,6 +269,11 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             try
             {
+                var existingGovernorates = await _context.governorates.FirstOrDefaultAsync(c => c.Name == governorate);
+                if (existingGovernorates != null)
+                {
+                    return Json(new { error = true, message = "اسم المحافظة موجود بالفعل في قاعدة البيانات." });
+                }
                 // إنشاء كائن دولة لتخزين البيانات المستلمة
                 var newGovernorate = new Governorate
                 {
@@ -181,68 +295,32 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> CheckGovernoratesExists(string governorate)
+        {
+            var exists = await _context.governorates.AnyAsync(c => c.Name == governorate);
+            return Json(new { exists });
+        }
+
+
+        //[HttpGet]
+        //public IActionResult GetSections(int departmentId)
+        //{
+        //    var sections = _context.Sections.Include(x => x.Departments).Where(s => s.DepartmentsId == departmentId).Select(x => new { id = x.Id, name = x.SectionsName }).ToList();
+        //    if (sections == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Json(new { sections });
+        //}
+
 
         private bool GovernorateExists(int id)
         {
             return _context.governorates.Any(e => e.Id == id);
         }
 
-        //// عملية حفظ البيانات الموجودة في الجدول إلى قاعدة البيانات
-        //[HttpPost]
-        //public IActionResult SaveTableDataToDatabase( )
-        //{
-        //    var data = _context.governorates.ToList(); // الحصول على البيانات من الجدول
-        //    if (data == null || !data.Any())
-        //        return BadRequest("لا توجد بيانات لحفظها في قاعدة البيانات.");
 
-        //    _context.governorates.AddRange(data); // إضافة البيانات إلى قاعدة البيانات
-        //    _context.SaveChanges();
-
-        //    return Ok();
-        //}
-
-        ////public IActionResult SaveToDatabase([FromBody] List<Dictionary<string, string>> data)
-        ////{
-        ////    if (data == null || !data.Any())
-        ////        return BadRequest("لم يتم استلام البيانات.");
-
-        ////    _context.governorates.AddRange(data.Select(item => new Governorate
-        ////    {
-        ////        Name = item["Name"],
-        ////        Notes = item["Notes"],
-        ////        CountryId = int.Parse(item["CountryId"])
-        ////    }));
-
-        ////    _context.SaveChanges();
-
-        ////    return Ok();
-        ////}
-
-        //// باقي أجزاء الوحدة التحكم مثل الإجراءات الأخرى (Index, Create, Edit, Delete) لم يتم تغييرها.
-
-
-        ////[HttpPost]
-        ////public IActionResult SaveData([FromBody] Governorate data)
-        ////{
-        ////    // Save data to the database
-        ////    if (ModelState.IsValid)
-        ////    {
-        ////        var governorate = new Governorate
-        ////        {
-        ////            Name = data.Name,
-        ////            Notes = data.Notes,
-        ////            CountryId = data.CountryId
-        ////        };
-        ////        _context.governorates.Add(governorate);
-        ////        _context.SaveChanges();
-
-        ////        return Ok();
-        ////    }
-        ////    else
-        ////    {
-        ////        return BadRequest(ModelState);
-        ////    }
-        ////}
 
     }
 }
