@@ -45,6 +45,7 @@
 		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
 		<PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
 		<PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
+		<PackageReference Include="ZKemkeeper" Version="1.0.2" />
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\Upload\PDF\" />

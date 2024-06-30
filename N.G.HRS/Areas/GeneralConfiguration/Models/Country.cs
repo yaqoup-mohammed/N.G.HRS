@@ -13,10 +13,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(150)]
         [Display(Name = "الدولة")]
         public string? Name { get; set; }
+      
+        public string? Data { get; set; }
         [StringLength(255)]
         [Display(Name = "الملاحظات")]
-        public string? Data { get; set; }
-
         public string? Notes { get; set; }
         //=======================================================
         public List<Governorate>? governoratesList { get; set; }
