@@ -13,6 +13,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(150)]
         [Display(Name = "أسم الجهاز")]
         public string DevicesName { get; set; }
+        [Required]
+        [Display(Name = "رقم الجهاز")]
+        [Range(1, 1000, ErrorMessage = "رقم الجهاز يجب ان يكون بين 1 - 1000")]
+        public int DevicesNumber { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -51,6 +55,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [Display(Name = "وصف الجهاز")]
         public string DeviceSpecifications { get; set;}
         [Display(Name = "عنوان IP")]
+        [DataType(DataType.Text)]
         public string? IpAddress { get; set;}
         [Display(Name = " متصل")]
         public bool IsConnected { get; set; }

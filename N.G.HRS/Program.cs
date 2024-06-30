@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Repository;
 using N.G.HRS.Repository.File_Upload;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
-using N.G.HRS.FingerPrintSetting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +16,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 //============================================================= injection
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<Periods, Periods>();
-//builder.Services.AddScoped<ZkemClient, ZkemClient>();
-//builder.Services.AddScoped<ZkemClient, ZkemClient>(provider =>
-//{
-//    // Assuming you have a way to create a CZKEM object
-//    var czkem = new CZKEM();
-//    return new ZkemClient(czkem);
-//});
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 var app = builder.Build();
 

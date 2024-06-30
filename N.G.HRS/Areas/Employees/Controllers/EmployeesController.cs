@@ -1,9 +1,6 @@
-﻿using iTextSharp.text.pdf;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.OData;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.Employees.ViewModel;
 using N.G.HRS.Areas.Finance.Models;
@@ -16,15 +13,10 @@ using N.G.HRS.Repository;
 using N.G.HRS.Repository.File_Upload;
 using NuGet.Protocol.Core.Types;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Globalization;
-using System.Reflection.PortableExecutable;
-using PersonalData = N.G.HRS.Areas.Employees.Models.PersonalData;
 
 namespace N.G.HRS.Areas.Employees.Controllers
 {
     [Area("Employees")]
-
 
     public class EmployeesController : Controller
     {
@@ -107,7 +99,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             // Populate ViewData for dropdown lists
             await PopulateDropdownListsAsync();
 
-            var employees = await _context.employee.Include(e => e.Departments)
+            var employees  =await _context.employee.Include(e => e.Departments)
                 .Include(e => e.FingerprintDevices).Include(e => e.JobDescription)
                 .Include(e => e.Manager).Include(e => e.Sections).ToListAsync();
             //-------------------------------------------------------
@@ -134,29 +126,29 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
             var viewModel = new EmployeeVM
-            {
-                EmployeeList = employees,
-                PracticalExperiencesList = practicalExperiences,
-                FamilyList = family,
-                PersonalDataList = personalData,
-                guaranteesList = guarantees,
-                FinancialStatementsList = FinancialStatements,
-                TrainingCoursesList = TrainingCourses,
-                EmployeeArchivesList = EmployeeArchives,
+                {
+                    EmployeeList = employees,
+                    PracticalExperiencesList = practicalExperiences,
+                    FamilyList = family,
+                    PersonalDataList = personalData,
+                    guaranteesList = guarantees,
+                    FinancialStatementsList = FinancialStatements,
+                    TrainingCoursesList = TrainingCourses,
+                    EmployeeArchivesList = EmployeeArchives,
 
-            };
-            return View(viewModel);
-
-
+                };
+                return View(viewModel);
+            
+  
         }
         // Example with English naming convention
         public async Task<IActionResult> AddEmployee()
         {
             await PopulateDropdownListsAsync();
             var viewModel = new EmployeeVM();
-
-            return View(viewModel);
-
+             
+                return View(viewModel);
+            
         }
 
         [HttpPost]
@@ -181,7 +173,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                         TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
                         return View(viewModel);
                     }
-
+    
                 }
                 else
                 {
@@ -191,7 +183,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it accordingly
-                TempData["SystemError"] = ex.Message;
+                TempData["SystemError"]=ex.Message;  
                 return View(viewModel);
             }
             TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
@@ -199,161 +191,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                var lastNumber = await _employeeRepository.GetLastEmployeeNumber();
-        //                if (string.IsNullOrEmpty(lastNumber))
-        //                {
-        //                    viewModel.Employee.EmployeeNumber = "1";
-        //                }
-        //                else
-        //                {
-        //                    var lastEmployeeNumber = int.Parse(lastNumber);
-        //                    lastEmployeeNumber++;
-        //                    viewModel.Employee.EmployeeNumber = lastEmployeeNumber.ToString();
-        //                }
-
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                // توليد الرقم الوظيفي المميز
-        //                viewModel.Employee.EmployeeNumber = await GenerateEmployeeNumber();
-
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // سجّل الاستثناء أو اتخذ إجراءً بناء عليه
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-
-        //public async Task<string> GenerateEmployeeNumber()
-        //{
-        //    // استعلام قاعدة البيانات للحصول على آخر قيمة تم استخدامها لتوليد الرقم الوظيفي
-        //    var lastUsedNumber = await _employeeRepository.GetLastUsedEmployeeNumber();
-
-        //    // إذا كانت هذه هي المرة الأولى توليد رقم وظيفي، فأعيد القيمة 1
-        //    if (string.IsNullOrEmpty(lastUsedNumber))
-        //    {
-        //        return "1";
-        //    }
-        //    else
-        //    {
-        //        // إلا، زيادة القيمة المستخدمة بواحد وإعادتها
-        //        var lastNumber = int.Parse(lastUsedNumber);
-        //        lastNumber++;
-        //        return lastNumber.ToString();
-        //    }
-
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (exist)
-        //            {
-        //                var lastNumber = _context.employee
-        //                                    .Where(e => e.EmployeeNumber.StartsWith(viewModel.Employee.EmployeeNumber))
-        //                                    .Select(e => int.Parse(e.EmployeeNumber.Substring(viewModel.Employee.EmployeeNumber.Length)))
-        //                                    .DefaultIfEmpty(0)
-        //                                    .Max();
-
-        //                viewModel.Employee.EmployeeNumber = viewModel.Employee.EmployeeNumber + (lastNumber + 1).ToString();
-        //            }
-
-        //            await _employeeRepository.AddAsync(viewModel.Employee);
-        //            TempData["Success"] = "تم الحفظ بنجاح";
-        //            return RedirectToAction(nameof(AddEmployee));
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -384,44 +221,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             return View(viewModel);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> SavePracticalExperiences(int practicalExperiencesEmployeeId, string practicalExperiencesExperiencesName, string practicalExperiencesPlacToGainExperience, DateOnly practicalExperiencesFromDate, DateOnly practicalExperiencesToDate, string practicalExperiencesDuration)
-        {
-
-            try
-            {
-                //// Parse the date strings to DateTime
-                //DateTime fromDateValue = DateTime.ParseExact(practicalExperiencesFromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                //DateTime toDateValue = DateTime.ParseExact(practicalExperiencesToDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-                // إنشاء كائن لتخزين البيانات المستلمة
-                var newPracticalExperience = new PracticalExperiences
-                {
-                   EmployeeId = practicalExperiencesEmployeeId,
-                   ExperiencesName = practicalExperiencesExperiencesName,
-                   PlacToGainExperience = practicalExperiencesPlacToGainExperience,
-                   FromDate = practicalExperiencesFromDate,
-                   ToDate = practicalExperiencesToDate,
-                   Duration = practicalExperiencesDuration
-                };
-
-                // إضافة البيانات الجديدة إلى قاعدة البيانات
-                _context.practicalExperiences.Add(newPracticalExperience);
-                await _context.SaveChangesAsync();
-
-                // إعادة توجيه المستخدم إلى الصفحة الرئيسية لإظهار التغييرات
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // في حالة حدوث أي خطأ، سنقوم بإرجاع استجابة سلبية مع رسالة الخطأ
-                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-            }
-        }
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFamilyToEmployee(EmployeeVM viewModel)
@@ -451,43 +250,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             return View(viewModel);
         }
-
-
-       
-        [HttpPost]
-        public async Task<IActionResult> SaveFamily(int familyEmployeeId, string familyName, int familyRelativesTypeId, string familyNotes)
-        {
-            try
-            {
-
-
-                // إنشاء كائن لتخزين البيانات المستلمة
-                var newFamily = new Family
-                {
-                    EmployeeId = familyEmployeeId,
-                    Name = familyName,
-                    RelativesTypeId = familyRelativesTypeId,
-                    Notes = familyNotes
-                    
-                };
-
-                // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
-                _context.Family.Add(newFamily);
-                await _context.SaveChangesAsync();
-
-                // إرجاع رسالة نجاح
-                return Ok("تم حفظ البيانات بنجاح!");
-            }
-            catch (Exception ex)
-            {
-                // يمكنك تحسين هذا الجزء لتسجيل الخطأ بشكل أفضل
-                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-            }
-        }
-
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -519,118 +281,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
-        //public async Task<IActionResult> CheckData(string hp, string phone, string email, int card)
-        //{
-        //    if (!string.IsNullOrEmpty(hp) || !string.IsNullOrEmpty(phone) || !string.IsNullOrEmpty(email) || card != 0)
-        //    {
-        //        var existingData = await _context.personalDatas.FirstOrDefaultAsync(x =>
-        //            x.HomePhone == hp ||
-        //            x.PhoneNumber == phone ||
-        //            x.Email == email ||
-        //            x.CardNumber == card);
-
-        //        if (existingData != null)
-        //        {
-        //            if (!string.IsNullOrEmpty(existingData.HomePhone) && existingData.HomePhone == hp)
-        //            {
-        //                return Json(1);
-        //            }
-        //            if (!string.IsNullOrEmpty(existingData.PhoneNumber) && existingData.PhoneNumber == phone)
-        //            {
-        //                return Json(2);
-        //            }
-        //            if (!string.IsNullOrEmpty(existingData.Email) && existingData.Email == email)
-        //            {
-        //                return Json(3);
-        //            }
-        //            if (existingData.CardNumber != 0 && existingData.CardNumber == card)
-        //            {
-        //                return Json(4);
-        //            }
-        //        }
-        //        return Json(0);
-        //    }
-        //    return NotFound();
-        //}
-
-        public IActionResult CheckData(string hp, string phone, string email, int card)
-        {
-            if (hp != null || phone != null || email != null || card != 0)
-            {
-                var Hp = _context.personalDatas.FirstOrDefault(x => x.HomePhone == hp);
-                var Phone = _context.personalDatas.FirstOrDefault(x => x.PhoneNumber == phone);
-                var Email = _context.personalDatas.FirstOrDefault(x => x.Email == email);
-                var Card = _context.personalDatas.FirstOrDefault(x => x.CardNumber == card);
-                if (Hp != null)
-                {
-                    return Json(1);
-                }
-                if (Phone != null)
-                {
-                    return Json(2);
-                }
-                if (Email != null)
-                {
-                    return Json(3);
-                }
-                if (Card != null)
-                {
-                    return Json(4);
-                }
-                return Json(0);
-            }
-            return NotFound();
-        }
-
-        //[HttpPost]
-        //public async Task<IActionResult> SavePersonalData(int personalDataEmployeeId, DateOnly PersonalDataDateOfBirth, int personalDataAge, int personalDataSexId, int personalDataNationalityId, int personalDataReligionId, int personalDataMaritalStatusId, int personalDataGuaranteesId, string personalDataHomePhone, string personalDataPhoneNumber, string personalDataEmail, string personalDataAddress, string personalDataCardType, int personalDataCardNumber, string personalDataToRelease, DateOnly personalDataReleaseDate, DateOnly personalDataCardExpiryDate, string personalDataNotes)
-        //{
-        //    try
-        //    {
-
-        //        // إنشاء كائن لتخزين البيانات المستلمة
-        //        var newPersonalDatas = new PersonalData
-        //        {
-        //            EmployeeId = personalDataEmployeeId,
-        //            DateOfBirth = PersonalDataDateOfBirth,
-        //            Age = personalDataAge,
-        //            SexId = personalDataSexId,
-        //            NationalityId = personalDataNationalityId,
-        //            ReligionId = personalDataReligionId,
-        //            MaritalStatusId = personalDataMaritalStatusId,
-        //            GuaranteesId = personalDataGuaranteesId,
-        //            HomePhone = personalDataHomePhone,
-        //            PhoneNumber = personalDataPhoneNumber,
-        //            Email = personalDataEmail,
-        //            Address = personalDataAddress,
-        //            CardType = personalDataCardType,
-        //            CardNumber = personalDataCardNumber,
-        //            ToRelease = personalDataToRelease,
-        //            ReleaseDate = personalDataReleaseDate,
-        //            CardExpiryDate = personalDataCardExpiryDate,
-        //            Notes = personalDataNotes
-
-
-        //        };
-
-        //        // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
-        //        _context.personalDatas.Add(newPersonalDatas);
-        //        await _context.SaveChangesAsync();
-
-        //        // إرجاع رسالة نجاح
-        //        return Ok("تم حفظ البيانات بنجاح!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // يمكنك تحسين هذا الجزء لتسجيل الخطأ بشكل أفضل
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
-
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddGuarantees( EmployeeVM viewModel)
@@ -660,46 +310,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             return View(viewModel);
         }
-        [HttpPost]
-        public async Task<IActionResult> SaveGuarantees(string guaranteesName1, string guaranteesPhoneNumber, string guaranteesNameOfTheBusiness, int guaranteesCommercialRegistrationNo, string guaranteesShopAddress1, string guaranteesHomeAdress1, int guaranteesMaritalStatusId, int guaranteesNumberOfDependents, string guaranteesNotes1)
-        {
-            try
-            {
-
-                           // إنشاء كائن لتخزين البيانات المستلمة
-                   var newGuarantees = new Guarantees
-                {
-                    Name = guaranteesName1,
-                    PhoneNumber = guaranteesPhoneNumber,
-                    NameOfTheBusiness = guaranteesNameOfTheBusiness,
-                    CommercialRegistrationNo = guaranteesCommercialRegistrationNo,
-                    ShopAddress = guaranteesShopAddress1,
-                    HomeAdress = guaranteesHomeAdress1,
-                    MaritalStatusId = guaranteesMaritalStatusId,
-                    NumberOfDependents = guaranteesNumberOfDependents,
-                    Notes = guaranteesNotes1
-                   
-                };
-
-                // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
-                _context.guarantees.Add(newGuarantees);
-                await _context.SaveChangesAsync();
-
-                // إرجاع رسالة نجاح
-                return Ok("تم حفظ البيانات بنجاح!");
-            }
-            catch (Exception ex)
-            {
-                // يمكنك تحسين هذا الجزء لتسجيل الخطأ بشكل أفضل
-                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-            }
-        }
-
-
-
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFinancialStatements(EmployeeVM viewModel)
@@ -733,51 +343,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
-
-
-        [HttpPost]
-        public async Task<IActionResult> SaveFinancialStatements(int financialStatementsEmployeeId, decimal financialStatementsBasicSalary, int financialStatementsCurrencyId, int financialStatementsInsuranceAccountNumber, int financialStatementsBankAccountNumber, string financialStatementsNatureOfEmployment, DateTime financialStatementsSalaryStartDate, DateTime financialStatementsSalaryEndDate, string financialStatementsNotes)
-        {
-            try
-            {
-
-
-
-
-
-
-                // إنشاء كائن لتخزين البيانات المستلمة
-                var newFinancialStatements = new FinancialStatements
-                {
-                    EmployeeId = financialStatementsEmployeeId,
-                    BasicSalary = financialStatementsBasicSalary,
-                    CurrencyId = financialStatementsCurrencyId,
-                    InsuranceAccountNumber = financialStatementsInsuranceAccountNumber,
-                    BankAccountNumber = financialStatementsBankAccountNumber,
-                    NatureOfEmployment = financialStatementsNatureOfEmployment,
-                    SalaryStartDate = financialStatementsSalaryStartDate,
-                    SalaryEndDate = financialStatementsSalaryEndDate,
-                    Notes = financialStatementsNotes,
-
-
-
-                };
-
-                // إضافة البيانات الجديدة إلى قاعدة البيانات
-                _context.financialStatements.Add(newFinancialStatements);
-                await _context.SaveChangesAsync();
-
-                // إرجاع رقم الصفحة
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // في حال حدوث أي خطأ آخر
-                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-            }
-        }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTrainingCourses(EmployeeVM viewModel)
@@ -809,111 +374,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveTrainingCourses(int trainingCoursesEmployeeId, string trainingCoursesNameCourses, string trainingCoursesWhereToGetIt, string trainingCoursesFromDate, string trainingCoursesToDate)
-        {
-           
-            try
-            {
-                // Parse the date strings to DateTime
-                DateTime fromDateValue = DateTime.ParseExact(trainingCoursesFromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime toDateValue = DateTime.ParseExact(trainingCoursesToDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-                // إنشاء كائن لتخزين البيانات المستلمة
-                var newTrainingCourses = new TrainingCourses
-                {
-                    EmployeeId = trainingCoursesEmployeeId,
-                    NameCourses = trainingCoursesNameCourses,
-                    WhereToGetIt = trainingCoursesWhereToGetIt,
-                    ToDate = DateOnly.FromDateTime(toDateValue),
-                    FromDate = DateOnly.FromDateTime(fromDateValue)
-                };
-
-                // إضافة البيانات الجديدة إلى قاعدة البيانات
-                _context.trainingCourses.Add(newTrainingCourses);
-                await _context.SaveChangesAsync();
-
-                // إرجاع رقم الصفحة
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // في حال حدوث أي خطأ آخر
-                return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-            }
-        }
-
-
-        //[HttpPost]
-
-        //public async Task<IActionResult> SaveTrainingCourses(int employeeId, string nameCourses, string whereToGetIt, string fromDate, string toDate)
-        //{
-        //    try
-        //    {
-        //        // Parse the date strings to DateTime
-        //        DateTime fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        //        DateTime toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-        //        // إنشاء كائن لتخزين البيانات المستلمة
-        //        var newTrainingCourses = new TrainingCourses
-        //        {
-        //            EmployeeId = employeeId,
-        //            NameCourses = nameCourses,
-        //            WhereToGetIt = whereToGetIt,
-        //            ToDate = DateOnly.FromDateTime(toDateValue),
-        //            FromDate = DateOnly.FromDateTime(fromDateValue)
-
-
-        //        };
-
-        //        // إضافة البيانات الجديدة إلى قاعدة البيانات
-        //        _context.trainingCourses.Add(newTrainingCourses);
-        //        await _context.SaveChangesAsync();
-
-        //        // إرجاع رسالة نجاح
-        //        return Ok("تم حفظ البيانات بنجاح!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // في حال حدوث أي خطأ آخر
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult SaveTrainingCourses(int employeeId, string nameCourses, string whereToGetIt, DateTime fromDate, DateTime toDate)
-        //{
-        //    // هنا يجب عمل اللوجيك لحفظ البيانات في قاعدة البيانات أو المكان المناسب
-        //    // يمكنك استخدام Entity Framework أو أي إطار عمل آخر للوصول إلى قاعدة البيانات
-
-        //    try
-        //    {
-        //        // في هذا المثال، سنقوم بعرض البيانات المستلمة في وحدة التحكم
-        //        Console.WriteLine($"بيانات الموظف: {employeeId}");
-        //        Console.WriteLine($"اسم الدورة: {nameCourses}");
-        //        Console.WriteLine($"مكان الحصول عليها: {whereToGetIt}");
-        //        Console.WriteLine($"من تاريخ: {fromDate}");
-        //        Console.WriteLine($"الى تاريخ: {toDate}");
-
-        //        // هنا يمكنك كتابة الكود الخاص بحفظ البيانات في قاعدة البيانات
-
-        //        // بعد حفظ البيانات، يمكنك إرسال رد بنجاح العملية
-        //        return Ok("تم حفظ البيانات بنجاح");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // في حالة حدوث خطأ، يمكنك إرجاع استجابة توضيحية مع الخطأ
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
-
- 
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddEmployeeArchives(EmployeeVM viewModel)
         {
             try
-
             {
                 // Populate ViewData for dropdown lists
                 await PopulateDropdownListsAsync();
@@ -942,168 +406,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             return View(viewModel);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> SaveArchives(IFormFile archivesFileUpload, int archivesEmployeeId, DateOnly archivesDate, string archivesDescriotion, string archivesNotes)
-        {
-
-
-            try
-            {
-              
-                var file = archivesFileUpload;
-
-               
-                    var filePath = await _fileUploadService.UploadFileAsync(file," Upload/PDF");
-                    // إنشاء كائن لتخزين البيانات المستلمة
-                    var newEmployeeArchives = new EmployeeArchives
-                    {
-                        File = filePath,
-
-                        EmployeeId = archivesEmployeeId,
-                        Date = archivesDate,
-                        Descriotion = archivesDescriotion,
-                        Notes = archivesNotes
-
-                    };                    // Rest of your code...
-
-
-
-                // إضافة البيانات الجديدة إلى قاعدة البيانات
-                await _employeeArchivesrepository.AddAsync(newEmployeeArchives);
-                await _context.SaveChangesAsync();
-
-                // إعادة توجيه المستخدم إلى الصفحة الرئيسية لإظهار التغييرات
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                TempData["SystemError"] = ex.Message;
-                return View();
-                
-            }
-        }
-
-        //[HttpPost]
-        //public async Task<IActionResult> SaveArchives(string archivesFileUpload, int archivesEmployeeId, DateOnly archivesDate, string archivesDescriotion, string archivesNotes)
-        //{
-        //    try
-        //    {
-        //        // إنشاء كائن لتخزين البيانات المستلمة
-        //        var newEmployeeArchives = new EmployeeArchives
-        //        {
-        //            EmployeeId = archivesEmployeeId,
-        //            Date = archivesDate,
-        //            Descriotion = archivesDescriotion,
-        //            Notes = archivesNotes
-        //        };
-
-        //        // إذا كانت البيانات تشمل صورة، قم بحفظها كملف الصورة الأصلي على الخادم
-        //        if (!string.IsNullOrEmpty(archivesFileUpload) && IsImage(archivesFileUpload))
-        //        {
-        //            // حفظ ملف الصورة على الخادم
-        //            string imagePath = SaveImage(archivesFileUpload);
-
-        //            // تعيين مسار الصورة في كائن الـ newEmployeeArchives
-        //            newEmployeeArchives.File = imagePath;
-        //        }
-        //        // إذا كانت البيانات تشمل ملف PDF، قم بحفظه كملف PDF على الخادم
-        //        else if (!string.IsNullOrEmpty(archivesFileUpload) && IsPdf(archivesFileUpload))
-        //        {
-        //            // حفظ ملف PDF على الخادم
-        //            string pdfPath = SavePdf(archivesFileUpload);
-
-        //            // تعيين مسار ملف PDF في كائن الـ newEmployeeArchives
-        //            newEmployeeArchives.File = pdfPath;
-        //        }
-
-        //        // إضافة البيانات الجديدة إلى قاعدة البيانات
-        //        _context.EmployeeArchives.Add(newEmployeeArchives);
-        //        await _context.SaveChangesAsync();
-
-        //        // إعادة توجيه المستخدم إلى الصفحة الرئيسية لإظهار التغييرات
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // في حالة حدوث أي خطأ، سنقوم بإرجاع استجابة سلبية مع رسالة الخطأ
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
-        //// دالة لحفظ ملف الصورة على الخادم
-        //private string SaveImage(string imageData)
-        //{
-        //    // قم بتحويل البيانات الواردة كـ Base64 إلى مصفوفة بايت
-        //    byte[] imageBytes = Convert.FromBase64String(imageData);
-
-        //    // تحديد مسار الحفظ على الخادم
-        //    string imagePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".jpg");
-
-        //    // حفظ ملف الصورة على الخادم
-        //    System.IO.File.WriteAllBytes(imagePath, imageBytes);
-
-        //    return imagePath;
-        //}
-
-        //// دالة لحفظ ملف PDF على الخادم
-        //private string SavePdf(string pdfData)
-        //{
-        //    // قم بتحويل البيانات الواردة كـ Base64 إلى مصفوفة بايت
-        //    byte[] pdfBytes = Convert.FromBase64String(pdfData);
-
-        //    // تحديد مسار الحفظ على الخادم
-        //    string pdfPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".pdf");
-
-        //    // حفظ ملف PDF على الخادم
-        //    System.IO.File.WriteAllBytes(pdfPath, pdfBytes);
-
-        //    return pdfPath;
-        //}
-
-        //// دالة لفحص ما إذا كانت البيانات هي صورة
-        //private bool IsImage(string data)
-        //{
-        //    // قم بتحليل البيانات كـ Base64 للتحقق مما إذا كانت البيانات تمثل صورة أم لا
-        //    try
-        //    {
-        //        byte[] imageBytes = Convert.FromBase64String(data);
-        //        using (var ms = new MemoryStream(imageBytes))
-        //        {
-        //            var image = System.Drawing.Image.FromStream(ms);
-        //            return ImageFormat.Jpeg.Equals(image.RawFormat) || ImageFormat.Png.Equals(image.RawFormat) || ImageFormat.Gif.Equals(image.RawFormat);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //// دالة لفحص ما إذا كانت البيانات هي ملف PDF
-        //private bool IsPdf(string data)
-        //{
-        //    // قم بتحليل البيانات كـ Base64 للتحقق مما إذا كانت البيانات تمثل ملف PDF أم لا
-        //    try
-        //    {
-        //        byte[] pdfBytes = Convert.FromBase64String(data);
-        //        using (MemoryStream ms = new MemoryStream(pdfBytes))
-        //        {
-        //            using (PdfReader reader = new PdfReader(ms))
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
-
-
-        public bool EmployeeNumber(int id)
+        public bool EmployeeNumber(string id)
         {
             if (id != null)
             {
@@ -1170,8 +473,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             // استرجاع كل الضمانات
             var GuaranteesOne = await _guaranteesrepository.GetAllAsync();
             // تحقق من عدم وجودها في جدول PersonalData
-            var filteredGuarantees = GuaranteesOne.Where(g => _context.personalDatas.Where(pd => pd.GuaranteesId == g.Id).Count()<=10) ;
-            //var filteredGuarantees = GuaranteesOne.Where(g => !_context.personalDatas.Any(pd => pd.GuaranteesId == g.Id));
+            var filteredGuarantees = GuaranteesOne.Where(g => !_context.personalDatas.Any(pd => pd.GuaranteesId == g.Id));
             // إذا كانت الضمانات غير موجودة في جدول PersonalData، قم بإضافتها إلى SelectList
             ViewData["GuaranteesOne"] = new SelectList(filteredGuarantees, "Id", "Name");
             //===============================================================================================
@@ -1195,7 +497,14 @@ namespace N.G.HRS.Areas.Employees.Controllers
             SelectList listItems = new SelectList(employeeStatus, "id", "name");
             ViewData["Employee"] = listItems;
         }
-     
+        //TempData["Edit"] = "Edit";
+        //var employeeViewModel = new EmployeeVM
+        //{
+        //    PersonalData = await _personalDatarepository.GetByIdAsync(id),
+        //    Employee = await _employeeRepository.GetByIdAsync(id),
+        //    Family = await _familyrepository.GetByIdAsync(id),
+        //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
+        //};
     }
 
 }

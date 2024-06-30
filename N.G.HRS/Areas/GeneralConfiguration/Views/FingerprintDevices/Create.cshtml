@@ -125,10 +125,15 @@
 
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row mb-3">
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-6">
                                     <label asp-for="DevicesName" class="form-label"></label><span class="text-danger">*</span>
                                     <input asp-for="DevicesName" class="form-control" />
                                     <span asp-validation-for="DevicesName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label asp-for="DevicesNumber" class="form-label"></label><span class="text-danger">*</span>
+                                    <input asp-for="DevicesNumber" class="form-control" />
+                                    <span asp-validation-for="DevicesNumber" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group col-md-4">
@@ -234,11 +239,12 @@
                             <div class="IpAddressGroup">
                                 <div class="mb-3" >
                                     <label asp-for="IpAddress" class="form-label"></label>
-                                    <input asp-for="IpAddress" id="IpAddress" class="form-control" />
+                                    <input asp-for="IpAddress" type="text" id="ipAddress" class="form-control" />
                                     <span asp-validation-for="IpAddress" class="text-danger"></span>
                                 </div>
                                 <div >
-                                    <button type="button" id="ConnectionTestButton" class="btn btn-primary">فحص الاتصال</button>
+                                    <button type="button" id="pingButton" class="btn btn-primary"> Ping</button>
+                                    <button type="button" id="connectButton" class="btn btn-primary"> إتصال</button>
                                 </div>
                             </div>
                         </div>
@@ -257,22 +263,99 @@
     }
     <script>
         $(document).ready(function () {
-            const ip=$("#IpAddress").val();
-            $("#ConnectionTestButton").click(function () {
-                $.ajax({
-                    url: "/GeneralConfiguration/FingerprintDevices/CheackConnection?ip=" + ip,
-                    type: "GET",
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        // $.each(data, function (i, item) {
-                        //     $("#Section").val(item.id).change();
-                        // });
-                    },
-                });
+            const v = new ValidationFromMe();
+            
+            $("#pingButton").click(function () {
+                const ip = $("#ipAddress").val();
+                console.log($("#ipAddress").val());
+                if (ip !== "") {
+                    $.ajax({
+                        url: "/GeneralConfiguration/FingerprintDevices/Ping?ip=" + ip,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            if (data == 1) {
+                                v.softErrorMessage('الجهاز موجود😎');
+                            }
+                            else if (data == 2) {
+                                v.softErrorMessage('الجهاز غير موجود😪');
+
+                            }
+                            else if (data == 3) {
+                                v.softErrorMessage('الـ IP غير صحيح');
+
+                            }
+                            // $.each(data, function (i, item) {
+                            //     $("#Section").val(item.id).change();
+                            // });
+                        },
+                    });
+                }
+                else{
+                    v.softErrorMessage('يرجى إدخال الـ IP بشكل صحيح!!');
+                }
+            });
+            //===============================
+            //=
+            //===============================
+            $("#connectButton").click(function () {
+                
+                const ip = $("#ipAddress").val();
+                if (ip !== "") {
+                    $.ajax({
+                        url: "/GeneralConfiguration/FingerprintDevices/Connect?ip=" + ip,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                v.softErrorMessage('الجهاز متصل😎');
+                            }
+                            else if (data == 2) {
+                                v.softErrorMessage('قد يكون عنوان الـ IP خطئ , أو الجهاز غير موجود😪');
+                            }
+                            else if (data == 4) {
+                                v.softErrorMessage('الـ IP غير صحيح');
+                            }
+                            //========================
+                            
+                        },
+                    });
+                    //=======================
+                    let timerInterval;
+                    Swal.fire({
+                        title: "جاري الإتصال 😵",
+                        timer: 10000,
+                  
+                        timerProgressBar: false,
+                        customClass: {
+                            container: '#e5b540',
+                            icon: '#e5b540',
+                            htmlContainer: '#e5b540',
+                            timerProgressBar: '#e5b540',
+                        },
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+
+                        }
+                    });
+                }
+                else{
+                    v.softErrorMessage('يرجى إدخال الـ IP بشكل صحيح!!');
+                }
             });
         });
-
     </script>
 }
 
