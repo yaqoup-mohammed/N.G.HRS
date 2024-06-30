@@ -162,7 +162,7 @@ namespace N.G.HRS.FingerPrintSetting
             }
         }
         //==============================--******************************************--=============================
-        public void SaveUserInfoToExcelFile(string filePath,int machineNo)
+        public void SaveUserInfoToExcelFile(string filePath, int machineNo)
         {
             using (var package = new ExcelPackage())
             {

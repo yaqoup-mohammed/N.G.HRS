@@ -161,5 +161,35 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         {
             return _context.EndOfServiceClearance.Any(e => e.Id == id);
         }
+        [HttpGet]
+        // جمع السلف والقروض
+
+        public IActionResult GetEmployeeLoansAndAdvances(int employeeId)
+        {
+            try
+            {
+                // Fetching loan amount from the database
+                var loans = _context.EmployeeLoans
+                                   .Where(l => l.EmployeeId == employeeId)
+                                   .Sum(l => l.Amount);
+
+                // Fetching advance amount from the database
+                var advances = _context.EmployeeAdvances
+                                      .Where(a => a.EmployeeId == employeeId)
+                                      .Sum(a => a.Amount);
+
+                return Json(new { success = true, loans = loans, advances = advances });
+            }
+            catch (Exception ex)
+            {
+                // Handling errors
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
     }
+
+
 }
+
+
+

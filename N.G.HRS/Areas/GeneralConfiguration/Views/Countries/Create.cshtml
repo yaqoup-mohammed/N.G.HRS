@@ -1,4 +1,4 @@
-﻿@model N.G.HRS.Areas.GeneralConfiguration.Models.Country
+﻿   @model N.G.HRS.Areas.GeneralConfiguration.Models.Country
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -27,36 +27,54 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>الدولة</h3>
-                        </div>
-                        @Html.HiddenFor(x => x.Data, new { id = "CountryData" })
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="mb-3col-md-4">
-                                <label asp-for="Name" class="form-label"></label>
-                                <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" asp-items="ViewBag.Country" as SelectList />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3 col-md-4">
-                                <label asp-for="Notes" class="form-label"></label>
-                                <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
-                                <span asp-validation-for="Notes" class="text-danger"></span>
-                            </div>
+                <h6 class="card-title">دليل الدول</h6>
+                @Html.HiddenFor(x => x.Data, new { id = "CountryData" })
+                <form asp-action="Create" id="countryForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" id="Country" class="form-control" placeholder="الــــدول" asp-items="ViewBag.Country" as SelectList />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Notes" class="form-label"></label>
+                        <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <button type="button" id="submit" class="btn btn-primary me-2">اظافة</button>
 
-                            <input type="submit" id="submit" value="إضافة" class="btn btn-primary me-2" />
-                            <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" />
-                            <a asp-action="Index" class="btn btn-light">عودة الى القائمة</a>
-                        </form>
+                        <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+
+                        <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a>
+                        <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                        <a asp-action="ExportToPdf" class="btn btn-primary">تصدير إلى PDF</a>
+                        <a asp-action="ExportToExcel" class="btn btn-primary">تصدير إلى Excel</a>
 
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+
+
+@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+ *@
+
+@using (Html.BeginForm("Import", "Countries", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="mb-3">
+        <label class="form-label">اختر ملف Excel</label>
+        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput2">
+    </div>
+    <button type="submit" class="btn btn-primary" id="uploadBtn2" style="display: none;">تحميل الملف</button>
+    <div id="fileError2" class="text-danger" style="display: none;"></div>
+}
+@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+ *@
+
 
 <div id="table" class="row" style="display: none">
     <div class="col-md-12 grid-margin stretch-card">
@@ -64,17 +82,16 @@
             <div class="card-body">
                 <h6 class="card-title headerStyle">الفترات</h6>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table id="temporaryTable" class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>الدولة</th>
                                 <th>الملاحظات</th>
                                 <th>#</th>
-
                             </tr>
                         </thead>
-                        <tbody id="temporaryTable">
+                        <tbody>
                         </tbody>
                     </table>
                 </div>
@@ -83,112 +100,244 @@
     </div>
 </div>
 
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        document.getElementById('fileInput2').addEventListener('change', function () {
+            var uploadBtn2 = document.getElementById('uploadBtn2');
+            var fileError2 = document.getElementById('fileError2');
+            var fileName2 = this.value.toLowerCase();
 
-
-
+            // التحقق من امتداد الملف
+            if (fileName2.endsWith('.xls') || fileName2.endsWith('.xlsx')) {
+                uploadBtn2.style.display = 'block'; // عرض زر التحميل
+                fileError2.style.display = 'none'; // إخفاء رسالة الخطأ
+            } else {
+                uploadBtn2.style.display = 'none'; // إخفاء زر التحميل
+                fileError2.style.display = 'block'; // عرض رسالة الخطأ
+                this.value = ''; // إعادة تعيين قيمة الملف المختار
+                Swal.fire({
+                    icon: 'error',
+                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
+                    showConfirmButton: false,
+                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
+                });
+            }
+        });
+    </script>
     <script>
         $(document).ready(function () {
             var counter = 1;
 
-            // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
-            $("#saveDataBtn").click(function () {
-                $("#temporaryTable tr").each(function () {
-                    var country = $(this).find("td:eq(1)").text();
-                    var notes = $(this).find("td:eq(2)").text();
-
-                    if (country) {
-                        saveCountryData(country, notes ? notes : "");
-                    }
-                });
+            // منع الإرسال الافتراضي للنموذج عند الضغط على Enter
+            $('#countryForm').on('submit', function (e) {
+                e.preventDefault();
             });
 
-            $("form").submit(function (event) {
-                event.preventDefault();
+            $('#countryForm input').on('keypress', function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    $('#submit').click();
+                }
+            });
+            // التحقق من وجود الدولة في الجدول المؤقت
+            function isCountryInTable(country) {
+                var exists = false;
+                $("#temporaryTable tbody tr").each(function () {
+                    var rowCountry = $(this).find("td:eq(1)").text();
+                    if (rowCountry === country) {
+                        exists = true;
+                        return false; // إنهاء التكرار
+                    }
+                });
+                return exists;
+            }
+
+            // التحقق من وجود الدولة قبل إضافتها إلى الجدول المؤقت
+            function checkCountryExists(country, callback) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CheckCountryExists", "Countries")",
+                    data: { country: country },
+                    success: function (response) {
+                        callback(response.exists);
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire(
+                            'خطأ!',
+                            'حدث خطأ أثناء التحقق من وجود الدولة: ' + error,
+                            'error'
+                        );
+                    }
+                });
+            }
+
+            // إضافة بيانات إلى الجدول عند النقر على زر "اظافة"
+            $("#submit").click(function () {
                 var country = $("#Country").val();
                 var notes = $("#CountryNotes").val();
 
                 if (country) {
-                    $("#temporaryTable").append(
-                        "<tr>" +
-                        "<td>" + counter + "</td>" +
-                        "<td contenteditable='true' class='country'>" + country + "</td>" +
-                        "<td contenteditable='true' class='notes'>" + notes + "</td>" +
-                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
-                        "</tr>"
-                    );
-                    counter++;
-                    $("#Country").val('');
-                    $("#CountryNotes").val('');
-                    $("#table").show();
-                } else {
-                    // alert("يرجى ملء جميع الحقول.");
+                    if (isCountryInTable(country)) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "اسم الدولة موجود بالفعل في الجدول"
+                        });
+                    }
+                    else {
+
+
+
+                        checkCountryExists(country, function (exists) {
+                            if (exists) {
+
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "اسم الدولة موجود بالفعل في قاعدة البيانات"
+                                });
+                            } else {
+                                $("#temporaryTable tbody").append(
+                                    "<tr>" +
+                                    "<td>" + counter + "</td>" +
+                                    "<td>" + country + "</td>" +
+                                    "<td>" + notes + "</td>" +
+                                    "<td><button type='button' class='btn btn-danger delete-row'>حذف</button></td>" +
+                                    "</tr>"
+                                );
+                                counter++;
+                                $("#Country").val('');
+                                $("#CountryNotes").val('');
+
+                                // عرض الجدول وزر الحفظ بعد إضافة بيانات جديدة
+                                $("#table").show();
+                                $("#saveDataBtn").show();
+                                $("#clearTableBtn").show();
+                            }
+                        });
+                    }
                 }
             });
 
+
+
+
+
+
+            // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
+            $("#saveDataBtn").click(function () {
+                // عرض رسالة تأكيد الحفظ
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "هل تريد حفظ جميع البيانات؟",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، قم بالحفظ!',
+                    cancelButtonText: 'لا، الغاء الحفظ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // قم بحفظ البيانات
+                        $("#temporaryTable tr").each(function () {
+                            var country = $(this).find("td:eq(1)").text();
+                            var notes = $(this).find("td:eq(2)").text();
+
+                            if (country) {
+                                saveCountryData(country, notes ? notes : "");
+                            }
+
+                            Swal.fire(
+                                'تم الحفظ!',
+                                'تم حفظ جميع البيانات بنجاح.',
+                                'success'
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "@Url.Action("Index")"; // توجيه المستخدم إلى الصفحة Index
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+
+
+            // حذف صف من الجدول
             $(document).on("click", ".delete-row", function () {
                 $(this).closest("tr").remove();
                 counter--;
-            });
 
+                Swal.fire(
+                    'تم الحذف!',
+                    'تم حذف  البيانات بنجاح.',
+                    'success'
+                );
 
-        });
-
-        function saveCountryData(country, notes) {
-            // يمكنك إرسال البيانات إلى الخادم هنا
-            // افترض أن هذه الدالة تقوم بذلك بالفعل
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("SaveCountryData", "Countries")",
-                data: { country: country, notes: notes },
-                success: function (response) {
-                    // alert("تم حفظ البيانات بنجاح!");
-
-                    // عند نجاح الحفظ، قم بحذف البيانات والجدول
-                    $("#temporaryTable").empty(); // حذف بيانات الجدول
-                    $("#table").hide(); // إخفاء الجدول
-                    // توجيه المستخدم إلى صفحة Index بعد الحفظ بنجاح
-                    window.location.href = "@Url.Action("Index")";
-                },
-                error: function (xhr, status, error) {
-                    alert("حدث خطأ أثناء حفظ البيانات: " + error);
+                if ($("#temporaryTable tbody tr").length === 0) {
+                    $("#saveDataBtn").hide();
+                    $("#table").hide();
+                    $("#clearTableBtn").hide();
                 }
             });
-        }
 
-        // عرض رسالة خطئ اذا لم يتم ادخال البيانات
+            // حذف الكل
+            $("#clearTableBtn").click(function () {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "سيتم حذف جميع البيانات!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذف الكل'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tbody").empty();
+                        counter = 1;
 
-        // ===================================================================================
+                        $("#saveDataBtn").hide();
+                        $("#table").hide();
+                        $("#clearTableBtn").hide();
 
+                        Swal.fire(
+                            'تم الحذف!',
+                            'تم حذف جميع البيانات بنجاح.',
+                            'success'
+                        );
+                    }
+                });
+            });
+
+            // دالة لحفظ البيانات
+            function saveCountryData(country, notes) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SaveCountryData", "Countries")",
+                    data: { country: country, notes: notes },
+                    success: function (response) {
+                        // لا يوجد شيء يجب القيام به هنا
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire(
+                            'خطأ!',
+                            'حدث خطأ أثناء حفظ البيانات: ' + error,
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
 
         $("#submit").click(function () {
             var Country = $("#Country").val();
-            var select = $("#select").val();
             if (Country == "") {
                 event.preventDefault();
                 Swal.fire({
                     icon: "error",
                     title: "الرجاء أختيار الدولة",
                 });
-                event.preventDefault();
-
             }
-
         });
     </script>
-
-
-
-
-
-
-    @* شغال *@
-
 }
-
-
-

@@ -42,21 +42,21 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(13)]
         [Phone]
         [Display(Name = "هاتف المورد")]
-        public string? VendorPhon{ get; set;}
+        public string? VendorPhon { get; set; }
         [StringLength(255)]
         [Display(Name = "عنوان المورد")]
-        public string? VendorAdress { get; set;}
+        public string? VendorAdress { get; set; }
         [Required]
         [StringLength(255)]
         [Display(Name = "الشركة المصنعة")]
-        public string ManufactureCompany { get; set;}
+        public string ManufactureCompany { get; set; }
         [Required]
         [StringLength(255)]
         [Display(Name = "وصف الجهاز")]
-        public string DeviceSpecifications { get; set;}
+        public string DeviceSpecifications { get; set; }
         [Display(Name = "عنوان IP")]
         [DataType(DataType.Text)]
-        public string? IpAddress { get; set;}
+        public string? IpAddress { get; set; }
         [Display(Name = " متصل")]
         public bool IsConnected { get; set; }
         [StringLength(255)]

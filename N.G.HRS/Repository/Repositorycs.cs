@@ -8,6 +8,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace N.G.HRS.Repository
 {
+
     public class Repository<T> : IRepository<T> where T : class
     {
         public readonly AppDbContext _context;
@@ -69,6 +70,8 @@ namespace N.G.HRS.Repository
         {
             throw new NotImplementedException();
         }
+
+       
 
         public static implicit operator Repository<T>(Repository<BaseModel> v)
         {

@@ -15,7 +15,10 @@ using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
+using N.G.HRS.Areas.Employees.Controllers;
+
 using N.G.HRS.Areas.MaintenanceControl.Models;
+using N.G.HRS.Areas.RegisterAndLogin.Models;
 using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Date
@@ -28,30 +31,8 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<AttendanceStatus>().HasData(
-            new AttendanceStatus() { Id = 1, Name = "حضور" },
-            new AttendanceStatus() { Id = 2, Name = "غياب" },
-            new AttendanceStatus() { Id = 3, Name = "سماحية انصراف مبكر" },
-            new AttendanceStatus() { Id = 4, Name = "سماحية حضور متأخر" },
-            new AttendanceStatus() { Id = 5, Name = "اذن" },
-            new AttendanceStatus() { Id = 6, Name = "اجازة" },
-            new AttendanceStatus() { Id = 7, Name = "اجازة رسمية" },
-            new AttendanceStatus() { Id = 8, Name = "اجازة اسبوعية" },
-            new AttendanceStatus() { Id = 9, Name = "إضافي معتمد" },
-            new AttendanceStatus() { Id = 10, Name = "إضافي غير معتمد" },
-            new AttendanceStatus() { Id = 11, Name = "انصراف بدون عذر" },
-            new AttendanceStatus() { Id = 12, Name = "تأخير" },
-            new AttendanceStatus() { Id = 13, Name = "غياب نصف يوم" },
-            new AttendanceStatus() { Id = 14, Name = "سماحية حضور وانصراف" },
-            new AttendanceStatus() { Id = 15, Name = "تكليف خارجي " }
-   // Add more seed data as needed
-   );
-            modelBuilder.Entity<Assignment>().HasData(
-           new Assignment() { Id = 1, Name = "تكليف إضافي" },
-                new Assignment() { Id = 2, Name = "تكليف خارجي" }
-   // Add more seed data as needed
-   );
+            base.OnModelCreating(modelBuilder); 
+
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()
@@ -150,10 +131,12 @@ namespace N.G.HRS.Date
                 .HasForeignKey(p => p.ReligionId);
             //البيانات الشخصية مع الضمين
             //======================================================MO-AL-MO
-            modelBuilder.Entity<Guarantees>()
-               .HasOne(p => p.personalData)
-               .WithOne(p => p.guarantees)
-               .HasForeignKey<PersonalData>(b => b.GuaranteesId);
+            modelBuilder.Entity<PersonalData>()
+               .HasOne(p => p.guarantees)
+               .WithMany(p => p.PersonalDataList)
+               .HasForeignKey(b => b.GuaranteesId)
+               .OnDelete(DeleteBehavior.NoAction);
+
             //البيانات الشخصية مع الحالة الاجتماعية
             modelBuilder.Entity<PersonalData>()
                 .HasOne(p => p.MaritalStatus)
@@ -361,6 +344,18 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeAccountsList)
               .HasForeignKey(p => p.FinanceAccountId);
             //==============================================
+            //============قروظ الموظفين =======================
+
+            modelBuilder.Entity<EmployeeLoans>()
+             .HasOne(p => p.Employee)
+             .WithMany(p => p.EmployeeLoansList)
+             .HasForeignKey(p => p.EmployeeId);
+            //===========================قروظ الموظفين ====================       modelBuilder.Entity<EmployeeLoans>()
+            modelBuilder.Entity<EmployeeLoans>()
+                     .HasOne(p => p.Currency)
+                     .WithMany(p => p.EmployeeLoansList)
+                     .HasForeignKey(p => p.CurrencyId);
+            //==============================================
             //   |هنا
             //   v
             //دوام الموظفين مع الموظف
@@ -510,11 +505,32 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeAdvancesList)
               .HasForeignKey(p => p.EmployeeAccountId)
               .OnDelete(DeleteBehavior.NoAction);
+
+
             //=======================================
             modelBuilder.Entity<EmployeeAdvances>()
               .HasOne(p => p.Employee)
               .WithMany(p => p.EmployeeAdvancesList)
               .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Sections)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.SectionId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            //=======================================            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Departments)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.DepartmentId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================//=======================================            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.EmployeeAccount)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.EmployeeAccountId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             modelBuilder.Entity<AnnualGoals>()
@@ -616,12 +632,6 @@ namespace N.G.HRS.Date
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
-              .HasOne(p => p.Employees)
-              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
-              .HasForeignKey(p => p.EmployeeId)
-              .OnDelete(DeleteBehavior.NoAction);
-            //=======================================
-            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
               .HasOne(p => p.Section)
               .WithMany(p => p.AttendanceAndAbsenceProcessingList)
               .HasForeignKey(p => p.SectionId)
@@ -635,7 +645,7 @@ namespace N.G.HRS.Date
             //=======================================
             modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
               .HasOne(p => p.periods)
-              .WithMany(p => p.AttendanceAndAbsenceProcessing)
+              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
               .HasForeignKey(p => p.periodId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================

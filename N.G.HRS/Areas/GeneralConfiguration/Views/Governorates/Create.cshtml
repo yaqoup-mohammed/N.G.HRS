@@ -1,4 +1,4 @@
-﻿    @model N.G.HRS.Areas.GeneralConfiguration.Models.Governorate
+﻿@model N.G.HRS.Areas.GeneralConfiguration.Models.Governorate
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -54,134 +54,199 @@
     </div>
 </div>
 
+@using (Html.BeginForm("Import", "Governorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "importForm" }))
+{
+    <div class="mb-3">
+        <label class="form-label">اختر ملف Excel</label>
+        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput">
+    </div>
+    <button type="submit" class="btn btn-primary" id="uploadBtn" style="display: none;">تحميل الملف</button>
+    <div id="fileError" class="text-danger" style="display: none;"></div>
+}
+@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+ *@
 
-<!-- جدول البيانات المؤقتة -->
 <table id="temporaryTable" class="table" style="display:none;">
     <thead>
         <tr>
-
             <th>#</th>
             <th> المحافظة</th>
             <th>الملاحظات</th>
             <th>الدولة</th>
-
         </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+    </tbody>
 </table>
 
-<input type="submit" value=" حفظ البيانات " class="btn btn-primary me-2" id="saveDataBtn" />
+        <input type="submit" value=" حفظ البيانات " class="btn btn-primary me-2" id="saveDataBtn" />
 
-
-
-@section Scripts {
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
+        document.getElementById('fileInput').addEventListener('change', function () {
+            var uploadBtn = document.getElementById('uploadBtn');
+            var fileError = document.getElementById('fileError');
+            var fileName = this.value.toLowerCase();
+
+            // التحقق من امتداد الملف
+            if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+                uploadBtn.style.display = 'inline-block'; // عرض زر التحميل
+                fileError.style.display = 'none'; // إخفاء رسالة الخطأ
+            } else {
+                uploadBtn.style.display = 'none'; // إخفاء زر التحميل
+                fileError.style.display = 'block'; // عرض رسالة الخطأ
+                this.value = ''; // إعادة تعيين قيمة الملف المختار
+                Swal.fire({
+                    icon: 'error',
+                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
+                    showConfirmButton: false,
+                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
+                });
+            }
+        });
+    </script>
+
+    <script>
+
+
+
         $(document).ready(function () {
             var counter = 1;
 
-            // دالة تقوم بحفظ البيانات المعروضة في الجدول قبل إرسالها إلى الخادم
-            $("#saveDataBtn").click(function () {
-                $("#temporaryTable tr").each(function () {
-                    var governorate = $(this).find("td:eq(1)").text();
-                    var notes = $(this).find("td:eq(2)").text();
-                    var countryName = $(this).find("td:eq(3)").text(); // استخراج اسم الدولة
-                    var countryId = $(this).find("td:eq(4)").text(); // استخراج Id الدولة
+            // التحقق من وجود المديرية
+            function CheckGovernoratesExists(governorate, callback) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CheckGovernoratesExists", "Governorates")",
+                    data: { governorate: governorate },
+                    success: function (response) {
+                        callback(response.exists);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("حدث خطأ أثناء التحقق من وجود المحافظة: " + error);
+                    }
+                });
+            }
 
-                    if (governorate) {
-                        SaveGovernorateData(governorate, notes ? notes : "", countryId); // إرسال Id الدولة إلى الخادم
+            $("#addGovernorateBtn").click(function (event) {
+                event.preventDefault();
+                var governorate = $("#Governorate").val();
+                var notes = $("#GovernorateNotes").val();
+                var countryId = $("#CountryId").val();
+                var countryName = $("#CountryId option:selected").text();
+
+                CheckGovernoratesExists(governorate, function (exists) {
+                    if (exists) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "اسم المحافظة  موجود بالفعل في قاعدة البيانات"
+                        });
+                    } else if (governorate === "") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "الرجاء ادخال المحافظة!",
+                        });
+                    } else if (countryId === "") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "الرجاء اختيار الدولة!",
+                        });
+                    } else {
+                        $("#temporaryTable tbody").append(
+                            "<tr>" +
+                            "<td>" + counter + "</td>" +
+                            "<td>" + governorate + "</td>" +
+                            "<td>" + notes + "</td>" +
+                            "<td>" + countryName + "</td>" +
+                            "<td style='display:none' class='countryId'>" + countryId + "</td>" +
+                            "<td><button type='button' class='btn btn-danger delete-row'>Delete</button></td>" +
+                            "</tr>"
+                        );
+                        counter++;
+                        $("#Governorate").val('');
+                        $("#GovernorateNotes").val('');
+                        // $("#CountryId").val('');
+
+                        $("#clearTableBtn").show();
+                        $("#temporaryTable").show();
+                        $("#saveDataBtn").show();
                     }
                 });
             });
 
-            $("form").submit(function (event) {
-                event.preventDefault();
-                var governorate = $("#GovernorateId").val();
-                var notes = $("#GovernorateNotes").val();
-                var countryId = $("#CountryId").val();
-                var countryName = $("#CountryId option:selected").text(); // استخراج اسم الدولة
-
-                // تحقق فقط من وجود المحافظة
-                if (governorate) {
-                    $("#temporaryTable tbody").append(
-                        "<tr>" +
-                        "<td>" + counter + "</td>" +
-                        "<td contenteditable='true' class='governorate'>" + governorate + "</td>" +
-                        "<td contenteditable='true' class='notes'>" + notes + "</td>" +
-                        "<td contenteditable='true' class='countryName'>" + countryName + "</td>" + // عرض اسم الدولة
-                        "<td style='display:none' class='countryId'>" + countryId + "</td>" + // إضافة Id الدولة (لإرساله إلى الخادم)
-                        "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
-                        "</tr>"
-                    );
-                    counter++;
-                    $("#GovernorateId").val('');
-                    $("#GovernorateNotes").val('');
-                    $("#CountryId").val('');
-
-                    $("#temporaryTable").show();
-                }
+            $("#saveDataBtn").click(function (event) {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "هل تريد حفظ جميع البيانات؟",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم!',
+                    cancelButtonText: 'لا '
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tr").each(function () {
+                            var governorate = $(this).find("td:eq(1)").text();
+                            var notes = $(this).find("td:eq(2)").text();
+                            var countryId = $(this).find("td:eq(4)").text();
+                            if (governorate && countryId) {
+                                SaveGovernorateData(governorate, notes ? notes : "", countryId);
+                            }
+                        });
+                    }
+                });
             });
 
             $(document).on("click", ".delete-row", function () {
                 $(this).closest("tr").remove();
                 counter--;
-            });
-        });
-
-        function SaveGovernorateData(governorate, notes, countryId) {
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("SaveGovernorateData", "Governorates")",
-                data: { governorate: governorate, notes: notes, countryId: countryId },
-                success: function (response) {
-                    // alert("تم حفظ البيانات بنجاح!");
-                    // لاحاجة لعرض رسالة النجاح، فقط قم بتوجيه المستخدم إلى الصفحة Index
-                    window.location.href = "@Url.Action("Index")";
-                },
-                error: function (xhr, status, error) {
-                    alert("حدث خطأ أثناء حفظ البيانات: " + error);
+                Swal.fire('تم الحذف!', 'تم حذف البيانات بنجاح.', 'success');
+                if ($("#temporaryTable tbody tr").length === 0) {
+                    $("#saveDataBtn").hide();
+                    $("#clearTableBtn").hide();
                 }
             });
-        }
 
-
-        $("#submit").click(function () {
-            var CountryId = $("#CountryId").val();
-            var select = $("#select").val();
-            if (CountryId == "") {
-                event.preventDefault();
+            $("#clearTableBtn").click(function () {
                 Swal.fire({
-                    icon: "error",
-                    title: "الرجاء أختيار الدولة",
+                    title: 'هل أنت متأكد؟',
+                    text: "هل تريد حذف جميع البيانات!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذف الكل'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#temporaryTable tbody").empty();
+                        counter = 1;
+                        $("#saveDataBtn").hide();
+                        $("#clearTableBtn").hide();
+                        $("#temporaryTable").hide();
+                        Swal.fire('تم الحذف!', 'تم حذف جميع البيانات بنجاح.', 'success');
+                    }
                 });
-                event.preventDefault();
+            });
 
-            }
-
-        });
-
-        $("#submit").click(function () {
-            var GovernorateId = $("#GovernorateId").val();
-            var select = $("#select").val();
-            if (GovernorateId == "") {
-                event.preventDefault();
-                Swal.fire({
-                    icon: "error",
-                    title: "الرجاء أختيار المحافظة",
+            function SaveGovernorateData(governorate, notes, countryId) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SaveGovernorateData", "Governorates")",
+                    data: { governorate: governorate, notes: notes, countryId: countryId },
+                    success: function (response) {
+                        Swal.fire('تم الحفظ!', 'تم حفظ جميع البيانات بنجاح.', 'success').then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "@Url.Action("Index")";
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert("حدث خطأ أثناء حفظ البيانات: " + error);
+                    }
                 });
-                event.preventDefault();
-
             }
-
         });
-
-
     </script>
 
-
 }
-
-
-
-

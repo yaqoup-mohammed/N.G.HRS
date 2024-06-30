@@ -8,18 +8,22 @@
 {
 
     <script type="text/javascript">
+            
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '@TempData["Success"]',
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+           @*       Swal.fire('Excellent','Good job!','success');
+               *@
 
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: '@TempData["Success"]😎',
-            showConfirmButton: false,
-            timer: 1500,
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        });
+           
 
 
     </script>
@@ -31,33 +35,37 @@
 
 
     <script>
+           
+            Swal.fire({
+                icon: 'error',
+                title: '@TempData["Error"]',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
         event.preventDefault();
 
-        Swal.fire({
-            icon: 'error',
-            title: '@TempData["Error"]🙄',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: true
-        });
+
+    
     </script>
 }
 @if (TempData["SystemError"] != null)
 {
     <script>
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'حدث خطئ في النظام 😢',
+                text: '@TempData["SystemError"]';
+                footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
         event.preventDefault();
 
-        Swal.fire({
-            icon: 'error',
-            title: 'حدث خطئ في النظام 😢',
-            text: '@TempData["SystemError"]😪';
-            footer: '<strong class="alert-danger">يرجى التواصلمع مدير النظام</strong>',
-            customClass: {
-                confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        });
 
     </script>
 

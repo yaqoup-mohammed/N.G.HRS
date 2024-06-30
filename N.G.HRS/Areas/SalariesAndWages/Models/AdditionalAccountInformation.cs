@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace N.G.HRS.Areas.AalariesAndWages.Models
 {
-    public class AdditionalAccountInformation
+    public class AdditionalAccountInformation 
     {
         [Key]
         public int Id { get; set; }
@@ -26,7 +26,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public decimal NightPeriodParameter { get; set; }//معامل الفترة الليلية
         [Required]
         [Range(1, 10)]
-        [Display(Name = "المعامل في يوم")]
+        [Display(Name = "المعامل اليومي")]
         public decimal LaboratoriesPerDay { get; set; }//المعامل اليومي
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
@@ -37,8 +37,9 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime ToTime { get; set; }
         [Display(Name = " اليوم")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public int Date { get; set; }=DateTime.Now.Day;
+        public DateOnly Date { get; set; }
 
         //=================
         [DataType(DataType.Date)]

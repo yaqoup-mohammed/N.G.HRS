@@ -103,23 +103,25 @@ namespace N.G.HRS.FingerPrintSetting
         //    tbx.Select(tbx.Text.Length, 0);
         //}
 
-        //public static void ChangeGridProperties(DataGridView dgvMaster)
-        //{
-        //    dgvMaster.DefaultCellStyle.Font = new Font("Segoe UI", 8F);
-        //    dgvMaster.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        //    dgvMaster.RowHeadersWidth = 10;
-        //    dgvMaster.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-        //    dgvMaster.RowHeadersVisible = false;
-        //    dgvMaster.RowTemplate.DefaultCellStyle.Padding = new Padding(5, 0, 10, 0);
-        //    foreach (DataGridViewColumn c in dgvMaster.Columns)
-        //    {
-        //        c.Resizable = DataGridViewTriState.False;
-        //        c.ReadOnly = true;
-        //    }
-        //    dgvMaster.AllowUserToOrderColumns = true;
-        //    dgvMaster.BackgroundColor = SystemColors.Control;
-        //    dgvMaster.BorderStyle = BorderStyle.Fixed3D;
-        //}
+
+
+            //public static void ChangeGridProperties(DataGridView dgvMaster)
+            //{
+            //    dgvMaster.DefaultCellStyle.Font = new Font("Segoe UI", 8F);
+            //    dgvMaster.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            //    dgvMaster.RowHeadersWidth = 10;
+            //    dgvMaster.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            //    dgvMaster.RowHeadersVisible = false;
+            //    dgvMaster.RowTemplate.DefaultCellStyle.Padding = new Padding(5, 0, 10, 0);
+            //    foreach (DataGridViewColumn c in dgvMaster.Columns)
+            //    {
+            //        c.Resizable = DataGridViewTriState.False;
+            //        c.ReadOnly = true;
+            //    }
+            //    dgvMaster.AllowUserToOrderColumns = true;
+            //    dgvMaster.BackgroundColor = SystemColors.Control;
+            //    dgvMaster.BorderStyle = BorderStyle.Fixed3D;
+            //}
 
 
 
