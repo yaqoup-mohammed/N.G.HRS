@@ -2,95 +2,354 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html">الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            التهيئة العامة
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            الاجور والمرتبات
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">تصفية نهاية الخدمة</a>
+        </li>
+    </ol>
+</nav>
 
-<h1>Create</h1>
+<div class="card">
 
-<h4>EndOfServiceClearance</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> مخالصة الانتهاء من الخدمة   </h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Date" class="control-label"></label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="Date" class="form-control" />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                </div>
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="EndOfServiceDate" class="control-label"></label>
+                                <input asp-for="EndOfServiceDate" class="form-control" />
+                                <span asp-validation-for="EndOfServiceDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="EmployeeId" class="control-label"></label>
+                                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ReasonForClearance" class="control-label"></label>
+                                <input asp-for="ReasonForClearance" class="form-control" />
+                                <span asp-validation-for="ReasonForClearance" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastApprovedSalary" class="control-label"></label>
+                                <input asp-for="LastApprovedSalary" class="form-control" />
+                                <span asp-validation-for="LastApprovedSalary" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ServicePeriodPerYear" class="control-label"></label>
+                                <input asp-for="ServicePeriodPerYear" class="form-control" />
+                                <span asp-validation-for="ServicePeriodPerYear" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="EndOfServiceBenefits" class="control-label"></label>
+                                <input asp-for="EndOfServiceBenefits" class="form-control" />
+                                <span asp-validation-for="EndOfServiceBenefits" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AdvancesAndLoans" class="control-label"></label>
+                                <input asp-for="AdvancesAndLoans" class="form-control" />
+                                <span asp-validation-for="AdvancesAndLoans" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="VacationEntitlements" class="control-label"></label>
+                                <input asp-for="VacationEntitlements" class="form-control" />
+                                <span asp-validation-for="VacationEntitlements" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Absence" class="control-label"></label>
+                                <input asp-for="Absence" class="form-control" />
+                                <span asp-validation-for="Absence" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OtherEntitlements" class="control-label"></label>
+                                <input asp-for="OtherEntitlements" class="form-control" />
+                                <span asp-validation-for="OtherEntitlements" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OtherDiscounts" class="control-label"></label>
+                                <input asp-for="OtherDiscounts" class="form-control" />
+                                <span asp-validation-for="OtherDiscounts" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Total" class="control-label"></label>
+                                <input asp-for="Total" class="form-control" />
+                                <span asp-validation-for="Total" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="EndOfServiceDate" class="control-label"></label>
-                <input asp-for="EndOfServiceDate" class="form-control" />
-                <span asp-validation-for="EndOfServiceDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReasonForClearance" class="control-label"></label>
-                <input asp-for="ReasonForClearance" class="form-control" />
-                <span asp-validation-for="ReasonForClearance" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastApprovedSalary" class="control-label"></label>
-                <input asp-for="LastApprovedSalary" class="form-control" />
-                <span asp-validation-for="LastApprovedSalary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ServicePeriodPerYear" class="control-label"></label>
-                <input asp-for="ServicePeriodPerYear" class="form-control" />
-                <span asp-validation-for="ServicePeriodPerYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndOfServiceBenefits" class="control-label"></label>
-                <input asp-for="EndOfServiceBenefits" class="form-control" />
-                <span asp-validation-for="EndOfServiceBenefits" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AdvancesAndLoans" class="control-label"></label>
-                <input asp-for="AdvancesAndLoans" class="form-control" />
-                <span asp-validation-for="AdvancesAndLoans" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VacationEntitlements" class="control-label"></label>
-                <input asp-for="VacationEntitlements" class="form-control" />
-                <span asp-validation-for="VacationEntitlements" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Absence" class="control-label"></label>
-                <input asp-for="Absence" class="form-control" />
-                <span asp-validation-for="Absence" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OtherEntitlements" class="control-label"></label>
-                <input asp-for="OtherEntitlements" class="form-control" />
-                <span asp-validation-for="OtherEntitlements" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OtherDiscounts" class="control-label"></label>
-                <input asp-for="OtherDiscounts" class="form-control" />
-                <span asp-validation-for="OtherDiscounts" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+  
+
+    <script>
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        $(document).ready(function () {
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            function showSuccessMessage(message) {
+                Swal.fire({
+                    icon: "success",
+                    title: message,
+                }).then(() => {
+                    window.location.href = '@Url.Action("Index", "EndOfServiceClearances")';
+                });
+            }
+
+            function updateLoansAndAdvances(employeeId) {
+                $.ajax({
+                    url: '@Url.Action("GetEmployeeLoansAndAdvances", "EndOfServiceClearances")',
+                    method: 'GET',
+                    data: { employeeId: employeeId },
+                    success: function (response) {
+                        if (response.success) {
+                            var total = parseFloat(response.loans) + parseFloat(response.advances);
+                            $('#AdvancesAndLoans').val(total);
+                        } else {
+                            showErrorMessage(response.message);
+                        }
+                    },
+                    error: function () {
+                        showErrorMessage("حدث خطأ أثناء جلب بيانات القروض والسلف");
+                    }
+                });
+            }
+
+            $("#EmployeeId1").on('change', function () {
+                var employeeId = $(this).val();
+                if (employeeId) {
+                    updateLoansAndAdvances(employeeId);
+                } else {
+                    $('#AdvancesAndLoans').val('');
+                }
+            });
+
+            $("#EndOfServiceClearanceForm").on('submit', function (event) {
+                event.preventDefault();
+
+                var employeeId1 = $("#EmployeeId1").val();
+                var date1 = $("#Date1").val();
+                var endOfServiceDate = $("#EndOfServiceDate").val();
+                var reasonForClearance = $("#ReasonForClearance").val();
+                var lastApprovedSalary = $("#LastApprovedSalary").val();
+                var servicePeriodPerYear = $("#ServicePeriodPerYear").val();
+                var endOfServiceBenefits = $("#EndOfServiceBenefits").val();
+                var advancesAndLoans = $("#AdvancesAndLoans").val();
+                var vacationEntitlements = $("#VacationEntitlements").val();
+                var absence = $("#Absence").val();
+                var otherEntitlements = $("#OtherEntitlements").val();
+                var otherDiscounts = $("#OtherDiscounts").val();
+                var total = $("#Total").val();
+
+                if (employeeId1 === "") {
+                    showErrorMessage("يجب اختيار اسم الموظف");
+                    return false;
+                } else if (date1 === "") {
+                    showErrorMessage("يجب تحديد التاريخ");
+                    return false;
+                } else if (endOfServiceDate === "") {
+                    showErrorMessage("يجب تحديد تاريخ نهاية الخدمة");
+                    return false;
+                } else if (reasonForClearance === "") {
+                    showErrorMessage("يجب تحديد سبب التصفية");
+                    return false;
+                } else if (lastApprovedSalary === "") {
+                    showErrorMessage("يجب تحديد الراتب المعتمد");
+                    return false;
+                } else if (servicePeriodPerYear === "") {
+                    showErrorMessage("يجب تحديد مدة الخدمة بالسنة");
+                    return false;
+                } else if (endOfServiceBenefits === "") {
+                    showErrorMessage("يجب تحديد استحقاقات نهاية الخدمة");
+                    return false;
+                } else if (vacationEntitlements === "") {
+                    showErrorMessage("يجب تحديد استحقاقات الإجازة");
+                    return false;
+                } else if (otherEntitlements === "") {
+                    showErrorMessage("يجب تحديد استحقاقات أخرى");
+                    return false;
+                } else if (advancesAndLoans === "") {
+                    showErrorMessage("يجب تحديد السلف والقروض");
+                    return false;
+                } else if (absence === "") {
+                    showErrorMessage("يجب تحديد الغياب");
+                    return false;
+                } else if (otherDiscounts === "") {
+                    showErrorMessage("يجب تحديد خصومات أخرى");
+                    return false;
+                } else if (total === "") {
+                    showErrorMessage("يجب تحديد المجموع");
+                    return false;
+                }
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        showSuccessMessage("تم الحفظ بنجاح");
+                    },
+                    error: function (response) {
+                        showErrorMessage("حدث خطأ أثناء الحفظ");
+                    }
+                });
+            });
+        });
+    </script>
+
+
+   
+@* 
+    <script>
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        $(document).ready(function () {
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+            function showSuccessMessage(message) {
+                Swal.fire({
+                    icon: "success",
+                    title: message,
+                }).then(() => {
+                    window.location.href = '@Url.Action("Index", "EndOfServiceClearances")'; // استبدل YourControllerName باسم وحدة التحكم الخاصة بك
+                });
+            }
+
+            $("#EndOfServiceClearanceForm").on('submit', function (event) {
+                event.preventDefault(); // منع الإرسال الافتراضي للنموذج
+
+                var employeeId1 = $("#EmployeeId1").val();
+                var date1 = $("#Date1").val();
+                var endOfServiceDate = $("#EndOfServiceDate").val();
+                var reasonForClearance = $("#ReasonForClearance").val();
+                var lastApprovedSalary = $("#LastApprovedSalary").val();
+                var servicePeriodPerYear = $("#ServicePeriodPerYear").val();
+                var endOfServiceBenefits = $("#EndOfServiceBenefits").val();
+                var advancesAndLoans = $("#AdvancesAndLoans").val();
+                var vacationEntitlements = $("#VacationEntitlements").val();
+                var absence = $("#Absence").val();
+                var otherEntitlements = $("#OtherEntitlements").val();
+                var otherDiscounts = $("#OtherDiscounts").val();
+                var total = $("#Total").val();
+
+                if (employeeId1 === "") {
+                    showErrorMessage("يجب اختيار اسم الموظف");
+                    return false;
+                } else if (date1 === "") {
+                    showErrorMessage("يجب تحديد التاريخ");
+                    return false;
+                } else if (endOfServiceDate === "") {
+                    showErrorMessage("يجب تحديد تاريخ نهاية الخدمة");
+                    return false;
+                } else if (reasonForClearance === "") {
+                    showErrorMessage("يجب تحديد سبب التصفية");
+                    return false;
+                } else if (lastApprovedSalary === "") {
+                    showErrorMessage("يجب تحديد الراتب المعتمد");
+                    return false;
+                } else if (servicePeriodPerYear === "") {
+                    showErrorMessage("يجب تحديد مدة الخدمة بالسنة");
+                    return false;
+                } else if (endOfServiceBenefits === "") {
+                    showErrorMessage("يجب تحديد استحقاقات نهاية الخدمة");
+                    return false;
+                } else if (vacationEntitlements === "") {
+                    showErrorMessage("يجب تحديد استحقاقات الإجازة");
+                    return false;
+                } else if (otherEntitlements === "") {
+                    showErrorMessage("يجب تحديد استحقاقات أخرى");
+                    return false;
+                } else if (advancesAndLoans === "") {
+                    showErrorMessage("يجب تحديد السلف والقروض");
+                    return false;
+                } else if (absence === "") {
+                    showErrorMessage("يجب تحديد الغياب");
+                    return false;
+                } else if (otherDiscounts === "") {
+                    showErrorMessage("يجب تحديد خصومات أخرى");
+                    return false;
+                } else if (total === "") {
+                    showErrorMessage("يجب تحديد المجموع");
+                    return false;
+                }
+
+                // إرسال البيانات باستخدام AJAX
+                $.ajax({
+                    url: $(this).attr('action'), // عنوان URL الخاص بالنموذج
+                    method: $(this).attr('method'), // طريقة الإرسال (POST أو GET)
+                    data: $(this).serialize(), // تسلسل بيانات النموذج
+                    success: function (response) {
+                        showSuccessMessage("تم الحفظ بنجاح");
+                    },
+                    error: function (response) {
+                        showErrorMessage("حدث خطأ أثناء الحفظ");
+                    }
+                });
+            });
+        });
+    </script> *@
+
+
 }

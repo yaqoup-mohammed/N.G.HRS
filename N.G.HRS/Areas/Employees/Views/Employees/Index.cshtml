@@ -59,7 +59,7 @@
                                     <td>@employee.EmployeeName </td>
                                     <td>@employee.DateOfEmployment </td>
                                     <td>@employee.PlacementDate </td>
-                                    <td>@employee.EmploymentStatus </td>    
+                                    <td>@employee.EmploymentStatus </td>
                                     <td>@employee.RehireDate </td>
                                     <td>@employee.DateOfStoppingWork </td>
                                     <td>@employee.UsedFingerprint </td>
@@ -91,6 +91,7 @@
                                                  </div> 
 
 @* 
+
                                              </div>
                                             <!-- Row end -->
                                         </div>  *@
@@ -108,6 +109,8 @@
                                         @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
  *@
                                         <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
+                                        <a asp-action="details" asp-route-id="@employee.Id">Details</a> |
+
                                         <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
                                     </td>
                                 </tr>
@@ -134,15 +137,15 @@
                         <thead>
                             <tr>
                                 <th style="width: 1rem;">Id</th>
-                                <th>Name</th>
-                                <th>PhoneNumber</th>
-                                <th>NameOfTheBusiness</th>
-                                <th>CommercialRegistrationNo</th>
-                                <th>ShopAddress</th>
-                                <th>HomeAdress</th>
-                                <th>NumberOfDependents</th>
-                                <th>Notes</th>
-                                <th>MaritalStatus</th>
+                                <th>اسم الضمين</th>
+                                <th>رقم الهاتف</th>
+                                <th>اسم المحل التجاري</th>
+                                <th>رقم السجل</th>
+                                <th>عنوان المحل التجاري</th>
+                                <th>عنوان السكن الدائم</th>
+                                <th>الحالة الإجتماعية</th>
+                                <th>عدد من يعول</th>
+                                <th>ملاحظات</th>
                                 <th>Action</th>
 
 
@@ -160,9 +163,9 @@
                                     <td>@guarantees.CommercialRegistrationNo </td>
                                     <td>@guarantees.ShopAddress </td>
                                     <td>@guarantees.HomeAdress </td>
+                                    <td>@guarantees.MaritalStatus?.Name </td>
                                     <td>@guarantees.NumberOfDependents </td>
                                     <td>@guarantees.Notes </td>
-                                    <td>@guarantees.MaritalStatus?.Name </td>
                                     <td>
                                         <a asp-action="" asp-route-id="@guarantees.Id">Edit</a> |
                                         <a asp-action="Details" asp-route-id="@guarantees.Id">Details</a> |
@@ -462,6 +465,7 @@
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -491,7 +495,7 @@
                                 <tr>
                                     <td>@EmployeeArchives.Id </td>
 
-                                    <td style="    padding-bottom: 1px;padding-top: 6px;">
+                                    <td style="padding-bottom: 1px;padding-top: 6px;">
 
 
 
@@ -516,7 +520,7 @@
                                     </div>  *@
                                         <!-- Gallery end -->
                                     </td>
-                                   
+
                                     <td>@EmployeeArchives.employee?.EmployeeName </td>
                                     <td>@EmployeeArchives.Date </td>
                                     <td>@EmployeeArchives.Descriotion </td>
@@ -539,6 +543,7 @@
 
     </div>
 </div>
+
 
 
 @section Scripts {

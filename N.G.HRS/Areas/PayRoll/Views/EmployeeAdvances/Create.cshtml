@@ -1,63 +1,194 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "الدولة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
+<div class="card">
 
-<h1>Create</h1>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> EmployeeAdvances   </h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="EmployeeId" class="control-label"></label>
+                                    <select asp-for="EmployeeId" id="EmployeeId" class="js-example-basic-single form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="DepartmentId" class="control-label"></label>
+                                    <select asp-for="DepartmentId" id="department" class="js-example-basic-single form-select" asp-items="@(ViewData["DepartmentId"] as SelectList)" readonly>
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="departmentWarning" class="text-danger" style="display: none;">يتم تعطيل تغيير الإدارة.</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="SectionId" class="control-label"></label>
+                                    <select asp-for="SectionId" id="SectionId" class="js-example-basic-single form-select" asp-items="@(ViewData["SectionId"] as SelectList)" readonly>
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="sectionWarning" class="text-danger" style="display: none;">يتم تعطيل تغيير القسم.</span>
+                                    <span asp-validation-for="SectionId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="EmployeeAccountId" class="control-label"></label>
+                                    <select asp-for="EmployeeAccountId" id="EmployeeAccountId" class="js-example-basic-single form-select" asp-items="@(ViewData["EmployeeAccountId"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="CurrencyId" class="control-label"></label>
+                                    <select asp-for="CurrencyId" id="CurrencyId" class="js-example-basic-single form-select" asp-items="@(ViewData["CurrencyId"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span id="CurrencyWarning" class="text-danger" style="display: none;">يرجى تحديد العملة!</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Amount" class="control-label"></label>
+                                    <input asp-for="Amount" id="Amount" class="form-control" />
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Notes" class="control-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="submit" value="إنشاء" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
-<h4>EmployeeAdvances</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SectionId" class="control-label"></label>
-                <input asp-for="SectionId" class="form-control" />
-                <span asp-validation-for="SectionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeAccountId" class="control-label"></label>
-                <select asp-for="EmployeeAccountId" class ="form-control" asp-items="ViewBag.EmployeeAccountId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrencyId" class="control-label"></label>
-                <select asp-for="CurrencyId" class ="form-control" asp-items="ViewBag.CurrencyId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+ 
+    <script>
+        //لا يدخل الا ارقام فقط
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            const v = new ValidationFromMe();
+
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+
+
+            $("#Amount").on('input', function () {
+                var value = $(this).val();
+                if (isNaN(value) || parseInt(value) === 0) {
+                    showErrorMessage(isNaN(value) ? "الرجاء إدخال قيمة رقمية صحيحة لا يقبل الحروف!" : (parseInt(value) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!"));
+                    $(this).val(''); // إعادة تعيين الحقل
+                }
+            });
+            $("#EmployeeAdvancesForm").on('submit', function (event) {
+
+                var employeeId = $("#EmployeeId").val();
+                var departmentId = $("#DepartmentId").val();
+                var sectionsId = $("#SectionId").val();
+                var employeeAccountId = $("#EmployeeAccountId").val();
+                var currencyId = $("#CurrencyId").val();
+                var amount = $("#Amount").val();
+
+
+
+                if (employeeId === "") {
+                    showErrorMessage("يجب أختيار اسم الموظف");
+                    return false;
+                }
+                else if (departmentId === "") {
+                    showErrorMessage("يجب أختيار الادارة");
+                    return false;
+                }
+                else if (sectionsId === "") {
+                    showErrorMessage("يجب أختيار القسم");
+                    return false;
+                }
+                else if (employeeAccountId === "") {
+                    showErrorMessage("يجب أختيار حساب الموظف");
+                    return false;
+                }
+                else if (currencyId === "") {
+                    showErrorMessage("يجب أختيار العملة");
+                    return false;
+                }
+                else if (amount === "") {
+                    showErrorMessage("يجب أدخال المبلغ");
+                    return false;
+                }
+              
+
+                
+            });
+
+           
+        });
+        $(document).ready(function () {
+            // تحديث قائمة القسم عند تغيير الادارة
+            $('#EmployeeId').change(function () {
+                var departmentId = $(this).val();
+                // إذا تم اختيار ادارة، قم بجلب الاقسام المتعلقة بها من المصدر
+                if (departmentId != "") {
+                    $.ajax({
+                        url: '/PayRoll/EmployeeAdvances/getData', // قم بتغيير المسار حسب الحاجة
+                        type: 'GET',
+                        data: { id: departmentId },
+                        success: function (response) {
+                            console.log(response);
+                            $('#EmployeeAccountId').empty();
+
+                            $('#EmployeeAccountId').append($('<option>').text('').attr('value', '')); // إضافة خيار افتراضي
+                            // قم بإضافة الاقسام الجديدة إلى قائمة القسم
+                            $.each(response.empAdvances, function (index, item) {
+                                $('#SectionId').val(item.secId).change();
+                                $('#DepartmentId').val(item.depId).change();
+                                $('#EmployeeAccountId').append(`<option value="${item.accId}"> ${item.accName}</option>`);
+
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // قم بإدراج معالجة الخطأ حسب الحاجة
+                        }
+                    });
+                } else {
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار اللإدارة بشكل صحيح !!",
+                    });
+                }
+            });
+        });
+    </script>
+
 }

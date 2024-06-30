@@ -13,16 +13,20 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         [Display(Name = "عدد ايام الشهر")]
         public int? NumberOfMonthsDays {get;set;}
         [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "يرجى إدخال أرقام فقط")]
+
         [Range(0, 99999999.99)]
         [Display(Name = "الغياب بالساعة")]
 
         public decimal AbsencePerHour { get; set; }
         [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "يرجى إدخال أرقام فقط")]
         [Range(0, 99999999.99)]
         [Display(Name = "التأخبر بالدقيقة")]
 
         public decimal DelayPerHour { get; set; }
         [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "يرجى إدخال أرقام فقط")]
         [Range(0, 9999999.99)]
         [Display(Name = "تأخبر البصمة الواحدة بالساعة")]
 

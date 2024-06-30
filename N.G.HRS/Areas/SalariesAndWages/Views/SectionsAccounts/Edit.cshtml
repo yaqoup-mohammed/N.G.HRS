@@ -18,11 +18,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <label asp-for="FinanceAccountTypeId" class="control-label"></label>
                 <select asp-for="FinanceAccountTypeId" class="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
@@ -37,6 +33,11 @@
                 <label asp-for="SectionsId" class="control-label"></label>
                 <select asp-for="SectionsId" class="form-control" asp-items="ViewBag.SectionsId"></select>
                 <span asp-validation-for="SectionsId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

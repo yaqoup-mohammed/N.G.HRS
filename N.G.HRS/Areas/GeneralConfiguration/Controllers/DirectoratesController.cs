@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
+using OfficeOpenXml;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 {
@@ -14,10 +16,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
     public class DirectoratesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<DirectoratesController> _logger;
 
-        public DirectoratesController(AppDbContext context)
+        public DirectoratesController(AppDbContext context, ILogger<DirectoratesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: GeneralConfiguration/Directorates
@@ -68,6 +72,128 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             }
             ViewData["GovernorateId"] = new SelectList(_context.governorates, "Id", "Name", directorate.GovernorateId);
             return View(directorate);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Import(IFormFile file)
+        {
+            if (file == null || file.Length <= 0)
+            {
+                ModelState.AddModelError("File", "يرجى تحديد ملف للتحميل.");
+                return View("Import");
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                    if (worksheet == null)
+                    {
+                        ModelState.AddModelError("File", "الملف لا يحتوي على أوراق عمل.");
+                        return View("Import");
+                    }
+
+                    int rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++) // تجاوز الصف الأول بسبب العنوان
+                    {
+                        var directorateName = worksheet.Cells[row, 1].Value?.ToString().Trim();
+                        var notes = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                        var governorateName = worksheet.Cells[row, 3].Value?.ToString().Trim();
+
+                        if (!string.IsNullOrEmpty(directorateName) && !string.IsNullOrEmpty(governorateName))
+                        {
+                            var governorate = await _context.governorates.FirstOrDefaultAsync(g => g.Name == governorateName);
+                            if (governorate == null)
+                            {
+                                ModelState.AddModelError("Governorate", $"المحافظة '{governorateName}' غير موجودة في قاعدة البيانات.");
+                                continue;
+                            }
+
+                            var existingDirectorate = await _context.directorates
+                                .FirstOrDefaultAsync(d => d.Name == directorateName && d.GovernorateId == governorate.Id);
+
+                            if (existingDirectorate != null)
+                            {
+                                existingDirectorate.Notes = notes;
+                                _context.directorates.Update(existingDirectorate);
+                            }
+                            else
+                            {
+                                var newDirectorate = new Directorate
+                                {
+                                    Name = directorateName,
+                                    Notes = notes,
+                                    GovernorateId = governorate.Id
+                                };
+                                _context.directorates.Add(newDirectorate);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Row", $"الصف {row} يحتوي على بيانات غير مكتملة.");
+                        }
+                    }
+
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "تم استيراد البيانات بنجاح!";
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> ExportToExcel()
+        {
+            // Retrieve data from database including Governorate name
+            var data = await _context.directorates
+                                    .Include(d => d.Governorate) // Assuming there's a navigation property to Governorate
+                                    .ToListAsync();
+
+            // Set file name and path
+            var fileName = "DirectorateData.xlsx";
+            var filePath = Path.Combine(Environment.CurrentDirectory, fileName);
+
+            // Create Excel package using EPPlus
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                // Check if worksheet already exists, if yes, remove it
+                var existingWorksheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Directorate");
+                if (existingWorksheet != null)
+                {
+                    package.Workbook.Worksheets.Delete(existingWorksheet);
+                }
+
+                // Add a new worksheet
+                var worksheet = package.Workbook.Worksheets.Add("Directorate");
+
+                // Add headers
+                worksheet.Cells[1, 1].Value = "المديرية";
+                worksheet.Cells[1, 2].Value = "الملاحظات";
+                worksheet.Cells[1, 3].Value = "المحافظة";
+
+                // Add data to cells
+                int row = 2;
+                foreach (var item in data)
+                {
+                    worksheet.Cells[row, 1].Value = item.Name;
+                    worksheet.Cells[row, 2].Value = item.Notes;
+                    worksheet.Cells[row, 3].Value = item.Governorate.Name; // Use Governorate name here
+                    row++;
+                }
+
+                // Save the package
+                package.Save();
+            }
+
+            // Download the file
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
         // GET: GeneralConfiguration/Directorates/Edit/5
@@ -161,6 +287,11 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             try
             {
+                var checkDirectorateyExists = await _context.directorates.FirstOrDefaultAsync(c => c.Name == directorate);
+                if (checkDirectorateyExists != null)
+                {
+                    return Json(new { error = true, message = "اسم المديرية موجود بالفعل في قاعدة البيانات." });
+                }
                 // إنشاء كائن دولة لتخزين البيانات المستلمة
                 var newDirectorate = new Directorate
                 {
@@ -183,7 +314,14 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             }
         }
 
+        
 
+        [HttpPost]
+        public async Task<IActionResult> CheckDirectorateyExists(string directorate)
+        {
+            var exists = await _context.directorates.AnyAsync(c => c.Name == directorate );
+            return Json(new { exists });
+        }
 
         private bool DirectorateExists(int id)
         {

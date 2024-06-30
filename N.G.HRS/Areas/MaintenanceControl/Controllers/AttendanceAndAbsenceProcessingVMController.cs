@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Graph;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.Employees.ViewModel;
@@ -11,8 +10,6 @@ using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
 using N.G.HRS.FingerPrintSetting;
 using N.G.HRS.HRSelectList;
-using Newtonsoft.Json;
-using OfficeDevPnP.Core.Framework.Provisioning.Providers.Xml.V202002;
 using SQLitePCL;
 
 namespace N.G.HRS.Areas.MaintenanceControl.Controllers
@@ -337,7 +334,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
 
             var date = new DateOnly(workDate.Year, workDate.Month, workDate.Day);
-            var records = await _context.MachineInfo.Where(x => x.IndRegID == int.Parse(employee.EmployeeNumber) && x.DateOnlyRecord == date).ToListAsync();
+            var records = await _context.MachineInfo.Where(x => x.IndRegID == employee.EmployeeNumber && x.DateOnlyRecord == date).ToListAsync();
             var sT = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == employee.Id);
             List<AttendanceAndAbsenceProcessing> attAbsences = new List<AttendanceAndAbsenceProcessing>();
             if (sT != null)
@@ -1072,7 +1069,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             }
             return null;
 
-
         }
 
 
@@ -1199,15 +1195,14 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
         private bool IsWeekend(DateTime date, StaffTime staffTime)
         {
-            var sat = System.DayOfWeek.Saturday;
-            var sun = System.DayOfWeek.Sunday;
-            var mon = System.DayOfWeek.Monday;
-            var tues = System.DayOfWeek.Tuesday;
-            var wedn = System.DayOfWeek.Wednesday;
-            var thur = System.DayOfWeek.Thursday;
-            var fri = System.DayOfWeek.Friday;
 
-
+            DayOfWeek sat = DayOfWeek.Saturday;
+            DayOfWeek sun = DayOfWeek.Sunday;
+            DayOfWeek mon = DayOfWeek.Monday;
+            DayOfWeek tues = DayOfWeek.Tuesday;
+            DayOfWeek wedn = DayOfWeek.Wednesday;
+            DayOfWeek thur = DayOfWeek.Thursday;
+            DayOfWeek fri = DayOfWeek.Friday;
             if (staffTime.Periods.Saturday == false)
             {
                 if (date.DayOfWeek == sat)

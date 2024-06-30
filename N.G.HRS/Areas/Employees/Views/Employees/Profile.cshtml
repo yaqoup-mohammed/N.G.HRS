@@ -1,0 +1,269 @@
+﻿@model N.G.HRS.Areas.Employees.ViewModel.EmployeeVM
+
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<div class="card">
+    <span class="hidden-element" id="employeeId" style="display:none">@Html.DisplayFor(model => model.Employee.Id)</span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-9 ">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="example">
+                            <div class="row justify-content-end">
+                                <div class="col-auto">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="responsibilities-tab" data-bs-toggle="tab" href="#responsibilities" role="tab" aria-controls="responsibilities" aria-selected="true">المسؤوليات والسلطات</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">التكاليف الخارجية</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="additional-tab" data-bs-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="false">الإضافي</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="attendance-tab" data-bs-toggle="tab" href="#attendance" role="tab" aria-controls="attendance" aria-selected="false">الحضور والانصراف</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="disabled-tab1" data-bs-toggle="tab" href="#disabled1" role="tab" aria-controls="disabled1" aria-selected="false">الإشعارات</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="disabled-tab2" data-bs-toggle="tab" href="#disabled2" role="tab" aria-controls="disabled2" aria-selected="false">Disabled</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="tab-content border border-top-0 p-3" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="responsibilities" role="tabpanel" aria-labelledby="responsibilities-tab">
+                                                <h6 class="mb-3"> المسئوليات والسلطات</h6>
+                                                <div class="col-md-9 p-2">
+                                                    <div class="row">
+                                                        <dl class="col-sm-4">
+                                                            <dt> المسئوليات </dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.NameOfTheBusiness)</dd>
+                                                        </dl>
+                                                        <dl class="col-sm-4">
+                                                            <dt> السلطات</dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.ShopAddress)</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                                <h6 class="mb-3">تكليف عمل خارجي</h6>
+                                                <div class="col-md-9 p-2">
+                                                    <div class="row">
+                                                        <dl class="col-sm-4">
+                                                            <dt> المسئوليات </dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.NameOfTheBusiness)</dd>
+                                                        </dl>
+                                                        <dl class="col-sm-4">
+                                                            <dt> السلطات</dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.ShopAddress)</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
+                                                <h6 class="mb-3"> الاظافي </h6>
+                                                <div class="col-md-9 p-2">
+                                                    <div class="row">
+                                                        <dl class="col-sm-4">
+                                                            <dt> المسئوليات </dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.NameOfTheBusiness)</dd>
+                                                        </dl>
+                                                        <dl class="col-sm-4">
+                                                            <dt> السلطات</dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.ShopAddress)</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
+                                                <h6 class="mb-3"> الحضور وا الانصراف </h6>
+                                                <div class="col-md-9 p-2">
+                                                    <div class="row">
+                                                        <dl class="col-sm-4">
+                                                            <dt> المسئوليات </dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.NameOfTheBusiness)</dd>
+                                                        </dl>
+                                                        <dl class="col-sm-4">
+                                                            <dt> السلطات</dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.ShopAddress)</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="disabled1" role="tabpanel" aria-labelledby="disabled-tab1">
+                                                <h6 class="mb-3"> الاشعارات </h6>
+                                                <div class="col-md-9 p-2">
+                                                    <div class="row">
+                                                        <dl class="col-sm-4">
+                                                            <dt> المسئوليات </dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.NameOfTheBusiness)</dd>
+                                                        </dl>
+                                                        <dl class="col-sm-4">
+                                                            <dt> السلطات</dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.ShopAddress)</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="disabled2" role="tabpanel" aria-labelledby="disabled-tab2">
+                                                <h6 class="mb-3">disabled2</h6>
+                                                <div class="col-md-9 p-2">
+                                                    <div class="row">
+                                                        <dl class="col-sm-4">
+                                                            <dt> المسئوليات </dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.NameOfTheBusiness)</dd>
+                                                        </dl>
+                                                        <dl class="col-sm-4">
+                                                            <dt> السلطات</dt>
+                                                            <dd class="col-md-12">@Html.DisplayFor(model => model.PersonalData.guarantees.ShopAddress)</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                        <br>
+
+                        <!-- إطار الصورة -->
+                        <div class="image-container mb-3">
+                            <!-- عنصر الصورة المعاينة -->
+                            <img id="employeeImage" src="#" alt="Employee Image">
+                        </div>
+
+                        <!-- حقول الإدخال الأخرى -->
+                        <div class="mb-3">
+                            <label for="employeeName">اسم الموظف</label>
+                            <input type="text" class="form-control" placeholder="Enter employee name" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="employeeName">اسم الموظف</label>
+                            <input type="text" class="form-control" placeholder="Enter employee name" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+        // var emp = $('#employeeId').val();
+        //     $.ajax({
+        //         url:
+        //             "/Employees/Employees/Profile?id=" +emp,
+        //         type: "GET",
+        //         dataType: "json",
+        //         success: function (data) {
+        //             console.log("dsdsdsdsdsdsdsdsdsd")
+        //             $.each(data.employees, function (i, item) {
+        //                 $('#SubstituteEmployeeId').append(`<option value="${item.id}">${item.name} </option>`);
+
+        //             });
+        //         },
+        //     });
+
+
+
+            //===================================================
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var output = document.getElementById('employeeImage');
+                    output.src = reader.result;
+                    output.style.display = 'block'; // إظهار عنصر الصورة بعد تحميلها
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+
+            window.onload = function () {
+                // تطبيق تنسيقات CSS باستخدام JavaScript
+                var imageContainer = document.querySelector('.image-container');
+                var employeeImage = document.getElementById('employeeImage');
+
+                if (imageContainer) {
+                    imageContainer.style.width = '160px';
+                    imageContainer.style.height = '160px';
+                    imageContainer.style.margin = '0 auto';
+                    imageContainer.style.border = '1px solid #ccc';
+                    imageContainer.style.display = 'flex';
+                    imageContainer.style.justifyContent = 'center';
+                    imageContainer.style.alignItems = 'center';
+                    imageContainer.style.borderRadius = '50%';
+                    imageContainer.style.overflow = 'hidden';
+                }
+
+                if (employeeImage) {
+                    employeeImage.style.width = '100%';
+                    employeeImage.style.height = '100%';
+                    employeeImage.style.objectFit = 'cover';
+                    employeeImage.style.display = 'none'; // إخفاء الصورة حتى يتم تحميلها
+                }
+
+                var labels = document.querySelectorAll('label');
+                var inputs = document.querySelectorAll('input');
+
+                labels.forEach(function (label) {
+                    label.style.textAlign = 'right';
+                    label.style.display = 'block'; // اجعل العنصر block لضمان المحاذاة
+                });
+
+                inputs.forEach(function (input) {
+                    input.style.textAlign = 'right';
+                    input.dir = 'rtl'; // لجعل النص يبدأ من اليمين
+                });
+            }
+        });
+    </script>
+}

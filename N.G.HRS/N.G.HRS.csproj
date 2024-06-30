@@ -4,28 +4,23 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
-  <ItemGroup>
-    <COMReference Include="zkemkeeper">
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>fe9ded34-e159-408e-8490-b720a5e632c7</Guid>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity" Version="1.12.0" />
+		<PackageReference Include="Azure.Identity" Version="1.11.3" />
+		<PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
 		<PackageReference Include="EPPlus" Version="7.2.0" />
+		<PackageReference Include="ExcelDataReader" Version="3.7.0" />
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
+		<PackageReference Include="ExcelPackage" Version="1.0.0" />
+		<PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4" />
+		<PackageReference Include="iTextSharp" Version="5.5.13.4" />
+		<PackageReference Include="Azure.Identity" Version="1.12.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Azure.Management.KeyVault.Fluent" Version="1.38.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
 			<PrivateAssets>all</PrivateAssets>
@@ -40,17 +35,22 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+		<PackageReference Include="PDFsharp" Version="6.1.0" />
 		<PackageReference Include="SharePointPnPCoreOnline" Version="3.28.2012" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
-		<PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
 		<PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
+		<PackageReference Include="ZKemkeeper" Version="1.0.2" />
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\Upload\PDF\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Areas\MaintenanceControl\Views\UplodeFingerPrintFromDeviceVM\Create.cshtml" />
+    <None Include="Areas\PlanningAndJobDescription\Views\JobDescriptions\Create.cshtml" />
+    <None Include="Areas\PlanningAndJobDescription\Views\JobDescriptions\Delete.cshtml" />
+    <None Include="Areas\PlanningAndJobDescription\Views\JobDescriptions\Details.cshtml" />
+    <None Include="Areas\PlanningAndJobDescription\Views\JobDescriptions\Edit.cshtml" />
+    <None Include="Areas\PlanningAndJobDescription\Views\JobDescriptions\Index.cshtml" />
   </ItemGroup>
 
 </Project>

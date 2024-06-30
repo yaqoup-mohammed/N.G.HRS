@@ -15,6 +15,7 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         public string? Notes{ get; set; }
         //=====================================
         [ForeignKey("Employee")]
+        [Required (ErrorMessage = "الحقل هذا مطلوب")]
         [Display(Name = "الموظف")]
         public int? EmployeeId { get; set; }
         public Employee? employee { get; set; }
@@ -23,11 +24,13 @@ namespace N.G.HRS.Areas.AalariesAndWages.Models
         //=
 
         [ForeignKey("FinanceAccountTypeId")]
+        [Required(ErrorMessage = "الحقل هذا مطلوب")]
         [Display(Name = "نوع الحساب المالي")]
         public int? FinanceAccountTypeId { get; set; }
         public FinanceAccountType? FinanceAccountType { get; set; }
         //=
         [ForeignKey("FinanceAccountId")]
+        [Required(ErrorMessage = "الحقل هذا مطلوب")]
         [Display(Name = "معرف الحساب المالي")]
         public int? FinanceAccountId { get; set; }
         public FinanceAccount? FinanceAccount { get; set; }

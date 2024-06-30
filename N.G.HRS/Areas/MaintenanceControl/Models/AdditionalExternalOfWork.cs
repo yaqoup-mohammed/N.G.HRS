@@ -28,7 +28,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ToDate { get; set; }
-            [Required(ErrorMessage = "هذا الحقل مطلوب")]
+        [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "من وقت")]
         [DataType(DataType.Time)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss tt}")]

@@ -15,12 +15,15 @@ using Microsoft.AspNetCore.Identity;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.EmployeesAffsirs.Models;
 using N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Models;
+using N.G.HRS.Areas.Employees.Controllers;
+
 using N.G.HRS.Areas.MaintenanceControl.Models;
+using N.G.HRS.Areas.RegisterAndLogin.Models;
 using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Date
 {
-    public class AppDbContext:IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -28,30 +31,8 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<AttendanceStatus>().HasData(
-            new AttendanceStatus() { Id = 1, Name = "حضور" },
-            new AttendanceStatus() { Id = 2, Name = "غياب" },
-            new AttendanceStatus() { Id = 3, Name = "سماحية انصراف مبكر" },
-            new AttendanceStatus() { Id = 4, Name = "سماحية حضور متأخر" },
-            new AttendanceStatus() { Id = 5, Name = "اذن" },
-            new AttendanceStatus() { Id = 6, Name = "اجازة" },
-            new AttendanceStatus() { Id = 7, Name = "اجازة رسمية" },
-            new AttendanceStatus() { Id = 8, Name = "اجازة اسبوعية" },
-            new AttendanceStatus() { Id = 9, Name = "إضافي معتمد" },
-            new AttendanceStatus() { Id = 10, Name = "إضافي غير معتمد" },
-            new AttendanceStatus() { Id = 11, Name = "انصراف بدون عذر" },
-            new AttendanceStatus() { Id = 12, Name = "تأخير" },
-            new AttendanceStatus() { Id = 13, Name = "غياب نصف يوم" },
-            new AttendanceStatus() { Id = 14, Name = "سماحية حضور وانصراف" },
-            new AttendanceStatus() { Id = 15, Name = "تكليف خارجي " }
-   // Add more seed data as needed
-   );
-            modelBuilder.Entity<Assignment>().HasData(
-           new Assignment() { Id = 1, Name = "تكليف إضافي" },
-                new Assignment() { Id = 2, Name = "تكليف خارجي" }
-   // Add more seed data as needed
-   );
+            base.OnModelCreating(modelBuilder); 
+
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()
@@ -150,10 +131,12 @@ namespace N.G.HRS.Date
                 .HasForeignKey(p => p.ReligionId);
             //البيانات الشخصية مع الضمين
             //======================================================MO-AL-MO
-            modelBuilder.Entity<Guarantees>()
-               .HasOne(p => p.personalData)
-               .WithOne(p => p.guarantees)
-               .HasForeignKey<PersonalData>(b => b.GuaranteesId);
+            modelBuilder.Entity<PersonalData>()
+               .HasOne(p => p.guarantees)
+               .WithMany(p => p.PersonalDataList)
+               .HasForeignKey(b => b.GuaranteesId)
+               .OnDelete(DeleteBehavior.NoAction);
+
             //البيانات الشخصية مع الحالة الاجتماعية
             modelBuilder.Entity<PersonalData>()
                 .HasOne(p => p.MaritalStatus)
@@ -298,7 +281,7 @@ namespace N.G.HRS.Date
                 .OnDelete(DeleteBehavior.NoAction);
             //====================================================================
             //الدرجة الوظيفية مع العملة
-            modelBuilder.Entity <FunctionalClass>()
+            modelBuilder.Entity<FunctionalClass>()
                 .HasOne(p => p.Currency)
                 .WithMany(p => p.FunctionalClassList)
                 .HasForeignKey(p => p.CurrencyId);
@@ -360,6 +343,18 @@ namespace N.G.HRS.Date
               .HasOne(p => p.FinanceAccount)
               .WithMany(p => p.EmployeeAccountsList)
               .HasForeignKey(p => p.FinanceAccountId);
+            //==============================================
+            //============قروظ الموظفين =======================
+
+            modelBuilder.Entity<EmployeeLoans>()
+             .HasOne(p => p.Employee)
+             .WithMany(p => p.EmployeeLoansList)
+             .HasForeignKey(p => p.EmployeeId);
+            //===========================قروظ الموظفين ====================       modelBuilder.Entity<EmployeeLoans>()
+            modelBuilder.Entity<EmployeeLoans>()
+                     .HasOne(p => p.Currency)
+                     .WithMany(p => p.EmployeeLoansList)
+                     .HasForeignKey(p => p.CurrencyId);
             //==============================================
             //   |هنا
             //   v
@@ -510,11 +505,32 @@ namespace N.G.HRS.Date
               .WithMany(p => p.EmployeeAdvancesList)
               .HasForeignKey(p => p.EmployeeAccountId)
               .OnDelete(DeleteBehavior.NoAction);
+
+
             //=======================================
             modelBuilder.Entity<EmployeeAdvances>()
               .HasOne(p => p.Employee)
               .WithMany(p => p.EmployeeAdvancesList)
               .HasForeignKey(p => p.EmployeeId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Sections)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.SectionId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+            //=======================================            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.Departments)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.DepartmentId)
+              .OnDelete(DeleteBehavior.NoAction);
+            //=======================================//=======================================            //=======================================
+            modelBuilder.Entity<EmployeeAdvances>()
+              .HasOne(p => p.EmployeeAccount)
+              .WithMany(p => p.EmployeeAdvancesList)
+              .HasForeignKey(p => p.EmployeeAccountId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             modelBuilder.Entity<AnnualGoals>()
@@ -533,7 +549,7 @@ namespace N.G.HRS.Date
               .HasOne(p => p.Departments)
               .WithMany(p => p.AdministrativePromotionsList)
               .HasForeignKey(p => p.DepartmentsId)
-              .OnDelete(DeleteBehavior.NoAction); 
+              .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             modelBuilder.Entity<AdditionalExternalOfWork>()
               .HasOne(p => p.Employee)
@@ -589,7 +605,7 @@ namespace N.G.HRS.Date
               .HasOne(p => p.Currency)
               .WithMany(p => p.AdministrativeDecisionsList)
               .HasForeignKey(p => p.CurrencyId)
-              .OnDelete(DeleteBehavior.NoAction);  
+              .OnDelete(DeleteBehavior.NoAction);
             //=======================================
             modelBuilder.Entity<StaffVacations>()
               .HasOne(p => p.Employee)
@@ -608,16 +624,10 @@ namespace N.G.HRS.Date
               .WithMany(p => p.SubstituteStaffMemberList)
               .HasForeignKey(p => p.SubstituteStaffMemberId)
               .OnDelete(DeleteBehavior.NoAction);
-                        //=======================================
+            //=======================================
             modelBuilder.Entity<VacationBalance>()
               .HasOne(p => p.Employees)
               .WithMany(p => p.VacationBalanceList)
-              .HasForeignKey(p => p.EmployeeId)
-              .OnDelete(DeleteBehavior.NoAction);
-            //=======================================
-            modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
-              .HasOne(p => p.Employees)
-              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
               .HasForeignKey(p => p.EmployeeId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
@@ -635,7 +645,7 @@ namespace N.G.HRS.Date
             //=======================================
             modelBuilder.Entity<AttendanceAndAbsenceProcessing>()
               .HasOne(p => p.periods)
-              .WithMany(p => p.AttendanceAndAbsenceProcessing)
+              .WithMany(p => p.AttendanceAndAbsenceProcessingList)
               .HasForeignKey(p => p.periodId)
               .OnDelete(DeleteBehavior.NoAction);
             //=======================================
@@ -669,27 +679,27 @@ namespace N.G.HRS.Date
         //تهيئة الموظفين
         public DbSet<Employee> employee { get; set; }
         public DbSet<FinancialStatements> financialStatements { get; set; }
-        public DbSet<Guarantees>  guarantees { get; set; }
+        public DbSet<Guarantees> guarantees { get; set; }
         public DbSet<PersonalData> personalDatas { get; set; }
         public DbSet<PracticalExperiences> practicalExperiences { get; set; }
         public DbSet<Qualifications> qualifications { get; set; }
-        public DbSet<StatementOfEmployeeFiles>  statementOfEmployeeFiles { get; set; }
-        public DbSet<TrainingCourses>  trainingCourses { get; set; }
+        public DbSet<StatementOfEmployeeFiles> statementOfEmployeeFiles { get; set; }
+        public DbSet<TrainingCourses> trainingCourses { get; set; }
         //التهيئة العامة
         public DbSet<Contracts> contracts { get; set; }
-        public DbSet<ContractTerms>  contractTerms { get; set; }
+        public DbSet<ContractTerms> contractTerms { get; set; }
         public DbSet<Country> country { get; set; }
-        public DbSet<Directorate>  directorates { get; set; }
+        public DbSet<Directorate> directorates { get; set; }
         public DbSet<EducationalQualification> educationalQualifications { get; set; }
-        public DbSet<FingerprintDevices>  fingerprintDevices { get; set; }
-        public DbSet<FunctionalFiles>  functionalFiles { get; set; }
-        public DbSet<Governorate>  governorates { get; set; }
-        public DbSet<MaritalStatus>  maritalStatuses { get; set; }
+        public DbSet<FingerprintDevices> fingerprintDevices { get; set; }
+        public DbSet<FunctionalFiles> functionalFiles { get; set; }
+        public DbSet<Governorate> governorates { get; set; }
+        public DbSet<MaritalStatus> maritalStatuses { get; set; }
         public DbSet<Nationality> nationality { get; set; }
-        public DbSet<OfficialVacations>  officialVacations { get; set; }
+        public DbSet<OfficialVacations> officialVacations { get; set; }
         public DbSet<Permissions> permissions { get; set; }
-        public DbSet<PublicHolidays>  publicHolidays { get; set; }
-        public DbSet<RelativesType>  relativesTypes { get; set; }
+        public DbSet<PublicHolidays> publicHolidays { get; set; }
+        public DbSet<RelativesType> relativesTypes { get; set; }
         public DbSet<Religion> religion { get; set; }
         public DbSet<Sex> sex { get; set; }
         public DbSet<Specialties> specialties { get; set; }
@@ -697,12 +707,12 @@ namespace N.G.HRS.Date
         public DbSet<BoardOfDirectors> boardOfDirectors { get; set; }
         public DbSet<Branches> branches { get; set; }
         public DbSet<Company> company { get; set; }
-        public DbSet<MembershipOfTheBoardOfDirectors>  membershipOfTheBoardOfs { get; set; }
+        public DbSet<MembershipOfTheBoardOfDirectors> membershipOfTheBoardOfs { get; set; }
         public DbSet<PublicAdministration> publicAdministrations { get; set; }
         public DbSet<Sectors> sectors { get; set; }
         //التخطيط والتوصيف الوظيفي
-        public DbSet<FunctionalCategories>  functionalCategories { get; set; }
-        public DbSet<FunctionalClass>  functionalClasses { get; set; }
+        public DbSet<FunctionalCategories> functionalCategories { get; set; }
+        public DbSet<FunctionalClass> functionalClasses { get; set; }
         public DbSet<FinanceAccountType> FinanceAccountType { get; set; }
         public DbSet<JobRanks> jobRanks { get; set; }
         //تهيئة الحضور والانصراف
@@ -721,9 +731,9 @@ namespace N.G.HRS.Date
         public DbSet<PenaltiesAndViolationsForms> penaltiesAndViolationsForms { get; set; }
         public DbSet<Departments> Departments { get; set; }
         //================================================== MO-AL-MO
-        public DbSet<Family> Family { get; set; } 
-        public DbSet<AttendanceLog> AttendanceLog { get; set; } 
-        public DbSet<MachineInfo> MachineInfo { get; set; } 
+        public DbSet<Family> Family { get; set; }
+        public DbSet<AttendanceLog> AttendanceLog { get; set; }
+        public DbSet<MachineInfo> MachineInfo { get; set; }
         public DbSet<EmployeeArchives> EmployeeArchives { get; set; } = default!;
         public DbSet<Universities> Universities { get; set; } = default!;
         public DbSet<Sections> Sections { get; set; } = default!;
@@ -751,11 +761,11 @@ namespace N.G.HRS.Date
         public DbSet<N.G.HRS.Areas.EmployeesAffsirs.Models.Permits> Permits { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations> StaffVacations { get; set; } = default!;
         public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.VacationBalance> VacationBalance { get; set; } = default!;
-        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord> AttendanceRecord { get; set; } 
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord> AttendanceRecord { get; set; }
         public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork> AdditionalExternalOfWork { get; set; }
-        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions> EmployeePermissions { get; set; } 
-        public DbSet<AdditionalUnsupportedEmployees> AdditionalUnsupportedEmployees { get; set; } 
-        public DbSet<AttendanceAndAbsenceProcessing> AttendanceAndAbsenceProcessing { get; set; } 
+        public DbSet<N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions> EmployeePermissions { get; set; }
+        public DbSet<AdditionalUnsupportedEmployees> AdditionalUnsupportedEmployees { get; set; }
+        public DbSet<AttendanceAndAbsenceProcessing> AttendanceAndAbsenceProcessing { get; set; }
         public DbSet<AttendanceStatus> AttendanceStatus { get; set; }
         public DbSet<Assignment> Assignment { get; set; }
        

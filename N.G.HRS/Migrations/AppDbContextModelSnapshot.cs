@@ -1768,8 +1768,7 @@ namespace N.G.HRS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Data")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1777,7 +1776,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2991,11 +2991,11 @@ namespace N.G.HRS.Migrations
                     b.Property<TimeOnly>("FromTime")
                         .HasColumnType("time");
 
-                    b.Property<double?>("Hours")
-                        .HasColumnType("float");
+                    b.Property<string>("Hours")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Minutes")
-                        .HasColumnType("int");
+                    b.Property<string>("Minutes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SectionsId")
                         .HasColumnType("int");
