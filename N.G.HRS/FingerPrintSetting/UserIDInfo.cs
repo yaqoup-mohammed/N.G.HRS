@@ -6,7 +6,8 @@
         public int EnrollNumber { get; set; }
         public int BackUpNumber { get; set; }
         public int Privelage { get; set; }
-        public int Enabled { get; set; }
+        public DateTime Date { get; set; }
 
+        public int Enabled { get; set; }
     }
 }

@@ -7,20 +7,18 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">حساب الموظفين</h6>
+                <div class="space-between">
+                    <h3>   حسابات الموظفين </h3>
 
-                <hr style="color: black;">
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
                 <div class="table-responsive">
-                    <table class="datatable table  nowrap w-100">
+                    <table id="dataTableExample" class="table">
                         <thead>
                             <tr>
                                 <th>
@@ -42,18 +40,17 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Notes)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.employee.EmployeeName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FinanceAccountType.Name)
+                                        @Html.DisplayFor(modelItem => item.FinanceAccountType.Id)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FinanceAccount.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Notes)
+                                        @Html.DisplayFor(modelItem => item.FinanceAccount.Id)
                                     </td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -64,10 +61,8 @@
                             }
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>

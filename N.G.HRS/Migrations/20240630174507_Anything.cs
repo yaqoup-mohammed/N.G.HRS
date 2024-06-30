@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A : Migration
+    public partial class Anything : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -190,8 +192,8 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -312,28 +314,6 @@ namespace N.G.HRS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_jobRanks", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MachineInfo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MachineNumber = table.Column<int>(type: "int", nullable: false),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Section = table.Column<int>(type: "int", nullable: false),
-                    Department = table.Column<int>(type: "int", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IndRegID = table.Column<int>(type: "int", nullable: false),
-                    DateTimeRecord = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOnlyRecord = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeOnlyRecord = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsProcessed = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MachineInfo", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -1274,6 +1254,40 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MachineInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MachineNumber = table.Column<int>(type: "int", nullable: false),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SectionId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IndRegID = table.Column<int>(type: "int", nullable: false),
+                    DateTimeRecord = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOnlyRecord = table.Column<DateOnly>(type: "date", nullable: false),
+                    TimeOnlyRecord = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsProcessed = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MachineInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MachineInfo_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MachineInfo_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SectionsAccounts",
                 columns: table => new
                 {
@@ -1324,7 +1338,8 @@ namespace N.G.HRS.Migrations
                     TaskDestination = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AssignmentId = table.Column<int>(type: "int", nullable: false),
                     BetweenToDate = table.Column<bool>(type: "bit", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsProccessed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1460,10 +1475,10 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: true),
-                    SectionId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
-                    AttendanceStatusId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    SectionId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    AttendanceStatusId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FromTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     ToTime = table.Column<TimeSpan>(type: "time", nullable: false),
@@ -1556,8 +1571,8 @@ namespace N.G.HRS.Migrations
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     FromTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     ToTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    Hours = table.Column<double>(type: "float", nullable: true),
-                    Minutes = table.Column<int>(type: "int", nullable: true)
+                    Hours = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Minutes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1734,7 +1749,8 @@ namespace N.G.HRS.Migrations
                     Minutes = table.Column<int>(type: "int", nullable: true),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BetweenToDate = table.Column<bool>(type: "bit", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsProccessed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2482,6 +2498,37 @@ namespace N.G.HRS.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                table: "Assignment",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "تكليف إضافي" },
+                    { 2, "تكليف خارجي" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AttendanceStatus",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "حضور" },
+                    { 2, "غياب" },
+                    { 3, "سماحية انصراف مبكر" },
+                    { 4, "سماحية حضور متأخر" },
+                    { 5, "اذن" },
+                    { 6, "اجازة" },
+                    { 7, "اجازة رسمية" },
+                    { 8, "اجازة اسبوعية" },
+                    { 9, "إضافي معتمد" },
+                    { 10, "إضافي غير معتمد" },
+                    { 11, "انصراف بدون عذر" },
+                    { 12, "تأخير" },
+                    { 13, "غياب نصف يوم" },
+                    { 14, "سماحية حضور وانصراف" },
+                    { 15, "تكليف خارجي " }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AdditionalExternalOfWork_AssignmentId",
                 table: "AdditionalExternalOfWork",
@@ -2932,6 +2979,16 @@ namespace N.G.HRS.Migrations
                 name: "IX_linkingEmployeesToShiftPeriods_SectionsId",
                 table: "linkingEmployeesToShiftPeriods",
                 column: "SectionsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MachineInfo_DepartmentId",
+                table: "MachineInfo",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MachineInfo_SectionId",
+                table: "MachineInfo",
+                column: "SectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_oneFingerprints_EmployeeId",

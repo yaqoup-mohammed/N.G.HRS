@@ -10,21 +10,18 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">بيانات الاساسية للعمل والاجر</h6>
+                <div class="space-between">
+                    <h3>   BasicDataForWagesAndSalaries </h3>
 
-                <hr style="color: black;">
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
                 <div class="table-responsive">
-                    <table class="datatable table  nowrap w-100">
+                    <table id="dataTableExample" class="table">
                         <thead>
                             <tr>
                                 <th>
@@ -45,7 +42,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.ToDate)
                                 </th>
-
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TypeOfWage)
+                                </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Notes)
                                 </th>
@@ -74,7 +73,9 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ToDate)
                                     </td>
-
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TypeOfWage)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Notes)
                                     </td>
@@ -87,11 +88,8 @@
                             }
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>

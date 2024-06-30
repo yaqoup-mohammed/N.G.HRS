@@ -225,7 +225,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             if (machine.IndRegID != 0)
                             {
                                 var employee = _context.employee
-                                    .Where(x => x.EmployeeNumber == machine.IndRegID.ToString()).Include(x => x.Departments).Include(x => x.Sections)
+                                    .Where(x => x.EmployeeNumber == machine.IndRegID).Include(x => x.Departments).Include(x => x.Sections)
                                     .Select(x => new { emp = x.EmployeeName, dep = x.DepartmentsId, sec = x.SectionsId }).FirstOrDefault();
                                 //var employee = _context.employee.Where(x => x.EmployeeNumber == info.EnrollNumber);
                                 if (employee != null)

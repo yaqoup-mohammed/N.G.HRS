@@ -63,12 +63,12 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    // Redirect to the login page on root access
-    endpoints.MapGet("/", context =>
-    {
-        context.Response.Redirect("/RegisterAndLogin/Logins/Create");
-        return System.Threading.Tasks.Task.CompletedTask;
-    });
+    //// Redirect to the login page on root access
+    //endpoints.MapGet("/", context =>
+    //{
+    //    context.Response.Redirect("/RegisterAndLogin/Logins/Create");
+    //    return System.Threading.Tasks.Task.CompletedTask;
+    //});
 });
 
 app.Run();

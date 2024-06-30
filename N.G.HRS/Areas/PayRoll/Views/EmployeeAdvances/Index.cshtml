@@ -9,32 +9,28 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title"> AutomaticallyApprovedAdd_on </h6>
+                <div class="space-between">
+                    <h3>   EmployeeAdvances</h3>
 
-                <hr style="color: black;">
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
                 <div class="table-responsive">
-                    <table class="datatable table  nowrap w-100">
-
+                    <table id="dataTableExample" class="table">
                         <thead>
                             <tr>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Employee)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Departments)
+                                    @Html.DisplayNameFor(model => model.DepartmentId)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Sections)
+                                    @Html.DisplayNameFor(model => model.SectionId)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.EmployeeAccount)
@@ -59,10 +55,10 @@
                                         @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Departments.SubAdministration)
+                                        @Html.DisplayFor(modelItem => item.Departments)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Sections.SectionsName)
+                                        @Html.DisplayFor(modelItem => item.Sections)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.EmployeeAccount.Id)
@@ -85,12 +81,8 @@
                             }
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-

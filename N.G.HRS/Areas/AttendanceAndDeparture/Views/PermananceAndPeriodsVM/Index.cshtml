@@ -7,6 +7,8 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 
 }
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <h1>Index</h1>
 
 <p>
@@ -46,7 +48,7 @@
                 @Html.DisplayNameFor(model => model.Friday)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Hours)
+                الخميس
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Muinutes)
@@ -54,55 +56,64 @@
             <th>
                 @Html.DisplayNameFor(model => model.PermanenceModels)
             </th>
+
+            <th>
+                الدقائق
+            </th>
             <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodsName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FromTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Saturday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SunDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Monday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tuesday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wednesday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Thursday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Friday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Muinutes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    #
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PeriodsName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromTime.HasValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToTime.HasValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Saturday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SunDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Monday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tuesday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wednesday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thursday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Friday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Muinutes)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item .Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item .Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item .Id">Delete</a>
+                </td>
+            </tr>
+        }
             </td>
         </tr>
 }

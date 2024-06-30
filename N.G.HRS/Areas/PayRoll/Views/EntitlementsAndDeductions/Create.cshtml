@@ -8,142 +8,91 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<nav class="page-breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="../../../dashboard.html">الرئيسة</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            تهيئة النظام
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            التهيئة العامة
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            <a asp-action="Index">الاستحقاقات والخصومات</a>
-        </li>
-    </ol>
-</nav>
+<div class="card">
 
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> إستحقاقات وإستقطاعات   </h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" id="entitlementForm">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="EmployeeId" class="control-label"></label>
+                                <select asp-for="EmployeeId" class="js-example-basic-single form-select" asp-items="ViewBag.EmployeeId">
+                                    <option value="" selected disabled></option>
 
-<h1>Create</h1>
-<h4>الاستحقاقات والخصومات</h4>
-<div class="row">
-    <div class="col-md-12 stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title"></h4>
-                <br />
-                <hr />
-                <form asp-action="Create" id="EntitlementsAndDeductionsForm">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="EmployeeId" class="form-label"> الــــمـــوظــف</label>
-                                <select asp-for="EmployeeId" id="EmployeeId" class="form-select" asp-items="ViewBag.EmployeeId">
-                                    <option value=""></option>
-                                    <option value="">-- اختر الموظف --</option>
                                 </select>
+                                <span asp-validation-for="EmployeeId" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="Date" class="form-label">الــتــاريــخ</label>
-                                <input asp-for="Date" id="Date" class="form-control" placeholder=" ادخــل التــاريــخ" />
+                            <div class="form-group">
+                                <label asp-for="Date" class="control-label"></label>
+                                <input asp-for="Date" id="dateId" class="form-control" />
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
-                        </div>
-
-
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="Month" class="form-label">الـــشـــهــر</label>
-                                <input asp-for="Month" id="Month" class="form-control" placeholder=" ادخــل الـــشـــهــر" />
+                            <div class="form-group">
+                                <label asp-for="Month" class="control-label"></label>
+                                <input asp-for="Month" id="monthId" class="form-control" />
                                 <span asp-validation-for="Month" class="text-danger"></span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="Type" class="form-label">النوع</label>
-                                <input asp-for="Type" id="Type" class="form-control" placeholder=" ادخــل الــــــنـــــوع" />
+
+                            <div class="form-group">
+                                <label asp-for="Type" class="control-label"></label>
+                                <select asp-for="Type" id="typeId" class="form-control">
+                                    <option value="" selected disabled></option>
+                                    <option value="1">إستحقاقات</option>
+                                    <option value="2">استقطاعات</option>
+                                </select>
                                 <span asp-validation-for="Type" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="FinanceAccountTypeId" class="form-label">نـــوع الحــســــاب الــمــالــيــة</label>
-                                <select asp-for="FinanceAccountTypeId" id="FinanceAccountTypeId" class="form-select" asp-items="ViewBag.FinanceAccountTypeId">
-                                    <option value=""></option>
-                                    <option value="">-- اختر نوع الحساب --</option>
-                                </select>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
+                                </label>
+                                <span asp-validation-for="Taxable" class="text-danger"></span>
                             </div>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="CurrencyId" class="form-label">مــــعـــرف الـــعــمــلـــة</label>
-                                <select asp-for="CurrencyId" id="CurrencyId" class="form-select" asp-items="ViewBag.CurrencyId">
-                                    <option value=""></option>
-                                    <option value="">-- اختر العملة --</option>
-                                </select>
+                            <div class="form-group">
+                                <label asp-for="FinanceAccountTypeId" class="control-label"></label>
+                                <select asp-for="FinanceAccountTypeId" class="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
+                                <span asp-validation-for="FinanceAccountTypeId" class="text-danger"></span>
                             </div>
-                        </div>
-                    </div>
-                 
-
-                    <div class="form-group form-check">
-                        <label class="form-check-label"> خاظع لضريبة </label>
-                            <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
-                       
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="mb-3 p-3 border rounded">
-                                <label>اختيار إما مبلغ أو نسبة</label>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-check d-flex align-items-center">
-                                            <input type="checkbox" class="form-check-input me-2" id="amountCheckbox" />
-                                            <label class="form-check-label me-5" for="amountCheckbox">الـــمـــبـــلـــغ</label>
-                                            <input asp-for="Amount" id="Amount" class="form-control me-2"  placeholder="ادخــل الـــمـــبـــلـــغ" type="number" min="0" step="any" oninput="validateNumberInput(this)" disabled />
-                                            <span asp-validation-for="Amount" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-sm-6">
-                                        <div class="form-check d-flex align-items-center">
-                                            <input type="checkbox" class="form-check-input me-2" id="percentageCheckbox" />
-                                            <label class="form-check-label me-5" for="percentageCheckbox">الـــنــســبــة </label>
-                                            <div class="input-group">
-                                                <input asp-for="Percentage" id="Percentage" class="form-control" placeholder="ادخــل الـــنــســبــة " type="number" min="0" step="any" oninput="validateNumberInput(this)" disabled />
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                            <span asp-validation-for="Percentage" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label asp-for="Amount" class="control-label"></label>
+                                <input asp-for="Amount" class="form-control" />
+                                <span asp-validation-for="Amount" class="text-danger"></span>
                             </div>
-                        </div>
-                    </div><!-- Row -->
+                            <div class="form-group">
+                                <label asp-for="Percentage" class="control-label"></label>
+                                <input asp-for="Percentage" class="form-control" />
+                                <span asp-validation-for="Percentage" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CurrencyId" class="control-label"></label>
+                                <select asp-for="CurrencyId" class="form-control" asp-items="ViewBag.CurrencyId"></select>
+                                <span asp-validation-for="CurrencyId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Note" class="control-label"></label>
+                                <input asp-for="Note" class="form-control" />
+                                <span asp-validation-for="Note" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
-
-                    <div class="mb-3">
-                        <label asp-for="Note" class="form-label">مــــــلاحـــظـــة</label>
-                        <input asp-for="Note" class="form-control"placeholder=" ادخــل مــــــلاحـــظـــة" />
-                        <span asp-validation-for="Note" class="text-danger"></span>
+                            </div>
+                        </form>
                     </div>
-
-                    <button type="submit" id="EntitlementsAndDeductionsForm" class="btn btn-primary">حفظ</button>
-                    <a asp-action="Index" class="btn btn-light">العودة إلى القائمة</a>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 @section Scripts {

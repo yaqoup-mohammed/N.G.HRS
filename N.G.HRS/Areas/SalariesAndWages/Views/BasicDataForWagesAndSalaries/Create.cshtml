@@ -29,99 +29,136 @@
             <a asp-action="Index">بيانات الاساسية  للعمل  والاجر</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
+            إضافة
         </li>
     </ol>
 </nav>
+<div class="card">
 
-<div class="row">
-    <div class="col-md-12 stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">  بيانات الاساسية  للعمل والاجر  </h4>
-                <br />
-                <hr />
-                <form asp-action="Create" id="BasicDataForWagesAndSalariesForm" >
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="col mb-3">
-                                <label asp-for="FromDate" class="form-label"> من تاريخ</label>
-                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                    <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أختر التاريخ" data-input />
-                                    <span class="input-group-text input-group-addon" data-toggle>
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                                <span asp-validation-for="FromDate" class="text-danger"></span>
-
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="col mb-3">
-                                <label asp-for="ToDate" class="form-label"> الى تاريخ</label>
-                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                    <input asp-for="ToDate" id="ToDate1" class="form-control" placeholder="أختر التاريخ" data-input />
-                                    <span class="input-group-text input-group-addon" data-toggle>
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                                <span asp-validation-for="ToDate" class="text-danger"></span>
-
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="mb-3">
-                                <label asp-for="NumberOfMonthsDays" class="form-label"> عددأيام الشهر </label>
-                                <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" /> 
-                            </div>
-                            <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
-                        </div>
-                    </div><!-- Row -->
-                   
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="AbsencePerHour" class="form-label"> الغياب باساعة</label>
-                                <input asp-for="AbsencePerHour" id="AbsencePerHour1" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" /> 
-                                <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <!-- Col -->
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="DelayPerHour" class="form-label"> التأخير  باساعة </label>
-                                <input asp-for="DelayPerHour" id="DelayPerHour1" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" /> 
-                                <span asp-validation-for="DelayPerHour" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="mb-3">
-                                <label asp-for="OneFingerPrintPerHourDelay" class="form-label">تأخير البصمة الواحدة بالساعة</label>
-                                <input asp-for="OneFingerPrintPerHourDelay" id="OneFingerPrintPerHourDelay1" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" /> 
-                                <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <!-- Col -->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> بيانات الاساسية  للعمل  والاجر   </h3>
                     </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                </div>
 
-                    <div class="row">
-                        <!-- Col -->
-                        <div class="col-sm-12">
-                            <div class="mb-12">
-                                <label asp-for="Notes" class="form-label"></label>
-                                <input asp-for="Notes" class="form-control" />
-                                <span asp-validation-for="Notes" class="text-danger"></span>
+                                <div class="col-sm-4">
+                                    <div class="col mb-3">
+                                        <label asp-for="FromDate" class="form-label"></label>
+                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أختر التاريخ"
+                                                   data-input />
+                                            <span class="input-group-text input-group-addon" data-toggle>
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                            <span asp-validation-for="FromDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="AbsencePerHour" class="form-label"></label>
+                                        <input asp-for="AbsencePerHour" class="form-control" />
+                                        <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="NumberOfMonthsDays" class="form-label"></label>
+                                        <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" readonly class="form-control" />
+                                        <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                </div>
+                            </div><!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="col mb-3">
+                                        <label asp-for="ToDate" class="form-label"></label>
+                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                            <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أختر التاريخ"
+                                                   data-input />
+                                            <span class="input-group-text input-group-addon" data-toggle>
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                            <span asp-validation-for="ToDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Col -->
+                                <!-- Col -->
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="DelayPerHour" class="form-label"></label>
+                                        <input asp-for="DelayPerHour" class="form-control" />
+                                        <span asp-validation-for="DelayPerHour" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-2">
+                                        <label asp-for="OneFingerPrintPerHourDelay" class="form-label"></label>
+                                        <input asp-for="OneFingerPrintPerHourDelay" class="form-control" />
+                                        <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <!-- Col -->
+                                <div class="col-sm-2">
+                                </div>
                             </div>
-                        </div>
+
+                            <!-- Row -->
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label asp-for="TypeOfWage" class="form-label"></label>
+                                        <select asp-for="TypeOfWage" class="form-control">
+                                            <option>اختر نوع الراتب</option>
+                                            <option value="Official">رسمي</option>
+                                            <option value="Daily">يومي</option>
+                                            <option value="Contract">متعاقد</option>
+
+                                        </select>
+                                        <span asp-validation-for="TypeOfWage" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <!-- Col -->
+                                <!-- Col -->
+                            </div>
+                            <div class="row mb-3">
+                                <!-- Col -->
+                                <div class="col-sm-6">
+                                    <div class="mb-6">
+                                        <label asp-for="Notes" class="form-label"></label>
+                                        <input asp-for="Notes" class="form-control" />
+                                        <span asp-validation-for="Notes" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Col -->
+                            </div>
+
+                            <!-- Row -->
+
+                            <input type="submit" value="إنشاء" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
+
+                        </form>
 
                     </div>
-
-                    <button type="submit" id="BasicDataForWagesAndSalariesForm" class="btn btn-primary routate">حفظ</button>
-                    <a asp-action="Index" class="btn btn-light">Back to List</a>
-
-                </form>
-
+                </div>
             </div>
         </div>
     </div>

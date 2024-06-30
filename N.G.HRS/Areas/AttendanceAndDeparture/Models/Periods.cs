@@ -57,8 +57,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public List<StaffTime>? StaffTimeList { get; set; }
 
         //=
-
-
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessingList { get; set; }
 
 
     }

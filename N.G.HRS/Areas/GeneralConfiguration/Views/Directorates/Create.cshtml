@@ -2,47 +2,57 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "نماذج الدوام";
+    ViewData["Title"] = " المديريات";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Create</h1>
-
-<h4>Directorate</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" id="fromdir">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" id="Directorate" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" id="DirectorateNotes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GovernorateId" class="control-label"></label>
-                <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId" as SelectList>
-                    <option value=""></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
-                <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display:none" />
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>المديريات</h3>
+                        </div>
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Name" class="control-label"></label>
+                                    <input asp-for="Name" id="Directorate" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
 
-                <a asp-action="Index" class="btn btn-primary">الرجوع الى القائمة</a>
-                <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                <a asp-action="ExportToExcel" class="btn btn-primary">تصدير إلى Excel</a>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="GovernorateId" class="control-label"></label>
+                                    <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId" as SelectList>
+
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="Notes" class="control-label"></label>
+                                <input asp-for="Notes" id="DirectorateNotes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="submit" value="حفظ " class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
+
+
 
 @using (Html.BeginForm("Import", "Directorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "importForm" }))
 {
@@ -64,8 +74,9 @@
         <tr>
             <th>#</th>
             <th> المديريات</th>
-            <th>الملاحظات</th>
             <th>المحافظة</th>
+            <th>الملاحظات</th>
+
         </tr>
     </thead>
     <tbody>

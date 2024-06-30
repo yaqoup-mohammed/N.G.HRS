@@ -6,21 +6,18 @@
     Layout = "_Layout";
 
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title"> AutomaticallyApprovedAdd_on </h6>
+                <div class="space-between">
+                    <h3>   EmployeeLoans</h3>
 
-                <hr style="color: black;">
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
                 <div class="table-responsive">
-                    <table class="datatable table  nowrap w-100">
+                    <table id="dataTableExample" class="table">
                         <thead>
                             <tr>
                                 <th>
@@ -99,11 +96,8 @@
                             }
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>

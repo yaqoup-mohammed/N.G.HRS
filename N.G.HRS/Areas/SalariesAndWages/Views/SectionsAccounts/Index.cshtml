@@ -8,24 +8,23 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">حساب الاقسام</h6>
+                <div class="space-between">
+                    <h3>    الأقسام الحسابات</h3>
 
-                <hr style="color: black;">
+                    <a asp-action="Createb" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
                 <div class="table-responsive">
-                    <table class="datatable table  nowrap w-100">
+                    <table id="dataTableExample" class="table">
                         <thead>
                             <tr>
-
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Notes)
+                                </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.FinanceAccountType)
                                 </th>
@@ -34,9 +33,6 @@
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Sections)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Notes)
                                 </th>
                                 <th></th>
                             </tr>
@@ -49,10 +45,10 @@
                                         @Html.DisplayFor(modelItem => item.Notes)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FinanceAccountType.Name)
+                                        @Html.DisplayFor(modelItem => item.FinanceAccountType.Id)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FinanceAccount.Name)
+                                        @Html.DisplayFor(modelItem => item.FinanceAccount.Id)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Sections.SectionsName)
@@ -66,11 +62,8 @@
                             }
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>

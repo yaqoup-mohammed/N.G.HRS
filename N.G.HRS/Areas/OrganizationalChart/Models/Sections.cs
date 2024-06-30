@@ -31,6 +31,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         //=
         public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
         public List<AttendanceRecord>? AttendanceRecordList { get; set; }
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessingList { get; set; }
         public List<AutomaticallyApprovedAdd_on>? AutomaticallyApprovedAdd_onList { get; set; }
 
         //========================================

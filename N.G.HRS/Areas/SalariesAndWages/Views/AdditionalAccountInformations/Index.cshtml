@@ -4,24 +4,24 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "نماذج الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">  بيانات حساب الاضافي  </h6>
+                <div class="space-between">
+                    <h3>  نماذج الدوام</h3>
 
-                <hr style="color: black;">
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+
+                </div>
                 <div class="table-responsive">
-                    <table class="datatable table  nowrap w-100">
+                    <table id="dataTableExample" class="table">
                         <thead>
                             <tr>
                                 <th>
@@ -38,9 +38,6 @@
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.LaboratoriesPerDay)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Date)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.FromTime)
@@ -80,9 +77,6 @@
                                         @Html.DisplayFor(modelItem => item.LaboratoriesPerDay)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Date)
-                                    </td>
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.FromTime)
                                     </td>
                                     <td>
@@ -106,11 +100,8 @@
                             }
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>

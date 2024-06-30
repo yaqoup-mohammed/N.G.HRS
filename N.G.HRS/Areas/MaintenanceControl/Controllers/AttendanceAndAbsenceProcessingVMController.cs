@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Graph;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.Employees.ViewModel;
@@ -339,7 +338,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
 
             var date = new DateOnly(workDate.Year, workDate.Month, workDate.Day);
-            var records = await _context.MachineInfo.Where(x => x.IndRegID == int.Parse(employee.EmployeeNumber) && x.DateOnlyRecord == date).ToListAsync();
+            var records = await _context.MachineInfo.Where(x => x.IndRegID == employee.EmployeeNumber && x.DateOnlyRecord == date).ToListAsync();
             var sT = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == employee.Id);
             List<AttendanceAndAbsenceProcessing> attAbsences = new List<AttendanceAndAbsenceProcessing>();
             if (sT != null)
