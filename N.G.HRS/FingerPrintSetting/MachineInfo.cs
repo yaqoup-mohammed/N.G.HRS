@@ -15,13 +15,13 @@ namespace N.G.HRS.FingerPrintSetting
         public string? State { get; set; }
         public int IndRegID { get; set; }
         public string? DateTimeRecord { get; set; }
-    
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateOnly DateOnlyRecord { get; set; }
         [DataType(DataType.Time)]
 
         public DateTime? TimeOnlyRecord { get; set; }
-        public bool IsProcessed { get; set; } 
+        public bool IsProcessed { get; set; }
     }
 }
