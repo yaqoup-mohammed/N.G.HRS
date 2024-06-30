@@ -56,8 +56,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
             //};
             //SelectList listItems = new SelectList(assignment, "Id", "Name");
-
-            //ViewData["Assignment"] = listItems;
+            ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
             return View();
@@ -68,7 +67,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmployeeId,SubstituteEmployeeId,Date,FromDate,ToDate,FromTime,ToTime,Hours,Minutes,Mission,TaskDestination,Note")] AdditionalExternalOfWork additionalExternalOfWork)
+        public async Task<IActionResult> Create( AdditionalExternalOfWork additionalExternalOfWork)
         {
             if (ModelState.IsValid)
             {
@@ -76,15 +75,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            List<Assignment> assignment = new List<Assignment>
-            {
-                new Assignment () { Id = 1, Name = "تكليف إضافي" },
-                new Assignment () { Id = 2, Name = "تكليف خارجي" },
-
-            };
-            SelectList listItems = new SelectList(assignment, "Id", "Name");
-
-            ViewData["Assignment"] = listItems;
+            
+            ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.EmployeeId);
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.SubstituteEmployeeId);
             return View(additionalExternalOfWork);
@@ -103,6 +95,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             {
                 return NotFound();
             }
+            ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
+
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.EmployeeId);
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.SubstituteEmployeeId);
             return View(additionalExternalOfWork);
@@ -140,6 +134,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
+
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.EmployeeId);
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.SubstituteEmployeeId);
             return View(additionalExternalOfWork);

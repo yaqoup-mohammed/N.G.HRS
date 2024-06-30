@@ -650,6 +650,12 @@ namespace N.G.HRS.Date
               .WithMany(p => p.AttendanceAndAbsenceProcessingList)
               .HasForeignKey(p => p.AttendanceStatusId)
               .OnDelete(DeleteBehavior.NoAction);
+            //=======================================
+              modelBuilder.Entity<AdditionalExternalOfWork>()
+              .HasOne(p => p.Assignment)
+              .WithMany(p => p.AdditionalExternalOfWorkList)
+              .HasForeignKey(p => p.AssignmentId)
+              .OnDelete(DeleteBehavior.NoAction);
 
 
         }
@@ -751,6 +757,7 @@ namespace N.G.HRS.Date
         public DbSet<AdditionalUnsupportedEmployees> AdditionalUnsupportedEmployees { get; set; } 
         public DbSet<AttendanceAndAbsenceProcessing> AttendanceAndAbsenceProcessing { get; set; } 
         public DbSet<AttendanceStatus> AttendanceStatus { get; set; }
+        public DbSet<Assignment> Assignment { get; set; }
        
 
 

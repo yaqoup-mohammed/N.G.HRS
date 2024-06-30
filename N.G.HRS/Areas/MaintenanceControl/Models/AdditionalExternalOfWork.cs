@@ -55,7 +55,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "نوع التكليف")]
         public int AssignmentId { get; set; }
-        public Assignment Assignment { get; set; }
+        [Display(Name = "نوع التكليف")]
+        public Assignment? Assignment { get; set; }
         public bool BetweenToDate { get; set; }
         [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
@@ -72,5 +73,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<AdditionalExternalOfWork> AdditionalExternalOfWorkList { get; set;}
     }
 }
