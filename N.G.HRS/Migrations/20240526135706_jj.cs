@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class ff : Migration
+    public partial class jj : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -199,6 +199,7 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DevicesName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    DevicesNumber = table.Column<int>(type: "int", nullable: false),
                     DeviceType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DeviceStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ConnectionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -1147,7 +1148,7 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeNumber = table.Column<int>(type: "int", nullable: false),
+                    EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeName = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: false),
                     DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PlacementDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -1935,7 +1936,8 @@ namespace N.G.HRS.Migrations
                         name: "FK_personalDatas_guarantees_GuaranteesId",
                         column: x => x.GuaranteesId,
                         principalTable: "guarantees",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_personalDatas_maritalStatuses_MaritalStatusId",
                         column: x => x.MaritalStatusId,
@@ -2784,7 +2786,8 @@ namespace N.G.HRS.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_personalDatas_GuaranteesId",
                 table: "personalDatas",
-                column: "GuaranteesId");
+                column: "GuaranteesId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_personalDatas_MaritalStatusId",

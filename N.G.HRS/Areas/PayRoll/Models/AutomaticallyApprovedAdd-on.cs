@@ -14,8 +14,12 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
         //================================================
         public int Id { get; set; }
+        [Display(Name = " القسم")]
+
         public int? SectionsId { get; set; }
         public Sections? Sections { get; set; }
+        [Display(Name = " الموظف")]
+
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
         //=========================================
@@ -45,8 +49,11 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
         [DataType(DataType.Time)]
         public TimeOnly ToTime { get; set; }
+        [Display(Name = "عدد الساعات")]
 
         public string? Hours    {  get; set;   }
+        [Display(Name = "عدد الدقائق")]
+
         public string? Minutes {  get; set;   }
 
 
