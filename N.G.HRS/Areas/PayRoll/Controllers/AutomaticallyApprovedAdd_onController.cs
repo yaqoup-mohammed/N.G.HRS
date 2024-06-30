@@ -66,6 +66,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             {
                 _context.Add(automaticallyApprovedAdd_on);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "تم الحفظ بنجاح";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", automaticallyApprovedAdd_on.EmployeeId);

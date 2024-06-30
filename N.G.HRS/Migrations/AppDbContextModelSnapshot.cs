@@ -4306,9 +4306,9 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.MaintenanceControl.Models.Assignment", "Assignment")
-                        .WithMany()
+                        .WithMany("AdditionalExternalOfWorkList")
                         .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
@@ -5052,6 +5052,11 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.GeneralConfiguration.Models.Sex", b =>
                 {
                     b.Navigation("PersonalDataList");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.Assignment", b =>
+                {
+                    b.Navigation("AdditionalExternalOfWorkList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceStatus", b =>

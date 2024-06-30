@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
 using N.G.HRS.FingerPrintSetting;
-using System.Net;
 
 namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 {
@@ -32,7 +31,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         //    }
         //}
         //private readonly ZkemClient _ZK;
-        //public FingerprintDevicesController(AppDbContext context)
+        //public FingerprintDevicesController(AppDbContext context, ZkemClient zkClient)
         //{
         //    _context = context;
         //    _ZK = zkClient;
@@ -46,6 +45,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         {
             return View(await _context.fingerprintDevices.ToListAsync());
         }
+
         // GET: GeneralConfiguration/FingerprintDevices/Details/5
         public async Task<IActionResult> Details(int? id)
         {

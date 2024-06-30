@@ -1,10 +1,12 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "الدولة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 <div class="card">
 
@@ -80,115 +82,113 @@
 </div>
 
 
-
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+ 
+    <script>
+        //لا يدخل الا ارقام فقط
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+    </script>
     <script>
         $(document).ready(function () {
-            $('#department').click(function () {
-                $('#departmentWarning').show();
+            const v = new ValidationFromMe();
+
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
+
+
+
+            $("#Amount").on('input', function () {
+                var value = $(this).val();
+                if (isNaN(value) || parseInt(value) === 0) {
+                    showErrorMessage(isNaN(value) ? "الرجاء إدخال قيمة رقمية صحيحة لا يقبل الحروف!" : (parseInt(value) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!"));
+                    $(this).val(''); // إعادة تعيين الحقل
+                }
+            });
+            $("#EmployeeAdvancesForm").on('submit', function (event) {
+
+                var employeeId = $("#EmployeeId").val();
+                var departmentId = $("#DepartmentId").val();
+                var sectionsId = $("#SectionId").val();
+                var employeeAccountId = $("#EmployeeAccountId").val();
+                var currencyId = $("#CurrencyId").val();
+                var amount = $("#Amount").val();
+
+
+
+                if (employeeId === "") {
+                    showErrorMessage("يجب أختيار اسم الموظف");
+                    return false;
+                }
+                else if (departmentId === "") {
+                    showErrorMessage("يجب أختيار الادارة");
+                    return false;
+                }
+                else if (sectionsId === "") {
+                    showErrorMessage("يجب أختيار القسم");
+                    return false;
+                }
+                else if (employeeAccountId === "") {
+                    showErrorMessage("يجب أختيار حساب الموظف");
+                    return false;
+                }
+                else if (currencyId === "") {
+                    showErrorMessage("يجب أختيار العملة");
+                    return false;
+                }
+                else if (amount === "") {
+                    showErrorMessage("يجب أدخال المبلغ");
+                    return false;
+                }
+              
+
+                
             });
 
-            $('#SectionId').click(function () {
-                $('#sectionWarning').show();
-            });
-
-            $('#CurrencyId').click(function () {
-                $('#CurrencyWarning').show();
-            });
-
-            // عند تغيير الموظف، تحميل بيانات الموظف
+           
+        });
+        $(document).ready(function () {
+            // تحديث قائمة القسم عند تغيير الادارة
             $('#EmployeeId').change(function () {
-                var id = this.value;
-                if (id != "") {
-                    // Ajax لجلب بيانات الموظف
+                var departmentId = $(this).val();
+                // إذا تم اختيار ادارة، قم بجلب الاقسام المتعلقة بها من المصدر
+                if (departmentId != "") {
                     $.ajax({
-                        url: '/PayRoll/EmployeeAdvances/LoadEmployee?id=' + id,
+                        url: '/PayRoll/EmployeeAdvances/getData', // قم بتغيير المسار حسب الحاجة
                         type: 'GET',
-                        success: function (data) {
-                            if (data !== null && data.departmentsId !== null) {
-                                $('#department').val(data.departmentsId).change();
-                                $('#SectionId').val(data.sectionsId).change();
-                                $('#CurrencyId').val(data.CurrencyId).change();
-                            } else {
-                                showError("الموظف لا ينتمي إلى إدارة أو قسم!!");
-                            }
-                        },
-                        error: function () {
-                            showError("حدث خطأ أثناء جلب بيانات الموظف!!");
-                        }
-                    });
-                    // Ajax لجلب بيانات حساب الموظف
-                    $.ajax({
-                        url: '/PayRoll/EmployeeAdvances/EmployeeAccount?id=' + id,
-                        type: 'GET',
-                        success: function (data) {
+                        data: { id: departmentId },
+                        success: function (response) {
+                            console.log(response);
                             $('#EmployeeAccountId').empty();
-                            console.log(data);
-                            $('#EmployeeAccountId').append(`<option value=""></option>`);
 
-                            var hasAccount = false; // متغير لتتبع وجود حساب الموظف
-                            $.each(data.account, function (i, item) {
-                                if (item !== null && item.id !== null) {
-                                    $('#EmployeeAccountId').append(`<option value="${item.id}">${item.name}</option>`);
-                                    hasAccount = true; // تعيين المتغير إلى القيمة الصحيحة إذا كان الحساب موجودًا
-                                } else {
-                                    showError("الموظف ليس لديه حساب!!");
-                                }
+                            $('#EmployeeAccountId').append($('<option>').text('').attr('value', '')); // إضافة خيار افتراضي
+                            // قم بإضافة الاقسام الجديدة إلى قائمة القسم
+                            $.each(response.empAdvances, function (index, item) {
+                                $('#SectionId').val(item.secId).change();
+                                $('#DepartmentId').val(item.depId).change();
+                                $('#EmployeeAccountId').append(`<option value="${item.accId}"> ${item.accName}</option>`);
+
                             });
-
-                            // تعطيل زر الإرسال إذا لم يكن لدى الموظف حساب
-                            if (!hasAccount) {
-                                $("#submit").prop("disabled", true);
-                            } else {
-                                $("#submit").prop("disabled", false);
-                            }
-
                         },
-                        error: function () {
-                            showError("حدث خطأ أثناء جلب بيانات حساب الموظف!!");
+                        error: function (xhr, status, error) {
+                            console.error(error); // قم بإدراج معالجة الخطأ حسب الحاجة
                         }
                     });
                 } else {
-                    showError("يرجى تحديد إدارة صالحة!!");
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار اللإدارة بشكل صحيح !!",
+                    });
                 }
             });
-
-            // التحقق من اختيار العملة قبل الإرسال
-            $("#submit").click(function (event) {
-                const EmployeeId = $("#EmployeeId").val();
-                const CurrencyId = $("#CurrencyId").val();
-                const EmployeeAccountId = $("#EmployeeAccountId").val(); // احصل على قيمة حساب الموظف المحدد
-                const Amount = $("#Amount").val(); // احصل على قيمة المبلغ
-
-                // التحقق مما إذا كان الموظف قد حدد حسابًا أم لا
-                if (EmployeeId === "") {
-                    event.preventDefault(); // منع إرسال النموذج
-                    showError("يجب  تحديد الموظف!"); // عرض رسالة الخطأ
-                } else if (EmployeeAccountId === "") {
-                    event.preventDefault(); // منع إرسال النموذج
-                    showError("يجب تحديد حساب للموظف!"); // عرض رسالة الخطأ
-                } else if (CurrencyId === "") {
-                    event.preventDefault(); // منع إرسال النموذج
-                    showError("يرجى تحديد العملة!");
-                }
-                else if (Amount === "") {
-                    event.preventDefault(); // منع إرسال النموذج
-                    showError("يرجى تحديد المبلغ!"); // عرض رسالة الخطأ
-                }
-            });
-
-            // عرض رسالة الخطأ
-            function showError(errorMessage) {
-                Swal.fire({
-                    icon: "error",
-                    title: "خطأ",
-                    text: errorMessage
-                });
-            }
         });
     </script>
+
 }

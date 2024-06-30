@@ -10,31 +10,31 @@ namespace N.G.HRS.FingerPrintSetting
     {
         Action<object, string> RaiseDeviceEvent;
 
-public ZkemClient(Action<object, string> RaiseDeviceEvent)
-{ this.RaiseDeviceEvent = RaiseDeviceEvent; }
+        public ZkemClient(Action<object, string> RaiseDeviceEvent)
+        { this.RaiseDeviceEvent = RaiseDeviceEvent; }
 
 
-CZKEM objCZKEM = new CZKEM();
+        CZKEM objCZKEM = new CZKEM();
 
-#region 'What we will be using'
+        #region 'What we will be using'
 
-public bool BatchUpdate(int dwMachineNumber)
-{
-    return objCZKEM.BatchUpdate(dwMachineNumber);
-}
+        public bool BatchUpdate(int dwMachineNumber)
+        {
+            return objCZKEM.BatchUpdate(dwMachineNumber);
+        }
 
-public bool Beep(int DelayMS)
-{
-    return objCZKEM.Beep(DelayMS);
-}
+        public bool Beep(int DelayMS)
+        {
+            return objCZKEM.Beep(DelayMS);
+        }
 
-public bool BeginBatchUpdate(int dwMachineNumber, int UpdateFlag)
-{
-    return objCZKEM.BeginBatchUpdate(dwMachineNumber, UpdateFlag);
-}
+        public bool BeginBatchUpdate(int dwMachineNumber, int UpdateFlag)
+        {
+            return objCZKEM.BeginBatchUpdate(dwMachineNumber, UpdateFlag);
+        }
 
 
-public bool ClearData(int dwMachineNumber, int DataFlag)
+        public bool ClearData(int dwMachineNumber, int DataFlag)
         {
             return objCZKEM.ClearData(dwMachineNumber, DataFlag);
         }
@@ -126,25 +126,25 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             return objCZKEM.GetUserTmp(dwMachineNumber, dwEnrollNumber, dwFingerIndex, ref TmpData, ref TmpLength);
         }
 
-//        public bool GetUserTmpEx(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out byte TmpData, out int TmpLength)
-//        {
-//            return objCZKEM.GetUserTmpEx(dwMachineNumber, dwEnrollNumber, dwFingerIndex, out Flag, out TmpData, out TmpLength);
-//        }
-//        //=======================================================
-//        //=======================================================
+        //        public bool GetUserTmpEx(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out byte TmpData, out int TmpLength)
+        //        {
+        //            return objCZKEM.GetUserTmpEx(dwMachineNumber, dwEnrollNumber, dwFingerIndex, out Flag, out TmpData, out TmpLength);
+        //        }
+        //        //=======================================================
+        //        //=======================================================
 
 
-//        public bool GetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out string TmpData, out int TmpLength)
-//        {
-//            return objCZKEM.GetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, out Flag, out TmpData, out TmpLength);
-//        }
+        //        public bool GetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out string TmpData, out int TmpLength)
+        //        {
+        //            return objCZKEM.GetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, out Flag, out TmpData, out TmpLength);
+        //        }
 
 
 
-//        public bool PowerOffDevice(int dwMachineNumber)
-//        {
-//            return objCZKEM.PowerOffDevice(dwMachineNumber);
-//        }
+        //        public bool PowerOffDevice(int dwMachineNumber)
+        //        {
+        //            return objCZKEM.PowerOffDevice(dwMachineNumber);
+        //        }
 
 
         public bool QueryState(ref int State)
@@ -190,10 +190,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
         }
 
 
-//        //public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
-//        //{
-//        //    return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
-//        //}
+        //        //public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
+        //        //{
+        //        //    return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
+        //        //}
 
         public bool SSR_EnableUser(int dwMachineNumber, string dwEnrollNumber, bool bFlag)
         {
@@ -219,10 +219,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool GetAllUserInfo(int dwMachineNumber, ref int dwEnrollNumber, ref string Name, ref string Password, ref int Privilege, ref bool Enabled)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool GetAllUserInfo(int dwMachineNumber, ref int dwEnrollNumber, ref string Name, ref string Password, ref int Privilege, ref bool Enabled)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public bool SSR_GetGeneralLogData(int dwMachineNumber, out string dwEnrollNumber, out int dwVerifyMode, out int dwInOutMode, out int dwYear, out int dwMonth, out int dwDay, out int dwHour, out int dwMinute, out int dwSecond, ref int dwWorkCode)
         {
@@ -269,8 +269,8 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             objCZKEM.Disconnect();
         }
 
-//            objCZKEM.Disconnect();
-//        }
+        //            objCZKEM.Disconnect();
+        //        }
 
         public bool GetAllUserID(int dwMachineNumber, ref int dwEnrollNumber, ref int dwEMachineNumber, ref int dwBackupNumber, ref int dwMachinePrivilege, ref int dwEnable)
         { return objCZKEM.GetAllUserID(dwMachineNumber, dwEnrollNumber, dwEMachineNumber, dwBackupNumber, dwMachinePrivilege, dwEnable); }
@@ -298,11 +298,11 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
         }
         #endregion
 
-//        public void GetLastError(ref int dwErrorCode)
-//        {
-//            objCZKEM.GetLastError(dwErrorCode);
-//        }
-//        #endregion
+        //        public void GetLastError(ref int dwErrorCode)
+        //        {
+        //            objCZKEM.GetLastError(dwErrorCode);
+        //        }
+        //        #endregion
 
         #region 'Not Implemented'
 
@@ -320,10 +320,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool GetUserInfoByPIN2(int dwMachineNumber, ref string Name, ref string Password, ref int Privilege, ref bool Enabled)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool GetUserInfoByPIN2(int dwMachineNumber, ref string Name, ref string Password, ref int Privilege, ref bool Enabled)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public bool CancelBatchUpdate(int dwMachineNumber)
         {
@@ -345,10 +345,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool ClearAdministrators(int dwMachineNumber)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool ClearAdministrators(int dwMachineNumber)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public bool ClearKeeperData(int dwMachineNumber)
         {
@@ -430,10 +430,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool DelUserFace(int dwMachineNumber, string dwEnrollNumber, int dwFaceIndex)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool DelUserFace(int dwMachineNumber, string dwEnrollNumber, int dwFaceIndex)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public bool EmptyCard(int dwMachineNumber)
         {
@@ -455,10 +455,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool EnableCustomizeVoice(int dwMachineNumber, int VoiceID, int Enable)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool EnableCustomizeVoice(int dwMachineNumber, int VoiceID, int Enable)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public bool EnableUser(int dwMachineNumber, int dwEnrollNumber, int dwEMachineNumber, int dwBackupNumber, bool bFlag)
         {
@@ -504,10 +504,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool GetUserTZStr(int dwMachineNumber, int dwEnrollNumber, ref string TZs)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool GetUserTZStr(int dwMachineNumber, int dwEnrollNumber, ref string TZs)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
 
         public bool PlayVoice(int Position, int Length)
@@ -515,10 +515,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             return objCZKEM.PlayVoice(Position, Length);
         }
 
-//        public bool PlayVoice(int Position, int Length)
-//        {
-//            return objCZKEM.PlayVoice(Position, Length);
-//        }
+        //        public bool PlayVoice(int Position, int Length)
+        //        {
+        //            return objCZKEM.PlayVoice(Position, Length);
+        //        }
 
         public bool GetWorkCode(int WorkCodeID, out int AWorkCode)
         {
@@ -559,10 +559,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool ModifyPrivilege(int dwMachineNumber, int dwEnrollNumber, int dwEMachineNumber, int dwBackupNumber, int dwMachinePrivilege)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool ModifyPrivilege(int dwMachineNumber, int dwEnrollNumber, int dwEMachineNumber, int dwBackupNumber, int dwMachinePrivilege)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
 
         public bool PlayVoiceByIndex(int Index)
@@ -575,10 +575,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public void PowerOnAllDevice()
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public void PowerOnAllDevice()
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public int GetFPTempLength(ref byte dwEnrollData)
         {
@@ -625,10 +625,10 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool GetHoliday(int dwMachineNumber, ref string Holiday)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool GetHoliday(int dwMachineNumber, ref string Holiday)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
 
         public bool GetPhotoByName(int dwMachineNumber, string PhotoName, out byte PhotoData, out int PhotoLength)
@@ -666,20 +666,20 @@ public bool ClearData(int dwMachineNumber, int DataFlag)
             throw new NotImplementedException();
         }
 
-//        public bool GetRTLog(int dwMachineNumber)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool GetRTLog(int dwMachineNumber)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
         public bool GetSensorSN(int dwMachineNumber, ref string SensorSN)
         {
             throw new NotImplementedException();
         }
 
-//        public bool GetSensorSN(int dwMachineNumber, ref string SensorSN)
-//        {
-//            throw new NotImplementedException();
-//        }
+        //        public bool GetSensorSN(int dwMachineNumber, ref string SensorSN)
+        //        {
+        //            throw new NotImplementedException();
+        //        }
 
 
         public bool GetSMS(int dwMachineNumber, int ID, ref int Tag, ref int ValidMinutes, ref string StartTime, ref string Content)

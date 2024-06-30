@@ -51,8 +51,43 @@
 </div>
 
 
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#EmployeeAccountForm").submit(function (event) {
+                // event.preventDefault();
+                var employeeAccountEmployeeId = $("#EmployeeAccountEmployeeId").val();
+                var employeeAccountFinanceAccountTypeId = $("#EmployeeAccountFinanceAccountTypeId").val();
+                var employeeAccountFinanceAccountId = $("#EmployeeAccountFinanceAccountId").val();
+                if (employeeAccountEmployeeId === "") {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار الموظف!",
+                    });
+                }
+                else if (employeeAccountFinanceAccountTypeId === "") {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار نوع الحساب!",
+                    });
+                }
+                else if (employeeAccountFinanceAccountId === "") {
+                    // عرض رسالة الخطأ
+                    Swal.fire({
+                        icon: "error",
+                        title: "الرجاء اختيار  الحساب!",
+                    });
+                }
+                
+
+                
+            });
+        });
+    </script>
+
 }

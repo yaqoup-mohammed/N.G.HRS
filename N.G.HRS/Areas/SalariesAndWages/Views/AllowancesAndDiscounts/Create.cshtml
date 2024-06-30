@@ -2,11 +2,9 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "نماذج الدوام";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Active"] = "AddEmployee";
-    ViewData["Open"] = "Open2";
-    ViewData["OpenOperation"] = "OpenOperation2";
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+
 }
 
 <nav class="page-breadcrumb">
@@ -145,8 +143,8 @@
                             <div class="col-sm-12">
                                 <div class="mb-3">
                                     <label class="form-label">ملاحظات</label>
-                                    <input type="password" class="form-control" autocomplete="off"
-                                           placeholder="Password" />
+                                    <input type="text" class="form-control" autocomplete="off"
+                                           placeholder="ملاحظات" />
                                 </div>
                             </div>
                         </div>

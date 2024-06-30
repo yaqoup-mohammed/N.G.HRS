@@ -1,7 +1,7 @@
 ﻿@model N.G.HRS.Areas.PayRoll.Models.EmployeePerks
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "اكرامية الموظفين";
+    ViewData["Title"] = "أكراميات الموظفين";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -77,84 +77,83 @@
     </div>
 </div>
 
+
+
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+  
+
     <script>
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
 
         $(document).ready(function () {
-            // تحقق من اختيار اسم الموظف قبل الإرسال
-            $("#submit").click(function (event) {
-                var employeeId = $("#EmployeeId").val();
-                if (employeeId === "") {
-                    event.preventDefault(); // منع إرسال النموذج
-                    Swal.fire({
-                        icon: "error",
-                        title: "خطأ",
-                        text: "يرجى اختيار الموظف",
-                    });
-                }
-            });
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: "error",
+                    title: message,
+                });
+            }
 
-            // تضليل حقل النسبة عند إدخال قيمة في حقل الكمية
-            $("#Amount").change(function () {
-                var amountValue = $(this).val();
-                amountValue !== '' ? $('#Percentage').prop('disabled', true) : $('#Percentage').prop('disabled', false);
-            });
-
-            // حساب النسبة عند تغيير قيمة الكمية
-            $("#Amount").change(function () {
-                var amount = $(this).val();
-                var salary = $("#EmployeeSalary").val();
-                if (!isNaN(amount) && !isNaN(salary) && salary > 0) {
-                    var percentage = (amount / salary) * 100;
-                    $("#Percentage").val(percentage.toFixed(2)); // تحديد عدد الأرقام بعد الفاصلة
-                }
-            });
-
-            // استرجاع الراتب عند اختيار اسم الموظف
-            $("#EmployeeId").change(function () {
-                var employeeId = $(this).val();
-                $("#Amount").val('');
-                $("#Percentage").val('');
-                if (employeeId !== "") {
-                    // قم بفحص ما إذا كان الموظف لديه راتب
-                    $.ajax({
-                        url: '/PayRoll/EmployeePerks/financialStatementsnclude?id=' + employeeId,
-                        type: 'GET',
-                        success: function (data) {
-                            var salary = data.salary;
-                            if (salary > 0) {
-                                $("#EmployeeSalary").val(salary);
-                                $('#Percentage').prop('disabled', false);
-                            } else {
-                                $("#EmployeeSalary").val('');
-                                $('#Percentage').prop('disabled', true);
-                            }
-                        },
-                        error: function () {
-                            Swal.fire({
-                                icon: "error",
-                                title: "خطأ",
-                                text: "حدث خطأ أثناء فحص الراتب"
-                            });
-                        }
-                    });
+            $("#amountCheckbox").change(function() {
+                if (this.checked) {
+                    $("#Amount").prop('disabled', false);
+                    $("#Percentage").prop('disabled', true).val('');
+                    $("#percentageCheckbox").prop('checked', false);
                 } else {
-                    $('#Percentage').prop('disabled', false);
+                    $("#Amount").prop('disabled', true).val('');
                 }
             });
 
-            // حساب الكمية عند تغيير النسبة
-            $("#Percentage").change(function () {
-                var percentage = $(this).val();
-                var salary = $("#EmployeeSalary").val();
-                if (!isNaN(salary) && salary > 0 && !isNaN(percentage)) {
-                    var amount = (salary * percentage) / 100;
-                    $("#Amount").val(amount.toFixed(2)); // تحديد عدد الأرقام بعد الفاصلة
+            $("#percentageCheckbox").change(function() {
+                if (this.checked) {
+                    $("#Percentage").prop('disabled', false);
+                    $("#Amount").prop('disabled', true).val('');
+                    $("#amountCheckbox").prop('checked', false);
+                } else {
+                    $("#Percentage").prop('disabled', true).val('');
+                }
+            });
+
+            $("#EmployeePerksForm").on('submit', function (event) {
+                var employeeId = $("#EmployeeId").val();
+                var date = $("#Date").val();
+                var description = $("#Description").val();
+                var amount = $("#Amount").val();
+                var percentage = $("#Percentage").val();
+                var amountChecked = $("#amountCheckbox").is(":checked");
+                var percentageChecked = $("#percentageCheckbox").is(":checked");
+
+                if (employeeId === "") {
+                    showErrorMessage("يجب اختيار اسم الموظف");
+                    return false;
+                } else if (date === "") { 
+                    showErrorMessage("يجب اختيار التاريخ");
+                    return false;
+                } else if (description === "") {
+                    showErrorMessage("يجب ادخال الوصف");
+                    return false;
+                } else if (!amountChecked && !percentageChecked) {
+                    showErrorMessage("يجب اختيار إما مبلغ أو نسبة");
+                    return false;
+                } else if (amountChecked && amount === "") {
+                    showErrorMessage(" يجب ادخال المبلغ ");
+                    return false;
+                } else if (percentageChecked && percentage === "") {
+                    showErrorMessage(" يجب ادخال النسبة ");
+                    return false;
                 }
             });
         });
     </script>
 }
+
+
+
+
+
+
+

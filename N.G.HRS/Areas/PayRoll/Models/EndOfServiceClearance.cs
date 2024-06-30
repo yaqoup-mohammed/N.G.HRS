@@ -12,7 +12,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         [DataType(DataType.Date)]
         public DateTime EndOfServiceDate { get; set; }//تاريخ انتهاء الخدمة
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
         public string ReasonForClearance { get; set; }//سبب الانتهاء من الخدمة
         public decimal LastApprovedSalary { get; set; }//الراتب السابق الموافق عليه
         public int ServicePeriodPerYear { get; set; }//مدة الخدمة بالسنوات

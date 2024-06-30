@@ -10,11 +10,11 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         [StringLength(150)]
         [Display(Name = "اسم الدورة")]
-        public string NameCourses { get; set; }
+        public string? NameCourses { get; set; }
         [Required]
         [StringLength(150)]
         [Display(Name = "مكان الحصول عليه")]
-        public string WhereToGetIt { get; set; }
+        public string? WhereToGetIt { get; set; }
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "من تاريخ")]

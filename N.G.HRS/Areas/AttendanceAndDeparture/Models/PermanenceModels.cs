@@ -32,7 +32,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         public bool FlexibleWorkingHours { get; set; }
         [Display(Name = " دوام بين يومين")]
         public bool WorkBetweenTwoShifts { get; set; }
-        
+
         [DataType(DataType.Time)]
         [Display(Name = "من الساعة")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
