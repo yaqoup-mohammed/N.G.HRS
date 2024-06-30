@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240627142403_A2")]
-    partial class A2
+    [Migration("20240630174507_Anything")]
+    partial class Anything
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1771,8 +1771,7 @@ namespace N.G.HRS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Data")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1780,7 +1779,8 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -2231,6 +2231,9 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("Hours")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsProccessed")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Minutes")
                         .HasColumnType("int");
 
@@ -2318,6 +2321,18 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "تكليف إضافي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "تكليف خارجي"
+                        });
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
@@ -2328,19 +2343,19 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AttendanceStatusId")
+                    b.Property<int>("AttendanceStatusId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("FromTime")
@@ -2355,7 +2370,7 @@ namespace N.G.HRS.Migrations
                     b.Property<int?>("MinutesOfLate")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SectionId")
+                    b.Property<int>("SectionId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("ToTime")
@@ -2438,6 +2453,83 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AttendanceStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "حضور"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "غياب"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "سماحية انصراف مبكر"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "سماحية حضور متأخر"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "اذن"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "اجازة"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "اجازة رسمية"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "اجازة اسبوعية"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "إضافي معتمد"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "إضافي غير معتمد"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "انصراف بدون عذر"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "تأخير"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "غياب نصف يوم"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "سماحية حضور وانصراف"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "تكليف خارجي "
+                        });
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions", b =>
@@ -2468,6 +2560,9 @@ namespace N.G.HRS.Migrations
 
                     b.Property<double?>("Hours")
                         .HasColumnType("float");
+
+                    b.Property<bool>("IsProccessed")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("Minutes")
                         .HasColumnType("int");
@@ -2899,11 +2994,11 @@ namespace N.G.HRS.Migrations
                     b.Property<TimeOnly>("FromTime")
                         .HasColumnType("time");
 
-                    b.Property<double?>("Hours")
-                        .HasColumnType("float");
+                    b.Property<string>("Hours")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Minutes")
-                        .HasColumnType("int");
+                    b.Property<string>("Minutes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SectionsId")
                         .HasColumnType("int");
@@ -4253,22 +4348,26 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceStatus", "AttendanceStatus")
                         .WithMany("AttendanceAndAbsenceProcessingList")
                         .HasForeignKey("AttendanceStatusId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Departments", "Department")
                         .WithMany("AttendanceAndAbsenceProcessingList")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employees")
                         .WithMany("AttendanceAndAbsenceProcessingList")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Sections", "Section")
                         .WithMany("AttendanceAndAbsenceProcessingList")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "periods")
                         .WithMany("AttendanceAndAbsenceProcessing")

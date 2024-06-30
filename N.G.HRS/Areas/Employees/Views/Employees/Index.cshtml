@@ -108,6 +108,8 @@
                                         @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
  *@
                                         <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
+                                        <a asp-action="details" asp-route-id="@employee.Id">Details</a> |
+
                                         <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
                                     </td>
                                 </tr>

@@ -10,31 +10,31 @@ namespace N.G.HRS.FingerPrintSetting
     {
         Action<object, string> RaiseDeviceEvent;
 
-        public ZkemClient(Action<object, string> RaiseDeviceEvent)
-        { this.RaiseDeviceEvent = RaiseDeviceEvent; }
+public ZkemClient(Action<object, string> RaiseDeviceEvent)
+{ this.RaiseDeviceEvent = RaiseDeviceEvent; }
 
 
-        CZKEM objCZKEM = new CZKEM();
+CZKEM objCZKEM = new CZKEM();
 
-        #region 'What we will be using'
+#region 'What we will be using'
 
-        public bool BatchUpdate(int dwMachineNumber)
-        {
-            return objCZKEM.BatchUpdate(dwMachineNumber);
-        }
+public bool BatchUpdate(int dwMachineNumber)
+{
+    return objCZKEM.BatchUpdate(dwMachineNumber);
+}
 
-        public bool Beep(int DelayMS)
-        {
-            return objCZKEM.Beep(DelayMS);
-        }
+public bool Beep(int DelayMS)
+{
+    return objCZKEM.Beep(DelayMS);
+}
 
-        public bool BeginBatchUpdate(int dwMachineNumber, int UpdateFlag)
-        {
-            return objCZKEM.BeginBatchUpdate(dwMachineNumber, UpdateFlag);
-        }
+public bool BeginBatchUpdate(int dwMachineNumber, int UpdateFlag)
+{
+    return objCZKEM.BeginBatchUpdate(dwMachineNumber, UpdateFlag);
+}
 
 
-        public bool ClearData(int dwMachineNumber, int DataFlag)
+public bool ClearData(int dwMachineNumber, int DataFlag)
         {
             return objCZKEM.ClearData(dwMachineNumber, DataFlag);
         }
@@ -1404,25 +1404,42 @@ namespace N.G.HRS.FingerPrintSetting
             throw new NotImplementedException();
         }
 
-//        public bool WriteCustData(int dwMachineNumber, string CustData)
-//        {
-//            throw new NotImplementedException();
-//        }
+        public bool PowerOffDevice(int dwMachineNumber)
+        {
+            throw new NotImplementedException();
+        }
 
-//        public bool WriteLCD(int Row, int Col, string Text)
-//        {
-//            throw new NotImplementedException();
-//        }
+        public bool WriteLCD(int Row, int Col, string Text)
+        {
+            throw new NotImplementedException();
+        }
 
-//        public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
-//        {
-//            return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
-//        }
+        public bool WriteCustData(int dwMachineNumber, string CustData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetUserTmpEx(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out byte TmpData, out int TmpLength)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, out int Flag, out string TmpData, out int TmpLength)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public bool SetUserTmpExStr(int dwMachineNumber, string dwEnrollNumber, int dwFingerIndex, int Flag, string TmpData)
+        {
+            return objCZKEM.SetUserTmpExStr(dwMachineNumber, dwEnrollNumber, dwFingerIndex, Flag, TmpData);
+        }
 
 
 
 
-//        #endregion
+        #endregion
 
     }
 }
