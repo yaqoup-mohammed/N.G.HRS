@@ -8,6 +8,8 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 
 }
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <h1>Index</h1>
 
 <p>
@@ -17,34 +19,35 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PeriodsName)
+             #
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FromTime)
+                أسم الدوام
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ToTime)
+                أسم الفترة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Saturday)
+                من ةقت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SunDay)
+                الى وقت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Monday)
+                السبت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tuesday)
+                الاحد
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Wednesday)
+
+                الاثنين
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Thursday)
+                الثلاثاء
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Friday)
+                الاربعاء
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Hours)

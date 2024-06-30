@@ -1,4 +1,5 @@
 ﻿using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -47,11 +48,11 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         [Display(Name = "عدد الساعات")]
         public double? HoursOfWorks { get; set; }
 
-        //public bool AddAttendanceAndDeparturePermission { get; set; }
-
-        //public int? AllowanceForLateAttendance { get; set; }
-
-        //public int? EarlyDeparturePermission { get; set; }
+        public bool AddAttendanceAndDeparturePermission { get; set; }
+        [Range(0, 60, ErrorMessage = "عدد دقائق الحضور المتأخر يجب الا يتجاوز 60 دقيقة")]
+        public int? AllowanceForLateAttendance { get; set; }
+        [Range(0, 60, ErrorMessage = "عدد دقائق الانصراف المبكر يجب الا يتجاوز 60 دقيقة")]
+        public int? EarlyDeparturePermission { get; set; }
 
         [StringLength(255, ErrorMessage = "عدد الاحرف يجب الا يتجاوز 255")]
         [Display(Name = "الملاحظات")]
@@ -65,6 +66,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Models
         //=
         public List<AdjustingTime>? AdjustingTimeList { get; set; }
         //=
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessing { get; set; }
 
 
     }

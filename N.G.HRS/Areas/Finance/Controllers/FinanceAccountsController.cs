@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Date;
+using N.G.HRS.Repository;
 
 namespace N.G.HRS.Areas.Finance.Controllers
 {
@@ -14,10 +15,12 @@ namespace N.G.HRS.Areas.Finance.Controllers
     public class FinanceAccountsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRepository<FinanceAccount> _financeAccountRepository;
 
-        public FinanceAccountsController(AppDbContext context)
+        public FinanceAccountsController(AppDbContext context, IRepository<FinanceAccount> financeAccountRepository)
         {
             _context = context;
+            _financeAccountRepository = financeAccountRepository;
         }
 
         // GET: Finance/FinanceAccounts
@@ -55,13 +58,19 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Notes")] FinanceAccount financeAccount)
+        public async Task<IActionResult> Create([Bind("Id,Name,Type,Notes")] FinanceAccount financeAccount)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(financeAccount);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+              await _financeAccountRepository.AddAsync(financeAccount);
+                TempData ["Success"] = "تم الحفظ بنجاح!";
+                return RedirectToAction(nameof(Create));
+
+                //return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["Error"] = "حدث خطأ ما!";
             }
             return View(financeAccount);
         }
@@ -74,7 +83,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
                 return NotFound();
             }
 
-            var financeAccount = await _context.FinanceAccount.FindAsync(id);
+            var financeAccount = await _financeAccountRepository.GetByIdAsync(id);
             if (financeAccount == null)
             {
                 return NotFound();
@@ -87,7 +96,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes")] FinanceAccount financeAccount)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,Notes")] FinanceAccount financeAccount)
         {
             if (id != financeAccount.Id)
             {
@@ -98,8 +107,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
             {
                 try
                 {
-                    _context.Update(financeAccount);
-                    await _context.SaveChangesAsync();
+                   await _financeAccountRepository.UpdateAsync(financeAccount);
+                    TempData["Success"] = "تم التعديل بنجاح!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,7 +121,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(financeAccount);
+                //return RedirectToAction(nameof(Index));
             }
             return View(financeAccount);
         }
@@ -140,14 +150,17 @@ namespace N.G.HRS.Areas.Finance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var financeAccount = await _context.FinanceAccount.FindAsync(id);
+            var financeAccount = await _financeAccountRepository.GetByIdAsync(id);
             if (financeAccount != null)
             {
                 _context.FinanceAccount.Remove(financeAccount);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData["Success"] = "تم الحذف بنجاح!";
+            return RedirectToAction(nameof(Create));
+
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool FinanceAccountExists(int id)

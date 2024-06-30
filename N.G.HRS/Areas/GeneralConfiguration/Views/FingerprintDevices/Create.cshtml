@@ -2,19 +2,15 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
 
-    ViewData["Title"] = " الدوام";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Active"] = "AddEmployee";
-    ViewData["Open"] = "Open2";
-    ViewData["OpenOperation"] = "OpenOperation2";
 }
 @if (@TempData["massage"] != null)
 {
     <div class="alert alert-danger" role="alert">
         @TempData["massage"]
     </div>
-
 
 }
 <div class="row">
@@ -306,14 +302,12 @@
 
             $("#pingButton").click(function () {
                 const ip = $("#ipAddress").val();
-                console.log($("#ipAddress").val());
                 if (ip !== "") {
                     $.ajax({
                         url: "/GeneralConfiguration/FingerprintDevices/Ping?ip=" + ip,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            console.log(data);
                             if (data == 1) {
                                 v.softErrorMessage('الجهاز موجود😎');
                             }

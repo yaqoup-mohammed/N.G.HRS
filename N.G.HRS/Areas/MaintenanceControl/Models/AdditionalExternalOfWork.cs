@@ -54,11 +54,12 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         public string? TaskDestination { get; set; }
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "نوع التكليف")]
-
-        public string? Assignment { get; set; }
+        public int AssignmentId { get; set; }
+        public Assignment Assignment { get; set; }
         public bool BetweenToDate { get; set; }
         [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
+        public bool IsProccessed { get; set; }
 
 
 

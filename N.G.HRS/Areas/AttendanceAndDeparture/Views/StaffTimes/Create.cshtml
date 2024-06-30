@@ -163,31 +163,31 @@
                 if (employeeId != null) {
 
 
-                    $.ajax({
-                        url:
-                            "/AttendanceAndDeparture/StaffTimes/GetPermanenceModels?id=" + id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
-                            if (data != "") {
+                        $.ajax({
+                            url:
+                                "/AttendanceAndDeparture/StaffTimes/GetPermanenceModels?id=" + id,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data != "") {
                                 $("#PeriodId").empty();
-                                $("#PeriodId").append('<option value="" disabled selected></option>');
+                                    $("#PeriodId").append('<option value="" disabled selected></option>');
 
-                                $.each(data, function (i, item) {
-                                    var from = item.from;
-                                    var to = item.to;
-                                    from = from.substring(0, 5);
-                                    to = to.substring(0, 5);
-                                    $("#PeriodId").append('<option value="' + item.id + '">' + item.name + "  " + from + " ~ " + to + " = " + item.hours + " ساعات " + '</option>');
-                                });
+                                    $.each(data, function (i, item) {
+                                        var from = item.from;
+                                        var to = item.to;
+                                        from = from.substring(0, 5);
+                                        to = to.substring(0, 5);
+                                        $("#PeriodId").append('<option value="' + item.id + '">' + item.name + "  " + from + " ~ " + to + " = " + item.hours + " ساعات " + '</option>');
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: `هذا الموظف لا ينتمي الى  دوام!!`,
+                                    });
+                                }
                             }
-                            else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: `هذا الموظف لا ينتمي الى  دوام!!`,
-                                });
-                            }
-                        }
 
                     });
                     //==================================================

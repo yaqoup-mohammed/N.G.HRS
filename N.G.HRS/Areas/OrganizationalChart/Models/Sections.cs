@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Areas.MaintenanceControl.Models;
+using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Models
 {
@@ -32,6 +33,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public List<EmployeeAdvances>? EmployeeAdvancesList { get; set; }
         public List<AttendanceRecord>? AttendanceRecordList { get; set; }
         public List<AutomaticallyApprovedAdd_on>? AutomaticallyApprovedAdd_onList { get; set; }
+        public List<AttendanceAndAbsenceProcessing>? AttendanceAndAbsenceProcessingList { get; set; }
+        public List<MachineInfo>? MachineInfoList { get; set; }
 
         //========================================
         [ForeignKey("DepartmentsId")]

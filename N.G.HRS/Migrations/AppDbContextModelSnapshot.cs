@@ -726,6 +726,8 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("Friday")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("FromTime")
+                        .HasColumnType("datetime2");
                     b.Property<TimeOnly?>("FromTime")
                         .HasColumnType("time");
 
@@ -757,6 +759,8 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("Thursday")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("ToTime")
+                        .HasColumnType("datetime2");
                     b.Property<TimeOnly?>("ToTime")
                         .HasColumnType("time");
 
@@ -782,6 +786,15 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("AddAttendanceAndDeparturePermission")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("AllowanceForLateAttendance")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EarlyDeparturePermission")
+                        .HasColumnType("int");
 
                     b.Property<bool>("FlexibleWorkingHours")
                         .HasColumnType("bit");
@@ -2198,6 +2211,8 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
                     b.Property<string>("Assignment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -2219,6 +2234,9 @@ namespace N.G.HRS.Migrations
 
                     b.Property<int>("Hours")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsProccessed")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Minutes")
                         .HasColumnType("int");
@@ -2247,11 +2265,145 @@ namespace N.G.HRS.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AssignmentId");
+
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("SubstituteEmployeeId");
 
                     b.ToTable("AdditionalExternalOfWork");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AdditionalUnsupportedEmployees", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdditionalSupported")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdditionalUnsupported")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("migration")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("AdditionalUnsupportedEmployees");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Assignment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "تكليف إضافي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "تكليف خارجي"
+                        });
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AttendanceStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("FromTime")
+                        .HasColumnType("time");
+
+                    b.Property<bool>("IsProcssessed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsProcssessedBefore")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MinutesOfLate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("ToTime")
+                        .HasColumnType("time");
+
+                    b.Property<int?>("TotalWorkMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("periodId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("permenenceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttendanceStatusId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("SectionId");
+
+                    b.HasIndex("periodId");
+
+                    b.HasIndex("permenenceId");
+
+                    b.ToTable("AttendanceAndAbsenceProcessing");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord", b =>
@@ -2291,6 +2443,99 @@ namespace N.G.HRS.Migrations
                     b.ToTable("AttendanceRecord");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AttendanceStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "حضور"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "غياب"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "سماحية انصراف مبكر"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "سماحية حضور متأخر"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "اذن"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "اجازة"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "اجازة رسمية"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "اجازة اسبوعية"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "إضافي معتمد"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "إضافي غير معتمد"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "انصراف بدون عذر"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "تأخير"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "غياب نصف يوم"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "سماحية حضور وانصراف"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "تكليف خارجي "
+                        });
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions", b =>
                 {
                     b.Property<int>("Id")
@@ -2320,6 +2565,12 @@ namespace N.G.HRS.Migrations
                     b.Property<double?>("Hours")
                         .HasColumnType("float");
 
+<<<<<<< HEAD
+=======
+                    b.Property<bool>("IsProccessed")
+                        .HasColumnType("bit");
+
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<int?>("Minutes")
                         .HasColumnType("int");
 
@@ -2336,6 +2587,7 @@ namespace N.G.HRS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SupervisorId")
                     b.Property<int>("SupervisorId")
                         .HasColumnType("int");
 
@@ -2750,9 +3002,19 @@ namespace N.G.HRS.Migrations
                     b.Property<TimeOnly>("FromTime")
                         .HasColumnType("time");
 
+<<<<<<< HEAD
                     b.Property<string>("Hours")
                         .HasColumnType("nvarchar(max)");
 
+=======
+                    b.Property<double?>("Hours")
+                        .HasColumnType("float");
+                    b.Property<string>("Hours")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Minutes")
+                        .HasColumnType("int");
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<string>("Minutes")
                         .HasColumnType("nvarchar(max)");
 
@@ -2807,12 +3069,20 @@ namespace N.G.HRS.Migrations
 
                     b.HasIndex("CurrencyId");
 
+<<<<<<< HEAD
+=======
+                    b.HasIndex("DepartmentsId");
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmployeeAccountId");
 
                     b.HasIndex("EmployeeId");
 
+<<<<<<< HEAD
+=======
+                    b.HasIndex("SectionsId");
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.HasIndex("SectionId");
 
                     b.ToTable("EmployeeAdvances");
@@ -2870,6 +3140,10 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+<<<<<<< HEAD
+=======
+                    b.Property<double>("Amount")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<double?>("Amount")
                         .IsRequired()
                         .HasColumnType("float");
@@ -2881,12 +3155,20 @@ namespace N.G.HRS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<int>("EmployeeId")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<int>("Percentage")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<int?>("Percentage")
                         .HasColumnType("int");
 
@@ -2905,36 +3187,72 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+<<<<<<< HEAD
+=======
+                    b.Property<decimal>("Absence")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("Absence")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<decimal>("AdvancesAndLoans")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("AdvancesAndLoans")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<DateTime>("Date")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<DateTime?>("Date")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
+=======
+                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("EndOfServiceBenefits")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("EndOfServiceBenefits")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<DateTime>("EndOfServiceDate")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<DateTime?>("EndOfServiceDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD
                     b.Property<decimal?>("LastApprovedSalary")
                         .HasColumnType("decimal(18,2)");
 
+=======
+                    b.Property<decimal>("LastApprovedSalary")
+                    b.Property<decimal?>("LastApprovedSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OtherDiscounts")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("OtherDiscounts")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<decimal>("OtherEntitlements")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("OtherEntitlements")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
@@ -2946,10 +3264,18 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("ServicePeriodPerYear")
                         .HasColumnType("int");
 
+<<<<<<< HEAD
+=======
+                    b.Property<decimal>("Total")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("Total")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<decimal>("VacationEntitlements")
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                     b.Property<decimal?>("VacationEntitlements")
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
@@ -3321,6 +3647,110 @@ namespace N.G.HRS.Migrations
                     b.HasIndex("ViolationId");
 
                     b.ToTable("EmployeeViolations");
+                });
+
+            modelBuilder.Entity("N.G.HRS.FingerPrintSetting.AttendanceLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("EnrollNumber")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MachineNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ProcessedBeFore")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("SaveDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AttendanceLog");
+                });
+
+            modelBuilder.Entity("N.G.HRS.FingerPrintSetting.MachineInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("DateOnlyRecord")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DateTimeRecord")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IndRegID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MachineNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("TimeOnlyRecord")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("MachineInfo");
                 });
 
             modelBuilder.Entity("QualificationsSpecialties", b =>
@@ -3971,6 +4401,12 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork", b =>
                 {
+                    b.HasOne("N.G.HRS.Areas.MaintenanceControl.Models.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
                         .WithMany("AdditionalExternalOfWorkList")
                         .HasForeignKey("EmployeeId")
@@ -3982,9 +4418,71 @@ namespace N.G.HRS.Migrations
                         .HasForeignKey("SubstituteEmployeeId")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.Navigation("Assignment");
+
                     b.Navigation("Employee");
 
                     b.Navigation("SubstituteEmployee");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AdditionalUnsupportedEmployees", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("AdditionalUnsupportedEmployeesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceStatus", "AttendanceStatus")
+                        .WithMany("AttendanceAndAbsenceProcessingList")
+                        .HasForeignKey("AttendanceStatusId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Departments", "Department")
+                        .WithMany("AttendanceAndAbsenceProcessingList")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employees")
+                        .WithMany("AttendanceAndAbsenceProcessingList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Sections", "Section")
+                        .WithMany("AttendanceAndAbsenceProcessingList")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods", "periods")
+                        .WithMany("AttendanceAndAbsenceProcessing")
+                        .HasForeignKey("periodId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("N.G.HRS.Areas.AttendanceAndDeparture.Models.PermanenceModels", "PermenenceModel")
+                        .WithMany("AttendanceAndAbsenceProcessing")
+                        .HasForeignKey("permenenceId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("AttendanceStatus");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("PermenenceModel");
+
+                    b.Navigation("Section");
+
+                    b.Navigation("periods");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceRecord", b =>
@@ -4031,6 +4529,7 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Supervisor")
                         .WithMany("SupervisorEPList")
                         .HasForeignKey("SupervisorId")
+                        .OnDelete(DeleteBehavior.NoAction);
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4187,13 +4686,25 @@ namespace N.G.HRS.Migrations
             modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.EmployeeAdvances", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Finance.Models.Currency", "Currency")
+<<<<<<< HEAD
                         .WithMany("EmployeeAdvancesList")
                         .HasForeignKey("CurrencyId")
+=======
+                        .WithMany()
+                        .WithMany("EmployeeAdvancesList")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Departments", "Departments")
                         .WithMany("EmployeeAdvancesList")
+<<<<<<< HEAD
+=======
+                        .HasForeignKey("DepartmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -4212,6 +4723,11 @@ namespace N.G.HRS.Migrations
 
                     b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Sections", "Sections")
                         .WithMany("EmployeeAdvancesList")
+<<<<<<< HEAD
+=======
+                        .HasForeignKey("SectionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -4250,6 +4766,12 @@ namespace N.G.HRS.Migrations
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
                         .WithMany("EmployeePerksList")
+<<<<<<< HEAD
+=======
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                         .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
@@ -4259,6 +4781,12 @@ namespace N.G.HRS.Migrations
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
                         .WithMany("EndOfServiceClearanceList")
+<<<<<<< HEAD
+=======
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                         .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
@@ -4292,6 +4820,10 @@ namespace N.G.HRS.Migrations
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
                         .WithMany("VacationAllowancesList")
                         .HasForeignKey("EmployeeId")
+<<<<<<< HEAD
+=======
+                        .OnDelete(DeleteBehavior.Cascade)
+>>>>>>> 1f7edef491c0a57b07d0f23004bd7d73c63b030e
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4382,6 +4914,25 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Violations");
                 });
 
+            modelBuilder.Entity("N.G.HRS.FingerPrintSetting.MachineInfo", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Departments", "Department")
+                        .WithMany("MachineInfoList")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.OrganizationalChart.Models.Sections", "Section")
+                        .WithMany("MachineInfoList")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("QualificationsSpecialties", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.GeneralConfiguration.Models.Specialties", null)
@@ -4421,6 +4972,8 @@ namespace N.G.HRS.Migrations
                 {
                     b.Navigation("AdjustingTimeList");
 
+                    b.Navigation("AttendanceAndAbsenceProcessing");
+
                     b.Navigation("AttendanceRecordList");
 
                     b.Navigation("EmployeePermissionsList");
@@ -4440,6 +4993,8 @@ namespace N.G.HRS.Migrations
                 {
                     b.Navigation("AdjustingTimeList");
 
+                    b.Navigation("AttendanceAndAbsenceProcessing");
+
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
 
                     b.Navigation("StaffTimesList");
@@ -4451,11 +5006,15 @@ namespace N.G.HRS.Migrations
                 {
                     b.Navigation("AdditionalExternalOfWorkList");
 
+                    b.Navigation("AdditionalUnsupportedEmployeesList");
+
                     b.Navigation("AdministrativeDecisionsList");
 
                     b.Navigation("AdministrativePromotionsList");
 
                     b.Navigation("AnnualGoalsList");
+
+                    b.Navigation("AttendanceAndAbsenceProcessingList");
 
                     b.Navigation("AttendanceRecordList");
 
@@ -4626,6 +5185,11 @@ namespace N.G.HRS.Migrations
                     b.Navigation("PersonalDataList");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceStatus", b =>
+                {
+                    b.Navigation("AttendanceAndAbsenceProcessingList");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.BoardOfDirectors", b =>
                 {
                     b.Navigation("CompanyList");
@@ -4645,11 +5209,15 @@ namespace N.G.HRS.Migrations
                 {
                     b.Navigation("AdministrativePromotionsList");
 
+                    b.Navigation("AttendanceAndAbsenceProcessingList");
+
                     b.Navigation("EmployeeAdvancesList");
 
                     b.Navigation("EmployeeList");
 
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
+
+                    b.Navigation("MachineInfoList");
 
                     b.Navigation("SectionsList");
                 });
@@ -4661,6 +5229,8 @@ namespace N.G.HRS.Migrations
 
             modelBuilder.Entity("N.G.HRS.Areas.OrganizationalChart.Models.Sections", b =>
                 {
+                    b.Navigation("AttendanceAndAbsenceProcessingList");
+
                     b.Navigation("AttendanceRecordList");
 
                     b.Navigation("AutomaticallyApprovedAdd_onList");
@@ -4670,6 +5240,8 @@ namespace N.G.HRS.Migrations
                     b.Navigation("EmployeeList");
 
                     b.Navigation("LinkingEmployeesToShiftPeriodsList");
+
+                    b.Navigation("MachineInfoList");
 
                     b.Navigation("SectionsAccountsList");
 

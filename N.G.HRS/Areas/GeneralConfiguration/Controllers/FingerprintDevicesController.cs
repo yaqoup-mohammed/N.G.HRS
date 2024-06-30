@@ -75,7 +75,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DevicesName,DeviceType,DeviceStatus,ConnectionType,DateOfPurchase,VendorName,VendorPhon,VendorAdress,ManufactureCompany,DeviceSpecifications,IpAddress,IsConnected,Notes")] FingerprintDevices fingerprintDevices)
+        public async Task<IActionResult> Create( FingerprintDevices fingerprintDevices)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DevicesName,DeviceType,DeviceStatus,ConnectionType,DateOfPurchase,VendorName,VendorPhon,VendorAdress,ManufactureCompany,DeviceSpecifications,IpAddress,IsConnected,Notes")] FingerprintDevices fingerprintDevices)
+        public async Task<IActionResult> Edit(int id,  FingerprintDevices fingerprintDevices)
         {
             if (id != fingerprintDevices.Id)
             {

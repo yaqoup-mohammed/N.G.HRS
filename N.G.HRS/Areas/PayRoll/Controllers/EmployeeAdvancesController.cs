@@ -26,7 +26,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: PayRoll/EmployeeAdva nces/Details/5
+        // GET: PayRoll/EmployeeAdvances/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,9 +52,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         {
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "SubAdministration");
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "SectionsName");
-
+            ViewData["EmployeeAccountId"] = new SelectList(_context.EmployeeAccount, "Id", "Id");
             return View();
         }
 
@@ -67,27 +65,12 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         {
             if (ModelState.IsValid)
             {
-                EmployeeAdvances advances = new EmployeeAdvances
-                {
-                    EmployeeId = employeeAdvances.EmployeeId,
-                    SectionId=employeeAdvances.SectionId,
-                    DepartmentId = employeeAdvances.DepartmentId,
-                    EmployeeAccountId = employeeAdvances.EmployeeAccountId,
-                    CurrencyId = employeeAdvances.CurrencyId,
-                    Amount = employeeAdvances.Amount,
-                    Notes = employeeAdvances.Notes,
-
-
-                };
-
                 _context.Add(employeeAdvances);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeAdvances.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeAdvances.EmployeeId);
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "SubAdministration", employeeAdvances.EmployeeId);
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "SectionsName", employeeAdvances.EmployeeId);
             ViewData["EmployeeAccountId"] = new SelectList(_context.EmployeeAccount, "Id", "Id", employeeAdvances.EmployeeAccountId);
             return View(employeeAdvances);
         }
@@ -107,8 +90,6 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             }
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeAdvances.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeAdvances.EmployeeId);
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "SubAdministration", employeeAdvances.EmployeeId);
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "SectionsName", employeeAdvances.EmployeeId);
             ViewData["EmployeeAccountId"] = new SelectList(_context.EmployeeAccount, "Id", "Id", employeeAdvances.EmployeeAccountId);
             return View(employeeAdvances);
         }
@@ -147,8 +128,6 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
             }
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", employeeAdvances.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", employeeAdvances.EmployeeId);
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "SubAdministration", employeeAdvances.EmployeeId);
-            ViewData["SectionId"] = new SelectList(_context.Sections, "Id", "SectionsName", employeeAdvances.EmployeeId);
             ViewData["EmployeeAccountId"] = new SelectList(_context.EmployeeAccount, "Id", "Id", employeeAdvances.EmployeeAccountId);
             return View(employeeAdvances);
         }
@@ -192,38 +171,6 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         private bool EmployeeAdvancesExists(int id)
         {
             return _context.EmployeeAdvances.Any(e => e.Id == id);
-        }
-        public IActionResult LoadEmployee(int id)
-        {
-            if (id != 0)
-            {
-                var sections = _context.employee.FirstOrDefault(x => x.Id == id);
-
-                return Json(sections);
-            }
-            return NotFound();
-        }    
-        public IActionResult LoadEmployeeAccount(int id)
-        {
-            if (id != 0)
-            {
-                var account = _context.EmployeeAccount.FirstOrDefault(x => x.EmployeeId == id);
-                if (account != null) { 
-                    return Json(account);
-                }
-            }
-            return NotFound();
-        }
-        public IActionResult EmployeeAccount(int id)
-        {
-            if (id != 0)
-            {
-                var account = _context.EmployeeAccount.Include(x=>x.FinanceAccount).Where(x => x.EmployeeId == id).Select(x => new {id=x.FinanceAccountId,name=x.FinanceAccount.Name});
-                if (account != null) { 
-                    return Json(new { account });
-                }
-            }
-            return NotFound();
         }
     }
 }
