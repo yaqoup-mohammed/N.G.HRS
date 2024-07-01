@@ -80,7 +80,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
 
         //============================استيراد ملف اكسل الى قاعدة البيانات=======
-        public async Task<IActionResult> Import(IFormFile file)
+        public async Task<IActionResult> ImportGovernorates(IFormFile file)
         {
             if (file == null || file.Length <= 0)
             {
@@ -99,9 +99,10 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
                     for (int row = 2; row <= rowCount; row++) // تجاوز الصف الأول بسبب العنوان
                     {
-                        string governorateName = worksheet.Cells[row, 1].Value?.ToString().Trim();
-                        string notes = worksheet.Cells[row, 2].Value?.ToString().Trim();
-                        string countryName = worksheet.Cells[row, 3].Value?.ToString().Trim();
+
+                        string governorateName = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                        string notes = worksheet.Cells[row, 3].Value?.ToString().Trim();
+                        string countryName = worksheet.Cells[row, 4].Value?.ToString().Trim();
 
                         if (!string.IsNullOrEmpty(governorateName) && !string.IsNullOrEmpty(countryName))
                         {
@@ -146,7 +147,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
 
-        public async Task<IActionResult> ExportToExcel()
+        public async Task<IActionResult> ExportToExcelGovernorates()
         {
             var governorates = await _context.governorates.Include(g => g.CountryOne).ToListAsync();
 
@@ -157,19 +158,23 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 var worksheet = package.Workbook.Worksheets.Add("Governorates");
 
                 // Headers
-                worksheet.Cells["A1"].Value = "المحافظة";
-                worksheet.Cells["B1"].Value = "Notes";
-                worksheet.Cells["C1"].Value = "الدولة";
+                worksheet.Cells["A1"].Value = "ID";
+                worksheet.Cells["B1"].Value = "المحافظة";
+                worksheet.Cells["C1"].Value = "الملاحظة";
+                worksheet.Cells["D1"].Value = "الدولة";
 
                 // Data
                 int row = 2;
                 foreach (var item in governorates)
                 {
-                    worksheet.Cells[string.Format("A{0}", row)].Value = item.Name;
-                    worksheet.Cells[string.Format("B{0}", row)].Value = item.Notes;
-                    worksheet.Cells[string.Format("C{0}", row)].Value = item.CountryOne?.Name ?? "N/A";
+                    worksheet.Cells[string.Format("A{0}", row)].Value = item.Id;
+                    worksheet.Cells[string.Format("B{0}", row)].Value = item.Name;
+                    worksheet.Cells[string.Format("C{0}", row)].Value = item.Notes;
+                    worksheet.Cells[string.Format("D{0}", row)].Value = item.CountryOne?.Name ?? "N/A";
                     row++;
                 }
+                  
+                
 
                 // Auto fit columns
                 worksheet.Cells.AutoFitColumns();

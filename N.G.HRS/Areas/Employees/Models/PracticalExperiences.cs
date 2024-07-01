@@ -10,11 +10,11 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         [StringLength(150)]
         [Display(Name = "اسم الخبرة")]
-        public string ExperiencesName { get; set; }
+        public string? ExperiencesName { get; set; }
         [Required]
         [StringLength(70)]
         [Display(Name = "مكان الحصول على الخبرة")]
-        public string PlacToGainExperience { get; set; }
+        public string? PlacToGainExperience { get; set; }
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "من تاريخ")]

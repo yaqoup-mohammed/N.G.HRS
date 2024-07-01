@@ -41,39 +41,41 @@
                         <input asp-for="Notes" id="CountryNotes" class="form-control" placeholder="الــــملاحــظـــات" />
                         <span asp-validation-for="Notes" class="text-danger"></span>
                     </div>
+
                     <div>
+           
+
                         <button type="button" id="submit" class="btn btn-primary me-2">اظافة</button>
 
                         <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
 
                         <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a>
                         <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                        <a asp-action="ExportToPdf" class="btn btn-primary">تصدير إلى PDF</a>
-                        <a asp-action="ExportToExcel" class="btn btn-primary">تصدير إلى Excel</a>
 
+                        <button type="button" class="btn btn-primary" id="showFileInCountry">استيراد ملف Excel</button>
+                        <button type="button" class="btn btn-primary" id="exportToExcelCountry">تصدير إلى Excel</button>
                     </div>
                 </form>
+
+                @*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+                *@
+
+                
+                @using (Html.BeginForm("ImportCountry", "Countries", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportCountry" }))
+                {
+                    <div id="fileInputContainerCountry" class="mb-3" style="display: none;">
+                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputCountry">
+                        <button type="button" class="btn btn-primary" id="uploadBtnCountry" style="display: none;">تحميل الملف</button>
+                        <div id="fileErrorCountry" class="text-danger"></div>
+                    </div>
+                }
+                
+
             </div>
         </div>
     </div>
 </div>
 
-
-
-@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
- *@
-
-@using (Html.BeginForm("Import", "Countries", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="mb-3">
-        <label class="form-label">اختر ملف Excel</label>
-        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput2">
-    </div>
-    <button type="submit" class="btn btn-primary" id="uploadBtn2" style="display: none;">تحميل الملف</button>
-    <div id="fileError2" class="text-danger" style="display: none;"></div>
-}
-@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
- *@
 
 
 <div id="table" class="row" style="display: none">
@@ -104,29 +106,104 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        document.getElementById('fileInput2').addEventListener('change', function () {
-            var uploadBtn2 = document.getElementById('uploadBtn2');
-            var fileError2 = document.getElementById('fileError2');
-            var fileName2 = this.value.toLowerCase();
+   
 
-            // التحقق من امتداد الملف
-            if (fileName2.endsWith('.xls') || fileName2.endsWith('.xlsx')) {
-                uploadBtn2.style.display = 'block'; // عرض زر التحميل
-                fileError2.style.display = 'none'; // إخفاء رسالة الخطأ
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+    <script type="text/javascript">
+        document.getElementById('showFileInCountry').addEventListener('click', function () {
+            var fileInputContainerCountry = document.getElementById('fileInputContainerCountry');
+            fileInputContainerCountry.style.display = 'block';
+        });
+
+        document.getElementById('fileInputCountry').addEventListener('change', function () {
+            var file = this.files[0];
+            var fileNameCountry = this.value.toLowerCase();
+            var fileErrorCountry = document.getElementById('fileErrorCountry');
+            var uploadBtnCountry = document.getElementById('uploadBtnCountry');
+
+            if (file && file.size > 0) {
+                if (fileNameCountry.endsWith('.xls') || fileNameCountry.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        var requiredColumns = ["Id", "الدولة", "الملاحظة"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
+
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+
+                            if (isDataPresent) {
+                                uploadBtnCountry.style.display = 'inline-block'; // عرض زر التحميل
+                                fileErrorCountry.style.display = 'none'; // إخفاء رسالة الخطأ
+                            } else {
+                                showError("فارغ  :  الملف  لا يحتوي على بيانات.");
+                            }
+                        } else {
+                            showError("الملف لا يحتوي على :Id، الدولة، الملاحظة.");
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                uploadBtn2.style.display = 'none'; // إخفاء زر التحميل
-                fileError2.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يرجى تحديد ملف غير فارغ.");
             }
         });
+
+        function showError(message) {
+            var uploadBtnCountry = document.getElementById('uploadBtnCountry');
+            var fileErrorCountry = document.getElementById('fileErrorCountry');
+            uploadBtnCountry.style.display = 'none'; // إخفاء زر التحميل
+            fileErrorCountry.style.display = 'block'; // عرض رسالة الخطأ
+            fileErrorCountry.textContent = message;
+            document.getElementById('fileInputCountry').value = ''; // إعادة تعيين قيمة الملف المختار
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                showConfirmButton: false,
+                timer: 4000 // يغلق التنبيه تلقائيا بعد 4 ثوان
+            });
+        }
+
+        document.getElementById('uploadBtnCountry').addEventListener('click', function (event) {
+            event.preventDefault(); // منع السلوك الافتراضي للزر
+            Swal.fire({
+                title: 'هل تريد استيراد البيانات من ملف Excel؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = document.getElementById('ImportCountry');
+                    form.submit(); // تقديم النموذج يدويا
+                }
+            });
+        });
+
+        document.getElementById('exportToExcelCountry').addEventListener('click', function () {
+            Swal.fire({
+                title: 'هل تريد تصدير ملف Excel؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("ExportToExcelCountry", "Countries")';
+                }
+            });
+        });
     </script>
+
+
     <script>
         $(document).ready(function () {
             var counter = 1;
