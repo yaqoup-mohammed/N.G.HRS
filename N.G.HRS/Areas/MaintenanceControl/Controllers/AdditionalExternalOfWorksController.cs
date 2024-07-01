@@ -54,7 +54,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 new Assignment () { Id = 1, Name = "تكليف إضافي" },
                 new Assignment () { Id = 2, Name = "تكليف خارجي" },
 
-            //};
+            };
             //SelectList listItems = new SelectList(assignment, "Id", "Name");
             ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");

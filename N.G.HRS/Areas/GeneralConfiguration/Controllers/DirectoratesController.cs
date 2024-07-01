@@ -76,7 +76,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Import(IFormFile file)
+        public async Task<IActionResult> ImportDirectorate(IFormFile file)
         {
             if (file == null || file.Length <= 0)
             {
@@ -101,9 +101,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
                     for (int row = 2; row <= rowCount; row++) // تجاوز الصف الأول بسبب العنوان
                     {
-                        var directorateName = worksheet.Cells[row, 1].Value?.ToString().Trim();
-                        var notes = worksheet.Cells[row, 2].Value?.ToString().Trim();
-                        var governorateName = worksheet.Cells[row, 3].Value?.ToString().Trim();
+                        var directorateName = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                        var notes = worksheet.Cells[row, 3].Value?.ToString().Trim();
+                        var governorateName = worksheet.Cells[row, 4].Value?.ToString().Trim();
 
                         if (!string.IsNullOrEmpty(directorateName) && !string.IsNullOrEmpty(governorateName))
                         {
@@ -146,9 +146,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
             return RedirectToAction("Index");
         }
+        
 
-
-        public async Task<IActionResult> ExportToExcel()
+        public async Task<IActionResult> ExportToExcelDirectorate()
         {
             // Retrieve data from database including Governorate name
             var data = await _context.directorates
@@ -173,17 +173,22 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 var worksheet = package.Workbook.Worksheets.Add("Directorate");
 
                 // Add headers
-                worksheet.Cells[1, 1].Value = "المديرية";
-                worksheet.Cells[1, 2].Value = "الملاحظات";
-                worksheet.Cells[1, 3].Value = "المحافظة";
+                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 2].Value = "المديرية";
+                worksheet.Cells[1, 3].Value = "الملاحظة";
+                worksheet.Cells[1, 4].Value = "المحافظة";
 
                 // Add data to cells
                 int row = 2;
                 foreach (var item in data)
                 {
-                    worksheet.Cells[row, 1].Value = item.Name;
-                    worksheet.Cells[row, 2].Value = item.Notes;
-                    worksheet.Cells[row, 3].Value = item.Governorate.Name; // Use Governorate name here
+
+
+                    worksheet.Cells[row, 1].Value = item.Id;
+
+                    worksheet.Cells[row, 2].Value = item.Name;
+                    worksheet.Cells[row, 3].Value = item.Notes;
+                    worksheet.Cells[row, 4].Value = item.Governorate.Name; // Use Governorate name here
                     row++;
                 }
 
