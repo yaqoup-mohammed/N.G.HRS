@@ -90,7 +90,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             return View(country);
         }
         //============================استيراد ملف اكسل الى قاعدة البيانات=======
-        public async Task<IActionResult> Import(IFormFile file)
+        public async Task<IActionResult> ImportCountry(IFormFile file)
         {
             if (file == null || file.Length <= 0)
             {
@@ -109,8 +109,9 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
                     for (int row = 2; row <= rowCount; row++) // تجاوز الصف الأول بسبب العنوان
                     {
-                        string countryName = worksheet.Cells[row, 1].Value?.ToString().Trim();
-                        string notes = worksheet.Cells[row, 2].Value?.ToString().Trim();
+
+                        string countryName = worksheet.Cells[row, 2].Value?.ToString().Trim();
+                        string notes = worksheet.Cells[row, 3].Value?.ToString().Trim();
 
                         if (!string.IsNullOrEmpty(countryName))
                         {
@@ -130,7 +131,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                             }
                         }
                     }
-
+                    TempData["Success"] = "تم استيراد ملف  بنجاح";
                     await _context.SaveChangesAsync();
                 }
             }
@@ -139,7 +140,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
 
-        public async Task<IActionResult> ExportToExcel()
+        public async Task<IActionResult> ExportToExcelCountry()
         {
             var countries = await _context.country.ToListAsync(); // استرجاع جميع الدول من قاعدة البيانات
 
@@ -150,15 +151,19 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 var worksheet = package.Workbook.Worksheets.Add("دول");
 
                 // عنوان الأعمدة
-                worksheet.Cells[1, 1].Value = "الدولة";
-                worksheet.Cells[1, 2].Value = "الملاحظات";
+
+                worksheet.Cells[1, 1].Value = "Id";
+
+                worksheet.Cells[1, 2].Value = "الدولة";
+                worksheet.Cells[1, 3].Value = "الملاحظات";
 
                 // ملء البيانات
                 int row = 2;
                 foreach (var country in countries)
                 {
-                    worksheet.Cells[row, 1].Value = country.Name;
-                    worksheet.Cells[row, 2].Value = country.Notes;
+                    worksheet.Cells[row, 1].Value = country.Id;
+                    worksheet.Cells[row, 2].Value = country.Name;
+                    worksheet.Cells[row, 3].Value = country.Notes;
                     row++;
                 }
 

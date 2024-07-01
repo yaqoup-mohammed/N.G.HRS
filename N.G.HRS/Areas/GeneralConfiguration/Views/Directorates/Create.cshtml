@@ -40,11 +40,29 @@
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" id="submit" value="حفظ " class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
-
+                                <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
+                                <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display:none" />
+                                <a asp-action="Index" class="btn btn-primary">الرجوع الى القائمة</a>
+                                <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                                <button type="button" class="btn btn-primary" id="showFileInDirectorate">استيراد ملف Excel</button>
+                                <button type="button" class="btn btn-primary" id="exportToExcelDirectorate">تصدير إلى Excel</button>
                             </div>
                         </form>
+
+                      
+                        @*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+                        *@
+
+                     
+                        @using (Html.BeginForm("ImportDirectorate", "Directorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportDirectorate" }))
+                        {
+                            <div id="fileInputDirectorate" class="mb-3" style="display: none;">
+                                <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputDirectorateInput">
+                                <button type="button" class="btn btn-primary" id="uploadBtnDirectorate" style="display: none;">تحميل الملف</button>
+                                <div id="fileErrorDirectorate" class="text-danger"></div>
+                            </div>
+                        }
+                      
                     </div>
                 </div>
             </div>
@@ -53,20 +71,6 @@
 </div>
 
 
-
-@using (Html.BeginForm("Import", "Directorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "importForm" }))
-{
-    <div class="mb-3">
-        <label class="form-label">اختر ملف Excel</label>
-        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput1">
-    </div>
-    <button type="submit" class="btn btn-primary" id="uploadBtn1" style="display: none;">تحميل الملف</button>
-    
-    <div id="fileError1" class="text-danger" style="display: none;"></div>
-}
-
-@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
- *@
 
 <!-- جدول البيانات المؤقتة -->
 <table id="temporaryTable" class="table" style="display:none;">
@@ -88,39 +92,100 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-        document.getElementById('fileInput1').addEventListener('change', function () {
-            var uploadBtn1 = document.getElementById('uploadBtn1');
-            var fileError1 = document.getElementById('fileError1');
-            var fileName1 = this.value.toLowerCase();
+   <script type="text/javascript">
+    document.getElementById('showFileInDirectorate').addEventListener('click', function () {
+        var fileInputContainerDirectorate = document.getElementById('fileInputDirectorate');
+        fileInputContainerDirectorate.style.display = 'block';
+    });
 
-            // التحقق من امتداد الملف
-            if (fileName1.endsWith('.xls') || fileName1.endsWith('.xlsx')) {
-                uploadBtn1.style.display = 'inline-block'; // عرض زر التحميل
-                fileError1.style.display = 'none'; // إخفاء رسالة الخطأ
+    document.getElementById('fileInputDirectorateInput').addEventListener('change', function () {
+        var file = this.files[0];
+        var fileNameDirectorate = this.value.toLowerCase();
+        var fileErrorDirectorate = document.getElementById('fileErrorDirectorate');
+        var uploadBtnDirectorate = document.getElementById('uploadBtnDirectorate');
+
+        if (file && file.size > 0) {
+            if (fileNameDirectorate.endsWith('.xls') || fileNameDirectorate.endsWith('.xlsx')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = new Uint8Array(e.target.result);
+                    var workbook = XLSX.read(data, { type: 'array' });
+                    var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                    var requiredColumns = ["ID", "المديرية", "الملاحظة", "المحافظة"];
+                    var header = rows[0];
+                    var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
+
+                    if (isHeaderValid) {
+                        var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+
+                        if (isDataPresent) {
+                            uploadBtnDirectorate.style.display = 'inline-block'; // عرض زر التحميل
+                            fileErrorDirectorate.style.display = 'none'; // إخفاء رسالة الخطأ
+                        } else {
+                            showError("الملف فارغ: الملف لا يحتوي على بيانات.");
+                        }
+                    } else {
+                        showError("الملف لا يحتوي على: ID، المديرية، الملاحظة، المحافظة.");
+                    }
+                };
+                reader.readAsArrayBuffer(file);
             } else {
-                uploadBtn1.style.display = 'none'; // إخفاء زر التحميل
-                fileError1.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يجب اختيار ملف بصيغة Excel فقط!");
+            }
+        } else {
+            showError("يرجى تحديد ملف غير فارغ.");
+        }
+    });
+
+    function showError(message) {
+        var uploadBtnDirectorate = document.getElementById('uploadBtnDirectorate');
+        var fileErrorDirectorate = document.getElementById('fileErrorDirectorate');
+        uploadBtnDirectorate.style.display = 'none'; // إخفاء زر التحميل
+        fileErrorDirectorate.style.display = 'block'; // عرض رسالة الخطأ
+        fileErrorDirectorate.textContent = message;
+        document.getElementById('fileInputDirectorateInput').value = ''; // إعادة تعيين قيمة الملف المختار
+        Swal.fire({
+            icon: 'error',
+            title: message,
+            showConfirmButton: false,
+            timer: 4000 // يغلق التنبيه تلقائيا بعد 4 ثوان
+        });
+    }
+
+    document.getElementById('uploadBtnDirectorate').addEventListener('click', function (event) {
+        event.preventDefault(); // منع السلوك الافتراضي للزر
+        Swal.fire({
+            title: 'هل تريد استيراد البيانات من ملف Excel؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لا'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = document.getElementById('ImportDirectorate');
+                form.submit(); // تقديم النموذج يدويا
             }
         });
+    });
 
-        document.getElementById('uploadBtn1').addEventListener('click', function (event) {
-            event.preventDefault(); // منع السلوك الافتراضي للزر
-            var form = document.getElementById('importForm');
-            form.submit(); // تقديم النموذج يدويا
+    document.getElementById('exportToExcelDirectorate').addEventListener('click', function () {
+        Swal.fire({
+            title: 'هل تريد تصدير ملف Excel؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'نعم',
+            cancelButtonText: 'لا'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '@Url.Action("ExportToExcelDirectorate", "Directorates")';
+            }
         });
-    </script>
-
-
+    });
+</script>
 
     <script>
 
@@ -171,13 +236,34 @@
                 });
             });
 
-            // إضافة بيانات جديدة إلى الجدول
+            function CheckDirectorateInTable(directorate) {
+                var exists = false;
+                $("#temporaryTable tbody tr").each(function () {
+                    var currentDirectorate = $(this).find("td:eq(1)").text();
+                    if (currentDirectorate === directorate) {
+                        exists = true;
+                        return false; // توقف عن التحقق
+                    }
+                });
+                return exists;
+            }
+
+
             $("form").submit(function (event) {
                 event.preventDefault();
                 var directorate = $("#Directorate").val();
                 var notes = $("#DirectorateNotes").val();
                 var governorateId = $("#GovernorateId").val();
                 var governorateName = $("#GovernorateId option:selected").text();
+
+                // التحقق من وجود المديرية في الجدول المؤقت قبل التحقق من قاعدة البيانات
+                if (CheckDirectorateInTable(directorate)) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "اسم المديرية موجود بالفعل في الجدول المؤقت"
+                    });
+                    return;
+                }
 
                 // التحقق من وجود المديرية قبل إرسال النموذج
                 CheckDirectorateExists(directorate, function (exists) {
@@ -187,16 +273,7 @@
                             icon: "error",
                             title: "اسم المديرية موجود بالفعل في قاعدة البيانات"
                         });
-                    }
-                    // else
-                    // {
-                    //     // إضافة البيانات إلى الجدول
-                    //     if (directorate && governorateId) {
-                    //         SaveDirectorateyData(directorate, notes, governorateId);
-                    //     }
-                    // }
-
-                    else if (directorate && governorateId) {
+                    } else if (directorate && governorateId) {
                         $("#temporaryTable tbody").append(
                             "<tr>" +
                             "<td>" + counter + "</td>" +
@@ -206,7 +283,6 @@
                             "<td style='display:none' class='governorateId'>" + governorateId + "</td>" +
                             "<td>" + "<button type='button' class='btn btn-danger delete-row'>Delete</button>" + "</td>" +
                             "</tr>"
-
                         );
                         counter++;
                         $("#Directorate").val('');
@@ -214,7 +290,6 @@
                         // $("#GovernorateId").val('');
 
                         $("#saveDataBtn").show();
-
                         $("#temporaryTable").show();
                         $("#clearTableBtn").show(); // إظهار زر حذف الكل بعد إضافة العنصر الأول
                     }
