@@ -1,0 +1,129 @@
+﻿@model N.G.HRS.Areas.Employees.ViewModel.salaryrevealed
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "نماذج الدوام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="CreatePeriods">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Section.Id" class="control-label"></label>
+                        <select asp-for="Section.Id" id="" class="js-example-basic-single  form-select">
+                            <option value="value">text</option>
+                        </select>
+                        <span asp-validation-for="Section" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Departments.Id" class="control-label"></label>
+                        <select asp-for="Departments.Id" id="" class="js-example-basic-single  form-select">
+                            <option value="value">text</option>
+                        </select>
+                        <span asp-validation-for="Departments" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Employee.Id" class="control-label"></label>
+                        <select asp-for="Employee.Id" id="" class="js-example-basic-single  form-select">
+                            <option value="value">text</option>
+                        </select>
+                        <span asp-validation-for="Employee" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="migration" class="control-label"></label>
+                        <select asp-for="migration" id="" class="js-example-basic-single  form-select">
+                            <option value="value">text</option>
+                        </select>
+                        <span asp-validation-for="migration" class="text-danger"></span>
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        text-align: center;
+    }
+</style>
+
+<div id="table" class="row">
+    <div class="grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title headerStyle">كشف الراتب</h6>
+                <div class="table-responsive">
+                    <div class="container">
+                        <h2 class="mt-4">بيانات الموظف</h2>
+                        <div class="table-wrapper">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" class="col-md-4">الموظف</th>
+                                        <th colspan="7" class="col-md-4">الاستحقاقات</th>
+                                        <th colspan="4" class="col-md-4">الاستقطاعات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>الرقم الوظيفي</th>
+                                        <th>اسم الموظف</th>
+                                        <th>القسم </th>
+                                        <th>الادارة</th>
+                                        <th>ا الاضافي</th>
+                                        <th>العملة </th>
+                                        <th> البدلات</th>
+                                        <th>الاكراميات </th>
+                                        <th>العلاوات</th> 
+                                        <th>الاستحقاقات</th>
+                                        <th>راتب اساسي</th>
+                                        <th>استقطاعات</th>
+                                       
+                                        
+                                    </tr>
+                                   @*  @foreach (var employee in Model)
+                                    {
+                                        <tr>
+                                            <td>@employee.Department</td>
+                                            <td>@employee.Section</td>
+                                            <td>@employee.Position</td>
+                                            <td>@employee.Name</td>
+                                            <td>@employee.Salary</td>
+                                            <td>@employee.HousingAllowance</td>
+                                            <td>@employee.TransportationAllowance</td>
+                                            <td>@employee.Currency</td>
+                                        </tr>
+                                    } *@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }

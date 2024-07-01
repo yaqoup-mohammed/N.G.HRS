@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class Anything : Migration
+    public partial class A : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +24,7 @@ namespace N.G.HRS.Migrations
                     LaboratoriesPerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FromTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Date = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
@@ -239,7 +237,7 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -847,8 +845,8 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PeriodsName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FromTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ToTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FromTime = table.Column<TimeOnly>(type: "time", nullable: true),
+                    ToTime = table.Column<TimeOnly>(type: "time", nullable: true),
                     Saturday = table.Column<bool>(type: "bit", nullable: false),
                     SunDay = table.Column<bool>(type: "bit", nullable: false),
                     Monday = table.Column<bool>(type: "bit", nullable: false),
@@ -955,6 +953,7 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     GovernorateId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -1199,9 +1198,9 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeNumber = table.Column<int>(type: "int", nullable: false),
                     EmployeeName = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: false),
-                    DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PlacementDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EmploymentStatus = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     RehireDate = table.Column<DateOnly>(type: "date", nullable: true),
@@ -1294,9 +1293,9 @@ namespace N.G.HRS.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: true),
-                    FinanceAccountId = table.Column<int>(type: "int", nullable: true),
-                    SectionsId = table.Column<int>(type: "int", nullable: true)
+                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: false),
+                    FinanceAccountId = table.Column<int>(type: "int", nullable: false),
+                    SectionsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1310,12 +1309,14 @@ namespace N.G.HRS.Migrations
                         name: "FK_SectionsAccounts_FinanceAccount_FinanceAccountId",
                         column: x => x.FinanceAccountId,
                         principalTable: "FinanceAccount",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SectionsAccounts_Sections_SectionsId",
                         column: x => x.SectionsId,
                         principalTable: "Sections",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1516,7 +1517,8 @@ namespace N.G.HRS.Migrations
                         name: "FK_AttendanceAndAbsenceProcessing_employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "employee",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AttendanceAndAbsenceProcessing_permanenceModels_permenenceId",
                         column: x => x.permenenceId,
@@ -1563,15 +1565,15 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SectionsId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    SectionsId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     FromDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ToDate = table.Column<DateOnly>(type: "date", nullable: false),
                     FromTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     ToTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    Hours = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Minutes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Hours = table.Column<double>(type: "float", nullable: false),
+                    Minutes = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1580,7 +1582,8 @@ namespace N.G.HRS.Migrations
                         name: "FK_AutomaticallyApprovedAdd_on_Sections_SectionsId",
                         column: x => x.SectionsId,
                         principalTable: "Sections",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AutomaticallyApprovedAdd_on_employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -1595,9 +1598,9 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
-                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: true),
-                    FinanceAccountId = table.Column<int>(type: "int", nullable: true)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: false),
+                    FinanceAccountId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1606,17 +1609,20 @@ namespace N.G.HRS.Migrations
                         name: "FK_EmployeeAccount_FinanceAccountType_FinanceAccountTypeId",
                         column: x => x.FinanceAccountTypeId,
                         principalTable: "FinanceAccountType",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EmployeeAccount_FinanceAccount_FinanceAccountId",
                         column: x => x.FinanceAccountId,
                         principalTable: "FinanceAccount",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EmployeeAccount_employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "employee",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1712,7 +1718,7 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     Percentage = table.Column<int>(type: "int", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -1863,10 +1869,10 @@ namespace N.G.HRS.Migrations
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Taxable = table.Column<bool>(type: "bit", nullable: false),
-                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: true),
+                    FinanceAccountTypeId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: true),
                     Percentage = table.Column<int>(type: "int", nullable: true),
-                    CurrencyId = table.Column<int>(type: "int", nullable: true),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -1876,12 +1882,14 @@ namespace N.G.HRS.Migrations
                         name: "FK_EntitlementsAndDeductions_Currency_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currency",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EntitlementsAndDeductions_FinanceAccountType_FinanceAccountTypeId",
                         column: x => x.FinanceAccountTypeId,
                         principalTable: "FinanceAccountType",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EntitlementsAndDeductions_employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -2078,8 +2086,13 @@ namespace N.G.HRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
+                    SexId = table.Column<int>(type: "int", nullable: false),
+                    NationalityId = table.Column<int>(type: "int", nullable: false),
+                    ReligionId = table.Column<int>(type: "int", nullable: false),
+                    MaritalStatusId = table.Column<int>(type: "int", nullable: false),
                     HomePhone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
@@ -2090,12 +2103,7 @@ namespace N.G.HRS.Migrations
                     CardNumber = table.Column<int>(type: "int", nullable: false),
                     ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CardExpiryDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    GuaranteesId = table.Column<int>(type: "int", nullable: false),
-                    SexId = table.Column<int>(type: "int", nullable: false),
-                    NationalityId = table.Column<int>(type: "int", nullable: false),
-                    ReligionId = table.Column<int>(type: "int", nullable: false),
-                    MaritalStatusId = table.Column<int>(type: "int", nullable: false)
+                    GuaranteesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2110,8 +2118,7 @@ namespace N.G.HRS.Migrations
                         name: "FK_personalDatas_guarantees_GuaranteesId",
                         column: x => x.GuaranteesId,
                         principalTable: "guarantees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_personalDatas_maritalStatuses_MaritalStatusId",
                         column: x => x.MaritalStatusId,
@@ -2352,9 +2359,7 @@ namespace N.G.HRS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
-                    DepartmentsId = table.Column<int>(type: "int", nullable: false),
                     SectionId = table.Column<int>(type: "int", nullable: false),
-                    SectionsId = table.Column<int>(type: "int", nullable: false),
                     EmployeeAccountId = table.Column<int>(type: "int", nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -2370,22 +2375,20 @@ namespace N.G.HRS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeeAdvances_Departments_DepartmentsId",
-                        column: x => x.DepartmentsId,
+                        name: "FK_EmployeeAdvances_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_EmployeeAdvances_EmployeeAccount_EmployeeAccountId",
                         column: x => x.EmployeeAccountId,
                         principalTable: "EmployeeAccount",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmployeeAdvances_Sections_SectionsId",
-                        column: x => x.SectionsId,
+                        name: "FK_EmployeeAdvances_Sections_SectionId",
+                        column: x => x.SectionId,
                         principalTable: "Sections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_EmployeeAdvances_employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -2495,37 +2498,6 @@ namespace N.G.HRS.Migrations
                         column: x => x.ViolationsId,
                         principalTable: "Violations",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.InsertData(
-                table: "Assignment",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "تكليف إضافي" },
-                    { 2, "تكليف خارجي" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AttendanceStatus",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "حضور" },
-                    { 2, "غياب" },
-                    { 3, "سماحية انصراف مبكر" },
-                    { 4, "سماحية حضور متأخر" },
-                    { 5, "اذن" },
-                    { 6, "اجازة" },
-                    { 7, "اجازة رسمية" },
-                    { 8, "اجازة اسبوعية" },
-                    { 9, "إضافي معتمد" },
-                    { 10, "إضافي غير معتمد" },
-                    { 11, "انصراف بدون عذر" },
-                    { 12, "تأخير" },
-                    { 13, "غياب نصف يوم" },
-                    { 14, "سماحية حضور وانصراف" },
-                    { 15, "تكليف خارجي " }
                 });
 
             migrationBuilder.CreateIndex(
@@ -2778,9 +2750,9 @@ namespace N.G.HRS.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeAdvances_DepartmentsId",
+                name: "IX_EmployeeAdvances_DepartmentId",
                 table: "EmployeeAdvances",
-                column: "DepartmentsId");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeAdvances_EmployeeAccountId",
@@ -2793,9 +2765,9 @@ namespace N.G.HRS.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeAdvances_SectionsId",
+                name: "IX_EmployeeAdvances_SectionId",
                 table: "EmployeeAdvances",
-                column: "SectionsId");
+                column: "SectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeArchives_EmployeeId",
@@ -3043,8 +3015,7 @@ namespace N.G.HRS.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_personalDatas_GuaranteesId",
                 table: "personalDatas",
-                column: "GuaranteesId",
-                unique: true);
+                column: "GuaranteesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_personalDatas_MaritalStatusId",

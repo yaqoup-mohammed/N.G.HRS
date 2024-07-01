@@ -85,12 +85,11 @@ namespace N.G.HRS.Areas.Employees.Models
         public virtual Guarantees? guarantees { get; set; }
 
         //============================================================
-       
         //=
-        
+
         //=
-        
-        
+
+
 
 
 
