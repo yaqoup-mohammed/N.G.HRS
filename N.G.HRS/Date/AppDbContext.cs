@@ -201,6 +201,12 @@ namespace N.G.HRS.Date
                  .HasOne(p => p.Currency)
                  .WithMany(p => p.FinancialStatementsList)
                  .HasForeignKey(p => p.CurrencyId);
+            
+            modelBuilder.Entity<Salaries>()
+                 .HasOne(p => p.Employee)
+                 .WithMany(p => p.SalariesList)
+                 .HasForeignKey(p => p.EmployeeId)
+                 .OnDelete(DeleteBehavior.NoAction);
 
             //الملفات الوظيفية مع ملفات الموظف
             modelBuilder.Entity<StatementOfEmployeeFiles>()
@@ -768,6 +774,7 @@ namespace N.G.HRS.Date
         public DbSet<AttendanceAndAbsenceProcessing> AttendanceAndAbsenceProcessing { get; set; }
         public DbSet<AttendanceStatus> AttendanceStatus { get; set; }
         public DbSet<Assignment> Assignment { get; set; }
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.Salaries> Salaries { get; set; } = default!;
        
 
 
