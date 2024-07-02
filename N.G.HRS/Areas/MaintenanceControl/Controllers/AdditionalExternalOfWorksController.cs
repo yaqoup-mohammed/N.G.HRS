@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ProjectServer.Client;
+using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Date;
+using N.G.HRS.FingerPrintSetting;
 using N.G.HRS.HRSelectList;
 
 namespace N.G.HRS.Areas.MaintenanceControl.Controllers
@@ -49,10 +52,10 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // GET: MaintenanceControl/AdditionalExternalOfWorks/Create
         public IActionResult Create()
         {
-            List<Assignment> assignment = new List<Assignment>
-            {
-                new Assignment () { Id = 1, Name = "تكليف إضافي" },
-                new Assignment () { Id = 2, Name = "تكليف خارجي" },
+            //List<Assignment> assignment = new List<Assignment>
+            //{
+            //    new Assignment () { Id = 1, Name = "تكليف إضافي" },
+            //    new Assignment () { Id = 2, Name = "تكليف خارجي" },
 
             };
             //SelectList listItems = new SelectList(assignment, "Id", "Name");
@@ -67,15 +70,147 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( AdditionalExternalOfWork additionalExternalOfWork)
+        public async Task<IActionResult> Create(AdditionalExternalOfWork additionalExternalOfWork)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(additionalExternalOfWork);
+                var from = new TimeSpan(additionalExternalOfWork.FromTime.Hour, additionalExternalOfWork.FromTime.Minute, additionalExternalOfWork.FromTime.Second);
+                var to = new TimeSpan(additionalExternalOfWork.ToTime.Hour, additionalExternalOfWork.ToTime.Minute, additionalExternalOfWork.ToTime.Second);
+                if (additionalExternalOfWork.ToDate == null)
+                {
+                    var isExistWithOutToDate = await _context.AttendanceAndAbsenceProcessing.AnyAsync(x => x.EmployeeId == additionalExternalOfWork.EmployeeId && x.Date == additionalExternalOfWork.FromDate && x.FromTime == from && x.ToTime == to);
+
+                    if (additionalExternalOfWork.AssignmentId == 1)
+                    {
+                        if (!isExistWithOutToDate)
+                        {
+                            var permrnance = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == additionalExternalOfWork.EmployeeId);
+                            var WorkingTime = CalculateWorkDuration(from, to);
+                            AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing = new AttendanceAndAbsenceProcessing()
+                            {
+
+                                EmployeeId = additionalExternalOfWork.EmployeeId,
+                                DepartmentId = additionalExternalOfWork.Employee.DepartmentsId,
+                                SectionId = additionalExternalOfWork.Employee.SectionsId,
+                                AttendanceStatusId = 9,
+                                Date = additionalExternalOfWork.Date,
+                                FromTime = from,
+                                ToTime = to,
+                                TotalWorkMinutes = (int)WorkingTime,
+                                MinutesOfLate = 0,
+                                periodId = permrnance.PeriodId,
+                                permenenceId = permrnance.PermanenceModelsId,
+                                IsProcssessed = false,
+                                IsProcssessedBefore = false
+
+                            };
+                            await _context.AttendanceAndAbsenceProcessing.AddAsync(attendanceAndAbsenceProcessing);
+                        }
+                    }
+                    else if (additionalExternalOfWork.AssignmentId == 2)
+                    {
+                        if (!isExistWithOutToDate)
+                        {
+                            var permrnance = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == additionalExternalOfWork.EmployeeId);
+                            var WorkingTime = CalculateWorkDuration(from, to);
+                            AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing = new AttendanceAndAbsenceProcessing()
+                            {
+
+                                EmployeeId = additionalExternalOfWork.EmployeeId,
+                                DepartmentId = additionalExternalOfWork.Employee.DepartmentsId,
+                                SectionId = additionalExternalOfWork.Employee.SectionsId,
+                                AttendanceStatusId = 15,
+                                Date = additionalExternalOfWork.Date,
+                                FromTime = from,
+                                ToTime = to,
+                                TotalWorkMinutes = (int)WorkingTime,
+                                MinutesOfLate = 0,
+                                periodId = permrnance.PeriodId,
+                                permenenceId = permrnance.PermanenceModelsId,
+                                IsProcssessed = false,
+                                IsProcssessedBefore = false
+
+                            };
+                            await _context.AttendanceAndAbsenceProcessing.AddAsync(attendanceAndAbsenceProcessing);
+                        }
+                    }
+                }
+                else
+                {
+
+                    DateTime currentDate = new DateTime(additionalExternalOfWork.FromDate.Value.Year, additionalExternalOfWork.FromDate.Value.Month, additionalExternalOfWork.FromDate.Value.Day);
+                    while (currentDate <= additionalExternalOfWork.ToDate)
+                    {
+                        var isExistWithToDate = await _context.AttendanceAndAbsenceProcessing.AnyAsync(x => x.EmployeeId == additionalExternalOfWork.EmployeeId && x.Date == currentDate && x.FromTime == from && x.ToTime == to);
+
+                        if (additionalExternalOfWork.AssignmentId == 1)
+                        {
+                            if (!isExistWithToDate)
+                            {
+                                var permrnance = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == additionalExternalOfWork.EmployeeId);
+                                var WorkingTime = CalculateWorkDuration(from, to);
+                                AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing = new AttendanceAndAbsenceProcessing()
+                                {
+
+                                    EmployeeId = additionalExternalOfWork.EmployeeId,
+                                    DepartmentId = additionalExternalOfWork.Employee.DepartmentsId,
+                                    SectionId = additionalExternalOfWork.Employee.SectionsId,
+                                    AttendanceStatusId = 9,
+                                    Date = additionalExternalOfWork.Date,
+                                    FromTime = from,
+                                    ToTime = to,
+                                    TotalWorkMinutes = (int)WorkingTime,
+                                    MinutesOfLate = 0,
+                                    periodId = permrnance.PeriodId,
+                                    permenenceId = permrnance.PermanenceModelsId,
+                                    IsProcssessed = false,
+                                    IsProcssessedBefore = false
+
+                                };
+                                await _context.AttendanceAndAbsenceProcessing.AddAsync(attendanceAndAbsenceProcessing);
+
+                            }
+                        }
+                        else if (additionalExternalOfWork.AssignmentId == 2)
+                        {
+                            if (!isExistWithToDate)
+                            {
+                                var permrnance = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == additionalExternalOfWork.EmployeeId);
+                                var WorkingTime = CalculateWorkDuration(from, to);
+                                AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing = new AttendanceAndAbsenceProcessing()
+                                {
+
+                                    EmployeeId = additionalExternalOfWork.EmployeeId,
+                                    DepartmentId = additionalExternalOfWork.Employee.DepartmentsId,
+                                    SectionId = additionalExternalOfWork.Employee.SectionsId,
+                                    AttendanceStatusId = 15,
+                                    Date = additionalExternalOfWork.Date,
+                                    FromTime = from,
+                                    ToTime = to,
+                                    TotalWorkMinutes = (int)WorkingTime,
+                                    MinutesOfLate = 0,
+                                    periodId = permrnance.PeriodId,
+                                    permenenceId = permrnance.PermanenceModelsId,
+                                    IsProcssessed = false,
+                                    IsProcssessedBefore = false
+
+                                };
+                                await _context.AttendanceAndAbsenceProcessing.AddAsync(attendanceAndAbsenceProcessing);
+
+                            }
+                        }
+
+                        currentDate = currentDate.AddDays(1);
+                    }
+
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
             
+
             ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.EmployeeId);
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.SubstituteEmployeeId);
@@ -185,14 +320,26 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
             if (id != 0)
             {
-                var employees = _context.employee.Where(e => e.Id != id).Select(x=>new {id=x.Id,name=x.EmployeeName}).ToList();
+                var employees = _context.employee.Where(e => e.Id != id).Select(x => new { id = x.Id, name = x.EmployeeName }).ToList();
                 if (employees != null)
                 {
-                    return Json(new { employees});
+                    return Json(new { employees });
                 }
             }
             return NotFound();
         }
-        
+        private int CalculateWorkDuration(TimeSpan first, TimeSpan last)
+        {
+            if (first == null || last == null)
+            {
+                return 0; // Handle incomplete records
+            }
+
+
+            TimeSpan workDuration = last.Subtract(first);
+            return (int)workDuration.TotalMinutes;
+        }
+
     }
+
 }

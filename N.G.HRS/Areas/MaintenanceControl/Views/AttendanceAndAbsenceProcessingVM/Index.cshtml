@@ -19,7 +19,6 @@
                             <h3>معالجة الحضور والانصراف</h3>
                         </div>
                         <div class="card-body">
-
                             <div class="row mb-3 set">
                                 <div class="form-group col-md-4">
                                     <label asp-for="Employee.Id" class="form-label">الموظف</label><span class="text-danger">*</span>
@@ -111,8 +110,8 @@
                                 <th>ساعات العمل</th>
                                 <th> دقائق الغياب</th>
                                 <th>تمت المعالجة من قبل</th>
-                                <th>تمت المعالجة</th>
-                                <th>اسم الدوام</th>
+                                <th>تمت   قبل</th>
+                                <th>الدوام</th>
                                 <th>الفترة</th>
                             </tr>
                         </thead>
@@ -173,22 +172,8 @@
                                 row.append($('<td></td>').text(item.minutes));
                                 row.append($('<td></td>').text(hour));
                                 row.append($('<td></td>').text(item.minutesLate));
-                                if (item.isProcessedBefor ==true){
-                                    row.append($('<td></td>').text("نعم"));
-
-                                }
-                                else{
-                                    row.append($('<td></td>').text("لا"));
-
-                                }
-                                if (item.isProcessed == true) {
-                                    row.append($('<td></td>').text("نعم"));
-
-                                }
-                                else{
-                                    row.append($('<td></td>').text("لا"));
-
-                                }
+                                row.append($('<td></td>').text(item.isProcessedBefor));
+                                row.append($('<td></td>').text(item.isProcessed));
                                 row.append($('<td></td>').text(item.permenenceModel));
                                 row.append($('<td></td>').text(item.periods));
                                 $('#machinInfo').append(row);

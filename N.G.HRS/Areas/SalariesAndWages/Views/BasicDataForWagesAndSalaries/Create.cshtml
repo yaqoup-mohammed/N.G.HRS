@@ -29,171 +29,125 @@
             <a asp-action="Index">بيانات الاساسية  للعمل  والاجر</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            إضافة
         </li>
     </ol>
 </nav>
-<div class="card">
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3> بيانات الاساسية  للعمل  والاجر   </h3>
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">  بيانات الاساسية  للعمل والاجر  </h4>
+                <br />
+                <hr />
+                <form asp-action="Create" id="BasicDataForWagesAndSalariesForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="col mb-3">
+                                <label asp-for="FromDate" class="form-label"> من تاريخ</label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أختر التاريخ" data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="FromDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="col mb-3">
+                                <label asp-for="ToDate" class="form-label"> الى تاريخ</label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="ToDate" id="ToDate1" class="form-control" placeholder="أختر التاريخ" data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="ToDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label asp-for="NumberOfMonthsDays" class="form-label"> عددأيام الشهر </label>
+                                <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" />
+                            </div>
+                            <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
+                        </div>
+                    </div><!-- Row -->
+
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="AbsencePerHour" class="form-label"> الغياب باساعة</label>
+                                <input asp-for="AbsencePerHour" id="AbsencePerHour1" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" />
+                                <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="DelayPerHour" class="form-label"> التأخير  باساعة </label>
+                                <input asp-for="DelayPerHour" id="DelayPerHour1" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" />
+                                <span asp-validation-for="DelayPerHour" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="OneFingerPrintPerHourDelay" class="form-label">تأخير البصمة الواحدة بالساعة</label>
+                                <input asp-for="OneFingerPrintPerHourDelay" id="OneFingerPrintPerHourDelay1" class="form-control" pattern="\d*" title="يرجى إدخال أرقام فقط" oninput="validateNumberInput(this)" />
+                                <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Col -->
                     </div>
-                    <div class="card-body">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                </div>
 
-                                <div class="col-sm-4">
-                                    <div class="col mb-3">
-                                        <label asp-for="FromDate" class="form-label"></label>
-                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                            <input asp-for="FromDate" id="FromDate" class="form-control" placeholder="أختر التاريخ"
-                                                   data-input />
-                                            <span class="input-group-text input-group-addon" data-toggle>
-                                                <i data-feather="calendar"></i>
-                                            </span>
-                                            <span asp-validation-for="FromDate" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="mb-2">
-                                        <label asp-for="AbsencePerHour" class="form-label"></label>
-                                        <input asp-for="AbsencePerHour" class="form-control" />
-                                        <span asp-validation-for="AbsencePerHour" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="mb-2">
-                                        <label asp-for="NumberOfMonthsDays" class="form-label"></label>
-                                        <input asp-for="NumberOfMonthsDays" id="NumberOfMonthsDays" readonly class="form-control" />
-                                        <span asp-validation-for="NumberOfMonthsDays" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                </div>
-                            </div><!-- Row -->
-                            <div class="row">
-                                <div class="col-sm-12">
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="col mb-3">
-                                        <label asp-for="ToDate" class="form-label"></label>
-                                        <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                            <input asp-for="ToDate" id="ToDate" class="form-control" placeholder="أختر التاريخ"
-                                                   data-input />
-                                            <span class="input-group-text input-group-addon" data-toggle>
-                                                <i data-feather="calendar"></i>
-                                            </span>
-                                            <span asp-validation-for="ToDate" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Col -->
-                                <!-- Col -->
-                                <div class="col-sm-2">
-                                    <div class="mb-2">
-                                        <label asp-for="DelayPerHour" class="form-label"></label>
-                                        <input asp-for="DelayPerHour" class="form-control" />
-                                        <span asp-validation-for="DelayPerHour" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="mb-2">
-                                        <label asp-for="OneFingerPrintPerHourDelay" class="form-label"></label>
-                                        <input asp-for="OneFingerPrintPerHourDelay" class="form-control" />
-                                        <span asp-validation-for="OneFingerPrintPerHourDelay" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <!-- Col -->
-                                <div class="col-sm-2">
-                                </div>
+                    <div class="row">
+                        <!-- Col -->
+                        <div class="col-sm-12">
+                            <div class="mb-12">
+                                <label asp-for="Notes" class="form-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
-
-                            <!-- Row -->
-                            <!-- Row -->
-                            <div class="row">
-                                <div class="col-sm-12">
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="mb-3">
-                                        <label asp-for="TypeOfWage" class="form-label"></label>
-                                        <select asp-for="TypeOfWage" class="form-control">
-                                            <option>اختر نوع الراتب</option>
-                                            <option value="Official">رسمي</option>
-                                            <option value="Daily">يومي</option>
-                                            <option value="Contract">متعاقد</option>
-
-                                        </select>
-                                        <span asp-validation-for="TypeOfWage" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <!-- Col -->
-                                <!-- Col -->
-                            </div>
-                            <div class="row mb-3">
-                                <!-- Col -->
-                                <div class="col-sm-6">
-                                    <div class="mb-6">
-                                        <label asp-for="Notes" class="form-label"></label>
-                                        <input asp-for="Notes" class="form-control" />
-                                        <span asp-validation-for="Notes" class="text-danger"></span>
-                                    </div>
-                                </div>
-
-                                <!-- Col -->
-                            </div>
-
-                            <!-- Row -->
-
-                            <input type="submit" value="إنشاء" class="btn btn-primary" />
-                            <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
-
-                        </form>
+                        </div>
 
                     </div>
-                </div>
+
+                    <button type="submit" id="BasicDataForWagesAndSalariesForm" class="btn btn-primary routate">حفظ</button>
+                    <a asp-action="Index" class="btn btn-light">الرجوع الى القائمة</a>
+                </form>
+
             </div>
         </div>
     </div>
 </div>
 @section Scripts {
-   
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
         //لا يدخل الا ارقام فقط
         function validateNumberInput(input) {
             input.value = input.value.replace(/[^0-9]/g, '');
         }
     </script>
-
-
-         <script>
-
+    <script>
         $(document).ready(function () {
             var v = new ValidationFromMe();
-
             function showErrorMessage(message) {
                 Swal.fire({
                     icon: "error",
                     title: message,
                 });
             }
-
-
-            // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
-            const fromDate1 = new Date().toISOString().split('T')[0];
-            $("#FromDate").val(fromDate1);
-          
-
-
-
+            // // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            // const fromDate1 = new Date().toISOString().split('T')[0];
+            // $("#FromDate").val(fromDate1);
             // التحقق من حقل عدد أيام الشهر مباشرة عند الإدخال
             $("#NumberOfMonthsDays").on('input', function () {
                 var numberOfMonthsDays = $(this).val();
@@ -214,36 +168,30 @@
                     $("#FromDate").val('');
                 }
             });
-
             // التحقق من الحقول الأخرى مباشرة عند الإدخال
-            $("#AbsencePerHour1, #DelayPerHour1, #OneFingerPrintPerHourDelay1").on('input', function () {
-                var value = $(this).val();
-                if (parseInt(value) > 10 || parseInt(value) === 0) {
-                    showErrorMessage(parseInt(value) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!");
-                    $(this).val(''); // إعادة تعيين الحقل
-                }
-            });
-
+            // $("#AbsencePerHour1, #DelayPerHour1, #OneFingerPrintPerHourDelay1").on('input', function () {
+            //     var value = $(this).val();
+            //     if (parseInt(value) > 10 || parseInt(value) === 0) {
+            //         showErrorMessage(parseInt(value) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!");
+            //         $(this).val(''); // إعادة تعيين الحقل
+            //     }
+            // });
             // التحقق من الحقول عند محاولة إرسال النموذج
             $("#BasicDataForWagesAndSalariesForm").submit(function (event) {
                 event.preventDefault();
-
                 var fromDate = $("#FromDate").val();
                 var toDate1 = $("#ToDate1").val();
                 var numberOfMonthsDays = $("#NumberOfMonthsDays").val();
                 var absencePerHour1 = $("#AbsencePerHour1").val();
                 var delayPerHour1 = $("#DelayPerHour1").val();
                 var oneFingerPrintPerHourDelay1 = $("#OneFingerPrintPerHourDelay1").val();
-
                 // تحقق من جميع الحقول قبل إرسال الطلب
                 if (!fromDate) {
-                    showErrorMessage("الرجاء اختيار من تاريخ!");
+                    showErrorMessage("الرجاء اختيار حقل من تاريخ!");
                     return;
                 } else if (!toDate1) {
-                    showErrorMessage("الرجاء اختيار إلى تاريخ!");
+                    showErrorMessage("الرجاء اختيار  حقل إلى تاريخ!");
                     return;
-               
-
                 } else if (!numberOfMonthsDays) {
                     showErrorMessage("الرجاء اختيار عدد أيام الشهر!");
                     return;
@@ -253,23 +201,7 @@
                 } else if (!absencePerHour1) {
                     showErrorMessage("الرجاء اختيار الغياب بالساعة!");
                     return;
-                } else if (parseInt(absencePerHour1) > 10 || parseInt(absencePerHour1) === 0) {
-                    showErrorMessage(parseInt(absencePerHour1) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!");
-                    return;
-                } else if (!delayPerHour1) {
-                    showErrorMessage("الرجاء اختيار التأخير بالساعة!");
-                    return;
-                } else if (parseInt(delayPerHour1) > 10 || parseInt(delayPerHour1) === 0) {
-                    showErrorMessage(parseInt(delayPerHour1) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!");
-                    return;
-                } else if (!oneFingerPrintPerHourDelay1) {
-                    showErrorMessage("الرجاء اختيار تأخير البصمة الواحدة بالساعة!");
-                    return;
-                } else if (parseInt(oneFingerPrintPerHourDelay1) > 10 || parseInt(oneFingerPrintPerHourDelay1) === 0) {
-                    showErrorMessage(parseInt(oneFingerPrintPerHourDelay1) === 0 ? "الصفر غير مقبول!" : "القيمة يجب ألا تزيد عن 10 ساعات!");
-                    return;
                 }
-
                 // إرسال الطلب إلى الخادم
                 $.ajax({
                     url: "/SalariesAndWages/BasicDataForWagesAndSalaries/Check",
@@ -281,7 +213,7 @@
                             case 1:
                                 v.softErrorMessage("هذا الإعداد موجود مسبقا!!");
 
-                            break;
+                                break;
                             case 2:
                                 v.softErrorMessage("اعداد التاريخ هذا موجود مسبقا!!");
 
@@ -309,7 +241,5 @@
                 });
             });
         });
-
-
- </script>
+    </script>
 }

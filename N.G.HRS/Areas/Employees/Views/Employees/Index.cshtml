@@ -13,7 +13,7 @@
 
 <h1>Index</h1>
 <p>
-        <a asp-action="AddEmployee">Create New</a>
+    <a asp-action="AddEmployee">Create New</a>
 </p>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -45,7 +45,7 @@
                                 <th>Manager</th>
                                 <th>Image</th>
                                 <th>Action</th>
-                                
+
 
                             </tr>
                         </thead>
@@ -72,57 +72,57 @@
                                     <td>@(employee.FingerprintDevices?.DevicesName)</td>
                                     <td>@employee.Manager?.EmployeeName </td>
                                     <td style="    padding-bottom: 1px;padding-top: 6px;">
-                                        
 
-                                   
-                               
+
+
+
                                         <!-- Gallery start -->
                                         <div class="baguetteBoxThree gallery">
                                             <!-- Row start -->
                                             @* <div class="row gutters">
                                         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">*@
 
-                                                   <a href="~/Upload/Images/@employee.ImageFile" class="effects">
-                                                        <img src="~/Upload/Images/@employee.ImageFile" class="avatar   img-thumbnail img-xs img-fluid" alt=".......">
-                                                        <div class="overlay">
-                                                            <span class="expand">+</span>
-                                                        </div>
-                                                    </a>
-                                                 </div> 
+                                            <a href="~/Upload/Images/@employee.ImageFile" class="effects">
+                                                <img src="~/Upload/Images/@employee.ImageFile" class="avatar   img-thumbnail img-xs img-fluid" alt=".......">
+                                                <div class="overlay">
+                                                    <span class="expand">+</span>
+                                                </div>
+                                            </a>
+                                        </div>
 
-@* 
+                                        @*
 
-                                             </div>
-                                            <!-- Row end -->
-                                        </div>  *@
+                                    </div>
+                                    <!-- Row end -->
+                                    </div>  *@
                                         <!-- Gallery end -->
                                     <td>
-@* 
-                                        <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal"
-                                                data-url="@Url.Action($"AddEmployee/{employee.Id}")" data-bs-target="@("#AddEmployee-" + employee.Id)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
-                                                <!-- أيقونة تحرير... -->
-                                            </svg>
-                                        </button>
-                                        @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
- *@
+                                            @*
+                                    <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal"
+                                    data-url="@Url.Action($"AddEmployee/{employee.Id}")" data-bs-target="@("#AddEmployee-" + employee.Id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                    <!-- أيقونة تحرير... -->
+                                    </svg>
+                                    </button>
+                                    @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
+                                    *@
                                         <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
                                         <a asp-action="details" asp-route-id="@employee.Id">Details</a> |
 
                                         <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
                                     </td>
                                 </tr>
-                                
+
                             }
-                           
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="row">
@@ -232,7 +232,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="row">
@@ -280,7 +280,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="row">
@@ -551,7 +551,7 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         $("#emploteeDelete").on("click", function () {
-            var id= this.value;
+            var id = this.value;
             if (id != "") {
 
                 $.ajax({
@@ -568,8 +568,8 @@
                     }
                 });
             }
-        
-        
+
+
         });
 
     </script>

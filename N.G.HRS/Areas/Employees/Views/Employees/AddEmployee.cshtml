@@ -90,7 +90,7 @@
                                             <label asp-for="Employee.SectionsId" class="form-label">القسم</label>
                                             <select asp-for="Employee.SectionsId" id="EmployeeSectionsId" asp-items="@(ViewData["Sections"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">  </option>
-                                                <option value="" > اختار الإدارة أولا!!</option>
+                                                <option value=""> اختار الإدارة أولا!!</option>
                                             </select>
                                             <span asp-validation-for="Employee.SectionsId" class="text-danger"></span>
 
@@ -147,7 +147,7 @@
                                             </div>
                                         </div>
 
-                                      
+
 
                                         <div class="col-md-6 col-12 mb-3">
                                             <div class="form-check mb-3">
@@ -373,7 +373,7 @@
                                         <div id="fileErrorguarantees" class="text-danger"></div>
                                     </div>
                                 }
-                              
+
                             </div>
                         </div>
                     </div>
@@ -636,7 +636,7 @@
                                     <button type="submit" id="PersonalDataSubmit" class="btn btn-primary routate">حفظ</button>
                                     <button type="button" class="btn btn-primary" id="showFileInPersonalData">استيراد ملف Excel</button>
                                     <button type="button" class="btn btn-primary" id="exportToExcelButtonPersonalData">تصدير إلى Excel</button>
-                                   
+
                                 </form>
 
 
@@ -869,9 +869,9 @@
                         </div>
                     </div>
 
-               
 
-                    
+
+
                     <table id="FamilytemporaryTable" class="table" style="display:none;">
                         <thead>
                             <tr>
@@ -1789,7 +1789,7 @@
             });
         });
     </script>
-@*                 // Action Method لتصدير البيانات الاسرة  إلى ملف Excel
+    @*                 // Action Method لتصدير البيانات الاسرة  إلى ملف Excel
  *@
 
     <script type="text/javascript">
@@ -1986,10 +1986,10 @@
                 //     event.preventDefault();
 
                 // }
-               
+
             });
         });
-   
+
 
 
         //=======================================
@@ -2166,7 +2166,7 @@
             });
         });
 
-     
+
 
     </script>
 
@@ -2175,8 +2175,8 @@
         //=================================اظافة ملف الموظف =============================
         $(document).ready(function () {
 
-             // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
-        const fromDate1 = new Date().toISOString().split('T')[0];
+            // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            const fromDate1 = new Date().toISOString().split('T')[0];
             $("#EmployeeArchivesDate").val(fromDate1);
 
 
@@ -3323,10 +3323,10 @@
         $(document).ready(function () {
             var counter = 1;
 
-                    // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
-                    const fromDate1 = new Date().toISOString().split('T')[0];
+            // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            const fromDate1 = new Date().toISOString().split('T')[0];
             $("#PracticalExperiencesFromDate").val(fromDate1);
-                    // حفظ البيانات المؤقتة
+            // حفظ البيانات المؤقتة
             $("#PracticalExperiencesSubmit").click(function (event) {
                 event.preventDefault();
                 var practicalExperiencesEmployeeId = $("#PracticalExperiencesEmployeeId").val();
