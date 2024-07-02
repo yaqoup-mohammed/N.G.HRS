@@ -42,11 +42,32 @@
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
+                                <button type="button" id="addGovernorateBtn" class="btn btn-primary me-2">اظافة</button>
+                                <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+                                <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a>
+                                <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
 
+
+                                <button type="button" id="showFileInGovernorate" class="btn btn-primary">استيراد ملف Excel</button>
+                                <button type="button" class="btn btn-primary" id="exportToExcelGovernorate">تصدير إلى Excel</button>
                             </div>
                         </form>
+                      
+                        @*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+                        *@
+
+
+                  
+
+                        @using (Html.BeginForm("ImportGovernorates", "Governorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportGovernorates" }))
+                        {
+                            <div id="fileInputContainerGovernorate" class="mb-3" style="display: none;">
+                                <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput">
+                                <button type="button" class="btn btn-primary" id="uploadBtn" style="display: none;">تحميل الملف</button>
+                                <div id="fileError" class="text-danger"></div>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -54,17 +75,13 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Import", "Governorates", FormMethod.Post, new { enctype = "multipart/form-data", id = "importForm" }))
-{
-    <div class="mb-3">
-        <label class="form-label">اختر ملف Excel</label>
-        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInput">
-    </div>
-    <button type="submit" class="btn btn-primary" id="uploadBtn" style="display: none;">تحميل الملف</button>
-    <div id="fileError" class="text-danger" style="display: none;"></div>
-}
-@*         //============================استيراد ملف اكسل الى قاعدة البيانات=======
- *@
+
+
+
+
+
+
+
 
 <table id="temporaryTable" class="table" style="display:none;">
     <thead>
@@ -79,41 +96,111 @@
     </tbody>
 </table>
 
-        <input type="submit" value=" حفظ البيانات " class="btn btn-primary me-2" id="saveDataBtn" />
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+   
 
-    <script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script type="text/javascript">
+        document.getElementById('showFileInGovernorate').addEventListener('click', function () {
+            var fileInputContainerGovernorate = document.getElementById('fileInputContainerGovernorate');
+            fileInputContainerGovernorate.style.display = 'block';
+        });
+
         document.getElementById('fileInput').addEventListener('change', function () {
-            var uploadBtn = document.getElementById('uploadBtn');
-            var fileError = document.getElementById('fileError');
+            var file = this.files[0];
             var fileName = this.value.toLowerCase();
+            var fileError = document.getElementById('fileError');
+            var uploadBtn = document.getElementById('uploadBtn');
 
-            // التحقق من امتداد الملف
-            if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
-                uploadBtn.style.display = 'inline-block'; // عرض زر التحميل
-                fileError.style.display = 'none'; // إخفاء رسالة الخطأ
+            if (file && file.size > 0) {
+                if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        var requiredColumns = ["ID", "المحافظة", "الملاحظة", "الدولة"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
+
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+
+                            if (isDataPresent) {
+                                uploadBtn.style.display = 'inline-block'; // عرض زر التحميل
+                                fileError.style.display = 'none'; // إخفاء رسالة الخطأ
+                            } else {
+                                showError("الملف لا يحتوي  البيانات : فارغ.");
+                            }
+                        } else {
+                            showError("الملف لا يحتوي على : ID، المحافظة، الملاحظة، الدولة.");
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                uploadBtn.style.display = 'none'; // إخفاء زر التحميل
-                fileError.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يرجى تحديد ملف غير فارغ.");
             }
         });
+
+        function showError(message) {
+            var uploadBtn = document.getElementById('uploadBtn');
+            var fileError = document.getElementById('fileError');
+            uploadBtn.style.display = 'none'; // إخفاء زر التحميل
+            fileError.style.display = 'block'; // عرض رسالة الخطأ
+            fileError.textContent = message;
+            document.getElementById('fileInput').value = ''; // إعادة تعيين قيمة الملف المختار
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                showConfirmButton: false,
+                timer: 4000 // يغلق التنبيه تلقائيا بعد 4 ثوان
+            });
+        }
+
+        document.getElementById('uploadBtn').addEventListener('click', function (event) {
+            event.preventDefault(); // منع السلوك الافتراضي للزر
+            Swal.fire({
+                title: 'هل تريد استيراد البيانات من ملف Excel؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = document.getElementById('ImportGovernorates');
+                    form.submit(); // تقديم النموذج يدويا
+                }
+            });
+        });
+
+        document.getElementById('exportToExcelGovernorate').addEventListener('click', function () {
+            Swal.fire({
+                title: 'هل تريد تصدير ملف Excel؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("ExportToExcelGovernorates", "Governorates")';
+                }
+            });
+        });
     </script>
-
     <script>
-
-
-
         $(document).ready(function () {
             var counter = 1;
 
-            // التحقق من وجود المديرية
             function CheckGovernoratesExists(governorate, callback) {
                 $.ajax({
                     type: "POST",
@@ -128,50 +215,66 @@
                 });
             }
 
+            function isGovernorateInTable(governorate) {
+                var exists = false;
+                $("#temporaryTable tbody tr").each(function () {
+                    if ($(this).find("td:eq(1)").text().trim() === governorate.trim()) {
+                        exists = true;
+                    }
+                });
+                return exists;
+            }
+
             $("#addGovernorateBtn").click(function (event) {
                 event.preventDefault();
-                var governorate = $("#Governorate").val();
+                var governorate = $("#GovernorateId").val();
                 var notes = $("#GovernorateNotes").val();
                 var countryId = $("#CountryId").val();
                 var countryName = $("#CountryId option:selected").text();
 
-                CheckGovernoratesExists(governorate, function (exists) {
-                    if (exists) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "اسم المحافظة  موجود بالفعل في قاعدة البيانات"
-                        });
-                    } else if (governorate === "") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء ادخال المحافظة!",
-                        });
-                    } else if (countryId === "") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء اختيار الدولة!",
-                        });
-                    } else {
-                        $("#temporaryTable tbody").append(
-                            "<tr>" +
-                            "<td>" + counter + "</td>" +
-                            "<td>" + governorate + "</td>" +
-                            "<td>" + notes + "</td>" +
-                            "<td>" + countryName + "</td>" +
-                            "<td style='display:none' class='countryId'>" + countryId + "</td>" +
-                            "<td><button type='button' class='btn btn-danger delete-row'>Delete</button></td>" +
-                            "</tr>"
-                        );
-                        counter++;
-                        $("#Governorate").val('');
-                        $("#GovernorateNotes").val('');
-                        // $("#CountryId").val('');
+                if (isGovernorateInTable(governorate)) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "اسم المحافظة موجود بالفعل في الجدول"
+                    });
+                } else {
+                    CheckGovernoratesExists(governorate, function (exists) {
+                        if (exists) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "اسم المحافظة موجود بالفعل في قاعدة البيانات"
+                            });
+                        } else if (governorate === "") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "الرجاء ادخال المحافظة!",
+                            });
+                        } else if (countryId === "") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "الرجاء اختيار الدولة!",
+                            });
+                        } else {
+                            $("#temporaryTable tbody").append(
+                                "<tr>" +
+                                "<td>" + counter + "</td>" +
+                                "<td>" + governorate + "</td>" +
+                                "<td>" + notes + "</td>" +
+                                "<td>" + countryName + "</td>" +
+                                "<td style='display:none' class='countryId'>" + countryId + "</td>" +
+                                "<td><button type='button' class='btn btn-danger delete-row'>Delete</button></td>" +
+                                "</tr>"
+                            );
+                            counter++;
+                            $("#GovernorateId").val('');
+                            $("#GovernorateNotes").val('');
 
-                        $("#clearTableBtn").show();
-                        $("#temporaryTable").show();
-                        $("#saveDataBtn").show();
-                    }
-                });
+                            $("#clearTableBtn").show();
+                            $("#temporaryTable").show();
+                            $("#saveDataBtn").show();
+                        }
+                    });
+                }
             });
 
             $("#saveDataBtn").click(function (event) {
@@ -186,7 +289,7 @@
                     cancelButtonText: 'لا '
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $("#temporaryTable tr").each(function () {
+                        $("#temporaryTable tbody tr").each(function () {
                             var governorate = $(this).find("td:eq(1)").text();
                             var notes = $(this).find("td:eq(2)").text();
                             var countryId = $(this).find("td:eq(4)").text();
@@ -247,6 +350,7 @@
                 });
             }
         });
+
     </script>
 
 }

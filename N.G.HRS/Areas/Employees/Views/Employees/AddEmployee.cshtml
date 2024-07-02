@@ -754,14 +754,14 @@
                                     </div>
                                 </form>
 
-                                @*  @using (Html.BeginForm("ImportPracticalExperiences", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPracticalExperiences" }))
+                               @*  @using (Html.BeginForm("ImportPracticalExperiences", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPracticalExperiences" }))
                                 {
-                                <div id="fileInputContainerExperiences" class="mb-3" style="display: none;">
-                                <label class="form-label">استيراد ملف Excel</label>
-                                <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputguaranteesExperiences">
-                                <button type="button" class="btn btn-primary" id="uploadBtnguaranteesExperiences" style="display: none;">تحميل الملف</button>
-                                <div id="fileErrorguaranteesExperiences" class="text-danger"></div>
-                                </div>
+                                    <div id="fileInputContainerExperiences" class="mb-3" style="display: none;">
+                                        <label class="form-label">استيراد ملف Excel</label>
+                                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputguaranteesExperiences">
+                                        <button type="button" class="btn btn-primary" id="uploadBtnguaranteesExperiences" style="display: none;">تحميل الملف</button>
+                                        <div id="fileErrorguaranteesExperiences" class="text-danger"></div>
+                                    </div>
                                 } *@
 
                                 @using (Html.BeginForm("ImportPracticalExperiences", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPracticalExperiences" }))
@@ -776,8 +776,8 @@
                         </div>
                     </div>
 
-
-
+                   
+                  
 
 
 
@@ -1630,7 +1630,6 @@
     @*      ==========================استيراد بيانات الخبرات من ملف اكسل الى قاعدة البيانات=======================
  *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
     <script type="text/javascript">
         document.getElementById('showFileInputBtnguaranteesExperiences').addEventListener('click', function () {
             var fileInputContainerExperiences = document.getElementById('fileInputContainerExperiences');
@@ -1652,10 +1651,13 @@
                         var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                         var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
 
-
-                        var requiredColumns = ["Id", "اسم الموظف", " اسم الخبرة ", " مكان حصول عليها ", "من تاريخ", "الي تاريخ", "الفترة"];
+                        var requiredColumns = ["Id", "اسم الموظف", "اسم الخبرة", "مكان حصول عليها", "من تاريخ", "الي تاريخ", "الفترة"];
                         var header = rows[0];
-                        var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
+                        var isHeaderValid = header && requiredColumns.every((col, index) => {
+                            // إزالة المسافات الزائدة
+                            var trimmedHeader = header[index] ? header[index].trim() : '';
+                            return trimmedHeader === col;
+                        });
 
                         if (isHeaderValid) {
                             var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
@@ -1724,6 +1726,7 @@
             });
         });
     </script>
+
 
     @* //============================استيراد بيانات الظمين ملف اكسل الى قاعدة البيانات=======
   *@
@@ -1911,8 +1914,9 @@
     </script>
 
     <script>
-
-        $(document).ready(function () {
+       
+        $(document).ready(function ()
+        {
             $("#EmployeeSubmit").click(function (event) {
                 // تأخير الإرسال
                 // event.preventDefault();
@@ -1969,7 +1973,8 @@
                         icon: "error",
                         title: "الرجاء ادخال تاريخ الوظيفة!",
                     });
-                } else if (myDropify === 0) {
+                } else if (myDropify === 0) 
+                {
                     // عرض رسالة الخطأ
                     Swal.fire({
                         icon: "error",
@@ -2008,107 +2013,107 @@
                 }
             }
         });
+                
 
-
-
+        
 
         //========================================التعتيم
 
-        $(document).ready(function () {
-            // تطبيق التعتيم الكامل عند فتح النموذج
-            $('#placementDateContainer').css('opacity', '0.5'); // تطبيق التعتيم
+            $(document).ready(function () {
+                // تطبيق التعتيم الكامل عند فتح النموذج
+                $('#placementDateContainer').css('opacity', '0.5'); // تطبيق التعتيم
 
-            // تحديث حقل التاريخ التثبيت بناءً على اختيار المستخدم في حقل الحالة الوظيفية
-            $('#EmploymentStatus').change(function () {
-                var selectedStatus = $(this).val();
-                if (selectedStatus === '1') { // إذا تم اختيار "مثبت"
-                    $('#placementDateContainer').css('opacity', '1'); // إزالة التعتيم
-                    $('#PlacementDate').prop('disabled', false); // إزالة الخاصية disabled
-                } else {
-                    $('#placementDateContainer').css('opacity', '0.5'); // تطبيق التعتيم
-                    $('#PlacementDate').prop('disabled', true); // إضافة الخاصية disabled
-                }
-            });
+                // تحديث حقل التاريخ التثبيت بناءً على اختيار المستخدم في حقل الحالة الوظيفية
+                $('#EmploymentStatus').change(function () {
+                    var selectedStatus = $(this).val();
+                    if (selectedStatus === '1') { // إذا تم اختيار "مثبت"
+                        $('#placementDateContainer').css('opacity', '1'); // إزالة التعتيم
+                        $('#PlacementDate').prop('disabled', false); // إزالة الخاصية disabled
+                    } else {
+                        $('#placementDateContainer').css('opacity', '0.5'); // تطبيق التعتيم
+                        $('#PlacementDate').prop('disabled', true); // إضافة الخاصية disabled
+                    }
+                });
 
-            // تكوين Flatpickr لحقل التاريخ التثبيت
-            $('#PlacementDate').flatpickr({
-                enableTime: false,
-                dateFormat: "Y-m-d"
-            });
+                // تكوين Flatpickr لحقل التاريخ التثبيت
+                $('#PlacementDate').flatpickr({
+                    enableTime: false,
+                    dateFormat: "Y-m-d"
+                });
 
-            // التحقق من إدخال تاريخ التثبيت عند إرسال النموذج
+                // التحقق من إدخال تاريخ التثبيت عند إرسال النموذج
             $('#EmployeeSubmit').click(function (e) {
-                var selectedStatus = $('#EmploymentStatus').val();
-                var placementDate = $('#PlacementDate').val();
-                if (selectedStatus === '1' && !placementDate) {
-                    // alert('يرجى إدخال تاريخ التثبيت');
+                    var selectedStatus = $('#EmploymentStatus').val();
+                    var placementDate = $('#PlacementDate').val();
+                    if (selectedStatus === '1' && !placementDate) {
+                        // alert('يرجى إدخال تاريخ التثبيت');
                     Swal.fire({
                         icon: "error",
                         title: "الرجاء ادخال التاريخ التثبيت!",
                     });
-                    e.preventDefault(); // منع إرسال النموذج
-                }
-            });
-        });
-
-
-        $(document).ready(function () {
-            $('#placementDateContainer1').css('opacity', '0.5'); // تطبيق التعتيم
-
-            // تطبيق التعتيم الكامل عند فتح النموذج
-            $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').prop('disabled', true); // إضافة الخاصية disabled
-            $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('opacity', '0.5'); // تطبيق التعتيم
-            $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('pointer-events', 'none'); // يمنع أي أحداث تفاعلية
-
-            // تحديث حالة الحقول عند تغيير حالة الصندوق
-            $('#EmployeeSubjectToInsurance').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').prop('disabled', false); // إزالة الخاصية disabled
-                    $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('opacity', '1'); // إزالة التعتيم
-                    $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('pointer-events', 'auto'); // تمكين الأحداث التفاعلية
-                } else {
-                    $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').prop('disabled', true); // إضافة الخاصية disabled
-                    $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('opacity', '0.5'); // تطبيق التعتيم
-                    $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('pointer-events', 'none'); // يمنع أي أحداث تفاعلية
-                }
-            });
-
-            // تكوين Flatpickr لحقول التواريخ
-            $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').flatpickr({
-                enableTime: false,
-                dateFormat: "Y-m-d"
-            });
-
-            // التحقق من إدخال الحقول عند إرسال النموذج
-            $("#EmployeeSubmit").click(function (event) {
-                if ($('#EmployeeSubjectToInsurance').is(':checked')) {
-                    var dateInsurance = $("#EmployeeDateInsurance").val();
-                    var dateStoppingWork = $("#EmployeeDateOfStoppingWork").val();
-                    var rehireDate = $("#EmployeeRehireDate").val();
-
-                    if (dateInsurance === "") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء ادخال تاريخ التأمين!",
-                        });
-                        event.preventDefault(); // منع إرسال النموذج
-                    } else if (dateStoppingWork === "") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء ادخال تاريخ وقف العمل!",
-                        });
-                        event.preventDefault(); // منع إرسال النموذج
-                    } else if (rehireDate === "") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "الرجاء ادخال تاريخ إعادة التوظيف!",
-                        });
-                        event.preventDefault(); // منع إرسال النموذج
+                        e.preventDefault(); // منع إرسال النموذج
                     }
-                }
+                });
             });
-        });
+    
 
+            $(document).ready(function () {
+                $('#placementDateContainer1').css('opacity', '0.5'); // تطبيق التعتيم
+
+                // تطبيق التعتيم الكامل عند فتح النموذج
+                $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').prop('disabled', true); // إضافة الخاصية disabled
+                $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('opacity', '0.5'); // تطبيق التعتيم
+                $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('pointer-events', 'none'); // يمنع أي أحداث تفاعلية
+
+                // تحديث حالة الحقول عند تغيير حالة الصندوق
+                $('#EmployeeSubjectToInsurance').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').prop('disabled', false); // إزالة الخاصية disabled
+                        $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('opacity', '1'); // إزالة التعتيم
+                        $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('pointer-events', 'auto'); // تمكين الأحداث التفاعلية
+                    } else {
+                        $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').prop('disabled', true); // إضافة الخاصية disabled
+                        $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('opacity', '0.5'); // تطبيق التعتيم
+                        $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #placementDateContainer1').css('pointer-events', 'none'); // يمنع أي أحداث تفاعلية
+                    }
+                });
+
+                // تكوين Flatpickr لحقول التواريخ
+                $('#EmployeeDateInsurance, #EmployeeDateOfStoppingWork, #EmployeeRehireDate').flatpickr({
+                    enableTime: false,
+                    dateFormat: "Y-m-d"
+                });
+
+                // التحقق من إدخال الحقول عند إرسال النموذج
+                $("#EmployeeSubmit").click(function (event) {
+                    if ($('#EmployeeSubjectToInsurance').is(':checked')) {
+                        var dateInsurance = $("#EmployeeDateInsurance").val();
+                        var dateStoppingWork = $("#EmployeeDateOfStoppingWork").val();
+                        var rehireDate = $("#EmployeeRehireDate").val();
+
+                        if (dateInsurance === "") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "الرجاء ادخال تاريخ التأمين!",
+                            });
+                            event.preventDefault(); // منع إرسال النموذج
+                        } else if (dateStoppingWork === "") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "الرجاء ادخال تاريخ وقف العمل!",
+                            });
+                            event.preventDefault(); // منع إرسال النموذج
+                        } else if (rehireDate === "") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "الرجاء ادخال تاريخ إعادة التوظيف!",
+                            });
+                            event.preventDefault(); // منع إرسال النموذج
+                        }
+                    }
+                });
+            });
+    
         $(document).ready(function () {
             $("#EmployeeDateOfStoppingWork, #EmployeeRehireDate").on("change", function () {
                 var startDate = new Date($("#EmployeeDateOfStoppingWork").val());

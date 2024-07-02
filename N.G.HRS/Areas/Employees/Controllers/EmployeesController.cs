@@ -925,14 +925,14 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 var worksheet = package.Workbook.Worksheets.Add("PracticalExperiences");
 
                 // إعداد العناوين
-
-                worksheet.Cells[1, 1].Value = "Id";
-                worksheet.Cells[1, 2].Value = "اسم الموظف";
-                worksheet.Cells[1, 3].Value = " اسم الخبرة  ";
-                worksheet.Cells[1, 4].Value = " مكان حصول عليها ";
-                worksheet.Cells[1, 5].Value = "من تاريخ";
-                worksheet.Cells[1, 6].Value = "الي تاريخ";
-                worksheet.Cells[1, 7].Value = "الفترة";
+              
+                        worksheet.Cells[1, 1].Value = "Id";
+                        worksheet.Cells[1, 2].Value = "اسم الموظف";
+                        worksheet.Cells[1, 3].Value = " اسم الخبرة  ";
+                        worksheet.Cells[1, 4].Value = " مكان حصول عليها ";
+                        worksheet.Cells[1, 5].Value = "من تاريخ";
+                        worksheet.Cells[1, 6].Value = "الي تاريخ";
+                        worksheet.Cells[1, 7].Value = "الفترة";
 
                 worksheet.Row(1).Style.Font.Bold = true;
                 worksheet.Row(1).Style.Fill.PatternType = ExcelFillStyle.Solid;
