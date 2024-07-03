@@ -55,6 +55,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         private readonly IRepository<TrainingCourses> _trainingCoursesrepository;
         private readonly IRepository<EmployeeArchives> _employeeArchivesrepository;
         private readonly IRepository<FinancialStatements> _financialStatementsrepository;
+        private object _appDbContext;
 
         public EmployeesController(AppDbContext context, IFileUploadService fileUploadService, IRepository<Employee> employeeRepository,
             IRepository<Sections> sectionsrepository,
@@ -2405,6 +2406,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         public bool EmployeeNumber(int id)
         {
+
             if (id != null)
             {
                 var employeeNumber = _context.employee.Any(e => e.EmployeeNumber == id);
@@ -2564,6 +2566,20 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    Family = await _familyrepository.GetByIdAsync(id),
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
+
+        //public ViewResult Details()
+        // {
+        //     salaryrevealed salaryrevealed=new salaryrevealed();
+        //     salaryrevealed.employee = _employeeRepository.GetEmployee(1);
+        //     salaryrevealed.section= 
+        //     return View();
+        // }
+        public async Task<IActionResult> salaryrevealed(int Id)
+
+        {
+            return View();
+
+        }
     }
 
 }
