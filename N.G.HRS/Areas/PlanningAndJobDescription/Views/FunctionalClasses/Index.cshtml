@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="space-between">
-                    <h3>   FunctionalClass </h3>
+                    <h3>   الدرجة الوظيفية </h3>
 
                     <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
 
@@ -34,7 +34,7 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Currency)
                                 </th>
-                                <th></th>
+                                <th style="left:10px;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +53,7 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Currency.CurrencyCode)
                                     </td>
-                                    <td>
+                                    <td style="position: absolute ;left:20px;">
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
