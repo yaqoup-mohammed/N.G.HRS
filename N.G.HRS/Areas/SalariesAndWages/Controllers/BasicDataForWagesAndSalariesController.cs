@@ -154,7 +154,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         {
             return _context.basicDataForWagesAndSalaries.Any(e => e.Id == id);
         }
-   
+
         public IActionResult Check(DateOnly from, DateOnly to, int month, int apcent, int late, int fapcent)
         {
             var date = _context.basicDataForWagesAndSalaries.ToList();

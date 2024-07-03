@@ -556,7 +556,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         //////تصدير ملف اكسل للموظفين
-        
+
 
 
         [HttpGet]
@@ -977,12 +977,12 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 // إنشاء كائن لتخزين البيانات المستلمة
                 var newPracticalExperience = new PracticalExperiences
                 {
-                   EmployeeId = practicalExperiencesEmployeeId,
-                   ExperiencesName = practicalExperiencesExperiencesName,
-                   PlacToGainExperience = practicalExperiencesPlacToGainExperience,
-                   FromDate = practicalExperiencesFromDate,
-                   ToDate = practicalExperiencesToDate,
-                   Duration = practicalExperiencesDuration
+                    EmployeeId = practicalExperiencesEmployeeId,
+                    ExperiencesName = practicalExperiencesExperiencesName,
+                    PlacToGainExperience = practicalExperiencesPlacToGainExperience,
+                    FromDate = practicalExperiencesFromDate,
+                    ToDate = practicalExperiencesToDate,
+                    Duration = practicalExperiencesDuration
                 };
 
                 // إضافة البيانات الجديدة إلى قاعدة البيانات
@@ -1143,7 +1143,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                     Name = familyName,
                     RelativesTypeId = familyRelativesTypeId,
                     Notes = familyNotes
-                    
+
                 };
 
                 // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
@@ -1166,7 +1166,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPersonalDataToEmployee( EmployeeVM viewModel)
+        public async Task<IActionResult> AddPersonalDataToEmployee(EmployeeVM viewModel)
         {
             try
             {
@@ -1612,7 +1612,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddGuarantees( EmployeeVM viewModel)
+        public async Task<IActionResult> AddGuarantees(EmployeeVM viewModel)
         {
             try
             {
@@ -1862,8 +1862,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
             try
             {
 
-                           // إنشاء كائن لتخزين البيانات المستلمة
-                   var newGuarantees = new Guarantees
+                // إنشاء كائن لتخزين البيانات المستلمة
+                var newGuarantees = new Guarantees
                 {
                     Name = guaranteesName1,
                     PhoneNumber = guaranteesPhoneNumber,
@@ -1874,7 +1874,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                     MaritalStatusId = guaranteesMaritalStatusId,
                     NumberOfDependents = guaranteesNumberOfDependents,
                     Notes = guaranteesNotes1
-                   
+
                 };
 
                 // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
@@ -2112,7 +2112,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveTrainingCourses(int trainingCoursesEmployeeId, string trainingCoursesNameCourses, string trainingCoursesWhereToGetIt, string trainingCoursesFromDate, string trainingCoursesToDate)
         {
-           
+
             try
             {
                 // Parse the date strings to DateTime
@@ -2208,7 +2208,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //}
 
 
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddEmployeeArchives(EmployeeVM viewModel)
@@ -2251,22 +2251,22 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             try
             {
-              
+
                 var file = archivesFileUpload;
 
-               
-                    var filePath = await _fileUploadService.UploadFileAsync(file," Upload/PDF");
-                    // إنشاء كائن لتخزين البيانات المستلمة
-                    var newEmployeeArchives = new EmployeeArchives
-                    {
-                        File = filePath,
 
-                        EmployeeId = archivesEmployeeId,
-                        Date = archivesDate,
-                        Descriotion = archivesDescriotion,
-                        Notes = archivesNotes
+                var filePath = await _fileUploadService.UploadFileAsync(file, " Upload/PDF");
+                // إنشاء كائن لتخزين البيانات المستلمة
+                var newEmployeeArchives = new EmployeeArchives
+                {
+                    File = filePath,
 
-                    };                    // Rest of your code...
+                    EmployeeId = archivesEmployeeId,
+                    Date = archivesDate,
+                    Descriotion = archivesDescriotion,
+                    Notes = archivesNotes
+
+                };                    // Rest of your code...
 
 
 
@@ -2281,7 +2281,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             {
                 TempData["SystemError"] = ex.Message;
                 return View();
-                
+
             }
         }
 
@@ -2412,7 +2412,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 var employeeNumber = _context.employee.Any(e => e.EmployeeNumber == id);
                 if (!employeeNumber)
                 {
-                    return true;                }
+                    return true;
+                }
             }
             return false;
         }
@@ -2453,7 +2454,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             //-----------------------Guarantees---------------------------
             var Guarantees = await _guaranteesrepository.GetAllAsync();
             ViewData["Guarantees"] = new SelectList(Guarantees, "Id", "Name");
-               //-----------------------Guarantees---------------------------
+            //-----------------------Guarantees---------------------------
             var Currency = await _currencyrepository.GetAllAsync();
             ViewData["Currency"] = new SelectList(Currency, "Id", "CurrencyName");
 
@@ -2472,7 +2473,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             // استرجاع كل الضمانات
             var GuaranteesOne = await _guaranteesrepository.GetAllAsync();
             // تحقق من عدم وجودها في جدول PersonalData
-            var filteredGuarantees = GuaranteesOne.Where(g => _context.personalDatas.Where(pd => pd.GuaranteesId == g.Id).Count()<=10) ;
+            var filteredGuarantees = GuaranteesOne.Where(g => _context.personalDatas.Where(pd => pd.GuaranteesId == g.Id).Count() <= 10);
             //var filteredGuarantees = GuaranteesOne.Where(g => !_context.personalDatas.Any(pd => pd.GuaranteesId == g.Id));
             // إذا كانت الضمانات غير موجودة في جدول PersonalData، قم بإضافتها إلى SelectList
             ViewData["GuaranteesOne"] = new SelectList(filteredGuarantees, "Id", "Name");
@@ -2497,19 +2498,20 @@ namespace N.G.HRS.Areas.Employees.Controllers
             SelectList listItems = new SelectList(employeeStatus, "id", "name");
             ViewData["Employee"] = listItems;
         }
-     
-        public async Task<IActionResult> Profile(int Id )
+
+        public async Task<IActionResult> Profile(int Id)
         {
-            if (Id==0 ) { 
+            if (Id == 0)
+            {
                 return NotFound();
             }
-            var employee= _context.employee.Include(x=>x.JobDescription).Where(e => e.Id == Id).Select(x => new { authorities = x.JobDescription.Authorities, responsibilities = x.JobDescription.Responsibilities}).FirstOrDefault();
+            var employee = _context.employee.Include(x => x.JobDescription).Where(e => e.Id == Id).Select(x => new { authorities = x.JobDescription.Authorities, responsibilities = x.JobDescription.Responsibilities }).FirstOrDefault();
             var external = _context.AdditionalExternalOfWork.Where(e => e.EmployeeId == Id).ToList();
             return View(new { employee, external });
         }
-        public async Task<IActionResult> details(int Id )
+        public async Task<IActionResult> details(int Id)
         {
-            if(Id == 0)
+            if (Id == 0)
             {
                 return NotFound();
             }
