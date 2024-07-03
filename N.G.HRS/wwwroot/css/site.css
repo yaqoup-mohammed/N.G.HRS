@@ -557,3 +557,8 @@ body {
         right: 10px;
     }
 }
+.pinned {
+    position: absolute !important;
+    left: 0 !important;
+    
+}
