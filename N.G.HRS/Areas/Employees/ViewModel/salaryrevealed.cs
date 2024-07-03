@@ -8,18 +8,16 @@ namespace N.G.HRS.Areas.Employees.ViewModel
 {
     public class salaryrevealed
     {
-        public bool migration { get; set; }
-
+        //public bool migration { get; set; }
+        public DateTime Month { get; set; }
         public Employee Employee { get; set; }
         public List<Employee>? Employeeslist { get; set; }
-
-        public Section Section { get; set; }
-        public List<Section>? Sectionlist { get; set; }
-
+        public Sections Section { get; set; }
+        public List<Sections> SectionList { get; set; }
         public Departments Departments { get; set; }
         public List<Departments>? Departmentslist { get; set; } 
-        public Departments FinancialStatements { get; set; }
-        public List<Departments>? FinancialStatementslist { get; set; }
+        public FinancialStatements FinancialStatementsList { get; set; }
+        public List<FinancialStatements>? FinancialStatementslist { get; set; }
 
 
     }

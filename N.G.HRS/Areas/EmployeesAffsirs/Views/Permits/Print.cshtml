@@ -1,0 +1,57 @@
+﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.Permits
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3>طباعة تصريح</h3>
+                <h1>تصريح الموظف</h1>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Date)</th>
+                                <th>@Html.DisplayNameFor(model => model.IsNotEmployee)</th>
+                                <th>@Html.DisplayNameFor(model => model.Employee)</th>
+                                <th>@Html.DisplayNameFor(model => model.NotEmployee)</th>
+                                <th>@Html.DisplayNameFor(model => model.For)</th>
+                                <th>@Html.DisplayNameFor(model => model.Purpose)</th>
+                                <th>@Html.DisplayNameFor(model => model.Note)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.Date)</td>
+                                <td>@Html.DisplayFor(model => model.IsNotEmployee)</td>
+                                <td>@Html.DisplayFor(model => model.Employee.EmployeeName)</td>
+                                <td>@Html.DisplayFor(model => model.NotEmployee)</td>
+                                <td>@Html.DisplayFor(model => model.For)</td>
+                                <td>@Html.DisplayFor(model => model.Purpose)</td>
+                                <td>@Html.DisplayFor(model => model.Note)</td>
+                                <td>
+                                    <div class="mt-4 text-center">
+                                        <button type="button" class="btn btn-primary" onclick="window.print();">
+                                            طباعة
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

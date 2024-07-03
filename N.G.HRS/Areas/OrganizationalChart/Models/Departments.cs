@@ -38,5 +38,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         public int? SectorsId { get; set; }
         public Sectors? Sectors { get; set; }
 
+        internal static Employee GitDepartment(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

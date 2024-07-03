@@ -90,7 +90,6 @@
                                             <label asp-for="Employee.SectionsId" class="form-label">القسم</label>
                                             <select asp-for="Employee.SectionsId" id="EmployeeSectionsId" asp-items="@(ViewData["Sections"] as SelectList)" class="js-example-basic-single form-select">
                                                 <option value="">  </option>
-                                                <option value="" > اختار الإدارة أولا!!</option>
                                             </select>
                                             <span asp-validation-for="Employee.SectionsId" class="text-danger"></span>
 
@@ -238,6 +237,9 @@
                                         <div id="fileErrorEmployee" class="text-danger"></div>
                                     </div>
                                 }
+                                <div>
+                                    <a asp-action="Index">Back to List</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -752,6 +754,7 @@
                                         <button type="button" class="btn btn-primary" id="exportToExcelButtonguaranteesExperiences">تصدير إلى Excel</button>
 
                                     </div>
+                               
                                 </form>
 
                                @*  @using (Html.BeginForm("ImportPracticalExperiences", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPracticalExperiences" }))
