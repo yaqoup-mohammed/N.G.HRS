@@ -27,7 +27,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         [StringLength(170)]
         public string? EmployeeName { get; set; }//
-        [Required ( ErrorMessage = "الحقل هذا مطلوب")]
+        [Required(ErrorMessage = "الحقل هذا مطلوب")]
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Employment")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -58,8 +58,8 @@ namespace N.G.HRS.Areas.Employees.Models
         public byte FingerPrintImage { get; set; }//
         public string? ImageFile { get; set; }
         [NotMapped]
-        [Required ( ErrorMessage = "الحقل هذا مطلوب")]
-        public IFormFile ?FileUpload { get; set; }
+        [Required(ErrorMessage = "الحقل هذا مطلوب")]
+        public IFormFile? FileUpload { get; set; }
         [StringLength(255)]
         public string? Notes { get; set; }//
 
@@ -98,6 +98,8 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //=====================================
         public List<Permits>? PermitsList { get; set; }
+        //=====================================
+        public List<Salaries>? SalariesList { get; set; }
 
         //=====================================
         [ForeignKey("FingerprintDevicesId")]
@@ -108,7 +110,7 @@ namespace N.G.HRS.Areas.Employees.Models
         //========================================================
         public virtual PersonalData? personalData { get; set; }
         public FinancialStatements? financialStatements { get; set; }
-       
+
         //===============================================
 
         //علاقة self v
@@ -117,7 +119,7 @@ namespace N.G.HRS.Areas.Employees.Models
         public virtual Employee? Manager { get; set; }
         // Navigation property for Subordinates 
         public List<Employee>? Subordinates { get; set; }
-    
+
         //=================================================
         public List<EmployeeAccount>? EmployeeAccountList { get; set; }
         //=====================================

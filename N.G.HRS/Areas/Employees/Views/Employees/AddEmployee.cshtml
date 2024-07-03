@@ -81,7 +81,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.DepartmentsId" class="form-label">الادارة</label>
                                             <select asp-for="Employee.DepartmentsId" id="EmployeeDepartmentId" asp-items="@(ViewData["Departments"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">اختر الادارة</option>EmployeeDepartmentsId
+                                                <option value="" selected disabled></option>
                                             </select>
                                             <span asp-validation-for="Employee.DepartmentsId" class="text-danger"></span>
                                         </div>
@@ -89,7 +89,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.SectionsId" class="form-label">القسم</label>
                                             <select asp-for="Employee.SectionsId" id="EmployeeSectionsId" asp-items="@(ViewData["Sections"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">  </option>
+                                                <option value="" selected disabled></option>
                                             </select>
                                             <span asp-validation-for="Employee.SectionsId" class="text-danger"></span>
 
@@ -98,7 +98,7 @@
                                         <div class="col-md-4 col-12 mb-3">
                                             <label asp-for="Employee.JobDescriptionId" class="form-label">الوظيفة</label>
                                             <select asp-for="Employee.JobDescriptionId" id="EmployeeJobDescriptionId" asp-items="@(ViewData["JobDescription"] as SelectList)" class="js-example-basic-single  form-select">
-                                                <option value="">  </option>
+                                                <option value="" selected disabled></option>
                                             </select>
                                             <span asp-validation-for="Employee.JobDescriptionId" class="text-danger"></span>
                                         </div>
@@ -106,7 +106,7 @@
                                         <div class="col-md-3 col-12 mb-3">
                                             <label asp-for="Employee.ManagerId" class="form-label">المشرف المباشر</label>
                                             <select asp-for="Employee.ManagerId" id="EmployeeManagerId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value=""> </option>
+                                                <option value="" selected disabled> </option>
                                             </select>
                                             <span asp-validation-for="Employee.ManagerId" class="text-danger"></span>
 
@@ -114,7 +114,7 @@
                                         <div class="col-md-3 col-12 mb-3 ">
                                             <label asp-for="Employee.EmploymentStatus" class="form-label"> الحالة الوظيفية</label>
                                             <select asp-for="Employee.EmploymentStatus" id="EmploymentStatus" asp-items="@(ViewData["Employee"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">   </option>
+                                                <option value="" selected disabled>   </option>
 
 
                                             </select>
@@ -146,7 +146,7 @@
                                             </div>
                                         </div>
 
-                                      
+
 
                                         <div class="col-md-6 col-12 mb-3">
                                             <div class="form-check mb-3">
@@ -325,7 +325,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="Guarantees.MaritalStatusId" class="form-label">الحالة الإجتماعية</label>
                                                 <select asp-for="Guarantees.MaritalStatusId" id="GuaranteesMaritalStatusId" asp-items="@(ViewData["MaritalStatus"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>option>
 
                                                 </select>
                                                 <span asp-validation-for="Guarantees.MaritalStatusId" class="text-danger"></span>
@@ -375,7 +375,7 @@
                                         <div id="fileErrorguarantees" class="text-danger"></div>
                                     </div>
                                 }
-                              
+
                             </div>
                         </div>
                     </div>
@@ -425,7 +425,7 @@
 
                                                 <label asp-for="PersonalData.EmployeeId" class="form-label"> الموظف</label>
                                                 <select asp-for="PersonalData.EmployeeId" id="PersonalDataEmployeeId" asp-items="@(ViewData["ManagerOne"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="PersonalData.EmployeeId" class="text-danger"></span>
@@ -461,7 +461,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.SexId" class="form-label">الجنس</label>
                                                 <select asp-for="PersonalData.SexId" id="PersonalDataSexId" asp-items="@(ViewData["Sex"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="PersonalData.SexId" class="text-danger"></span>
@@ -471,7 +471,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.NationalityId" class="form-label">الجنسية</label>
                                                 <select asp-for="PersonalData.NationalityId" id="PersonalDataNationalityId" asp-items="@(ViewData["Nationality"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="PersonalData.NationalityId" class="text-danger"></span>
@@ -481,7 +481,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.ReligionId" class="form-label">الديانة</label>
                                                 <select asp-for="PersonalData.ReligionId" id="PersonalDataReligionId" asp-items="@(ViewData["Religion"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="PersonalData.ReligionId" class="text-danger"></span>
@@ -492,7 +492,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="PersonalData.MaritalStatusId" class="form-label">الحالة الإجتماعية</label>
                                                 <select asp-for="PersonalData.MaritalStatusId" id="PersonalDataMaritalStatusId" asp-items="@(ViewData["MaritalStatus"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="PersonalData.MaritalStatusId" class="text-danger"></span>
@@ -508,7 +508,7 @@
 
                                                 <label asp-for="PersonalData.GuaranteesId" class="form-label">الضمين</label>
                                                 <select asp-for="PersonalData.GuaranteesId" id="PersonalDataGuaranteesId" asp-items="@(ViewData["GuaranteesOne"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value="">...</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="PersonalData.GuaranteesId" class="text-danger"></span>
@@ -638,7 +638,7 @@
                                     <button type="submit" id="PersonalDataSubmit" class="btn btn-primary routate">حفظ</button>
                                     <button type="button" class="btn btn-primary" id="showFileInPersonalData">استيراد ملف Excel</button>
                                     <button type="button" class="btn btn-primary" id="exportToExcelButtonPersonalData">تصدير إلى Excel</button>
-                                   
+
                                 </form>
 
 
@@ -680,7 +680,7 @@
                                         <div class=" col-10 mb-3">
                                             <label asp-for="PracticalExperiences.EmployeeId" class="form-label"> الموظف</label>
                                             <select asp-for="PracticalExperiences.EmployeeId" id="PracticalExperiencesEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">...</option>
+                                                <option value=""></option>
 
                                             </select>
                                             <span asp-validation-for="PracticalExperiences.EmployeeId" class="text-danger"></span>
@@ -822,7 +822,7 @@
                                         <div class=" col-10 mb-3">
                                             <label asp-for="Family.EmployeeId" class="form-label"> الموظف</label>
                                             <select asp-for="Family.EmployeeId" id="FamilyEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">...</option>
+                                                <option value=""></option>
                                             </select>
                                             <span asp-validation-for="Family.EmployeeId" class="text-danger"></span>
                                         </div>
@@ -839,7 +839,7 @@
                                         <div class="col-md-6 col-12 mb-3">
                                             <label asp-for="Family.RelativesTypeId" class="form-label"> صلة القرابة</label>
                                             <select asp-for="Family.RelativesTypeId " id="FamilyRelativesTypeId" asp-items="@(ViewData["RelativesType"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">...</option>
+                                                <option value=""></option>
                                             </select>
                                             <span asp-validation-for="Family.RelativesTypeId" class="text-danger"></span>
                                         </div>
@@ -872,9 +872,9 @@
                         </div>
                     </div>
 
-               
 
-                    
+
+
                     <table id="FamilytemporaryTable" class="table" style="display:none;">
                         <thead>
                             <tr>
@@ -909,7 +909,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="FinancialStatements.EmployeeId" class="form-label"> الموظف</label>
                                                 <select asp-for="FinancialStatements.EmployeeId" id="FinancialStatementsEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value=""> .....</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="FinancialStatements.EmployeeId" class="text-danger"></span>
@@ -927,7 +927,7 @@
                                             <div class="mb-3">
                                                 <label asp-for="FinancialStatements.CurrencyId" class="form-label">العملة</label>
                                                 <select asp-for="FinancialStatements.CurrencyId" id="FinancialStatementsCurrencyId" asp-items="@(ViewData["Currency"] as SelectList)" class="js-example-basic-single form-select">
-                                                    <option value=""> .....</option>
+                                                    <option value=""></option>
 
                                                 </select>
                                                 <span asp-validation-for="FinancialStatements.CurrencyId" class="text-danger"></span>
@@ -1061,7 +1061,7 @@
                                         <div class="col-6 mb-3">
                                             <label asp-for="TrainingCourses.EmployeeId" class="form-label"> الموظف</label>
                                             <select asp-for="TrainingCourses.EmployeeId" id="TrainingCoursesEmployeeId" asp-items='@(ViewData["Manager"] as SelectList)' class="js-example-basic-single form-select">
-                                                <option value="">...</option>
+                                                <option value=""></option>
                                             </select>
                                             <span asp-validation-for="TrainingCourses.EmployeeId" class="text-danger"></span>
                                         </div>
@@ -1235,7 +1235,7 @@
                                         <div class=" col-6 mb-3">
                                             <label asp-for="EmployeeArchives.EmployeeId" class="form-label"> الموظف</label>
                                             <select asp-for="EmployeeArchives.EmployeeId" id="EmployeeArchivesEmployeeId" asp-items="@(ViewData["Manager"] as SelectList)" class="js-example-basic-single form-select">
-                                                <option value="">...</option>
+                                                <option value=""></option>
 
                                             </select>
                                             <span asp-validation-for="EmployeeArchives.EmployeeId" class="text-danger"></span>
@@ -1792,7 +1792,7 @@
             });
         });
     </script>
-@*                 // Action Method لتصدير البيانات الاسرة  إلى ملف Excel
+    @*                 // Action Method لتصدير البيانات الاسرة  إلى ملف Excel
  *@
 
     <script type="text/javascript">
@@ -1989,10 +1989,10 @@
                 //     event.preventDefault();
 
                 // }
-               
+
             });
         });
-   
+
 
 
         //=======================================
@@ -2169,7 +2169,7 @@
             });
         });
 
-     
+
 
     </script>
 
@@ -2178,8 +2178,8 @@
         //=================================اظافة ملف الموظف =============================
         $(document).ready(function () {
 
-             // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
-        const fromDate1 = new Date().toISOString().split('T')[0];
+            // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            const fromDate1 = new Date().toISOString().split('T')[0];
             $("#EmployeeArchivesDate").val(fromDate1);
 
 
@@ -3326,10 +3326,10 @@
         $(document).ready(function () {
             var counter = 1;
 
-                    // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
-                    const fromDate1 = new Date().toISOString().split('T')[0];
+            // تعيين تاريخ اليوم في حقل Date و FromDate عند تحميل الصفحة
+            const fromDate1 = new Date().toISOString().split('T')[0];
             $("#PracticalExperiencesFromDate").val(fromDate1);
-                    // حفظ البيانات المؤقتة
+            // حفظ البيانات المؤقتة
             $("#PracticalExperiencesSubmit").click(function (event) {
                 event.preventDefault();
                 var practicalExperiencesEmployeeId = $("#PracticalExperiencesEmployeeId").val();

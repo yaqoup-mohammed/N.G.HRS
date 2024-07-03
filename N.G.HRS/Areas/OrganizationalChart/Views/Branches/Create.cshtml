@@ -20,35 +20,35 @@
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label asp-for="BranchesName" class="control-label"></label>
                                     <input asp-for="BranchesName" class="form-control" />
                                     <span asp-validation-for="BranchesName" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-4">
-                                    <label asp-for="BranchesAdress" class="control-label"></label>
-                                    <input asp-for="BranchesAdress" class="form-control" />
-                                    <span asp-validation-for="BranchesAdress" class="text-danger"></span>
+                                    <label asp-for="BranchesPhone" class="control-label"></label>
+                                    <input asp-for="BranchesPhone" class="form-control" />
+                                    <span asp-validation-for="BranchesPhone" class="text-danger"></span>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label asp-for="CompanyId" class="control-label"></label>
                                     <select asp-for="CompanyId" id="CompanyId" class="js-example-basic-single form-select" asp-items="@(ViewData["company"] as SelectList)">
-                                        <option value=""> </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
 
-                                <div class="col-md-6">
-                                    <label asp-for="BranchesPhone" class="control-label"></label>
-                                    <input asp-for="BranchesPhone" class="form-control" />
-                                    <span asp-validation-for="BranchesPhone" class="text-danger"></span>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label asp-for="BranchesEmail" class="control-label"></label>
                                     <input asp-for="BranchesEmail" class="form-control" />
                                     <span asp-validation-for="BranchesEmail" class="text-danger"></span>
                                 </div>
+                                <div class="col-md-8">
+                                    <label asp-for="BranchesAdress" class="control-label"></label>
+                                    <input asp-for="BranchesAdress" class="form-control" />
+                                    <span asp-validation-for="BranchesAdress" class="text-danger"></span>
+                                </div>
+                               
                             </div>
                             <div class="row">
 
@@ -71,13 +71,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label asp-for="Notes" class="control-label"></label>
                                 <input asp-for="Notes" class="form-control" />
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
                             </div>

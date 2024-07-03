@@ -18,7 +18,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [Display(Name = "تاريخ الميلاد")]
         public DateOnly DateOfBirth { get; set; }//
         [Required]
-        [Range(0, 100,ErrorMessage ="يجب ان يكون العمر اكبر من الصفر")]
+        [Range(0, 100, ErrorMessage = "يجب ان يكون العمر اكبر من الصفر")]
         public int Age { get; set; }//
 
 
@@ -79,16 +79,14 @@ namespace N.G.HRS.Areas.Employees.Models
 
         //يتم الربط مع جدول (الجنس) وجدول (الجنسية) وجدول( الديانة) و(الموظف)و (الحالة الاجتماعية)
         //============================================================
-        
+
         [ForeignKey("GuaranteesId")]
         [Required]
         public int GuaranteesId { get; set; }//
         public virtual Guarantees? guarantees { get; set; }
 
         //============================================================
-        //=
 
-        //=
 
 
 

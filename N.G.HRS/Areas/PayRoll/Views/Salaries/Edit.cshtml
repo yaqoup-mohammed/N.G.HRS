@@ -1,0 +1,84 @@
+﻿@model N.G.HRS.Areas.PayRoll.Models.Salaries
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Salaries</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Additinal" class="control-label"></label>
+                <input asp-for="Additinal" class="form-control" />
+                <span asp-validation-for="Additinal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salary" class="control-label"></label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrencyId" class="control-label"></label>
+                <select asp-for="CurrencyId" class="form-control" asp-items="ViewBag.CurrencyId"></select>
+                <span asp-validation-for="CurrencyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="allowances" class="control-label"></label>
+                <input asp-for="allowances" class="form-control" />
+                <span asp-validation-for="allowances" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedMonth" class="control-label"></label>
+                <input asp-for="SelectedMonth" class="form-control" />
+                <span asp-validation-for="SelectedMonth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gratuities" class="control-label"></label>
+                <input asp-for="Gratuities" class="form-control" />
+                <span asp-validation-for="Gratuities" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bonuses" class="control-label"></label>
+                <input asp-for="Bonuses" class="form-control" />
+                <span asp-validation-for="Bonuses" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Entitlements" class="control-label"></label>
+                <input asp-for="Entitlements" class="form-control" />
+                <span asp-validation-for="Entitlements" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deductions" class="control-label"></label>
+                <input asp-for="Deductions" class="form-control" />
+                <span asp-validation-for="Deductions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Another" class="control-label"></label>
+                <input asp-for="Another" class="form-control" />
+                <span asp-validation-for="Another" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

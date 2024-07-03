@@ -24,7 +24,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 TempData["success"] = "تمت العملية بنجاح";
                 return RedirectToAction(nameof(Index));
             }
-                return View();
+            return View();
         }
     }
 }

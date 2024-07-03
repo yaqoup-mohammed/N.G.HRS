@@ -1,0 +1,95 @@
+﻿@model IEnumerable<N.G.HRS.Areas.PayRoll.Models.Salaries>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Additinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+           @*  <th>
+                @Html.DisplayNameFor(model => model.Currency)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.allowances)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SelectedMonth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gratuities)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bonuses)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entitlements)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deductions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Another)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Additinal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary)
+            </td>
+          @*   <td>
+                @Html.DisplayFor(modelItem => item.Currency.CurrencyCode)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.allowances)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelectedMonth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gratuities)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bonuses)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Entitlements)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deductions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Another)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
