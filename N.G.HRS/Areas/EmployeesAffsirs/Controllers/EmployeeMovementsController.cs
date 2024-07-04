@@ -209,5 +209,57 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
 
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdateEmployeeJob(int employeeId, string newJob)
+        {
+            var employee = await _context.employee.FindAsync(employeeId);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var jobDescription = await _context.JobDescription.FirstOrDefaultAsync(j => j.JopName == newJob);
+            if (jobDescription == null)
+            {
+                return NotFound();
+            }
+
+            employee.JobDescriptionId = jobDescription.Id;
+            _context.employee.Update(employee);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeeCurrentJob(int employeeId)
+        {
+            var employee = await _context.employee
+                .Include(e => e.JobDescription) // Assuming there's a navigation property for JobDescription
+                .FirstOrDefaultAsync(e => e.Id == employeeId);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var jobName = employee.JobDescription?.JopName; // Get the current job name
+            var jobDescriptionId = employee.JobDescriptionId; // Get the current job description ID
+
+            // Check for the previous job in EmployeeMovements
+            var previousJob = await _context.EmployeeMovements
+                .Where(m => m.EmployeeId == employeeId)
+                .OrderByDescending(m => m.Id) // Order by Id to get the latest movement
+                .Skip(1) // Skip the latest movement to get the previous one
+                .Select(m => m.jopdescription.JopName) // Assuming there's a navigation property for JobDescription in EmployeeMovements
+                .FirstOrDefaultAsync();
+                
+            return Json(new { jobName = jobName, jobDescriptionId = jobDescriptionId, previousJob = previousJob });
+        }
+
+
+
+
     }
 }

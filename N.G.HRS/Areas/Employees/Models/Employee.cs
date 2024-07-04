@@ -165,7 +165,6 @@ namespace N.G.HRS.Areas.Employees.Models
         public List<AdditionalExternalOfWork>? SEAEOWList { get; set; }//Substitute Employee Additional External Of Work List
         //====================================
         public ICollection<Qualifications>? qualifications { get; set; }
-        public string? CurrentJop { get; internal set; }
 
         //=========================================
         //public void FingerCapture()

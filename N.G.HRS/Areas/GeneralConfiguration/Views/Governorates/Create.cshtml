@@ -101,9 +101,8 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-   
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script type="text/javascript">
         document.getElementById('showFileInGovernorate').addEventListener('click', function () {
@@ -128,7 +127,10 @@
 
                         var requiredColumns = ["ID", "المحافظة", "الملاحظة", "الدولة"];
                         var header = rows[0];
-                        var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
+                        var isHeaderValid = header && requiredColumns.every((col, index) => {
+                            var trimmedHeader = header[index] ? header[index].trim() : '';
+                            return trimmedHeader === col;
+                        });
 
                         if (isHeaderValid) {
                             var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
@@ -140,7 +142,8 @@
                                 showError("الملف لا يحتوي  البيانات : فارغ.");
                             }
                         } else {
-                            showError("الملف لا يحتوي على : ID، المحافظة، الملاحظة، الدولة.");
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index].trim() !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
                         }
                     };
                     reader.readAsArrayBuffer(file);
@@ -152,18 +155,32 @@
             }
         });
 
-        function showError(message) {
+        function showError(message, missingColumns = []) {
             var uploadBtn = document.getElementById('uploadBtn');
             var fileError = document.getElementById('fileError');
             uploadBtn.style.display = 'none'; // إخفاء زر التحميل
             fileError.style.display = 'block'; // عرض رسالة الخطأ
-            fileError.textContent = message;
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
             document.getElementById('fileInput').value = ''; // إعادة تعيين قيمة الملف المختار
+
             Swal.fire({
                 icon: 'error',
                 title: message,
+                html: errorContent,
                 showConfirmButton: false,
-                timer: 4000 // يغلق التنبيه تلقائيا بعد 4 ثوان
+                timer: 8000 // يغلق التنبيه تلقائيا بعد 4 ثوان
+            }).then(() => {
+                fileError.style.display = 'none'; // إخفاء رسالة الخطأ بعد إغلاق التنبيه
             });
         }
 
@@ -197,6 +214,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function () {
             var counter = 1;
