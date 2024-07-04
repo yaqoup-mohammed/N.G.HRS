@@ -123,6 +123,12 @@
                                         <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Sexes" asp-action="Index">دليل الجنس</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Religions" asp-action="Index">دليل الديانات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="MaritalStatus" asp-action="Index">دليل الحالة الاجتماعية</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FingerprintDevices" asp-action="Index">دليل بيانات اجهزة البصمة</a>
                                     </li>
                                     <li class="nav-item">
@@ -224,6 +230,20 @@
                                 <ul class="nav sub-menu">
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Index">بيانات الموظف</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#Finance" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة البيانات المالية</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="Finance">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="Finance" asp-controller="Currencies" asp-action="Index">بيانات العملات</a>
                                     </li>
                                 </ul>
                             </div>
@@ -1172,30 +1192,7 @@
 
 
     @*=============================================================================================*@
-    @*
-    <script type="text/javascript">
-    $('.menu-inner li > a').click(function (e) {
-
-    /*e.preventDefault();*/ // added this line to prevent default click behaviour
-
-    // find/remove all active classes from each a
-    $('.menu-inner li > a').removeClass('active');
-
-    // add active selected a
-    $(this).addClass('active');
-    });
-
-    //=============================================================================================
-    $('.menu-inner li').click(function (e) {
-    // find/remove all active classes from each a
-    $('.menu-inner > a').removeClass('active');
-
-    // add active selected a
-    $(this).addClass('').siblings().removeClass("");
-    //e.preventDefault();
-    });
-    </Script> *@
-    <!-- End ------------------------اضافي--------------------------->
+   
 
 </body>
 </html>

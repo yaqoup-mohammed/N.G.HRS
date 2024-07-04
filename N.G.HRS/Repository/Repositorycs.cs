@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Models;
 using NuGet.Protocol.Core.Types;
@@ -71,7 +72,10 @@ namespace N.G.HRS.Repository
             throw new NotImplementedException();
         }
 
-       
+        public Employee GetEmployee(int v)
+        {
+            throw new NotImplementedException();
+        }
 
         public static implicit operator Repository<T>(Repository<BaseModel> v)
         {

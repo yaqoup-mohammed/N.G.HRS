@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="alert-danger"></div>
-                            <div class="row">
+                            <div class="row mb-3">
                                 <div class="form-group col-md-6">
                                     <label asp-for="SectorsName" class="control-label"></label>
                                     <input asp-for="SectorsName" class="form-control" />
@@ -32,13 +32,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12 mb-3">
                                 <label asp-for="Notes" class="control-label"></label>
                                 <input asp-for="Notes" class="form-control" />
                                 <span asp-validation-for="Notes" class="alert-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                            <div class="">
+                                <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
                             </div>
