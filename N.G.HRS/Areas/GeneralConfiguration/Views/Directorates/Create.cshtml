@@ -12,21 +12,20 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
-                    <div class="card">
+                
                         <div class="card-header">
                             <h3>المديريات</h3>
                         </div>
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label asp-for="Name" class="control-label"></label>
                                     <input asp-for="Name" id="Directorate" class="form-control" />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label asp-for="GovernorateId" class="control-label"></label>
                                     <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId" as SelectList>
 
@@ -34,19 +33,48 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12 mb-3">
                                 <label asp-for="Notes" class="control-label"></label>
                                 <input asp-for="Notes" id="DirectorateNotes" class="form-control" />
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
+                         @*    <div class="form-group">
                                 <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
                                 <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display:none" />
                                 <a asp-action="Index" class="btn btn-primary">الرجوع الى القائمة</a>
                                 <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
                                 <button type="button" class="btn btn-primary" id="showFileInDirectorate">استيراد ملف Excel</button>
                                 <button type="button" class="btn btn-primary" id="exportToExcelDirectorate">تصدير إلى Excel</button>
-                            </div>
+                            </div> *@
+                            @* //========================== *@
+                            <div class="flexable mb-3">
+
+                                <div>
+                                    <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
+
+                                </div>
+                                <div>
+                                    <a asp-action="Index" class="btn btn-light "> رجوع للقائمة</a>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @* <i data-feather="more-vertical"></i> *@
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button type="button" class="dropdown-item" id="showFileInDirectorate">استيراد ملف Excel</button>
+                                            <button type="button" class="dropdown-item" id="exportToExcelDirectorate">تصدير إلى Excel</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+                                </div>
+                                <div>
+                                    <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                                </div>
+                            </div> 
                         </form>
 
                       
@@ -63,8 +91,7 @@
                             </div>
                         }
                       
-                    </div>
-                </div>
+                    
             </div>
         </div>
     </div>
@@ -73,21 +100,32 @@
 
 
 <!-- جدول البيانات المؤقتة -->
-<table id="temporaryTable" class="table" style="display:none;">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th> المديريات</th>
-            <th>المحافظة</th>
-            <th>الملاحظات</th>
 
-        </tr>
-    </thead>
-    <tbody>
+<div id="table" class="row" style="display:none;">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title headerStyle">الفترات</h6>
+                <div class="table-responsive">
+                    <table id="temporaryTable" class="table" >
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th> المديريات</th>
+                                <th>المحافظة</th>
+                                <th>الملاحظات</th>
+                                <th>#</th>
 
-    </tbody>
-</table>
-   
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -290,7 +328,7 @@
                         // $("#GovernorateId").val('');
 
                         $("#saveDataBtn").show();
-                        $("#temporaryTable").show();
+                        $("#table").show();
                         $("#clearTableBtn").show(); // إظهار زر حذف الكل بعد إضافة العنصر الأول
                     }
                 });
@@ -310,7 +348,7 @@
                 if ($("#temporaryTable tbody tr").length === 0) {
                     $("#saveDataBtn").hide();
                     $("#clearTableBtn").hide(); // إخفاء زر حذف الكل إذا لم يكن هناك بيانات
-                    $("#temporaryTable").hide();
+                    $("#table").hide();
                 }
             });
 
@@ -330,7 +368,7 @@
                         counter = 1; // إعادة تعيين العداد إلى القيمة الافتراضية
                         $("#saveDataBtn").hide(); // إخفاء زر حفظ البيانات
                         $("#clearTableBtn").hide(); // إخفاء زر حذف الكل بعد الحذف
-                        $("#temporaryTable").hide();
+                        $("#table").hide();
 
                         Swal.fire(
                             'تم الحذف!',
@@ -355,7 +393,7 @@
                 if ($("#temporaryTable tbody tr").length === 0) {
                     $("#saveDataBtn").hide();
                     $("#clearTableBtn").hide(); // إخفاء زر حذف الكل إذا لم يكن هناك بيانات
-                    $("#temporaryTable").hide();
+                    $("#table").hide();
                 }
             });
 
@@ -375,7 +413,7 @@
                         counter = 1; // إعادة تعيين العداد إلى القيمة الافتراضية
                         $("#saveDataBtn").hide(); // إخفاء زر حفظ البيانات
                         $("#clearTableBtn").hide(); // إخفاء زر حذف الكل بعد الحذف
-                        $("#temporaryTable").hide();
+                        $("#table").hide();
 
                         Swal.fire(
                             'تم الحذف!',
