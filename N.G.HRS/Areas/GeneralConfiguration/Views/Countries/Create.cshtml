@@ -9,11 +9,6 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<h1>جديد</h1>
-
-<h4>الدول</h4>
-<hr />
-
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="../../../dashboard.html"> الرئيسة</a></li>
@@ -42,18 +37,33 @@
                         <span asp-validation-for="Notes" class="text-danger"></span>
                     </div>
 
-                    <div>
-           
+                    <div class="flexable mb-3">
 
-                        <button type="button" id="submit" class="btn btn-primary me-2">اظافة</button>
+                        <div >
+                            <button type="button" id="submit" class="btn btn-primary me-2">إضافة</button>
 
-                        <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+                        </div>
+                        <div>
+                            <a asp-action="Index" class="btn btn-light "> رجوع للقائمة</a>
+                        </div>
+                        <div >
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @* <i data-feather="more-vertical"></i> *@
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <button type="button" class="dropdown-item" id="showFileInCountry">استيراد ملف Excel</button>
+                                    <button type="button" class="dropdown-item" id="exportToExcelCountry">تصدير إلى Excel</button>
+                                </div>
+                            </div>
+                        </div>
 
-                        <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a>
-                        <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-
-                        <button type="button" class="btn btn-primary" id="showFileInCountry">استيراد ملف Excel</button>
-                        <button type="button" class="btn btn-primary" id="exportToExcelCountry">تصدير إلى Excel</button>
+                        <div>
+                            <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+                        </div>
+                        <div>
+                            <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                        </div>
                     </div>
                 </form>
 

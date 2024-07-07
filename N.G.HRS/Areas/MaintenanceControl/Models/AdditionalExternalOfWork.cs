@@ -31,12 +31,12 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "من وقت")]
         [DataType(DataType.Time)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss tt}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm:ss tt}")]
         public DateTime FromTime { get; set; }
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "إلى وقت")]
         [DataType(DataType.Time)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss tt}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm:ss tt}")]
         public DateTime ToTime { get; set; }
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
         [Display(Name = "الساعات")]

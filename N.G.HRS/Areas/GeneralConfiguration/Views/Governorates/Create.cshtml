@@ -13,21 +13,19 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
-                    <div class="card">
+               
                         <div class="card-header">
                             <h3>  المحافظات </h3>
                         </div>
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" id="GovernorateId" class="form-control" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
-                           
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label asp-for="CountryId" class="control-label"></label>
                                 @*                 <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId">  >
                                 *@                    <select asp-for="CountryId" class="js-example-basic-single form-select" asp-items="ViewBag.CountryId" as SelectList>
@@ -36,20 +34,46 @@
                                 </select>
                             </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12 mb-3">
                                 <label asp-for="Notes" class="control-label"></label>
                                 <input asp-for="Notes" id="GovernorateNotes" class="form-control" />
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
+                            <div class="flexable mb-3">
+                                <div>
+                                    <button type="button" id="addGovernorateBtn" class="btn btn-primary me-2">إضافة</button>
+                                </div>
+                                <div>
+                                    <a asp-action="Index" class="btn btn-light "> رجوع للقائمة</a>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @* <i data-feather="more-vertical"></i> *@
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button type="button" class="dropdown-item" id="showFileInGovernorate">استيراد ملف Excel</button>
+                                            <button type="button" class="dropdown-item" id="exportToExcelGovernorate">تصدير إلى Excel</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+                                </div>
+                                <div>
+                                    <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                                </div>
+                            </div>
                             <div class="form-group">
-                                <button type="button" id="addGovernorateBtn" class="btn btn-primary me-2">اظافة</button>
-                                <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
-                                <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a>
-                                <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+@*                                 <button type="button" id="addGovernorateBtn" class="btn btn-primary me-2">اظافة</button>*@  
+@* <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" /> *@
+                                @* <a asp-action="Index" class="btn btn-primary"> الرجوع الى القائمة</a> *@
+                                @* <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button> *@
 
 
-                                <button type="button" id="showFileInGovernorate" class="btn btn-primary">استيراد ملف Excel</button>
-                                <button type="button" class="btn btn-primary" id="exportToExcelGovernorate">تصدير إلى Excel</button>
+                                @* <button type="button" id="showFileInGovernorate" class="btn btn-primary">استيراد ملف Excel</button>
+                                <button type="button" class="btn btn-primary" id="exportToExcelGovernorate">تصدير إلى Excel</button> *@
                             </div>
                         </form>
                       
@@ -68,8 +92,7 @@
                             </div>
                         }
 
-                    </div>
-                </div>
+                    
             </div>
         </div>
     </div>

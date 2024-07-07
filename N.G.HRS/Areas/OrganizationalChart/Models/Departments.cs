@@ -36,6 +36,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [ForeignKey("SectorsId")]
         [Display(Name = "القطاع")]
         public int? SectorsId { get; set; }
+        [Display(Name = "القطاع")]
+
         public Sectors? Sectors { get; set; }
 
     }

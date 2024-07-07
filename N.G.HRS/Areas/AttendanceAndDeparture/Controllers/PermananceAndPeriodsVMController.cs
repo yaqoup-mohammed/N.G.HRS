@@ -115,6 +115,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
                         await _periodsRepository.AddAsync(data.periods);
                         //}
+
+
                         TempData["Success"] = "تم الحفظ بنجاح"; // Success message
 
                         return RedirectToAction(nameof(Create));
@@ -132,10 +134,12 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                     TempData["Error"] = ex.Message; // Log for debugging
                 }
             }
+
             return View(data); // Return view with data if validation fails or an error occurs
         }
         private async Task PopulateDropdownListsAsync()
         {
+
             var periods = await _appDbContext.periods.ToListAsync();
             ViewData["Periods"] = new SelectList(periods, "Id", "PeriodsName");
             var permanance = await _appDbContext.permanenceModels.ToListAsync();

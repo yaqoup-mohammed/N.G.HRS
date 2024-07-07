@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ProjectServer.Client;
 using N.G.HRS.Areas.Employees.Models;
+using N.G.HRS.Areas.Employees.ViewModel;
 using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Date;
 using N.G.HRS.FingerPrintSetting;
@@ -68,22 +69,22 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
             if (ModelState.IsValid)
             {
+                var from = new TimeSpan(additionalExternalOfWork.FromTime.Hour, additionalExternalOfWork.FromTime.Minute, 0);
+                var to = new TimeSpan(additionalExternalOfWork.ToTime.Hour, additionalExternalOfWork.ToTime.Minute, 0);
+                
                 _context.Add(additionalExternalOfWork);
-                var from = new TimeSpan(additionalExternalOfWork.FromTime.Hour, additionalExternalOfWork.FromTime.Minute, additionalExternalOfWork.FromTime.Second);
-                var to = new TimeSpan(additionalExternalOfWork.ToTime.Hour, additionalExternalOfWork.ToTime.Minute, additionalExternalOfWork.ToTime.Second);
+              
                 if (additionalExternalOfWork.ToDate == null)
                 {
                     var isExistWithOutToDate = await _context.AttendanceAndAbsenceProcessing.AnyAsync(x => x.EmployeeId == additionalExternalOfWork.EmployeeId && x.Date == additionalExternalOfWork.FromDate && x.FromTime == from && x.ToTime == to);
-
                     if (additionalExternalOfWork.AssignmentId == 1)
                     {
                         if (!isExistWithOutToDate)
-                        {
+                        {   
                             var permrnance = _context.staffTimes.Include(x => x.PermanenceModels).Include(x => x.Periods).FirstOrDefault(x => x.EmployeeId == additionalExternalOfWork.EmployeeId);
                             var WorkingTime = CalculateWorkDuration(from, to);
                             AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing = new AttendanceAndAbsenceProcessing()
                             {
-
                                 EmployeeId = additionalExternalOfWork.EmployeeId,
                                 DepartmentId = additionalExternalOfWork.Employee.DepartmentsId,
                                 SectionId = additionalExternalOfWork.Employee.SectionsId,
@@ -97,7 +98,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 permenenceId = permrnance.PermanenceModelsId,
                                 IsProcssessed = false,
                                 IsProcssessedBefore = false
-
                             };
                             await _context.AttendanceAndAbsenceProcessing.AddAsync(attendanceAndAbsenceProcessing);
                         }
@@ -174,7 +174,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 var WorkingTime = CalculateWorkDuration(from, to);
                                 AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing = new AttendanceAndAbsenceProcessing()
                                 {
-
                                     EmployeeId = additionalExternalOfWork.EmployeeId,
                                     DepartmentId = additionalExternalOfWork.Employee.DepartmentsId,
                                     SectionId = additionalExternalOfWork.Employee.SectionsId,
@@ -218,14 +217,12 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             {
                 return NotFound();
             }
-
             var additionalExternalOfWork = await _context.AdditionalExternalOfWork.FindAsync(id);
             if (additionalExternalOfWork == null)
             {
                 return NotFound();
             }
             ViewData["Assignment"] = new SelectList(_context.Assignment, "Id", "Name");
-
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.EmployeeId);
             ViewData["SubstituteEmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", additionalExternalOfWork.SubstituteEmployeeId);
             return View(additionalExternalOfWork);
