@@ -8,14 +8,11 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-
 <h1>تبديل الموظفين</h1>
-
-@* <h4>EmployeeMovements</h4>
- *@<hr />
+<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="employeeForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
@@ -38,20 +35,20 @@
                     <option value="">--اختر الموظف--</option>
                 </select>
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                 <label asp-for="jopdescriptionId" class="control-label"></label>
-                <select asp-for="jopdescriptionId"  id="jopdescriptionId" class="form-control" asp-items="@(ViewData["jopdescriptionId"] as SelectList)">
+                <select asp-for="jopdescriptionId" id="jopdescriptionId" class="form-control" asp-items="@(ViewData["jopdescriptionId"] as SelectList)">
                     <option value="">--اختر الوظيفة--</option>
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="CurrentJop" class="control-label"></label>
-                <input asp-for="CurrentJop" class="form-control" />
+                <input asp-for="CurrentJop" id="CurrentJop" class="form-control" readonly />
                 <span asp-validation-for="CurrentJop" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastJop" class="control-label"></label>
-                <input asp-for="LastJop" class="form-control" />
+                <input asp-for="LastJop" id="LastJop" class="form-control" readonly />
                 <span asp-validation-for="LastJop" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,8 +63,108 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+<script>
+        $(document).ready(function () {
+            $('#EmployeeId').change(function () {
+                var employeeId = $(this).val();
+                if (employeeId) {
+                    $.ajax({
+                        url: '@Url.Action("GetEmployeeCurrentJob", "EmployeeMovements", new { area = "EmployeesAffsirs" })',
+                        type: 'GET',
+                        data: { employeeId: employeeId },
+                        success: function (data) {
+                            $('#CurrentJop').val(data.jobName);
+                            $('#LastJop').val(data.previousJob);
+                            $('#CurrentJop').data('previous-job', data.jobName); // Update data attribute with current job
+                            $('#jopdescriptionId').val(data.jobDescriptionId);
+                        },
+                        error: function () {
+                            $('#CurrentJop').val('');
+                            $('#LastJop').val('');
+                            $('#jopdescriptionId').val('');
+                        }
+                    });
+                } else {
+                    $('#CurrentJop').val('');
+                    $('#LastJop').val('');
+                    $('#jopdescriptionId').val('');
+                }
+            });
+
+            $('#jopdescriptionId').change(function () {
+                var newJob = $(this).find("option:selected").text();
+                $('#LastJop').val($('#CurrentJop').val()); // Set current job as previous job
+                $('#CurrentJop').val(newJob); // Set new job as current job
+                $('#CurrentJop').data('previous-job', newJob); // Update data attribute with new job
+                var employeeId = $('#EmployeeId').val();
+                if (employeeId) {
+                    $.ajax({
+                        url: '@Url.Action("UpdateEmployeeJob", "EmployeeMovements", new { area = "EmployeesAffsirs" })',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { employeeId: employeeId, newJob: newJob },
+                        success: function () {
+                            console.log('تم تحديث الوظيفة بنجاح');
+                        },
+                        error: function () {
+                            console.log('حدث خطأ أثناء تحديث الوظيفة');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+@* 
+    <script>
+        $(document).ready(function () {
+            $('#EmployeeId').change(function () {
+                var employeeId = $(this).val();
+                if (employeeId) {
+                    $.ajax({
+                        url: '@Url.Action("GetEmployeeCurrentJob", "EmployeeMovements", new { area = "EmployeesAffsirs" })',
+                        type: 'GET',
+                        data: { employeeId: employeeId },
+                        success: function (data) {
+                            $('#CurrentJop').val(data.jobName);
+                            $('#jopdescriptionId').val(data.jobDescriptionId);
+                        },
+                        error: function () {
+                            $('#CurrentJop').val('');
+                            $('#jopdescriptionId').val('');
+                        }
+                    });
+                } else {
+                    $('#CurrentJop').val('');
+                    $('#jopdescriptionId').val('');
+                }
+            });
+
+            $('#jopdescriptionId').change(function () {
+                var newJob = $(this).find("option:selected").text();
+                $('#LastJop').val($('#CurrentJop').val()); // تعيين الوظيفة الحالية كوظيفة سابقة
+                $('#CurrentJop').val(newJob); // تعيين الوظيفة الجديدة كوظيفة حالية
+
+                var employeeId = $('#EmployeeId').val();
+                if (employeeId) {
+                    $.ajax({
+                        url: '@Url.Action("UpdateEmployeeJob", "EmployeeMovements", new { area = "EmployeesAffsirs" })',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { employeeId: employeeId, newJob: newJob },
+                        success: function () {
+                            console.log('تم تحديث الوظيفة بنجاح');
+                        },
+                        error: function () {
+                            console.log('حدث خطأ أثناء تحديث الوظيفة');
+                        }
+                    });
+                }
+            });
+        });
+    </script> *@
 <script>
     document.getElementById("submit").addEventListener("click", function (event) {
         const EmployeeId = document.getElementById("EmployeeId");
@@ -87,9 +184,27 @@
             });
         }
     });
+    document.getElementById("submit").addEventListener("click", function (event) {
+        const jopdescriptionId = document.getElementById("jopdescriptionId");
+        if (jopdescriptionId.value === "") {
+            event.preventDefault(); // Prevent form submission
+            Swal.fire({
+                icon: "error",
+                title: "خطئ....",
+                text: "رجاء أختر   الوظيفة",
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                timer: 5000, // زمن الإغلاق التلقائي بالميللي ثانية
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.getHtmlContainer().querySelector('audio').remove();
+                }
+            });
+        }
+    });
 
 </script>
-<script>
+@* <script>
     document.getElementById("submit").addEventListener("click", function (event) {
         const jopdescriptionId = document.getElementById("jopdescriptionId");
         if (jopdescriptionId.value === "") {
@@ -126,26 +241,5 @@
         });
     });
 
-</script>
-
-@* <script>
-    // التقاط حدث تغيير القيمة لحقل الوظيفة
-    document.getElementById('jopdescriptionId').addEventListener('change', function () {
-        // الحصول على القيمة المحددة لحقل الوظيفة
-        var selectedJobText = this.options[this.selectedIndex].text;
-
-        // الحصول على عناصر DOM لحقول CurrentJop و LastJop
-        var currentJopInput = document.getElementById('CurrentJop');
-        var lastJopInput = document.getElementById('LastJop');
-
-        // تحديث قيم CurrentJop و LastJop بناءً على القيمة المحددة للوظيفة
-        var currentJopValue = currentJopInput.value;
-        var lastJopValue = selectedJobText;
-        currentJopInput.value = selectedJobText;
-        lastJopInput.value = currentJopValue;
-    });
-    // ===============================================================
 </script> *@
-
-
-
+}
