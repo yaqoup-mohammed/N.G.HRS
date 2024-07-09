@@ -59,6 +59,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Display(Name = "سبب الاجازة")]
         public string? Reason { get; set; }
         [Display(Name = "الملاحظة")]
+        public bool IsProcssessed { get; set; }
         public string? Note { get; set; }
 
 

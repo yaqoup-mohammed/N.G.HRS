@@ -14,12 +14,10 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
     public class AttendanceRecordsController : Controller
     {
         private readonly AppDbContext _context;
-
         public AttendanceRecordsController(AppDbContext context)
         {
             _context = context;
         }
-
         // GET: MaintenanceControl/AttendanceRecords
         public async Task<IActionResult> Index()
         {

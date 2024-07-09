@@ -12,13 +12,13 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "اسم  الوظيفة مطلوب ")]
         [Display(Name = "اسم  الوظيفة")]
-        [StringLength(150)]     
-        public string JopName { get; set; }
+        [StringLength(150)]         
+        public string? JopName { get; set; }
 
         [Required (ErrorMessage = "اسم  المؤهل الوظيفي مطلوب ")]
         [Display(Name = "اسم المؤهل")]
         [StringLength(255)]
-        public string JobQualifications { get; set; }
+        public string? JobQualifications { get; set; }
 
         [Required ]
         [StringLength(255)]
