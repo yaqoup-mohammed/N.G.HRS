@@ -38,6 +38,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [ForeignKey("DepartmentsId")]
         [Display(Name = "الادارة")]
         public int? DepartmentsId { get; set; }
+        [Display(Name = "الادارة")]
+
         public Departments? Departments { get; set; }
         //=
         public List<StaffTime>? staffTimeList { get; set; }

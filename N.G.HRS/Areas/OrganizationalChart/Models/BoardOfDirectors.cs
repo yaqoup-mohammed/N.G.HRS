@@ -33,6 +33,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [Display(Name = "اسم العضوية")]
 
         public int? MembershipOfTheBoardOfDirectorsId { get; set; }
+        [Display(Name = "اسم العضوية")]
+
         public MembershipOfTheBoardOfDirectors? MembershipOfTheBoardOfDirectors { get; set; }
 
         //==========================================

@@ -1,7 +1,11 @@
 ﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.Permits
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Active"] = "AddEmployee";
+    ViewData["Open"] = "Open2";
+    ViewData["OpenOperation"] = "OpenOperation2";
 }
 
 <h1>Edit</h1>

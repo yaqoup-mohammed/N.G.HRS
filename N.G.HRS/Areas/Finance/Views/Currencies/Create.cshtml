@@ -8,81 +8,61 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-
                 <div class="card-header">
                     <h3>تهيئة العملات</h3>
                 </div>
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                     <div class="row mb-3 mt-3">
-                        <div class="col-md-3">
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label asp-for="CurrencyName" class="form-label"></label>
                             <input asp-for="CurrencyName" class="form-control" />
                             <span asp-validation-for="CurrencyName" class="text-danger"></span>
                         </div>
-                        <div class="col-md-3">
-                        </div>
-
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
-                        </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label asp-for="CurrencyCode" class="form-label"></label>
                             <input asp-for="CurrencyCode" class="form-control" />
                             <span asp-validation-for="CurrencyCode" class="text-danger"></span>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label asp-for="CurrentPriceOfCurrency" class="form-label"></label>
                             <input asp-for="CurrentPriceOfCurrency" class="form-control" />
                             <span asp-validation-for="CurrentPriceOfCurrency" class="text-danger"></span>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label asp-for="PreviousPriceOfCurrency" class="form-label"></label>
                             <input asp-for="PreviousPriceOfCurrency" class="form-control" />
                             <span asp-validation-for="PreviousPriceOfCurrency" class="text-danger"></span>
                         </div>
-                        <div class="col-md-3">
+                    </div>
+
+                    <div class="row mb-3 mt-3">
+                        <div class="col-md-12">
+                            <label asp-for="CurrencyNotes" class="form-label">الملاحظات</label>
+                            <input asp-for="CurrencyNotes" class="form-control" />
+                            <span asp-validation-for="CurrencyNotes" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
-                        </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="CurrencyNotes" class="form-label">الملاحظات</label>
-                        <input asp-for="CurrencyNotes" class="form-control" />
-                        <span asp-validation-for="CurrencyNotes" class="text-danger"></span>
-                    </div>
-                        <div class="col-md-3">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                        </div>
-                    <div class="col-md-6">
-                        <input type="submit" value="حفظ" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
-                    </div>
-                        <div class="col-md-3">
+                        <div class="col-md-12">
+                            <input type="submit" value="حفظ" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{

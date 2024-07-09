@@ -29,15 +29,15 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
             await PopulateDropdownListsAsync();
             var periods = await _appDbContext.periods.Include(e => e.PermanenceModels).ToListAsync();
-            var permmenance = await _appDbContext.permanenceModels.ToListAsync();
+            //var permmenance = await _appDbContext.permanenceModels.ToListAsync();
 
-            var permmenanceVM = new PermanenceModelsAndPeriodsVM
-            {
-                permanenceModelsList = permmenance,
-                periodsList = periods,
-            };
+            //var permmenanceVM = new PermanenceModelsAndPeriodsVM
+            //{
+            //    permanenceModelsList = permmenance,
+            //    periodsList = periods,
+            //};
 
-            return View(permmenanceVM);
+            return View(periods);
         }
         //public async Task<IActionResult> Create()
         //{
@@ -73,7 +73,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                         await _permanenceModelsRepository.AddAsync(PVM.permanenceModels);
                         //================================================
                         TempData["Success"] = "تم الحفظ بنجاح";
-                        return RedirectToAction(nameof(Create)); // Redirect to the Create action();
+                        return View();
                         //return RedirectToAction(nameof(Index));
 
 
@@ -115,6 +115,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
                         await _periodsRepository.AddAsync(data.periods);
                         //}
+
+
                         TempData["Success"] = "تم الحفظ بنجاح"; // Success message
 
                         return RedirectToAction(nameof(Create));
@@ -132,10 +134,12 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
                     TempData["Error"] = ex.Message; // Log for debugging
                 }
             }
+
             return View(data); // Return view with data if validation fails or an error occurs
         }
         private async Task PopulateDropdownListsAsync()
         {
+
             var periods = await _appDbContext.periods.ToListAsync();
             ViewData["Periods"] = new SelectList(periods, "Id", "PeriodsName");
             var permanance = await _appDbContext.permanenceModels.ToListAsync();

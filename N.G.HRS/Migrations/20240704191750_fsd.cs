@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A : Migration
+    public partial class fsd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -2169,6 +2169,41 @@ namespace N.G.HRS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Salaries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Additinal = table.Column<double>(type: "float", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    allowances = table.Column<double>(type: "float", nullable: false),
+                    SelectedMonth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gratuities = table.Column<double>(type: "float", nullable: false),
+                    Bonuses = table.Column<double>(type: "float", nullable: false),
+                    Late = table.Column<double>(type: "float", nullable: false),
+                    Abcents = table.Column<double>(type: "float", nullable: false),
+                    Entitlements = table.Column<double>(type: "float", nullable: false),
+                    Deductions = table.Column<double>(type: "float", nullable: false),
+                    Another = table.Column<double>(type: "float", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Salaries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Salaries_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Salaries_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "staffTimes",
                 columns: table => new
                 {
@@ -3043,6 +3078,16 @@ namespace N.G.HRS.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Salaries_CurrencyId",
+                table: "Salaries",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Salaries_EmployeeId",
+                table: "Salaries",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sections_DepartmentsId",
                 table: "Sections",
                 column: "DepartmentsId");
@@ -3311,6 +3356,9 @@ namespace N.G.HRS.Migrations
 
             migrationBuilder.DropTable(
                 name: "publicAdministrations");
+
+            migrationBuilder.DropTable(
+                name: "Salaries");
 
             migrationBuilder.DropTable(
                 name: "SectionsAccounts");
