@@ -1749,6 +1749,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
             var Currency = await _currencyrepository.GetAllAsync();
             ViewData["Currency"] = new SelectList(Currency, "Id", "CurrencyName");
 
+            ////-----------------------educationalQualificationr---------------------------      //-----------------------Guarantees---------------------------
+            var Employee = await _employeeRepository.GetAllAsync();
+            ViewData["Employees"] = new SelectList(Employee, "Id", "EmployeeName");
+
             ////-----------------------educationalQualificationr---------------------------
             //var educationalQualificationr = await _educationalQualificationrepository.GetAllAsync();
             //ViewData["educationalQualificationr"] = new SelectList(educationalQualificationr, "Id", "Name");
@@ -1860,6 +1864,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         public async Task<IActionResult> Salaryrevealed(int Id)
         {
+            await PopulateDropdownListsAsync();
+
             var employee = await _context.employee.ToListAsync();
             var section = await _context.Sections.ToListAsync();
             var department = await _context.Departments.ToListAsync();
@@ -1875,6 +1881,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(salary);
 
         }
+      
     }
 
 }

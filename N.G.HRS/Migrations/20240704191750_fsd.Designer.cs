@@ -12,13 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:N.G.HRS/Migrations/20240708195723_jj.Designer.cs
-    [Migration("20240708195723_jj")]
-    partial class jj
-========
-    [Migration("20240703195911_F")]
-    partial class F
->>>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6:N.G.HRS/Migrations/20240703195911_F.Designer.cs
+    [Migration("20240704191750_fsd")]
+    partial class fsd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
