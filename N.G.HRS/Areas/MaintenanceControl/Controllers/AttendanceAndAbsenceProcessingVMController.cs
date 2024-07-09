@@ -62,9 +62,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 
 
         }
-
-
-
         //===============================================================================
         //===============================================================================
         //List<AttendanceStatus> attSta = new List<AttendanceStatus>
@@ -86,15 +83,22 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         //    new AttendanceStatus() {Id = 14 ,Name = "سماحية حضور وانصراف"},
         //    new AttendanceStatus() {Id = 15 ,Name = "تكليف خارجي "},
         //};
+
         public async Task<IActionResult> CalculateSelary()
         {
             try
             {
                 var employee = await _context.employee.ToListAsync();
+                decimal Worked = 0;
                 decimal sumOfsalary = 0;
                 decimal Late = 0;
                 decimal Abcents = 0;
+                decimal HalfAbcents = 0;
+                decimal EarlyLeave = 0;
                 decimal Aditinal = 0;
+                decimal ExternalWork = 0;
+                decimal Permission = 0;
+                decimal Holiday = 0;
                 var empId = 0;
                 var month = new DateTime();
                 foreach (var emp in employee)
@@ -103,56 +107,84 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     foreach (int monthNumber in Enumerable.Range(1, 12))
                     {
                         //var newRecord = new Salaries { Month = monthNumber, Year = Salaries.SelectedMonth.Year };
-                        var baseSalary = _context.financialStatements.Where(x => x.EmployeeId == emp.Id).Select(x => x.BasicSalary).FirstOrDefault();
+                        var baseSalary = _context.financialStatements.Where(x => x.EmployeeId == emp.Id).FirstOrDefault();
                         if (baseSalary != null)
                         {
                             var shiftTime = _context.staffTimes.Include(x => x.Periods).Where(x => x.EmployeeId == emp.Id).Select(x => new { x.Periods.Muinutes }).FirstOrDefault();
-                            var Attendance = await _context.AttendanceAndAbsenceProcessing.Where(x => x.IsProcssessed == false && x.IsProcssessedBefore == false && x.EmployeeId == emp.Id && x.AttendanceStatusId != 10 && x.Date.Value.Month == monthNumber).ToListAsync();
+
+                            var salaryWithMinutes = baseSalary.BasicSalary / shiftTime.Muinutes;
+
+                            var Attendance = await _context.AttendanceAndAbsenceProcessing.Where(x => x.IsProcssessed == false && x.EmployeeId == emp.Id && x.AttendanceStatusId != 10 && x.Date.Value.Month == monthNumber).ToListAsync();
                             if (Attendance != null)
                             {
                                 foreach (var item in Attendance)
                                 {
-                                    if (item.Date.Value.Month != monthNumber)
+                                    if (item.Date.Value.Month == monthNumber)
                                     {
-                                        month = new DateTime(item.Date.Value.Year, item.Date.Value.Month, 0, 0, 0, 0);
-                                        var salaryWithMinutes = baseSalary / shiftTime.Muinutes;
-                                        var totalSalary = item.TotalWorkMinutes * salaryWithMinutes;
-                                        if (item.AttendanceStatusId == 1 || item.AttendanceStatusId == 3 || item.AttendanceStatusId == 4
-                                            || item.AttendanceStatusId == 5 || item.AttendanceStatusId == 6 || item.AttendanceStatusId == 7
-                                            || item.AttendanceStatusId == 8 || item.AttendanceStatusId == 13 || item.AttendanceStatusId == 14 || item.AttendanceStatusId == 15)
+                                        month = new DateTime(item.Date.Value.Year, item.Date.Value.Month, 1, 12, 0, 0);
+                                        //==========================================================
+                                        if (item.AttendanceStatusId == 12)
                                         {
-                                            sumOfsalary += totalSalary.Value;
-                                        }
-                                        else if (item.AttendanceStatusId == 11 || item.AttendanceStatusId == 12)
-                                        {
-                                            Late += totalSalary.Value;
-                                        }
-                                        else if (item.AttendanceStatusId == 2)
-                                        {
-                                            Abcents += totalSalary.Value;
+                                            /* ==========>>>> */
+                                            Worked += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                            Late += decimal.Parse(item.MinutesOfLate.ToString());
                                         }
                                         else if (item.AttendanceStatusId == 9)
                                         {
-                                            Aditinal += totalSalary.Value;
+                                            Aditinal = decimal.Parse(item.TotalWorkMinutes.ToString());
                                         }
-                                        item.IsProcssessed = true;
-                                        _context.AttendanceAndAbsenceProcessing.Update(item);
+                                        else if (item.AttendanceStatusId == 2 && item.IsProcssessedBefore == false)
+                                        {
+                                            Abcents = decimal.Parse(item.MinutesOfLate.ToString());
+                                        }
+                                        else if (item.AttendanceStatusId == 11)
+                                        {
+                                            /* ==========>>>> */
+                                            Worked += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                            EarlyLeave += decimal.Parse(item.MinutesOfLate.ToString());
+                                        }
+                                        else if (item.AttendanceStatusId == 13)
+                                        {
+                                            /* ==========>>>>>*/
+                                            Worked += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                            HalfAbcents += decimal.Parse(item.MinutesOfLate.ToString());
+                                        }
+                                        else if (item.AttendanceStatusId == 1 || item.AttendanceStatusId == 3 || item.AttendanceStatusId == 4 || item.AttendanceStatusId == 14)
+                                        {
+                                            /* ==========>>>>>*/
+                                            Worked += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                        }
+                                        else if (item.AttendanceStatusId == 5)
+                                        {
+                                            Permission += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                        }
+                                        else if (item.AttendanceStatusId == 15)
+                                        {
+                                            ExternalWork += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                        }
+                                        else if (item.AttendanceStatusId == 6 || item.AttendanceStatusId == 7 || item.AttendanceStatusId == 8)
+                                        {
+                                            Holiday += decimal.Parse(item.TotalWorkMinutes.ToString());
+                                        }
                                     }
-                                    else
-                                    {
-                                        continue;
-                                    }
-
+                                    item.IsProcssessed = true;
+                                    _context.Update(item);
+                                    await _context.SaveChangesAsync();
                                 }
                                 Salaries salary = new Salaries()
                                 {
                                     EmployeeId = empId,
-                                    Additinal = Aditinal,
-                                    Salary = sumOfsalary,
+                                    CurrencyId = baseSalary.CurrencyId,
+                                    Additinal = Aditinal * decimal.Parse(salaryWithMinutes.ToString()),
+                                    BaseSalary = baseSalary.BasicSalary,
+                                    WorkedHours = Worked * decimal.Parse(salaryWithMinutes.ToString()),
+                                    Late = Late * decimal.Parse(salaryWithMinutes.ToString()),
+                                    HalfAbcents = HalfAbcents * decimal.Parse(salaryWithMinutes.ToString()),
+                                    EarlyLeave = EarlyLeave * decimal.Parse(salaryWithMinutes.ToString()),
                                     allowances = 0,
                                     SelectedMonth = month,
                                     Gratuities = 0,
-                                    Abcents = Abcents,
+                                    Abcents = Abcents * decimal.Parse(salaryWithMinutes.ToString()),
                                     Bonuses = 0,
                                     Entitlements = 0,
                                     Deductions = 0,
@@ -161,12 +193,28 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 var check = _context.Salaries.Any(x => x.EmployeeId == empId && x.SelectedMonth.Month == monthNumber);
                                 if (check)
                                 {
-                                    continue;
+                                    var salary1 = _context.Salaries.Where(x => x.EmployeeId == empId && x.SelectedMonth.Month == monthNumber).FirstOrDefault();
+                                    salary1.EmployeeId = empId;
+                                    salary1.CurrencyId = baseSalary.CurrencyId;
+                                    salary1.Additinal += Aditinal * decimal.Parse(salaryWithMinutes.ToString());
+                                    salary1.BaseSalary = baseSalary.BasicSalary;
+                                    salary1.WorkedHours = Worked * decimal.Parse(salaryWithMinutes.ToString());
+                                    salary1.Late = Late * decimal.Parse(salaryWithMinutes.ToString());
+                                    salary1.HalfAbcents = HalfAbcents * decimal.Parse(salaryWithMinutes.ToString());
+                                    salary1.EarlyLeave = EarlyLeave * decimal.Parse(salaryWithMinutes.ToString());
+                                    salary1.allowances = 0;
+                                    salary1.SelectedMonth = month;
+                                    salary1.Gratuities = 0;
+                                    salary1.Abcents = Abcents * decimal.Parse(salaryWithMinutes.ToString());
+                                    salary1.Bonuses = 0;
+                                    salary1.Entitlements = 0;
+                                    salary1.Deductions = 0;
+                                    salary1.Another = 0;
+                                    _context.Salaries.Update(salary1);
                                 }
                                 else
                                 {
                                     _context.Salaries.Add(salary);
-
                                 }
                             }
                             else
@@ -191,7 +239,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             {
                 if (from != null)
                 {
-
                     List<AttendanceAndAbsenceProcessing> attAbsences = new List<AttendanceAndAbsenceProcessing>();
 
                     var employee = await _context.employee.ToListAsync();
@@ -273,11 +320,201 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     var emp = await _context.employee.ToListAsync();
                     foreach (var e in emp)
                     {
-                        var attAbsencesCheck = await _context.AttendanceAndAbsenceProcessing.ToListAsync();
+                        var attAbsencesCheck = await _context.AttendanceAndAbsenceProcessing.Where(x => x.IsProcssessedBefore == false && x.EmployeeId == e.Id).ToListAsync();
                         foreach (var check in attAbsencesCheck)
                         {
                             if (check.AttendanceStatusId == 2)
                             {
+                                var employeePermissions = await _context.EmployeePermissions.FirstOrDefaultAsync(x => x.FromDate == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
+                                var externalwork = await _context.AdditionalExternalOfWork.FirstOrDefaultAsync(x => x.AssignmentId == 2 && x.FromDate == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
+                                var staffVacation = await _context.StaffVacations.FirstOrDefaultAsync(x => x.EmployeeId == check.EmployeeId && x.FromDate == check.Date && x.IsProcssessed == false);
+                                if (staffVacation != null)
+                                {
+                                    var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 6);
+                                    if (!a)
+                                    {
+                                        AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                                        attendance.EmployeeId = check.Employees.Id;
+                                        attendance.DepartmentId = check.Employees.DepartmentsId;
+                                        attendance.SectionId = check.Employees.SectionsId;
+                                        attendance.AttendanceStatusId = 6;
+                                        attendance.Date = check.Date;
+                                        attendance.FromTime = check.FromTime;
+                                        attendance.ToTime = check.ToTime;
+                                        attendance.TotalWorkMinutes = check.TotalWorkMinutes;
+                                        attendance.MinutesOfLate = check.MinutesOfLate;
+                                        attendance.periodId = check.periodId;
+                                        attendance.permenenceId = check.permenenceId;
+                                        attendance.IsProcssessed = false;
+                                        attendance.IsProcssessedBefore = false;
+                                        check.IsProcssessedBefore = true;
+                                        staffVacation.IsProcssessed = true;
+                                        _context.StaffVacations.Update(staffVacation);
+                                        _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                                        _context.AttendanceAndAbsenceProcessing.Update(check);
+                                    }
+                                }
+                                else if (employeePermissions != null)
+                                {
+                                    var perFrom12 = Convert12To24(employeePermissions.FromTime);
+                                    var perTo12 = Convert12To24(employeePermissions.ToTime);
+                                    var perFrom = new TimeSpan(perFrom12.Hour, perFrom12.Minute, 0);
+                                    var perTo = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
+                                    if (check.FromTime == perFrom && check.ToTime == perTo)
+                                    {
+                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 5 && x.FromTime == perFrom && x.ToTime == perTo);
+                                        if (!a)
+                                        {
+                                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                                            attendance.EmployeeId = check.Employees.Id;
+                                            attendance.DepartmentId = check.Employees.DepartmentsId;
+                                            attendance.SectionId = check.Employees.SectionsId;
+                                            attendance.AttendanceStatusId = 5;
+                                            attendance.Date = check.Date;
+                                            attendance.FromTime = check.FromTime;
+                                            attendance.ToTime = check.ToTime;
+                                            attendance.TotalWorkMinutes = check.TotalWorkMinutes;
+                                            attendance.MinutesOfLate = check.MinutesOfLate;
+                                            attendance.periodId = check.periodId;
+                                            attendance.permenenceId = check.permenenceId;
+                                            attendance.IsProcssessed = false;
+                                            attendance.IsProcssessedBefore = false;
+                                            check.IsProcssessedBefore = true;
+                                            employeePermissions.IsProccessed = true;
+                                            _context.EmployeePermissions.Update(employeePermissions);
+                                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                                        }
+                                    }
+                                }
+                                else if (externalwork != null)
+                                {
+                                    var perFrom12 = Convert12To24(externalwork.FromTime);
+                                    var perTo12 = Convert12To24(externalwork.ToTime);
+                                    var extfrom = new TimeSpan(perFrom12.Hour, perFrom12.Minute, 0);
+                                    var extto = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
+                                    if (check.FromTime == extfrom && check.ToTime == extto)
+                                    {
+                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 15 && x.FromTime == extfrom && x.ToTime == extto);
+                                        if (!a)
+                                        {
+                                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                                            attendance.EmployeeId = check.Employees.Id;
+                                            attendance.DepartmentId = check.Employees.DepartmentsId;
+                                            attendance.SectionId = check.Employees.SectionsId;
+                                            attendance.AttendanceStatusId = 15;
+                                            attendance.Date = check.Date;
+                                            attendance.FromTime = check.FromTime;
+                                            attendance.ToTime = check.ToTime;
+                                            attendance.TotalWorkMinutes = check.TotalWorkMinutes;
+                                            attendance.MinutesOfLate = check.MinutesOfLate;
+                                            attendance.periodId = check.periodId;
+                                            attendance.permenenceId = check.permenenceId;
+                                            attendance.IsProcssessed = false;
+                                            attendance.IsProcssessedBefore = false;
+                                            check.IsProcssessedBefore = true;
+                                            externalwork.IsProccessed = true;
+                                            _context.AdditionalExternalOfWork.Update(externalwork);
+                                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                                        }
+                                    }
+                                }
+                            }
+                            else if (check.AttendanceStatusId == 11)
+                            {
+                                var employeePermissions = await _context.EmployeePermissions.FirstOrDefaultAsync(x => x.FromDate == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
+                                var externalwork = await _context.AdditionalExternalOfWork.FirstOrDefaultAsync(x => x.AssignmentId == 2 && x.FromDate == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
+                                var staffVacation = await _context.StaffVacations.FirstOrDefaultAsync(x => x.EmployeeId == check.EmployeeId && x.FromDate == check.Date && x.IsProcssessed == false);
+                                if (staffVacation != null)
+                                {
+                                    AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                                    attendance.EmployeeId = check.Employees.Id;
+                                    attendance.DepartmentId = check.Employees.DepartmentsId;
+                                    attendance.SectionId = check.Employees.SectionsId;
+                                    attendance.AttendanceStatusId = 6;
+                                    attendance.Date = check.Date;
+                                    attendance.FromTime = check.FromTime;
+                                    attendance.ToTime = check.ToTime;
+                                    attendance.TotalWorkMinutes = check.TotalWorkMinutes;
+                                    attendance.MinutesOfLate = check.MinutesOfLate;
+                                    attendance.periodId = check.periodId;
+                                    attendance.permenenceId = check.permenenceId;
+                                    attendance.IsProcssessed = false;
+                                    attendance.IsProcssessedBefore = true;
+                                    check.IsProcssessedBefore = true;
+                                    staffVacation.IsProcssessed = true;
+                                    _context.StaffVacations.Update(staffVacation);
+                                    _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                                    _context.AttendanceAndAbsenceProcessing.Update(check);
+                                }
+                                else if (employeePermissions != null)
+                                {
+                                    var perFrom12 = Convert12To24(employeePermissions.FromTime);
+                                    var perTo12 = Convert12To24(employeePermissions.ToTime);
+                                    var perFrom = new TimeSpan(perFrom12.Hour, perFrom12.Minute, 0);
+                                    var perTo = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
+                                    if (check.FromTime == perFrom && check.ToTime == perTo)
+                                    {
+                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 5 && x.FromTime == perFrom && x.ToTime == perTo && x.IsProcssessedBefore == false);
+                                        if (!a)
+                                        {
+                                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                                            attendance.EmployeeId = check.Employees.Id;
+                                            attendance.DepartmentId = check.Employees.DepartmentsId;
+                                            attendance.SectionId = check.Employees.SectionsId;
+                                            attendance.AttendanceStatusId = 5;
+                                            attendance.Date = check.Date;
+                                            attendance.FromTime = check.FromTime;
+                                            attendance.ToTime = check.ToTime;
+                                            attendance.TotalWorkMinutes = check.TotalWorkMinutes;
+                                            attendance.MinutesOfLate = check.MinutesOfLate;
+                                            attendance.periodId = check.periodId;
+                                            attendance.permenenceId = check.permenenceId;
+                                            attendance.IsProcssessed = false;
+                                            attendance.IsProcssessedBefore = false;
+                                            check.IsProcssessedBefore = true;
+                                            employeePermissions.IsProccessed = true;
+                                            _context.EmployeePermissions.Update(employeePermissions);
+                                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                                        }
+                                    }
+                                }
+                                else if (externalwork != null)
+                                {
+                                    var perFrom12 = Convert12To24(externalwork.FromTime);
+                                    var perTo12 = Convert12To24(externalwork.ToTime);
+                                    var extfrom = new TimeSpan(perFrom12.Hour, perFrom12.Minute, 0);
+                                    var extto = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
+                                    if (check.FromTime == extfrom && check.ToTime == extto)
+                                    {
+                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 15 && x.FromTime == extfrom && x.ToTime == extto);
+                                        if (!a)
+                                        {
+                                            AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
+                                            attendance.EmployeeId = check.Employees.Id;
+                                            attendance.DepartmentId = check.Employees.DepartmentsId;
+                                            attendance.SectionId = check.Employees.SectionsId;
+                                            attendance.AttendanceStatusId = 15;
+                                            attendance.Date = check.Date;
+                                            attendance.FromTime = check.FromTime;
+                                            attendance.ToTime = check.ToTime;
+                                            attendance.TotalWorkMinutes = check.TotalWorkMinutes;
+                                            attendance.MinutesOfLate = check.MinutesOfLate;
+                                            attendance.periodId = check.periodId;
+                                            attendance.permenenceId = check.permenenceId;
+                                            attendance.IsProcssessed = false;
+                                            attendance.IsProcssessedBefore = false;
+                                            check.IsProcssessedBefore = true;
+                                            externalwork.IsProccessed = true;
+                                            _context.AdditionalExternalOfWork.Update(externalwork);
+                                            _context.AttendanceAndAbsenceProcessing.Add(attendance);
+                                        }
+                                    }
+                                }
+                            }
+                            else if (check.AttendanceStatusId == 12)
+                            {
+                                var employeePermissions = await _context.EmployeePermissions.FirstOrDefaultAsync(x => x.FromDate == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
+                                var externalwork = await _context.AdditionalExternalOfWork.FirstOrDefaultAsync(x => x.AssignmentId == 2 && x.FromDate == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
                                 var staffVacation = await _context.StaffVacations.FirstOrDefaultAsync(x => x.EmployeeId == check.EmployeeId && x.FromDate == check.Date && x.IsProcssessed == false);
                                 if (staffVacation != null)
                                 {
@@ -301,13 +538,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                     _context.AttendanceAndAbsenceProcessing.Add(attendance);
                                     _context.AttendanceAndAbsenceProcessing.Update(check);
                                 }
-                            }
-                            else if (check.AttendanceStatusId == 2 || check.AttendanceStatusId == 11 || check.AttendanceStatusId == 12)
-                            {
-
-                                var employeePermissions = await _context.EmployeePermissions.FirstOrDefaultAsync(x => x.Date == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
-
-                                if (employeePermissions != null)
+                                else if (employeePermissions != null)
                                 {
                                     var perFrom12 = Convert12To24(employeePermissions.FromTime);
                                     var perTo12 = Convert12To24(employeePermissions.ToTime);
@@ -315,10 +546,9 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                     var perTo = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
                                     if (check.FromTime == perFrom && check.ToTime == perTo)
                                     {
-                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 2 || x.AttendanceStatusId == 11 || x.AttendanceStatusId == 12 && x.FromTime == perFrom && x.ToTime == perTo);
+                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 5 && x.FromTime == perFrom && x.ToTime == perTo);
                                         if (!a)
                                         {
-
                                             AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
                                             attendance.EmployeeId = check.Employees.Id;
                                             attendance.DepartmentId = check.Employees.DepartmentsId;
@@ -333,29 +563,24 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                             attendance.permenenceId = check.permenenceId;
                                             attendance.IsProcssessed = false;
                                             attendance.IsProcssessedBefore = false;
+                                            check.IsProcssessedBefore = true;
                                             employeePermissions.IsProccessed = true;
                                             _context.EmployeePermissions.Update(employeePermissions);
                                             _context.AttendanceAndAbsenceProcessing.Add(attendance);
                                         }
                                     }
                                 }
-                            }
-                            else if (check.AttendanceStatusId == 2 || check.AttendanceStatusId == 11 || check.AttendanceStatusId == 12)
-                            {
-                                var externalwork = await _context.AdditionalExternalOfWork.FirstOrDefaultAsync(x => x.AssignmentId == 2 && x.Date == check.Date && x.EmployeeId == check.EmployeeId && x.IsProccessed == false);
-                                if (externalwork != null)
+                                else if (externalwork != null)
                                 {
                                     var perFrom12 = Convert12To24(externalwork.FromTime);
                                     var perTo12 = Convert12To24(externalwork.ToTime);
-
                                     var extfrom = new TimeSpan(perFrom12.Hour, perFrom12.Minute, 0);
                                     var extto = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
                                     if (check.FromTime == extfrom && check.ToTime == extto)
                                     {
-                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 2 || x.AttendanceStatusId == 11 || x.AttendanceStatusId == 12 && x.FromTime == extfrom && x.ToTime == extto);
-                                        if (!a)
+                                        var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 15 || x.AttendanceStatusId == 11 || x.AttendanceStatusId == 12 && x.FromTime == extfrom && x.ToTime == extto);
+                                        if (a)
                                         {
-
                                             AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
                                             attendance.EmployeeId = check.Employees.Id;
                                             attendance.DepartmentId = check.Employees.DepartmentsId;
@@ -370,6 +595,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                             attendance.permenenceId = check.permenenceId;
                                             attendance.IsProcssessed = false;
                                             attendance.IsProcssessedBefore = false;
+                                            check.IsProcssessedBefore = true;
                                             externalwork.IsProccessed = true;
                                             _context.AdditionalExternalOfWork.Update(externalwork);
                                             _context.AttendanceAndAbsenceProcessing.Add(attendance);
@@ -384,7 +610,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                 {
                                     var perFrom12 = Convert12To24(additinalwork.FromTime);
                                     var perTo12 = Convert12To24(additinalwork.ToTime);
-
                                     var addFrom = new TimeSpan(perFrom12.Hour, perFrom12.Minute, 0);
                                     var addTo = new TimeSpan(perTo12.Hour, perTo12.Minute, 0);
                                     if (check.FromTime == addFrom && check.ToTime == addTo)
@@ -392,8 +617,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                         var a = _context.AttendanceAndAbsenceProcessing.Any(x => x.EmployeeId == check.EmployeeId && x.Date == check.Date && x.AttendanceStatusId == 9 && x.FromTime == addFrom && x.ToTime == addTo);
                                         if (!a)
                                         {
-
-
                                             AttendanceAndAbsenceProcessing attendance = new AttendanceAndAbsenceProcessing() { };
                                             attendance.EmployeeId = check.EmployeeId;
                                             attendance.DepartmentId = check.Employees.DepartmentsId;
@@ -417,8 +640,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                     }
                                 }
                             }
-
-
                         }
                     }
                     await _context.SaveChangesAsync();
@@ -444,32 +665,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                     }
                     return Json(attAbsences2);
                 }
-                //else if (from != null && to == null)
-                //{
-                //    var attAbsences2 = await _context.AttendanceAndAbsenceProcessing.Include(x => x.Employees).Include(x => x.AttendanceStatus).Include(x => x.periods).Include(x => x.PermenenceModel)
-                //                        .Where(x => x.IsProcssessed == false && x.Date >= from && x.Date <= to).Select(x => new
-                //                        {
-                //                            eNumber = x.Employees.EmployeeNumber,
-                //                            eName = x.Employees.EmployeeName,
-                //                            attendanceStatus = x.AttendanceStatus.Name,
-                //                            permenenceModel = x.PermenenceModel.PermanenceName,
-                //                            periods = x.periods.PeriodsName,
-                //                            from = x.FromTime,
-                //                            to = x.ToTime,
-                //                            date = x.Date,
-                //                            minutes = x.TotalWorkMinutes,
-                //                            minutesLate = x.MinutesOfLate,
-                //                            isProcessed = x.IsProcssessed,
-                //                            isProcessedBefor = x.IsProcssessedBefore
-                //                        }).ToListAsync();
-
-                //    if (attAbsences2 == null)
-                //    {
-                //        return Json(0);
-                //    }
-                //    return Json(attAbsences2);
-
-                //}
                 else
                 {
 
@@ -1059,7 +1254,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                             {
                                 if (workLate >= 10)
                                 {
-
                                     AttendanceAndAbsenceProcessing attAbsence2 = new AttendanceAndAbsenceProcessing()
                                     {
                                         EmployeeId = employee.Id,
@@ -1140,10 +1334,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                 }
             }
             return null;
-
         }
-
-
         private int CalculateWorkDuration(MachineInfo first, MachineInfo last)
         {
             if (first == null || last == null)

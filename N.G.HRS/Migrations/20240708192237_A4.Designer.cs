@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240708192237_A4")]
+    partial class A4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2322,8 +2325,6 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
-<<<<<<< HEAD
-=======
 
                     b.HasData(
                         new
@@ -2336,7 +2337,6 @@ namespace N.G.HRS.Migrations
                             Id = 2,
                             Name = "تكليف خارجي"
                         });
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
@@ -2457,8 +2457,6 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AttendanceStatus");
-<<<<<<< HEAD
-=======
 
                     b.HasData(
                         new
@@ -2536,7 +2534,6 @@ namespace N.G.HRS.Migrations
                             Id = 15,
                             Name = "تكليف خارجي "
                         });
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions", b =>
@@ -2635,12 +2632,9 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("IsConnected")
                         .HasColumnType("bit");
 
-<<<<<<< HEAD
-=======
                     b.Property<bool>("IsProcssessed")
                         .HasColumnType("bit");
 
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -3269,19 +3263,6 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-<<<<<<< HEAD
-                    b.Property<double>("Abcents")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Additinal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Another")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Bonuses")
-                        .HasColumnType("float");
-=======
                     b.Property<decimal>("Abcents")
                         .HasColumnType("decimal(18,2)");
 
@@ -3291,23 +3272,14 @@ namespace N.G.HRS.Migrations
                     b.Property<decimal>("Another")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("BaseSalary")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("Bonuses")
                         .HasColumnType("decimal(18,2)");
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
 
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<double>("Deductions")
-                        .HasColumnType("float");
-=======
                     b.Property<decimal>("Deductions")
                         .HasColumnType("decimal(18,2)");
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
 
                     b.Property<decimal>("EarlyLeave")
                         .HasColumnType("decimal(18,2)");
@@ -3315,37 +3287,23 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<double>("Entitlements")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Gratuities")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Late")
-                        .HasColumnType("float");
-=======
                     b.Property<decimal>("Entitlements")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Gratuities")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("HalfAbcents")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("Late")
                         .HasColumnType("decimal(18,2)");
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
 
                     b.Property<decimal>("RetirementInsurance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("SelectedMonth")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("WorkedHours")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("allowances")
                         .HasColumnType("float");
