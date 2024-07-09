@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using N.G.HRS.Date;
 
@@ -11,9 +12,11 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240708192237_A4")]
+    partial class A4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3269,9 +3272,6 @@ namespace N.G.HRS.Migrations
                     b.Property<decimal>("Another")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("BaseSalary")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("Bonuses")
                         .HasColumnType("decimal(18,2)");
 
@@ -3293,20 +3293,17 @@ namespace N.G.HRS.Migrations
                     b.Property<decimal>("Gratuities")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("HalfAbcents")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("Late")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("RetirementInsurance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("SelectedMonth")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("WorkedHours")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("allowances")
                         .HasColumnType("float");
