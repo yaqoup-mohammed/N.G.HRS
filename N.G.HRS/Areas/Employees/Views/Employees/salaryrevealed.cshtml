@@ -2,7 +2,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "نماذج الدوام";
+    ViewData["Title"] = "كشف الراتب";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -13,40 +13,41 @@
         <div class="row">
             <div class="col-md-4">
                 <form asp-action="CreatePeriods">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-md-12 col-12  mb-3">
+                        <label asp-for="Month" class="form-label">الشهر</label>
+                        <div class="input-group  flatpickr-date" id="flatpickr-date">
+                            <input asp-for="Month" id="DateOfEmployment" class="js-example-basic-single form-control" placeholder="أدخل التاريخ" data-input>
+                            <span class="input-group-text input-group-addon" data-toggle>
+                                <i data-feather="calendar"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="Month" class="text-danger"></span>
+
+                    </div>
+
                     <div class="form-group">
-                        <label asp-for="Section.Id" class="control-label"></label>
+                        <label asp-for="Employee.Id" class="control-label">الموظف</label>
+                        <select asp-for="Employee.Id" id="" class="js-example-basic-single  form-select">
+                            <option value="value">text</option>
+                        </select>
+                        <span asp-validation-for="Employee" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Section.Id" class="control-label">القسم </label>
                         <select asp-for="Section.Id" id="" class="js-example-basic-single  form-select">
                             <option value="value">text</option>
                         </select>
                         <span asp-validation-for="Section" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Departments.Id" class="control-label"></label>
+                        <label asp-for="Departments.Id" class="control-label"> الادارة</label>
                         <select asp-for="Departments.Id" id="" class="js-example-basic-single  form-select">
                             <option value="value">text</option>
                         </select>
                         <span asp-validation-for="Departments" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Employee.Id" class="control-label"></label>
-                        <select asp-for="Employee.Id" id="" class="js-example-basic-single  form-select">
-                            <option value="value">text</option>
-                        </select>
-                        <span asp-validation-for="Employee" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="migration" class="control-label"></label>
-                        <select asp-for="migration" id="" class="js-example-basic-single  form-select">
-                            <option value="value">text</option>
-                        </select>
-                        <span asp-validation-for="migration" class="text-danger"></span>
-                    </div>
-
-
-
+                   
 
                 </form>
             </div>
@@ -99,19 +100,8 @@
                                        
                                         
                                     </tr>
-                                   @*  @foreach (var employee in Model)
-                                    {
-                                        <tr>
-                                            <td>@employee.Department</td>
-                                            <td>@employee.Section</td>
-                                            <td>@employee.Position</td>
-                                            <td>@employee.Name</td>
-                                            <td>@employee.Salary</td>
-                                            <td>@employee.HousingAllowance</td>
-                                            <td>@employee.TransportationAllowance</td>
-                                            <td>@employee.Currency</td>
-                                        </tr>
-                                    } *@
+
+                                 
                                 </tbody>
                             </table>
                         </div>
@@ -123,7 +113,28 @@
 </div>
 
     @section Scripts {
+
+
+ 
+
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                dateFormat: 'MM yy',
+                onClose: function (dateText, inst) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
+                }
+            });
+        });
+    </script>
+
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
         }
     }

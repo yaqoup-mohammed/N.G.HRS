@@ -172,5 +172,26 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         {
             return _context.Permits.Any(e => e.Id == id);
         }
+
+        //public IActionResult (int id)
+        public async Task<IActionResult> Print(int id)
+        {
+            var item = await _context.Permits
+                .Include(p => p.Employee)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            // يمكنك تنفيذ الطباعة هنا، مثلا استخدام JavaScript لفتح نافذة الطباعة
+            ViewBag.PrintContent = item; // تمرير البيانات إلى العرض ليتم طباعتها
+
+            return View();
+        }
+
+
+
     }
 }
