@@ -8,103 +8,143 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Create</h1>
-
-<h4>AdministrativePromotions</h4>
+<h4>الترفيعات الادارية</h4>
 <hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class="js-example-basic-single  form-select" id="EmployeeId" asp-items="@(ViewData["employee"] as SelectList)">
-                    <option value="">-- أختر موظف --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentsId" class="control-label"></label>
-                <select asp-for="DepartmentsId" id="DepartmentsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Departments"] as SelectList)">
-                    <option value="">-- أختر الادارة--</option>
-                </select>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="FromDate" class="control-label"></label>
-                <input asp-for="FromDate" id="fromDate" class="form-control" />
-                <span asp-validation-for="FromDate" class="text-danger"></span>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
+                            <label asp-for="EmployeeId" class="control-label"></label>
+                            <select asp-for="EmployeeId" class="js-example-basic-single  form-select" id="EmployeeId" asp-items="@(ViewData["employee"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="DepartmentsId" class="control-label"></label>
+                            <select asp-for="DepartmentsId" id="DepartmentsId" class="js-example-basic-single  form-select" asp-items="@(ViewData["Departments"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Date" class="form-label"></label>
+                        <div class="input-group  flatpickr-date" id="flatpickr-date">
+                            <input asp-for="Date" id="DateOfEmployment" class="js-example-basic-single form-control" placeholder="أدخل التاريخ" data-input>
+                            <span class="input-group-text input-group-addon" data-toggle>
+                                <i data-feather="calendar"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+
+                    </div>
+
+
+                    <div class="form-group col-md-4 mb-3">
+                        <label asp-for="FromDate" class="control-label"></label>
+                        <input asp-for="FromDate" id="fromDate" class="form-control" />
+                        <span asp-validation-for="FromDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 mb-3">
+                        <label asp-for="ToDate" class="control-label"></label>
+                        <input asp-for="ToDate" id="toDate" class="form-control" />
+                        <span asp-validation-for="ToDate" class="text-danger"></span>
+                    </div>
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label asp-for="Notes" class="control-label"></label>
+                        <input asp-for="Notes" class="form-control" />
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" tabindex="13" id="Submit" value="حفظ" class="btn btn-primary" />
+                        <a asp-action="Index" tabindex="14" class="btn btn-light">رجوع الى القائمة</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="ToDate" class="control-label"></label>
-                <input asp-for="ToDate" id="toDate" class="form-control" />
-                <span asp-validation-for="ToDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(document).ready(function () {
+ </div>
 
 
-            // $.ajax({
-            //     url: '/EmployeesAffsirs/AdministrativePromotions/LoadEmployees',
-            //     type: 'GET',
-            //     success: function (data) {
-            //         $.each(data, function (i, item) {
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
 
-            //             $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
+
+                // $.ajax({
+                //     url: '/EmployeesAffsirs/AdministrativePromotions/LoadEmployees',
+                //     type: 'GET',
+                //     success: function (data) {
+                //         $.each(data, function (i, item) {
+
+                //             $('#EmployeeId').append('<option value="' + item.id + '">' + item.employeeName + '</option>')
 
 
-            //         });
-            //     }
-            // });
+                //         });
+                //     }
+                // });
 
-            //=================================
-            $("#EmployeeId").on("change", function () {
-                var id = this.value;
-                if (id != "") {
-                    $.ajax({
-                        url: '/EmployeesAffsirs/AdministrativePromotions/LoudData?id=' + id,
-                        type: 'GET',
-                        success: function (data) {
-                            $('#DepartmentsId').val(data.departmentsId).change();
+                //=================================
+                $("#EmployeeId").on("change", function () {
+                    var id = this.value;
+                    if (id != "") {
+                        $.ajax({
+                            url: '/EmployeesAffsirs/AdministrativePromotions/LoudData?id=' + id,
+                            type: 'GET',
+                            success: function (data) {
+                                $('#DepartmentsId').val(data.departmentsId).change();
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "الرجاء أختيار موظف",
+                        });
+                        $("#DepartmentsId").empty().change();
+                        this.value = "";
+                        event.preventDefault();
+                    }
+
+                });
+                //===========================================
+                $("#toDate").on("change", function () {
+                    if ($('#fromDate').val() !== "") {
+                        if ($('#fromDate').val() > $('#toDate').val()) {
+                            event.preventDefault(); // Prevent form submission
+                            Swal.fire({
+                                icon: "error",
+                                title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
+                            });
+                            $('#toDate').empty();
                         }
-                    });
-                }
-                else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "الرجاء أختيار موظف",
-                    });
-                    $("#DepartmentsId").empty().change();
-                    this.value = "";
-                    event.preventDefault();
-                }
-
-            });
-            //===========================================
-            $("#toDate").on("change", function () {
-                if ($('#fromDate').val() !== "") {
+                    }
+                });
+                //===========================================
+                $("#fromDate").on("change", function () {
+                    if ($('#toDate').val() !== "") {
+                        if ($('#fromDate').val() > $('#toDate').val()) {
+                            event.preventDefault(); // Prevent form submission
+                            Swal.fire({
+                                icon: "error",
+                                title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
+                            });
+                            $('#toDate').empty();
+                        }
+                    }
+                });
+                //===========================================
+                $("#submit").on("click", function () {
                     if ($('#fromDate').val() > $('#toDate').val()) {
                         event.preventDefault(); // Prevent form submission
                         Swal.fire({
@@ -112,71 +152,46 @@
                             title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
                         });
                         $('#toDate').empty();
+                        $('#fromDate').empty();
                     }
-                }
-            });
-            //===========================================
-            $("#fromDate").on("change", function () {
-                if ($('#toDate').val() !== "") {
-                    if ($('#fromDate').val() > $('#toDate').val()) {
+
+                    if ($('#DepartmentsId').val() === "") {
                         event.preventDefault(); // Prevent form submission
                         Swal.fire({
                             icon: "error",
-                            title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
+                            title: "رجاء أختر الادارة ",
                         });
-                        $('#toDate').empty();
                     }
-                }
-            });
-            //===========================================
-            $("#submit").on("click", function () {
-                if ($('#fromDate').val() > $('#toDate').val()) {
-                    event.preventDefault(); // Prevent form submission
-                    Swal.fire({
-                        icon: "error",
-                        title: "وقت البدأ يجب ان يكون اصغر من وقت الانتهاء!!",
-                    });
-                    $('#toDate').empty();
-                    $('#fromDate').empty();
-                }
-
-                if ($('#DepartmentsId').val() === "") {
-                    event.preventDefault(); // Prevent form submission
-                    Swal.fire({
-                        icon: "error",
-                        title: "رجاء أختر الادارة ",
-                    });
-                }
-                if ($('#EmployeeId').val() === "") {
-                    event.preventDefault(); // Prevent form submission
-                    Swal.fire({
-                        icon: "error",
-                        title: "رجاء أختر الموظف ",
-                    });
-                }
-            });
+                    if ($('#EmployeeId').val() === "") {
+                        event.preventDefault(); // Prevent form submission
+                        Swal.fire({
+                            icon: "error",
+                            title: "رجاء أختر الموظف ",
+                        });
+                    }
+                });
 
 
-        });
-    </script>
-    @if (TempData["Done"] != null)
-    {
-        <script>
-            Swal.fire({
-                icon: "succes",
-                title: "@TempData["Done"] ",
             });
         </script>
+        @if (TempData["Done"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: "succes",
+                    title: "@TempData["Done"] ",
+                });
+            </script>
 
-    }
-    @if (TempData["Message"] != null)
-    {
-        <script>
-            Swal.fire({
-                icon: "succes",
-                title: "@TempData["Message"] ",
-            });
-        </script>
+        }
+        @if (TempData["Message"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: "succes",
+                    title: "@TempData["Message"] ",
+                });
+            </script>
 
+        }
     }
-}

@@ -41,6 +41,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         private readonly IRepository<PracticalExperiences> _practicalExperiencesrepository;
         private readonly IRepository<Family> _familyrepository;
         private readonly IRepository<RelativesType> _relativesTyperepository;
+
         private readonly IRepository<PersonalData> _personalDatarepository;
         private readonly IRepository<Guarantees> _guaranteesrepository;
         private readonly IRepository<Sex> _sexrepository;
@@ -55,7 +56,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
         private readonly IRepository<TrainingCourses> _trainingCoursesrepository;
         private readonly IRepository<EmployeeArchives> _employeeArchivesrepository;
         private readonly IRepository<FinancialStatements> _financialStatementsrepository;
-        private object _appDbContext;
 
         public EmployeesController(AppDbContext context, IFileUploadService fileUploadService, IRepository<Employee> employeeRepository,
             IRepository<Sections> sectionsrepository,
@@ -601,14 +601,14 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 var worksheet = package.Workbook.Worksheets.Add("PracticalExperiences");
 
                 // إعداد العناوين
-              
-                        worksheet.Cells[1, 1].Value = "Id";
-                        worksheet.Cells[1, 2].Value = "اسم الموظف";
-                        worksheet.Cells[1, 3].Value = " اسم الخبرة  ";
-                        worksheet.Cells[1, 4].Value = " مكان حصول عليها ";
-                        worksheet.Cells[1, 5].Value = "من تاريخ";
-                        worksheet.Cells[1, 6].Value = "الي تاريخ";
-                        worksheet.Cells[1, 7].Value = "الفترة";
+
+                worksheet.Cells[1, 1].Value = "Id";
+                worksheet.Cells[1, 2].Value = "اسم الموظف";
+                worksheet.Cells[1, 3].Value = " اسم الخبرة  ";
+                worksheet.Cells[1, 4].Value = " مكان حصول عليها ";
+                worksheet.Cells[1, 5].Value = "من تاريخ";
+                worksheet.Cells[1, 6].Value = "الي تاريخ";
+                worksheet.Cells[1, 7].Value = "الفترة";
 
                 worksheet.Row(1).Style.Font.Bold = true;
                 worksheet.Row(1).Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -1698,7 +1698,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         public bool EmployeeNumber(int id)
         {
-
             if (id != null)
             {
                 var employeeNumber = _context.employee.Any(e => e.EmployeeNumber == id);
@@ -1859,20 +1858,26 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
 
-        //public ViewResult Details()
-        // {
-        //     salaryrevealed salaryrevealed=new salaryrevealed();
-        //     salaryrevealed.employee = _employeeRepository.GetEmployee(1);
-        //     salaryrevealed.section= 
-        //     return View();
-        // }
-        public async Task<IActionResult> salaryrevealed(int Id)
-
+        public async Task<IActionResult> Salaryrevealed(int Id)
         {
-            return View();
+            var employee = await _context.employee.ToListAsync();
+            var section = await _context.Sections.ToListAsync();
+            var department = await _context.Departments.ToListAsync();
+
+            salaryrevealed salary = new salaryrevealed()
+            {
+                Employeeslist = employee,
+                SectionList = section,
+                Departmentslist = department,
+            };
+
+
+            return View(salary);
 
         }
     }
 
 }
 
+
+ 

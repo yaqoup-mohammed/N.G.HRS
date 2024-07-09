@@ -557,6 +557,25 @@ body {
         right: 10px;
     }
 }
+@media print {
+    body *
+
+{
+    visibility: hidden;
+}
+
+#printableArea, #printableArea * {
+    visibility: visible;
+}
+
+#printableArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+}
 .pinned {
     position: absolute !important;
     left: 0 !important;

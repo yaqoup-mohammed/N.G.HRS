@@ -1,71 +1,96 @@
 ﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.EmployeeMovements
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "تبديل الموظفين";
+    ViewData["Title"] = "حركة الموظفين";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<h1>تبديل الموظفين</h1>
+
+<h1>حركة الموظفين</h1>
+
+@* <h4>EmployeeMovements</h4>
+ *@
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" id="employeeForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6 mb-3">
+                            <label asp-for="EmployeeId" class="control-label"></label>
+                            <select asp-for="EmployeeId" id="EmployeeId" class=" js-example-basic-single form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                        </div>
+                        <div class="form-group  col-md-6 mb-3">
+                            <label asp-for="jopdescriptionId" class="control-label"></label>
+                            <select asp-for="jopdescriptionId" id="jopdescriptionId" class=" js-example-basic-single form-select" asp-items="@(ViewData["jopdescriptionId"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group  col-md-6 mb-3">
+                            <label asp-for="CurrentJop" class="control-label"></label>
+                            <input asp-for="CurrentJop" class="form-control" />
+                            <span asp-validation-for="CurrentJop" class="text-danger"></span>
+                        </div>
+                        <div class="form-group  col-md-6 mb-3">
+                            <label asp-for="LastJop" class="control-label"></label>
+                            <input asp-for="LastJop" class="form-control" />
+                            <span asp-validation-for="LastJop" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-12 mb-3">
+                            <label asp-for="Date" class="form-label"></label>
+                            <div class="input-group  flatpickr-date" id="flatpickr-date">
+                                <input asp-for="Date" id="DateOfEmployment" class="js-example-basic-single form-control" placeholder="أدخل التاريخ" data-input>
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                            </div>
+                            <span asp-validation-for="Date" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <label asp-for="DateDown" class="form-label"></label>
+                            <div class="input-group  flatpickr-date" id="flatpickr-date">
+                                <input asp-for="DateDown" id="DateOfEmployment" class="js-example-basic-single form-control" placeholder="أدخل التاريخ" data-input>
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                            </div>
+                            <span asp-validation-for="DateDown" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note" class="control-label"></label>
+                        <input asp-for="Note" class="form-control" />
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" tabindex="13" id="Submit" value="حفظ" class="btn btn-primary" />
+                        <a asp-action="Index" tabindex="14" class="btn btn-light">رجوع الى القائمة</a>
+                    </div>
+                </form>
+
             </div>
-            <div class="form-group">
-                <label asp-for="DateDown" class="control-label"></label>
-                <input asp-for="DateDown" class="form-control" />
-                <span asp-validation-for="DateDown" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Note" class="control-label"></label>
-                <input asp-for="Note" class="form-control" />
-                <span asp-validation-for="Note" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" id="EmployeeId" class="form-control" asp-items="@(ViewData["EmployeeId"] as SelectList)">
-                    <option value="">--اختر الموظف--</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="jopdescriptionId" class="control-label"></label>
-                <select asp-for="jopdescriptionId" id="jopdescriptionId" class="form-control" asp-items="@(ViewData["jopdescriptionId"] as SelectList)">
-                    <option value="">--اختر الوظيفة--</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrentJop" class="control-label"></label>
-                <input asp-for="CurrentJop" id="CurrentJop" class="form-control" readonly />
-                <span asp-validation-for="CurrentJop" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastJop" class="control-label"></label>
-                <input asp-for="LastJop" id="LastJop" class="form-control" readonly />
-                <span asp-validation-for="LastJop" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
 <script>
         $(document).ready(function () {
             $('#EmployeeId').change(function () {
