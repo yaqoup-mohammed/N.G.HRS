@@ -24,10 +24,10 @@
                                     @Html.DisplayNameFor(model => model.SectorsName)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Notes)
+                                    @Html.DisplayNameFor(model => model.Branches)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Branches)
+                                    @Html.DisplayNameFor(model => model.Notes)
                                 </th>
                                 <th></th>
                             </tr>
@@ -40,10 +40,10 @@
                                         @Html.DisplayFor(modelItem => item.SectorsName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Notes)
+                                        @Html.DisplayFor(modelItem => item.Branches.BranchesName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Branches.BranchesName)
+                                        @Html.DisplayFor(modelItem => item.Notes)
                                     </td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

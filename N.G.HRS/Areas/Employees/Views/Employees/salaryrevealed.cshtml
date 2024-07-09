@@ -8,100 +8,122 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <form asp-action="CreatePeriods">
-                    <div class="col-md-12 col-12  mb-3">
-                        <label asp-for="Month" class="form-label">الشهر</label>
-                        <div class="input-group  flatpickr-date" id="flatpickr-date">
-                            <input asp-for="Month" id="DateOfEmployment" class="js-example-basic-single form-control" placeholder="أدخل التاريخ" data-input>
-                            <span class="input-group-text input-group-addon" data-toggle>
-                                <i data-feather="calendar"></i>
-                            </span>
+                    <div class="row">
+                        <div class="col-md-6 col-12 mb-2">
+                            <label asp-for="Month" class="form-label">الشهر</label>
+                            <div class="input-group flatpickr-date" id="flatpickr-date">
+                                <input asp-for="Month" id="DateOfEmployment" class="js-example-basic-single form-control" placeholder="أدخل التاريخ" data-input>
+                                <span class="input-group-text input-group-addon" data-toggle>
+                                    <i data-feather="calendar"></i>
+                                </span>
+                            </div>
+                            <span asp-validation-for="Month" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="Month" class="text-danger"></span>
-
+                        <div class="form-group col-md-6">
+                            <label asp-for="Employee" class="control-label">الموظف</label>
+                            <select asp-for="Employee" class="js-example-basic-single form-select" id="EmployeeId" asp-items="@(ViewData["Employees"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                            <span asp-validation-for="Employee" class="text-danger"></span>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6 col-12 mb-3">
+                            <label asp-for="Section" class="control-label mb-1">القسم</label>
+                            <select asp-for="Section" class="js-example-basic-single form-select" id="SectionId" asp-items="@(ViewData["Sections"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                            <span asp-validation-for="Section" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="Employee.Id" class="control-label">الموظف</label>
-                        <select asp-for="Employee.Id" id="" class="js-example-basic-single  form-select">
-                            <option value="value">text</option>
-                        </select>
-                        <span asp-validation-for="Employee" class="text-danger"></span>
+                        <div class="col-md-6 col-12 mb-3">
+                            <label asp-for="Departments" class="control-label mb-1">الادارة</label>
+                            <select asp-for="Departments" class="js-example-basic-single form-select" id="DepartmentsId" asp-items="@(ViewData["Departments"] as SelectList)">
+                                <option value="" disabled></option>
+                            </select>
+                            <span asp-validation-for="Departments" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Section.Id" class="control-label">القسم </label>
-                        <select asp-for="Section.Id" id="" class="js-example-basic-single  form-select">
-                            <option value="value">text</option>
-                        </select>
-                        <span asp-validation-for="Section" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Departments.Id" class="control-label"> الادارة</label>
-                        <select asp-for="Departments.Id" id="" class="js-example-basic-single  form-select">
-                            <option value="value">text</option>
-                        </select>
-                        <span asp-validation-for="Departments" class="text-danger"></span>
-                    </div>
-
-                   
-
+                  
                 </form>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>عمليات كشف الراتب</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <button class="btn btn-primary set" id="PrintButton" onclick="printTable()" style="padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                                <span>طباعة</span>
+                                <i data-feather="printer" style="width: 17px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<style>
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-    }
 
-    table {
-        width: 100%;
-        text-align: center;
-    }
-</style>
+<div id="printHeader" style="display: none; ">
+    <h2 style="text-align: center; margin-top: 50px;">كشف الراتب</h2>
+    <p style="text-align: center;">تقرير الراتب الشهري</p>
+    <hr style="border-top: 1px solid black;">
+</div>                              
 
 <div id="table" class="row">
-    <div class="grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h6 class="card-title headerStyle">كشف الراتب</h6>
-                <div class="table-responsive">
-                    <div class="container">
-                        <h2 class="mt-4">بيانات الموظف</h2>
-                        <div class="table-wrapper">
+    <div class="print-card">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>كشف الراتب</h3>
+                        <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr>
+                                    <tr style="text-align: center;">
                                         <th colspan="4" class="col-md-4">الموظف</th>
                                         <th colspan="7" class="col-md-4">الاستحقاقات</th>
                                         <th colspan="4" class="col-md-4">الاستقطاعات</th>
                                     </tr>
-                                </thead>
-                                <tbody>
                                     <tr>
                                         <th>الرقم الوظيفي</th>
                                         <th>اسم الموظف</th>
-                                        <th>القسم </th>
+                                        <th>القسم</th>
                                         <th>الادارة</th>
-                                        <th>ا الاضافي</th>
-                                        <th>العملة </th>
-                                        <th> البدلات</th>
-                                        <th>الاكراميات </th>
-                                        <th>العلاوات</th> 
+                                        <th>الاضافي</th>
+                                        <th>العملة</th>
+                                        <th>البدلات</th>
+                                        <th>الاكراميات</th>
+                                        <th>العلاوات</th>
                                         <th>الاستحقاقات</th>
                                         <th>راتب اساسي</th>
-                                        <th>استقطاعات</th>
-                                       
-                                        
+                                        <th>الاستقطاعات</th>
                                     </tr>
-
-                                 
+                                </thead>
+                                <tbody>
+                                    @foreach (var employee in Model.Employeeslist.OrderBy(e => e.EmployeeNumber))
+                                    {
+                                        <tr>
+                                            <td>@employee.EmployeeNumber</td>
+                                            <td>@employee.EmployeeName</td>
+                                            <td>@employee.Sections.SectionsName</td>
+                                            <td>@employee.Departments.SubAdministration</td>
+                                            <td>@employee. </td>
+                                            <td>@employee. </td>
+                                            <td>@employee.</td>
+                                            <td>@employee.</td>
+                                            <td>@employee.</td>
+                                            <td>@employee.</td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -112,29 +134,28 @@
     </div>
 </div>
 
-    @section Scripts {
+@section Scripts {
+    <script> 
+      
 
+        function printTable() {
+            var originalContents = document.body.innerHTML;
+            var printContents = document.getElementById('table').innerHTML;
+            var printHeader = document.getElementById('printHeader').innerHTML;
+            document.body.innerHTML = printHeader + printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
 
- 
-
-    <script>
-        $(function () {
-            $("#datepicker").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                dateFormat: 'MM yy',
-                onClose: function (dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
-                }
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr("#DateOfEmployment", {
+                dateFormat: "Y/m", // تنسيق تاريخ السنة/شهر فقط
             });
         });
     </script>
 
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
-        }
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+}

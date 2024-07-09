@@ -36,8 +36,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [ForeignKey("SectorsId")]
         [Display(Name = "القطاع")]
         public int? SectorsId { get; set; }
-        [Display(Name = "القطاع")]
-
+        [Display(Name ="القطاع")]
         public Sectors? Sectors { get; set; }
 
         internal static Employee GitDepartment(int id)

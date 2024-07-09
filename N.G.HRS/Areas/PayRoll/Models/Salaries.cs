@@ -16,7 +16,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public decimal Salary { get; set; }//الراتب
         //public int CurrencyId { get; set; }
         //public Currency Currency { get; set; }
-        public double allowances { get; set; }//البدلات
+        public double allowances { get; set; }//البدلات 
         [DataType(DataType.Date)]
         public DateTime SelectedMonth { get; set; }
         public decimal Gratuities { get; set; }//الاكراميات
