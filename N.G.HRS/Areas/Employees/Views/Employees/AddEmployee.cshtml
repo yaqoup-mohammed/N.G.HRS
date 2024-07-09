@@ -226,13 +226,18 @@
                                     </div>
                                     <br>
                                     <button type="EmployeeSubmit" id="EmployeeSubmit" class="btn btn-primary routate">حفظ</button>
+
                                     <button type="button" class="btn btn-primary" id="showFileInputBtnEmployee">استيراد ملف Excel</button>
                                     <button type="button" class="btn btn-primary" id="exportToExcelButtonEmployee">تصدير إلى Excel</button>
+
                                 </form>
-                                @using (Html.BeginForm("ImportEmployees", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "importFormEmployee" }))
+
+
+
+                                @using (Html.BeginForm("ImportFormEmployee", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportFormEmployee" }))
                                 {
                                     <div id="fileInputEmployee" class="mb-3" style="display: none;">
-                                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputEmployee">
+                                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputEmployeeInput">
                                         <button type="button" class="btn btn-primary" id="uploadBtnEmployee" style="display: none;">تحميل الملف</button>
                                         <div id="fileErrorEmployee" class="text-danger"></div>
                                     </div>
@@ -240,6 +245,7 @@
                                 <div>
                                     <a asp-action="Index">Back to List</a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -362,14 +368,23 @@
                                         <input type="submit" value="حفظ البيانات" class="btn btn-primary" id="GuaranteesSaveDataBtn" style="display: none" />
                                         <button type="button" id="GuaranteesClearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
                                         <button type="button" class="btn btn-primary" id="showFileInputBtnguarantees">استيراد ملف Excel</button>
-
                                         <button type="button" class="btn btn-primary" id="exportToExcelButtonguarantees">تصدير إلى Excel</button>
+
                                     </div>
                                 </form>
-                                @using (Html.BeginForm("Importguarantees", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "importFormguarantees" }))
+                             @*    @using (Html.BeginForm("Importguarantees", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "importFormguarantees" }))
                                 {
                                     <div id="fileInputContainer" class="mb-3" style="display: none;">
                                         <label class="form-label">استيراد ملف Excel</label>
+                                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputguarantees">
+                                        <button type="button" class="btn btn-primary" id="uploadBtnguarantees" style="display: none;">تحميل الملف</button>
+                                        <div id="fileErrorguarantees" class="text-danger"></div>
+                                    </div>
+                                } *@
+                               
+                                @using (Html.BeginForm("Importguarantees", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "Importguarantees" }))
+                                {
+                                    <div id="fileInputContainer" class="mb-3" style="display: none;">
                                         <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputguarantees">
                                         <button type="button" class="btn btn-primary" id="uploadBtnguarantees" style="display: none;">تحميل الملف</button>
                                         <div id="fileErrorguarantees" class="text-danger"></div>
@@ -380,7 +395,7 @@
                         </div>
                     </div>
 
-
+                  
                     <!-- جدول البيانات المؤقتة -->
                     <table id="GuaranteesTable" class="table" style="display:none;">
                         <thead>
@@ -641,7 +656,18 @@
 
                                 </form>
 
+@* 
 
+                                @using (Html.BeginForm("ImportPersonalData", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPersonalData" }))
+                                {
+                                    <div id="fileInputContainerPersonalData" class="mb-3" style="display: none;">
+                                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputPersonalData">
+                                        <button type="button" class="btn btn-primary" id="uploadBtnPersonalData" style="display: none;">تحميل الملف</button>
+                                        <div id="fileErrorPersonalData" class="text-danger"></div>
+                                    </div>
+                                } *@
+
+                             
 
                                 @using (Html.BeginForm("ImportPersonalData", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPersonalData" }))
                                 {
@@ -652,7 +678,8 @@
                                     </div>
                                 }
 
-
+                          
+                               
                             </div>
                         </div>
                     </div>
@@ -855,11 +882,11 @@
                                         <input type="submit" id="FamilySubmit" value="اظافة" class="btn btn-primary routate" />
                                         <input type="submit" value="حفظ البيانات" class="btn btn-primary" id="FamilySaveDataBtn" style="display: none" />
                                         <button type="button" id="FamilyClearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
-                                        <button type="button" class="btn btn-primary" id="exportToExcelButtonFamily">تصدير إلى Excel</button>
                                         <button type="button" class="btn btn-primary" id="showFileInputBtnFamily">استيراد ملف Excel</button>
+                                        <button type="button" class="btn btn-primary" id="exportToExcelButtonFamily">تصدير إلى Excel</button>
                                     </div>
                                 </form>
-                                @using (Html.BeginForm("ImportFamilyFromExcel", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "importFormFamily" }))
+                              @*   @using (Html.BeginForm("ImportFamilyFromExcel", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "importFormFamily" }))
                                 {
                                     <div id="fileInputContainerFamily" class="mb-3" style="display: none;">
                                         <label class="form-label">استيراد ملف Excel</label>
@@ -867,12 +894,22 @@
                                         <button type="button" class="btn btn-primary" id="uploadBtnFamily" style="display: none;">تحميل الملف</button>
                                         <div id="fileErrorFamily" class="text-danger"></div>
                                     </div>
+                                } *@
+
+                                
+                                @using (Html.BeginForm("ImportFamilyFromExcel", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportFamilyFromExcel" }))
+                                {
+                                    <div id="fileInputContainerFamily" class="mb-3" style="display: none;">
+                                        <input type="file" name="file" class="form-control" accept=".xls,.xlsx" id="fileInputFamily">
+                                        <button type="button" class="btn btn-primary" id="uploadBtnFamily" style="display: none;">تحميل الملف</button>
+                                        <div id="fileErrorFamily" class="text-danger"></div>
+                                    </div>
                                 }
+
+
                             </div>
                         </div>
                     </div>
-
-
 
 
                     <table id="FamilytemporaryTable" class="table" style="display:none;">
@@ -994,27 +1031,9 @@
                                         <!-- Col -->
                                     </div>
 
-                                    @*               <div class="row eff">
-                                    <!-- Col -->
-                                    <div class="form-check form-check-inline col-sm-3">
-                                    <input type="checkbox" name="skill_check" class="form-check-input" id="checkInline1">
-                                    <label class="form-check-label" for="checkInline1">
-                                    تمديد الراتب
-                                    </label>
+                                  
 
-                                    </div>
-                                    <div class="col-sm-9">
-                                    <div class="mb-3">
-                                    <label class="form-label"> الى</label>
-                                    <div class="input-group flatpickr" id="flatpickr-date">
-                                    <input type="text" class="form-control" placeholder="أدخل التاريخ" data-input>
-                                    <span class="input-group-text input-group-addon" data-toggle><i data-feather="calendar"></i></span>
-                                    </div>
-                                    </div>
-                                    </div>
-
-                                    <!-- Col -->
-                                    </div> *@
+                                
                                     <div class="row">
                                         <!-- Col -->
                                         <div class="col-sm-12">
@@ -1121,64 +1140,6 @@
                         </div>
                     </div>
 
-                    <script type="text/javascript">
-                        document.getElementById('showFileInputBtnTraining').addEventListener('click', function () {
-                            var fileInputContainerFamily = document.getElementById('fileInputContainerFamily');
-                            fileInputContainerFamily.style.display = 'block';
-                        });
-
-                        document.getElementById('fileInputFamily').addEventListener('change', function () {
-                            var uploadBtnFamily = document.getElementById('uploadBtnFamily');
-                            var fileErrorFamily = document.getElementById('fileErrorFamily');
-                            var fileNameFamily = this.value.toLowerCase();
-
-                            // التحقق من امتداد الملف
-                            if (fileNameFamily.endsWith('.xls') || fileNameFamily.endsWith('.xlsx')) {
-                                uploadBtnFamily.style.display = 'inline-block'; // عرض زر التحميل
-                                fileErrorFamily.style.display = 'none'; // إخفاء رسالة الخطأ
-                            } else {
-                                uploadBtnFamily.style.display = 'none'; // إخفاء زر التحميل
-                                fileErrorFamily.style.display = 'block'; // عرض رسالة الخطأ
-                                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                                    showConfirmButton: false,
-                                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                                });
-                            }
-                        });
-
-                        document.getElementById('uploadBtnFamily').addEventListener('click', function (event) {
-                            event.preventDefault(); // منع السلوك الافتراضي للزر
-                            Swal.fire({
-                                title: 'هل تريد استيراد البيانات من ملف Excel؟',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'نعم',
-                                cancelButtonText: 'لا'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    var form = document.getElementById('importFormFamily');
-                                    form.submit(); // تقديم النموذج يدويا
-                                }
-                            });
-                        });
-
-                        document.getElementById('exportToExcelButtonFamily').addEventListener('click', function () {
-                            Swal.fire({
-                                title: 'هل تريد تصدير ملف Excel؟',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'نعم',
-                                cancelButtonText: 'لا'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '@Url.Action("ExportFamilyToExcel", "Employees")';
-                                }
-                            });
-                        });
-                    </script>
 
                     <!-- جدول البيانات المؤقتة -->
                     <table id="TrainingCoursesTable" class="table" style="display:none;">
@@ -1278,6 +1239,7 @@
 
                                     <br>
                                     <button type="submit" id="EmployeeArchivesSubmit" class="btn btn-primary routate">حفظ</button>
+                                    <a asp-action="Index" class="btn btn-primary routate">العودة الى القائمة</a>
                                 </form>
 
                             </div>
@@ -1507,36 +1469,94 @@
 
 
 
-    <script type="text/javascript">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script>
         document.getElementById('showFileInputBtnEmployee').addEventListener('click', function () {
-            var fileInputEmployee = document.getElementById('fileInputEmployee');
-            fileInputEmployee.style.display = 'block';
+            var fileInputContainer = document.getElementById('fileInputEmployee');
+            fileInputContainer.style.display = 'block';
         });
 
-        document.getElementById('fileInputEmployee').addEventListener('change', function () {
-            var uploadBtnEmployee = document.getElementById('uploadBtnEmployee');
-            var fileErrorEmployee = document.getElementById('fileErrorEmployee');
-            var fileNameEmployee = this.value.toLowerCase();
+        document.getElementById('fileInputEmployeeInput').addEventListener('change', function () {
+            var file = this.files[0];
+            var fileName = this.value.toLowerCase();
+            var fileError = document.getElementById('fileErrorEmployee');
+            var uploadBtn = document.getElementById('uploadBtnEmployee');
 
-            // التحقق من امتداد الملف
-            if (fileNameEmployee.endsWith('.xls') || fileNameEmployee.endsWith('.xlsx')) {
-                uploadBtnEmployee.style.display = 'inline-block'; // عرض زر التحميل
-                fileErrorEmployee.style.display = 'none'; // إخفاء رسالة الخطأ
+            if (file && file.size > 0) {
+                if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        var requiredColumns = ["Id", "Employee Number", "Employee Name", "Date Of Employment", "Placement Date", "Employment Status", "Rehire Date", "Date Of Stopping Work", "Used Fingerprint", "Subject To Insurance", "Date Insurance", "Finger Print Image", "Image File", "Notes", "Department Name", "Section Name", "Job Description Name", "Fingerprint Devices ID", "Manager Name"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => {
+                            var trimmedHeader = header[index] ? header[index].trim() : '';
+                            return trimmedHeader === col;
+                        });
+
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+                            if (isDataPresent) {
+                                uploadBtn.style.display = 'inline-block';
+                                fileError.style.display = 'none';
+                            } else {
+                                showError("الملف فارغ: الملف لا يحتوي على بيانات.");
+                            }
+                        } else {
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index].trim() !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                uploadBtnEmployee.style.display = 'none'; // إخفاء زر التحميل
-                fileErrorEmployee.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يرجى تحديد ملف غير فارغ.");
             }
         });
 
+        function showError(message, missingColumns = []) {
+            var uploadBtn = document.getElementById('uploadBtnEmployee');
+            var fileError = document.getElementById('fileErrorEmployee');
+            uploadBtn.style.display = 'none';
+            fileError.style.display = 'block';
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered" id="EmployeeDataTable"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
+            document.getElementById('fileInputEmployeeInput').value = '';
+
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                html: errorContent,
+                showConfirmButton: false,
+                timer: 8000,
+                willClose: () => {
+                    var table = document.getElementById('EmployeeDataTable');
+                    if (table) {
+                        table.style.display = 'none';
+                    }
+                    fileError.style.display = 'none';
+                }
+            });
+        }
+
         document.getElementById('uploadBtnEmployee').addEventListener('click', function (event) {
-            event.preventDefault(); // منع السلوك الافتراضي للزر
+            event.preventDefault();
             Swal.fire({
                 title: 'هل تريد استيراد البيانات من ملف Excel؟',
                 icon: 'warning',
@@ -1545,8 +1565,8 @@
                 cancelButtonText: 'لا'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var form = document.getElementById('importFormEmployee');
-                    form.submit(); // تقديم النموذج يدويا
+                    var form = document.getElementById('ImportFormEmployee');
+                    form.submit();
                 }
             });
         });
@@ -1566,38 +1586,92 @@
         });
     </script>
 
-
-
-    <script type="text/javascript">
+    <script>
         document.getElementById('showFileInPersonalData').addEventListener('click', function () {
-            var fileInputContainerPersonalData = document.getElementById('fileInputContainerPersonalData');
-            fileInputContainerPersonalData.style.display = 'block';
+            var fileInputContainer = document.getElementById('fileInputContainerPersonalData');
+            fileInputContainer.style.display = 'block';
         });
 
         document.getElementById('fileInputPersonalData').addEventListener('change', function () {
-            var uploadBtnPersonalData = document.getElementById('uploadBtnPersonalData');
-            var fileErrorPersonalData = document.getElementById('fileErrorPersonalData');
-            var fileNamePersonalData = this.value.toLowerCase();
+            var file = this.files[0];
+            var fileName = this.value.toLowerCase();
+            var fileError = document.getElementById('fileErrorPersonalData');
+            var uploadBtn = document.getElementById('uploadBtnPersonalData');
 
-            // التحقق من امتداد الملف
-            if (fileNamePersonalData.endsWith('.xls') || fileNamePersonalData.endsWith('.xlsx')) {
-                uploadBtnPersonalData.style.display = 'inline-block'; // عرض زر التحميل
-                fileErrorPersonalData.style.display = 'none'; // إخفاء رسالة الخطأ
+            if (file && file.size > 0) {
+                if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        var requiredColumns = ["Id", "الموظف", "تاريخ الميلاد", "العمر", "الجنس", "الجنسية", "الديانة", "الحالة الإجتماعية", "هاتف المنزل", "الايميل", "الموبايل", "العنوان", "الملاحظات", "نوع البطاقة", "صادرة من", "رقم البطاقة", "تاريخ الاصدار", "تاريخ الانتهاء", "الضمين"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => {
+                            var trimmedHeader = header[index] ? header[index].trim() : '';
+                            return trimmedHeader === col;
+                        });
+
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+                            if (isDataPresent) {
+                                uploadBtn.style.display = 'inline-block';
+                                fileError.style.display = 'none';
+                            } else {
+                                showError("الملف فارغ: الملف لا يحتوي على بيانات.");
+                            }
+                        } else {
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index].trim() !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                uploadBtnPersonalData.style.display = 'none'; // إخفاء زر التحميل
-                fileErrorPersonalData.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يرجى تحديد ملف غير فارغ.");
             }
         });
 
+        function showError(message, missingColumns = []) {
+            var uploadBtn = document.getElementById('uploadBtnPersonalData');
+            var fileError = document.getElementById('fileErrorPersonalData');
+            uploadBtn.style.display = 'none';
+            fileError.style.display = 'block';
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered" id="PersonalDataTable"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
+            document.getElementById('fileInputPersonalData').value = '';
+
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                html: errorContent,
+                showConfirmButton: false,
+                timer: 8000,
+                willClose: () => {
+                    var table = document.getElementById('PersonalDataTable');
+                    if (table) {
+                        table.style.display = 'none';
+                    }
+                    fileError.style.display = 'none';
+                }
+            });
+        }
+
         document.getElementById('uploadBtnPersonalData').addEventListener('click', function (event) {
-            event.preventDefault(); // منع السلوك الافتراضي للزر
+            event.preventDefault();
             Swal.fire({
                 title: 'هل تريد استيراد البيانات من ملف Excel؟',
                 icon: 'warning',
@@ -1607,7 +1681,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var form = document.getElementById('ImportPersonalData');
-                    form.submit(); // تقديم النموذج يدويا
+                    form.submit();
                 }
             });
         });
@@ -1625,6 +1699,7 @@
                 }
             });
         });
+
     </script>
 
 
@@ -1672,7 +1747,8 @@
                                 showError("فارغ: الملف لا يحتوي على بيانات.");
                             }
                         } else {
-                            showError("الملف لا يحتوي على: Id، اسم الموظف، اسم الخبرة، مكان حصول عليها، من تاريخ، الي تاريخ، الفترة.");
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index].trim() !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
                         }
                     };
                     reader.readAsArrayBuffer(file);
@@ -1684,21 +1760,42 @@
             }
         });
 
-        function showError(message) {
-            var uploadBtnExperiences = document.getElementById('uploadBtnguaranteesExperiences');
-            var fileErrorExperiences = document.getElementById('fileErrorguaranteesExperiences');
-            uploadBtnExperiences.style.display = 'none';
-            fileErrorExperiences.style.display = 'block';
-            fileErrorExperiences.textContent = message;
+    
+
+        function showError(message, missingColumns = []) {
+            var uploadBtn = document.getElementById('uploadBtnguaranteesExperiences');
+            var fileError = document.getElementById('fileErrorguaranteesExperiences');
+            uploadBtn.style.display = 'none';
+            fileError.style.display = 'block';
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered" id="missingColumnsTableExperiences"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
             document.getElementById('fileInputguaranteesExperiences').value = '';
+
             Swal.fire({
                 icon: 'error',
                 title: message,
+                html: errorContent,
                 showConfirmButton: false,
-                timer: 4000
+                timer: 8000,
+                willClose: () => {
+                    // Hide the missing columns table after the message disappears
+                    var table = document.getElementById('missingColumnsTableExperiences');
+                    if (table) {
+                        table.style.display = 'none';
+                    }
+                    fileError.style.display = 'none'; // Hide the error div
+                }
             });
         }
-
         document.getElementById('uploadBtnguaranteesExperiences').addEventListener('click', function (event) {
             event.preventDefault();
             Swal.fire({
@@ -1734,6 +1831,10 @@
     @* //============================استيراد بيانات الظمين ملف اكسل الى قاعدة البيانات=======
   *@
 
+ 
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script type="text/javascript">
         document.getElementById('showFileInputBtnguarantees').addEventListener('click', function () {
             var fileInputContainer = document.getElementById('fileInputContainer');
@@ -1741,29 +1842,87 @@
         });
 
         document.getElementById('fileInputguarantees').addEventListener('change', function () {
-            var uploadBtnguarantees = document.getElementById('uploadBtnguarantees');
-            var fileErrorguarantees = document.getElementById('fileErrorguarantees');
-            var fileNameguarantees = this.value.toLowerCase();
+            var file = this.files[0];
+            var fileName = this.value.toLowerCase();
+            var fileError = document.getElementById('fileErrorguarantees');
+            var uploadBtn = document.getElementById('uploadBtnguarantees');
 
-            // التحقق من امتداد الملف
-            if (fileNameguarantees.endsWith('.xls') || fileNameguarantees.endsWith('.xlsx')) {
-                uploadBtnguarantees.style.display = 'inline-block'; // عرض زر التحميل
-                fileErrorguarantees.style.display = 'none'; // إخفاء رسالة الخطأ
+            if (file && file.size > 0) {
+                if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        var requiredColumns = ["Id", "اسم الضمين", "الموبايل", "اسم المحل التجاري", "رقم السجل", "عنوان المحل التجاري", "عنوان السكن الدائم", "عدد من يعول", "الملاحظة", "الحالة الإجتماعية"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => {
+                            var trimmedHeader = header[index] ? header[index].trim() : '';
+                            return trimmedHeader === col;
+                        });
+
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+                            if (isDataPresent) {
+                                uploadBtn.style.display = 'inline-block';
+                                fileError.style.display = 'none';
+                            } else {
+                                showError("الملف فارغ: الملف لا يحتوي على بيانات.");
+                            }
+                        } else {
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index].trim() !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                uploadBtnguarantees.style.display = 'none'; // إخفاء زر التحميل
-                fileErrorguarantees.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يرجى تحديد ملف غير فارغ.");
             }
         });
 
+        
+
+        function showError(message, missingColumns = []) {
+            var uploadBtn = document.getElementById('uploadBtnguarantees');
+            var fileError = document.getElementById('fileErrorguarantees');
+            uploadBtn.style.display = 'none';
+            fileError.style.display = 'block';
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered" id="missingColumnsTable"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
+            document.getElementById('fileInputguarantees').value = '';
+
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                html: errorContent,
+                showConfirmButton: false,
+                timer: 8000,
+                willClose: () => {
+                    // Hide the missing columns table after the message disappears
+                    var table = document.getElementById('missingColumnsTable');
+                    if (table) {
+                        table.style.display = 'none';
+                    }
+                    fileError.style.display = 'none'; // Hide the error div
+                }
+            });
+        }
         document.getElementById('uploadBtnguarantees').addEventListener('click', function (event) {
-            event.preventDefault(); // منع السلوك الافتراضي للزر
+            event.preventDefault();
             Swal.fire({
                 title: 'هل تريد استيراد البيانات من ملف Excel؟',
                 icon: 'warning',
@@ -1772,8 +1931,8 @@
                 cancelButtonText: 'لا'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var form = document.getElementById('importFormguarantees');
-                    form.submit(); // تقديم النموذج يدويا
+                    var form = document.getElementById('Importguarantees');
+                    form.submit();
                 }
             });
         });
@@ -1787,7 +1946,7 @@
                 cancelButtonText: 'لا'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '@Url.Action("ExportToExcelguarantees", "Employees")';
+                    window.location.href = '@Url.Action("ExportToExcelGuarantees", "Employees")';
                 }
             });
         });
@@ -1795,6 +1954,8 @@
     @*                 // Action Method لتصدير البيانات الاسرة  إلى ملف Excel
  *@
 
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script type="text/javascript">
         document.getElementById('showFileInputBtnFamily').addEventListener('click', function () {
             var fileInputContainerFamily = document.getElementById('fileInputContainerFamily');
@@ -1802,29 +1963,86 @@
         });
 
         document.getElementById('fileInputFamily').addEventListener('change', function () {
-            var uploadBtnFamily = document.getElementById('uploadBtnFamily');
-            var fileErrorFamily = document.getElementById('fileErrorFamily');
+            var file = this.files[0];
             var fileNameFamily = this.value.toLowerCase();
+            var fileErrorFamily = document.getElementById('fileErrorFamily');
+            var uploadBtnFamily = document.getElementById('uploadBtnFamily');
 
-            // التحقق من امتداد الملف
-            if (fileNameFamily.endsWith('.xls') || fileNameFamily.endsWith('.xlsx')) {
-                uploadBtnFamily.style.display = 'inline-block'; // عرض زر التحميل
-                fileErrorFamily.style.display = 'none'; // إخفاء رسالة الخطأ
+            if (file && file.size > 0) {
+                if (fileNameFamily.endsWith('.xls') || fileNameFamily.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                        var requiredColumns = ["Id", "الموظف", "الاسم", "صلة القرابة", "الملاحظة"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => {
+                            var trimmedHeader = header[index] ? header[index].trim() : '';
+                            return trimmedHeader === col;
+                        });
+
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+
+                            if (isDataPresent) {
+                                uploadBtnFamily.style.display = 'inline-block';
+                                fileErrorFamily.style.display = 'none';
+                            } else {
+                                showError("فارغ: الملف لا يحتوي على بيانات.");
+                            }
+                        } else {
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index].trim() !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                uploadBtnFamily.style.display = 'none'; // إخفاء زر التحميل
-                fileErrorFamily.style.display = 'block'; // عرض رسالة الخطأ
-                this.value = ''; // إعادة تعيين قيمة الملف المختار
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يجب اختيار ملف بصيغة Excel فقط!',
-                    showConfirmButton: false,
-                    timer: 2000 // يغلق التنبيه تلقائيا بعد 2 ثانية
-                });
+                showError("يرجى تحديد ملف غير فارغ.");
             }
         });
 
+        function showError(message, missingColumns = []) {
+            var uploadBtn = document.getElementById('uploadBtnFamily');
+            var fileError = document.getElementById('fileErrorFamily');
+            uploadBtn.style.display = 'none';
+            fileError.style.display = 'block';
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered" id="missingColumnsTableFamily"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
+            document.getElementById('fileInputFamily').value = '';
+
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                html: errorContent,
+                showConfirmButton: false,
+                timer: 8000,
+                willClose: () => {
+                    var table = document.getElementById('missingColumnsTableFamily');
+                    if (table) {
+                        table.style.display = 'none';
+                    }
+                    fileError.style.display = 'none';
+                }
+            });
+        }
+
         document.getElementById('uploadBtnFamily').addEventListener('click', function (event) {
-            event.preventDefault(); // منع السلوك الافتراضي للزر
+            event.preventDefault();
             Swal.fire({
                 title: 'هل تريد استيراد البيانات من ملف Excel؟',
                 icon: 'warning',
@@ -1833,8 +2051,8 @@
                 cancelButtonText: 'لا'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var form = document.getElementById('importFormFamily');
-                    form.submit(); // تقديم النموذج يدويا
+                    var form = document.getElementById('ImportFamilyFromExcel');
+                    form.submit();
                 }
             });
         });

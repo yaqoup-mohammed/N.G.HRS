@@ -140,6 +140,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
 
+
         public async Task<IActionResult> ExportToExcelCountry()
         {
             var countries = await _context.country.ToListAsync(); // استرجاع جميع الدول من قاعدة البيانات
@@ -155,7 +156,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
                 worksheet.Cells[1, 1].Value = "Id";
 
                 worksheet.Cells[1, 2].Value = "الدولة";
-                worksheet.Cells[1, 3].Value = "الملاحظات";
+                worksheet.Cells[1, 3].Value = "الملاحظة";
 
                 // ملء البيانات
                 int row = 2;

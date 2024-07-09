@@ -65,68 +65,12 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employee = await _context.employee.ToListAsync();
-                decimal sumOfsalary = 0;
-                decimal Late = 0;
-                decimal Abcents = 0;
-                var empId = 0;
-                var month = new DateTime();
-                foreach (var emp in employee)
-                {
-                    empId = emp.Id;
-                    foreach (int monthNumber in Enumerable.Range(1, 12))
-                    {
-                        //var newRecord = new Salaries { Month = monthNumber, Year = Salaries.SelectedMonth.Year };
-                        var baseSalary = _context.financialStatements.Where(x => x.EmployeeId == emp.Id).Select(x => x.BasicSalary).FirstOrDefault();
-                        if (baseSalary != null)
-                        {
-                            var shiftTime = _context.staffTimes.Include(x=>x.Periods).Where(x => x.EmployeeId == emp.Id).Select(x => new {x.Periods.Muinutes}).FirstOrDefault();
-                            var Attendance = await _context.AttendanceAndAbsenceProcessing.Where(x => x.IsProcssessed == false && x.IsProcssessedBefore == false && x.EmployeeId == emp.Id && x.AttendanceStatusId != 10 && x.Date.Value.Month == monthNumber).ToListAsync();
-                            if (Attendance != null)
-                            {
-                                foreach (var item in Attendance)
-                                {
-                                    month = new DateTime(item.Date.Value.Year,item.Date.Value.Month,0,0,0,0) ;
-                                    var salaryWithMinutes = baseSalary / shiftTime.Muinutes;
-                                    var totalSalary = item.TotalWorkMinutes * salaryWithMinutes;
-                                    if (item.AttendanceStatusId == 1 || item.AttendanceStatusId == 3 || item.AttendanceStatusId == 4 
-                                        || item.AttendanceStatusId == 5|| item.AttendanceStatusId == 6 || item.AttendanceStatusId == 7
-                                        || item.AttendanceStatusId == 8|| item.AttendanceStatusId == 13|| item.AttendanceStatusId == 14 || item.AttendanceStatusId == 15)
-                                    {
-                                        sumOfsalary += totalSalary.Value;
-                                    }
-                                    else if(item.AttendanceStatusId == 11 || item.AttendanceStatusId == 12)
-                                    {
-                                        Late += totalSalary.Value;
-                                    }
-                                    else if(item.AttendanceStatusId == 2)
-                                    {
-                                        Abcents += totalSalary.Value;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Salaries salary = new Salaries()
-                    {
-                        EmployeeId = empId,
-                        Additinal = 0,
-                        Salary = sumOfsalary,
-                        allowances = 0,
-                        SelectedMonth = month,
-                        Gratuities =0,
-                        Abcents = 0,
-                        Bonuses = 0,
-                        Entitlements =0,
-                        Deductions = 0,
-                        Another = 0
-                    };
-                }
+                
                 _context.Add(salaries);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ////ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", salaries.CurrencyId);
+            //ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode", salaries.CurrencyId);
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName", salaries.EmployeeId);
             return View(salaries);
         }

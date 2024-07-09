@@ -558,3 +558,27 @@ body {
     }
 }
 
+#printableArea, #printableArea * {
+    visibility: visible;
+}
+
+#printableArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+}
+.pinned {
+    position: absolute !important;
+    left: 0 !important;
+    
+}
+.flexable {
+    display: flex;
+    flex-direction: row;
+}
+    .flexable div {
+        padding-left: 5px;
+    }

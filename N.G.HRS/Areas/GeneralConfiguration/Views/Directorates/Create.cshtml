@@ -12,21 +12,20 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive">
-                    <div class="card">
+                
                         <div class="card-header">
                             <h3>المديريات</h3>
                         </div>
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label asp-for="Name" class="control-label"></label>
                                     <input asp-for="Name" id="Directorate" class="form-control" />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label asp-for="GovernorateId" class="control-label"></label>
                                     <select asp-for="GovernorateId" class="js-example-basic-single form-select" asp-items="ViewBag.GovernorateId" as SelectList>
 
@@ -34,19 +33,48 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12 mb-3">
                                 <label asp-for="Notes" class="control-label"></label>
                                 <input asp-for="Notes" id="DirectorateNotes" class="form-control" />
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
+                         @*    <div class="form-group">
                                 <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
                                 <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display:none" />
                                 <a asp-action="Index" class="btn btn-primary">الرجوع الى القائمة</a>
                                 <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
                                 <button type="button" class="btn btn-primary" id="showFileInDirectorate">استيراد ملف Excel</button>
                                 <button type="button" class="btn btn-primary" id="exportToExcelDirectorate">تصدير إلى Excel</button>
-                            </div>
+                            </div> *@
+                            @* //========================== *@
+                            <div class="flexable mb-3">
+
+                                <div>
+                                    <input type="submit" id="submit" value="اضافة" class="btn btn-primary" />
+
+                                </div>
+                                <div>
+                                    <a asp-action="Index" class="btn btn-light "> رجوع للقائمة</a>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @* <i data-feather="more-vertical"></i> *@
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button type="button" class="dropdown-item" id="showFileInDirectorate">استيراد ملف Excel</button>
+                                            <button type="button" class="dropdown-item" id="exportToExcelDirectorate">تصدير إلى Excel</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <input type="submit" value="حفظ البيانات" class="btn btn-primary me-2" id="saveDataBtn" style="display: none" />
+                                </div>
+                                <div>
+                                    <button type="button" id="clearTableBtn" style="display:none" class="btn btn-danger">حذف الكل</button>
+                                </div>
+                            </div> 
                         </form>
 
                       
@@ -63,8 +91,7 @@
                             </div>
                         }
                       
-                    </div>
-                </div>
+                    
             </div>
         </div>
     </div>
@@ -73,119 +100,152 @@
 
 
 <!-- جدول البيانات المؤقتة -->
-<table id="temporaryTable" class="table" style="display:none;">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th> المديريات</th>
-            <th>المحافظة</th>
-            <th>الملاحظات</th>
 
-        </tr>
-    </thead>
-    <tbody>
+<div id="table" class="row" style="display:none;">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title headerStyle">الفترات</h6>
+                <div class="table-responsive">
+                    <table id="temporaryTable" class="table" >
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th> المديريات</th>
+                                <th>المحافظة</th>
+                                <th>الملاحظات</th>
+                                <th>#</th>
 
-    </tbody>
-</table>
-   
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
-   <script type="text/javascript">
-    document.getElementById('showFileInDirectorate').addEventListener('click', function () {
-        var fileInputContainerDirectorate = document.getElementById('fileInputDirectorate');
-        fileInputContainerDirectorate.style.display = 'block';
-    });
+    <script type="text/javascript">
+        document.getElementById('showFileInDirectorate').addEventListener('click', function () {
+            var fileInputContainerDirectorate = document.getElementById('fileInputDirectorate');
+            fileInputContainerDirectorate.style.display = 'block';
+        });
 
-    document.getElementById('fileInputDirectorateInput').addEventListener('change', function () {
-        var file = this.files[0];
-        var fileNameDirectorate = this.value.toLowerCase();
-        var fileErrorDirectorate = document.getElementById('fileErrorDirectorate');
-        var uploadBtnDirectorate = document.getElementById('uploadBtnDirectorate');
+        document.getElementById('fileInputDirectorateInput').addEventListener('change', function () {
+            var file = this.files[0];
+            var fileNameDirectorate = this.value.toLowerCase();
+            var fileErrorDirectorate = document.getElementById('fileErrorDirectorate');
+            var uploadBtnDirectorate = document.getElementById('uploadBtnDirectorate');
 
-        if (file && file.size > 0) {
-            if (fileNameDirectorate.endsWith('.xls') || fileNameDirectorate.endsWith('.xlsx')) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var data = new Uint8Array(e.target.result);
-                    var workbook = XLSX.read(data, { type: 'array' });
-                    var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+            if (file && file.size > 0) {
+                if (fileNameDirectorate.endsWith('.xls') || fileNameDirectorate.endsWith('.xlsx')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, { type: 'array' });
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
 
-                    var requiredColumns = ["ID", "المديرية", "الملاحظة", "المحافظة"];
-                    var header = rows[0];
-                    var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
+                        var requiredColumns = ["ID", "المديرية", "الملاحظة", "المحافظة"];
+                        var header = rows[0];
+                        var isHeaderValid = header && requiredColumns.every((col, index) => header[index] === col);
 
-                    if (isHeaderValid) {
-                        var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
+                        if (isHeaderValid) {
+                            var isDataPresent = rows.length > 1 && rows.slice(1).some(row => row.some(cell => cell));
 
-                        if (isDataPresent) {
-                            uploadBtnDirectorate.style.display = 'inline-block'; // عرض زر التحميل
-                            fileErrorDirectorate.style.display = 'none'; // إخفاء رسالة الخطأ
+                            if (isDataPresent) {
+                                uploadBtnDirectorate.style.display = 'inline-block'; // عرض زر التحميل
+                                fileErrorDirectorate.style.display = 'none'; // إخفاء رسالة الخطأ
+                            } else {
+                                showError("الملف فارغ: الملف لا يحتوي على بيانات.");
+                            }
                         } else {
-                            showError("الملف فارغ: الملف لا يحتوي على بيانات.");
+                            var missingColumns = requiredColumns.filter((col, index) => !header[index] || header[index] !== col);
+                            showError("الملف لا يحتوي على الأعمدة المطلوبة:", missingColumns);
                         }
-                    } else {
-                        showError("الملف لا يحتوي على: ID، المديرية، الملاحظة، المحافظة.");
-                    }
-                };
-                reader.readAsArrayBuffer(file);
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    showError("يجب اختيار ملف بصيغة Excel فقط!");
+                }
             } else {
-                showError("يجب اختيار ملف بصيغة Excel فقط!");
+                showError("يرجى تحديد ملف غير فارغ.");
             }
-        } else {
-            showError("يرجى تحديد ملف غير فارغ.");
+        });
+
+        function showError(message, missingColumns = []) {
+            var uploadBtn = document.getElementById('uploadBtnDirectorate');
+            var fileError = document.getElementById('fileErrorDirectorate');
+            uploadBtn.style.display = 'none';
+            fileError.style.display = 'block';
+
+            var errorContent = `<p>${message}</p>`;
+            if (missingColumns.length > 0) {
+                errorContent += `<table class="table table-bordered" id="missingColumnsTableDirectorate"><thead><tr><th>الأعمدة الناقصة</th></tr></thead><tbody>`;
+                missingColumns.forEach(col => {
+                    errorContent += `<tr><td>${col}</td></tr>`;
+                });
+                errorContent += `</tbody></table>`;
+            }
+
+            fileError.innerHTML = errorContent;
+            document.getElementById('fileInputDirectorateInput').value = '';
+
+            Swal.fire({
+                icon: 'error',
+                title: message,
+                html: errorContent,
+                showConfirmButton: false,
+                timer: 8000,
+                willClose: () => {
+                    // Hide the missing columns table after the message disappears
+                    var table = document.getElementById('missingColumnsTableDirectorate');
+                    if (table) {
+                        table.style.display = 'none';
+                    }
+                    fileError.style.display = 'none'; // Hide the error div
+                }
+            });
         }
-    });
 
-    function showError(message) {
-        var uploadBtnDirectorate = document.getElementById('uploadBtnDirectorate');
-        var fileErrorDirectorate = document.getElementById('fileErrorDirectorate');
-        uploadBtnDirectorate.style.display = 'none'; // إخفاء زر التحميل
-        fileErrorDirectorate.style.display = 'block'; // عرض رسالة الخطأ
-        fileErrorDirectorate.textContent = message;
-        document.getElementById('fileInputDirectorateInput').value = ''; // إعادة تعيين قيمة الملف المختار
-        Swal.fire({
-            icon: 'error',
-            title: message,
-            showConfirmButton: false,
-            timer: 4000 // يغلق التنبيه تلقائيا بعد 4 ثوان
+        document.getElementById('uploadBtnDirectorate').addEventListener('click', function (event) {
+            event.preventDefault(); // منع السلوك الافتراضي للزر
+            Swal.fire({
+                title: 'هل تريد استيراد البيانات من ملف Excel؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = document.getElementById('ImportDirectorate');
+                    form.submit(); // تقديم النموذج يدويا
+                }
+            });
         });
-    }
 
-    document.getElementById('uploadBtnDirectorate').addEventListener('click', function (event) {
-        event.preventDefault(); // منع السلوك الافتراضي للزر
-        Swal.fire({
-            title: 'هل تريد استيراد البيانات من ملف Excel؟',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'نعم',
-            cancelButtonText: 'لا'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var form = document.getElementById('ImportDirectorate');
-                form.submit(); // تقديم النموذج يدويا
-            }
+        document.getElementById('exportToExcelDirectorate').addEventListener('click', function () {
+            Swal.fire({
+                title: 'هل تريد تصدير ملف Excel؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("ExportToExcelDirectorate", "Directorates")';
+                }
+            });
         });
-    });
+    </script>
 
-    document.getElementById('exportToExcelDirectorate').addEventListener('click', function () {
-        Swal.fire({
-            title: 'هل تريد تصدير ملف Excel؟',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'نعم',
-            cancelButtonText: 'لا'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '@Url.Action("ExportToExcelDirectorate", "Directorates")';
-            }
-        });
-    });
-</script>
 
     <script>
 
@@ -290,7 +350,7 @@
                         // $("#GovernorateId").val('');
 
                         $("#saveDataBtn").show();
-                        $("#temporaryTable").show();
+                        $("#table").show();
                         $("#clearTableBtn").show(); // إظهار زر حذف الكل بعد إضافة العنصر الأول
                     }
                 });
@@ -310,7 +370,7 @@
                 if ($("#temporaryTable tbody tr").length === 0) {
                     $("#saveDataBtn").hide();
                     $("#clearTableBtn").hide(); // إخفاء زر حذف الكل إذا لم يكن هناك بيانات
-                    $("#temporaryTable").hide();
+                    $("#table").hide();
                 }
             });
 
@@ -330,7 +390,7 @@
                         counter = 1; // إعادة تعيين العداد إلى القيمة الافتراضية
                         $("#saveDataBtn").hide(); // إخفاء زر حفظ البيانات
                         $("#clearTableBtn").hide(); // إخفاء زر حذف الكل بعد الحذف
-                        $("#temporaryTable").hide();
+                        $("#table").hide();
 
                         Swal.fire(
                             'تم الحذف!',
@@ -355,7 +415,7 @@
                 if ($("#temporaryTable tbody tr").length === 0) {
                     $("#saveDataBtn").hide();
                     $("#clearTableBtn").hide(); // إخفاء زر حذف الكل إذا لم يكن هناك بيانات
-                    $("#temporaryTable").hide();
+                    $("#table").hide();
                 }
             });
 
@@ -375,7 +435,7 @@
                         counter = 1; // إعادة تعيين العداد إلى القيمة الافتراضية
                         $("#saveDataBtn").hide(); // إخفاء زر حفظ البيانات
                         $("#clearTableBtn").hide(); // إخفاء زر حذف الكل بعد الحذف
-                        $("#temporaryTable").hide();
+                        $("#table").hide();
 
                         Swal.fire(
                             'تم الحذف!',
