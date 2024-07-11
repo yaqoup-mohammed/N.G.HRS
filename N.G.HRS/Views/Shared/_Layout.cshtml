@@ -637,64 +637,77 @@
                         </li>
                     </ul>
                 </div>
+                @* //======================= *@
                 <ul class="nav ">
                     <li class="nav-item ">
-                        <a role="button" aria-expanded="false" href="#salariesAndWages" class="menu menu-link dropdown-button">
-                            <span class="link-title"> الرواتب والاجور</span>
-                            <i class="dropdown-arrow" data-feather="chevron-down"></i>
+                            <a role="button" aria-expanded="false" href="#salariesAndWages" class="menu menu-link dropdown-button">
+                                <span class="link-title">الرواتب والاجور </span>
+                                <i class="dropdown-arrow" data-feather="chevron-down"></i>
                         </a>
                     </li>
                 </ul>
-                <div id="salariesAndWages" class="submenu ">
+                    <div id="salariesAndWages" class="submenu ">
                     <ul class="nav mb-5 ">
                         <li class="nav-item nav-category">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">الإضافي المعتمد تلقائيا </span>
-                            </a>
-
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">أجور الموظفين </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">بدلات وخصميات الموظفين </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">إستحقاقات وإستقطاعات </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">قروض الموظفين </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">سلف الموظفين </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">مخالصة نهاية الخدمة </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">بدلات الاجازات </span>
-                            </a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">إكرامات الموظفين </span>
-                            </a>
-
-                            <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Salaryrevealed">
-                                <i class="link-icon" data-feather="more-vertical"></i>
-                                <span class="link-title">تقرير الرواتب </span>
-                            </a>
-
+                            
+                                <a class="menu nav-link " asp-area="PayRoll" asp-controller="AutomaticallyApprovedAdd_on" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">الإضافي المعتمد تلقائيا </span>
+                                </a>
+                           
+                        </li>
+                        <li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">أجور الموظفين </span>
+                                </a>
+                            
+                        </li>
+                        <li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">بدلات وخصميات الموظفين </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="EntitlementsAndDeductions" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">إستحقاقات وإستقطاعات </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="EmployeeLoans" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">قروض الموظفين </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="EmployeeAdvances" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">سلف الموظفين </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="EndOfServiceClearances" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">مخالصة نهاية الخدمة </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="VacationAllowances" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">بدلات الاجازات </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="PayRoll" asp-controller="EmployeePerks" asp-action="Index">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">إكرامات الموظفين </span>
+                                </a>
+                        </li><li class="nav-item nav-category">
+                                <a class="menu nav-link" asp-area="Employees" asp-controller="Employees" asp-action="Salaryrevealed">
+                                    <i class="link-icon" data-feather="more-vertical"></i>
+                                    <span class="link-title">تقرير الرواتب </span>
+                                </a>
                         </li>
                     </ul>
                 </div>
-            </div>
+                    
+               
         </nav>
         <div class="page-wrapper">
             <!-- partial:partials/_navbar.html -->

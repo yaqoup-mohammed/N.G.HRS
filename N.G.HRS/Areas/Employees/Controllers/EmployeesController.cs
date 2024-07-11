@@ -24,7 +24,6 @@ using System.Reflection.PortableExecutable;
 using PersonalData = N.G.HRS.Areas.Employees.Models.PersonalData;
 using Microsoft.Graph;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.Employees.Controllers
 {
@@ -108,10 +107,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             this._financialStatementsrepository = FinancialStatementsrepository;
         }
 
-        [Authorize(Policy = "ViewPolicy")]
-     
-
-
         public async Task<IActionResult> Index()
         {
             // Populate ViewData for dropdown lists
@@ -160,8 +155,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         }
         // Example with English naming convention
-              [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> AddEmployee()
         {
             await PopulateDropdownListsAsync();
@@ -170,23 +163,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
 
         }
-        [Authorize(Policy = "MalePhotoPolicy")]
 
-        public IActionResult ViewImage(int id)
-        {
-            var employee = _context.employee.FirstOrDefault(e => e.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            var imagePath = $"~/Upload/Images/Employee/{employee.ImageFile}";
-            return File(imagePath, "image/jpeg");
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
         {
             try
@@ -195,33 +174,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
                 if (viewModel.Employee != null)
                 {
-                    // Check if an employee with the same EmployeeNumber already exists
                     var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-
                     if (!exist)
                     {
-                        // Validate the file upload
-                        if (viewModel.Employee.FileUpload != null && viewModel.Employee.FileUpload.Length > 0)
-                        {
-                            // Save the file to server
-                            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(viewModel.Employee.FileUpload.FileName);
-                            var filePath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Upload/Images/Employee", fileName);
-
-                            //var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                            //var filePath = Path.Combine(uploadsFolder, fileName);
-
-                            using (var fileStream = new FileStream(filePath, FileMode.Create))
-                            {
-                                await viewModel.Employee.FileUpload.CopyToAsync(fileStream);
-                            }
-
-                            // Save the file name in database
-                            viewModel.Employee.ImageFile = fileName;
-                        }
-
-                        // Add the employee to repository
                         await _employeeRepository.AddAsync(viewModel.Employee);
-
                         TempData["Success"] = "تم الحفظ بنجاح";
                         return RedirectToAction(nameof(AddEmployee));
                     }
@@ -230,11 +186,11 @@ namespace N.G.HRS.Areas.Employees.Controllers
                         TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
                         return View(viewModel);
                     }
+
                 }
                 else
                 {
-                    TempData["Error"] = "لم تتم الإضافة، النموذج غير صحيح";
-                    return View(viewModel);
+                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
                 }
             }
             catch (Exception ex)
@@ -243,50 +199,13 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 TempData["SystemError"] = ex.Message;
                 return View(viewModel);
             }
+            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
+
+            return View(viewModel);
         }
-
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
         // استيراد ملف اكسل للموظفين
 
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> ImportFormEmployee(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -463,8 +382,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         [HttpGet]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> ExportToExcelEmployee()
         {
             var employees = await _context.employee
@@ -563,12 +480,11 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return Json(new { sections });
         }
 
-     
 
-        
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> AddPracticalExperiencesToEmployee(EmployeeVM viewModel)
         {
             try
@@ -597,10 +513,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
-        
-        [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
 
+        [HttpPost]
         public async Task<IActionResult> ImportPracticalExperiences(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -677,7 +591,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         // تصدير  بيانات الخبرات
-        [Authorize(Policy = "AddPolicy")]
 
         public async Task<IActionResult> ExportPracticalExperiencesToExcel()
         {
@@ -765,8 +678,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> AddFamilyToEmployee(EmployeeVM viewModel)
         {
             try
@@ -797,8 +708,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         // Action Method لتصدير البيانات  الاسرة إلى ملف Excel
-        [Authorize(Policy = "AddPolicy")]
-
         public IActionResult ExportFamilyToExcel()
         {
             // استرجاع البيانات التي تريد تصديرها إلى Excel مع تضمين الكيانات ذات الصلة
@@ -839,8 +748,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         // Action Method لاستيراد البيانات من ملف Excel
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> ImportFamilyFromExcel(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -898,7 +805,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         [HttpPost]
-
         public async Task<IActionResult> SaveFamily(int familyEmployeeId, string familyName, int familyRelativesTypeId, string familyNotes)
         {
             try
@@ -935,9 +841,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
-        public async Task<IActionResult> AddPersonalDataToEmployee( EmployeeVM viewModel)
+        public async Task<IActionResult> AddPersonalDataToEmployee(EmployeeVM viewModel)
         {
             try
             {
@@ -965,7 +869,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Policy = "AddPolicy")]
 
         public IActionResult ExportPersonalDataToExcel()
         {
@@ -1041,11 +944,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "PersonalData.xlsx");
             }
         }
-        
+
 
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> ImportPersonalData(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -1258,16 +1159,14 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return NotFound();
         }
 
-    
+
 
 
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
-        public async Task<IActionResult> AddGuarantees( EmployeeVM viewModel)
+        public async Task<IActionResult> AddGuarantees(EmployeeVM viewModel)
         {
             try
             {
@@ -1298,8 +1197,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> Importguarantees(IFormFile file)
         {
             if (file == null || file.Length <= 0)
@@ -1384,8 +1281,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         // الإجراء لتصدير البيانات إلى ملف Excel
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> ExportToExcelGuarantees()
         {
             var guarantees = await _context.guarantees.Include(g => g.MaritalStatus).ToListAsync();
@@ -1475,8 +1370,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> AddFinancialStatements(EmployeeVM viewModel)
         {
             try
@@ -1547,8 +1440,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> AddTrainingCourses(EmployeeVM viewModel)
         {
             try
@@ -1580,7 +1471,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         // Action Method لتصدير البيانات إلى ملف Excel
 
-          [Authorize(Policy = "AddPolicy")]
 
         public IActionResult ExportTrainingToExcel()
         {
@@ -1622,8 +1512,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> ImportTrainingFromExcel(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -1694,8 +1582,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> SaveTrainingCourses(int trainingCoursesEmployeeId, string trainingCoursesNameCourses, string trainingCoursesWhereToGetIt, string trainingCoursesFromDate, string trainingCoursesToDate)
         {
 
@@ -1730,13 +1616,11 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
 
-        
+
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> AddEmployeeArchives(EmployeeVM viewModel)
         {
             try
@@ -1771,8 +1655,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "AddPolicy")]
-
         public async Task<IActionResult> SaveArchives(IFormFile archivesFileUpload, int archivesEmployeeId, DateOnly archivesDate, string archivesDescriotion, string archivesNotes)
         {
 
@@ -1867,10 +1749,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
             var Currency = await _currencyrepository.GetAllAsync();
             ViewData["Currency"] = new SelectList(Currency, "Id", "CurrencyName");
 
-            ////-----------------------educationalQualificationr---------------------------      //-----------------------Guarantees---------------------------
-            var Employee = await _employeeRepository.GetAllAsync();
-            ViewData["Employees"] = new SelectList(Employee, "Id", "EmployeeName");
-
             ////-----------------------educationalQualificationr---------------------------
             //var educationalQualificationr = await _educationalQualificationrepository.GetAllAsync();
             //ViewData["educationalQualificationr"] = new SelectList(educationalQualificationr, "Id", "Name");
@@ -1922,9 +1800,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             var external = _context.AdditionalExternalOfWork.Where(e => e.EmployeeId == Id).ToList();
             return View(new { employee, external });
         }
-        [Authorize(Policy = "DetailsPolicy")]
-
-        public async Task<IActionResult> details(int Id )
+        public async Task<IActionResult> details(int Id)
         {
             if (Id == 0)
             {
@@ -1984,8 +1860,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         public async Task<IActionResult> Salaryrevealed()
         {
-            await PopulateDropdownListsAsync();
-
             var employee = await _context.employee.ToListAsync();
             var section = await _context.Sections.ToListAsync();
             var department = await _context.Departments.ToListAsync();
@@ -2006,22 +1880,35 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             var salaryList = await _context.Salaries.Include(x => x.Employee).Include(x => x.Employee.Sections).Include(x => x.Employee.Departments).Include(x => x.Currency)
                  .Select(x => new {
-               /*==>*/      eNum = x.Employee.EmployeeNumber,
-                 /*==>*/    name = x.Employee.EmployeeName,
-                    /*==>*/ currency = x.Currency.CurrencyName,
-                  /*==>*/   section = x.Employee.Sections.SectionsName,
-                  /*==>*/   departments = x.Employee.Departments.SubAdministration,
-                   /*==>*/  additinal = x.Additinal,
-                  /*==>*/   baseSalary = x.BaseSalary,
-                  /*==>*/   workedHours = x.WorkedHours,
-                 /*==>*/    allowance = x.allowances,
-                 /*==>*/    month = x.SelectedMonth.Month,
-                /*==>*/     gratuities = x.Gratuities,
-                  /*==>*/   bonuses = x.Bonuses,
+                     /*==>*/
+                     eNum = x.Employee.EmployeeNumber,
+                     /*==>*/
+                     name = x.Employee.EmployeeName,
+                     /*==>*/
+                     currency = x.Currency.CurrencyName,
+                     /*==>*/
+                     section = x.Employee.Sections.SectionsName,
+                     /*==>*/
+                     departments = x.Employee.Departments.SubAdministration,
+                     /*==>*/
+                     additinal = x.Additinal,
+                     /*==>*/
+                     baseSalary = x.BaseSalary,
+                     /*==>*/
+                     workedHours = x.WorkedHours,
+                     /*==>*/
+                     allowance = x.allowances,
+                     /*==>*/
+                     month = x.SelectedMonth.Month,
+                     /*==>*/
+                     gratuities = x.Gratuities,
+                     /*==>*/
+                     bonuses = x.Bonuses,
                      late = x.Late,
                      abcents = x.Abcents,
                      halfAbcents = x.HalfAbcents,
-              /*==>*/       entitlements = x.Entitlements,
+                     /*==>*/
+                     entitlements = x.Entitlements,
                      deductions = x.Deductions,
                      earlyLeave = x.EarlyLeave,
                      retirementInsurance = x.RetirementInsurance,
@@ -2036,4 +1923,3 @@ namespace N.G.HRS.Areas.Employees.Controllers
 }
 
 
- 

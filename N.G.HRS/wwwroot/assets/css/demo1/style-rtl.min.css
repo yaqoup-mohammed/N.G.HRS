@@ -23549,6 +23549,11 @@ body {
                 font-weight: bold !important;
                 background-color: #fbf5e4 !important;
             }
+        .sidebar .sidebar-body .nav .nav-link.active  {
+            color: #000 !important;
+            font-weight: bold !important;
+            background-color: #fbf5e4 !important;
+        }
                 .sidebar .sidebar-body .nav .nav-item.active .nav-link::before {
                     content: "";
                     width: 3px;
