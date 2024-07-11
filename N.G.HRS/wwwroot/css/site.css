@@ -11,7 +11,11 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-
+.btn-primary {
+    min-width: 80px; /* Adjust this value to fit the text horizontally */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    text-align: center; /* Center the text horizontally */
+}
 .EasyMDEContainer .CodeMirror {
     box-sizing: border-box;
     height: auto;
@@ -556,12 +560,6 @@ body {
     .open-btn {
         right: 10px;
     }
-}
-@media print {
-    body *
-
-{
-    visibility: hidden;
 }
 
 #printableArea, #printableArea * {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Directorates
+        [Authorize (policy: "ViewPolicy")]
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.directorates.Include(d => d.Governorate);
@@ -32,6 +34,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Directorates/Details/5
+        [Authorize(policy: "ViewPolicy")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,6 +54,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Directorates/Create
+        [Authorize(policy: "AddPolicy")]
         public IActionResult Create()
         {
             ViewData["GovernorateId"] = new SelectList(_context.governorates, "Id", "Name");
@@ -62,6 +66,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(policy: "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,Name,Notes,GovernorateId")] Directorate directorate)
         {
             if (ModelState.IsValid)
@@ -76,6 +81,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
 
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> ImportDirectorate(IFormFile file)
         {
             if (file == null || file.Length <= 0)
@@ -146,8 +152,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
             return RedirectToAction("Index");
         }
-        
 
+        [Authorize(Policy = "addPolicy")]
         public async Task<IActionResult> ExportToExcelDirectorate()
         {
             // Retrieve data from database including Governorate name
@@ -202,6 +208,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Directorates/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -223,6 +230,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes,GovernorateId")] Directorate directorate)
         {
             if (id != directorate.Id)
@@ -255,6 +263,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Directorates/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -276,6 +285,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // POST: GeneralConfiguration/Directorates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var directorate = await _context.directorates.FindAsync(id);

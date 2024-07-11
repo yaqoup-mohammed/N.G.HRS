@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.MaintenanceControl.Models;
@@ -16,6 +17,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             _context = context;
         }
         // GET: AdditionalUnsupportedEmployeesController
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.AdditionalUnsupportedEmployees.Include(e => e.Employee);
@@ -30,6 +33,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         //}
 
         // GET: AdditionalUnsupportedEmployeesController/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
@@ -40,6 +45,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // POST: AdditionalUnsupportedEmployeesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create(AdditionalUnsupportedEmployees Unsupported)
         {
 
@@ -62,46 +69,6 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             }
         }
 
-        // GET: AdditionalUnsupportedEmployeesController/Edit/5
-        //public IActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: AdditionalUnsupportedEmployeesController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: AdditionalUnsupportedEmployeesController/Delete/5
-        //public IActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: AdditionalUnsupportedEmployeesController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        
     }
 }

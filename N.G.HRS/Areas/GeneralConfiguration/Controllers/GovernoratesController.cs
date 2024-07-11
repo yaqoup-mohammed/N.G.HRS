@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Governorates
+        [Authorize(Policy = "ViewPolicy")]
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.governorates.Include(g => g.CountryOne);
@@ -36,6 +38,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Governorates/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,6 +58,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Governorates/Create
+        [Authorize(Policy = "AddPolicy")]
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.country, "Id", "Name");
@@ -66,6 +70,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,Name,Notes,CountryId")] Governorate governorate)
         {
             if (ModelState.IsValid)
@@ -80,6 +85,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
 
         //============================استيراد ملف اكسل الى قاعدة البيانات=======
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> ImportGovernorates(IFormFile file)
         {
             if (file == null || file.Length <= 0)
@@ -147,6 +153,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
 
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> ExportToExcelGovernorates()
         {
             var governorates = await _context.governorates.Include(g => g.CountryOne).ToListAsync();
@@ -185,6 +193,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             }
         }
         // GET: GeneralConfiguration/Governorates/Edit/5
+
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -206,6 +216,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes,CountryId")] Governorate governorate)
         {
             if (id != governorate.Id)
@@ -238,6 +249,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Governorates/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -259,6 +271,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // POST: GeneralConfiguration/Governorates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var governorate = await _governorateRepository.GetByIdAsync(id);

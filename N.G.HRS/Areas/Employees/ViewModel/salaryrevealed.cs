@@ -20,7 +20,7 @@ namespace N.G.HRS.Areas.Employees.ViewModel
         public List<Sections> SectionList { get; set; }
         public Departments Departments { get; set; }
         public List<Departments>? Departmentslist { get; set; } 
-        public FinancialStatements FinancialStatementsList { get; set; }
+        public FinancialStatements FinancialStatements { get; set; }
         public List<FinancialStatements>? FinancialStatementslist { get; set; }
 
 

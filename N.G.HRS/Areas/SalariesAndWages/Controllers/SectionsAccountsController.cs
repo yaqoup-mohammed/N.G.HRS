@@ -9,6 +9,7 @@ using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Areas.Finance.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 {
@@ -25,6 +26,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/SectionsAccounts
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.SectionsAccounts.Include(s => s.FinanceAccount).Include(s => s.FinanceAccountType).Include(s => s.Sections);
@@ -32,6 +35,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/SectionsAccounts/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,6 +58,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/SectionsAccounts/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             ViewData["FinanceAccountId"] = new SelectList(_context.Set<FinanceAccount>(), "Id", "Name");
@@ -66,6 +73,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("id,Notes,FinanceAccountTypeId,FinanceAccountId,SectionsId")] SectionsAccounts sectionsAccounts)
         {
             if (ModelState.IsValid)
@@ -83,6 +91,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/SectionsAccounts/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,6 +115,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("id,Notes,FinanceAccountTypeId,FinanceAccountId,SectionsId")] SectionsAccounts sectionsAccounts)
         {
             if (id != sectionsAccounts.id)
@@ -142,6 +152,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/SectionsAccounts/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,6 +176,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // POST: SalariesAndWages/SectionsAccounts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var sectionsAccounts = await _sectionsAccountsRepository.GetByIdAsync(id);

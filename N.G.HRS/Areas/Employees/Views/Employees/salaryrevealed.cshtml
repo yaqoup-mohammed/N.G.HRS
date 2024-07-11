@@ -8,10 +8,11 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <form asp-action="CreatePeriods">
                     <div class="col-md-12 col-12  mb-3">
                         <label asp-for="Month" class="form-label">الشهر</label>
@@ -51,20 +52,30 @@
 
                 </form>
             </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>عمليات كشف الراتب</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <button class="btn btn-primary set" id="PrintButton" onclick="printTable()" style="padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                                <span>طباعة</span>
+                                <i data-feather="printer" style="width: 17px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<style>
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-    }
 
-    table {
-        width: 100%;
-        text-align: center;
-    }
-</style>
+<div id="printHeader" style="display: none; ">
+    <h2 style="text-align: center; margin-top: 50px;">كشف الراتب</h2>
+    <p style="text-align: center;">تقرير الراتب الشهري</p>
+    <hr style="border-top: 1px solid black;">
+</div>                              
 
 <div id="table" class="row">
     <div class="grid-margin stretch-card">

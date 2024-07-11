@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/EmployeeAdvances
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.EmployeeAdvances.Include(e => e.Currency).Include(e => e.Departments).Include(e => e.Employee).Include(e => e.EmployeeAccount).Include(e => e.Sections);
@@ -28,6 +31,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/EmployeeAdvances/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,6 +56,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/EmployeeAdvances/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             ViewData["CurrencyId"] = new SelectList(_context.Currency, "Id", "CurrencyCode");
@@ -66,6 +73,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,EmployeeId,DepartmentId,SectionId,EmployeeAccountId,CurrencyId,Amount,Notes")] EmployeeAdvances employeeAdvances)
         {
             if (ModelState.IsValid)
@@ -83,6 +91,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/EmployeeAdvances/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,6 +117,10 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
+
+
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,DepartmentId,SectionId,EmployeeAccountId,CurrencyId,Amount,Notes")] EmployeeAdvances employeeAdvances)
         {
             if (id != employeeAdvances.Id)
@@ -144,6 +157,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/EmployeeAdvances/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -169,6 +183,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // POST: PayRoll/EmployeeAdvances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employeeAdvances = await _context.EmployeeAdvances.FindAsync(id);

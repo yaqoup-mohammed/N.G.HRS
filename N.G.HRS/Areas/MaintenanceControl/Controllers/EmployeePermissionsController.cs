@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +20,16 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             _context = context;
         }
         // GET: MaintenanceControl/EmployeePermissions
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.EmployeePermissions.Include(e => e.Employee).Include(e => e.Period).Include(e => e.Permission).Include(e => e.Supervisor);
             return View(await appDbContext.ToListAsync());
         }
         // GET: MaintenanceControl/EmployeePermissions/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +50,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             return View(employeePermissions);
         }
         // GET: MaintenanceControl/EmployeePermissions/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
@@ -59,6 +66,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,EmployeeId,SupervisorId,PeriodId,PermissionId,Date,FromDate,ToDate,FromTime,ToTime,Duration,Hours,Minutes,Reason,Note")] EmployeePermissions employeePermissions)
         {
             if (ModelState.IsValid)
@@ -75,6 +83,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             return View(employeePermissions);
         }
         // GET: MaintenanceControl/EmployeePermissions/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,6 +107,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,SupervisorId,PeriodId,PermissionId,Date,FromDate,ToDate,FromTime,ToTime,Duration,Hours,Minutes,Reason,Note")] EmployeePermissions employeePermissions)
         {
             if (id != employeePermissions.Id)
@@ -134,6 +144,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/EmployeePermissions/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,6 +169,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // POST: MaintenanceControl/EmployeePermissions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employeePermissions = await _context.EmployeePermissions.FindAsync(id);

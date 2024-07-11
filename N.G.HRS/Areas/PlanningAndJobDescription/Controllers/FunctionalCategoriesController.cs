@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PlanningAndJobDescription.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
 {
@@ -24,12 +25,16 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/FunctionalCategories
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.functionalCategories.ToListAsync());
         }
 
         // GET: PlanningAndJobDescription/FunctionalCategories/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +53,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/FunctionalCategories/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -58,6 +65,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,CategoriesName,Notes")] FunctionalCategories functionalCategories)
         {
             if (ModelState.IsValid)
@@ -90,6 +98,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/FunctionalCategories/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -110,6 +119,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CategoriesName,Notes")] FunctionalCategories functionalCategories)
         {
             if (id != functionalCategories.Id)
@@ -144,6 +154,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/FunctionalCategories/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,6 +175,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         // POST: PlanningAndJobDescription/FunctionalCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var functionalCategories = await _functionalCategoriesRepository.GetByIdAsync(id);
