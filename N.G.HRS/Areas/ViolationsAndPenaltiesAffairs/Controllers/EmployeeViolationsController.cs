@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Controllers
 
 
         // GET: ViolationsAndPenaltiesAffairs/EmployeeViolations
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var employeeViolations = await _context.EmployeeViolations
@@ -38,6 +41,8 @@ namespace N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Controllers
         }
 
         // GET: ViolationsAndPenaltiesAffairs/EmployeeViolations/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -60,7 +65,9 @@ namespace N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Controllers
 
 
         // GET: ViolationsAndPenaltiesAffairs/EmployeeViolations/Create
-       
+        [Authorize(Policy = "AddPolicy")]
+
+
         public async Task<IActionResult> Create(int? id)
         {
             if (id != null)
@@ -87,6 +94,8 @@ namespace N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Controllers
         // POST: ViolationsAndPenaltiesAffairs/EmployeeViolations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create(int?id, EmployeeViolations employeeViolations)
         {
             if (id == null)
@@ -144,6 +153,8 @@ namespace N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Controllers
             }
         }
 
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -167,6 +178,10 @@ namespace N.G.HRS.Areas.ViolationsAndPenaltiesAffairs.Controllers
         // POST: ViolationsAndPenaltiesAffairs/EmployeeViolations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
+
+
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employeeViolations = await _context.EmployeeViolations.FindAsync(id);

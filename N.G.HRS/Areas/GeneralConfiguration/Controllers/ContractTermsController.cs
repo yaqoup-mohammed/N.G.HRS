@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/ContractTerms
+        [Authorize (Policy = "ViewPolicy")]
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.contractTerms.Include(c => c.Contracts);
@@ -31,6 +33,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/ContractTerms/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) 
@@ -50,6 +53,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/ContractTerms/Create
+        [Authorize(Policy = "AddPolicy")]
         public IActionResult Create()
         {
             ViewData["ContractsId"] = new SelectList(_context.contracts, "Id", "Name");
@@ -61,6 +65,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,ModelName,StatementOfConditions,Notes,ContractsId")] ContractTerms contractTerms)
         {
             if (ModelState.IsValid)
@@ -74,6 +79,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/ContractTerms/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +101,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ModelName,StatementOfConditions,Notes,ContractsId")] ContractTerms contractTerms)
         {
             if (id != contractTerms.Id)
@@ -127,6 +134,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/ContractTerms/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,9 +153,12 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             return View(contractTerms);
         }
 
+
+
         // POST: GeneralConfiguration/ContractTerms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contractTerms = await _context.contractTerms.FindAsync(id);

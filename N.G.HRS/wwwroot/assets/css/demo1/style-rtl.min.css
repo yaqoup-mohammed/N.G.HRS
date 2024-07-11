@@ -8546,7 +8546,7 @@ div.tox .btn-group-sm > .tox-button {
 
 .text-primary {
     --bs-text-opacity: 1;
-    color: rgba(var(--bs-primary-rgb),var(--bs-text-opacity)) !important
+    color: #e5b540 !important
 }
 
 .text-secondary {

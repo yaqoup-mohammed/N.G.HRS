@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/EmploymentStatusManagements
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.EmploymentStatusManagement.Include(e => e.Employee);
@@ -51,6 +54,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/EmploymentStatusManagements/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             EmployeeStatus();
@@ -63,6 +68,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create(EmploymentStatusManagement employmentStatusManagement)
         {
             if (ModelState.IsValid)
@@ -121,6 +128,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/EmploymentStatusManagements/Edit/5
+        [Authorize(Policy = "EditPolicy")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -142,6 +151,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
+
         public async Task<IActionResult> Edit(int id, EmploymentStatusManagement employmentStatusManagement)
         {
             if (id != employmentStatusManagement.Id)
@@ -174,6 +185,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/EmploymentStatusManagements/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -195,6 +207,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // POST: EmployeesAffsirs/EmploymentStatusManagements/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employmentStatusManagement = await _EmploymentStatusManagement.GetByIdAsync(id);

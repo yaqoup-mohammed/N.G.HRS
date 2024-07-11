@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.MaintenanceControl.Models;
@@ -15,6 +16,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
             _context = context;
         }
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create(AttendanceAndAbsenceProcessing attendanceAndAbsenceProcessing)
         {
             if (ModelState.IsValid)

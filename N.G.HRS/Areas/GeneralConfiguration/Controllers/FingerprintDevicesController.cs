@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.GeneralConfiguration.Models;
 using N.G.HRS.Date;
@@ -42,11 +43,13 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             _context = context;
         }
         // GET: GeneralConfiguration/FingerprintDevices
+        [Authorize(policy: "ViewPolicy")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.fingerprintDevices.ToListAsync());
         }
         // GET: GeneralConfiguration/FingerprintDevices/Details/5
+        [Authorize(policy: "DetailsPolicy")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -65,6 +68,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/FingerprintDevices/Create
+        [ Authorize(policy: "AddPolicy")]
         public IActionResult Create()
         {
             return View();
@@ -75,7 +79,8 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FingerprintDevices fingerprintDevices)
+        [Authorize(policy: "AddPolicy")]
+        public async Task<IActionResult> Create( FingerprintDevices fingerprintDevices)
         {
             try
             {
@@ -95,6 +100,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/FingerprintDevices/Edit/5
+        [Authorize(policy: "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -146,6 +152,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/FingerprintDevices/Delete/5
+        [Authorize(policy: "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,6 +173,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // POST: GeneralConfiguration/FingerprintDevices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(policy: "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var fingerprintDevices = await _context.fingerprintDevices.FindAsync(id);

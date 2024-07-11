@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "_Layout";
-
 }
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
@@ -25,6 +24,7 @@
 </nav>
 <div class="card">
 
+<div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
@@ -33,7 +33,8 @@
                         <h3> دليل بيانات الشركة  </h3>
                     </div>
                     <div class="card-body">
-                        <form asp-action="Create">
+                        <form asp-action="Create" enctype="multipart/form-data">
+                            <!-- أضف enctype -->
                             <div asp-validation-summary="ModelOnly" class="alert-danger"></div>
                             <div class="row mb-3">
                                 <div class="col-md-4">
@@ -46,17 +47,14 @@
                                     <input asp-for="LicenseNumber" class="form-control" />
                                     <span asp-validation-for="LicenseNumber" class="alert-danger"></span>
                                 </div>
-
                                 <div class="col-md-4">
                                     <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
-                                               data-input />
+                                        <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ" data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
                                         </span>
                                         <span asp-validation-for="Date" class="text-danger"></span>
-
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +73,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-8">
                                     <label asp-for="ComponyLogo" class="form-label"></label>
-                                    <input asp-for="ComponyLogo" class="form-control" type="file" id="formFile">
+                                    <input asp-for="ComponyLogo" class="form-control" type="file" id="formFile" accept="image/*" />
                                     <span asp-validation-for="ComponyLogo" class="alert-danger"></span>
                                 </div>
                                 <div class="col-md-4">
@@ -94,6 +92,7 @@
                                 <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
+
                             </div>
                         </form>
                     </div>
@@ -102,8 +101,6 @@
         </div>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{
@@ -117,9 +114,27 @@
                 event.preventDefault(); // Prevent form submission
                 Swal.fire({
                     icon: "error",
-                    title: "خطئ....",
+                    title: "خطأ....",
                     text: "رجاء أختر مجلس الادارة",
                 });
+            }
+        });
+
+        document.getElementById('formFile').addEventListener('change', function (event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+
+            if (file) {
+                const fileType = file.type;
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+                if (!allowedTypes.includes(fileType)) {
+                    fileInput.value = ''; // قم بحذف الملف المحدد إذا كان نوعه غير مسموح
+                    Swal.fire({
+                        icon: "error",
+                        title: "يجب اختيار ملف بصيغة صورة فقط!",
+                    });
+                }
             }
         });
     </script>

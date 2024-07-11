@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Date;
+using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 {
@@ -19,6 +23,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             _context = context;
         }
         // GET: MaintenanceControl/AttendanceRecords
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.AttendanceRecord.Include(a => a.Employee).Include(a => a.Period).Include(a => a.Sections);
@@ -26,6 +32,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AttendanceRecords/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +55,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AttendanceRecords/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             ViewData["EmployeeId"] = new SelectList(_context.employee, "Id", "EmployeeName");
@@ -60,10 +70,24 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,SectionId,EmployeeId,PeriodsId,TimeOnlyRecord,Note")] AttendanceRecord attendanceRecord)
         {
             if (ModelState.IsValid)
             {
+               var employee = _context.employee.FirstOrDefault(x => x.Id == attendanceRecord.EmployeeId);
+                MachineInfo attLog = new MachineInfo();
+                attLog.IndRegID = employee.EmployeeNumber;
+                attLog.EmployeeName = employee.EmployeeName;
+                attLog.DepartmentId = employee.DepartmentsId;
+                attLog.SectionId = employee.SectionsId;
+                attLog.DateTimeRecord = attendanceRecord.TimeOnlyRecord.ToString();
+                attLog.TimeOnlyRecord = new DateTime(2000, 01, 01, attendanceRecord.TimeOnlyRecord.Hour, attendanceRecord.TimeOnlyRecord.Minute, attendanceRecord.TimeOnlyRecord.Second);
+                attLog.DateOnlyRecord = new DateOnly(attendanceRecord.Date.Year, attendanceRecord.Date.Month, attendanceRecord.Date.Day);
+                attLog.State = "حافظة دوام";
+                attLog.MachineNumber = 999999990;
+                _context.MachineInfo.Add(attLog);
+
                 _context.Add(attendanceRecord);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -75,6 +99,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AttendanceRecords/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,6 +123,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,SectionId,EmployeeId,PeriodsId,TimeOnlyRecord,Note")] AttendanceRecord attendanceRecord)
         {
             if (id != attendanceRecord.Id)
@@ -132,6 +159,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AttendanceRecords/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,6 +183,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // POST: MaintenanceControl/AttendanceRecords/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var attendanceRecord = await _context.AttendanceRecord.FindAsync(id);

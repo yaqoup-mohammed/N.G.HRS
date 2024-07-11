@@ -15,7 +15,9 @@
                 <div class="space-between">
                     <h3>   حسابات الاقسام</h3>
 
-                    <a asp-action="Createb" class="btn btn-primary col-md-1 col-12  ">جديد</a>
+                    <authorize policy="AddPolicy">
+                        <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+                    </authorize>
 
                 </div>
                 <div class="table-responsive">
@@ -54,9 +56,15 @@
                                         @Html.DisplayFor(modelItem => item.Sections.SectionsName)
                                     </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@item">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@item">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@item">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
                             }
@@ -67,3 +75,4 @@
         </div>
     </div>
 </div>
+

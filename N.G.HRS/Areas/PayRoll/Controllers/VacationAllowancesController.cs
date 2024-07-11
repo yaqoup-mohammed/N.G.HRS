@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.PayRoll.Models;
 using N.G.HRS.Date;
+using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.PayRoll.Controllers
 {
@@ -21,12 +22,16 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/VacationAllowances
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.VacationAllowances.ToListAsync());
         }
 
         // GET: PayRoll/VacationAllowances/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +50,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/VacationAllowances/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -55,6 +62,8 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create([Bind("Id,Date,EmplyeeId,VacationBalance,Amount,CarryoverBalance,Notes")] VacationAllowances vacationAllowances)
         {
             if (ModelState.IsValid)
@@ -67,6 +76,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/VacationAllowances/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +97,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmplyeeId,VacationBalance,Amount,CarryoverBalance,Notes")] VacationAllowances vacationAllowances)
         {
             if (id != vacationAllowances.Id)
@@ -118,6 +129,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         }
 
         // GET: PayRoll/VacationAllowances/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +150,7 @@ namespace N.G.HRS.Areas.PayRoll.Controllers
         // POST: PayRoll/VacationAllowances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vacationAllowances = await _context.VacationAllowances.FindAsync(id);

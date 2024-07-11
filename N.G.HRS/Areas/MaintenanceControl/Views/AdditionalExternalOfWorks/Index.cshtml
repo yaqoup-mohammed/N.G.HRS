@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.MaintenanceControl.Models.AdditionalExternalOfWork>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Employee";
+    ViewData["Title"] = "تكليف خارجي / إضافي";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -14,8 +14,9 @@
                 <div class="space-between">
                     <h3> تكليف عمل إضافي / خارجي</h3>
 
-                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
-
+                    <authorize policy="AddPolicy">
+                        <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+                    </authorize>
                 </div>
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
@@ -68,7 +69,13 @@
                                         @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.SubstituteEmployee.EmployeeName)
+                                        @if (item.SubstituteEmployee != null)
+                                        {
+
+                                            @Html.DisplayFor(modelItem => item.SubstituteEmployee.EmployeeName)
+                                                            
+                                        }
+                                        
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Date)
@@ -92,7 +99,7 @@
                                         @Html.DisplayFor(modelItem => item.Minutes)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Mission)
+                                        @Html.DisplayFor(modelItem => item.Mission )
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TaskDestination)
@@ -101,9 +108,15 @@
                                         @Html.DisplayFor(modelItem => item.Note)
                                     </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
                             }
