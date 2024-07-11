@@ -39,9 +39,7 @@
 
 
                     <!-- Row -->
-                    <div class="row">
-
-
+                   <div class="row">
                         <div class="col-sm-5">
                             <label asp-for="EmployeeId" class="form-label"></label>
                             <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
@@ -65,8 +63,8 @@
                                 </div>
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
-                            </div>
-                    <br />
+                   </div>
+                        <br />
                     <div class="row">
                         <div class="col-sm-5">
                             <label asp-for="BalanceYear" class="form-label"></label>

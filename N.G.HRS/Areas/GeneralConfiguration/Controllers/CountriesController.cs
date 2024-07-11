@@ -250,39 +250,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         [Authorize(Policy = "ViewPolicy")]
-        public async Task<IActionResult> ExportToExcelCountry()
-        {
-            var countries = await _context.country.ToListAsync();
-
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-
-            using (var package = new ExcelPackage())
-            {
-                var worksheet = package.Workbook.Worksheets.Add("دول");
-
-                worksheet.Cells[1, 1].Value = "Id";
-                worksheet.Cells[1, 2].Value = "الدولة";
-                worksheet.Cells[1, 3].Value = "الملاحظة";
-
-                int row = 2;
-                foreach (var country in countries)
-                {
-                    worksheet.Cells[row, 1].Value = country.Id;
-                    worksheet.Cells[row, 2].Value = country.Name;
-                    worksheet.Cells[row, 3].Value = country.Notes;
-                    row++;
-                }
-
-                var stream = new MemoryStream();
-                package.SaveAs(stream);
-                stream.Position = 0;
-
-                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                string fileName = "countries.xlsx";
-
-                return File(stream, contentType, fileName);
-            }
-        }
+  
 
         [HttpPost]
         [Authorize(Policy = "AddPolicy")]
