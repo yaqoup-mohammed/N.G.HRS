@@ -7,13 +7,29 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة البيانات المالية
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">دليل العملات </a>
 
+        </li>
+    </ol>
+</nav>
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="card-header">
-                    <h3>تهيئة العملات</h3>
+                    <h3>دليل العملات</h3>
                 </div>
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

@@ -18,10 +18,10 @@
             تهيئة النظام
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            تهيئة الهيكل التنظيمي
+            تهيئة بيانات الموظفين
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            مجلس الادارة
+           بيانات الموظف   
         </li>
     </ol>
 </nav>
@@ -225,10 +225,22 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <button type="EmployeeSubmit" id="EmployeeSubmit" class="btn btn-primary routate">حفظ</button>
+                                    <div class="mb-0 row g-0">
+                                        <div class="col-auto">
+                                            <a asp-action="Index" class="btn btn-primary submit me-1">رجوع للقائمة</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="EmployeeSubmit" id="EmployeeSubmit" class="btn btn-primary routate me-1">حفظ</button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-primary me-1" id="showFileInputBtnEmployee">استيراد ملف Excel</button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-primary me-1" id="exportToExcelButtonEmployee">تصدير إلى Excel</button>
+                                        </div>
+                                    </div>
 
-                                    <button type="button" class="btn btn-primary" id="showFileInputBtnEmployee">استيراد ملف Excel</button>
-                                    <button type="button" class="btn btn-primary" id="exportToExcelButtonEmployee">تصدير إلى Excel</button>
+
 
                                 </form>
 
@@ -242,9 +254,7 @@
                                         <div id="fileErrorEmployee" class="text-danger"></div>
                                     </div>
                                 }
-                                <div>
-                                    <a asp-action="Index">Back to List</a>
-                                </div>
+                               
 
                             </div>
                         </div>

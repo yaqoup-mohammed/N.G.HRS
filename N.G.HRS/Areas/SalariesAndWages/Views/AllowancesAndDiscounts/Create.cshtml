@@ -19,11 +19,9 @@
             التهيئة العامة
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            <a asp-action="Index" >البدلات والخصميات</a>
+            <a asp-action="Index" > دليل البدلات والخصميات </a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            إضافة
-        </li>
+      
     </ol>
 </nav>
 
@@ -31,7 +29,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title"> بيانات حساب الاضافي </h3>
+                    <h3 class="card-title"> دليل البدلات والخصميات </h3>
                     <br />
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>                   
@@ -47,8 +45,8 @@
                             <div class="col-sm-4">
                                 <div class="mb-3">
                                 <label asp-for="Type" class="form-label"></label>
-                                    <select asp-for="Type" class="form-control">
-                                    <option value="">-- اختر النوع --</option>
+                                    <select asp-for="Type" class="j form-control">
+                                    <option value="" ></option>
                                         <option value="Allowance">بدلات</option>
                                         <option value="Discount">خصميات</option>
                                     </select>
