@@ -91,7 +91,7 @@
 
                                     </div> *@
 
-                                    @using Microsoft.AspNetCore.Authorization
+                                    @* @using Microsoft.AspNetCore.Authorization
                                     @inject IAuthorizationService AuthorizationService
 
                                         @{
@@ -116,11 +116,67 @@
                                                 <p>ليس لديك صلاحية لعرض هذه الصورة.</p>
                                             }
                                         </div>
+ *@
 
 
+                                   @*  @using Microsoft.AspNetCore.Authorization
+                                    @inject IAuthorizationService AuthorizationService
 
 
+            @{
+                        var user = User;
+                        var isMalePhoto = (await AuthorizationService.AuthorizeAsync(user, "MalePhotoPolicy")).Succeeded;
+                        var isFemalePhoto = (await AuthorizationService.AuthorizeAsync(user, "FemalePhotoPolicy")).Succeeded;
+                    }
 
+                    <div class="baguetteBoxThree gallery">
+                        @if ((isMalePhoto && employee.personalData?.Sex?.Name == "Male") ||
+                             (isFemalePhoto && employee.personalData?.Sex?.Name == "Female"))
+                        {
+                            <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
+                                <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
+                                <div class="overlay">
+                                    <span class="expand">+</span>
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            <p>ليس لديك صلاحية لعرض هذه الصورة.</p>
+                        }
+                    </div> *@
+
+
+                                    @using Microsoft.AspNetCore.Authorization
+                                    @inject IAuthorizationService AuthorizationService
+
+                                        @{
+                                            var user = User;
+                                            var isMalePhoto = (await AuthorizationService.AuthorizeAsync(user, "MalePhotoPolicy")).Succeeded;
+                                            var isFemalePhoto = (await AuthorizationService.AuthorizeAsync(user, "FemalePhotoPolicy")).Succeeded;
+                                        }
+
+                                        <div class="baguetteBoxThree gallery">
+                                            @if ((isMalePhoto && employee.personalData?.Sex?.Name == "Male") ||
+                                           (isFemalePhoto && employee.personalData?.Sex?.Name == "Female"))
+                                            {
+                                                <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
+                                                    <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
+                                                    <div class="overlay">
+                                                        <span class="expand">+</span>
+                                                    </div>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
+                                                    <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
+                                                    <div class="overlay">
+                                                        <span class="expand">+</span>
+                                                    </div>
+                                                </a>
+                                            }
+                                        </div>
 
                                         @*
 
@@ -129,11 +185,15 @@
                                     </div>  *@
                                         <!-- Gallery end -->
                                     <td>
-
-                                        <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
-                                        <a asp-action="details" asp-route-id="@employee.Id">Details</a> |
-
-                                        <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@employee.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -189,9 +249,15 @@
                                     <td>@guarantees.NumberOfDependents </td>
                                     <td>@guarantees.Notes </td>
                                     <td>
-                                        <a asp-action="" asp-route-id="@guarantees.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@guarantees.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@guarantees.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@guarantees.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@guarantees.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@guarantees.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -241,9 +307,15 @@
                                     <td>@PracticalExperiences.Duration </td>
                                     <td>@PracticalExperiences.Employee?.EmployeeName </td>
                                     <td>
-                                        <a asp-action="" asp-route-id="@PracticalExperiences.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@PracticalExperiences.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@PracticalExperiences.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@PracticalExperiences.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@PracticalExperiences.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@PracticalExperiences.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -290,9 +362,15 @@
                                     <td>@Family.Employees?.EmployeeName </td>
                                     <td>@Family.Notes </td>
                                     <td>
-                                        <a asp-action="" asp-route-id="@Family.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@Family.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@Family.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@Family.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@Family.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@Family.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -345,9 +423,15 @@
                                     <td>@FinancialStatements.SalaryEndDate </td>
                                     <td>@FinancialStatements.Notes </td>
                                     <td>
-                                        <a asp-action="" asp-route-id="@FinancialStatements.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@FinancialStatements.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@FinancialStatements.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@FinancialStatements.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@FinancialStatements.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@FinancialStatements.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -395,9 +479,15 @@
 
                                     <td>@TrainingCourses.EmployeeOne?.EmployeeName </td>
                                     <td>
-                                        <a asp-action="" asp-route-id="@TrainingCourses.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@TrainingCourses.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@TrainingCourses.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@TrainingCourses.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@TrainingCourses.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@TrainingCourses.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -471,9 +561,15 @@
                                     <td>@personaldata.Religion?.Name </td>
 
                                     <td>
-                                        <a asp-action="" asp-route-id="@personaldata.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@personaldata.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@personaldata.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@personaldata.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@personaldata.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@personaldata.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -486,6 +582,7 @@
 
     </div>
 </div>
+
 
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -507,6 +604,7 @@
                                 <th>Action</th>
 
 
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -548,9 +646,15 @@
                                     <td>@EmployeeArchives.Notes </td>
 
                                     <td>
-                                        <a asp-action="" asp-route-id="@EmployeeArchives.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@EmployeeArchives.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@EmployeeArchives.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@EmployeeArchives.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@EmployeeArchives.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@EmployeeArchives.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
 
@@ -564,7 +668,6 @@
 
     </div>
 </div>
-
 
 
 
