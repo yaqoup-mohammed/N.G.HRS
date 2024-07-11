@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.MaintenanceControl.Models;
 using N.G.HRS.Date;
+using N.G.HRS.FingerPrintSetting;
 
 namespace N.G.HRS.Areas.MaintenanceControl.Controllers
 {
@@ -15,12 +18,10 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
     public class AttendanceRecordsController : Controller
     {
         private readonly AppDbContext _context;
-
         public AttendanceRecordsController(AppDbContext context)
         {
             _context = context;
         }
-
         // GET: MaintenanceControl/AttendanceRecords
         [Authorize(Policy = "ViewPolicy")]
 
@@ -74,6 +75,19 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         {
             if (ModelState.IsValid)
             {
+               var employee = _context.employee.FirstOrDefault(x => x.Id == attendanceRecord.EmployeeId);
+                MachineInfo attLog = new MachineInfo();
+                attLog.IndRegID = employee.EmployeeNumber;
+                attLog.EmployeeName = employee.EmployeeName;
+                attLog.DepartmentId = employee.DepartmentsId;
+                attLog.SectionId = employee.SectionsId;
+                attLog.DateTimeRecord = attendanceRecord.TimeOnlyRecord.ToString();
+                attLog.TimeOnlyRecord = new DateTime(2000, 01, 01, attendanceRecord.TimeOnlyRecord.Hour, attendanceRecord.TimeOnlyRecord.Minute, attendanceRecord.TimeOnlyRecord.Second);
+                attLog.DateOnlyRecord = new DateOnly(attendanceRecord.Date.Year, attendanceRecord.Date.Month, attendanceRecord.Date.Day);
+                attLog.State = "حافظة دوام";
+                attLog.MachineNumber = 999999990;
+                _context.MachineInfo.Add(attLog);
+
                 _context.Add(attendanceRecord);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Employee";
+    ViewData["Title"] = "أجازات الموظفين";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="space-between">
-                    <h3> التخصص</h3>
+                    <h3> أجازات الموظفين</h3>
 
                     <authorize policy="AddPolicy">
                         <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>

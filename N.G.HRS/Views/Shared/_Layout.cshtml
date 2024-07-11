@@ -82,7 +82,7 @@
         <nav class="sidebar">
             <div style="background-color: #000 !important;" class="sidebar-header">
                 <a href="#" class="sidebar-brand mmms">
-                    <img class="logo-image" src="~/assets/images/Logo/Logo.png" alt="" />
+                    <img class="logo-image" src="~/assets/images/Logo/4Software2.png" alt="" />
                 </a>
                 <span style="clear: both"></span>
                 <div class="sidebar-toggler not-active">
@@ -133,6 +133,12 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Sexes" asp-action="Index">دليل الجنس</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="Religions" asp-action="Index">دليل الديانات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="MaritalStatus" asp-action="Index">دليل الحالة الاجتماعية</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="GeneralConfiguration" asp-controller="FingerprintDevices" asp-action="Index">دليل بيانات اجهزة البصمة</a>
@@ -236,6 +242,20 @@
                                 <ul class="nav sub-menu">
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Index">بيانات الموظف</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="menu nav-link" data-bs-toggle="collapse" href="#Finance" role="button" aria-expanded="false" aria-controls="emails">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تهيئة البيانات المالية</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="Finance">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="Finance" asp-controller="Currencies" asp-action="Index">بيانات العملات</a>
                                     </li>
                                 </ul>
                             </div>
@@ -550,7 +570,7 @@
                             <div class="collapse" id="SurveillanceFingerprints">
                                 <ul class="nav sub-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="UplodeFingerPrintFromDeviceVM" asp-action="Index">تحميل البصمات من اجهزة البصمة</a>
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="UplodeFingerPrintFromDeviceVM" asp-action="Create">تحميل البصمات من اجهزة البصمة</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">استيراد البصمات من ملف نصي</a>
@@ -571,16 +591,16 @@
                             <div class="collapse" id="Processes">
                                 <ul class="nav sub-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AttendanceRecord" asp-action="Index">حافظة دوام </a>
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AttendanceRecords" asp-action="Index">حافظة دوام </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">معالجة حضور وغياب الموظفين </a>
-                                    </li>\
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AttendanceAndAbsenceProcessingVM" asp-action="Index">معالجة حضور وغياب الموظفين </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="StaffVacations" asp-action="Index">اجازات الموظفين </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AdditionalExternalOfWork" asp-action="Index">تكليف عمل </a>
+                                        <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="AdditionalExternalOfWorks" asp-action="Index">تكليف خارجي / إضافة </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="MaintenanceControl" asp-controller="" asp-action="Index">ترحيل الإضافي الغير معتمد </a>
@@ -632,6 +652,7 @@
                                 <i class="link-icon" data-feather="more-vertical"></i>
                                 <span class="link-title">الإضافي المعتمد تلقائيا </span>
                             </a>
+
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">
                                 <i class="link-icon" data-feather="more-vertical"></i>
                                 <span class="link-title">أجور الموظفين </span>
@@ -664,6 +685,12 @@
                                 <i class="link-icon" data-feather="more-vertical"></i>
                                 <span class="link-title">إكرامات الموظفين </span>
                             </a>
+
+                            <a class="nav-link text-dark" asp-area="Employees" asp-controller="Employees" asp-action="Salaryrevealed">
+                                <i class="link-icon" data-feather="more-vertical"></i>
+                                <span class="link-title">تقرير الرواتب </span>
+                            </a>
+
                         </li>
                     </ul>
                 </div>
@@ -1025,9 +1052,8 @@
 
             <!-- partial:../../partials/_footer.html -->
             <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between px-4 py-3 border-top small">
-                <p class="text-muted mb-1 mb-md-0"><a href=""></a>. Copyright © 2022 </p>
-                <p class="text-muted">Handcrafted With <i class="mb-1 text-primary ms-1 icon-sm" data-feather="heart"></i></p>
-              
+                <p class="text-muted mb-1 mb-md-0"> Copyright © 2024 <a href="">4SOFTWARE</a>.</p>
+                <p class="text-muted">Handcrafted With <i class="mb-1 text-primary ms-1 icon-sm" data-feather="heart"></i>4SOFTWARE</p>
             </footer>
         
            @*  <ul class="navbar-nav">
@@ -1294,30 +1320,7 @@
 
 
     @*=============================================================================================*@
-    @*
-    <script type="text/javascript">
-    $('.menu-inner li > a').click(function (e) {
-
-    /*e.preventDefault();*/ // added this line to prevent default click behaviour
-
-    // find/remove all active classes from each a
-    $('.menu-inner li > a').removeClass('active');
-
-    // add active selected a
-    $(this).addClass('active');
-    });
-
-    //=============================================================================================
-    $('.menu-inner li').click(function (e) {
-    // find/remove all active classes from each a
-    $('.menu-inner > a').removeClass('active');
-
-    // add active selected a
-    $(this).addClass('').siblings().removeClass("");
-    //e.preventDefault();
-    });
-    </Script> *@
-    <!-- End ------------------------اضافي--------------------------->
+   
 
 </body>
 </html>

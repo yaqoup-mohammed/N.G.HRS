@@ -19,7 +19,6 @@
                             <h3>معالجة الحضور والانصراف</h3>
                         </div>
                         <div class="card-body">
-
                             <div class="row mb-3 set">
                                 <div class="form-group col-md-4">
                                     <label asp-for="Employee.Id" class="form-label">الموظف</label><span class="text-danger">*</span>
@@ -79,13 +78,13 @@
                 <span> معالجة </span>
                 <i data-feather="loader" style="width: 17px;"></i>
             </button>
-            <button class="btn btn-primary set" id="SubmitDelete">
-                <span>  مسح المعالجة السابقة </span>
-                <i data-feather="trash-2" style="width: 17px;"></i>
-            </button>
             <button class="btn btn-primary set" id="Submit">
                 <span> حفظ </span>
                 <i data-feather="save" style="width: 17px;"></i>
+            </button>
+            <button class="btn btn-danger set" id="SubmitDelete">
+                <span>  مسح المعالجة السابقة </span>
+                <i data-feather="trash-2" style="width: 17px;"></i>
             </button>
         </div>
     </div>
@@ -104,7 +103,6 @@
                                 <th>الموظف</th>
                                 <th>الحالة</th>
                                 <th>التاريخ</th>
-
                                 <th>من وقت</th>
                                 <th>الى وقت</th>
                                 <th>دقائق العمل </th>
@@ -112,7 +110,7 @@
                                 <th> دقائق الغياب</th>
                                 <th>تمت المعالجة من قبل</th>
                                 <th>تمت المعالجة</th>
-                                <th>اسم الدوام</th>
+                                <th>الدوام</th>
                                 <th>الفترة</th>
                             </tr>
                         </thead>
@@ -131,6 +129,10 @@
     <script>
         $(document).ready(function () {
             var v = new ValidationFromMe();
+            $('#SubmitDelete').click(function () {
+                $('#machinInfo').empty();
+
+            });
             $('#SubmitProcessing').click(function () {
                 $('#machinInfo').empty();
 
@@ -144,11 +146,20 @@
                         method: 'GET',
                         dataType: "json",
                         success: function (data) {
-                            console.log(data);
+                            // console.log(data);
+                            if (data == 999) {
+                                v.softErrorMessage("حدث خطئ اثناء حفظ البيانات!!");
+                            }
+                            else if (data == 1) {
+                                v.softErrorMessage("حدث خطئ اثناء معالجة البيانات!!");
+                            } else if (data == 2) {
+                                v.softErrorMessage("خطئ في دالة تحديد حالة المعالجة");
+                            }
                             $.each(data, function (i, item) {
+
                                 var d = item.date;
                                 var d1 = d.lastIndexOf('T')
-                                var date= d.substring(0, d1);
+                                var date = d.substring(0, d1);
                                 //==============
                                 var f = item.from;
                                 var f1 = f.lastIndexOf('T');
@@ -160,42 +171,93 @@
                                 var ttime = t.substring(t1 + 1);
                                 var ttime12 = v.convertTimeTo12(ttime);
                                 //==============
-                                var h = item.minutes / 60 ;
+                                var h = item.minutes / 60;
                                 var hour = h.toFixed(1);
-                                var row = $('<tr></tr>');
-                                row.append($('<td></td>').text('#'));
-                                row.append($('<td></td>').text(item.eNumber));
-                                row.append($('<td></td>').text(item.eName));
-                                row.append($('<td></td>').text(item.attendanceStatus));
-                                row.append($('<td></td>').text(date));
-                                row.append($('<td></td>').text(ftime12));
-                                row.append($('<td></td>').text(ttime12));
-                                row.append($('<td></td>').text(item.minutes));
-                                row.append($('<td></td>').text(hour));
-                                row.append($('<td></td>').text(item.minutesLate));
-                                if (item.isProcessedBefor ==true){
+                                console.log(item.isProcessedBefor);
+                                if (item.isProcessedBefor == true && item.isProcessed == true) {
+                                    var row = $('<tr style="background-color: red;"></tr>');
+                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(item.eNumber));
+                                    row.append($('<td></td>').text(item.eName));
+                                    row.append($('<td></td>').text(item.attendanceStatus));
+                                    row.append($('<td></td>').text(date));
+                                    row.append($('<td></td>').text(ftime12));
+                                    row.append($('<td></td>').text(ttime12));
+                                    row.append($('<td></td>').text(item.minutes));
+                                    row.append($('<td></td>').text(hour));
+                                    row.append($('<td></td>').text(item.minutesLate));
                                     row.append($('<td></td>').text("نعم"));
-
-                                }
-                                else{
-                                    row.append($('<td></td>').text("لا"));
-
-                                }
-                                if (item.isProcessed == true) {
                                     row.append($('<td></td>').text("نعم"));
+                                    row.append($('<td></td>').text(item.permenenceModel));
+                                    row.append($('<td></td>').text(item.periods));
+                                    $('#machinInfo').append(row);
 
                                 }
-                                else{
+                                else if (item.isProcessedBefor == true && item.isProcessed == false) {
+
+                                    var row = $('<tr style="background-color: red;"></tr>');
+                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(item.eNumber));
+                                    row.append($('<td></td>').text(item.eName));
+                                    row.append($('<td></td>').text(item.attendanceStatus));
+                                    row.append($('<td></td>').text(date));
+                                    row.append($('<td></td>').text(ftime12));
+                                    row.append($('<td></td>').text(ttime12));
+                                    row.append($('<td></td>').text(item.minutes));
+                                    row.append($('<td></td>').text(hour));
+                                    row.append($('<td></td>').text(item.minutesLate));
+                                    row.append($('<td></td>').text("نعم"));
                                     row.append($('<td></td>').text("لا"));
+                                    row.append($('<td></td>').text(item.permenenceModel));
+                                    row.append($('<td></td>').text(item.periods));
+                                    $('#machinInfo').append(row);
 
                                 }
-                                row.append($('<td></td>').text(item.permenenceModel));
-                                row.append($('<td></td>').text(item.periods));
-                                $('#machinInfo').append(row);
-                                if (item.isProcessedBefor == true) {
-                                    $('#machinInfo').style.backgroundcolor = "red";
+                                else if (item.isProcessedBefor == false && item.isProcessed == true) 
+                                {
+                                    var row = $('<tr></tr>');
+                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(item.eNumber));
+                                    row.append($('<td></td>').text(item.eName));
+                                    row.append($('<td></td>').text(item.attendanceStatus));
+                                    row.append($('<td></td>').text(date));
+                                    row.append($('<td></td>').text(ftime12));
+                                    row.append($('<td></td>').text(ttime12));
+                                    row.append($('<td></td>').text(item.minutes));
+                                    row.append($('<td></td>').text(hour));
+                                    row.append($('<td></td>').text(item.minutesLate));
+                                    row.append($('<td></td>').text("لا"));
+                                    row.append($('<td></td>').text("نعم"));
+                                    row.append($('<td></td>').text(item.permenenceModel));
+                                    row.append($('<td></td>').text(item.periods));
+                                    $('#machinInfo').append(row);
+
                                 }
+                                else {
+                                    var row = $('<tr ></tr>');
+                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(item.eNumber));
+                                    row.append($('<td></td>').text(item.eName));
+                                    row.append($('<td></td>').text(item.attendanceStatus));
+                                    row.append($('<td></td>').text(date));
+                                    row.append($('<td></td>').text(ftime12));
+                                    row.append($('<td></td>').text(ttime12));
+                                    row.append($('<td></td>').text(item.minutes));
+                                    row.append($('<td></td>').text(hour));
+                                    row.append($('<td></td>').text(item.minutesLate));
+                                    row.append($('<td></td>').text("لا"));
+                                    row.append($('<td></td>').text("لا"));
+                                    row.append($('<td></td>').text(item.permenenceModel));
+                                    row.append($('<td></td>').text(item.periods));
+                                    $('#machinInfo').append(row);
+
+                                }
+                                // $('#machinInfo').append(row);
+                                // if (item.isProcessedBefor == true) {
+                                //     $('#machinInfo').style.backgroundcolor = "red";
+                                // }
                             });
+
                             Swal.close();
                             v.softSuccessMessage('تم تحميل البيانات بنجاح ✔️');
                         },
@@ -234,6 +296,61 @@
                     event.preventDefault();
                     v.softErrorMessage("يجب على الاقل تحديد حقل من تاريخ !!");
                 }
+
+            });
+            $('#Submit').click(function () {
+
+
+                $.ajax({
+                    url:
+                        "/MaintenanceControl/AttendanceAndAbsenceProcessingVM/CalculateSelary",
+                    // data: { from: from, to: to },
+                    method: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        // console.log(data);
+                        if (data == 1) {
+                            Swal.close();
+                            v.softSuccessMessage('تم حفظ البيانات بنجاح ✔️');
+                        }
+                        else if (data == 2) {
+                            Swal.close();
+                            v.softErrorMessage('حدث خطئ اثناء حفظ البيانات !!');
+                        }
+
+                    },
+                });
+                let timerInterval;
+
+                Swal.fire({
+                    title: "جاري حفظ المعالجة  😵",
+                    timer: 10000,
+
+                    timerProgressBar: false,
+                    customClass: {
+                        container: '#e5b540',
+                        icon: '#e5b540',
+                        htmlContainer: '#e5b540',
+                        timerProgressBar: '#e5b540',
+                    },
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                            timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+
+                    }
+                });
+
+
 
             });
         });

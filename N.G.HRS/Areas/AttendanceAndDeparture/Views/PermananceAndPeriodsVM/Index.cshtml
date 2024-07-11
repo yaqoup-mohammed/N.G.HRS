@@ -1,4 +1,5 @@
-﻿@model IEnumerable<N.G.HRS.Areas.AttendanceAndDeparture.Models.Periods>
+﻿@model N.G.HRS.Areas.AttendanceAndDeparture.ViewModels.PermanenceModelsAndPeriodsVM
+
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,50 +19,54 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PeriodsName)
+             #
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FromTime)
+                أسم الدوام
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ToTime)
+                أسم الفترة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Saturday)
+                من ةقت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SunDay)
+                الى وقت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Monday)
+                السبت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tuesday)
+                الاحد
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Wednesday)
+
+                الاثنين
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Thursday)
+                الثلاثاء
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Friday)
+                الاربعاء
             </th>
             <th>
                 الخميس
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Muinutes)
+                الجمعة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PermanenceModels)
+                الساعات
             </th>
-
             <th>
                 الدقائق
             </th>
+
             <th></th>
-            @foreach (var item in Model)
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.periodsList)
         {
             <tr>
                 <td>
@@ -120,8 +125,5 @@
                 </td>
             </tr>
         }
-            </td>
-        </tr>
-}
     </tbody>
 </table>

@@ -8,78 +8,82 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="space-between">
+                    <h3> إدارة الحالة الوظيفية الموظف </h3>
 
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
 
-<h1>Index</h1>
-
-<authorize policy="AddPolicy">
-    <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
-</authorize>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Employee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
-            </td>
-@*             <td>
-                @Html.DisplayFor(modelItem => item.EmployeeStatus)
-            </td> *@
-                @switch ( item.EmployeeStatus)
-                {
-                    case "1":
-                        <td >مثبت</td >
-               break;
-                    case "2":
-                        <td >متعاقد</td >
-               break;
-                    case "3":
-                        <td >متدرب</td >
-               break;
-                    case "4":
-                        <td >مستمر</td >
-               break;
-               case "5":
-                        <td >موقف</td >
-               break;
-               case "6":
-                        <td >تم إنهاء الخدمة</td >
-               break;
-               case "7":
-                        <td >حارس أمن</td >
-               break;
-                    default:
-                        break;
-                });
-            <td>
-                @Html.DisplayFor(modelItem => item.StatusDate)
-            </td>
-                <td>
-                    <authorize policy="EditPolicy">
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    </authorize> |
-                    <authorize policy="DetailsPolicy">
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </authorize> |
-                    <authorize policy="DeletePolicy">
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </authorize>
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </div>
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Employee)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EmployeeStatus)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StatusDate)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+                                    </td>
+                                    @*             <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeStatus)
+                                </td> *@
+                                    @switch (item.EmployeeStatus)
+                                    {
+                                        case "1":
+                                            <td>مثبت</td>
+                                            break;
+                                        case "2":
+                                            <td>متعاقد</td>
+                                            break;
+                                        case "3":
+                                            <td>متدرب</td>
+                                            break;
+                                        case "4":
+                                            <td>مستمر</td>
+                                            break;
+                                        case "5":
+                                            <td>موقف</td>
+                                            break;
+                                        case "6":
+                                            <td>تم إنهاء الخدمة</td>
+                                            break;
+                                        case "7":
+                                            <td>حارس أمن</td>
+                                            break;
+                                        default:
+                                            break;
+                                    });
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StatusDate)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

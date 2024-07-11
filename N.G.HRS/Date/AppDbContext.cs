@@ -31,8 +31,30 @@ namespace N.G.HRS.Date
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); 
-
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AttendanceStatus>().HasData(
+           new AttendanceStatus() { Id = 1, Name = "حضور" },
+           new AttendanceStatus() { Id = 2, Name = "غياب" },
+           new AttendanceStatus() { Id = 3, Name = "سماحية انصراف مبكر" },
+           new AttendanceStatus() { Id = 4, Name = "سماحية حضور متأخر" },
+           new AttendanceStatus() { Id = 5, Name = "اذن" },
+           new AttendanceStatus() { Id = 6, Name = "اجازة" },
+           new AttendanceStatus() { Id = 7, Name = "اجازة رسمية" },
+           new AttendanceStatus() { Id = 8, Name = "اجازة اسبوعية" },
+           new AttendanceStatus() { Id = 9, Name = "إضافي معتمد" },
+           new AttendanceStatus() { Id = 10, Name = "إضافي غير معتمد" },
+           new AttendanceStatus() { Id = 11, Name = "انصراف بدون عذر" },
+           new AttendanceStatus() { Id = 12, Name = "تأخير" },
+           new AttendanceStatus() { Id = 13, Name = "غياب نصف يوم" },
+           new AttendanceStatus() { Id = 14, Name = "سماحية حضور وانصراف" },
+           new AttendanceStatus() { Id = 15, Name = "تكليف خارجي " }
+  // Add more seed data as needed
+  );
+            modelBuilder.Entity<Assignment>().HasData(
+           new Assignment() { Id = 1, Name = "تكليف إضافي" },
+                new Assignment() { Id = 2, Name = "تكليف خارجي" }
+   // Add more seed data as needed
+   );
             //علاقات التهيئة العامة
             //علاقة الدولة مع المحافظات
             modelBuilder.Entity<Governorate>()
@@ -201,6 +223,12 @@ namespace N.G.HRS.Date
                  .HasOne(p => p.Currency)
                  .WithMany(p => p.FinancialStatementsList)
                  .HasForeignKey(p => p.CurrencyId);
+            
+            modelBuilder.Entity<Salaries>()
+                 .HasOne(p => p.Employee)
+                 .WithMany(p => p.SalariesList)
+                 .HasForeignKey(p => p.EmployeeId)
+                 .OnDelete(DeleteBehavior.NoAction);
 
             //الملفات الوظيفية مع ملفات الموظف
             modelBuilder.Entity<StatementOfEmployeeFiles>()
@@ -768,6 +796,7 @@ namespace N.G.HRS.Date
         public DbSet<AttendanceAndAbsenceProcessing> AttendanceAndAbsenceProcessing { get; set; }
         public DbSet<AttendanceStatus> AttendanceStatus { get; set; }
         public DbSet<Assignment> Assignment { get; set; }
+        public DbSet<N.G.HRS.Areas.PayRoll.Models.Salaries> Salaries { get; set; } = default!;
        
 
 

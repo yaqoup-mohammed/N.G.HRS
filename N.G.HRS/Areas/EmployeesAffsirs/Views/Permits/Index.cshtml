@@ -2,82 +2,59 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Index";
     Layout = "_Layout";
-
 }
 
-<h1>Index</h1>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="space-between">
+                    <h3>التصاريح</h3>
+                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12">جديد</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Date)</th>
+                                <th>@Html.DisplayNameFor(model => model.IsNotEmployee)</th>
+                                <th>@Html.DisplayNameFor(model => model.Employee)</th>
+                                <th>@Html.DisplayNameFor(model => model.NotEmployee)</th>
+                                <th>@Html.DisplayNameFor(model => model.For)</th>
+                                <th>@Html.DisplayNameFor(model => model.Purpose)</th>
+                                <th>@Html.DisplayNameFor(model => model.Note)</th>
+                                <th>خيارات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsNotEmployee)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Employee.EmployeeName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NotEmployee)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.For)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Note)</td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                                        <a asp-action="Print" asp-route-id="@item.Id">Print</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<authorize policy="AddPolicy">
-    <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
-</authorize>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsNotEmployee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NotEmployee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.For)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Purpose)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Note)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsNotEmployee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NotEmployee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Purpose)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.For)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-                <td>
-                    <authorize policy="EditPolicy">
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    </authorize> |
-                    <authorize policy="DetailsPolicy">
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </authorize> |
-                    <authorize policy="DeletePolicy">
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </authorize>
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -95,16 +95,16 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3" id="DropifyGroup" style="display: none">
+                           @*  <div class="row mb-3" id="DropifyGroup" style="display: none">
                                 <div class="col-md-12 stretch-card">
 						            <div class="card">
 							            <div class="card-body">
-								            @* <h6 class="card-title">إضافة البصمات الناقصة</h6> *@
+								            <h6 class="card-title">إضافة البصمات الناقصة</h6>
 								            <input type="file" id="myDropify"/>
 							            </div>
 						            </div>
 					            </div>
-                            </div>
+                            </div> *@
 
                             <div class="form-group mb-3">
                                 <label asp-for="Note" class="form-label"></label>
@@ -132,6 +132,7 @@
     }
     <script>
         $(document).ready(function () {
+            var v = new ValidationFromMe();
             const employee = $('#EmployeeId').val();
             const section = $('#SectionId').val();
             const periodsId = $('#PeriodsId').val();
@@ -195,6 +196,8 @@
                 const employee = $('#EmployeeId').val();
                 const periods = $('#PeriodsId').val();
                 const time = this.value;
+                var time24 = v.convertTo24Hour(time);
+
                 console.log(time);
                 if (employee != null) {
                     if (periods != null) {
@@ -207,8 +210,7 @@
                                 dataType: "json",
                                 success: function (data) {
                                     $.each(data, function (key, item) {
-
-                                        if (time <= item.fromTime || time >= item.toTime) {
+                                        if (time24 <= item.fromTime || time24 >= item.toTime) {
                                             Swal.fire({
                                                 icon: 'error',
                                                 title: `الوقت يجب ان يكون بين ${item.fromTime} و ${item.toTime} !!`,

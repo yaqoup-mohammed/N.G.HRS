@@ -81,6 +81,18 @@ class ValidationFromMe {
         }
         return minuteDifference;
     }
+    isTimeBetween(startTime, endTime, checkTime) {
+        const startDate = new Date(`2000-01-01T${startTime}`);
+        const endDate = new Date(`2000-01-01T${endTime}`);
+        const checkDate = new Date(`2000-01-01T${checkTime}`);
+
+        if (startDate <= endDate) {
+            return startDate <= checkDate && checkDate <= endDate;
+        } else {
+            return startDate <= checkDate || checkDate <= endDate;
+        }
+    }
+
     //===================================================
     //     calculateHourDifference(startTime, endTime) {
     //    // Split the time strings into hours and minutes

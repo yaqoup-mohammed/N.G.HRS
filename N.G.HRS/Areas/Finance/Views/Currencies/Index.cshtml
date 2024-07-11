@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="space-between">
-                    <h3>Currency</h3>
+                    <h3>تهيئة العملات</h3>
 
                     <authorize policy="AddPolicy">
                         <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
@@ -30,15 +30,16 @@
                                     @Html.DisplayNameFor(model => model.CurrencyCode)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.CurrencyNotes)
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.CurrentPriceOfCurrency)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.PreviousPriceOfCurrency)
                                 </th>
-                                <th></th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CurrencyNotes)
+                                </th>
+                                
+                                <th style="left:10px;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,24 +53,19 @@
                                         @Html.DisplayFor(modelItem => item.CurrencyCode)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.CurrencyNotes)
-                                    </td>
-                                    <td>
                                         @Html.DisplayFor(modelItem => item.CurrentPriceOfCurrency)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.PreviousPriceOfCurrency)
                                     </td>
                                     <td>
-                                        <authorize policy="EditPolicy">
-                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                        </authorize> |
-                                        <authorize policy="DetailsPolicy">
-                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                        </authorize> |
-                                        <authorize policy="DeletePolicy">
-                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                        </authorize>
+                                        @Html.DisplayFor(modelItem => item.CurrencyNotes)
+                                    </td>
+
+                                    <td style="position: absolute ;left:20px;">
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                     </td>
                                 </tr>
                             }

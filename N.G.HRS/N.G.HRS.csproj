@@ -4,12 +4,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.11.3" />
 		<PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
-		<PackageReference Include="EPPlus" Version="7.2.0" />
+		<PackageReference Include="EPPlus" Version="7.2.1" />
 		<PackageReference Include="ExcelDataReader" Version="3.7.0" />
 		<PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
 		<PackageReference Include="ExcelPackage" Version="1.0.0" />
@@ -35,7 +36,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-		<PackageReference Include="PDFsharp" Version="6.1.0" />
+		<PackageReference Include="PDFsharp" Version="6.1.1" />
 		<PackageReference Include="SharePointPnPCoreOnline" Version="3.28.2012" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
