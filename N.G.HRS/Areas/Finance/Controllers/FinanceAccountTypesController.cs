@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +25,17 @@ namespace N.G.HRS.Areas.Finance.Controllers
         }
 
         // GET: Finance/FinanceAccountTypes
+        [Authorize(Policy = "ViewPolicy")]
+
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.FinanceAccountType.ToListAsync());
         }
 
         // GET: Finance/FinanceAccountTypes/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +54,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
         }
 
         // GET: Finance/FinanceAccountTypes/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -58,6 +66,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create([Bind("Id,Name,Type,AccountNumber,Description")] FinanceAccountType financeAccountType)
         {
             if (ModelState.IsValid)
@@ -70,6 +80,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
         }
 
         // GET: Finance/FinanceAccountTypes/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,6 +101,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,AccountNumber,Description")] FinanceAccountType financeAccountType)
         {
             if (id != financeAccountType.Id)
@@ -121,6 +133,7 @@ namespace N.G.HRS.Areas.Finance.Controllers
         }
 
         // GET: Finance/FinanceAccountTypes/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,6 +154,8 @@ namespace N.G.HRS.Areas.Finance.Controllers
         // POST: Finance/FinanceAccountTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var financeAccountType = await _repositoryRepository.GetByIdAsync(id);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Date;
+using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 {
@@ -21,12 +22,16 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForTheSalaryStatements
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.basicDataForTheSalaryStatements.ToListAsync());
         }
 
         // GET: SalariesAndWages/BasicDataForTheSalaryStatements/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +50,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForTheSalaryStatements/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -55,6 +62,9 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
+
         public async Task<IActionResult> Create([Bind("Id,HealthInsuranceIncluded,RetirementInsuranceIncluded,IncludesTheWorkShareInRetirementInsurance,IncludesTaxCalculation,TaxFrom,AllowancesIncluded,IncludesAdditionalData,FromDate,ToDate,Notes,Percentage,PercentageOnEmployee,PercentageOnCompany")] BasicDataForTheSalaryStatement basicDataForTheSalaryStatement)
         {
             if (ModelState.IsValid)
@@ -67,6 +77,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForTheSalaryStatements/Edit/5
+        [Authorize(Policy = "EditPolicy")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +99,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,HealthInsuranceIncluded,RetirementInsuranceIncluded,IncludesTheWorkShareInRetirementInsurance,IncludesTaxCalculation,TaxFrom,AllowancesIncluded,IncludesAdditionalData,FromDate,ToDate,Notes,Percentage,PercentageOnEmployee,PercentageOnCompany")] BasicDataForTheSalaryStatement basicDataForTheSalaryStatement)
         {
             if (id != basicDataForTheSalaryStatement.Id)
@@ -118,6 +131,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForTheSalaryStatements/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +153,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // POST: SalariesAndWages/BasicDataForTheSalaryStatements/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var basicDataForTheSalaryStatement = await _context.basicDataForTheSalaryStatements.FindAsync(id);

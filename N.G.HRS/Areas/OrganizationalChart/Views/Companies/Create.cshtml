@@ -4,84 +4,75 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "_Layout";
-
 }
-<div class="card">
 
+<div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3> الشركة  </h3>
+                        <h3> بيانات الشركة  </h3>
                     </div>
                     <div class="card-body">
-                        <form asp-action="Create">
+                        <form asp-action="Create" enctype="multipart/form-data">
+                            <!-- أضف enctype -->
                             <div asp-validation-summary="ModelOnly" class="alert-danger"></div>
-
-                            <div class="col-md-6">
-                                <label asp-for="CompanyName" class="control-label"></label>
-                                <input asp-for="CompanyName" class="form-control" />
-                                <span asp-validation-for="CompanyName" class="alert-danger"></span>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label asp-for="LicenseNumber" class="control-label"></label>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label asp-for="CompanyName" class="form-label"></label>
+                                    <input asp-for="CompanyName" class="form-control" />
+                                    <span asp-validation-for="CompanyName" class="alert-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="LicenseNumber" class="form-label"></label>
                                     <input asp-for="LicenseNumber" class="form-control" />
                                     <span asp-validation-for="LicenseNumber" class="alert-danger"></span>
                                 </div>
-                               
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                        <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
-                                               data-input />
+                                        <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ" data-input />
                                         <span class="input-group-text input-group-addon" data-toggle>
                                             <i data-feather="calendar"></i>
                                         </span>
                                         <span asp-validation-for="Date" class="text-danger"></span>
-
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="row">
-
+                            <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label asp-for="TypeOfBusinessActivity" class="control-label"></label>
+                                    <label asp-for="TypeOfBusinessActivity" class="form-label"></label>
                                     <input asp-for="TypeOfBusinessActivity" class="form-control" />
                                     <span asp-validation-for="TypeOfBusinessActivity" class="alert-danger"></span>
                                 </div>
-                                <div class="col-md-4">
-                                    <label asp-for="ComponyLogo" class="control-label"></label>
-                                    <input asp-for="ComponyLogo" class="form-control" />
-                                    <span asp-validation-for="ComponyLogo" class="alert-danger"></span>
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="ComponyAddress" class="control-label"></label>
+                                <div class="col-md-8">
+                                    <label asp-for="ComponyAddress" class="form-label"></label>
                                     <input asp-for="ComponyAddress" class="form-control" />
                                     <span asp-validation-for="ComponyAddress" class="alert-danger"></span>
                                 </div>
                             </div>
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                <label asp-for="BoardOfDirectorsId" class="control-label"></label>
-                                <select asp-for="BoardOfDirectorsId" id="BoardOfDirectorsId" class="js-example-basic-single form-select" asp-items="@(ViewData["boardOfDirectors"] as SelectList)">
-                                    <option value="" selected disabled></option>
-                                </select>
+                            <div class="row mb-3">
+                                <div class="col-md-8">
+                                    <label asp-for="ComponyLogo" class="form-label"></label>
+                                    <input asp-for="ComponyLogo" class="form-control" type="file" id="formFile" accept="image/*" />
+                                    <span asp-validation-for="ComponyLogo" class="alert-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="BoardOfDirectorsId" class="form-label"></label>
+                                    <select asp-for="BoardOfDirectorsId" id="BoardOfDirectorsId" class="js-example-basic-single form-select" asp-items="@(ViewData["boardOfDirectors"] as SelectList)">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label asp-for="Notes" class="control-label"></label>
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Notes" class="form-label"></label>
                                 <input asp-for="Notes" class="form-control" />
                                 <span asp-validation-for="Notes" class="alert-danger"></span>
                             </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
-
+                            <div>
+                                <input type="submit" value="حفظ" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light" style="color: white;">رجوع للقائمة </a>
                             </div>
                         </form>
                     </div>
@@ -90,8 +81,6 @@
         </div>
     </div>
 </div>
-
-
 
 @section Scripts {
     @{
@@ -105,9 +94,27 @@
                 event.preventDefault(); // Prevent form submission
                 Swal.fire({
                     icon: "error",
-                    title: "خطئ....",
+                    title: "خطأ....",
                     text: "رجاء أختر مجلس الادارة",
                 });
+            }
+        });
+
+        document.getElementById('formFile').addEventListener('change', function (event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+
+            if (file) {
+                const fileType = file.type;
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+                if (!allowedTypes.includes(fileType)) {
+                    fileInput.value = ''; // قم بحذف الملف المحدد إذا كان نوعه غير مسموح
+                    Swal.fire({
+                        icon: "error",
+                        title: "يجب اختيار ملف بصيغة صورة فقط!",
+                    });
+                }
             }
         });
     </script>

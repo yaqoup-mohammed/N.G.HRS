@@ -29,6 +29,9 @@ namespace N.G.HRS.Areas.OrganizationalChart.Models
         [StringLength(255)]
         [Display(Name = "شعار الشركة")]
         public string? ComponyLogo { get; set; }
+        [Display(Name = "شعار الشركة")]
+
+        public string? LogoPath { get; set; }
         [Required(ErrorMessage = "هذا الحق مطلوب!!")]
         [StringLength(255)]
         [Display(Name = "عنوان الشركة")]

@@ -29,105 +29,164 @@
     </ol>
 </nav>
 
-<div class="card">
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">تصفية نهاية الخدمة</h4>
+                <br />
+                <hr />
+                <form asp-action="Create" id="EndOfServiceClearanceForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3> مخالصة الانتهاء من الخدمة   </h3>
-                    </div>
-                    <div class="card-body">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="Date" class="control-label"></label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="EmployeeId" class="form-label">الموظف</label>
+                                <select asp-for="EmployeeId" id="EmployeeId1" class="form-control" asp-items="ViewBag.EmployeeId">
+                                    <option value=""> </option>
+                                    <option value="">اختر الموظف</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Date" class="form-label">التاريخ</label>
                                 <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
-                                    <input asp-for="Date" class="form-control" />
+                                    <input asp-for="Date" id="Date1" class="form-control" placeholder=" التاريخ" data-input />
                                     <span class="input-group-text input-group-addon" data-toggle>
                                         <i data-feather="calendar"></i>
+                                    </span>
                                 </div>
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="EndOfServiceDate" class="control-label"></label>
-                                <input asp-for="EndOfServiceDate" class="form-control" />
+                        </div>
+
+
+
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="EndOfServiceDate" class="form-label">تاريخ نهاية الخدمة</label>
+                                <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                    <input asp-for="EndOfServiceDate" id="EndOfServiceDate" class="form-control" placeholder=" ادخل تاريخ نهاية الخدمة" data-input />
+                                    <span class="input-group-text input-group-addon" data-toggle>
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
                                 <span asp-validation-for="EndOfServiceDate" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="EmployeeId" class="control-label"></label>
-                                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ReasonForClearance" class="control-label"></label>
-                                <input asp-for="ReasonForClearance" class="form-control" />
+                        </div>
+
+
+
+                    </div><!-- Row -->
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="ReasonForClearance" class="form-label">ســبـب التــصــفـيـة</label>
+                                <input asp-for="ReasonForClearance" id="ReasonForClearance" class="form-control" placeholder=" ســبـب التــصــفـيـة " />
                                 <span asp-validation-for="ReasonForClearance" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="LastApprovedSalary" class="control-label"></label>
-                                <input asp-for="LastApprovedSalary" class="form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="LastApprovedSalary" class="form-label"> راتــب الـمـعـتـمـد</label>
+                                <input asp-for="LastApprovedSalary" id="LastApprovedSalary" class="form-control" placeholder="   راتــب الـمـعـتـمـد " type="number" min="0" step="any" oninput="validateNumberInput(this)" />
                                 <span asp-validation-for="LastApprovedSalary" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="ServicePeriodPerYear" class="control-label"></label>
-                                <input asp-for="ServicePeriodPerYear" class="form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="ServicePeriodPerYear" class="form-label">مدة الخدمة بالسنة</label>
+                                <input asp-for="ServicePeriodPerYear" id="ServicePeriodPerYear" class="form-control" placeholder=" مدة الخدمة بالسنة" />
                                 <span asp-validation-for="ServicePeriodPerYear" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="EndOfServiceBenefits" class="control-label"></label>
-                                <input asp-for="EndOfServiceBenefits" class="form-control" />
-                                <span asp-validation-for="EndOfServiceBenefits" class="text-danger"></span>
+                        </div>
+                    </div><!-- Row -->
+
+                    <fieldset style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                        <legend>المستحقات</legend>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label asp-for="EndOfServiceBenefits" class="form-label">مستحقات نهاية الخدمة</label>
+                                    <input asp-for="EndOfServiceBenefits" id="EndOfServiceBenefits" class="form-control" />
+                                    <span asp-validation-for="EndOfServiceBenefits" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="AdvancesAndLoans" class="control-label"></label>
-                                <input asp-for="AdvancesAndLoans" class="form-control" />
-                                <span asp-validation-for="AdvancesAndLoans" class="text-danger"></span>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label asp-for="VacationEntitlements" class="form-label">مستحقات الإجازة</label>
+                                    <input asp-for="VacationEntitlements" id="VacationEntitlements" class="form-control" />
+                                    <span asp-validation-for="VacationEntitlements" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="VacationEntitlements" class="control-label"></label>
-                                <input asp-for="VacationEntitlements" class="form-control" />
-                                <span asp-validation-for="VacationEntitlements" class="text-danger"></span>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label asp-for="OtherEntitlements" class="form-label">مستحقات أخرى</label>
+                                    <input asp-for="OtherEntitlements" id="OtherEntitlements" class="form-control" />
+                                    <span asp-validation-for="OtherEntitlements" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Absence" class="control-label"></label>
-                                <input asp-for="Absence" class="form-control" />
-                                <span asp-validation-for="Absence" class="text-danger"></span>
+                        </div><!-- Row -->
+                    </fieldset>
+                    <!-- Row -->
+                    <fieldset style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                        <legend>الاستقطاعات</legend>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label asp-for="AdvancesAndLoans" class="form-label">السلف والقروض</label>
+                                    <input asp-for="AdvancesAndLoans" id="AdvancesAndLoans" class="form-control" type="number" min="0" step="any" oninput="validateNumberInput(this)" />
+                                    <span asp-validation-for="AdvancesAndLoans" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="OtherEntitlements" class="control-label"></label>
-                                <input asp-for="OtherEntitlements" class="form-control" />
-                                <span asp-validation-for="OtherEntitlements" class="text-danger"></span>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label asp-for="Absence" class="form-label">الغياب</label>
+                                    <input asp-for="Absence" id="Absence" class="form-control" />
+                                    <span asp-validation-for="Absence" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="OtherDiscounts" class="control-label"></label>
-                                <input asp-for="OtherDiscounts" class="form-control" />
-                                <span asp-validation-for="OtherDiscounts" class="text-danger"></span>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label asp-for="OtherDiscounts" class="form-label">خصومات أخرى</label>
+                                    <input asp-for="OtherDiscounts" id="OtherDiscounts" class="form-control" />
+                                    <span asp-validation-for="OtherDiscounts" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Total" class="control-label"></label>
-                                <input asp-for="Total" class="form-control" />
+                        </div><!-- Row -->
+
+                    </fieldset>
+
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label asp-for="Total" class="form-label">المجموع</label>
+                                <input asp-for="Total" id="Total" class="form-control" type="number" min="0" step="any" oninput="validateNumberInput(this)" />
                                 <span asp-validation-for="Total" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                        </div>
+                    </div><!-- Row -->
+
+                    <button type="submit" id="EndOfServiceClearanceForm" class="btn btn-primary">حفظ</button>
+                    <a asp-action="Index" class="btn btn-light">العودة إلى القائمة</a>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-  
+
 
     <script>
         function validateNumberInput(input) {
@@ -253,8 +312,8 @@
     </script>
 
 
-   
-@* 
+
+    @*
     <script>
         function validateNumberInput(input) {
             input.value = input.value.replace(/[^0-9]/g, '');

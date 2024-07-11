@@ -957,9 +957,6 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CurrentJop")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateOnly?>("DateInsurance")
                         .HasColumnType("date");
 
@@ -2747,6 +2744,9 @@ namespace N.G.HRS.Migrations
 
                     b.Property<int>("LicenseNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("LogoPath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)

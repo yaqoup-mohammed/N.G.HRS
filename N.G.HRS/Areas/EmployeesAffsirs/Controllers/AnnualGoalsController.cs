@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AnnualGoals
+        [Authorize(Policy = "")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.AnnualGoals.Include(a => a.Employee);
@@ -32,6 +35,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AnnualGoals/Details/5
+        [ Authorize(Policy = "DetailsPolicy")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,6 +55,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AnnualGoals/Create
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create(int? id)
         {
             if (id != null)
@@ -77,6 +82,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // POST: ViolationsAndPenaltiesAffairs/EmployeeViolations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create(int? id, AnnualGoals annualGoals )
         {
             if (id == null)
@@ -134,61 +140,10 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
 
-        // GET: EmployeesAffsirs/AnnualGoals/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var annualGoals = await _annualGoalsRepository.GetByIdAsync(id);
-        //    if (annualGoals == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    PopulateDropDownLists();
-        //    return View(annualGoals);
-        //}
-
-        //// POST: EmployeesAffsirs/AnnualGoals/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EmployeeId,Notes,Goals")] AnnualGoals annualGoals)
-        //{
-        //    if (id != annualGoals.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //           await _annualGoalsRepository.UpdateAsync(annualGoals);
-        //            TempData ["Success"] = "تمت التعديل بنجاح";
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!AnnualGoalsExists(annualGoals.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        //return RedirectToAction(nameof(Index));
-        //        return View(annualGoals);
-        //    }
-        //    PopulateDropDownLists();
-        //    return View(annualGoals);
-        //}
 
         // GET: EmployeesAffsirs/AnnualGoals/Delete/5
+        [ Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -210,6 +165,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // POST: EmployeesAffsirs/AnnualGoals/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var annualGoals = await _annualGoalsRepository.GetByIdAsync(id);

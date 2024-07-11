@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
@@ -23,6 +24,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             _context = context;
         }
         [HttpGet]
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
 
@@ -30,6 +33,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
 
@@ -38,6 +43,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public IActionResult Create(AttendanceAndAbsenceProcessingVM attendanceAndAbsenceProcessingVM)
         {
             //var AdditionalExternal= _context.AdditionalExternalOfWork.Where()

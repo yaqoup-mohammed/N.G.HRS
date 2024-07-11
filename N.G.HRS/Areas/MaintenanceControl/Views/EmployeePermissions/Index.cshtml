@@ -15,7 +15,9 @@
             <div class="card-body">
                 <div class="space-between">
                     <h1 class="card-title">أذونات الموظفين</h1>
-                    <a asp-action="Create" class="btn btn-primary">اضافة إذن </a>
+                    <authorize policy="AddPolicy">
+                        <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+                    </authorize>
                 </div>
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
@@ -115,10 +117,16 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Note)
                                     </td>
-                                    <td class="fixed-column">
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <td>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
                             }

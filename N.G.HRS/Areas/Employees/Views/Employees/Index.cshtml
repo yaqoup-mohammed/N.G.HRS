@@ -1,4 +1,5 @@
 ﻿@model N.G.HRS.Areas.Employees.ViewModel.EmployeeVM
+@using Microsoft.AspNetCore.Identity
 
 @{
     ViewData["Title"] = "Create";
@@ -12,9 +13,10 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <h1>Index</h1>
-<p>
-        <a asp-action="AddEmployee">Create New</a>
-</p>
+<authorize policy="AddPolicy">
+    <a asp-action="AddEmployee" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+</authorize>
+
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -77,18 +79,48 @@
                                    
                                
                                         <!-- Gallery start -->
-                                        <div class="baguetteBoxThree gallery">
-                                            <!-- Row start -->
-                                            @* <div class="row gutters">
-                                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">*@
+                                        @* <div class="baguetteBoxThree gallery">
+                                      
 
-                                                   <a href="~/Upload/Images/@employee.ImageFile" class="effects">
-                                                        <img src="~/Upload/Images/@employee.ImageFile" class="avatar   img-thumbnail img-xs img-fluid" alt=".......">
-                                                        <div class="overlay">
-                                                            <span class="expand">+</span>
-                                                        </div>
-                                                    </a>
-                                                 </div> 
+                                            <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
+                                                <img src="~/Upload/Images/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
+                                                <div class="overlay">
+                                                    <span class="expand">+</span>
+                                                </div>
+                                            </a>
+
+                                                 </div> *@
+
+                                    @using Microsoft.AspNetCore.Authorization
+                                    @inject IAuthorizationService AuthorizationService
+
+                                        @{
+                                            var user = User;
+                                            var isMalePhoto = (await AuthorizationService.AuthorizeAsync(user, "MalePhotoPolicy")).Succeeded;
+                                            var isFemalePhoto = (await AuthorizationService.AuthorizeAsync(user, "FemalePhotoPolicy")).Succeeded;
+                                        }
+
+                                        <div class="baguetteBoxThree gallery">
+                                            @if ((isMalePhoto && employee.personalData?.Sex?.Name == "Male") ||
+                                           (isFemalePhoto && employee.personalData?.Sex?.Name == "Female"))
+                                            {
+                                                <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
+                                                    <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
+                                                    <div class="overlay">
+                                                        <span class="expand">+</span>
+                                                    </div>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <p>ليس لديك صلاحية لعرض هذه الصورة.</p>
+                                            }
+                                        </div>
+
+
+
+
+                                      
 
 @* 
 
@@ -97,24 +129,14 @@
                                         </div>  *@
                                         <!-- Gallery end -->
                                     <td>
-@* 
-                                        <button type="button" class="btn btn-primary mb-1 mb-md-0" data-bs-toggle="modal"
-                                                data-url="@Url.Action($"AddEmployee/{employee.Id}")" data-bs-target="@("#AddEmployee-" + employee.Id)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
-                                                <!-- أيقونة تحرير... -->
-                                            </svg>
-                                        </button>
-                                        @await Html.PartialAsync("_EditEmployeePartialView", new N.G.HRS.Areas.Employees.ViewModel.EmployeeVM { Employee = employee })
- *@
+
                                         <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
                                         <a asp-action="details" asp-route-id="@employee.Id">Details</a> |
 
                                         <a asp-action="Delete" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
                                     </td>
                                 </tr>
-                                
+                                    
                             }
                            
                         </tbody>

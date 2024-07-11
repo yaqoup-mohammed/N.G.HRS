@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AdditionalExternalOfWorks
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.AdditionalExternalOfWork.Include(a => a.Employee).Include(a => a.SubstituteEmployee);
@@ -29,6 +32,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AdditionalExternalOfWorks/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +52,8 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AdditionalExternalOfWorks/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             List<Assignment> assignment = new List<Assignment>
@@ -67,6 +74,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create( AdditionalExternalOfWork additionalExternalOfWork)
         {
             if (ModelState.IsValid)
@@ -83,6 +91,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AdditionalExternalOfWorks/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -107,6 +116,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,SubstituteEmployeeId,Date,FromDate,ToDate,FromTime,ToTime,Hours,Minutes,Mission,TaskDestination,Note")] AdditionalExternalOfWork additionalExternalOfWork)
         {
             if (id != additionalExternalOfWork.Id)
@@ -142,6 +152,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         // GET: MaintenanceControl/AdditionalExternalOfWorks/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,6 +175,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         // POST: MaintenanceControl/AdditionalExternalOfWorks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var additionalExternalOfWork = await _context.AdditionalExternalOfWork.FindAsync(id);

@@ -24,6 +24,7 @@ using System.Reflection.PortableExecutable;
 using PersonalData = N.G.HRS.Areas.Employees.Models.PersonalData;
 using Microsoft.Graph;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.Employees.Controllers
 {
@@ -106,6 +107,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
             this._financialStatementsrepository = FinancialStatementsrepository;
         }
 
+        [Authorize(Policy = "ViewPolicy")]
+     
+
+
         public async Task<IActionResult> Index()
         {
             // Populate ViewData for dropdown lists
@@ -154,6 +159,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         }
         // Example with English naming convention
+              [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddEmployee()
         {
             await PopulateDropdownListsAsync();
@@ -162,9 +169,23 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
 
         }
+        [Authorize(Policy = "MalePhotoPolicy")]
 
+        public IActionResult ViewImage(int id)
+        {
+            var employee = _context.employee.FirstOrDefault(e => e.Id == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var imagePath = $"~/Upload/Images/Employee/{employee.ImageFile}";
+            return File(imagePath, "image/jpeg");
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
         {
             try
@@ -173,10 +194,33 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
                 if (viewModel.Employee != null)
                 {
+                    // Check if an employee with the same EmployeeNumber already exists
                     var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
+
                     if (!exist)
                     {
+                        // Validate the file upload
+                        if (viewModel.Employee.FileUpload != null && viewModel.Employee.FileUpload.Length > 0)
+                        {
+                            // Save the file to server
+                            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(viewModel.Employee.FileUpload.FileName);
+                            var filePath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Upload/Images/Employee", fileName);
+
+                            //var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+                            //var filePath = Path.Combine(uploadsFolder, fileName);
+
+                            using (var fileStream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await viewModel.Employee.FileUpload.CopyToAsync(fileStream);
+                            }
+
+                            // Save the file name in database
+                            viewModel.Employee.ImageFile = fileName;
+                        }
+
+                        // Add the employee to repository
                         await _employeeRepository.AddAsync(viewModel.Employee);
+
                         TempData["Success"] = "تم الحفظ بنجاح";
                         return RedirectToAction(nameof(AddEmployee));
                     }
@@ -185,11 +229,11 @@ namespace N.G.HRS.Areas.Employees.Controllers
                         TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
                         return View(viewModel);
                     }
-
                 }
                 else
                 {
-                    TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+                    TempData["Error"] = "لم تتم الإضافة، النموذج غير صحيح";
+                    return View(viewModel);
                 }
             }
             catch (Exception ex)
@@ -198,294 +242,228 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 TempData["SystemError"] = ex.Message;
                 return View(viewModel);
             }
-            TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-            return View(viewModel);
         }
+
+        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
+        //{
+        //    try
+        //    {
+        //        await PopulateDropdownListsAsync();
+
+        //        if (viewModel.Employee != null)
+        //        {
+        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
+        //            if (!exist)
+        //            {
+        //                await _employeeRepository.AddAsync(viewModel.Employee);
+        //                TempData["Success"] = "تم الحفظ بنجاح";
+        //                return RedirectToAction(nameof(AddEmployee));
+        //            }
+        //            else
+        //            {
+        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
+        //                return View(viewModel);
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception or handle it accordingly
+        //        TempData["SystemError"] = ex.Message;
+        //        return View(viewModel);
+        //    }
+        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
+
+        //    return View(viewModel);
+        //}
         // استيراد ملف اكسل للموظفين
 
-        //[HttpPost]
-        //public async Task<IActionResult> Import(IFormFile file)
-        //{
-        //    if (file == null || file.Length == 0)
-        //    {
-        //        ViewBag.Message = "يرجى اختيار ملف Excel.";
-        //        return View("Import");
-        //    }
+        [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
 
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
+        public async Task<IActionResult> ImportFormEmployee(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                ModelState.AddModelError("", "يرجى تحديد ملف Excel صالح.");
+                return View();
+            }
 
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets[0];
-        //            var rowCount = worksheet.Dimension.Rows;
+            var employeeList = new List<Employee>();
+            var errors = new List<string>();
 
-        //            var employees = new List<Employee>();
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
 
-        //            for (int row = 2; row <= rowCount; row++)
-        //            {
-        //                var employeeNumber = int.Parse(worksheet.Cells[row, 1].Text);
+                using (var package = new ExcelPackage(stream))
+                {
+                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                    if (worksheet == null)
+                    {
+                        ModelState.AddModelError("", "الملف لا يحتوي على ورقة عمل.");
+                        return View();
+                    }
 
-        //                // تحقق مما إذا كان الرقم الوظيفي موجودًا بالفعل
-        //                var existingEmployee = await _context.employee
-        //                    .FirstOrDefaultAsync(e => e.EmployeeNumber == employeeNumber);
+                    for (int row = 2; row <= worksheet.Dimension.Rows; row++)
+                    {
+                        try
+                        {
+                            var employeeNumberText = worksheet.Cells[row, 2].Text.Trim();
+                            var employeeName = worksheet.Cells[row, 3].Text.Trim();
+                            var dateOfEmploymentText = worksheet.Cells[row, 4].Text.Trim();
+                            var placementDateText = worksheet.Cells[row, 5].Text.Trim();
+                            var employmentStatus = worksheet.Cells[row, 6].Text.Trim();
+                            var rehireDateText = worksheet.Cells[row, 7].Text.Trim();
+                            var dateOfStoppingWorkText = worksheet.Cells[row, 8].Text.Trim();
+                            var usedFingerprintText = worksheet.Cells[row, 9].Text.Trim();
+                            var subjectToInsuranceText = worksheet.Cells[row, 10].Text.Trim();
+                            var dateInsuranceText = worksheet.Cells[row, 11].Text.Trim();
+                            var fingerPrintImageText = worksheet.Cells[row, 12].Text.Trim();
+                            var imageFile = worksheet.Cells[row, 13].Text.Trim();
+                            var notes = worksheet.Cells[row, 14].Text.Trim();
+                            var departmentName = worksheet.Cells[row, 15].Text.Trim();
+                            var sectionName = worksheet.Cells[row, 16].Text.Trim();
+                            var jobDescriptionName = worksheet.Cells[row, 17].Text.Trim();
+                            var fingerprintDeviceName = worksheet.Cells[row, 18].Text.Trim();
+                            var managerName = worksheet.Cells[row, 19].Text.Trim();
 
-        //                if (existingEmployee != null)
-        //                {
-        //                    // إذا كان الرقم الوظيفي موجودًا، يمكنك تخطيه أو تحديث بياناته
-        //                    continue; // تخطي السجل المكرر
-        //                }
+                            if (!int.TryParse(employeeNumberText, out var employeeNumber))
+                            {
+                                errors.Add($"الرقم الوظيفي غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                DateTime dateOfEmployment;
-        //                DateTime? placementDateNullable = null, rehireDateNullable = null, dateOfStoppingWorkNullable = null, dateInsuranceNullable = null;
+                            if (_context.employee.Any(e => e.EmployeeNumber == employeeNumber))
+                            {
+                                errors.Add($"الرقم الوظيفي مكرر في الصف {row}.");
+                                continue;
+                            }
 
-        //                if (DateTime.TryParse(worksheet.Cells[row, 3].Text, out dateOfEmployment))
-        //                {
-        //                    if (DateTime.TryParse(worksheet.Cells[row, 4].Text, out DateTime placementDate))
-        //                        placementDateNullable = placementDate;
+                            if (!DateTime.TryParseExact(dateOfEmploymentText, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOfEmployment))
+                            {
+                                errors.Add($"تاريخ التوظيف غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    if (DateTime.TryParse(worksheet.Cells[row, 6].Text, out DateTime rehireDate))
-        //                        rehireDateNullable = rehireDate;
+                            if (!DateTime.TryParseExact(dateOfStoppingWorkText, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOfStoppingWork))
+                            {
+                                errors.Add($"تاريخ ايقاف التوظيف غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    if (DateTime.TryParse(worksheet.Cells[row, 7].Text, out DateTime dateOfStoppingWork))
-        //                        dateOfStoppingWorkNullable = dateOfStoppingWork;
+                            if (!DateTime.TryParseExact(rehireDateText, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var rehireDate))
+                            {
+                                errors.Add($"تاريخ إعادة التوظيف غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    if (DateTime.TryParse(worksheet.Cells[row, 10].Text, out DateTime dateInsurance))
-        //                        dateInsuranceNullable = dateInsurance;
+                            DateTime? placementDate = string.IsNullOrEmpty(placementDateText) ? (DateTime?)null : DateTime.Parse(placementDateText);
 
-        //                    var employee = new Employee
-        //                    {
-        //                        EmployeeNumber = employeeNumber,
-        //                        EmployeeName = worksheet.Cells[row, 2].Text,
-        //                        DateOfEmployment = dateOfEmployment,
-        //                        PlacementDate = placementDateNullable,
-        //                        EmploymentStatus = worksheet.Cells[row, 5].Text,
-        //                        RehireDate = rehireDateNullable.HasValue ? DateOnly.FromDateTime(rehireDateNullable.Value) : null,
-        //                        DateOfStoppingWork = dateOfStoppingWorkNullable != null ? DateOnly.FromDateTime(dateOfStoppingWorkNullable.Value) : null,
-        //                        UsedFingerprint = worksheet.Cells[row, 8].Text == "1",
-        //                        SubjectToInsurance = worksheet.Cells[row, 9].Text == "1",
-        //                        DateInsurance = dateInsuranceNullable != null ? DateOnly.FromDateTime(dateInsuranceNullable.Value) : null,
-        //                        FingerPrintImage = byte.Parse(worksheet.Cells[row, 11].Text),
-        //                        ImageFile = worksheet.Cells[row, 12].Text,
-        //                        Notes = worksheet.Cells[row, 13].Text,
-        //                        DepartmentsId = int.Parse(worksheet.Cells[row, 14].Text),
-        //                        SectionsId = int.Parse(worksheet.Cells[row, 15].Text),
-        //                        JobDescriptionId = int.Parse(worksheet.Cells[row, 16].Text),
-        //                        FingerprintDevicesId = string.IsNullOrEmpty(worksheet.Cells[row, 17].Text) ? (int?)null : int.Parse(worksheet.Cells[row, 17].Text),
-        //                        ManagerId = string.IsNullOrEmpty(worksheet.Cells[row, 18].Text) ? (int?)null : int.Parse(worksheet.Cells[row, 18].Text),
-        //                        CurrentJop = worksheet.Cells[row, 19].Text
-        //                    };
+                            bool usedFingerprint = bool.TryParse(usedFingerprintText, out bool parsedUsedFingerprint) && parsedUsedFingerprint;
+                            bool subjectToInsurance = bool.TryParse(subjectToInsuranceText, out bool parsedSubjectToInsurance) && parsedSubjectToInsurance;
+                            DateTime? dateInsurance = string.IsNullOrEmpty(dateInsuranceText) ? (DateTime?)null : DateTime.Parse(dateInsuranceText);
 
-        //                    employees.Add(employee);
-        //                    _context.employee.Add(employee);
+                            if (!byte.TryParse(fingerPrintImageText, out var fingerPrintImage))
+                            {
+                                errors.Add($"صورة البصمة غير صالحة في الصف {row}.");
+                                continue;
+                            }
 
-        //                }
-        //                else
-        //                {
-        //                    // Handle invalid date formats here if necessary
-        //                    ViewBag.Message = "صيغة التاريخ غير صحيحة في الصف " + row;
-        //                    return View("Import");
-        //                }
-        //            }
+                            // البحث عن المعرفات باستخدام الأسماء
+                            var department = _context.Departments.FirstOrDefault(d => d.SubAdministration == departmentName);
+                            if (department == null)
+                            {
+                                errors.Add($"معرف الإدارة غير صالح في الصف {row}.");
+                                continue;
+                            }
+                            var departmentsId = department.Id;
 
-        //            _context.employee.AddRange(employees);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //    }
+                            var section = _context.Sections.FirstOrDefault(s => s.SectionsName == sectionName);
+                            if (section == null)
+                            {
+                                errors.Add($"معرف القسم غير صالح في الصف {row}.");
+                                continue;
+                            }
+                            var sectionsId = section.Id;
 
-        //    ViewBag.Message = "تم استيراد البيانات بنجاح!";
-        //    //return View("");
-        //    return RedirectToAction("Index");
+                            var jobDescription = _context.JobDescription.FirstOrDefault(j => j.JopName == jobDescriptionName);
+                            if (jobDescription == null)
+                            {
+                                errors.Add($"معرف الوصف الوظيفي غير صالح في الصف {row}.");
+                                continue;
+                            }
+                            var jobDescriptionId = jobDescription.Id;
 
-        //}
+                            var fingerprintDevice = _context.fingerprintDevices.FirstOrDefault(f => f.DevicesName == fingerprintDeviceName);
+                            var fingerprintDevicesId = fingerprintDevice?.Id;
 
-        //[HttpPost]
-        //public async Task<IActionResult> Import(IFormFile file)
-        //{
-        //    if (file == null || file.Length <= 0)
-        //    {
-        //        ModelState.AddModelError("File", "يرجى تحديد ملف للتحميل.");
-        //        return View("Import");
-        //    }
+                            var manager = _context.employee.FirstOrDefault(m => m.EmployeeName == managerName);
+                            var managerId = manager?.Id;
 
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
+                            var newEmployee = new Employee
+                            {
+                                EmployeeNumber = employeeNumber,
+                                EmployeeName = employeeName,
+                                DateOfEmployment = dateOfEmployment,
+                                PlacementDate = placementDate,
+                                EmploymentStatus = employmentStatus,
+                                RehireDate = DateOnly.FromDateTime(rehireDate.Date),
+                                DateOfStoppingWork = DateOnly.FromDateTime(dateOfStoppingWork.Date),
+                                UsedFingerprint = usedFingerprint,
+                                SubjectToInsurance = subjectToInsurance,
+                                DateInsurance = DateOnly.FromDateTime(dateInsurance.GetValueOrDefault()),
+                                FingerPrintImage = fingerPrintImage,
+                                ImageFile = imageFile,
+                                Notes = notes,
+                                DepartmentsId = departmentsId,
+                                SectionsId = sectionsId,
+                                JobDescriptionId = jobDescriptionId,
+                                FingerprintDevicesId = fingerprintDevicesId,
+                                ManagerId = managerId
+                            };
+                            employeeList.Add(newEmployee);
+                        }
+                        catch (Exception ex)
+                        {
+                            errors.Add($"حدث خطأ في الصف {row}: {ex.Message}");
+                        }
+                    }
+                }
+            }
 
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-        //            if (worksheet == null)
-        //            {
-        //                TempData["Error"] = "الملف لا يحتوي على أوراق عمل.";
-        //                return View("Import");
-        //            }
+            if (employeeList.Any())
+            {
+                _context.employee.AddRange(employeeList);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "تم استيراد البيانات بنجاح.";
+            }
+            else
+            {
+                TempData["Error"] = "لم يتم استيراد أي بيانات. تحقق من ملف Excel والمحاولة مرة أخرى.";
+            }
 
-        //            var rowCount = worksheet.Dimension.Rows;
-        //            var employees = new List<Employee>();
+            if (errors.Any())
+            {
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
 
-        //            for (int row = 2; row <= rowCount; row++)
-        //            {
-        //                if (int.TryParse(worksheet.Cells[row, 1].Text, out int employeeNumber) &&
-        //                    !string.IsNullOrWhiteSpace(worksheet.Cells[row, 2].Text) &&
-        //                    DateTime.TryParse(worksheet.Cells[row, 3].Text, out DateTime dateOfEmployment) &&
-        //                    DateTime.TryParse(worksheet.Cells[row, 4].Text, out DateTime placementDate) &&
-        //                    !string.IsNullOrWhiteSpace(worksheet.Cells[row, 5].Text) &&
-        //                    DateOnly.TryParse(worksheet.Cells[row, 6].Text, out DateOnly rehireDate) &&
-        //                    DateOnly.TryParse(worksheet.Cells[row, 7].Text, out DateOnly dateOfStoppingWork) &&
-        //                    bool.TryParse(worksheet.Cells[row, 8].Text, out bool usedFingerprint) &&
-        //                    bool.TryParse(worksheet.Cells[row, 9].Text, out bool subjectToInsurance) &&
-        //                    DateOnly.TryParse(worksheet.Cells[row, 10].Text, out DateOnly dateInsurance) &&
-        //                    int.TryParse(worksheet.Cells[row, 12].Text, out int departmentsId) &&
-        //                    int.TryParse(worksheet.Cells[row, 13].Text, out int sectionsId) &&
-        //                    int.TryParse(worksheet.Cells[row, 14].Text, out int jobDescriptionId))
-        //                {
-        //                    var existingEmployee = _context.employee.FirstOrDefault(e => e.EmployeeNumber == employeeNumber);
+            return RedirectToAction("Index");
+        }
 
-        //                    if (existingEmployee == null)
-        //                    {
-        //                        var employee = new Employee
-        //                        {
-        //                            EmployeeNumber = employeeNumber,
-        //                            EmployeeName = worksheet.Cells[row, 2].Text,
-        //                            DateOfEmployment = dateOfEmployment,
-        //                            PlacementDate = placementDate,
-        //                            EmploymentStatus = worksheet.Cells[row, 5].Text,
-        //                            RehireDate = rehireDate,
-        //                            DateOfStoppingWork = dateOfStoppingWork,
-        //                            UsedFingerprint = usedFingerprint,
-        //                            SubjectToInsurance = subjectToInsurance,
-        //                            DateInsurance = dateInsurance,
-        //                            Notes = worksheet.Cells[row, 11].Text,
-        //                            DepartmentsId = departmentsId,
-        //                            SectionsId = sectionsId,
-        //                            JobDescriptionId = jobDescriptionId
-        //                        };
 
-        //                        employees.Add(employee);
-        //                    }
-        //                    else
-        //                    {
-        //                        TempData["Error"] = $"الموظف برقم وظيفي {employeeNumber} موجود بالفعل. تم تخطيه.";
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    TempData["Error"] = $"يوجد خطأ في الصف {row}. تم تخطيه.";
-        //                }
-        //            }
-
-        //            if (employees.Any())
-        //            {
-        //                _context.employee.AddRange(employees);
-        //                await _context.SaveChangesAsync();
-        //                TempData["Success"] = "تم استيراد البيانات بنجاح.";
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "لم يتم استيراد أي بيانات جديدة.";
-        //            }
-        //        }
-        //    }
-
-        //    return RedirectToAction(nameof(Index));
-        //}نننننننننننننننننننننننننننننننننننننننننن
-
-        //[HttpPost]
-        //public async Task<IActionResult> Import(IFormFile file)
-        //{
-        //    if (file == null || file.Length <= 0)
-        //    {
-        //        ModelState.AddModelError("File", "يرجى تحديد ملف للتحميل.");
-        //        return View("Import");
-        //    }
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
-
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-        //            if (worksheet == null)
-        //            {
-        //                TempData["Error"] = "الملف لا يحتوي على أوراق عمل.";
-        //                return View("Import");
-        //            }
-
-        //            var rowCount = worksheet.Dimension.Rows;
-        //            var employees = new List<Employee>();
-
-        //            for (int row = 2; row <= rowCount; row++)
-        //            {
-        //                if (int.TryParse(worksheet.Cells[row, 1].Text, out int employeeNumber) &&
-        //                    !string.IsNullOrWhiteSpace(worksheet.Cells[row, 2].Text) &&
-        //                    DateTime.TryParse(worksheet.Cells[row, 3].Text, out DateTime dateOfEmployment) &&
-        //                    DateTime.TryParse(worksheet.Cells[row, 4].Text, out DateTime placementDate) &&
-        //                    !string.IsNullOrWhiteSpace(worksheet.Cells[row, 5].Text) &&
-        //                    DateOnly.TryParse(worksheet.Cells[row, 6].Text, out DateOnly rehireDate) &&
-        //                    DateOnly.TryParse(worksheet.Cells[row, 7].Text, out DateOnly dateOfStoppingWork) &&
-        //                    bool.TryParse(worksheet.Cells[row, 8].Text, out bool usedFingerprint) &&
-        //                    bool.TryParse(worksheet.Cells[row, 9].Text, out bool subjectToInsurance) &&
-        //                    DateOnly.TryParse(worksheet.Cells[row, 10].Text, out DateOnly dateInsurance) &&
-        //                    int.TryParse(worksheet.Cells[row, 12].Text, out int departmentsId) &&
-        //                    int.TryParse(worksheet.Cells[row, 13].Text, out int sectionsId) &&
-        //                    int.TryParse(worksheet.Cells[row, 14].Text, out int jobDescriptionId))
-        //                {
-        //                    var existingEmployee = _context.employee.FirstOrDefault(e => e.EmployeeNumber == employeeNumber);
-
-        //                    if (existingEmployee == null)
-        //                    {
-        //                        var employee = new Employee
-        //                        {
-        //                            EmployeeNumber = employeeNumber,
-        //                            EmployeeName = worksheet.Cells[row, 2].Text,
-        //                            DateOfEmployment = dateOfEmployment,
-        //                            PlacementDate = placementDate,
-        //                            EmploymentStatus = worksheet.Cells[row, 5].Text,
-        //                            RehireDate = rehireDate,
-        //                            DateOfStoppingWork = dateOfStoppingWork,
-        //                            UsedFingerprint = usedFingerprint,
-        //                            SubjectToInsurance = subjectToInsurance,
-        //                            DateInsurance = dateInsurance,
-        //                            Notes = worksheet.Cells[row, 11].Text,
-        //                            DepartmentsId = departmentsId,
-        //                            SectionsId = sectionsId,
-        //                            JobDescriptionId = jobDescriptionId
-        //                        };
-
-        //                        employees.Add(employee);
-        //                    }
-        //                    else
-        //                    {
-        //                        TempData["Error"] = $"الموظف برقم وظيفي {employeeNumber} موجود بالفعل. تم تخطيه.";
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    TempData["Error"] = $"يوجد خطأ في الصف {row}. تم تخطيه.";
-        //                }
-        //            }
-
-        //            if (employees.Any())
-        //            {
-        //                _context.employee.AddRange(employees);
-        //                await _context.SaveChangesAsync();
-        //                TempData["Success"] = "تم استيراد البيانات بنجاح.";
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "لم يتم استيراد أي بيانات جديدة.";
-        //            }
-        //        }
-        //    }
-
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         [HttpGet]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> ExportToExcelEmployee()
         {
             var employees = await _context.employee
@@ -495,12 +473,23 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 .Include(e => e.Manager)
                 .ToListAsync();
 
+            var employeeStatusList = new List<EmployeeStatusList>
+    {
+        new EmployeeStatusList { id = 1, name = "مثبت" },
+        new EmployeeStatusList { id = 2, name = "متعاقد" },
+        new EmployeeStatusList { id = 3, name = "متدرب" },
+        new EmployeeStatusList { id = 4, name = "مستمر" },
+        new EmployeeStatusList { id = 5, name = "موقف" },
+        new EmployeeStatusList { id = 6, name = "تم إنهاء الخدمة" },
+        new EmployeeStatusList { id = 7, name = "حارس أمن" }
+    };
+
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Employees");
 
                 // Adding Headers
-                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 1].Value = "Id";
                 worksheet.Cells[1, 2].Value = "Employee Number";
                 worksheet.Cells[1, 3].Value = "Employee Name";
                 worksheet.Cells[1, 4].Value = "Date Of Employment";
@@ -528,7 +517,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
                     worksheet.Cells[i + 2, 3].Value = employees[i].EmployeeName;
                     worksheet.Cells[i + 2, 4].Value = employees[i].DateOfEmployment?.ToString("yyyy-MM-dd");
                     worksheet.Cells[i + 2, 5].Value = employees[i].PlacementDate?.ToString("yyyy-MM-dd");
-                    worksheet.Cells[i + 2, 6].Value = employees[i].EmploymentStatus;
+                    // استرجاع اسم حالة التوظيف بناءً على المعرف
+                    var employmentStatusId = employees[i].EmploymentStatus;
+                    var employmentStatusName = employeeStatusList.FirstOrDefault(e => e.id.ToString() == employmentStatusId)?.name;
+                    worksheet.Cells[i + 2, 6].Value = employmentStatusName;
                     worksheet.Cells[i + 2, 7].Value = employees[i].RehireDate?.ToString("yyyy-MM-dd");
                     worksheet.Cells[i + 2, 8].Value = employees[i].DateOfStoppingWork?.ToString("yyyy-MM-dd");
                     worksheet.Cells[i + 2, 9].Value = employees[i].UsedFingerprint;
@@ -554,8 +546,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
 
+
         //////تصدير ملف اكسل للموظفين
-        
+
 
 
         [HttpGet]
@@ -569,164 +562,12 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return Json(new { sections });
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
+     
 
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                var lastNumber = await _employeeRepository.GetLastEmployeeNumber();
-        //                if (string.IsNullOrEmpty(lastNumber))
-        //                {
-        //                    viewModel.Employee.EmployeeNumber = "1";
-        //                }
-        //                else
-        //                {
-        //                    var lastEmployeeNumber = int.Parse(lastNumber);
-        //                    lastEmployeeNumber++;
-        //                    viewModel.Employee.EmployeeNumber = lastEmployeeNumber.ToString();
-        //                }
-
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                // توليد الرقم الوظيفي المميز
-        //                viewModel.Employee.EmployeeNumber = await GenerateEmployeeNumber();
-
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // سجّل الاستثناء أو اتخذ إجراءً بناء عليه
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-
-        //public async Task<string> GenerateEmployeeNumber()
-        //{
-        //    // استعلام قاعدة البيانات للحصول على آخر قيمة تم استخدامها لتوليد الرقم الوظيفي
-        //    var lastUsedNumber = await _employeeRepository.GetLastUsedEmployeeNumber();
-
-        //    // إذا كانت هذه هي المرة الأولى توليد رقم وظيفي، فأعيد القيمة 1
-        //    if (string.IsNullOrEmpty(lastUsedNumber))
-        //    {
-        //        return "1";
-        //    }
-        //    else
-        //    {
-        //        // إلا، زيادة القيمة المستخدمة بواحد وإعادتها
-        //        var lastNumber = int.Parse(lastUsedNumber);
-        //        lastNumber++;
-        //        return lastNumber.ToString();
-        //    }
-
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (exist)
-        //            {
-        //                var lastNumber = _context.employee
-        //                                    .Where(e => e.EmployeeNumber.StartsWith(viewModel.Employee.EmployeeNumber))
-        //                                    .Select(e => int.Parse(e.EmployeeNumber.Substring(viewModel.Employee.EmployeeNumber.Length)))
-        //                                    .DefaultIfEmpty(0)
-        //                                    .Max();
-
-        //                viewModel.Employee.EmployeeNumber = viewModel.Employee.EmployeeNumber + (lastNumber + 1).ToString();
-        //            }
-
-        //            await _employeeRepository.AddAsync(viewModel.Employee);
-        //            TempData["Success"] = "تم الحفظ بنجاح";
-        //            return RedirectToAction(nameof(AddEmployee));
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> AddPracticalExperiencesToEmployee(EmployeeVM viewModel)
         {
             try
@@ -755,92 +596,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> ImportPracticalExperiences(IFormFile file)
-        //{
-        //    if (file == null || file.Length == 0)
-        //    {
-        //        ModelState.AddModelError("", "يرجى تحديد ملف Excel صالح.");
-        //        return View();
-        //    }
-
-        //    var practicalExperiences = new List<PracticalExperiences>();
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
-
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-        //            if (worksheet == null)
-        //            {
-        //                ModelState.AddModelError("", "الملف لا يحتوي على ورقة عمل.");
-        //                return View();
-        //            }
-
-        //            var rowCount = worksheet.Dimension.Rows;
-
-        //            for (int row = 2; row <= rowCount; row++)
-        //            {
-        //                try
-        //                {
-        //                    var employeeName = worksheet.Cells[row, 2].Text.Trim(); // العمود 2 للعمود "Employee Name"
-        //                    var experiencesName = worksheet.Cells[row, 3].Text.Trim(); // العمود 3 للعمود "Experience Name"
-        //                    var placeToGainExperience = worksheet.Cells[row, 4].Text.Trim(); // العمود 4 للعمود "Place To Gain Experience"
-        //                    var fromDateText = worksheet.Cells[row, 5].Text.Trim(); // العمود 5 للعمود "From Date"
-        //                    var toDateText = worksheet.Cells[row, 6].Text.Trim(); // العمود 6 للعمود "To Date"
-        //                    var duration = worksheet.Cells[row, 7].Text.Trim(); // العمود 7 للعمود "Duration"
-
-        //                    //if (string.IsNullOrEmpty(employeeName) || string.IsNullOrEmpty(experiencesName) || string.IsNullOrEmpty(placeToGainExperience) || string.IsNullOrEmpty(fromDateText) || string.IsNullOrEmpty(toDateText))
-        //                    //{
-        //                    //    ModelState.AddModelError("", $"تخطي الصف {row}: بيانات مفقودة");
-        //                    //    continue; // تخطي الصفوف ذات البيانات المفقودة
-        //                    //}
-
-        //                    var employee = _context.employee.FirstOrDefault(e => e.EmployeeName == employeeName);
-        //                    if (employee == null)
-        //                    {
-        //                        ModelState.AddModelError("", $"تخطي الصف {row}: الموظف {employeeName} غير موجود");
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
-
-        //                    if (!DateTime.TryParse(fromDateText, out DateTime fromDate) || !DateTime.TryParse(toDateText, out DateTime toDate))
-        //                    {
-        //                        ModelState.AddModelError("", $"تخطي الصف {row}: تواريخ غير صالحة");
-        //                        continue; // تخطي الصفوف ذات التواريخ غير الصالحة
-        //                    }
-
-        //                    var practicalExperience = new PracticalExperiences
-        //                    {
-        //                        EmployeeId = employee.Id,
-        //                        ExperiencesName = experiencesName,
-        //                        PlacToGainExperience = placeToGainExperience,
-        //                        FromDate = DateOnly.FromDateTime(fromDate),
-        //                        ToDate = DateOnly.FromDateTime(toDate),
-        //                        Duration = duration
-        //                    };
-
-        //                    practicalExperiences.Add(practicalExperience);
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    // سجل الخطأ للمراجعة
-        //                    ModelState.AddModelError("", $"حدث خطأ في الصف {row}: {ex.Message}");
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    if (practicalExperiences.Count > 0)
-        //    {
-        //        _context.practicalExperiences.AddRange(practicalExperiences);
-        //        await _context.SaveChangesAsync();
-        //    }
-
-        //    return RedirectToAction("Index"); // تعديل الوجهة حسب متطلباتك
-        //}
+        
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> ImportPracticalExperiences(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -909,12 +668,15 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 }
             }
 
+
             TempData["Success"] = "تم التحميل بنجاح";
             return RedirectToAction("Index");
         }
 
 
+
         // تصدير  بيانات الخبرات
+        [Authorize(Policy = "AddPolicy")]
 
         public async Task<IActionResult> ExportPracticalExperiencesToExcel()
         {
@@ -1002,6 +764,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddFamilyToEmployee(EmployeeVM viewModel)
         {
             try
@@ -1032,6 +796,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         // Action Method لتصدير البيانات  الاسرة إلى ملف Excel
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult ExportFamilyToExcel()
         {
             // استرجاع البيانات التي تريد تصديرها إلى Excel مع تضمين الكيانات ذات الصلة
@@ -1072,6 +838,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         // Action Method لاستيراد البيانات من ملف Excel
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> ImportFamilyFromExcel(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -1129,6 +897,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         [HttpPost]
+
         public async Task<IActionResult> SaveFamily(int familyEmployeeId, string familyName, int familyRelativesTypeId, string familyNotes)
         {
             try
@@ -1165,6 +934,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddPersonalDataToEmployee( EmployeeVM viewModel)
         {
             try
@@ -1193,6 +964,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Policy = "AddPolicy")]
 
         public IActionResult ExportPersonalDataToExcel()
         {
@@ -1268,268 +1040,193 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "PersonalData.xlsx");
             }
         }
+        
 
-        //[HttpPost]
-        //public async Task<IActionResult> ImportPersonalData(IFormFile file)
-        //{
-        //    if (file == null || file.Length == 0)
-        //    {
-        //        ModelState.AddModelError("", "يرجى تحديد ملف Excel صالح.");
-        //        return View();
-        //    }
+        [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
 
-        //    var personalDataList = new List<PersonalData>();
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
+        public async Task<IActionResult> ImportPersonalData(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                ModelState.AddModelError("", "يرجى تحديد ملف Excel صالح.");
+                return View();
+            }
 
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-        //            if (worksheet == null)
-        //            {
-        //                ModelState.AddModelError("", "الملف لا يحتوي على ورقة عمل.");
-        //                return View();
-        //            }
+            var personalDataList = new List<PersonalData>();
+            var errors = new List<string>();
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
 
-        //            var rowCount = worksheet.Dimension.Rows;
+                using (var package = new ExcelPackage(stream))
+                {
+                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                    if (worksheet == null)
+                    {
+                        ModelState.AddModelError("", "الملف لا يحتوي على ورقة عمل.");
+                        return View();
+                    }
 
-        //            for (int row = 2; row <= rowCount; row++)
-        //            {
-        //                try
-        //                {
-        //                    var employeeName = worksheet.Cells[row, 2].Text.Trim(); 
-        //                    var dateOfBirth = worksheet.Cells[row, 3].Text.Trim();
-        //                    var age = int.Parse(worksheet.Cells[row, 4].Text.Trim());
-        //                    var homePhone = worksheet.Cells[row, 5].Text.Trim();
-        //                    var email = worksheet.Cells[row, 6].Text.Trim();
-        //                    var phoneNumber = worksheet.Cells[row, 7].Text.Trim();
-        //                    var address = worksheet.Cells[row, 8].Text.Trim();
-        //                    var notes = worksheet.Cells[row, 9].Text.Trim();
-        //                    var cardType = worksheet.Cells[row, 10].Text.Trim();
-        //                    var toRelease = worksheet.Cells[row, 11].Text.Trim();
-        //                    var cardNumber = worksheet.Cells[row, 12].Text.Trim();
-        //                    var releaseDate = worksheet.Cells[row, 13].Text.Trim();
-        //                    var cardExpiryDate = worksheet.Cells[row, 14].Text.Trim();
-        //                    var sex = worksheet.Cells[row, 15].Text.Trim();
-        //                    var nationality = worksheet.Cells[row, 16].Text.Trim();
-        //                    var religion = worksheet.Cells[row, 17].Text.Trim();
-        //                    var maritalStatus = worksheet.Cells[row, 18].Text.Trim();
-        //                    var guarantees = worksheet.Cells[row, 19].Text.Trim();
+                    for (int row = 2; row <= worksheet.Dimension.Rows; row++)
+                    {
+                        try
+                        {
+                            // قراءة البيانات من الصف الحالي
+                            var employeeName = worksheet.Cells[row, 2].Text.Trim();
+                            var dateOfBirthText = worksheet.Cells[row, 3].Text.Trim();
+                            var ageText = worksheet.Cells[row, 4].Text.Trim();
+                            var sexName = worksheet.Cells[row, 5].Text.Trim();
+                            var nationalityName = worksheet.Cells[row, 6].Text.Trim();
+                            var religionName = worksheet.Cells[row, 7].Text.Trim();
+                            var maritalStatusName = worksheet.Cells[row, 8].Text.Trim();
+                            var homePhone = worksheet.Cells[row, 9].Text.Trim();
+                            var email = worksheet.Cells[row, 10].Text.Trim();
+                            var phoneNumber = worksheet.Cells[row, 11].Text.Trim();
+                            var address = worksheet.Cells[row, 12].Text.Trim();
+                            var notes = worksheet.Cells[row, 13].Text.Trim();
+                            var cardType = worksheet.Cells[row, 14].Text.Trim();
+                            var toRelease = worksheet.Cells[row, 15].Text.Trim();
+                            var cardNumberText = worksheet.Cells[row, 16].Text.Trim();
+                            var releaseDateText = worksheet.Cells[row, 17].Text.Trim();
+                            var cardExpiryDateText = worksheet.Cells[row, 18].Text.Trim();
+                            var guaranteesName = worksheet.Cells[row, 19].Text.Trim();
 
+                            // تحقق من وجود الموظف في قاعدة البيانات
+                            var employee = _context.employee.FirstOrDefault(e => e.EmployeeName == employeeName);
+                            if (employee == null)
+                            {
+                                errors.Add($"لم يتم العثور على الموظف في الصف {row}.");
+                                continue;
+                            }
 
+                            // تحقق إذا كانت البيانات الشخصية للموظف موجودة بالفعل في قاعدة البيانات
+                            var existingPersonalData = _context.personalDatas.FirstOrDefault(pd => pd.EmployeeId == employee.Id);
+                            if (existingPersonalData != null)
+                            {
+                                errors.Add($"البيانات الشخصية للموظف في الصف {row} موجودة بالفعل.");
+                                continue;
+                            }
 
+                            // التحقق من وجود الكيانات المختلفة في قاعدة البيانات
+                            var sex = _context.sex.FirstOrDefault(e => e.Name == sexName);
+                            if (sex == null)
+                            {
+                                errors.Add($"لم يتم العثور على الجنس في الصف {row}.");
+                                continue;
+                            }
 
-        //                    //EmployeeId = int.Parse(worksheet.Cells[row, 2].Value?.ToString() ?? "0"),
-        //                    //DateOfBirth = DateOnly.Parse(worksheet.Cells[row, 3].Value?.ToString() ?? DateOnly.MinValue.ToString()),
-        //                    //Age = int.Parse(worksheet.Cells[row, 4].Value?.ToString() ?? "0"),
-        //                    //HomePhone = worksheet.Cells[row, 5].Value?.ToString(),
-        //                    //Email = worksheet.Cells[row, 6].Value?.ToString(),
-        //                    //PhoneNumber = worksheet.Cells[row, 7].Value?.ToString(),
-        //                    //Address = worksheet.Cells[row, 8].Value?.ToString(),
-        //                    //Notes = worksheet.Cells[row, 9].Value?.ToString(),
-        //                    //CardType = worksheet.Cells[row, 10].Value?.ToString(),
-        //                    //ToRelease = worksheet.Cells[row, 11].Value?.ToString(),
-        //                    //CardNumber = int.Parse(worksheet.Cells[row, 12].Value?.ToString() ?? "0"),
-        //                    //ReleaseDate = DateOnly.Parse(worksheet.Cells[row, 13].Value?.ToString() ?? DateOnly.MinValue.ToString()),
-        //                    //CardExpiryDate = DateOnly.Parse(worksheet.Cells[row, 14].Value?.ToString() ?? DateOnly.MinValue.ToString()),
-        //                    //SexId = int.Parse(worksheet.Cells[row, 15].Value?.ToString() ?? "0"),
-        //                    //NationalityId = int.Parse(worksheet.Cells[row, 16].Value?.ToString() ?? "0"),
-        //                    //ReligionId = int.Parse(worksheet.Cells[row, 17].Value?.ToString() ?? "0"),
-        //                    //MaritalStatusId = int.Parse(worksheet.Cells[row, 18].Value?.ToString() ?? "0"),
-        //                    //GuaranteesId = int.Parse(worksheet.Cells[row, 19].Value?.ToString() ?? "0")
+                            var nationality = _context.nationality.FirstOrDefault(e => e.NationalityName == nationalityName);
+                            if (nationality == null)
+                            {
+                                errors.Add($"لم يتم العثور على الجنسية في الصف {row}.");
+                                continue;
+                            }
 
+                            var religion = _context.religion.FirstOrDefault(e => e.Name == religionName);
+                            if (religion == null)
+                            {
+                                errors.Add($"لم يتم العثور على الديانة في الصف {row}.");
+                                continue;
+                            }
 
+                            var maritalStatus = _context.maritalStatuses.FirstOrDefault(e => e.Name == maritalStatusName);
+                            if (maritalStatus == null)
+                            {
+                                errors.Add($"لم يتم العثور على الحالة الاجتماعية في الصف {row}.");
+                                continue;
+                            }
 
+                            var guarantees = _context.guarantees.FirstOrDefault(e => e.Name == guaranteesName);
+                            if (guarantees == null)
+                            {
+                                errors.Add($"لم يتم العثور على الضمين في الصف {row}.");
+                                continue;
+                            }
 
-        //                    var employee = _context.employee.FirstOrDefault(e => e.EmployeeName == employeeName);
-        //                    if (employee == null)
-        //                    {
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
-        //                    var seX = _context.sex.FirstOrDefault(e => e.Name == sex);
-        //                    if (seX == null)
-        //                    {
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
+                            // تحويل القيم النصية إلى أنواع مناسبة
+                            if (!DateTime.TryParseExact(dateOfBirthText, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOfBirth))
+                            {
+                                errors.Add($"تاريخ الميلاد غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    var nationalitY = _context.nationality.FirstOrDefault(e => e.NationalityName == nationality);
-        //                    if (nationalitY == null)
-        //                    {
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
+                            if (!DateTime.TryParseExact(releaseDateText, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var releaseDate))
+                            {
+                                errors.Add($"تاريخ الإصدار غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    var religIon = _context.religion.FirstOrDefault(e => e.Name == religion);
-        //                    if (religIon == null)
-        //                    {
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
+                            if (!DateTime.TryParseExact(cardExpiryDateText, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var cardExpiryDate))
+                            {
+                                errors.Add($"تاريخ انتهاء البطاقة غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    var maritalStatuss = _context.maritalStatuses.FirstOrDefault(e => e.Name == maritalStatus);
-        //                    if (maritalStatuss == null)
-        //                    {
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
+                            if (!int.TryParse(ageText, out var age))
+                            {
+                                errors.Add($"العمر غير صالح في الصف {row}.");
+                                continue;
+                            }
 
+                            if (!int.TryParse(cardNumberText, out var cardNumber))
+                            {
+                                errors.Add($"رقم البطاقة غير صالح في الصف {row}.");
+                                continue;
+                            }
 
-        //                    var personalData = new PersonalData
-        //                    {
-        //                        EmployeeId = int.Parse(worksheet.Cells[row, 2].Value?.ToString() ?? "0"),
-        //                        DateOfBirth = DateOnly.Parse(worksheet.Cells[row, 3].Value?.ToString() ?? DateOnly.MinValue.ToString()),
-        //                        Age = int.Parse(worksheet.Cells[row, 4].Value?.ToString() ?? "0"),
-        //                        HomePhone = worksheet.Cells[row, 5].Value?.ToString(),
-        //                        Email = worksheet.Cells[row, 6].Value?.ToString(),
-        //                        PhoneNumber = worksheet.Cells[row, 7].Value?.ToString(),
-        //                        Address = worksheet.Cells[row, 8].Value?.ToString(),
-        //                        Notes = worksheet.Cells[row, 9].Value?.ToString(),
-        //                        CardType = worksheet.Cells[row, 10].Value?.ToString(),
-        //                        ToRelease = worksheet.Cells[row, 11].Value?.ToString(),
-        //                        CardNumber = int.Parse(worksheet.Cells[row, 12].Value?.ToString() ?? "0"),
-        //                        ReleaseDate = DateOnly.Parse(worksheet.Cells[row, 13].Value?.ToString() ?? DateOnly.MinValue.ToString()),
-        //                        CardExpiryDate = DateOnly.Parse(worksheet.Cells[row, 14].Value?.ToString() ?? DateOnly.MinValue.ToString()),
-        //                        SexId = int.Parse(worksheet.Cells[row, 15].Value?.ToString() ?? "0"),
-        //                        NationalityId = int.Parse(worksheet.Cells[row, 16].Value?.ToString() ?? "0"),
-        //                        ReligionId = int.Parse(worksheet.Cells[row, 17].Value?.ToString() ?? "0"),
-        //                        MaritalStatusId = int.Parse(worksheet.Cells[row, 18].Value?.ToString() ?? "0"),
-        //                        GuaranteesId = int.Parse(worksheet.Cells[row, 19].Value?.ToString() ?? "0")
+                            var personalData = new PersonalData
+                            {
+                                EmployeeId = employee.Id,
+                                DateOfBirth = DateOnly.FromDateTime(dateOfBirth),
+                                Age = age,
+                                HomePhone = homePhone,
+                                Email = email,
+                                PhoneNumber = phoneNumber,
+                                Address = address,
+                                Notes = notes,
+                                CardType = cardType,
+                                ToRelease = toRelease,
+                                CardNumber = cardNumber,
+                                ReleaseDate = DateOnly.FromDateTime(releaseDate),
+                                CardExpiryDate = DateOnly.FromDateTime(cardExpiryDate),
+                                SexId = sex.Id,
+                                NationalityId = nationality.Id,
+                                ReligionId = religion.Id,
+                                MaritalStatusId = maritalStatus.Id,
+                                GuaranteesId = guarantees.Id
+                            };
 
-        //                    };
-        //                    PersonalData.Add(personalData);
+                            personalDataList.Add(personalData);
+                        }
+                        catch (Exception ex)
+                        {
+                            errors.Add($"حدث خطأ في الصف {row}: {ex.Message}");
+                        }
+                    }
+                }
 
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    // سجل الخطأ للمراجعة
-        //                    ModelState.AddModelError("", $"حدث خطأ في الصف {row}: {ex.Message}");
-        //                }
-        //            }
-        //        }
+                if (personalDataList.Any())
+                {
+                    _context.personalDatas.AddRange(personalDataList);
+                    await _context.SaveChangesAsync();
+                }
 
-        //            await _context.SaveChangesAsync();
+                if (errors.Any())
+                {
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
 
-        //    }
-
-        //    ViewBag.Message = "Data imported successfully!";
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> ImportPracticalExperiences11(IFormFile file)
-        //{
-        //    if (file == null || file.Length == 0)
-        //    {
-        //        ModelState.AddModelError("", "يرجى تحديد ملف Excel صالح.");
-        //        return View();
-        //    }
-
-        //    var practicalExperiences = new List<PracticalExperiences>();
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(stream);
-
-        //        using (var package = new ExcelPackage(stream))
-        //        {
-        //            var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-        //            if (worksheet == null)
-        //            {
-        //                ModelState.AddModelError("", "الملف لا يحتوي على ورقة عمل.");
-        //                return View();
-        //            }
-
-        //            var rowCount = worksheet.Dimension.Rows;
-
-        //            for (int row = 2; row <= rowCount; row++)
-        //            {
-        //                try
-        //                {
-        //                    var employeeName = worksheet.Cells[row, 2].Text.Trim(); // العمود 2 للعمود "Employee Name"
-        //                    var experiencesName = worksheet.Cells[row, 3].Text.Trim(); // العمود 3 للعمود "Experience Name"
-        //                    var placeToGainExperience = worksheet.Cells[row, 4].Text.Trim(); // العمود 4 للعمود "Place To Gain Experience"
-        //                    var fromDateText = worksheet.Cells[row, 5].Text.Trim(); // العمود 5 للعمود "From Date"
-        //                    var toDateText = worksheet.Cells[row, 6].Text.Trim(); // العمود 6 للعمود "To Date"
-        //                    var duration = worksheet.Cells[row, 7].Text.Trim(); // العمود 7 للعمود "Duration"
-
-        //                    if (string.IsNullOrEmpty(employeeName) || string.IsNullOrEmpty(experiencesName) || string.IsNullOrEmpty(placeToGainExperience) || string.IsNullOrEmpty(fromDateText) || string.IsNullOrEmpty(toDateText))
-        //                    {
-        //                        continue; // تخطي الصفوف ذات البيانات المفقودة
-        //                    }
-
-        //                    var employee = _context.employee.FirstOrDefault(e => e.EmployeeName == employeeName);
-        //                    if (employee == null)
-        //                    {
-        //                        continue; // تخطي إذا لم يتم العثور على الموظف
-        //                    }
-
-        //                    if (!DateTime.TryParse(fromDateText, out DateTime fromDate) || !DateTime.TryParse(toDateText, out DateTime toDate))
-        //                    {
-        //                        continue; // تخطي الصفوف ذات التواريخ غير الصالحة
-        //                    }
-
-        //                    var practicalExperience = new PracticalExperiences
-        //                    {
-        //                        EmployeeId = employee.Id,
-        //                        ExperiencesName = experiencesName,
-        //                        PlacToGainExperience = placeToGainExperience,
-        //                        FromDate = DateOnly.FromDateTime(fromDate),
-        //                        ToDate = DateOnly.FromDateTime(toDate),
-        //                        Duration = duration
-        //                    };
-
-        //                    practicalExperiences.Add(practicalExperience);
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    // سجل الخطأ للمراجعة
-        //                    ModelState.AddModelError("", $"حدث خطأ في الصف {row}: {ex.Message}");
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    if (practicalExperiences.Count > 0)
-        //    {
-        //        _context.practicalExperiences.AddRange(practicalExperiences);
-        //        await _context.SaveChangesAsync();
-        //    }
-
-        //    return RedirectToAction("Index"); // تعديل الوجهة حسب متطلباتك
-        //}
+            TempData["Success"] = "تم استيراد البيانات بنجاح.";
+            return RedirectToAction("Index");
+        }
 
 
-        //public async Task<IActionResult> CheckData(string hp, string phone, string email, int card)
-        //{
-        //    if (!string.IsNullOrEmpty(hp) || !string.IsNullOrEmpty(phone) || !string.IsNullOrEmpty(email) || card != 0)
-        //    {
-        //        var existingData = await _context.personalDatas.FirstOrDefaultAsync(x =>
-        //            x.HomePhone == hp ||
-        //            x.PhoneNumber == phone ||
-        //            x.Email == email ||
-        //            x.CardNumber == card);
 
-        //        if (existingData != null)
-        //        {
-        //            if (!string.IsNullOrEmpty(existingData.HomePhone) && existingData.HomePhone == hp)
-        //            {
-        //                return Json(1);
-        //            }
-        //            if (!string.IsNullOrEmpty(existingData.PhoneNumber) && existingData.PhoneNumber == phone)
-        //            {
-        //                return Json(2);
-        //            }
-        //            if (!string.IsNullOrEmpty(existingData.Email) && existingData.Email == email)
-        //            {
-        //                return Json(3);
-        //            }
-        //            if (existingData.CardNumber != 0 && existingData.CardNumber == card)
-        //            {
-        //                return Json(4);
-        //            }
-        //        }
-        //        return Json(0);
-        //    }
-        //    return NotFound();
-        //}
 
         public IActionResult CheckData(string hp, string phone, string email, int card)
         {
@@ -1560,57 +1257,15 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return NotFound();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SavePersonalData(int personalDataEmployeeId, DateOnly PersonalDataDateOfBirth, int personalDataAge, int personalDataSexId, int personalDataNationalityId, int personalDataReligionId, int personalDataMaritalStatusId, int personalDataGuaranteesId, string personalDataHomePhone, string personalDataPhoneNumber, string personalDataEmail, string personalDataAddress, string personalDataCardType, int personalDataCardNumber, string personalDataToRelease, DateOnly personalDataReleaseDate, DateOnly personalDataCardExpiryDate, string personalDataNotes)
-        //{
-        //    try
-        //    {
-
-        //        // إنشاء كائن لتخزين البيانات المستلمة
-        //        var newPersonalDatas = new PersonalData
-        //        {
-        //            EmployeeId = personalDataEmployeeId,
-        //            DateOfBirth = PersonalDataDateOfBirth,
-        //            Age = personalDataAge,
-        //            SexId = personalDataSexId,
-        //            NationalityId = personalDataNationalityId,
-        //            ReligionId = personalDataReligionId,
-        //            MaritalStatusId = personalDataMaritalStatusId,
-        //            GuaranteesId = personalDataGuaranteesId,
-        //            HomePhone = personalDataHomePhone,
-        //            PhoneNumber = personalDataPhoneNumber,
-        //            Email = personalDataEmail,
-        //            Address = personalDataAddress,
-        //            CardType = personalDataCardType,
-        //            CardNumber = personalDataCardNumber,
-        //            ToRelease = personalDataToRelease,
-        //            ReleaseDate = personalDataReleaseDate,
-        //            CardExpiryDate = personalDataCardExpiryDate,
-        //            Notes = personalDataNotes
-
-
-        //        };
-
-        //        // إضافة الدولة الجديدة إلى قاعدة البيانات باستخدام Entity Framework Core
-        //        _context.personalDatas.Add(newPersonalDatas);
-        //        await _context.SaveChangesAsync();
-
-        //        // إرجاع رسالة نجاح
-        //        return Ok("تم حفظ البيانات بنجاح!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // يمكنك تحسين هذا الجزء لتسجيل الخطأ بشكل أفضل
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
+    
 
 
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddGuarantees( EmployeeVM viewModel)
         {
             try
@@ -1641,89 +1296,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> Importguarantees(IFormFile file)
-        //{
-        //    if (file == null || file.Length <= 0)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "لم يتم تحميل ملف.");
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
-        //    {
-        //        ModelState.AddModelError(string.Empty, "الرجاء تحميل ملف Excel.");
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    try
-        //    {
-        //        using (var stream = new MemoryStream())
-        //        {
-        //            await file.CopyToAsync(stream);
-
-        //            using (var package = new ExcelPackage(stream))
-        //            {
-        //                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-        //                int rowCount = worksheet.Dimension.Rows;
-        //                for (int row = 2; row <= rowCount; row++)
-        //                {
-        //                    Guarantees guarantee = new Guarantees();
-
-        //                    guarantee.Name = worksheet.Cells[row, 2].Value.ToString();
-        //                    guarantee.PhoneNumber = worksheet.Cells[row, 3].Value.ToString();
-        //                    guarantee.NameOfTheBusiness = worksheet.Cells[row, 4].Value.ToString();
-        //                    if (int.TryParse(worksheet.Cells[row, 5].Value.ToString(), out int commercialRegistrationNumber))
-        //                    {
-        //                        guarantee.CommercialRegistrationNo = commercialRegistrationNumber;
-        //                    }
-        //                    guarantee.ShopAddress = worksheet.Cells[row, 6].Value.ToString();
-        //                    guarantee.HomeAdress = worksheet.Cells[row, 7].Value.ToString();
-        //                    guarantee.Notes = worksheet.Cells[row, 9].Value.ToString();
-
-        //                    // التحقق من العدد الذي يعول
-        //                    if (int.TryParse(worksheet.Cells[row, 8].Value.ToString(), out int numberOfDependents))
-        //                    {
-        //                        guarantee.NumberOfDependents = numberOfDependents;
-        //                    }
-        //                    else
-        //                    {
-        //                        ModelState.AddModelError(string.Empty, $"خطأ في تنسيق عدد من يعول في الصف رقم {row}");
-        //                        continue;
-        //                    }
-
-        //                    // التحقق من الحالة الاجتماعية باستخدام الاسم
-        //                    string maritalStatusName = worksheet.Cells[row, 10].Value.ToString();
-        //                    var maritalStatus = await _context.maritalStatuses.FirstOrDefaultAsync(ms => ms.Name == maritalStatusName);
-        //                    if (maritalStatus != null)
-        //                    {
-        //                        guarantee.MaritalStatusId = maritalStatus.Id;
-        //                    }
-        //                    else
-        //                    {
-        //                        ModelState.AddModelError(string.Empty, $"خطأ في تنسيق الحالة الاجتماعية في الصف رقم {row}");
-        //                        continue;
-        //                    }
-
-        //                    _context.guarantees.Add(guarantee);
-        //                }
-        //                TempData["Success"] = "تم استيراد البيانات بنجاح.";
-
-        //                await _context.SaveChangesAsync();
-        //            }
-        //        }
-
-
-        //        return RedirectToAction("Index");
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError(string.Empty, $"حدث خطأ أثناء استيراد البيانات: {ex.Message}");
-        //        return RedirectToAction("Index");
-        //    }
-        //}
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Importguarantees(IFormFile file)
         {
             if (file == null || file.Length <= 0)
@@ -1808,6 +1383,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         // الإجراء لتصدير البيانات إلى ملف Excel
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> ExportToExcelGuarantees()
         {
             var guarantees = await _context.guarantees.Include(g => g.MaritalStatus).ToListAsync();
@@ -1817,7 +1394,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 var worksheet = package.Workbook.Worksheets.Add("Guarantees");
 
                 // إضافة رؤوس الأعمدة
-                worksheet.Cells[1, 1].Value = "ID";
+                worksheet.Cells[1, 1].Value = "Id";
                 worksheet.Cells[1, 2].Value = "اسم الضمين";
                 worksheet.Cells[1, 3].Value = "الموبايل";
                 worksheet.Cells[1, 4].Value = "اسم المحل التجاري";
@@ -1897,6 +1474,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddFinancialStatements(EmployeeVM viewModel)
         {
             try
@@ -1967,6 +1546,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddTrainingCourses(EmployeeVM viewModel)
         {
             try
@@ -1998,6 +1579,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         // Action Method لتصدير البيانات إلى ملف Excel
 
+          [Authorize(Policy = "AddPolicy")]
 
         public IActionResult ExportTrainingToExcel()
         {
@@ -2039,6 +1621,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> ImportTrainingFromExcel(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -2109,6 +1693,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
 
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> SaveTrainingCourses(int trainingCoursesEmployeeId, string trainingCoursesNameCourses, string trainingCoursesWhereToGetIt, string trainingCoursesFromDate, string trainingCoursesToDate)
         {
            
@@ -2143,73 +1729,13 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
 
-        //[HttpPost]
-
-        //public async Task<IActionResult> SaveTrainingCourses(int employeeId, string nameCourses, string whereToGetIt, string fromDate, string toDate)
-        //{
-        //    try
-        //    {
-        //        // Parse the date strings to DateTime
-        //        DateTime fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        //        DateTime toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-        //        // إنشاء كائن لتخزين البيانات المستلمة
-        //        var newTrainingCourses = new TrainingCourses
-        //        {
-        //            EmployeeId = employeeId,
-        //            NameCourses = nameCourses,
-        //            WhereToGetIt = whereToGetIt,
-        //            ToDate = DateOnly.FromDateTime(toDateValue),
-        //            FromDate = DateOnly.FromDateTime(fromDateValue)
-
-
-        //        };
-
-        //        // إضافة البيانات الجديدة إلى قاعدة البيانات
-        //        _context.trainingCourses.Add(newTrainingCourses);
-        //        await _context.SaveChangesAsync();
-
-        //        // إرجاع رسالة نجاح
-        //        return Ok("تم حفظ البيانات بنجاح!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // في حال حدوث أي خطأ آخر
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult SaveTrainingCourses(int employeeId, string nameCourses, string whereToGetIt, DateTime fromDate, DateTime toDate)
-        //{
-        //    // هنا يجب عمل اللوجيك لحفظ البيانات في قاعدة البيانات أو المكان المناسب
-        //    // يمكنك استخدام Entity Framework أو أي إطار عمل آخر للوصول إلى قاعدة البيانات
-
-        //    try
-        //    {
-        //        // في هذا المثال، سنقوم بعرض البيانات المستلمة في وحدة التحكم
-        //        Console.WriteLine($"بيانات الموظف: {employeeId}");
-        //        Console.WriteLine($"اسم الدورة: {nameCourses}");
-        //        Console.WriteLine($"مكان الحصول عليها: {whereToGetIt}");
-        //        Console.WriteLine($"من تاريخ: {fromDate}");
-        //        Console.WriteLine($"الى تاريخ: {toDate}");
-
-        //        // هنا يمكنك كتابة الكود الخاص بحفظ البيانات في قاعدة البيانات
-
-        //        // بعد حفظ البيانات، يمكنك إرسال رد بنجاح العملية
-        //        return Ok("تم حفظ البيانات بنجاح");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // في حالة حدوث خطأ، يمكنك إرجاع استجابة توضيحية مع الخطأ
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
+        
 
  
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> AddEmployeeArchives(EmployeeVM viewModel)
         {
             try
@@ -2244,6 +1770,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> SaveArchives(IFormFile archivesFileUpload, int archivesEmployeeId, DateOnly archivesDate, string archivesDescriotion, string archivesNotes)
         {
 
@@ -2283,124 +1811,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 
             }
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> SaveArchives(string archivesFileUpload, int archivesEmployeeId, DateOnly archivesDate, string archivesDescriotion, string archivesNotes)
-        //{
-        //    try
-        //    {
-        //        // إنشاء كائن لتخزين البيانات المستلمة
-        //        var newEmployeeArchives = new EmployeeArchives
-        //        {
-        //            EmployeeId = archivesEmployeeId,
-        //            Date = archivesDate,
-        //            Descriotion = archivesDescriotion,
-        //            Notes = archivesNotes
-        //        };
-
-        //        // إذا كانت البيانات تشمل صورة، قم بحفظها كملف الصورة الأصلي على الخادم
-        //        if (!string.IsNullOrEmpty(archivesFileUpload) && IsImage(archivesFileUpload))
-        //        {
-        //            // حفظ ملف الصورة على الخادم
-        //            string imagePath = SaveImage(archivesFileUpload);
-
-        //            // تعيين مسار الصورة في كائن الـ newEmployeeArchives
-        //            newEmployeeArchives.File = imagePath;
-        //        }
-        //        // إذا كانت البيانات تشمل ملف PDF، قم بحفظه كملف PDF على الخادم
-        //        else if (!string.IsNullOrEmpty(archivesFileUpload) && IsPdf(archivesFileUpload))
-        //        {
-        //            // حفظ ملف PDF على الخادم
-        //            string pdfPath = SavePdf(archivesFileUpload);
-
-        //            // تعيين مسار ملف PDF في كائن الـ newEmployeeArchives
-        //            newEmployeeArchives.File = pdfPath;
-        //        }
-
-        //        // إضافة البيانات الجديدة إلى قاعدة البيانات
-        //        _context.EmployeeArchives.Add(newEmployeeArchives);
-        //        await _context.SaveChangesAsync();
-
-        //        // إعادة توجيه المستخدم إلى الصفحة الرئيسية لإظهار التغييرات
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // في حالة حدوث أي خطأ، سنقوم بإرجاع استجابة سلبية مع رسالة الخطأ
-        //        return BadRequest("حدث خطأ أثناء حفظ البيانات: " + ex.Message);
-        //    }
-        //}
-
-        //// دالة لحفظ ملف الصورة على الخادم
-        //private string SaveImage(string imageData)
-        //{
-        //    // قم بتحويل البيانات الواردة كـ Base64 إلى مصفوفة بايت
-        //    byte[] imageBytes = Convert.FromBase64String(imageData);
-
-        //    // تحديد مسار الحفظ على الخادم
-        //    string imagePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".jpg");
-
-        //    // حفظ ملف الصورة على الخادم
-        //    System.IO.File.WriteAllBytes(imagePath, imageBytes);
-
-        //    return imagePath;
-        //}
-
-        //// دالة لحفظ ملف PDF على الخادم
-        //private string SavePdf(string pdfData)
-        //{
-        //    // قم بتحويل البيانات الواردة كـ Base64 إلى مصفوفة بايت
-        //    byte[] pdfBytes = Convert.FromBase64String(pdfData);
-
-        //    // تحديد مسار الحفظ على الخادم
-        //    string pdfPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".pdf");
-
-        //    // حفظ ملف PDF على الخادم
-        //    System.IO.File.WriteAllBytes(pdfPath, pdfBytes);
-
-        //    return pdfPath;
-        //}
-
-        //// دالة لفحص ما إذا كانت البيانات هي صورة
-        //private bool IsImage(string data)
-        //{
-        //    // قم بتحليل البيانات كـ Base64 للتحقق مما إذا كانت البيانات تمثل صورة أم لا
-        //    try
-        //    {
-        //        byte[] imageBytes = Convert.FromBase64String(data);
-        //        using (var ms = new MemoryStream(imageBytes))
-        //        {
-        //            var image = System.Drawing.Image.FromStream(ms);
-        //            return ImageFormat.Jpeg.Equals(image.RawFormat) || ImageFormat.Png.Equals(image.RawFormat) || ImageFormat.Gif.Equals(image.RawFormat);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //// دالة لفحص ما إذا كانت البيانات هي ملف PDF
-        //private bool IsPdf(string data)
-        //{
-        //    // قم بتحليل البيانات كـ Base64 للتحقق مما إذا كانت البيانات تمثل ملف PDF أم لا
-        //    try
-        //    {
-        //        byte[] pdfBytes = Convert.FromBase64String(data);
-        //        using (MemoryStream ms = new MemoryStream(pdfBytes))
-        //        {
-        //            using (PdfReader reader = new PdfReader(ms))
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
 
 
         public bool EmployeeNumber(int id)
@@ -2505,6 +1915,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
             var external = _context.AdditionalExternalOfWork.Where(e => e.EmployeeId == Id).ToList();
             return View(new { employee, external });
         }
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> details(int Id )
         {
             if(Id == 0)
