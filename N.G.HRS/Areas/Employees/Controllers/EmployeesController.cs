@@ -1858,7 +1858,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
 
-        public async Task<IActionResult> Salaryrevealed(int Id)
+        public async Task<IActionResult> Salaryrevealed()
         {
             var employee = await _context.employee.ToListAsync();
             var section = await _context.Sections.ToListAsync();
@@ -1875,6 +1875,36 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(salary);
 
         }
+        public async Task<IActionResult> Salary()
+        {
+
+            var salaryList = await _context.Salaries.Include(x => x.Employee).Include(x => x.Employee.Sections).Include(x => x.Employee.Departments).Include(x => x.Currency)
+                 .Select(x => new {
+               /*==>*/      eNum = x.Employee.EmployeeNumber,
+                 /*==>*/    name = x.Employee.EmployeeName,
+                    /*==>*/ currency = x.Currency.CurrencyName,
+                  /*==>*/   section = x.Employee.Sections.SectionsName,
+                  /*==>*/   departments = x.Employee.Departments.SubAdministration,
+                   /*==>*/  additinal = x.Additinal,
+                  /*==>*/   baseSalary = x.BaseSalary,
+                  /*==>*/   workedHours = x.WorkedHours,
+                 /*==>*/    allowance = x.allowances,
+                 /*==>*/    month = x.SelectedMonth.Month,
+                /*==>*/     gratuities = x.Gratuities,
+                  /*==>*/   bonuses = x.Bonuses,
+                     late = x.Late,
+                     abcents = x.Abcents,
+                     halfAbcents = x.HalfAbcents,
+              /*==>*/       entitlements = x.Entitlements,
+                     deductions = x.Deductions,
+                     earlyLeave = x.EarlyLeave,
+                     retirementInsurance = x.RetirementInsurance,
+                     another = x.Another,
+                 }).ToListAsync();
+            return Json(salaryList);
+
+        }
+
     }
 
 }

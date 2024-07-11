@@ -3,6 +3,7 @@ using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
 using N.G.HRS.Areas.Employees.Models;
 using N.G.HRS.Areas.OrganizationalChart.Models;
+using N.G.HRS.Areas.PayRoll.Models;
 
 namespace N.G.HRS.Areas.Employees.ViewModel
 {
@@ -11,6 +12,9 @@ namespace N.G.HRS.Areas.Employees.ViewModel
         //public bool migration { get; set; }
         public DateTime Month { get; set; }
         public Employee Employee { get; set; }
+        public Salaries Salaries { get; set; }
+
+        public List<Salaries>? Salarieslist { get; set; }
         public List<Employee>? Employeeslist { get; set; }
         public Sections Section { get; set; }
         public List<Sections> SectionList { get; set; }

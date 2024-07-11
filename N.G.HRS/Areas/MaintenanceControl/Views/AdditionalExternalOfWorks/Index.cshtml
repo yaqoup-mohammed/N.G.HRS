@@ -68,7 +68,13 @@
                                         @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.SubstituteEmployee.EmployeeName)
+                                        @if (item.SubstituteEmployee != null)
+                                        {
+
+                                            @Html.DisplayFor(modelItem => item.SubstituteEmployee.EmployeeName)
+                                                            
+                                        }
+                                        
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Date)
@@ -92,7 +98,7 @@
                                         @Html.DisplayFor(modelItem => item.Minutes)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Mission)
+                                        @Html.DisplayFor(modelItem => item.Mission )
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TaskDestination)
