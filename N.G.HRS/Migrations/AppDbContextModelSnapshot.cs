@@ -2322,8 +2322,6 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
-<<<<<<< HEAD
-=======
 
                     b.HasData(
                         new
@@ -2336,7 +2334,6 @@ namespace N.G.HRS.Migrations
                             Id = 2,
                             Name = "تكليف خارجي"
                         });
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
@@ -2457,8 +2454,6 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AttendanceStatus");
-<<<<<<< HEAD
-=======
 
                     b.HasData(
                         new
@@ -2536,7 +2531,6 @@ namespace N.G.HRS.Migrations
                             Id = 15,
                             Name = "تكليف خارجي "
                         });
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions", b =>
@@ -2635,12 +2629,9 @@ namespace N.G.HRS.Migrations
                     b.Property<bool>("IsConnected")
                         .HasColumnType("bit");
 
-<<<<<<< HEAD
-=======
                     b.Property<bool>("IsProcssessed")
                         .HasColumnType("bit");
 
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -3272,19 +3263,6 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-<<<<<<< HEAD
-                    b.Property<double>("Abcents")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Additinal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Another")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Bonuses")
-                        .HasColumnType("float");
-=======
                     b.Property<decimal>("Abcents")
                         .HasColumnType("decimal(18,2)");
 
@@ -3299,18 +3277,12 @@ namespace N.G.HRS.Migrations
 
                     b.Property<decimal>("Bonuses")
                         .HasColumnType("decimal(18,2)");
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
 
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<double>("Deductions")
-                        .HasColumnType("float");
-=======
                     b.Property<decimal>("Deductions")
                         .HasColumnType("decimal(18,2)");
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
 
                     b.Property<decimal>("EarlyLeave")
                         .HasColumnType("decimal(18,2)");
@@ -3318,16 +3290,6 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<double>("Entitlements")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Gratuities")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Late")
-                        .HasColumnType("float");
-=======
                     b.Property<decimal>("Entitlements")
                         .HasColumnType("decimal(18,2)");
 
@@ -3339,7 +3301,6 @@ namespace N.G.HRS.Migrations
 
                     b.Property<decimal>("Late")
                         .HasColumnType("decimal(18,2)");
->>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6
 
                     b.Property<decimal>("RetirementInsurance")
                         .HasColumnType("decimal(18,2)");

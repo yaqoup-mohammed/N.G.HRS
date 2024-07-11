@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240710182852_X55")]
-    partial class X55
+    [Migration("20240711175123_Z2")]
+    partial class Z2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2325,6 +2325,18 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "تكليف إضافي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "تكليف خارجي"
+                        });
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
@@ -2445,6 +2457,83 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AttendanceStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "حضور"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "غياب"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "سماحية انصراف مبكر"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "سماحية حضور متأخر"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "اذن"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "اجازة"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "اجازة رسمية"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "اجازة اسبوعية"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "إضافي معتمد"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "إضافي غير معتمد"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "انصراف بدون عذر"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "تأخير"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "غياب نصف يوم"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "سماحية حضور وانصراف"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "تكليف خارجي "
+                        });
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions", b =>
@@ -2541,6 +2630,9 @@ namespace N.G.HRS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsConnected")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsProcssessed")
                         .HasColumnType("bit");
 
                     b.Property<string>("Note")
@@ -3164,6 +3256,74 @@ namespace N.G.HRS.Migrations
                     b.HasIndex("FinanceAccountTypeId");
 
                     b.ToTable("EntitlementsAndDeductions");
+                });
+
+            modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.Salaries", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Abcents")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Additinal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Another")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BaseSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Bonuses")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Deductions")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("EarlyLeave")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Entitlements")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Gratuities")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("HalfAbcents")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Late")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("RetirementInsurance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("SelectedMonth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("WorkedHours")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("allowances")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Salaries");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.VacationAllowances", b =>
@@ -4628,6 +4788,25 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.Salaries", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Finance.Models.Currency", "Currency")
+                        .WithMany("SalariesList")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("SalariesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.VacationAllowances", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
@@ -4857,6 +5036,8 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("SEAEOWList");
 
+                    b.Navigation("SalariesList");
+
                     b.Navigation("StaffTimeList");
 
                     b.Navigation("StaffVacationsList");
@@ -4902,6 +5083,8 @@ namespace N.G.HRS.Migrations
                     b.Navigation("FunctionalCategoriesList");
 
                     b.Navigation("FunctionalClassList");
+
+                    b.Navigation("SalariesList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.FinanceAccount", b =>

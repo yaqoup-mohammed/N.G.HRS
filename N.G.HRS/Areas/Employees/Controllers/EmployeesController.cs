@@ -245,44 +245,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             }
         }
 
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-        // استيراد ملف اكسل للموظفين
+        
 
         [HttpPost]
         [Authorize(Policy = "AddPolicy")]

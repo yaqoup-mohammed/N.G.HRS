@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
@@ -24,6 +25,9 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             this._permanenceModelsRepository = permanenceModelsRepository;
 
         }
+
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
 
@@ -44,6 +48,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
         //    return View();
         //}
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
@@ -53,6 +59,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create(PermanenceModelsAndPeriodsVM PVM)
         {
 
@@ -96,6 +103,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> CreatePeriods(PermanenceModelsAndPeriodsVM data)
         {
             if (ModelState.IsValid)

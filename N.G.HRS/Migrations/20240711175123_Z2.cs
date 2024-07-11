@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class fsd : Migration
+    public partial class Z2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -1013,6 +1015,7 @@ namespace N.G.HRS.Migrations
                     LicenseNumber = table.Column<int>(type: "int", nullable: false),
                     TypeOfBusinessActivity = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ComponyLogo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    LogoPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ComponyAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     BoardOfDirectorsId = table.Column<int>(type: "int", nullable: true)
@@ -1215,8 +1218,7 @@ namespace N.G.HRS.Migrations
                     SectionsId = table.Column<int>(type: "int", nullable: false),
                     JobDescriptionId = table.Column<int>(type: "int", nullable: false),
                     FingerprintDevicesId = table.Column<int>(type: "int", nullable: true),
-                    ManagerId = table.Column<int>(type: "int", nullable: true),
-                    CurrentJop = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ManagerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -2175,32 +2177,22 @@ namespace N.G.HRS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
-<<<<<<<< HEAD:N.G.HRS/Migrations/20240704191750_fsd.cs
-                    Additinal = table.Column<double>(type: "float", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    allowances = table.Column<double>(type: "float", nullable: false),
-                    SelectedMonth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gratuities = table.Column<double>(type: "float", nullable: false),
-                    Bonuses = table.Column<double>(type: "float", nullable: false),
-                    Late = table.Column<double>(type: "float", nullable: false),
-                    Abcents = table.Column<double>(type: "float", nullable: false),
-                    Entitlements = table.Column<double>(type: "float", nullable: false),
-                    Deductions = table.Column<double>(type: "float", nullable: false),
-                    Another = table.Column<double>(type: "float", nullable: false),
-========
                     Additinal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BaseSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    WorkedHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
                     allowances = table.Column<double>(type: "float", nullable: false),
                     SelectedMonth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gratuities = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Bonuses = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Late = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Abcents = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    HalfAbcents = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Entitlements = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Deductions = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Another = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
->>>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6:N.G.HRS/Migrations/20240703212736_A.cs
-                    CurrencyId = table.Column<int>(type: "int", nullable: true)
+                    EarlyLeave = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RetirementInsurance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Another = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2209,7 +2201,8 @@ namespace N.G.HRS.Migrations
                         name: "FK_Salaries_Currency_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currency",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Salaries_employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -2275,6 +2268,7 @@ namespace N.G.HRS.Migrations
                     SubstituteStaffMemberId = table.Column<int>(type: "int", nullable: true),
                     DonorSide = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsProcssessed = table.Column<bool>(type: "bit", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -2547,6 +2541,37 @@ namespace N.G.HRS.Migrations
                         column: x => x.ViolationsId,
                         principalTable: "Violations",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Assignment",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "تكليف إضافي" },
+                    { 2, "تكليف خارجي" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AttendanceStatus",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "حضور" },
+                    { 2, "غياب" },
+                    { 3, "سماحية انصراف مبكر" },
+                    { 4, "سماحية حضور متأخر" },
+                    { 5, "اذن" },
+                    { 6, "اجازة" },
+                    { 7, "اجازة رسمية" },
+                    { 8, "اجازة اسبوعية" },
+                    { 9, "إضافي معتمد" },
+                    { 10, "إضافي غير معتمد" },
+                    { 11, "انصراف بدون عذر" },
+                    { 12, "تأخير" },
+                    { 13, "غياب نصف يوم" },
+                    { 14, "سماحية حضور وانصراف" },
+                    { 15, "تكليف خارجي " }
                 });
 
             migrationBuilder.CreateIndex(

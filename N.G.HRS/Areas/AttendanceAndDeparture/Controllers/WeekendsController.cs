@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +29,10 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
             _periods = periods;
 
         }
-        
+
         // GET: AttendanceAndDeparture/Weekends
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.weekends.Include(w => w.Periods).Include(w => w.PermanenceModels);
@@ -37,6 +40,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/Weekends/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -57,7 +62,9 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/Weekends/Create
-        public  async Task<IActionResult> Create()
+        [Authorize(Policy = "AddPolicy")]
+
+        public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
 
@@ -69,6 +76,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,SaturDay,SunDay,MonDay,Tuesday,Wednesday,Thursday,Friday,PermanenceModelsId,PeriodsId,")] Weekends weekends)
         {
            
@@ -150,6 +158,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/Weekends/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -171,6 +180,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SaturDay,SunDay,MonDay,Tuesday,Wednesday,Thursday,Friday,PermanenceModelsId,PeriodsId")] Weekends weekends)
         {
             await PopulateDropdownListsAsync();
@@ -203,6 +213,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/Weekends/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -222,6 +233,7 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // POST: AttendanceAndDeparture/Weekends/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (id != null)
