@@ -13,6 +13,7 @@ namespace N.G.HRS.Areas.Employees.ViewModel
         public DateTime Month { get; set; }
         public Employee Employee { get; set; }
         public Salaries Salaries { get; set; }
+
         public List<Salaries>? Salarieslist { get; set; }
         public List<Employee>? Employeeslist { get; set; }
         public Sections Section { get; set; }
