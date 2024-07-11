@@ -2846,6 +2846,9 @@ namespace N.G.HRS.Migrations
                     b.Property<int>("LicenseNumber")
                         .HasColumnType("int");
 
+                    b.Property<string>("LogoPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");

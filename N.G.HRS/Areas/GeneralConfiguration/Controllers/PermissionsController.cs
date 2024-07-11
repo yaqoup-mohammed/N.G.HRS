@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +25,16 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Permissions
+        [Authorize(Policy = " ViewPolicy ")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.permissions.ToListAsync());
+
         }
 
         // GET: GeneralConfiguration/Permissions/Details/5
+        [Authorize(Policy = "DetailsPolicy ")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +53,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Permissions/Create
+        [Authorize(Policy = "AddPolicy ")]
         public IActionResult Create()
         {
             return View();
@@ -58,6 +64,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy ")]
         public async Task<IActionResult> Create([Bind("Id,PermissionName,PermissionStatus,PermissionsDuration,RepeatPermissionDuringTheMonth,Paid,Notes")] Permissions permissions )
         {
             if (ModelState.IsValid)
@@ -76,6 +83,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
             string massage = "تم الحفظ بنجاح تام";
 
         // GET: GeneralConfiguration/Permissions/Edit/5
+        [ Authorize(Policy = "EditPolicy ")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,6 +104,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ Authorize(Policy = "EditPolicy ")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PermissionName,PermissionStatus,PermissionsDuration,RepeatPermissionDuringTheMonth,Paid,Notes")] Permissions permissions)
         {
             if (id != permissions.Id)
@@ -130,6 +139,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Permissions/Delete/5
+        [ Authorize(Policy = "DeletePolicy ")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,6 +160,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // POST: GeneralConfiguration/Permissions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ Authorize(Policy = "DeletePolicy ")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var permissions = await _permissionsRepository.GetByIdAsync(id);

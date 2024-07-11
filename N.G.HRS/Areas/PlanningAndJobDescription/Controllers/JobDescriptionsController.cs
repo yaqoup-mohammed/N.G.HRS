@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/JobDescriptions
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.JobDescription.Include(j => j.FunctionalCategories).Include(j => j.FunctionalClass).Include(j => j.JobRanks);
@@ -31,6 +34,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/JobDescriptions/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,6 +57,8 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/JobDescriptions/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             ViewData["FunctionalCategoriesId"] = new SelectList(_context.functionalCategories, "Id", "CategoriesName");
@@ -65,6 +72,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,JopName,JobQualifications,Authorities,Responsibilities,Notes,FunctionalCategoriesId,FunctionalClassId,JobRanksId")] JobDescription jobDescription)
         {
             if (ModelState.IsValid)
@@ -83,6 +91,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/JobDescriptions/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,6 +115,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,JopName,JobQualifications,Authorities,Responsibilities,Notes,FunctionalCategoriesId,FunctionalClassId,JobRanksId")] JobDescription jobDescription)
         {
             if (id != jobDescription.Id)
@@ -141,6 +151,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         }
 
         // GET: PlanningAndJobDescription/JobDescriptions/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,6 +175,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Controllers
         // POST: PlanningAndJobDescription/JobDescriptions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var jobDescription = await _jobDescriptionRepository.GetByIdAsync(id);

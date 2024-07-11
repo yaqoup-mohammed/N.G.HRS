@@ -1,4 +1,5 @@
 ﻿using BioMetrixCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -62,12 +63,16 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             await PopulateDropdownListsAsync();
             return View();
         }
         [HttpGet]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
@@ -75,6 +80,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
             return View();
         }
         [HttpPost]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create(UplodeFingerPrintFromDeviceVM deviceVM)
         {
             await PopulateDropdownListsAsync();

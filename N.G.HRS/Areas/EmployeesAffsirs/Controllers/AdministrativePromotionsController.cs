@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AdministrativePromotions
+        [Authorize(Policy = "ViewPolicy")]
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.AdministrativePromotions.Include(a => a.Departments).Include(a => a.Employee);
@@ -33,6 +35,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
 
 
         // GET: EmployeesAffsirs/AdministrativePromotions/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,7 +57,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AdministrativePromotions/Create
-
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create(int? id)
         {
             if(id != null)
@@ -81,6 +85,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create(int? id, AdministrativePromotions administrativePromotions)
         {
             if(id== null)
@@ -159,8 +164,9 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
             }
         }
 
-       
+
         // GET: EmployeesAffsirs/AdministrativePromotions/Delete/5
+        [ Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -183,6 +189,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // POST: EmployeesAffsirs/AdministrativePromotions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var administrativePromotions = await _administrativePromotionsRepository.GetByIdAsync(id);
