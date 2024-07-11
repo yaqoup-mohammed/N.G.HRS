@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -44,6 +44,8 @@
 		<PackageReference Include="ZKemkeeper" Version="1.0.2" />
 	</ItemGroup>
   <ItemGroup>
+    <Folder Include="wwwroot\Upload\Images\Employee\" />
+    <Folder Include="wwwroot\Upload\ComponyLogos\" />
     <Folder Include="wwwroot\Upload\PDF\" />
   </ItemGroup>
   <ItemGroup>

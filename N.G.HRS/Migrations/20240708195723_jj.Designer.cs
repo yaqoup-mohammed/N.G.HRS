@@ -12,8 +12,13 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240704205535_A0")]
-    partial class A0
+<<<<<<<< HEAD:N.G.HRS/Migrations/20240708195723_jj.Designer.cs
+    [Migration("20240708195723_jj")]
+    partial class jj
+========
+    [Migration("20240703195911_F")]
+    partial class F
+>>>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6:N.G.HRS/Migrations/20240703195911_F.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2328,18 +2333,6 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "تكليف إضافي"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "تكليف خارجي"
-                        });
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.AttendanceAndAbsenceProcessing", b =>
@@ -2460,83 +2453,6 @@ namespace N.G.HRS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AttendanceStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "حضور"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "غياب"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "سماحية انصراف مبكر"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "سماحية حضور متأخر"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "اذن"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "اجازة"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "اجازة رسمية"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "اجازة اسبوعية"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "إضافي معتمد"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "إضافي غير معتمد"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Name = "انصراف بدون عذر"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Name = "تأخير"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Name = "غياب نصف يوم"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Name = "سماحية حضور وانصراف"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Name = "تكليف خارجي "
-                        });
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.MaintenanceControl.Models.EmployeePermissions", b =>
@@ -3263,35 +3179,35 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Abcents")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Abcents")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Additinal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Additinal")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Another")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Another")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Bonuses")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Bonuses")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Deductions")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Deductions")
+                        .HasColumnType("float");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Entitlements")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Entitlements")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Gratuities")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Gratuities")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Late")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Late")
+                        .HasColumnType("float");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");

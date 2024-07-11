@@ -26,9 +26,7 @@
         <li class="breadcrumb-item " aria-current="page">
             <a asp-action="index"> التصاريح</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            <h6 style="display:inline-block">جديد</h6>
-        </li>
+       
     </ol>
 </nav>
 
@@ -36,7 +34,7 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="card-title"><h3>جديد</h3></div>
+        <div class="card-title"><h3>التصاريح</h3></div>
         <hr />
         <div class="row  " >
             <div class="col-md-12">
@@ -102,9 +100,9 @@
                         <input asp-for="Note" class="form-control" />
                         <span asp-validation-for="Note" class="text-danger"></span>
                     </div>
-                    <div class="form-group ">
-                        <input type="submit" id="submit" value="Create" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-light">Back to List</a>
+                    <div class="form-group col-md-6">
+                        <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
                     </div>
                 </form>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AalariesAndWages.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 {
@@ -23,12 +24,16 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _BasicDataForWagesAndSalariesRepo.GetAllAsync());
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +52,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -57,6 +64,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,NumberOfMonthsDays,AbsencePerHour,DelayPerHour,OneFingerPrintPerHourDelay,FromDate,ToDate,TypeOfWage,Notes")] BasicDataForWagesAndSalaries basicDataForWagesAndSalaries)
         {
             if (ModelState.IsValid)
@@ -69,6 +77,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,6 +98,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NumberOfMonthsDays,AbsencePerHour,DelayPerHour,OneFingerPrintPerHourDelay,FromDate,ToDate,TypeOfWage,Notes")] BasicDataForWagesAndSalaries basicDataForWagesAndSalaries)
         {
             if (id != basicDataForWagesAndSalaries.Id)
@@ -119,6 +129,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/BasicDataForWagesAndSalaries/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,6 +150,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // POST: SalariesAndWages/BasicDataForWagesAndSalaries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var basicDataForWagesAndSalaries = await _BasicDataForWagesAndSalariesRepo.GetByIdAsync(id);

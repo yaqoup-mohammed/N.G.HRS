@@ -36,6 +36,7 @@ namespace N.G.HRS.Areas.Employees.Models
         [Required]
         public int ReligionId { get; set; }//
         public virtual Religion? Religion { get; set; }
+
         [ForeignKey("MaritalStatusId")]
         [Required]
         public int MaritalStatusId { get; set; }//

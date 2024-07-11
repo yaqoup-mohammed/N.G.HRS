@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240703212736_A")]
-    partial class A
+    [Migration("20240708200121_jjffffffffffff")]
+    partial class jjffffffffffff
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3174,35 +3174,35 @@ namespace N.G.HRS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Abcents")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Abcents")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Additinal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Additinal")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Another")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Another")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Bonuses")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Bonuses")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Deductions")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Deductions")
+                        .HasColumnType("float");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Entitlements")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Entitlements")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Gratuities")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Gratuities")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Late")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Late")
+                        .HasColumnType("float");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");

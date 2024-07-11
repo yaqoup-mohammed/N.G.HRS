@@ -7,7 +7,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5076"
+      "applicationUrl": "http://localhost:5076",
+      "launchUrl": "Identity/Account/Login"
     },
     "https": {
       "commandName": "Project",
@@ -16,7 +17,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7125;http://localhost:5076"
+      "applicationUrl": "https://localhost:7125;http://localhost:5076",
+      "launchUrl": "Identity/Account/Login"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -24,7 +26,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "use64Bit": true
+      "use64Bit": true,
+      "launchUrl": "Identity/Account/Login"
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -33,7 +36,57 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:12677",
-      "sslPort": 44358
+      "sslPort": 44358,
+      "launchUrl": "Identity/Account/Login"
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+//{
+//  "profiles": {
+//    "http": {
+//      "commandName": "Project",
+//      "launchBrowser": true,
+//      "environmentVariables": {
+//        "ASPNETCORE_ENVIRONMENT": "Development"
+//      },
+//      "dotnetRunMessages": true,
+//      "applicationUrl": "http://localhost:5076"
+//    },
+//    "https": {
+//      "commandName": "Project",
+//      "launchBrowser": true,
+//      "environmentVariables": {
+//        "ASPNETCORE_ENVIRONMENT": "Development"
+//      },
+//      "dotnetRunMessages": true,
+//      "applicationUrl": "https://localhost:7125;http://localhost:5076"
+//    },
+//    "IIS Express": {
+//      "commandName": "IISExpress",
+//      "launchBrowser": true,
+//      "environmentVariables": {
+//        "ASPNETCORE_ENVIRONMENT": "Development"
+//      },
+//      "use64Bit": true
+//    }
+//  },
+//  "$schema": "http://json.schemastore.org/launchsettings.json",
+//  "iisSettings": {
+//    "windowsAuthentication": false,
+//    "anonymousAuthentication": true,
+//    "iisExpress": {
+//      "applicationUrl": "http://localhost:12677",
+//      "sslPort": 44358
+//    }
+//  }
+//}

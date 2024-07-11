@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/BoardOfDirectors
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.boardOfDirectors.Include(b => b.MembershipOfTheBoardOfDirectors);
@@ -31,6 +34,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/BoardOfDirectors/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +55,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/BoardOfDirectors/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
@@ -61,6 +68,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create( BoardOfDirectors boardOfDirectors)
         {
             await PopulateDropdownListsAsync();
@@ -86,6 +94,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/BoardOfDirectors/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             await PopulateDropdownListsAsync();
@@ -109,6 +118,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Date,CouncilName,Notes,NameOfMembership,MembershipOfTheBoardOfDirectorsId")] BoardOfDirectors boardOfDirectors)
         {
             if (id != boardOfDirectors.Id)
@@ -143,6 +153,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/BoardOfDirectors/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,6 +175,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // POST: OrganizationalChart/BoardOfDirectors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var boardOfDirectors = await _boardOfDirectorsRepository.GetByIdAsync(id);

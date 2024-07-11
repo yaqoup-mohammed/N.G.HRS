@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +25,14 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Contracts
+        [Authorize(Policy = "ViewPolicy")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.contracts.ToListAsync());
         }
 
         // GET: GeneralConfiguration/Contracts/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +51,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Contracts/Create
+        [Authorize(Policy = "AddPolicy")]
         public IActionResult Create()
         {
             return View();
@@ -58,6 +62,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,Name,Notes")] Contracts contracts)
         {
             if (ModelState.IsValid)
@@ -73,6 +78,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Contracts/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,6 +99,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Notes")] Contracts contracts)
         {
             if (id != contracts.Id)
@@ -124,6 +131,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         }
 
         // GET: GeneralConfiguration/Contracts/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,6 +152,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
         // POST: GeneralConfiguration/Contracts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contracts = await _context.contracts.FindAsync(id);

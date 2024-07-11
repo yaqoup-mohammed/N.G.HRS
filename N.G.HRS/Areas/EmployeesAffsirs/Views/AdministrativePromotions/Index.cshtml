@@ -8,11 +8,16 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<h1>Index</h1>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="space-between">
+                    <h3>  الترفيعات الادارية</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<authorize policy="AddPolicy">
+    <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+</authorize>
 <table class="table">
     <thead>
         <tr>
@@ -58,13 +63,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
-            <td>
-                <a asp-action="Create" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" id="Delete" class="btn-danger" asp-route-id="@item.Id">Delete</a> |
-
-
-            </td>
+                <td>
+                    <authorize policy="EditPolicy">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    </authorize> |
+                    <authorize policy="DetailsPolicy">
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </authorize> |
+                    <authorize policy="DeletePolicy">
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </authorize>
+                </td>
         </tr>
             @* <div id="openForm" style="display: block">
                 <div id="form" class="row rowmargin">
@@ -100,47 +109,10 @@
             </div> *@
 }
 
-    </tbody>
-</table>
-@* @await Html.PartialAsync("_Delete")
- *@
 @section Scripts {
-@*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(document).ready(function () {
-            closeFormButton.addEventListener("click", function () {
-                open.style = `display:none;`;
-            });
-            $('#Delete').click(function () {
-                $('#form').style = `
-                                                                                                                    display:block;
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-                                                                                                                    position: fixed;
-                                                                                                                        top: 0;
-                                                                                                                        left: 0;
-                                                                                                                        width: 100%;
-                                                                                                                        height: 100%;
-                                                                                                                        background-color: rgba(0, 0, 0, 0.5);
-                                                                                                                        backdrop-filter: blur(5px);
-                                                                                                                        z-index: 1051;`;
 
-                form.style = `
-                                                                                                                    width:90%;
-                                                                                                                    display:block;
-                                                                                                                    position: fixed;
-                                                                                                                        top: 50%;
-                                                                                                                        left: 50%;
-                                                                                                                        transform: translate(-50%, -50%);
-                                                                                                                        background-color: #fff;
-                                                                                                                        padding: 20px;
-                                                                                                                        border: 1px solid #ccc;
-                                                                                                                        border-radius: 5px;
-                                                                                                                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                                                                                                z-index: 1050;
-                                                                                                                        opacity: 1; /* Initially hidden */
-                                                                                                                        transition: opacity 0.3s ease-in-out;`;
-            });
-        });
-    </script>
- *@
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/Permits
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.Permits.Include(p => p.Employee);
@@ -31,6 +34,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/Permits/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +55,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/Permits/Create
+        [Authorize(Policy = "AdminPolicy")]
+
         public async Task<IActionResult> Create(int? id)
         {
             if (id == null)
@@ -79,6 +86,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create(int? id, Permits permits)
         {
             if (id == null)
@@ -135,6 +144,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
 
 
         // GET: EmployeesAffsirs/Permits/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,6 +167,8 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         // POST: EmployeesAffsirs/Permits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var permits = await _Permits.GetByIdAsync(id);
@@ -172,5 +185,23 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         {
             return _context.Permits.Any(e => e.Id == id);
         }
+
+
+
+        public async Task<IActionResult> Print(int id)
+        {
+            var item = await _context.Permits
+                .Include(p => p.Employee)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
+
+
     }
 }

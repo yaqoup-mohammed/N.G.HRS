@@ -1,0 +1,168 @@
+﻿@model N.G.HRS.Areas.EmployeesAffsirs.Models.Permits
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = null; // لا حاجة لاستخدام التخطيط الرئيسي للطباعة
+}
+
+    <!DOCTYPE html>
+    <html lang="ar">
+    <head>
+    <meta charset="utf-8" />
+    <title>تصريح الموظف</title>
+    <style>
+        body {
+            direction: rtl;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #000;
+            margin-bottom: 20px;
+        }
+
+            .header .company-info-ar {
+                text-align: right;
+            }
+
+            .header .company-info-en {
+                text-align: left;
+            }
+
+            .header .logo {
+                text-align: center;
+            }
+
+            .header img {
+                max-width: 100px; /* تعديل حجم الشعار حسب الحاجة */
+                height: auto;
+            }
+
+        .print-card {
+            margin: 20px 0;
+        }
+
+            .print-card .table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+                .print-card .table th, .print-card .table td {
+                    border: 1px solid #000;
+                    padding: 8px;
+                    text-align: right;
+                    text-align: center; /* توسيط النص داخل الخلايا */
+                }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="company-info-ar">
+            <p>جامعة الجيل الجديد</p>
+            <p>اليمن - صنعاء</p>
+            <p>الهاتف: 777777777</p>
+        </div>
+        <div class="logo">
+            <img src="~/Upload/Images/default.jpg" alt="شعار الشركة" /> <!-- تعديل المسار إلى شعار الشركة -->
+        </div>
+        <div class="company-info-en">
+            <p>New Generation University</p>
+            <p>Yemen - Sana'a</p>
+            <p>Phone: 777777777</p>
+        </div>
+    </div>
+
+    <div class="print-card">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>تصريح الموظف</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        @if (Model.Date != null)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.Date)</th>
+                                        }
+                                        @if (Model.IsNotEmployee)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.IsNotEmployee)</th>
+                                        }
+                                        @if (Model.Employee?.EmployeeName != null)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.Employee.EmployeeName)</th>
+                                        }
+                                        @if (Model.NotEmployee != null)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.NotEmployee)</th>
+                                        }
+                                        @if (Model.For != null)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.For)</th>
+                                        }
+                                        @if (Model.Purpose != null)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.Purpose)</th>
+                                        }
+                                        @if (Model.Note != null)
+                                        {
+                                            <th>@Html.DisplayNameFor(model => model.Note)</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @if (Model.Date != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.Date)</td>
+                                        }
+                                        @if (Model.IsNotEmployee)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.IsNotEmployee)</td>
+                                        }
+                                        @if (Model.Employee?.EmployeeName != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.Employee.EmployeeName)</td>
+                                        }
+                                        @if (Model.NotEmployee != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.NotEmployee)</td>
+                                        }
+                                        @if (Model.For != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.For)</td>
+                                        }
+                                        @if (Model.Purpose != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.Purpose)</td>
+                                        }
+                                        @if (Model.Note != null)
+                                        {
+                                            <td>@Html.DisplayFor(model => model.Note)</td>
+                                        }
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            window.print();
+        };
+    </script>
+
+</body>
+</html>

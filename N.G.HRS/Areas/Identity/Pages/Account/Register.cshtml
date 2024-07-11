@@ -8,6 +8,300 @@
 
 <div class="row">
     <div class="col-md-4">
+        <!-- Modal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">تسجيل حساب جديد</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Email" class="form-control rounded-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                <label asp-for="Input.Email">البريد الالكتروني</label>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.EmployeeNumberJop" class="form-control rounded-input" autocomplete="off" aria-required="true" placeholder="Employee Number" onblur="validateEmployeeNumber()" />
+                                <label asp-for="Input.EmployeeNumberJop">الرقم الوظيفي</label>
+                                <span asp-validation-for="Input.EmployeeNumberJop" class="text-danger" id="employeeNumberError"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control rounded-input" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <label asp-for="Input.Password">كلمة المرور</label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control rounded-input" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <label asp-for="Input.ConfirmPassword">تأكيد كلمة المرور</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                            <style>
+                                /* Custom styles for rounded fieldset */
+                                fieldset {
+                                    border: 1px solid #ccc;
+                                    padding: 10px;
+                                    margin-bottom: 20px;
+                                    border-radius: 10px; /* Adjust the border radius as needed */
+                                }
+
+                                legend {
+                                    padding: 0 10px; /* Add padding to the legend for better alignment */
+                                    font-weight: bold; /* Optionally, adjust the font weight of the legend */
+                                }
+
+                                /* Adjust the styles for the permissions container */
+                                .permissions-container {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
+                                }
+
+                                .checkbox {
+                                    flex: 1 1 calc(33.333% - 10px);
+                                    box-sizing: border-box;
+                                }
+
+                                /* Custom styles for rounded checkboxes */
+                                .form-check-input.rounded-checkbox {
+                                    border-radius: 50%; /* Fully rounded checkboxes */
+                                    width: 20px; /* Adjust this value to control the size of checkboxes */
+                                    height: 20px; /* Adjust this value to control the size of checkboxes */
+                                    margin-top: 0.3rem; /* Center checkbox vertically in label */
+                                    margin-right: 0.5rem; /* Add some space between checkbox and label text */
+                                }
+
+                                    .form-check-input.rounded-checkbox:checked {
+                                        background-color: #007bff; /* Adjust the color when checkbox is checked */
+                                        border-color: #007bff;
+                                    }
+                            </style>
+
+                            <fieldset>
+                                <legend>الصلاحيات</legend>
+
+                                <div class="permissions-container">
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.AddPermission" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.AddPermission" id="AddPermission" />
+                                            إضافة
+                                        </label>
+                                    </div>
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.EditPermission" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.EditPermission" id="EditPermission" />
+                                            التعديل
+                                        </label>
+                                    </div>
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.ViewPermission" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.ViewPermission" id="ViewPermission" />
+                                            العرض
+                                        </label>
+                                    </div>
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.DeletePermission" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.DeletePermission" id="DeletePermission" />
+                                            الحذف
+                                        </label>
+                                    </div>
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.DetailsPermission" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.DetailsPermission" id="DetailsPermission" />
+                                            التفاصيل
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.MalePhoto" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.MalePhoto" id="MalePhoto" />
+                                            صور ذكر
+                                        </label>
+                                    </div>
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.FemalePhoto" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.FemalePhoto" id="FemalePhoto" />
+                                            صور أنثى
+                                        </label>
+                                    </div>
+                                    <div class="checkbox mb-3">
+                                        <label asp-for="Input.AdminPermission" class="form-label">
+                                            <input class="form-check-input rounded-checkbox" asp-for="Input.AdminPermission" id="AdminPermission" />
+                                            @Html.DisplayNameFor(m => m.Input.AdminPermission)
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function validateEmployeeNumber() {
+        var employeeNumber = document.getElementById('Input_EmployeeNumberJop').value;
+        $.ajax({
+            url: '@Url.Page("/Account/Register", new { area = "Identity", handler = "ValidateEmployeeNumber" })',
+            type: 'GET',
+            data: { employeeNumber: employeeNumber },
+            success: function (response) {
+                if (!response.isValid) {
+                    $('#employeeNumberError').text('الرقم الوظيفي غير موجود في قاعدة البيانات.');
+                } else {
+                    $('#employeeNumberError').text('');
+                }
+            },
+            error: function () {
+                $('#employeeNumberError').text('حدث خطأ أثناء التحقق من الرقم الوظيفي.');
+            }
+        });
+    }
+</script>
+
+
+<!-- Include Bootstrap JS and CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var myModal = new bootstrap.Modal(document.getElementById('registerModal'), {
+            keyboard: false
+        });
+        myModal.show();
+    });
+</script>
+
+<style>
+    /* Custom styles to adjust modal position and make it rounded */
+    .modal-dialog {
+        margin-top: 100px; /* Adjust this value to control the vertical position */
+    }
+
+    .modal-content {
+        border-radius: 15px; /* Adjust this value to control the roundness of the corners */
+    }
+
+    /* Make inputs rounded */
+    .rounded-input {
+        border-radius: 10px; /* Adjust this value to control the roundness of input fields */
+    }
+
+    /* Custom styles for rounded checkboxes */
+    .form-check-input.rounded-checkbox {
+        border-radius: 50%; /* Fully rounded checkboxes */
+        width: 20px; /* Adjust this value to control the size of checkboxes */
+        height: 20px; /* Adjust this value to control the size of checkboxes */
+        margin-top: 0.3rem; /* Center checkbox vertically in label */
+        margin-right: 0.5rem; /* Add some space between checkbox and label text */
+    }
+
+    .form-check-input.rounded-checkbox:checked {
+        background-color: #007bff; /* Adjust the color when checkbox is checked */
+        border-color: #007bff;
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var addPermission = document.getElementById('AddPermission');
+            var editPermission = document.getElementById('EditPermission');
+            var viewPermission = document.getElementById('ViewPermission');
+            var adminPermission = document.getElementById('AdminPermission');
+            var deletePermission = document.getElementById('DeletePermission');
+            var detailsPermission = document.getElementById('DetailsPermission');
+
+            function updatePermissions() {
+                if (addPermission.checked) {
+                    viewPermission.checked = true;
+                    // viewPermission.disabled = true;
+                } else {
+                    if (!editPermission.checked && !deletePermission.checked && !detailsPermission.checked) {
+                        viewPermission.checked = false;
+                        viewPermission.disabled = false;
+                    }
+                }
+
+                if (editPermission.checked) {
+                    viewPermission.checked = true;
+                    // viewPermission.disabled = true;
+                } else {
+                    if (!addPermission.checked  && !deletePermission.checked && !detailsPermission.checked) {
+                        viewPermission.checked = false;
+                        viewPermission.disabled = false;
+                    }
+                }
+
+                if (deletePermission.checked) {
+                    viewPermission.checked = true;
+                    // viewPermission.disabled = true;
+                } else {
+                    if (!addPermission.checked && !editPermission.checked  && !detailsPermission.checked) {
+                        viewPermission.checked = false;
+                        viewPermission.disabled = false;
+                    }
+                }
+
+                if (detailsPermission.checked) {
+                    viewPermission.checked = true;
+                    // viewPermission.disabled = true;
+                } else {
+                    if (!addPermission.checked && !editPermission.checked && !deletePermission.checked ) {
+                        viewPermission.checked = false;
+                        viewPermission.disabled = false;
+                    }
+                }
+
+
+
+                
+            }
+
+            addPermission.addEventListener('change', updatePermissions);
+            editPermission.addEventListener('change', updatePermissions);
+            deletePermission.addEventListener('change', updatePermissions);
+            detailsPermission.addEventListener('change', updatePermissions);
+            // adminPermission.addEventListener('change', updatePermissions);
+
+            updatePermissions();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var adminPermission = document.getElementById("AdminPermission");
+            var checkboxes = document.querySelectorAll(".form-check-input:not(#AdminPermission)");
+
+            adminPermission.addEventListener("change", function () {
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = adminPermission.checked;
+                });
+            });
+        });
+    </script>
+}
+
+@* @page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2>Create a new account.</h2>
             <hr />
@@ -65,3 +359,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+ *@

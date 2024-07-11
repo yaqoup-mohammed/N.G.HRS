@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,12 +24,16 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
       }
 
         // GET: SalariesAndWages/AdditionalAccountInformations
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.additionalAccountInformation.ToListAsync());
         }
 
         // GET: SalariesAndWages/AdditionalAccountInformations/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +52,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/AdditionalAccountInformations/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -81,6 +88,8 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         //}
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create([Bind("NormalCoefficient,WeekendLaboratories,OfficialHolidaysLab,NightPeriodParameter,LaboratoriesPerDay,FromTime,ToTime,Date,FromDate,ToDate,Notes")] AdditionalAccountInformation additionalAccountInformation)
         {
             if (ModelState.IsValid)
@@ -117,6 +126,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
 
 
         // GET: SalariesAndWages/AdditionalAccountInformations/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -137,6 +147,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NormalCoefficient,WeekendLaboratories,OfficialHolidaysLab,NightPeriodParameter,LaboratoriesPerDay,FromTime,ToTime,Date,FromDate,ToDate,Notes")] AdditionalAccountInformation additionalAccountInformation)
         {
             if (id != additionalAccountInformation.Id)
@@ -168,6 +179,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         }
 
         // GET: SalariesAndWages/AdditionalAccountInformations/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -188,6 +200,7 @@ namespace N.G.HRS.Areas.SalariesAndWages.Controllers
         // POST: SalariesAndWages/AdditionalAccountInformations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var additionalAccountInformation = await _context.additionalAccountInformation.FindAsync(id);

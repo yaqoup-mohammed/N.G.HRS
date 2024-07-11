@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<N.G.HRS.Areas.MaintenanceControl.Models.StaffVacations>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Employee";
+    ViewData["Title"] = "أجازات الموظفين";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
@@ -12,10 +12,11 @@
         <div class="card">
             <div class="card-body">
                 <div class="space-between">
-                    <h3> التخصص</h3>
+                    <h3> أجازات الموظفين</h3>
 
-                    <a asp-action="Create" class="btn btn-primary col-md-1 col-12  ">جديد</a>
-
+                    <authorize policy="AddPolicy">
+                        <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+                    </authorize>
                 </div>
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
@@ -80,13 +81,13 @@
                                         @Html.DisplayFor(modelItem => item.Date)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Vacation.HolidayName)
+                                        @Html.DisplayFor(modelItem => item.Vacation.HolidayName ?? "")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Sections.SectionsName)
+                                        @Html.DisplayFor(modelItem => item.Sections.SectionsName ?? "")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+                                        @Html.DisplayFor(modelItem => item.Employee.EmployeeName ?? "")
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.PeriodsId)
@@ -113,21 +114,27 @@
                                         @Html.DisplayFor(modelItem => item.Accepted)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.SubstituteStaffMember.EmployeeName)
+                                        @Html.DisplayFor(modelItem => item.SubstituteStaffMember.EmployeeName ?? "")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.DonorSide)
+                                        @Html.DisplayFor(modelItem => item.DonorSide ?? "")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Reason)
+                                        @Html.DisplayFor(modelItem => item.Reason ?? "")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Note)
+                                        @Html.DisplayFor(modelItem => item.Note ?? "")
                                     </td>
                                     <td>
-                                        <a asp-action="Create" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </authorize>
                                     </td>
                                 </tr>
                             }

@@ -5,25 +5,24 @@
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A1 : Migration
+    public partial class P835 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsProcssessed",
-                table: "StaffVacations",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
+            migrationBuilder.AddColumn<string>(
+                name: "LogoPath",
+                table: "company",
+                type: "nvarchar(max)",
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsProcssessed",
-                table: "StaffVacations");
+                name: "LogoPath",
+                table: "company");
         }
     }
 }

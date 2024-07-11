@@ -242,8 +242,10 @@
                                         <div id="fileErrorEmployee" class="text-danger"></div>
                                     </div>
                                 }
+                                <div>
+                                    <a asp-action="Index">Back to List</a>
+                                </div>
 
-                                
                             </div>
                         </div>
                     </div>
@@ -651,7 +653,6 @@
                                     <button type="submit" id="PersonalDataSubmit" class="btn btn-primary routate">حفظ</button>
                                     <button type="button" class="btn btn-primary" id="showFileInPersonalData">استيراد ملف Excel</button>
                                     <button type="button" class="btn btn-primary" id="exportToExcelButtonPersonalData">تصدير إلى Excel</button>
-
                                 </form>
 
 @* 
@@ -779,6 +780,7 @@
                                         <button type="button" class="btn btn-primary" id="exportToExcelButtonguaranteesExperiences">تصدير إلى Excel</button>
 
                                     </div>
+                               
                                 </form>
 
                                @*  @using (Html.BeginForm("ImportPracticalExperiences", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportPracticalExperiences" }))
@@ -908,7 +910,9 @@
                         </div>
                     </div>
 
-
+               
+                    
+                    
                     <table id="FamilytemporaryTable" class="table" style="display:none;">
                         <thead>
                             <tr>

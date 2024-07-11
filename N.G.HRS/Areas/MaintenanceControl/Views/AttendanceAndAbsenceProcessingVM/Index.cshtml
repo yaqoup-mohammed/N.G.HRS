@@ -152,9 +152,14 @@
                             }
                             else if (data == 1) {
                                 v.softErrorMessage("حدث خطئ اثناء معالجة البيانات!!");
-                            } else if (data == 2) {
+                            } 
+                            else if (data == 2) {
                                 v.softErrorMessage("خطئ في دالة تحديد حالة المعالجة");
                             }
+                            else if (data == 3) {
+                                v.softErrorMessage("يرجى سحب البصمة اولا!!");
+                            }
+                            var num = 1;
                             $.each(data, function (i, item) {
 
                                 var d = item.date;
@@ -176,7 +181,7 @@
                                 console.log(item.isProcessedBefor);
                                 if (item.isProcessedBefor == true && item.isProcessed == true) {
                                     var row = $('<tr style="background-color: red;"></tr>');
-                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(num));
                                     row.append($('<td></td>').text(item.eNumber));
                                     row.append($('<td></td>').text(item.eName));
                                     row.append($('<td></td>').text(item.attendanceStatus));
@@ -196,7 +201,7 @@
                                 else if (item.isProcessedBefor == true && item.isProcessed == false) {
 
                                     var row = $('<tr style="background-color: red;"></tr>');
-                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(num));
                                     row.append($('<td></td>').text(item.eNumber));
                                     row.append($('<td></td>').text(item.eName));
                                     row.append($('<td></td>').text(item.attendanceStatus));
@@ -216,7 +221,7 @@
                                 else if (item.isProcessedBefor == false && item.isProcessed == true) 
                                 {
                                     var row = $('<tr></tr>');
-                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(num));
                                     row.append($('<td></td>').text(item.eNumber));
                                     row.append($('<td></td>').text(item.eName));
                                     row.append($('<td></td>').text(item.attendanceStatus));
@@ -235,7 +240,7 @@
                                 }
                                 else {
                                     var row = $('<tr ></tr>');
-                                    row.append($('<td></td>').text('#'));
+                                    row.append($('<td></td>').text(num));
                                     row.append($('<td></td>').text(item.eNumber));
                                     row.append($('<td></td>').text(item.eName));
                                     row.append($('<td></td>').text(item.attendanceStatus));
@@ -252,6 +257,8 @@
                                     $('#machinInfo').append(row);
 
                                 }
+                                num++;
+
                                 // $('#machinInfo').append(row);
                                 // if (item.isProcessedBefor == true) {
                                 //     $('#machinInfo').style.backgroundcolor = "red";
@@ -323,7 +330,7 @@
                 let timerInterval;
 
                 Swal.fire({
-                    title: "جاري معالجة الحظور والانصراف 😵",
+                    title: "جاري حفظ المعالجة  😵",
                     timer: 10000,
 
                     timerProgressBar: false,

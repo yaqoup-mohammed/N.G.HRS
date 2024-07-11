@@ -12,8 +12,13 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
+<<<<<<<< HEAD:N.G.HRS/Migrations/20240708195723_jj.Designer.cs
+    [Migration("20240708195723_jj")]
+    partial class jj
+========
     [Migration("20240703195911_F")]
     partial class F
+>>>>>>>> 098dc65ede493b9dcd0b41361a6f5fbdc2881fe6:N.G.HRS/Migrations/20240703195911_F.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3166,6 +3171,62 @@ namespace N.G.HRS.Migrations
                     b.ToTable("EntitlementsAndDeductions");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.Salaries", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Abcents")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Additinal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Another")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Bonuses")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Deductions")
+                        .HasColumnType("float");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Entitlements")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Gratuities")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Late")
+                        .HasColumnType("float");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("SelectedMonth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("allowances")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Salaries");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.VacationAllowances", b =>
                 {
                     b.Property<int>("Id")
@@ -4628,6 +4689,21 @@ namespace N.G.HRS.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.Salaries", b =>
+                {
+                    b.HasOne("N.G.HRS.Areas.Finance.Models.Currency", null)
+                        .WithMany("SalariesList")
+                        .HasForeignKey("CurrencyId");
+
+                    b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
+                        .WithMany("SalariesList")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("N.G.HRS.Areas.PayRoll.Models.VacationAllowances", b =>
                 {
                     b.HasOne("N.G.HRS.Areas.Employees.Models.Employee", "Employee")
@@ -4857,6 +4933,8 @@ namespace N.G.HRS.Migrations
 
                     b.Navigation("SEAEOWList");
 
+                    b.Navigation("SalariesList");
+
                     b.Navigation("StaffTimeList");
 
                     b.Navigation("StaffVacationsList");
@@ -4902,6 +4980,8 @@ namespace N.G.HRS.Migrations
                     b.Navigation("FunctionalCategoriesList");
 
                     b.Navigation("FunctionalClassList");
+
+                    b.Navigation("SalariesList");
                 });
 
             modelBuilder.Entity("N.G.HRS.Areas.Finance.Models.FinanceAccount", b =>

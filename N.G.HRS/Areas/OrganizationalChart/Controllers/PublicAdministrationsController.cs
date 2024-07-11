@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,16 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/PublicAdministrations
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.publicAdministrations.ToListAsync());
         }
 
         // GET: OrganizationalChart/PublicAdministrations/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +50,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/PublicAdministrations/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public IActionResult Create()
         {
             return View();
@@ -55,6 +62,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
         public async Task<IActionResult> Create([Bind("Id,PublicAdministrationName,Nots")] PublicAdministration publicAdministration)
         {
             if (ModelState.IsValid)
@@ -77,6 +85,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/PublicAdministrations/Edit/5
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,6 +106,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PublicAdministrationName,Nots")] PublicAdministration publicAdministration)
         {
             if (id != publicAdministration.Id)
@@ -128,6 +138,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/PublicAdministrations/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,6 +159,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         // POST: OrganizationalChart/PublicAdministrations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var publicAdministration = await _context.publicAdministrations.FindAsync(id);

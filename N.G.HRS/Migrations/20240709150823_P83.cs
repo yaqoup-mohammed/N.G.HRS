@@ -5,7 +5,7 @@
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class A3 : Migration
+    public partial class P83 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
