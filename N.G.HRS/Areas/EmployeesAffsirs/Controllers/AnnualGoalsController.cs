@@ -26,7 +26,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Controllers
         }
 
         // GET: EmployeesAffsirs/AnnualGoals
-        [Authorize(Policy = "")]
+        [Authorize(Policy = "ViewPolicy")]
 
         public async Task<IActionResult> Index()
         {

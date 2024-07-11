@@ -245,44 +245,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
             }
         }
 
-        //public async Task<IActionResult> AddEmployee(EmployeeVM viewModel)
-        //{
-        //    try
-        //    {
-        //        await PopulateDropdownListsAsync();
-
-        //        if (viewModel.Employee != null)
-        //        {
-        //            var exist = _context.employee.Any(e => e.EmployeeNumber == viewModel.Employee.EmployeeNumber);
-        //            if (!exist)
-        //            {
-        //                await _employeeRepository.AddAsync(viewModel.Employee);
-        //                TempData["Success"] = "تم الحفظ بنجاح";
-        //                return RedirectToAction(nameof(AddEmployee));
-        //            }
-        //            else
-        //            {
-        //                TempData["Error"] = "الرقم الوظيفي موجود بالفعل";
-        //                return View(viewModel);
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            TempData["Error"] = "لم تتم الإضافة، هناك خطأ";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it accordingly
-        //        TempData["SystemError"] = ex.Message;
-        //        return View(viewModel);
-        //    }
-        //    TempData["Error"] = "البيانات غير صحيحة!! , لم تتم العملية!!";
-
-        //    return View(viewModel);
-        //}
-        // استيراد ملف اكسل للموظفين
+        
 
         [HttpPost]
         [Authorize(Policy = "AddPolicy")]
@@ -1982,7 +1945,7 @@ namespace N.G.HRS.Areas.Employees.Controllers
         //    PracticalExperiences = await _practicalExperiencesrepository.GetByIdAsync(id)
         //};
 
-        public async Task<IActionResult> Salaryrevealed(int Id)
+        public async Task<IActionResult> Salaryrevealed()
         {
             await PopulateDropdownListsAsync();
 
@@ -2001,7 +1964,36 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(salary);
 
         }
-      
+        public async Task<IActionResult> Salary()
+        {
+
+            var salaryList = await _context.Salaries.Include(x => x.Employee).Include(x => x.Employee.Sections).Include(x => x.Employee.Departments).Include(x => x.Currency)
+                 .Select(x => new {
+               /*==>*/      eNum = x.Employee.EmployeeNumber,
+                 /*==>*/    name = x.Employee.EmployeeName,
+                    /*==>*/ currency = x.Currency.CurrencyName,
+                  /*==>*/   section = x.Employee.Sections.SectionsName,
+                  /*==>*/   departments = x.Employee.Departments.SubAdministration,
+                   /*==>*/  additinal = x.Additinal,
+                  /*==>*/   baseSalary = x.BaseSalary,
+                  /*==>*/   workedHours = x.WorkedHours,
+                 /*==>*/    allowance = x.allowances,
+                 /*==>*/    month = x.SelectedMonth.Month,
+                /*==>*/     gratuities = x.Gratuities,
+                  /*==>*/   bonuses = x.Bonuses,
+                     late = x.Late,
+                     abcents = x.Abcents,
+                     halfAbcents = x.HalfAbcents,
+              /*==>*/       entitlements = x.Entitlements,
+                     deductions = x.Deductions,
+                     earlyLeave = x.EarlyLeave,
+                     retirementInsurance = x.RetirementInsurance,
+                     another = x.Another,
+                 }).ToListAsync();
+            return Json(salaryList);
+
+        }
+
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.AttendanceAndDeparture.Models;
@@ -17,6 +18,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods
+        [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.linkingEmployeesToShiftPeriods.Include(l => l.Departments).Include(l => l.Employee).Include(l => l.Periods).Include(l => l.PermanenceModels).Include(l => l.Sections);
@@ -24,6 +27,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods/Details/5
+        [Authorize(Policy = "DetailsPolicy")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,6 +52,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods/Create
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
@@ -59,6 +66,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create( LinkingEmployeesToShiftPeriods link)
         {
             if (ModelState.IsValid)
@@ -89,6 +98,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods/Edit/5
+        [Authorize(Policy = "EditPolicy")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,6 +122,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "EditPolicy")]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfStartWork,DateOfEndWork,DepartmentsId,SectionsId,EmployeeId,PermanenceModelsId,PeriodsId")] LinkingEmployeesToShiftPeriods linkingEmployeesToShiftPeriods)
         {
             if (id != linkingEmployeesToShiftPeriods.Id)
@@ -145,6 +158,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         }
 
         // GET: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods/Delete/5
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -170,6 +185,8 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
         // POST: AttendanceAndDeparture/LinkingEmployeesToShiftPeriods/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "DeletePolicy")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var linkingEmployeesToShiftPeriods = await _context.linkingEmployeesToShiftPeriods.FindAsync(id);
