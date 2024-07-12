@@ -37,12 +37,12 @@
                     <div class="row mb-3">
                         <div class="form-group  col-md-6 mb-3">
                             <label asp-for="CurrentJop" class="control-label"></label>
-                            <input asp-for="CurrentJop" class="form-control" />
+                            <input asp-for="CurrentJop" id="CurrentJop" class="form-control" />
                             <span asp-validation-for="CurrentJop" class="text-danger"></span>
                         </div>
                         <div class="form-group  col-md-6 mb-3">
                             <label asp-for="LastJop" class="control-label"></label>
-                            <input asp-for="LastJop" class="form-control" />
+                            <input asp-for="LastJop" id="LastJop" class="form-control" />
                             <span asp-validation-for="LastJop" class="text-danger"></span>
                         </div>
                     </div>
@@ -142,54 +142,7 @@
             });
         });
     </script>
-@* 
-    <script>
-        $(document).ready(function () {
-            $('#EmployeeId').change(function () {
-                var employeeId = $(this).val();
-                if (employeeId) {
-                    $.ajax({
-                        url: '@Url.Action("GetEmployeeCurrentJob", "EmployeeMovements", new { area = "EmployeesAffsirs" })',
-                        type: 'GET',
-                        data: { employeeId: employeeId },
-                        success: function (data) {
-                            $('#CurrentJop').val(data.jobName);
-                            $('#jopdescriptionId').val(data.jobDescriptionId);
-                        },
-                        error: function () {
-                            $('#CurrentJop').val('');
-                            $('#jopdescriptionId').val('');
-                        }
-                    });
-                } else {
-                    $('#CurrentJop').val('');
-                    $('#jopdescriptionId').val('');
-                }
-            });
 
-            $('#jopdescriptionId').change(function () {
-                var newJob = $(this).find("option:selected").text();
-                $('#LastJop').val($('#CurrentJop').val()); // تعيين الوظيفة الحالية كوظيفة سابقة
-                $('#CurrentJop').val(newJob); // تعيين الوظيفة الجديدة كوظيفة حالية
-
-                var employeeId = $('#EmployeeId').val();
-                if (employeeId) {
-                    $.ajax({
-                        url: '@Url.Action("UpdateEmployeeJob", "EmployeeMovements", new { area = "EmployeesAffsirs" })',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: { employeeId: employeeId, newJob: newJob },
-                        success: function () {
-                            console.log('تم تحديث الوظيفة بنجاح');
-                        },
-                        error: function () {
-                            console.log('حدث خطأ أثناء تحديث الوظيفة');
-                        }
-                    });
-                }
-            });
-        });
-    </script> *@
 <script>
     document.getElementById("submit").addEventListener("click", function (event) {
         const EmployeeId = document.getElementById("EmployeeId");
