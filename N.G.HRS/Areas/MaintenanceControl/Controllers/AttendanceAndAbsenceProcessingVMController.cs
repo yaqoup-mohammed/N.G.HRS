@@ -228,7 +228,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Controllers
                                     Bonuses = 0,
                                     Entitlements = 0,
                                     Deductions = 0,
-                                    Another = 0
+                                    Another = 0 
                                 };
                                 var check = _context.Salaries.Any(x => x.EmployeeId == emp.Id && x.SelectedMonth.Month == monthNumber);
                                 if (check)

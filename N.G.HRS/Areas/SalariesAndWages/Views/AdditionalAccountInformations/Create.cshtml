@@ -1,4 +1,5 @@
-﻿@model N.G.HRS.Areas.AalariesAndWages.Models.AdditionalAccountInformation
+﻿
+@model N.G.HRS.Areas.AalariesAndWages.Models.AdditionalAccountInformation
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -6,12 +7,10 @@
     Layout = "_Layout";
 
 }
-
-
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="../../../dashboard.html"> الرئيسة</a>
+            <a asp-action="Index" asp-controller="Home" asp-area=""> الرئيسة</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
             تهيئة النظام
@@ -20,8 +19,9 @@
             التهيئة العامة
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            بيانات حساب الاضافي
+            <a asp-action="Index">دليل بيانات حساب الاضافي </a>
         </li>
+
     </ol>
 </nav>
 

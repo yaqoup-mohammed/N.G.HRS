@@ -7,8 +7,25 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<div class="card">
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
 
+        <li class="breadcrumb-item active" aria-current="page">
+            مراقبة الدوام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            العمليات
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index"> ترحيل الاظافي الغير المعتمد  </a>
+
+        </li>
+    </ol>
+</nav>
+<div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
@@ -85,8 +102,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="submit" tabindex="13" id="Submit" value="جديد" class="btn btn-primary" />
-                                <a asp-action="Index" tabindex="14" class="btn btn-light">رجوع الى القائمة</a>
+                                <input type="submit" value="حفظ" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
+
                             </div>
                         </form>
                     </div>

@@ -8,18 +8,31 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة الحظور والانصراف
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">دليل نماذج الدوام </a>
+
+        </li>
+    </ol>
+</nav>
 
 <div class="row rowmargin">
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title headerStyle">نماذج الدوام</h6>
-                <br />
-                <br />
-                <br />
-                <hr style="color: black" />
-                <br />
-
+                <div class="card-header">
+                    <h3>  دليل نماذج الدوام </h3>
+                </div>
                 <!-- Row -->
                 <form asp-action="Create" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -185,19 +198,20 @@
                         <!-- Col -->
                     </div>
                     <!-- Row -->
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
+                   
                     <br />
                 </form>
                 <div class="form-group">
-                    <span>
-                        <a asp-action="Index">Back to List</a>
+                    <span class="form-group">
+                        <input type="submit" value="حفظ" class="btn btn-primary" />
                     </span>
+                   
                     <span>
                         <button id="openFormButton" type="button" class="btn btn-primary">اضفة فترة</button>
                     </span>
-
+                    <span>
+                        <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
+                    </span>
                 </div>
 
             </div>
@@ -223,9 +237,9 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="mb-3">
-                                                    <label asp-for="periods.PermanenceModelsId" class="form-label"></label>
+                                                    <label asp-for="periods.PermanenceModelsId" class="form-label">اسم الدوام  </label>
                                                     <select asp-for="periods.PermanenceModelsId" id="periodPermanenceModelsId" asp-items="@(ViewData["permanance"] as SelectList)" id="periodPermanenceModelsId" class="form-control">
-                                                        <option value="">-- أختر الدوام --</option>
+                                                        <option value="" disabled> </option>
                                                     </select>
                                                 </div>
                                             </div>

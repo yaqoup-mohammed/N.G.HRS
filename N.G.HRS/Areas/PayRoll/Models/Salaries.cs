@@ -35,4 +35,3 @@ namespace N.G.HRS.Areas.PayRoll.Models
     }
 
 }
-
