@@ -15,6 +15,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public int Month { get; set; } = DateTime.Now.Month;
         [Display(Name = "الموظف")]
         public int EmployeeId { get; set; }
+        [Display(Name = "الموظف")]
         public Employee? Employee { get; set; }
         [Display(Name = "النوع")]
         public string Type { get; set; }
@@ -22,6 +23,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public bool Taxable { get; set; }
         [Display(Name = "نوع الحساب")]
         public int FinanceAccountTypeId { get; set; }
+        [Display(Name = "نوع الحساب")]
         public FinanceAccountType? Account { get; set; }
         [Display(Name = "الكمية")]
         public double? Amount { get; set; } = 0;

@@ -192,7 +192,9 @@
                             <input type="hidden" asp-for="Expendables" id="Expendables" class="form-control" /> مستهلك
                             <input type="hidden" asp-for="Residual" id="Residual" class="form-control" /> متبقي  *@
                             <div class="form-group">
-                                <input type="button" id="Submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" value="حفظ" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
+
                             </div>
                         </form>
                     </div>
@@ -266,9 +268,7 @@
 
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

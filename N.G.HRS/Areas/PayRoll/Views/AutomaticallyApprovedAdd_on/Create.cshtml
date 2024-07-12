@@ -9,6 +9,26 @@
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+           تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            الرواتب والاجور
+        </li>
+      
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">
+                دليل الاضافي المعتمد تلقائيا
+            </a>
+
+        </li>
+    </ol>
+</nav>
 <div class="card-body">
     <div class="row">   
         <div class="col-md-12">
@@ -22,13 +42,13 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 mb-3">
                                 <label asp-for="EmployeeId" class="control-label"></label>
                                 <select asp-for="EmployeeId" class="js-example-basic-single form-select" asp-items="ViewBag.EmployeeId">
                                     <option value="" selected disabled></option>
                                 </select>
                             </div>
-                            <div class="form-group  col-md-6">
+                            <div class="form-group  col-md-6 mb-3">
                                 <label asp-for="SectionsId" class="control-label"></label>
                                 <select asp-for="SectionsId" class="js-example-basic-single form-select" asp-items="ViewBag.SectionsId">
                                     <option value="" selected disabled></option>
@@ -39,7 +59,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
                                 <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
                                     <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
@@ -52,7 +72,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label asp-for="FromDate" class="form-label"></label><span class="text-danger">*</span>
                                 <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
                                     <input asp-for="FromDate" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
@@ -65,7 +85,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label asp-for="ToDate" class="form-label"></label><span class="text-danger">*</span>
                                 <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
                                     <input asp-for="ToDate" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
@@ -80,29 +100,29 @@
                         </div>
 
                         <div class="row">
-                            <div id="startTimeInput" class="col-md-3">
+                            <div id="startTimeInput" class="col-md-3 mb-3">
                                 <label asp-for="FromTime" class="control-label"></label>
                                 <input asp-for="FromTime" id="startTime" class="form-control" />
                                 <span asp-validation-for="FromTime" class="text-danger"></span>
                             </div>
-                            <div id="endTimeInput" class="col-md-3">
+                            <div id="endTimeInput" class="col-md-3 mb-3">
                                 <label asp-for="ToTime" class="control-label"></label>
                                 <input asp-for="ToTime" id="endTime" class="form-control" />
                                 <span asp-validation-for="ToTime" class="text-danger"></span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <label asp-for="Hours" class="control-label"></label>
                                 <input asp-for="Hours" id="hours" readonly class="form-control" />
                                 <span asp-validation-for="Hours" class="text-danger"></span>
 
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3  mb-3">
                                 <label asp-for="Minutes" class="control-label"></label>
                                 <input asp-for="Minutes" id="minutes" readonly class="form-control" />
                                 <span asp-validation-for="Minutes" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
 
                             <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
