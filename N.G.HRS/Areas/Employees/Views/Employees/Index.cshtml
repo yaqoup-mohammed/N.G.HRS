@@ -42,6 +42,7 @@
                                 <th>تاريخ التوقف عن العمل</th>
                                 <th>الملاحظات</th>
                                 <th>#</th>
+
                                 @* <th style="left:10px;z-index: 500; color: rgb(255 255 255)"></th> *@
                             </tr>
                         </thead>
@@ -80,6 +81,7 @@
                                 *@
                                     <td>@(employee.FingerprintDevices?.DevicesName)</td>
                                     @if (employee.SubjectToInsurance == true)
+
                                     {
                                         <td style="color: green">نعم</td>
                                     }
