@@ -11,10 +11,11 @@
 }
 
 @* ============================ *@
+
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="../../../dashboard.html"> الرئيسة</a>
+            <a asp-action="Index" asp-controller="Home" asp-area=""> الرئيسة</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
             تهيئة النظام
@@ -23,13 +24,9 @@
             التهيئة العامة
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            الاجور والمرتبات
+            <a asp-action="Index">دليل البيانات الاساسية  لكشف الراتب </a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            <a asp-action="Index">بيانات الاساسية  للعمل  والاجر</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-        </li>
+
     </ol>
 </nav>
 
@@ -37,7 +34,7 @@
     <div class="col-md-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">  بيانات الاساسية  للعمل والاجر  </h4>
+                <h4 class="card-title">دليل البيانات الاساسية لكشف الراتب  </h4>
                 <br />
                 <hr />
                 <form asp-action="Create" id="BasicDataForWagesAndSalariesForm">

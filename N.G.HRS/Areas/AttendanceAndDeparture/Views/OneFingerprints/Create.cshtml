@@ -8,6 +8,23 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة الحظور والانصراف
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">دليل البصمة الواحدة </a>
+
+        </li>
+    </ol>
+</nav>
 <div class="card">
     <div class="card-body">
         <div class="row">
@@ -15,7 +32,7 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="card-header">
-                        <h3> OneFingerprint </h3>
+                        <h3> دليل البصمة الواحدة </h3>
                     </div>
                     <div class="row">
                     <div class="col-md-6">
@@ -102,10 +119,6 @@
     </div>
 </div>
 
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{

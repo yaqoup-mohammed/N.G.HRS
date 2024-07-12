@@ -41,7 +41,8 @@
                                 <th>تاريخ إعادة التوظيف</th>
                                 <th>تاريخ التوقف عن العمل</th>
                                 <th>الملاحظات</th>
-                                <th >#</th>
+                                <th>#</th>
+
                                 @* <th style="left:10px;z-index: 500; color: rgb(255 255 255)"></th> *@
                             </tr>
                         </thead>
@@ -74,11 +75,13 @@
                                     }
                                     else
                                     {
-                                    <td style="color: red">لا</td>
+                                        <td style="color: red">لا</td>
                                     }
-@*                                     <td>@employee.UsedFingerprint </td>
- *@                                    <td>@(employee.FingerprintDevices?.DevicesName)</td>
-                                    @if(employee.SubjectToInsurance == true)
+                                    @*                                     <td>@employee.UsedFingerprint </td>
+                                *@
+                                    <td>@(employee.FingerprintDevices?.DevicesName)</td>
+                                    @if (employee.SubjectToInsurance == true)
+
                                     {
                                         <td style="color: green">نعم</td>
                                     }
@@ -91,7 +94,7 @@
                                     <td>@employee.RehireDate </td>
                                     <td>@employee.DateOfStoppingWork </td>
                                     <td>@employee.Notes </td>
-                                    
+
                                     @* <td style="position: absolute ;left:20px; z-index: 500; background-color: white"> *@
                                     <td>
                                         <a asp-action="" asp-route-id="@employee.Id">Edit</a> |
