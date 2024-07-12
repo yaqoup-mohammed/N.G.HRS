@@ -8,7 +8,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-        public int EmplyeeId { get; set; }
+        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
         public double VacationBalance { get; set; }
         public double Amount { get; set; }

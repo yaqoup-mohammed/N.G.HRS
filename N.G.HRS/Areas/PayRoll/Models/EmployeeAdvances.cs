@@ -35,7 +35,11 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public Currency? Currency { get; set; }
 
         [Required(ErrorMessage = "  الرجاء تحديد المبلغ")]
+        [Display(Name = "المبلغ")]
+
         public decimal Amount { get; set; }
+        [Display(Name = "الملاحظات")]
+
         public string? Notes { get; set; }
     }
 }
