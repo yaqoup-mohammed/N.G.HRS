@@ -1,8 +1,58 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = "تأكيد البريد الإلكتروني";
+}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<style>
+    .btn-yellow {
+        background-color: #ffc107; /* لون أصفر */
+        border-color: #ffc107; /* لون أصفر */
+        color: black; /* لون النص */
+        font-size: 1.25rem; /* تكبير حجم الخط */
+    }
+</style>
+
+<div class="modal" id="confirmationModal" tabindex="-1" role="dialog" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title text-center">@ViewData["Title"]</h5>
+            </div>
+            <div class="modal-body text-center">
+                <partial name="_StatusMessage" model="Model.StatusMessage" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // عرض رسالة نجاح باستخدام SweetAlert2
+    Swal.fire({
+        title: 'شكرا على  تأكيد البريد الالكتروني .',
+        icon: 'success',
+        confirmButtonText: 'موافق',
+        timer: 2000
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+            var modal = document.getElementById('confirmationModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+    });
+</script>
+
+
+@* @page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "تأكيد البريد الإلكتروني";
 }
 
 <h1>@ViewData["Title"]</h1>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
+ *@

@@ -14,18 +14,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLabel">تسجيل الدخول</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" disabled></button>
             </div>
             <div class="modal-body">
                 <form id="loginForm" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" id="emailInput" />
                         <label asp-for="Input.Email" class="form-label">البريد الإلكتروني</label>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="كلمة المرور" />
+                        <input asp-for="Input.Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="كلمة المرور" id="passwordInput" />
                         <label asp-for="Input.Password" class="form-label">كلمة المرور</label>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
@@ -60,8 +59,22 @@
             var myModal = new bootstrap.Modal(document.getElementById('loginModal'), {
                 backdrop: 'static',
                 keyboard: false
+
+
             });
             myModal.show();
+        });
+    </script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var emailInput = document.getElementById('emailInput');
+            var passwordInput = document.getElementById('passwordInput');
+
+            // تفريغ الحقول عند تحميل الصفحة
+            emailInput.value = '';
+            passwordInput.value = '';
         });
     </script>
 }

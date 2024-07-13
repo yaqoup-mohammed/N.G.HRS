@@ -74,9 +74,12 @@
 
 <body id="body">
 
-
      @if (User.Identity.IsAuthenticated)
   {
+        bool isAdmin = false;
+
+        isAdmin = await UserHelper.IsInRoleAsync(User, "Admin", UserManager);
+
     <div class="main-wrapper ">
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar">
@@ -978,7 +981,52 @@
 
                                             </div>
                                         </div>
-                                        <ul class="list-unstyled p-1">
+                                            <ul class="list-unstyled p-1">
+                                                <li class="dropdown-item py-2">
+                                                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-body ms-0">
+                                                        <i class="me-2 icon-md" data-feather="user"></i>
+                                                        <span>Profile</span>
+                                                    </a>
+                                                </li>
+                                                @if (await User.IsInRoleAsync("Admin", UserManager))
+                                                {
+                                                    <li class="dropdown-item py-2">
+                                                        <a id="registerLink" href="javascript:void(0);" class="text-body ms-0">
+                                                            <i class="me-2 icon-md" data-feather="edit"></i>
+                                                            <span>Register</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                            <style>
+                                                .swal2-confirm {
+                                                    background-color: #ffc107 !important;
+                                                    color: #fff;
+                                                }
+                                            </style>
+
+                                            <script>
+                                                document.getElementById('registerLink').addEventListener('click', function (event) {
+                                                    Swal.fire({
+                                                        title: 'هل تريد انشاء حساب؟',
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'نعم',
+                                                        cancelButtonText: 'لا',
+                                                        customClass: {
+                                                            confirmButton: 'swal2-confirm'
+                                                        }
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            // إذا وافق المستخدم، قم بتوجيهه إلى صفحة التسجيل
+                                                            window.location.href = '@Url.Page("/Account/Register", new { area = "Identity" })';
+                                                        }
+                                                    });
+                                                });
+                                            </script>
+
+
+                                     @*    <ul class="list-unstyled p-1">
                                             <li class="dropdown-item py-2">
                                                 <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-body ms-0">
                                                     <i class="me-2 icon-md" data-feather="user"></i>
@@ -994,13 +1042,49 @@
                                                     </a>
                                                 </li>
                                             }
-                                        </ul>
-                                        <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item py-2">
+                                        </ul> *@
+                                       @*  <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item py-2">
                                             <button type="submit" class="dropdown-item">
                                                 <i class="me-2 icon-md" data-feather="log-out"></i>
                                                 <span>Log Out</span>
                                             </button>
-                                        </form>
+                                        </form> *@
+                                            <form id="logoutForm" method="post" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item py-2">
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="me-2 icon-md" data-feather="log-out"></i>
+                                                    <span>Log Out</span>
+                                                </button>
+                                            </form>
+                                            <style>
+                                                .swal2-confirm {
+                                                    background-color: #ffc107 !important;
+                                                    color: #fff;
+                                                }
+                                            </style>
+                                            <script>
+                                                document.getElementById('logoutForm').addEventListener('submit', function (event) {
+                                                    event.preventDefault(); // منع الإرسال الافتراضي للنموذج
+
+                                                    Swal.fire({
+                                                        title: 'هل تريد الخروج من النظام؟',
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'نعم',
+                                                        cancelButtonText: 'لا',
+                                                        customClass: {
+                                                            confirmButton: 'swal2-confirm'
+                                                        }
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            // إذا وافق المستخدم، قم بإرسال النموذج
+                                                            event.target.submit();
+                                                        }
+                                                    });
+                                                });
+                                            </script>
+
+
+
                                     </div>
                                 </li>
                             }

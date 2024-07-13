@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240712181040_D")]
-    partial class D
+    [Migration("20240712193546_N9")]
+    partial class N9
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2839,9 +2839,6 @@ namespace N.G.HRS.Migrations
 
                     b.Property<int>("LicenseNumber")
                         .HasColumnType("int");
-
-                    b.Property<string>("LogoPath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
