@@ -44,6 +44,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("DetailsPolicy", policy => policy.RequireRole("Details"));
     options.AddPolicy("MalePhotoPolicy", policy => policy.RequireRole("MalePhoto"));
     options.AddPolicy("FemalePhotoPolicy", policy => policy.RequireRole("FemalePhoto"));
+    options.AddPolicy("ProfilePolicy", policy => policy.RequireRole("Profile"));
+
 });
 
 var app = builder.Build();
@@ -76,7 +78,7 @@ using (var scope = app.Services.CreateScope())
         if (result.Succeeded)
         {
             // إضافة أدوار "Admin" للمستخدم
-            var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto" };
+            var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto", "Profile" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
@@ -93,7 +95,7 @@ using (var scope = app.Services.CreateScope())
     else
     {
         // تأكد من أن الحساب الرئيسي لديه جميع الأدوار
-        var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto" };
+        var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto", "Profile" };
         foreach (var role in roles)
         {
             if (!await roleManager.RoleExistsAsync(role))

@@ -9,8 +9,16 @@ public static class UserHelper
         if (user.Identity.IsAuthenticated)
         {
             var appUser = await userManager.GetUserAsync(user);
+            if (appUser == null)
+            {
+                // تسجيل دخول
+                Console.WriteLine("User not found");
+                return false;
+            }
             return await userManager.IsInRoleAsync(appUser, role);
         }
+        // تسجيل دخول
+        Console.WriteLine("User is not authenticated");
         return false;
     }
 }
