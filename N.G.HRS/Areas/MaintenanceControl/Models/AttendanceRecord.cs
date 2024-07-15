@@ -28,7 +28,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss tt}")]
         public DateTime Date { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
 
     }

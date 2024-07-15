@@ -32,22 +32,22 @@
                 <div class="table-responsive">
                     <div class="card">
                         <div class="card-header">
-                            <h3>Contracts</h3>
+                            <h3>دليل العقود</h3>
                         </div>
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-md-4 ">
+                            <div class="form-group col-md-6 mb-3 ">
                                 <label asp-for="Notes" class="control-label"></label>
                                 <input asp-for="Notes" class="form-control" />
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" value="حفظ" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
 
                             </div>

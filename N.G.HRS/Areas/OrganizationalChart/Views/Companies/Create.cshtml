@@ -2,7 +2,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "جديد";
     Layout = "_Layout";
 
 }
@@ -13,25 +13,20 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3> الشركة  </h3>
+                        <h3> دليل الشركة </h3>
                     </div>
                     <div class="card-body">
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="alert-danger"></div>
 
-                            <div class="col-md-6">
-                                <label asp-for="CompanyName" class="control-label"></label>
-                                <input asp-for="CompanyName" class="form-control" />
-                                <span asp-validation-for="CompanyName" class="alert-danger"></span>
-                            </div>
+                            
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label asp-for="LicenseNumber" class="control-label"></label>
-                                    <input asp-for="LicenseNumber" class="form-control" />
-                                    <span asp-validation-for="LicenseNumber" class="alert-danger"></span>
+                                <div class="col-md-8">
+                                    <label asp-for="CompanyName" class="form-label"></label>
+                                    <input asp-for="CompanyName" class="form-control" />
+                                    <span asp-validation-for="CompanyName" class="alert-danger"></span>
                                 </div>
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
                                     <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
                                         <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
@@ -43,43 +38,53 @@
 
                                     </div>
                                 </div>
-
-                            </div>
+                                </div>
                             <div class="row">
-
-                                <div class="col-md-4">
-                                    <label asp-for="TypeOfBusinessActivity" class="control-label"></label>
+                                <div class="col-md-3">
+                                    <label asp-for="LicenseNumber" class="form-label"></label>
+                                    <input asp-for="LicenseNumber" class="form-control" />
+                                    <span asp-validation-for="LicenseNumber" class="alert-danger"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <label asp-for="TypeOfBusinessActivity" class="form-label"></label>
                                     <input asp-for="TypeOfBusinessActivity" class="form-control" />
                                     <span asp-validation-for="TypeOfBusinessActivity" class="alert-danger"></span>
                                 </div>
-                                <div class="col-md-4">
-                                    <label asp-for="ComponyLogo" class="control-label"></label>
-                                    <input asp-for="ComponyLogo" class="form-control" />
+                                <div class="col-md-6">
+                                    <label asp-for="ComponyLogo" class="form-label"></label>
+                                    <input asp-for="ComponyLogo" type="file" id="formFile" placeholder="أختر ملف" class="form-control" />
                                     <span asp-validation-for="ComponyLogo" class="alert-danger"></span>
                                 </div>
-                                <div class="col-md-4">
-                                    <label asp-for="ComponyAddress" class="control-label"></label>
+
+                            </div>
+                            <div class="row">
+
+                                
+                                
+                                <div class="col-md-8">
+                                    <label asp-for="ComponyAddress" class="form-label"></label>
                                     <input asp-for="ComponyAddress" class="form-control" />
                                     <span asp-validation-for="ComponyAddress" class="alert-danger"></span>
                                 </div>
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <label asp-for="BoardOfDirectorsId" class="control-label"></label>
+                                <div class="col-md-4">
+                                    <label asp-for="BoardOfDirectorsId" class="form-label"></label>
                                     <select asp-for="BoardOfDirectorsId" id="BoardOfDirectorsId" class="js-example-basic-single form-select" asp-items="@(ViewData["boardOfDirectors"] as SelectList)">
                                         <option value="" selected disabled></option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label asp-for="Notes" class="control-label"></label>
+                            </div>
+
+                            <div class="row">
+
+                               
+                                <div class="col-md-12 mb-3">
+                                    <label asp-for="Notes" class="form-label"></label>
                                     <input asp-for="Notes" class="form-control" />
                                     <span asp-validation-for="Notes" class="alert-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
                             </div>

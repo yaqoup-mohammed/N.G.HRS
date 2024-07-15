@@ -25,7 +25,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [Display (Name = "مدفوعة")]
         public bool Paid { get; set; }
         [StringLength(255)]
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set;}
 
         //========================================= 

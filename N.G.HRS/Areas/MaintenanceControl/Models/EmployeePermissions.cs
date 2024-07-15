@@ -62,7 +62,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Display(Name = "بين تاريخين")]
 
         public bool BetweenToDate { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
         public bool IsProccessed { get; set; }
 
