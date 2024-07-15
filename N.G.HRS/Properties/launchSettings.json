@@ -10,16 +10,16 @@
       "applicationUrl": "http://localhost:5076",
       "launchUrl": "Identity/Account/Login"
     },
-    "https": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7125;http://localhost:5076",
-      "launchUrl": "Identity/Account/Login"
-    },
+    //"https": {
+    //  "commandName": "Project",
+    //  "launchBrowser": true,
+    //  "environmentVariables": {
+    //    "ASPNETCORE_ENVIRONMENT": "Development"
+    //  },
+    //  "dotnetRunMessages": true,
+    //  "applicationUrl": "https://localhost:7125;http://localhost:5076",
+    //  "launchUrl": "Identity/Account/Login"
+    //},
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
