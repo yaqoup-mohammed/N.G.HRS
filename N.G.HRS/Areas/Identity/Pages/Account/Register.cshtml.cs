@@ -41,7 +41,7 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager,
             AppDbContext context
-            
+
             ) // Add RoleManager to constructor
         {
             _userManager = userManager;
@@ -116,7 +116,7 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
 
         }
 
-       
+
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -374,12 +374,118 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
         //}
 
 
+        //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        //{
+        //    returnUrl ??= Url.Content("~/");
+        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        //    if (ModelState.IsValid)
+        //    {
+        //        var employee = await _context.employee
+        //            .Include(e => e.personalData)
+        //            .ThenInclude(pd => pd.Sex)
+        //            .FirstOrDefaultAsync(e => e.EmployeeNumber == Input.EmployeeNumberJop);
+
+        //        if (employee == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "البيانات الشخصية للموظف غير موجودة.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData.Sex == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "الجنس غير محدد في البيانات الشخصية للموظف.");
+        //            return Page();
+        //        }
+
+        //        var user = CreateUser();
+
+        //        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        //        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        //        var result = await _userManager.CreateAsync(user, Input.Password);
+
+        //        if (result.Succeeded)
+        //        {
+        //            _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
+
+        //            var roles = new List<string>
+        //    {
+        //        "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile"
+        //    };
+
+        //            if (Input.AddPermission) roles.Add("Add");
+        //            if (Input.EditPermission) roles.Add("Edit");
+        //            if (Input.ViewPermission) roles.Add("View");
+        //            if (Input.AdminPermission) roles.Add("Admin");
+        //            if (Input.DeletePermission) roles.Add("Delete");
+        //            if (Input.DetailsPermission) roles.Add("Details");
+        //            if (Input.ProfilePermission) roles.Add("Profile");
+
+        //            foreach (var role in roles)
+        //            {
+        //                await EnsureRoleExistsAsync(role);
+        //                await _userManager.AddToRoleAsync(user, role);
+        //            }
+
+        //            // استخدام SexId بدلاً من Sex.Name
+        //            if (employee.personalData.SexId == 1 && Input.MalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "MalePhoto");
+        //            }
+        //            else if (employee.personalData.SexId == 2 && Input.FemalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "FemalePhoto");
+        //            }
+
+        //            user.EmailConfirmed = true;
+        //            user.LockoutEnabled = false;
+        //            await _userManager.UpdateAsync(user);
+
+        //            var userId = await _userManager.GetUserIdAsync(user);
+        //            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        //            var callbackUrl = Url.Page(
+        //                "/Account/ConfirmEmail",
+        //                pageHandler: null,
+        //                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+        //                protocol: Request.Scheme);
+
+        //            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+        //                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+        //            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+        //            {
+        //                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+        //            }
+        //            else
+        //            {
+        //                await _signInManager.SignInAsync(user, isPersistent: false);
+        //                return LocalRedirect(returnUrl);
+        //            }
+        //        }
+        //        foreach (var error in result.Errors)
+        //        {
+        //            ModelState.AddModelError(string.Empty, error.Description);
+        //        }
+        //    }
+
+        //    return Page();
+        //}
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
+                var maleId = await _context.sex.Where(s => s.Name == "Male").Select(s => s.Id).FirstOrDefaultAsync();
+                var femaleId = await _context.sex.Where(s => s.Name == "Female").Select(s => s.Id).FirstOrDefaultAsync();
+
                 var employee = await _context.employee
                     .Include(e => e.personalData)
                     .ThenInclude(pd => pd.Sex)
@@ -432,12 +538,11 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, role);
                     }
 
-                    // استخدام SexId بدلاً من Sex.Name
-                    if (employee.personalData.SexId == 1 && Input.MalePhoto)
+                    if (employee.personalData.Sex.Id == maleId && Input.MalePhoto)
                     {
                         await _userManager.AddToRoleAsync(user, "MalePhoto");
                     }
-                    else if (employee.personalData.SexId == 2 && Input.FemalePhoto)
+                    else if (employee.personalData.Sex.Id == femaleId && Input.FemalePhoto)
                     {
                         await _userManager.AddToRoleAsync(user, "FemalePhoto");
                     }
@@ -627,7 +732,7 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
             }
         }
 
-      
+
     }
 }
 
