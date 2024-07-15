@@ -13,7 +13,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Models
         [StringLength(150)]
         public string RelativeName { get; set; }
         [StringLength(255)]
-        [Display ( Name = "الملاحضة")]
+        [Display ( Name = "الملاحظات")]
         public string? Notes { get; set; }
         //==============================================
         public List<Family>? FamiliesList { get; set; }

@@ -58,9 +58,9 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         public string? DonorSide { get; set; }
         [Display(Name = "سبب الاجازة")]
         public string? Reason { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public bool IsProcssessed { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
 
 

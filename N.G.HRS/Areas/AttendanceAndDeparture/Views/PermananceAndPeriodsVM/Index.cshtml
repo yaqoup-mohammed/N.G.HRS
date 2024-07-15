@@ -10,120 +10,135 @@
 }
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-<h1>Index</h1>
-
-<authorize policy="AddPolicy">
-    <a asp-action="PermananceAndPeriodsVM" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
-</authorize>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-             #
-            </th>
-            <th>
-                أسم الدوام
-            </th>
-            <th>
-                أسم الفترة
-            </th>
-            <th>
-                من ةقت
-            </th>
-            <th>
-                الى وقت
-            </th>
-            <th>
-                السبت
-            </th>
-            <th>
-                الاحد
-            </th>
-            <th>
-
-                الاثنين
-            </th>
-            <th>
-                الثلاثاء
-            </th>
-            <th>
-                الاربعاء
-            </th>
-            <th>
-                الخميس
-            </th>
-            <th>
-                الجمعة
-            </th>
-            <th>
-                الساعات
-            </th>
-            <th>
-                الدقائق
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.periodsList)
-        {
-            <tr>
-                <td>
-                    #
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodsName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FromTime.HasValue)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ToTime.HasValue)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Saturday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SunDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Monday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tuesday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Wednesday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Thursday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Friday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Muinutes)
-                </td>
-
-                <td>
-                    <authorize policy="EditPolicy">
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    </authorize> |
-                    <authorize policy="DetailsPolicy">
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </authorize> |
-                    <authorize policy="DeletePolicy">
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="space-between">
+                    <h6 class="card-title">نماذج الدوام</h6>
+                    <authorize policy="AddPolicy">
+                        <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
                     </authorize>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            أسم الدوام
+                                        </th>
+                                        <th>
+                                            أسم الفترة
+                                        </th>
+                                        <th>
+                                            من ةقت
+                                        </th>
+                                        <th>
+                                            الى وقت
+                                        </th>
+                                        <th>
+                                            السبت
+                                        </th>
+                                        <th>
+                                            الاحد
+                                        </th>
+                                        <th>
+
+                                            الاثنين
+                                        </th>
+                                        <th>
+                                            الثلاثاء
+                                        </th>
+                                        <th>
+                                            الاربعاء
+                                        </th>
+                                        <th>
+                                            الخميس
+                                        </th>
+                                        <th>
+                                            الجمعة
+                                        </th>
+                                        <th>
+                                            الساعات
+                                        </th>
+                                        <th>
+                                            الدقائق
+                                        </th>
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.periodsList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                #
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PermanenceModels.PermanenceName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PeriodsName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FromTime.HasValue)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToTime.HasValue)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Saturday)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SunDay)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Monday)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Tuesday)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Wednesday)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Thursday)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Friday)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Hours)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Muinutes)
+                                            </td>
+
+                                            <td>
+                                                <authorize policy="EditPolicy">
+                                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                </authorize> |
+                                                <authorize policy="DetailsPolicy">
+                                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                                </authorize> |
+                                                <authorize policy="DeletePolicy">
+                                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                </authorize>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      

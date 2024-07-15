@@ -23,7 +23,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         [Display(Name = "الإضافي معتمد")]
 
         public int AdditionalSupported { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
 
         public string? Note { get; set; }
         public bool migration { get; set; }//ترحيل

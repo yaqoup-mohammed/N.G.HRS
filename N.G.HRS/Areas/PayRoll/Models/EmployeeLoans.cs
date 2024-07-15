@@ -43,7 +43,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         [Display(Name = " عدد الشهور التقسيط")]
 
         public double NumberOfInstallmentMonths { get; set; }// عدد الشهور التقسيط
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace N.G.HRS.Areas.PlanningAndJobDescription.Models
 
         public string CategoriesName { get; set; }
         [StringLength(255)]
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
         //==================================================
         public List<JobDescription>? JobDescriptionsList { get; set; }

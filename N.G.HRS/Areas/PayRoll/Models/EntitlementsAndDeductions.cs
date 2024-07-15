@@ -32,7 +32,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         [Display(Name = "العملة")]
         public int CurrencyId { get; set; }
         public Currency? Currency { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Note { get; set; }
 
 

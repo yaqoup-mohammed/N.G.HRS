@@ -33,15 +33,15 @@ namespace N.G.HRS.Areas.AttendanceAndDeparture.Controllers
 
             await PopulateDropdownListsAsync();
             var periods = await _appDbContext.periods.Include(e => e.PermanenceModels).ToListAsync();
-            //var permmenance = await _appDbContext.permanenceModels.ToListAsync();
+            var permmenance = await _appDbContext.permanenceModels.ToListAsync();
 
-            //var permmenanceVM = new PermanenceModelsAndPeriodsVM
-            //{
-            //    permanenceModelsList = permmenance,
-            //    periodsList = periods,
-            //};
+            var permmenanceVM = new PermanenceModelsAndPeriodsVM
+            {
+                permanenceModelsList = permmenance,
+                periodsList = periods,
+            };
 
-            return View(periods);
+            return View(permmenanceVM);
         }
         //public async Task<IActionResult> Create()
         //{
