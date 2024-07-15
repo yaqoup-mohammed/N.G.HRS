@@ -1,7 +1,7 @@
 ﻿@model N.G.HRS.Areas.AttendanceAndDeparture.ViewModels.PermanenceModelsAndPeriodsVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = " نماذج الدوام والفترات ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "IndexEmployee";
     ViewData["Open"] = "Open2";
@@ -13,7 +13,7 @@
 <h1>Index</h1>
 
 <authorize policy="AddPolicy">
-    <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
+    <a asp-action="PermananceAndPeriodsVM" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
 </authorize>
 <table class="table">
     <thead>
