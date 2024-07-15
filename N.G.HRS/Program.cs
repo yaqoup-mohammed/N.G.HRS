@@ -69,13 +69,15 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+
     var existingUser = await userManager.FindByNameAsync("adminn@example.com");
 
     if (existingUser == null)
     {
         var adminUser = new IdentityUser { UserName = "adminn@example.com", Email = "adminn@example.com" };
-        var result = await userManager.CreateAsync(adminUser, "WP@$w0rdd");
-        if (result.Succeeded)
+        var result = await userManager.CreateAsync(adminUser, "Yaqoup@1234");
+        if (result.Succeeded) 
+
         {
             // إضافة أدوار "Admin" للمستخدم
             var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto", "Profile" };
