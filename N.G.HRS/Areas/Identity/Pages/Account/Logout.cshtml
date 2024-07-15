@@ -5,17 +5,16 @@
 }
 
 <header>
-    <h1>@ViewData["Title"]</h1>
     @{
-        if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
-        }
-        else
-        {
-            <p>لقد قمت بتسجيل الخروج بنجاح من التطبيق .</p>
-        }
+        // if (User.Identity?.IsAuthenticated ?? false)
+        // {
+        //     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+        //         <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+        //     </form>
+        // }
+        // else
+        // {
+        //     <p>لقد قمت بتسجيل الخروج بنجاح من التطبيق .</p>
+        // }
     }
 </header>

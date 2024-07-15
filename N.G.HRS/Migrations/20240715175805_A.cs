@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace N.G.HRS.Migrations
 {
     /// <inheritdoc />
-    public partial class N5 : Migration
+    public partial class A : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -1015,7 +1015,6 @@ namespace N.G.HRS.Migrations
                     LicenseNumber = table.Column<int>(type: "int", nullable: false),
                     TypeOfBusinessActivity = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ComponyLogo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    LogoPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ComponyAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     BoardOfDirectorsId = table.Column<int>(type: "int", nullable: true)
