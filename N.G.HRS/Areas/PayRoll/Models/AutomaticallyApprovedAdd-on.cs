@@ -16,10 +16,13 @@ namespace N.G.HRS.Areas.PayRoll.Models
         [Required (ErrorMessage = "حقل  القسم مطلوب")]
         [Display(Name = "القسم")]
         public int? SectionsId { get; set; }
+        [Display(Name = "القسم")]
         public Sections? Sections { get; set; }
         [Required(ErrorMessage = "حقل  الموظف مطلوب")]
         [Display(Name = "الموظف")]
+
         public int? EmployeeId { get; set; }
+        [Display(Name = "الموظف")]
         public Employee? Employee { get; set; }
 
         [Required(ErrorMessage = "حقل  التاريخ مطلوب")]

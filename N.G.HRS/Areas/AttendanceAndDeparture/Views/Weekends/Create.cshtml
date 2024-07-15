@@ -9,10 +9,24 @@
     ViewData["OpenOperation"] = "OpenOperation2";
 }
 
-<h1>Create</h1>
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة الحظور والانصراف
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">دليل نماذج الدوام </a>
 
-<h4>Weekends</h4>
-<hr />
+        </li>
+    </ol>
+</nav>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -65,8 +79,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-light">الرجوع الى القائمة</a>
+                <input type="submit" value="حفظ" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-light">الرجوع للقائمة</a>
 
             </div>
         </form>

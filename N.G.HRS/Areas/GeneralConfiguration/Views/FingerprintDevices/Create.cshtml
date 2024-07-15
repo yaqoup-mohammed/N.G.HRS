@@ -7,7 +7,14 @@
 
 }
 
-
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../../dashboard.html"> الرئيسة</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> تهيئة النظام</li>
+        <li class="breadcrumb-item active" aria-current="page"> التهيئة العامة</li>
+        <li class="breadcrumb-item active" aria-current="page"> <a asp-action="Index"> تهيئة أجهزة البصمة</a>              </li>
+    </ol>
+</nav>
 <div class="card">
     <div class="card-body">
         <form asp-action="Create">
@@ -35,7 +42,7 @@
 
                                 <div class="form-group col-md-4">
                                     <label asp-for="DeviceStatus" class="form-label"></label><span class="text-danger">*</span>
-                                    <select asp-for="DeviceStatus" class="js-example-basic-single  form-select">
+                                    <select asp-for="DeviceStatus" class="   form-select">
                                         <option value="" selected disabled></option>
                                         <option value="شغال">شغال</option>
                                         <option value="معطل">معطل</option>

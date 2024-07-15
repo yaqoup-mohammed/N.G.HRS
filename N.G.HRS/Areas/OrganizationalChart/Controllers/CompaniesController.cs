@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using N.G.HRS.Areas.OrganizationalChart.Models;
 using N.G.HRS.Date;
 using N.G.HRS.Repository;
-using System.IO;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 {
@@ -19,17 +17,16 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IRepository<Company> _CompaniesRepository;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public CompaniesController(AppDbContext context, IRepository<Company> CompaniesRepository, IWebHostEnvironment hostEnvironment)
+        public CompaniesController(AppDbContext context, IRepository<Company> CompaniesRepository)
         {
             _context = context;
             _CompaniesRepository = CompaniesRepository;
-            _hostEnvironment = hostEnvironment;
         }
 
         // GET: OrganizationalChart/Companies
         [Authorize(Policy = "ViewPolicy")]
+
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.company.Include(c => c.BoardOfDirectors);
@@ -37,7 +34,8 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // GET: OrganizationalChart/Companies/Details/5
-        [Authorize(Policy = "DetailsPolicy ")]
+        [Authorize(Policy = "DetailsPolice ")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,6 +56,7 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
         // GET: OrganizationalChart/Companies/Create
         [Authorize(Policy = "AddPolicy")]
+
         public async Task<IActionResult> Create()
         {
             await PopulateDropdownListsAsync();
@@ -65,49 +64,26 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
         }
 
         // POST: OrganizationalChart/Companies/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "AddPolicy")]
-        public async Task<IActionResult> Create([Bind("Id,Date,CompanyName,LicenseNumber,TypeOfBusinessActivity,ComponyAddress,Notes,BoardOfDirectorsId")] Company company, IFormFile ComponyLogo)
+
+        public async Task<IActionResult> Create([Bind("Id,Date,CompanyName,LicenseNumber,TypeOfBusinessActivity,ComponyLogo,ComponyAddress,Notes,BoardOfDirectorsId")] Company company)
         {
-            if (ModelState.IsValid)  
+            if (ModelState.IsValid)
             {
                 try
                 {
                     var number = _context.company.Count();
-                    if (number >= 1)
+                    if (number == 1)
                     {
                         TempData["Error"] = "لا يمكن إضافة اكثر من شركة !!";
                         return View(company);
                     }
                     else
                     {
-                        if (ComponyLogo != null)
-                        {
-                            // توليد اسم فريد للملف
-                            var fileName = Path.GetFileNameWithoutExtension(ComponyLogo.FileName);
-                            var extension = Path.GetExtension(ComponyLogo.FileName);
-                            var uniqueFileName = $"{fileName}_{DateTime.Now:yyyyMMddHHmmssfff}{extension}";
-
-                            // تحديد المسار لحفظ الملف
-                            //var filePath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Upload/ComponyLogos", uniqueFileName);
-                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Upload/ComponyLogos", uniqueFileName);
-                            // إنشاء مجلد "Upload/ComponyLogos" إذا لم يكن موجوداً
-                            if (!Directory.Exists(Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Upload/ComponyLogos")))
-                            {
-                                Directory.CreateDirectory(Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Upload/ComponyLogos"));
-                            }
-
-                            // حفظ الملف على المجلد المحدد
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                await ComponyLogo.CopyToAsync(stream);
-                            }
-
-                            // تخزين مسار الملف في قاعدة البيانات
-                            company.ComponyLogo = uniqueFileName;
-                        }
-
                         await PopulateDropdownListsAsync();
 
                         await _CompaniesRepository.AddAsync(company);
@@ -125,9 +101,6 @@ namespace N.G.HRS.Areas.OrganizationalChart.Controllers
 
             return View(company);
         }
-
-
-
 
         // GET: OrganizationalChart/Companies/Edit/5
         [Authorize(Policy = "EditPolicy")]

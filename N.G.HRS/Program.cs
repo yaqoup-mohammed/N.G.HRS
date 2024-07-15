@@ -44,6 +44,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("DetailsPolicy", policy => policy.RequireRole("Details"));
     options.AddPolicy("MalePhotoPolicy", policy => policy.RequireRole("MalePhoto"));
     options.AddPolicy("FemalePhotoPolicy", policy => policy.RequireRole("FemalePhoto"));
+    options.AddPolicy("ProfilePolicy", policy => policy.RequireRole("Profile"));
+
 });
 
 var app = builder.Build();
@@ -67,16 +69,16 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var existingUser = await userManager.FindByNameAsync("admin@example.com");
+    var existingUser = await userManager.FindByNameAsync("adminn@example.com");
 
     if (existingUser == null)
     {
-        var adminUser = new IdentityUser { UserName = "admin@example.com", Email = "admin@example.com" };
-        var result = await userManager.CreateAsync(adminUser, "Yaqoup@123");
+        var adminUser = new IdentityUser { UserName = "adminn@example.com", Email = "adminn@example.com" };
+        var result = await userManager.CreateAsync(adminUser, "WP@$w0rdd");
         if (result.Succeeded)
         {
             // إضافة أدوار "Admin" للمستخدم
-            var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto" };
+            var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto", "Profile" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
@@ -93,7 +95,7 @@ using (var scope = app.Services.CreateScope())
     else
     {
         // تأكد من أن الحساب الرئيسي لديه جميع الأدوار
-        var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto" };
+        var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto", "Profile" };
         foreach (var role in roles)
         {
             if (!await roleManager.RoleExistsAsync(role))

@@ -13,102 +13,112 @@
         <div class="card">
             <div class="card-body">
                 <div class="space-between">
-                    <h3>  الترفيعات الادارية</h3>
+                    <h3>  دليل الترفيعات الادارية   </h3>
 
-<authorize policy="AddPolicy">
-    <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
-</authorize>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Departments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FromDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ToDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departments.SubAdministration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FromDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-                <td>
-                    <authorize policy="EditPolicy">
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    </authorize> |
-                    <authorize policy="DetailsPolicy">
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </authorize> |
-                    <authorize policy="DeletePolicy">
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    <authorize policy="AddPolicy">
+                        <a asp-action="Create" class="btn btn-primary col-md-1 col-12" style="min-width: 80px; white-space: nowrap; text-align: center;">جديد</a>
                     </authorize>
-                </td>
-        </tr>
-            @* <div id="openForm" style="display: block">
-                <div id="form" class="row rowmargin">
-                    <div class="modal">
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure you want to delete
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.Employee)
-                                    </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayNameFor(model => model.Employee.EmployeeName)
-                                    </dd><h3>?</h3>
-                                </div>
-                                <div class="modal-footer">
-                                    <form asp-action="Delete" method="post" id="deleteForm">
-                                        <input type="hidden" asp-for="@item.Id" />
-                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div> *@
-}
-
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Employee)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Departments)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FromDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Notes)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Departments.SubAdministration)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FromDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Notes)
+                                    </td>
+                                    <td>
+                                        <authorize policy="EditPolicy">
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        </authorize> |
+                                        <authorize policy="DetailsPolicy">
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                        </authorize> |
+                                        <authorize policy="DeletePolicy">
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </authorize>
+                                    </td>
+                                </tr>
+                                @* <div id="openForm" style="display: block">
+                            <div id="form" class="row rowmargin">
+                            <div class="modal">
+                            <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            Are you sure you want to delete
+                            <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Employee)
+                            </dt>
+                            <dd class="col-sm-10">
+                            @Html.DisplayNameFor(model => model.Employee.EmployeeName)
+                            </dd><h3>?</h3>
+                            </div>
+                            <div class="modal-footer">
+                            <form asp-action="Delete" method="post" id="deleteForm">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </form>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div> *@
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
