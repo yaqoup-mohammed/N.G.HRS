@@ -109,16 +109,72 @@ namespace N.G.HRS.Areas.Employees.Controllers
         }
         [Authorize(Policy = "ViewPolicy")]
 
+        //public async Task<IActionResult> Index()
+        //{
+
+
+
+
+
+        //    // Populate ViewData for dropdown lists
+        //    await PopulateDropdownListsAsync();
+
+        //    var employees = await _context.employee.Include(e => e.Departments)
+        //        .Include(e => e.FingerprintDevices).Include(e => e.JobDescription)
+        //        .Include(e => e.Manager).Include(e => e.Sections).ToListAsync();
+        //    //-------------------------------------------------------
+        //    var practicalExperiences = await _context.practicalExperiences
+        //        .Include(p => p.Employee).ToListAsync();
+        //    //-------------------------------------------------------
+        //    var family = await _context.Family.Include(f => f.Employees)
+        //        .Include(f => f.RelativesType).ToListAsync();
+        //    //-------------------------------------------------------
+        //    var personalData = await _context.personalDatas.Include(p => p.MaritalStatus)
+        //        .Include(p => p.Nationality).Include(p => p.Religion).Include(p => p.Sex)
+        //        .Include(p => p.employee).Include(p => p.guarantees).ToListAsync();
+        //    //-------------------------------------------------------
+        //    var guarantees = await _context.guarantees.Include(g => g.MaritalStatus).ToListAsync();
+        //    //-------------------------------------------------------
+        //    var FinancialStatements = await _context.financialStatements.Include(f => f.Currency).Include(f => f.employee).ToListAsync();
+        //    //-------------------------------------------------------
+        //    var TrainingCourses = await _context.trainingCourses.Include(t => t.EmployeeOne).ToListAsync();
+
+        //    //-------------------------------------------------------
+        //    var EmployeeArchives = await _context.EmployeeArchives.Include(e => e.employee).ToListAsync();
+
+        //    //-------------------------------------------------------
+
+
+        //    var viewModel = new EmployeeVM
+        //    {
+        //        EmployeeList = employees,
+        //        PracticalExperiencesList = practicalExperiences,
+        //        FamilyList = family,
+        //        PersonalDataList = personalData,
+        //        guaranteesList = guarantees,
+        //        FinancialStatementsList = FinancialStatements,
+        //        TrainingCoursesList = TrainingCourses,
+        //        EmployeeArchivesList = EmployeeArchives,
+
+        //    };
+        //    return View(viewModel);
+
+
+        //}
+
+
         public async Task<IActionResult> Index()
         {
+            // Assuming you have a method to get the IDs for male and female
+            int maleId = (await _context.sex.FirstOrDefaultAsync(s => s.Name == "Male"))?.Id ?? 0;
+            int femaleId = (await _context.sex.FirstOrDefaultAsync(s => s.Name == "Female"))?.Id ?? 0;
 
-           
-
-            
+            ViewData["MaleId"] = maleId;
+            ViewData["FemaleId"] = femaleId;
 
             // Populate ViewData for dropdown lists
             await PopulateDropdownListsAsync();
-         
+
             var employees = await _context.employee.Include(e => e.Departments)
                 .Include(e => e.FingerprintDevices).Include(e => e.JobDescription)
                 .Include(e => e.Manager).Include(e => e.Sections).ToListAsync();
@@ -144,7 +200,6 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
             //-------------------------------------------------------
 
-
             var viewModel = new EmployeeVM
             {
                 EmployeeList = employees,
@@ -155,12 +210,10 @@ namespace N.G.HRS.Areas.Employees.Controllers
                 FinancialStatementsList = FinancialStatements,
                 TrainingCoursesList = TrainingCourses,
                 EmployeeArchivesList = EmployeeArchives,
-
             };
             return View(viewModel);
-
-
         }
+
         // Example with English naming convention
         public async Task<IActionResult> AddEmployee()
         {
