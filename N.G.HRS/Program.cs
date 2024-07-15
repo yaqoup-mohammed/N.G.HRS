@@ -74,9 +74,10 @@ using (var scope = app.Services.CreateScope())
 
     if (existingUser == null)
     {
-        var adminUser = new IdentityUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
-        var result = await userManager.CreateAsync(adminUser, "Muhammed$123");
-        if (result.Succeeded)
+        var adminUser = new IdentityUser { UserName = "adminn@example.com", Email = "adminn@example.com" };
+        var result = await userManager.CreateAsync(adminUser, "Yaqoup@1234");
+        if (result.Succeeded) 
+
         {
             // إضافة أدوار "Admin" للمستخدم
             var roles = new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "MalePhoto", "FemalePhoto", "Profile" };
