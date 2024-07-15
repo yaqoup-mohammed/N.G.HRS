@@ -69,6 +69,7 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+
     var existingUser = await userManager.FindByNameAsync("adminn@example.com");
 
     if (existingUser == null)
