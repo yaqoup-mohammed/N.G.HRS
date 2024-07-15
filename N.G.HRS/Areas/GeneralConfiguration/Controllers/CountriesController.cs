@@ -92,44 +92,7 @@ namespace N.G.HRS.Areas.GeneralConfiguration.Controllers
 
 
 
-        public async Task<IActionResult> ExportToExcelCountry()
-        {
-            var countries = await _context.country.ToListAsync(); // استرجاع جميع الدول من قاعدة البيانات
-
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial; // تحديد سياق الترخيص (يعتمد على نوع الترخيص الخاص بك)
-
-            using (var package = new ExcelPackage())
-            {
-                var worksheet = package.Workbook.Worksheets.Add("دول");
-
-                // عنوان الأعمدة
-
-                worksheet.Cells[1, 1].Value = "Id";
-
-                worksheet.Cells[1, 2].Value = "الدولة";
-                worksheet.Cells[1, 3].Value = "الملاحظة";
-
-                // ملء البيانات
-                int row = 2;
-                foreach (var country in countries)
-                {
-                    worksheet.Cells[row, 1].Value = country.Id;
-                    worksheet.Cells[row, 2].Value = country.Name;
-                    worksheet.Cells[row, 3].Value = country.Notes;
-                    row++;
-                }
-
-                // تحويل الملف إلى بيانات بايت وإرجاعه كنتيجة تنزيل
-                var stream = new MemoryStream();
-                package.SaveAs(stream);
-                stream.Position = 0;
-
-                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                string fileName = "countries.xlsx";
-
-                return File(stream, contentType, fileName);
-            }
-        }
+        
         //public async Task<IActionResult> ExportToPdf()
         //{
         //    var countries = await _context.country.ToListAsync(); // استرجاع جميع الدول من قاعدة البيانات
