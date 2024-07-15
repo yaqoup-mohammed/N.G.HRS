@@ -74,7 +74,7 @@ using (var scope = app.Services.CreateScope())
     if (existingUser == null)
     {
         var adminUser = new IdentityUser { UserName = "adminn@example.com", Email = "adminn@example.com" };
-        var result = await userManager.CreateAsync(adminUser, "WP@$w0rdd");
+        var result = await userManager.CreateAsync(adminUser, "Yaqoup@1234");
         if (result.Succeeded)
         {
             // إضافة أدوار "Admin" للمستخدم
