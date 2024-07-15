@@ -16,6 +16,15 @@
     white-space: nowrap; /* Prevent the text from wrapping */
     text-align: center; /* Center the text horizontally */
 }
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 .EasyMDEContainer .CodeMirror {
     box-sizing: border-box;
     height: auto;
