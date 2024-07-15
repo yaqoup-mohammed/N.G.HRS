@@ -959,8 +959,143 @@
                                 </div>
                             </div>
                         </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" id="profileDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img class="wd-30 ht-30 rounded-circle" src="~/assets/images/faces/face1.jpg" alt="profile" />
+                                    </a>
+                                    <div class="dropdown-menu p-0" aria-labelledby="profileDropdown" id="profileDropdownMenu">
+                                        <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
+                                            <div class="mb-3">
+                                                <img class="wd-80 ht-80 rounded-circle" src="@ViewBag.ProfileImage" alt="Profile Image" />
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="tx-16 fw-bolder">@User.Identity.Name</p>
+                                                Hello @User.Identity.Name!
+                                            </div>
+                                        </div>
+                                        <ul class="list-unstyled p-1">
+                                            <li class="dropdown-item py-2">
+                                                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-body ms-0">
+                                                    <i class="me-2 icon-md" data-feather="user"></i>
+                                                    <span>Profile</span>
+                                                </a>
+                                            </li>
+                                            @if (await User.IsInRoleAsync("Admin", UserManager))
+                                            {
+                                                <li class="dropdown-item py-2">
+                                                    <a id="registerLink" href="javascript:void(0);" class="text-body ms-0">
+                                                        <i class="me-2 icon-md" data-feather="edit"></i>
+                                                        <span>Register</span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                        <style>
+                                            .swal2-confirm {
+                                                background-color: #ffc107 !important;
+                                                color: #fff;
+                                            }
+                                        </style>
+                                        <script>
+                                            document.getElementById('registerLink').addEventListener('click', function (event) {
+                                                Swal.fire({
+                                                    title: 'هل تريد انشاء حساب؟',
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'نعم',
+                                                    cancelButtonText: 'لا',
+                                                    customClass: {
+                                                        confirmButton: 'swal2-confirm'
+                                                    }
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // إذا وافق المستخدم، قم بتوجيهه إلى صفحة التسجيل
+                                                        window.location.href = '@Url.Page("/Account/Register", new { area = "Identity" })';
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                        <form id="logoutForm" method="post" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item py-2">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="me-2 icon-md" data-feather="log-out"></i>
+                                                <span>Log Out</span>
+                                            </button>
+                                        </form>
+                                        <style>
+                                            .swal2-confirm {
+                                                background-color: #ffc107 !important;
+                                                color: #fff;
+                                            }
+                                        </style>
+                                        <script>
+                                            document.getElementById('logoutForm').addEventListener('submit', function (event) {
+                                                event.preventDefault(); // منع الإرسال الافتراضي للنموذج
 
-                        
+                                                Swal.fire({
+                                                    title: 'هل تريد الخروج من النظام؟',
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'نعم',
+                                                    cancelButtonText: 'لا',
+                                                    customClass: {
+                                                        confirmButton: 'swal2-confirm'
+                                                    }
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // إذا وافق المستخدم، قم بإرسال النموذج
+                                                        event.target.submit();
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" id="loginDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img class="wd-30 ht-30 rounded-circle" src="~/assets/images/faces/face1.jpg" alt="profile" />
+                                    </a>
+                                    <div class="dropdown-menu p-0" aria-labelledby="loginDropdown" id="loginDropdownMenu">
+                                        <div class="text-center">
+                                            <p class="tx-16 fw-bolder">Guest</p>
+                                        </div>
+                                        <ul class="list-unstyled p-1">
+                                            <li class="dropdown-item py-2">
+                                                <a asp-area="Identity" asp-page="/Account/Login" class="text-body ms-0">
+                                                    <i class="me-2 icon-md" data-feather="log-in"></i>
+                                                    <span>Login</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+
+                        <script>
+                            document.addEventListener('click', function (event) {
+                                var profileDropdownMenu = document.getElementById('profileDropdownMenu');
+                                var loginDropdownMenu = document.getElementById('loginDropdownMenu');
+
+                                if (profileDropdownMenu && !profileDropdownMenu.contains(event.target) && !document.getElementById('profileDropdown').contains(event.target)) {
+                                    var dropdown = new bootstrap.Dropdown(document.getElementById('profileDropdown'));
+                                    dropdown.hide();
+                                }
+
+                                if (loginDropdownMenu && !loginDropdownMenu.contains(event.target) && !document.getElementById('loginDropdown').contains(event.target)) {
+                                    var dropdown = new bootstrap.Dropdown(document.getElementById('loginDropdown'));
+                                    dropdown.hide();
+                                }
+                            });
+                        </script>
+
+                  @*       
                         <ul class="navbar-nav">
                             @if (User.Identity.IsAuthenticated)
                             {
@@ -1026,29 +1161,6 @@
                                             </script>
 
 
-                                     @*    <ul class="list-unstyled p-1">
-                                            <li class="dropdown-item py-2">
-                                                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-body ms-0">
-                                                    <i class="me-2 icon-md" data-feather="user"></i>
-                                                    <span>Profile</span>
-                                                </a>
-                                            </li>
-                                            @if (await User.IsInRoleAsync("Admin", UserManager))
-                                            {
-                                                <li class="dropdown-item py-2">
-                                                    <a asp-area="Identity" asp-page="/Account/Register" class="text-body ms-0">
-                                                        <i class="me-2 icon-md" data-feather="edit"></i>
-                                                        <span>Register</span>
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul> *@
-                                       @*  <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item py-2">
-                                            <button type="submit" class="dropdown-item">
-                                                <i class="me-2 icon-md" data-feather="log-out"></i>
-                                                <span>Log Out</span>
-                                            </button>
-                                        </form> *@
                                             <form id="logoutForm" method="post" asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item py-2">
                                                 <button type="submit" class="dropdown-item">
                                                     <i class="me-2 icon-md" data-feather="log-out"></i>
@@ -1110,7 +1222,7 @@
                                     </div>
                                 </li>
                             }
-                        </ul>
+                        </ul> *@
 
                         <script>
                             // JavaScript to handle dropdown toggle on profile image click
@@ -1152,57 +1264,7 @@
                 <p class="text-muted">Handcrafted With <i class="mb-1 text-primary ms-1 icon-sm" data-feather="heart"></i>4SOFTWARE</p>
             </footer>
         
-           @*  <ul class="navbar-nav">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @User.Identity.Name!</a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="post" asp-area="Identity" asp-page="/Account/Logout">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                        </form>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                    </li>
-                }
-            </ul> *@
-            
-@* 
-            <ul class="navbar-nav">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @User.Identity.Name!</a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="post" asp-area="Identity" asp-page="/Account/Logout">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                        </form>
-                    </li>
-
-                    @if (await User.IsInRoleAsync("Admin", UserManager))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                        </li>
-                    }
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    </li>
-                }
-            </ul>
- *@
+          
             <!-- partial -->
         </div>
 
