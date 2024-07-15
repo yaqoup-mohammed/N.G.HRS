@@ -198,14 +198,14 @@
                         <!-- Col -->
                     </div>
                     <!-- Row -->
-                   
+
                     <br />
                 </form>
                 <div class="form-group">
                     <span class="form-group">
                         <input type="submit" value="حفظ" class="btn btn-primary" />
                     </span>
-                   
+
                     <span>
                         <button id="openFormButton" type="button" class="btn btn-primary">اضفة فترة</button>
                     </span>
@@ -376,9 +376,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            @*                                             <button type="button" id="addButton" class="btn btn-primary">اضافة</button>
-                                            *@                                            <input type="submit" id="submitButton" value="انهاء"
-                                                                                                 class="btn btn-primary" />
+                                            <input type="submit" id="submitButton" value="انهاء"
+                                                   class="btn btn-primary" />
                                         </div>
 
                                     </form>
@@ -428,412 +427,416 @@
                     </div>
 
                 </div>
-                
+            </div>
+        </div>
+    </div>
+</div>
 
-                @* ===================================================== *@
+
+@* ===================================================== *@
 
 
-                @section Scripts {
-                    @{
-                        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            var v = new ValidationFromMe();
+            //================نماذج الدوام ===============
+
+
+            $('#pMFromDate').change(function () {
+                var from = this.value;
+                var to = $('#pMToDate').val();
+                if (this.value != "") {
+                    if (to != "") {
+                        var check = v.isStartDateBeforeEndDate(from, to);
+                        if (check) {
+                            v.softErrorMessage('تاريخ البداية يجب ان  يكون قبل تاريخ النهاية!! ☹');
+                            this.value = "";
+
+                        }
+
                     }
-                    <script>
-                        $(document).ready(function () {
-                            var v = new ValidationFromMe();
-                            //================نماذج الدوام ===============
-
-
-                            $('#pMFromDate').change(function () {
-                                var from = this.value;
-                                var to = $('#pMToDate').val();
-                                if (this.value != "") {
-                                    if (to != "") {
-                                        var check = v.isStartDateBeforeEndDate(from, to);
-                                        if (check) {
-                                            v.softErrorMessage('تاريخ البداية يجب ان  يكون قبل تاريخ النهاية!! ☹');
-                                            this.value = "";
-
-                                        }
-
-                                    }
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك تحديد تاريخ البداية!! ☹');
-                                }
-
-                            });
-                            $('#pMToDate').change(function () {
-                                var to = this.value;
-                                var from = $('#pMFromDate').val();
-                                if (this.value != "") {
-                                    if (from != "") {
-                                        var check = v.isStartDateBeforeEndDate(from, to);
-
-                                        if (check) {
-                                            v.softErrorMessage('تاريخ البداية يجب ان  يكون قبل تاريخ النهاية !! ☹');
-                                            this.value = "";
-                                        }
-
-                                    }
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك تحديد تاريخ البداية!! ☹');
-                                }
-
-                            });
-                            //=======================================
-
-                            const pMFWHCheckBox = document.getElementById("pMFlexibleWorkingHoursCheckBox");
-                            const pMWBTSCheckBox = document.getElementById("pMWorkBetweenTwoShiftsCheckBox");
-                            const pMAttCheckbox = document.getElementById("pMAttendanceCheckbox");
-                            const pMEarlyAttendanceGroup = document.getElementById("pMEarlyAttendanceGroup");
-                            const pMLateAttendanceGroup = document.getElementById("pMLateAttendanceGroup");
-                            const pMFromTimeGroup = document.getElementById("pMFromTimeGroup");
-                            const pMToTimeGroup = document.getElementById("pMToTimeGroup");
-                            const pMHoursGroup = document.getElementById("pMHoursGroup");
-                            // const flexa = document.getElementById("flexbleCheckbox");
-                            // const attendanceCheckbox = document.getElementById("AttendanceCheckbox");
-                            // const earlyattendance = document.getElementById("earlyAttendance");
-                            // const lateattendance = document.getElementById("lateAttendance");
-                            // const hoursInput1 = document.getElementById("nnHours");
-
-                            // Initial state (hide form if checkbox is unchecked)
-                            if (!pMFWHCheckBox.checked || !pMWBTSCheckBox.checked || !pMAttCheckbox.checked) {
-                                pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                pMLateAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                pMEarlyAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                            }
-                            pMFWHCheckBox.addEventListener("change", function () {
-                                if (pMFWHCheckBox.checked) {
-                                    pMWBTSCheckBox.checked = false;
-                                    pMFromTimeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
-                                    pMToTimeGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                                    pMHoursGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-
-
-                                    //============================================
-                                } else {
-                                    pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                    pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                    pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                    $('#pMFromTime').val("");
-                                    $('#pMToTime').val("");
-                                    $('#pMHours').val("");
-                                }
-                            });
-                            //===
-                            pMWBTSCheckBox.addEventListener("change", function () {
-                                if (pMWBTSCheckBox.checked) {
-                                    $('#pMFromTime').val("");
-                                    $('#pMToTime').val("");
-                                    $('#pMHours').val("");
-                                    pMFWHCheckBox.checked = false;
-                                    pMFromTimeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
-                                    pMToTimeGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-                                    pMHoursGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-
-
-                                    //============================================
-                                } else {
-                                    $('#pMFromTime').val("");
-                                    $('#pMToTime').val("");
-                                    $('#pMHours').val("");
-                                    pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                    pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                    pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-
-                                }
-                            });
-                            //===
-                            pMAttCheckbox.addEventListener("change", function () {
-                                if (pMAttCheckbox.checked) {
-                                    $('#pMEarlyAttendance').val("");
-                                    $('#pMLateAttendance').val("");
-                                    pMEarlyAttendanceGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
-                                    pMLateAttendanceGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
-
-
-                                    //============================================
-                                } else {
-                                    $('#pMEarlyAttendance').val("");
-                                    $('#pMLateAttendance').val("");
-                                    pMEarlyAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-                                    pMLateAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
-
-                                }
-                            });
-                            //===
-                            $('#pMFromTime').change(function () {
-                                if (this.value != "") {
-                                    if (pMWBTSCheckBox.checked || pMFWHCheckBox.checked) {
-                                        if ($('#pMToTime').val() != "") {
-                                            var cheack = v.isStartTimeAfterEndTime(this.value, $('#pMToTime').val());
-                                            if (!cheack) {
-                                                var time = v.calculateHoursBetweenWith24(this.value, $('#pMToTime').val());
-                                                $('#pMHours').val(time.hours);
-
-                                            }
-                                            else {
-                                                v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
-                                                $('#pMFromTime').val("");
-                                                $('#pMToTime').val("");
-                                                $('#pMHours').val("");
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        v.softErrorMessage('يجب تحديد على حقل دوام مرن او دوام بين يومين !! ☹');
-                                        $('#pMFromTime').val("");
-                                        $('#pMToTime').val("");
-                                        $('#pMHours').val("");
-                                    }
-
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
-                                }
-
-                            });
-                            $('#pMToTime').change(function () {
-                                if (this.value != "") {
-                                    if (pMWBTSCheckBox.checked || pMFWHCheckBox.checked) {
-                                        if ($('#pMFromTime').val() != "") {
-                                            var cheack = v.isStartTimeAfterEndTime($('#pMFromTime').val(), this.value);
-                                            
-                                            if (!cheack) {
-                                                var time = v.calculateHoursBetweenWith24($('#pMFromTime').val(), this.value);
-                                                $('#pMHours').val(time.hours);
-                                            }
-                                            else {
-                                                v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
-                                                $('#pMFromTime').val("");
-                                                $('#pMToTime').val("");
-                                                $('#pMHours').val("");
-                                            }
-                                        }
-
-                                    }
-                                    else {
-                                        v.softErrorMessage('يجب تحديد على حقل دوام مرن او دوام بين يومين !! ☹');
-                                        $('#pMFromTime').val("");
-                                        $('#pMToTime').val("");
-                                        $('#pMHours').val("");
-                                    }
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك تحديد وقت النهاية!! ☹');
-                                }
-                            });
-                            //====================================================================================================
-                            //                                  =============== Period Js =====================
-                            //====================================================================================================
-
-                            $('#peFromTime').change(function () {
-                                if (this.value != "") {
-                                    if ($('#perToTime').val() != "") {
-                                        var cheack = v.isStartTimeAfterEndTime(this.value, $('#perToTime').val());
-                                        if (!cheack) {
-                                            var time = v.calculateHoursBetweenWith24(this.value, $('#perToTime').val());
-                                            $('#perHours').val(time.hours);
-                                            $('#perMinutes').val(time.minutes);
-                                        }
-                                        else {
-                                            v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
-                                            $('#perMinutes').val("");
-                                            $('#perHours').val("");
-                                        }
-                                    }
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
-                                }
-
-                            });
-                            //===
-                            $('#perToTime').change(function () {
-                                if (this.value != "") {
-                                    if ($('#peFromTime').val() != "") {
-                                        var cheack = v.isStartTimeAfterEndTime($('#peFromTime').val(), this.value);
-                                        if (!cheack) {
-                                            var time = v.calculateHoursBetweenWith24($('#peFromTime').val(), this.value);
-                                            $('#perHours').val(time.hours);
-                                            $('#perMinutes').val(time.minutes);
-                                        }
-                                        else {
-                                            v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
-                                            $('#perMinutes').val("");
-                                            $('#perHours').val("");
-                                            $('#peFromTime').val("");
-                                            $('#perToTime').val("");
-                                        }
-                                    }
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
-                                }
-                            });
-                            //===
-                            $('#periodPermanenceModelsId').change(function () {
-                                if (this.value != "") {
-                                    
-                                }
-                                else {
-                                    v.softErrorMessage('يجب عليك اختيار الدوام !! ☹');
-                                }
-                            });
-                            //===
-
-
-
-
-                            //==========================================
-                            //============================Pub window=============================================================================
-                            let temporaryData = []; // Array to store temporary data
-                            const open = document.getElementById("openForm");
-                            const openFormButton = document.getElementById("openFormButton");
-                            const form = document.getElementById("form");
-                            const closeFormButton = document.getElementById("closeFormButton");
-                            closeFormButton.addEventListener("click", function () {
-                                open.style = `display:none;`;
-                            });
-                            openFormButton.addEventListener("click", function () {
-                                open.style = `
-                                        display:block;
-                                        position: fixed;
-                                            top: 0;
-                                            left: 0;
-                                            width: 100%;
-                                            height: 100%;
-                                            background-color: rgba(0, 0, 0, 0.5);
-                                            backdrop-filter: blur(5px);
-                                            z-index: 1051;`;
-
-                        form.style = `
-                                        width:90%;
-                                        display:block;
-                                        position: fixed;
-                                            top: 50%;
-                                            left: 50%;
-                                            transform: translate(-50%, -50%);
-                                            background-color: #fff;
-                                            padding: 20px;
-                                            border: 1px solid #ccc;
-                                            border-radius: 5px;
-                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                                                    z-index: 1050;
-                                            opacity: 1; /* Initially hidden */
-                                            transition: opacity 0.3s ease-in-out;`;
-                            });
-                            //=========================================
-                            const table = document.getElementById("table");
-                            $("#addButton").click(function () {
-                                const newData = {
-                                    // Add input field names and their corresponding values here
-                                    fieldName1: $("#PeriodsName").val(),
-                                    fieldName2: $("#startTime").val(),
-                                    fieldName3: $("#endTime").val(),
-                                    fieldName4: $("#saturday").val(),
-                                    fieldName5: $("#sunday").val(),
-                                    fieldName6: $("#monday").val(),
-                                    fieldName7: $("#thursday").val(),
-                                    fieldName8: $("#wednesday").val(),
-                                    fieldName9: $("#tuesday").val(),
-                                    fieldName10: $("#friday").val(),
-                                    fieldName11: $("#hours").val(),
-                                    fieldName12: $("#minutes").val(),
-
-                                    // ... add more fields as needed
-                                };
-                                if (
-                                    !newData.fieldName1 ||
-                                    !newData.fieldName2 ||
-                                    !newData.fieldName3
-                                ) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'يرجى إداخال الحقول المطلوبة',
-                                        customClass: {
-                                            confirmButton: 'btn btn-primary'
-                                        },
-                                        buttonsStyling: false
-                                    });
-                                } else {
-                                    table.style = `display:block;`;
-                                    // !newData.fieldName5.checked ? newData.fieldName5.value = false : newData.fieldName5.value = "السبت";
-                                    // !newData.fieldName6.checked ? newData.fieldName6.value = false : newData.fieldName6.value = true;
-                                    // !newData.fieldName7.checked ? newData.fieldName7.value = false : newData.fieldName7.value = true;
-                                    // !newData.fieldName8.checked ? newData.fieldName8.value = false : newData.fieldName8.value = true;
-                                    // !newData.fieldName9.checked ? newData.fieldName9.value = false : newData.fieldName9.value = true;
-                                    // !newData.fieldName10.checked ? newData.fieldName10.value = false : newData.fieldName10.value = true;
-                                    // !newData.fieldName11.checked ? newData.fieldName11.value = false : newData.fieldName11.value = true;
-                                    temporaryData.push(newData); // Add data to temporary array
-                                    $("#temporaryTable").append(`                                                                                                                                                                 `);
-                                    // Clear input fields
-                                    $("#PeriodsName").val("");
-                                    $("#startTime").val("");
-                                    $("#endTime").val("");
-                                    $("#saturday").val("");
-                                    $("#sunday").val("");
-                                    $("#monday").val("");
-                                    $("#thursday").val("");
-                                    $("#wednesday").val("");
-                                    $("#tuesday").val("");
-                                    $("#friday").val("");
-                                    $("#hours").val("");
-                                    $("#minutes").val("");
-                                    // ... clear other input fields
-                                    // Disable submit button if no data (optional)
-                                    $("#submitButton").prop("disabled", temporaryData.length === 0);
-                                }
-                            });
-                        });
-                        $(document).on("click", ".removeButton", function () {
-                            const index = $(this).closest("tr").index();
-                            temporaryData.splice(index, 1);
-                            $(this).closest("tr").remove();
-
-                            // Update submit button state (optional)
-                            $("#submitButton").prop("disabled", temporaryData.length === 0);
-                        });
-
-                        $("#submitButton").click(function () {
-                            const periodsInput = document.getElementById("PeriodsName");
-                            const periodPermanenceModelsId = document.getElementById("periodPermanenceModelsId");
-                            if (!periodsInput.value) {
-                                event.preventDefault(); // Prevent form submission
-
-                                Swal.fire({
-
-                                    icon: 'error',
-                                    title: 'يرجى إدخال الفترة',
-                                    customClass: {
-                                        confirmButton: 'btn btn-primary'
-                                    },
-                                    buttonsStyling: false
-                                });
-                            }
-                            if (periodPermanenceModelsId.value == "") {
-                                event.preventDefault(); // Prevent form submission
-
-                                Swal.fire({
-
-                                    icon: 'error',
-                                    title: 'يرجى إختيار الدوام',
-                                    customClass: {
-                                        confirmButton: 'btn btn-primary'
-                                    },
-                                    buttonsStyling: false
-                                });
-                            }
-                            // // Send data to server using AJAX or other methods
-                            // console.log("Temporary Data:", temporaryData); // Simulate sending to server
-                            $("#submitButton").val(JSON.stringify(temporaryData));
-                            // Clear temporary data and table after submission (optional)
-                            temporaryData = [];
-                            $("#temporaryTable").empty();
-                            $("#submitButton").prop("disabled", true);
-                        });
-                    </script>
                 }
+                else {
+                    v.softErrorMessage('يجب عليك تحديد تاريخ البداية!! ☹');
+                }
+
+            });
+            $('#pMToDate').change(function () {
+                var to = this.value;
+                var from = $('#pMFromDate').val();
+                if (this.value != "") {
+                    if (from != "") {
+                        var check = v.isStartDateBeforeEndDate(from, to);
+
+                        if (check) {
+                            v.softErrorMessage('تاريخ البداية يجب ان  يكون قبل تاريخ النهاية !! ☹');
+                            this.value = "";
+                        }
+
+                    }
+                }
+                else {
+                    v.softErrorMessage('يجب عليك تحديد تاريخ البداية!! ☹');
+                }
+
+            });
+            //=======================================
+
+            const pMFWHCheckBox = document.getElementById("pMFlexibleWorkingHoursCheckBox");
+            const pMWBTSCheckBox = document.getElementById("pMWorkBetweenTwoShiftsCheckBox");
+            const pMAttCheckbox = document.getElementById("pMAttendanceCheckbox");
+            const pMEarlyAttendanceGroup = document.getElementById("pMEarlyAttendanceGroup");
+            const pMLateAttendanceGroup = document.getElementById("pMLateAttendanceGroup");
+            const pMFromTimeGroup = document.getElementById("pMFromTimeGroup");
+            const pMToTimeGroup = document.getElementById("pMToTimeGroup");
+            const pMHoursGroup = document.getElementById("pMHoursGroup");
+            // const flexa = document.getElementById("flexbleCheckbox");
+            // const attendanceCheckbox = document.getElementById("AttendanceCheckbox");
+            // const earlyattendance = document.getElementById("earlyAttendance");
+            // const lateattendance = document.getElementById("lateAttendance");
+            // const hoursInput1 = document.getElementById("nnHours");
+
+            // Initial state (hide form if checkbox is unchecked)
+            if (!pMFWHCheckBox.checked || !pMWBTSCheckBox.checked || !pMAttCheckbox.checked) {
+                pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                pMLateAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                pMEarlyAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+            }
+            pMFWHCheckBox.addEventListener("change", function () {
+                if (pMFWHCheckBox.checked) {
+                    pMWBTSCheckBox.checked = false;
+                    pMFromTimeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
+                    pMToTimeGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+                    pMHoursGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+
+
+                    //============================================
+                } else {
+                    pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                    pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                    pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                    $('#pMFromTime').val("");
+                    $('#pMToTime').val("");
+                    $('#pMHours').val("");
+                }
+            });
+            //===
+            pMWBTSCheckBox.addEventListener("change", function () {
+                if (pMWBTSCheckBox.checked) {
+                    $('#pMFromTime').val("");
+                    $('#pMToTime').val("");
+                    $('#pMHours').val("");
+                    pMFWHCheckBox.checked = false;
+                    pMFromTimeGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
+                    pMToTimeGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+                    pMHoursGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+
+
+                    //============================================
+                } else {
+                    $('#pMFromTime').val("");
+                    $('#pMToTime').val("");
+                    $('#pMHours').val("");
+                    pMFromTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                    pMToTimeGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                    pMHoursGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+
+                }
+            });
+            //===
+            pMAttCheckbox.addEventListener("change", function () {
+                if (pMAttCheckbox.checked) {
+                    $('#pMEarlyAttendance').val("");
+                    $('#pMLateAttendance').val("");
+                    pMEarlyAttendanceGroup.style = `pointer-events:all ; filter: none; opacity: 1;`; // Hide form
+                    pMLateAttendanceGroup.style = `pointer-events: all; filter: none; opacity: 1;`; // Hide form
+
+
+                    //============================================
+                } else {
+                    $('#pMEarlyAttendance').val("");
+                    $('#pMLateAttendance').val("");
+                    pMEarlyAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+                    pMLateAttendanceGroup.style = `pointer-events: none; filter: none; opacity: .4;`; // Display form
+
+                }
+            });
+            //===
+            $('#pMFromTime').change(function () {
+                if (this.value != "") {
+                    if (pMWBTSCheckBox.checked || pMFWHCheckBox.checked) {
+                        if ($('#pMToTime').val() != "") {
+                            var cheack = v.isStartTimeAfterEndTime(this.value, $('#pMToTime').val());
+                            if (!cheack) {
+                                var time = v.calculateHoursBetweenWith24(this.value, $('#pMToTime').val());
+                                $('#pMHours').val(time.hours);
+
+                            }
+                            else {
+                                v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                                $('#pMFromTime').val("");
+                                $('#pMToTime').val("");
+                                $('#pMHours').val("");
+                            }
+                        }
+                    }
+                    else {
+                        v.softErrorMessage('يجب تحديد على حقل دوام مرن او دوام بين يومين !! ☹');
+                        $('#pMFromTime').val("");
+                        $('#pMToTime').val("");
+                        $('#pMHours').val("");
+                    }
+
+                }
+                else {
+                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
+                }
+
+            });
+            $('#pMToTime').change(function () {
+                if (this.value != "") {
+                    if (pMWBTSCheckBox.checked || pMFWHCheckBox.checked) {
+                        if ($('#pMFromTime').val() != "") {
+                            var cheack = v.isStartTimeAfterEndTime($('#pMFromTime').val(), this.value);
+
+                            if (!cheack) {
+                                var time = v.calculateHoursBetweenWith24($('#pMFromTime').val(), this.value);
+                                $('#pMHours').val(time.hours);
+                            }
+                            else {
+                                v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                                $('#pMFromTime').val("");
+                                $('#pMToTime').val("");
+                                $('#pMHours').val("");
+                            }
+                        }
+
+                    }
+                    else {
+                        v.softErrorMessage('يجب تحديد على حقل دوام مرن او دوام بين يومين !! ☹');
+                        $('#pMFromTime').val("");
+                        $('#pMToTime').val("");
+                        $('#pMHours').val("");
+                    }
+                }
+                else {
+                    v.softErrorMessage('يجب عليك تحديد وقت النهاية!! ☹');
+                }
+            });
+            //====================================================================================================
+            //                                  =============== Period Js =====================
+            //====================================================================================================
+
+            $('#peFromTime').change(function () {
+                if (this.value != "") {
+                    if ($('#perToTime').val() != "") {
+                        var cheack = v.isStartTimeAfterEndTime(this.value, $('#perToTime').val());
+                        if (!cheack) {
+                            var time = v.calculateHoursBetweenWith24(this.value, $('#perToTime').val());
+                            $('#perHours').val(time.hours);
+                            $('#perMinutes').val(time.minutes);
+                        }
+                        else {
+                            v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                            $('#perMinutes').val("");
+                            $('#perHours').val("");
+                        }
+                    }
+                }
+                else {
+                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
+                }
+
+            });
+            //===
+            $('#perToTime').change(function () {
+                if (this.value != "") {
+                    if ($('#peFromTime').val() != "") {
+                        var cheack = v.isStartTimeAfterEndTime($('#peFromTime').val(), this.value);
+                        if (!cheack) {
+                            var time = v.calculateHoursBetweenWith24($('#peFromTime').val(), this.value);
+                            $('#perHours').val(time.hours);
+                            $('#perMinutes').val(time.minutes);
+                        }
+                        else {
+                            v.softErrorMessage('وقت البداية يجب ان يكون قبل وقت النهاية !! ☹');
+                            $('#perMinutes').val("");
+                            $('#perHours').val("");
+                            $('#peFromTime').val("");
+                            $('#perToTime').val("");
+                        }
+                    }
+                }
+                else {
+                    v.softErrorMessage('يجب عليك تحديد وقت البداية!! ☹');
+                }
+            });
+            //===
+            $('#periodPermanenceModelsId').change(function () {
+                if (this.value != "") {
+
+                }
+                else {
+                    v.softErrorMessage('يجب عليك اختيار الدوام !! ☹');
+                }
+            });
+            //===
+
+
+
+
+            //==========================================
+            //============================Pub window=============================================================================
+            let temporaryData = []; // Array to store temporary data
+            const open = document.getElementById("openForm");
+            const openFormButton = document.getElementById("openFormButton");
+            const form = document.getElementById("form");
+            const closeFormButton = document.getElementById("closeFormButton");
+            closeFormButton.addEventListener("click", function () {
+                open.style = `display:none;`;
+            });
+            openFormButton.addEventListener("click", function () {
+                open.style = `
+                                                                        display:block;
+                                                                        position: fixed;
+                                                                            top: 0;
+                                                                            left: 0;
+                                                                            width: 100%;
+                                                                            height: 100%;
+                                                                            background-color: rgba(0, 0, 0, 0.5);
+                                                                            backdrop-filter: blur(5px);
+                                                                            z-index: 1051;`;
+
+                form.style = `
+                                                                        width:90%;
+                                                                        display:block;
+                                                                        position: fixed;
+                                                                            top: 50%;
+                                                                            left: 50%;
+                                                                            transform: translate(-50%, -50%);
+                                                                            background-color: #fff;
+                                                                            padding: 20px;
+                                                                            border: 1px solid #ccc;
+                                                                            border-radius: 5px;
+                                                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                                                                                    z-index: 1050;
+                                                                            opacity: 1; /* Initially hidden */
+                                                                            transition: opacity 0.3s ease-in-out;`;
+            });
+            //=========================================
+            const table = document.getElementById("table");
+            $("#addButton").click(function () {
+                const newData = {
+                    // Add input field names and their corresponding values here
+                    fieldName1: $("#PeriodsName").val(),
+                    fieldName2: $("#startTime").val(),
+                    fieldName3: $("#endTime").val(),
+                    fieldName4: $("#saturday").val(),
+                    fieldName5: $("#sunday").val(),
+                    fieldName6: $("#monday").val(),
+                    fieldName7: $("#thursday").val(),
+                    fieldName8: $("#wednesday").val(),
+                    fieldName9: $("#tuesday").val(),
+                    fieldName10: $("#friday").val(),
+                    fieldName11: $("#hours").val(),
+                    fieldName12: $("#minutes").val(),
+
+                    // ... add more fields as needed
+                };
+                if (
+                    !newData.fieldName1 ||
+                    !newData.fieldName2 ||
+                    !newData.fieldName3
+                ) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يرجى إداخال الحقول المطلوبة',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        buttonsStyling: false
+                    });
+                } else {
+                    table.style = `display:block;`;
+                    // !newData.fieldName5.checked ? newData.fieldName5.value = false : newData.fieldName5.value = "السبت";
+                    // !newData.fieldName6.checked ? newData.fieldName6.value = false : newData.fieldName6.value = true;
+                    // !newData.fieldName7.checked ? newData.fieldName7.value = false : newData.fieldName7.value = true;
+                    // !newData.fieldName8.checked ? newData.fieldName8.value = false : newData.fieldName8.value = true;
+                    // !newData.fieldName9.checked ? newData.fieldName9.value = false : newData.fieldName9.value = true;
+                    // !newData.fieldName10.checked ? newData.fieldName10.value = false : newData.fieldName10.value = true;
+                    // !newData.fieldName11.checked ? newData.fieldName11.value = false : newData.fieldName11.value = true;
+                    temporaryData.push(newData); // Add data to temporary array
+                    $("#temporaryTable").append(`                                                                                                                                                                 `);
+                    // Clear input fields
+                    $("#PeriodsName").val("");
+                    $("#startTime").val("");
+                    $("#endTime").val("");
+                    $("#saturday").val("");
+                    $("#sunday").val("");
+                    $("#monday").val("");
+                    $("#thursday").val("");
+                    $("#wednesday").val("");
+                    $("#tuesday").val("");
+                    $("#friday").val("");
+                    $("#hours").val("");
+                    $("#minutes").val("");
+                    // ... clear other input fields
+                    // Disable submit button if no data (optional)
+                    $("#submitButton").prop("disabled", temporaryData.length === 0);
+                }
+            });
+        });
+        $(document).on("click", ".removeButton", function () {
+            const index = $(this).closest("tr").index();
+            temporaryData.splice(index, 1);
+            $(this).closest("tr").remove();
+
+            // Update submit button state (optional)
+            $("#submitButton").prop("disabled", temporaryData.length === 0);
+        });
+
+        $("#submitButton").click(function () {
+            const periodsInput = document.getElementById("PeriodsName");
+            const periodPermanenceModelsId = document.getElementById("periodPermanenceModelsId");
+            if (!periodsInput.value) {
+                event.preventDefault(); // Prevent form submission
+
+                Swal.fire({
+
+                    icon: 'error',
+                    title: 'يرجى إدخال الفترة',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+            if (periodPermanenceModelsId.value == "") {
+                event.preventDefault(); // Prevent form submission
+
+                Swal.fire({
+
+                    icon: 'error',
+                    title: 'يرجى إختيار الدوام',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+            // // Send data to server using AJAX or other methods
+            // console.log("Temporary Data:", temporaryData); // Simulate sending to server
+            $("#submitButton").val(JSON.stringify(temporaryData));
+            // Clear temporary data and table after submission (optional)
+            temporaryData = [];
+            $("#temporaryTable").empty();
+            $("#submitButton").prop("disabled", true);
+        });
+    </script>
+}
