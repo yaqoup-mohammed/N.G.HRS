@@ -111,13 +111,12 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
             [Display(Name = "Female Photo")]
             public bool FemalePhoto { get; set; }
 
+            [Display(Name = "Profile Permission")]
+            public bool ProfilePermission { get; set; }
+
         }
 
-        //public async Task OnGetAsync(string returnUrl = null)
-        //{
-        //    ReturnUrl = returnUrl;
-        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        //}
+       
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -132,12 +131,25 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
         }
 
 
+
         //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         //{
         //    returnUrl ??= Url.Content("~/");
         //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         //    if (ModelState.IsValid)
         //    {
+        //        // استعلام عن بيانات الموظف باستخدام الرقم الوظيفي
+        //        var employee = await _context.employee
+        //            .Include(e => e.personalData)
+        //            .ThenInclude(pd => pd.Sex)
+        //            .FirstOrDefaultAsync(e => e.EmployeeNumber == Input.EmployeeNumberJop);
+
+        //        if (employee == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
+        //            return Page();
+        //        }
+
         //        var user = CreateUser();
 
         //        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -148,13 +160,17 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
         //        {
         //            _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
 
-        //            // Add roles based on checkboxes
+        //            // إضافة الأدوار بناءً على الاختيارات
         //            await EnsureRoleExistsAsync("Add");
         //            await EnsureRoleExistsAsync("Edit");
         //            await EnsureRoleExistsAsync("View");
         //            await EnsureRoleExistsAsync("Admin");
         //            await EnsureRoleExistsAsync("Delete");
         //            await EnsureRoleExistsAsync("Details");
+        //            await EnsureRoleExistsAsync("MalePhoto");
+        //            await EnsureRoleExistsAsync("FemalePhoto");
+        //            await EnsureRoleExistsAsync("Profile");
+
 
         //            if (Input.AddPermission)
         //            {
@@ -179,16 +195,22 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
         //            if (Input.DetailsPermission)
         //            {
         //                await _userManager.AddToRoleAsync(user, "Details");
-        //            } 
-        //            //if (Input.MalePhotoPermission)
-        //            //{
-        //            //    await _userManager.AddToRoleAsync(user, "MalePhoto");
-        //            //} if (Input.FemalePhotoPermission)
-        //            //{
-        //            //    await _userManager.AddToRoleAsync(user, "FemalePhoto");
-        //            //}
+        //            } if (Input.ProfilePermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Profile");
+        //            }
 
-        //            // Confirm email and unlock account
+        //            // إضافة صلاحيات الصور بناءً على الجنس
+        //            if (employee.personalData.Sex.Name == "ذكر" && Input.MalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "MalePhoto");
+        //            }
+        //            else if (employee.personalData.Sex.Name == "أنثى" && Input.FemalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "FemalePhoto");
+        //            }
+
+        //            // تأكيد البريد الإلكتروني وإلغاء قفل الحساب
         //            user.EmailConfirmed = true;
         //            user.LockoutEnabled = false;
         //            await _userManager.UpdateAsync(user);
@@ -221,7 +243,133 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
         //        }
         //    }
 
-        //    // If we got this far, something failed, redisplay form
+        //    // إذا وصلنا إلى هنا، فإن شيئًا ما قد فشل، وأعد عرض النموذج
+        //    return Page();
+        //}
+        //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        //{
+        //    returnUrl ??= Url.Content("~/");
+        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        //    if (ModelState.IsValid)
+        //    {
+        //        // استعلام عن بيانات الموظف باستخدام الرقم الوظيفي
+        //        var employee = await _context.employee
+        //            .Include(e => e.personalData)
+        //            .ThenInclude(pd => pd.Sex)
+        //            .FirstOrDefaultAsync(e => e.EmployeeNumber == Input.EmployeeNumberJop);
+
+        //        if (employee == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "البيانات الشخصية للموظف غير موجودة.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData.Sex == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "الجنس غير محدد في البيانات الشخصية للموظف.");
+        //            return Page();
+        //        }
+
+        //        var user = CreateUser();
+
+        //        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        //        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        //        var result = await _userManager.CreateAsync(user, Input.Password);
+
+        //        if (result.Succeeded)
+        //        {
+        //            _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
+
+        //            // إضافة الأدوار بناءً على الاختيارات
+        //            await EnsureRoleExistsAsync("Add");
+        //            await EnsureRoleExistsAsync("Edit");
+        //            await EnsureRoleExistsAsync("View");
+        //            await EnsureRoleExistsAsync("Admin");
+        //            await EnsureRoleExistsAsync("Delete");
+        //            await EnsureRoleExistsAsync("Details");
+        //            await EnsureRoleExistsAsync("MalePhoto");
+        //            await EnsureRoleExistsAsync("FemalePhoto");
+        //            await EnsureRoleExistsAsync("Profile");
+
+        //            if (Input.AddPermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Add");
+        //            }
+        //            if (Input.EditPermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Edit");
+        //            }
+        //            if (Input.ViewPermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "View");
+        //            }
+        //            if (Input.AdminPermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Admin");
+        //            }
+        //            if (Input.DeletePermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Delete");
+        //            }
+        //            if (Input.DetailsPermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Details");
+        //            }
+        //            if (Input.ProfilePermission)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "Profile");
+        //            }
+
+        //            // إضافة صلاحيات الصور بناءً على الجنس
+        //            if (employee.personalData.Sex.Name == "Male" && Input.MalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "MalePhoto");
+        //            }
+        //            else if (employee.personalData.Sex.Name == "Female" && Input.FemalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "FemalePhoto");
+        //            }
+
+        //            // تأكيد البريد الإلكتروني وإلغاء قفل الحساب
+        //            user.EmailConfirmed = true;
+        //            user.LockoutEnabled = false;
+        //            await _userManager.UpdateAsync(user);
+
+        //            var userId = await _userManager.GetUserIdAsync(user);
+        //            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        //            var callbackUrl = Url.Page(
+        //                "/Account/ConfirmEmail",
+        //                pageHandler: null,
+        //                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+        //                protocol: Request.Scheme);
+
+        //            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+        //                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+        //            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+        //            {
+        //                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+        //            }
+        //            else
+        //            {
+        //                await _signInManager.SignInAsync(user, isPersistent: false);
+        //                return LocalRedirect(returnUrl);
+        //            }
+        //        }
+        //        foreach (var error in result.Errors)
+        //        {
+        //            ModelState.AddModelError(string.Empty, error.Description);
+        //        }
+        //    }
+
+        //    // إذا وصلنا إلى هنا، فإن شيئًا ما قد فشل، وأعد عرض النموذج
         //    return Page();
         //}
 
@@ -232,7 +380,6 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                // استعلام عن بيانات الموظف باستخدام الرقم الوظيفي
                 var employee = await _context.employee
                     .Include(e => e.personalData)
                     .ThenInclude(pd => pd.Sex)
@@ -241,6 +388,18 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
                 if (employee == null)
                 {
                     ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
+                    return Page();
+                }
+
+                if (employee.personalData == null)
+                {
+                    ModelState.AddModelError(string.Empty, "البيانات الشخصية للموظف غير موجودة.");
+                    return Page();
+                }
+
+                if (employee.personalData.Sex == null)
+                {
+                    ModelState.AddModelError(string.Empty, "الجنس غير محدد في البيانات الشخصية للموظف.");
                     return Page();
                 }
 
@@ -254,52 +413,35 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
 
-                    // إضافة الأدوار بناءً على الاختيارات
-                    await EnsureRoleExistsAsync("Add");
-                    await EnsureRoleExistsAsync("Edit");
-                    await EnsureRoleExistsAsync("View");
-                    await EnsureRoleExistsAsync("Admin");
-                    await EnsureRoleExistsAsync("Delete");
-                    await EnsureRoleExistsAsync("Details");
-                    await EnsureRoleExistsAsync("MalePhoto");
-                    await EnsureRoleExistsAsync("FemalePhoto");
+                    var roles = new List<string>
+            {
+                "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile"
+            };
 
-                    if (Input.AddPermission)
+                    if (Input.AddPermission) roles.Add("Add");
+                    if (Input.EditPermission) roles.Add("Edit");
+                    if (Input.ViewPermission) roles.Add("View");
+                    if (Input.AdminPermission) roles.Add("Admin");
+                    if (Input.DeletePermission) roles.Add("Delete");
+                    if (Input.DetailsPermission) roles.Add("Details");
+                    if (Input.ProfilePermission) roles.Add("Profile");
+
+                    foreach (var role in roles)
                     {
-                        await _userManager.AddToRoleAsync(user, "Add");
-                    }
-                    if (Input.EditPermission)
-                    {
-                        await _userManager.AddToRoleAsync(user, "Edit");
-                    }
-                    if (Input.ViewPermission)
-                    {
-                        await _userManager.AddToRoleAsync(user, "View");
-                    }
-                    if (Input.AdminPermission)
-                    {
-                        await _userManager.AddToRoleAsync(user, "Admin");
-                    }
-                    if (Input.DeletePermission)
-                    {
-                        await _userManager.AddToRoleAsync(user, "Delete");
-                    }
-                    if (Input.DetailsPermission)
-                    {
-                        await _userManager.AddToRoleAsync(user, "Details");
+                        await EnsureRoleExistsAsync(role);
+                        await _userManager.AddToRoleAsync(user, role);
                     }
 
-                    // إضافة صلاحيات الصور بناءً على الجنس
-                    if (employee.personalData.Sex.Name == "Male" && Input.MalePhoto)
+                    // استخدام SexId بدلاً من Sex.Name
+                    if (employee.personalData.SexId == 1 && Input.MalePhoto)
                     {
                         await _userManager.AddToRoleAsync(user, "MalePhoto");
                     }
-                    else if (employee.personalData.Sex.Name == "Female" && Input.FemalePhoto)
+                    else if (employee.personalData.SexId == 2 && Input.FemalePhoto)
                     {
                         await _userManager.AddToRoleAsync(user, "FemalePhoto");
                     }
 
-                    // تأكيد البريد الإلكتروني وإلغاء قفل الحساب
                     user.EmailConfirmed = true;
                     user.LockoutEnabled = false;
                     await _userManager.UpdateAsync(user);
@@ -332,9 +474,110 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
                 }
             }
 
-            // إذا وصلنا إلى هنا، فإن شيئًا ما قد فشل، وأعد عرض النموذج
             return Page();
         }
+
+        //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        //{
+        //    returnUrl ??= Url.Content("~/");
+        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        //    if (ModelState.IsValid)
+        //    {
+        //        var employee = await _context.employee
+        //            .Include(e => e.personalData)
+        //            .ThenInclude(pd => pd.Sex)
+        //            .FirstOrDefaultAsync(e => e.EmployeeNumber == Input.EmployeeNumberJop);
+
+        //        if (employee == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "البيانات الشخصية للموظف غير موجودة.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData.Sex == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "الجنس غير محدد في البيانات الشخصية للموظف.");
+        //            return Page();
+        //        }
+
+        //        var user = CreateUser();
+
+        //        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        //        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        //        var result = await _userManager.CreateAsync(user, Input.Password);
+
+        //        if (result.Succeeded)
+        //        {
+        //            _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
+
+        //            var roles = new List<string>
+        //    {
+        //        "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile"
+        //    };
+
+        //            if (Input.AddPermission) roles.Add("Add");
+        //            if (Input.EditPermission) roles.Add("Edit");
+        //            if (Input.ViewPermission) roles.Add("View");
+        //            if (Input.AdminPermission) roles.Add("Admin");
+        //            if (Input.DeletePermission) roles.Add("Delete");
+        //            if (Input.DetailsPermission) roles.Add("Details");
+        //            if (Input.ProfilePermission) roles.Add("Profile");
+
+        //            foreach (var role in roles)
+        //            {
+        //                await EnsureRoleExistsAsync(role);
+        //                await _userManager.AddToRoleAsync(user, role);
+        //            }
+
+        //            if (employee.personalData.Sex.Name == "Male" && Input.MalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "MalePhoto");
+        //            }
+        //            else if (employee.personalData.Sex.Name == "Female" && Input.FemalePhoto)
+        //            {
+        //                await _userManager.AddToRoleAsync(user, "FemalePhoto");
+        //            }
+
+        //            user.EmailConfirmed = true;
+        //            user.LockoutEnabled = false;
+        //            await _userManager.UpdateAsync(user);
+
+        //            var userId = await _userManager.GetUserIdAsync(user);
+        //            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        //            var callbackUrl = Url.Page(
+        //                "/Account/ConfirmEmail",
+        //                pageHandler: null,
+        //                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+        //                protocol: Request.Scheme);
+
+        //            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+        //                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+        //            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+        //            {
+        //                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+        //            }
+        //            else
+        //            {
+        //                await _signInManager.SignInAsync(user, isPersistent: false);
+        //                return LocalRedirect(returnUrl);
+        //            }
+        //        }
+        //        foreach (var error in result.Errors)
+        //        {
+        //            ModelState.AddModelError(string.Empty, error.Description);
+        //        }
+        //    }
+
+        //    return Page();
+        //}
 
         [HttpGet("ValidateEmployeeNumber")]
         public async Task<IActionResult> ValidateEmployeeNumber(int employeeNumber)
@@ -389,184 +632,3 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
 }
 
 
-
-//// Licensed to the .NET Foundation under one or more agreements.
-//// The .NET Foundation licenses this file to you under the MIT license.
-//#nullable disable
-
-//using System;
-//using System.Collections.Generic;
-//using System.ComponentModel.DataAnnotations;
-//using System.Linq;
-//using System.Text;
-//using System.Text.Encodings.Web;
-//using System.Threading;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Authentication;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Identity;
-//using Microsoft.AspNetCore.Identity.UI.Services;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
-//using Microsoft.AspNetCore.WebUtilities;
-//using Microsoft.Extensions.Logging;
-
-//namespace N.G.HRS.Areas.Identity.Pages.Account
-//{
-//    public class RegisterModel : PageModel
-//    {
-//        private readonly SignInManager<IdentityUser> _signInManager;
-//        private readonly UserManager<IdentityUser> _userManager;
-//        private readonly IUserStore<IdentityUser> _userStore;
-//        private readonly IUserEmailStore<IdentityUser> _emailStore;
-//        private readonly ILogger<RegisterModel> _logger;
-//        private readonly IEmailSender _emailSender;
-
-//        public RegisterModel(
-//            UserManager<IdentityUser> userManager,
-//            IUserStore<IdentityUser> userStore,
-//            SignInManager<IdentityUser> signInManager,
-//            ILogger<RegisterModel> logger,
-//            IEmailSender emailSender)
-//        {
-//            _userManager = userManager;
-//            _userStore = userStore;
-//            _emailStore = GetEmailStore();
-//            _signInManager = signInManager;
-//            _logger = logger;
-//            _emailSender = emailSender;
-//        }
-
-//        /// <summary>
-//        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//        ///     directly from your code. This API may change or be removed in future releases.
-//        /// </summary>
-//        [BindProperty]
-//        public InputModel Input { get; set; }
-
-//        /// <summary>
-//        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//        ///     directly from your code. This API may change or be removed in future releases.
-//        /// </summary>
-//        public string ReturnUrl { get; set; }
-
-//        /// <summary>
-//        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//        ///     directly from your code. This API may change or be removed in future releases.
-//        /// </summary>
-//        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-//        /// <summary>
-//        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//        ///     directly from your code. This API may change or be removed in future releases.
-//        /// </summary>
-//        public class InputModel
-//        {
-//            /// <summary>
-//            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//            ///     directly from your code. This API may change or be removed in future releases.
-//            /// </summary>
-//            [Required]
-//            [EmailAddress]
-//            [Display(Name = "Email")]
-//            public string Email { get; set; }
-
-//            /// <summary>
-//            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//            ///     directly from your code. This API may change or be removed in future releases.
-//            /// </summary>
-//            [Required]
-//            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-//            [DataType(DataType.Password)]
-//            [Display(Name = "Password")]
-//            public string Password { get; set; }
-
-//            /// <summary>
-//            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-//            ///     directly from your code. This API may change or be removed in future releases.
-//            /// </summary>
-//            [DataType(DataType.Password)]
-//            [Display(Name = "Confirm password")]
-//            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-//            public string ConfirmPassword { get; set; }
-//        }
-
-
-//        public async Task OnGetAsync(string returnUrl = null)
-//        {
-//            ReturnUrl = returnUrl;
-//            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-//        }
-
-//        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-//        {
-//            returnUrl ??= Url.Content("~/");
-//            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-//            if (ModelState.IsValid)
-//            {
-//                var user = CreateUser();
-
-//                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-//                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-//                var result = await _userManager.CreateAsync(user, Input.Password);
-
-//                if (result.Succeeded)
-//                {
-//                    _logger.LogInformation("User created a new account with password.");
-
-//                    var userId = await _userManager.GetUserIdAsync(user);
-//                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-//                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-//                    var callbackUrl = Url.Page(
-//                        "/Account/ConfirmEmail",
-//                        pageHandler: null,
-//                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-//                        protocol: Request.Scheme);
-
-//                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-//                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-//                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-//                    {
-//                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-//                    }
-//                    else
-//                    {
-//                        await _signInManager.SignInAsync(user, isPersistent: false);
-//                        return LocalRedirect(returnUrl);
-//                    }
-//                }
-//                foreach (var error in result.Errors)
-//                {
-//                    ModelState.AddModelError(string.Empty, error.Description);
-//                }
-//            }
-
-//            // If we got this far, something failed, redisplay form
-//            return Page();
-//        }
-
-//        private IdentityUser CreateUser()
-//        {
-//            try
-//            {
-//                return Activator.CreateInstance<IdentityUser>();
-//            }
-//            catch
-//            {
-//                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-//                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-//                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-//            }
-//        }
-
-//        private IUserEmailStore<IdentityUser> GetEmailStore()
-//        {
-//            if (!_userManager.SupportsUserEmail)
-//            {
-//                throw new NotSupportedException("The default UI requires a user store with email support.");
-//            }
-//            return (IUserEmailStore<IdentityUser>)_userStore;
-//        }
-//    }
-//}

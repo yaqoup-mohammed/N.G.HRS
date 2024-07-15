@@ -2,85 +2,122 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Employee";
+    ViewData["Title"] = "الاستحقاقات وإستقطاعات   ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Active"] = "AddEmployee";
     ViewData["Open"] = "Open2";
     ViewData["OpenOperation"] = "OpenOperation2";
 }
-<div class="card">
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="../../../dashboard.html"> الرئيسة</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            تهيئة النظام
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+           الرواتب والاجور
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a asp-action="Index">
+                دليل إستحقاقات وإستقطاعات
+            </a>
 
+        </li>
+    </ol>
+</nav>
+
+<div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3> إستحقاقات وإستقطاعات   </h3>
+                        <h3> دليل إستحقاقات وإستقطاعات   </h3>
                     </div>
                     <div class="card-body">
                         <form asp-action="Create" id="entitlementForm">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="EmployeeId" class="control-label"></label>
-                                <select asp-for="EmployeeId" class="js-example-basic-single form-select" asp-items="ViewBag.EmployeeId">
-                                    <option value="" selected disabled></option>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label asp-for="EmployeeId" class="control-label"></label>
+                                    <select asp-for="EmployeeId" class="js-example-basic-single form-select" asp-items="ViewBag.EmployeeId">
+                                        <option value="" selected disabled></option>
 
-                                </select>
-                                <span asp-validation-for="EmployeeId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Date" class="control-label"></label>
-                                <input asp-for="Date" id="dateId" class="form-control" />
-                                <span asp-validation-for="Date" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Month" class="control-label"></label>
-                                <input asp-for="Month" id="monthId" class="form-control" />
-                                <span asp-validation-for="Month" class="text-danger"></span>
+                                    </select>
+                                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                                </div>  
+                            </div>  
+                            
+                            <div class="row">
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Date" class="form-label"></label><span class="text-danger">*</span>
+                                    <div class="input-group flatpickr flatpickr-date" id="flatpickr-date">
+                                        <input asp-for="Date" id="DateOfStartWork" class="form-control" placeholder="أدخل التاريخ"
+                                               data-input />
+                                        <span class="input-group-text input-group-addon" data-toggle>
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                        <span asp-validation-for="Date" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6 mb-3">
+                                    <label asp-for="Month" class="control-label"></label>
+                                    <input asp-for="Month" id="monthId" class="form-control" />
+                                    <span asp-validation-for="Month" class="text-danger"></span>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label asp-for="Type" class="control-label"></label>
-                                <select asp-for="Type" id="typeId" class="form-control">
-                                    <option value="" selected disabled></option>
-                                    <option value="1">إستحقاقات</option>
-                                    <option value="2">استقطاعات</option>
-                                </select>
-                                <span asp-validation-for="Type" class="text-danger"></span>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 mb-3">
+                                    <label asp-for="Type" class="control-label"></label>
+                                    <select asp-for="Type" id="typeId" class="js-example-basic-single form-control ">
+                                        <option value="" selected disabled></option>
+                                        <option value="1">إستحقاقات</option>
+                                        <option value="2">استقطاعات</option>
+                                    </select>
+                                    <span asp-validation-for="Type" class="text-danger"></span>
+                                </div>
+                                @* <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
+                                    </label>
+                                    <span asp-validation-for="Taxable" class="text-danger"></span>
+                                </div> *@
+                                <div class="form-group col-md-6 mb-3">
+                                    <label asp-for="FinanceAccountTypeId" class="control-label"></label>
+                                    <select asp-for="FinanceAccountTypeId" class="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
+                                    <span asp-validation-for="FinanceAccountTypeId" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="Taxable" /> @Html.DisplayNameFor(model => model.Taxable)
-                                </label>
-                                <span asp-validation-for="Taxable" class="text-danger"></span>
+                            <div class="row">
+                                <div class="form-group col-md-4 mb-3">
+                                    <label asp-for="Amount" class="control-label"></label>
+                                    <input asp-for="Amount" class="form-control" />
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4 mb-3">
+                                    <label asp-for="Percentage" class="control-label"></label>
+                                    <input asp-for="Percentage" class="form-control" />
+                                    <span asp-validation-for="Percentage" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4 mb-3 ">
+                                    <label asp-for="CurrencyId" class="control-label"></label>
+                                    <select asp-for="CurrencyId" class="js-example-basic-single form-control" asp-items="ViewBag.CurrencyId"></select>
+                                    <span asp-validation-for="CurrencyId" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="FinanceAccountTypeId" class="control-label"></label>
-                                <select asp-for="FinanceAccountTypeId" class="form-control" asp-items="ViewBag.FinanceAccountTypeId"></select>
-                                <span asp-validation-for="FinanceAccountTypeId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Amount" class="control-label"></label>
-                                <input asp-for="Amount" class="form-control" />
-                                <span asp-validation-for="Amount" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Percentage" class="control-label"></label>
-                                <input asp-for="Percentage" class="form-control" />
-                                <span asp-validation-for="Percentage" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="CurrencyId" class="control-label"></label>
-                                <select asp-for="CurrencyId" class="form-control" asp-items="ViewBag.CurrencyId"></select>
-                                <span asp-validation-for="CurrencyId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-12 mb-3">
                                 <label asp-for="Note" class="control-label"></label>
                                 <input asp-for="Note" class="form-control" />
                                 <span asp-validation-for="Note" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <input type="submit" id="submit" value="Create" class="btn btn-primary" />
+                            <div class="form-group col-md-12 ">
+                                <input type="submit" id="submit" value="حفظ" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-light" style="color;white">رجوع للقائمة </a>
 
                             </div>

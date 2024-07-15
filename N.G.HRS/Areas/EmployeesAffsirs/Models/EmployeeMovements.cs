@@ -27,10 +27,12 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Models
         //==============================================
         [Display(Name = "الموظف")]
         public int? EmployeeId { get; set; }
+        [Display(Name = "الموظف")]
         public Employee? Employee { get; set; }
         //==============================================
         [Display(Name = "الوظيفة")]
         public int? jopdescriptionId { get; set; }
+
         public JobDescription? jopdescription { get; set; }
 
 

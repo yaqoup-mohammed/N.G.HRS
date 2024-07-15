@@ -1,7 +1,54 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "إنشاء حساب جديد";
+}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .btn-yellow {
+        background-color: #ffc107; /* لون أصفر */
+        border-color: #ffc107; /* لون أصفر */
+        color: black; /* لون النص */
+        font-size: 1.25rem; /* تكبير حجم الخط */
+    }
+</style>
+
+<div class="modal" tabindex="-1" role="dialog" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title text-center">@ViewData["Title"]</h5>
+            </div>
+            <div class="modal-body text-center">
+                @{
+                    if (@Model.DisplayConfirmAccountLink)
+                    {
+                        <p>
+                            <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-yellow btn-lg">انقر هنا لتأكيد حسابك</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك.
+                        </p>
+                    }
+                }
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-yellow" onclick="window.location.href='@Url.Content("~/")'">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* @page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "أنشاء حساب جديد";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,8 +56,8 @@
     if (@Model.DisplayConfirmAccountLink)
     {
 <p>
-            لا يحتوي هذا التطبيق حاليا على مرسل بريد إلكتروني حقيقي مسجل ، راجع <a href="https://aka.ms/aspaccountconf">هذه المستندات</a> لمعرفة كيفية تكوين مرسل بريد إلكتروني حقيقي.
-            عادة ما يتم إرسال هذا عبر البريد الإلكتروني: <a id="confirm-link" href="@Model.EmailConfirmationUrl">انقر هنا لتأكيد حسابك</a>
+            <a href="https://aka.ms/aspaccountconf"></a> 
+             <a id="confirm-link" href="@Model.EmailConfirmationUrl">انقر هنا لتأكيد حسابك</a>
 </p>
     }
     else
@@ -21,3 +68,4 @@
     }
 }
 
+ *@

@@ -23,7 +23,7 @@
             تهيئة بيانات الحظور والانصراف
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            <a asp-action="Index">الارصدة الافتتاحية للاجازات</a>
+            <a asp-action="Index"> دليل الارصدة الافتتاحية للاجازات </a>
         </li>
     </ol>
 </nav>
@@ -32,16 +32,14 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title"> الارصدة الافتتاحية للاجازات</h6>
+                <h6 class="card-title">دليل الارصدة الافتتاحية للاجازات</h6>
 
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
                     <!-- Row -->
-                    <div class="row">
-
-
+                   <div class="row">
                         <div class="col-sm-5">
                             <label asp-for="EmployeeId" class="form-label"></label>
                             <select asp-for="EmployeeId" id="Employee" class="js-example-basic-single  form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
@@ -65,8 +63,8 @@
                                 </div>
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
-                            </div>
-                    <br />
+                   </div>
+                        <br />
                     <div class="row">
                         <div class="col-sm-5">
                             <label asp-for="BalanceYear" class="form-label"></label>
@@ -92,7 +90,7 @@
                     </div>
                     <br />
                     <div class="form-group">
-                        <input type="submit" value="Create" id="Submit11" class="btn btn-primary" />
+                        <input type="submit" value="حفظ" id="Submit11" class="btn btn-primary" />
                         <a asp-action="Index" class="btn btn-light">رجوع للقائمة</a>
 
                     </div>

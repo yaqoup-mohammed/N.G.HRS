@@ -9,9 +9,10 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
 
         public int Id { get; set; }
-        public int EmployeeId { get; set; }
         [Display(Name = "الموظف")]
 
+        public int EmployeeId { get; set; }
+        [Display(Name ="الموظف")]
         public Employee? Employee { get; set; }
 
         [Required(ErrorMessage = "الرجاء تحديد التاريخ")]
@@ -20,17 +21,15 @@ namespace N.G.HRS.Areas.PayRoll.Models
 
         public DateTime Date { get; set; }
         [Required(ErrorMessage = "الرجاء تحديد التقسيط")]
-        [Display(Name = "التقسيط")]
+        [Display(Name = "تاريخ بداية التقسيط")]
         [DataType(DataType.Date)]
  
         public DateTime InstallmentStartDate { get; set; }//تاريخ بداية التقسيط
+        [Display(Name = "العملة")]
         public int CurrencyId { get; set; }
         [Display(Name = "العملة")]
-
         public Currency? Currency { get; set; }
         [Display(Name = "التوقيف")]
-
-    
         public bool Arrest { get; set; }// ايقاف التقسيط
         [Required(ErrorMessage = "الرجاء تحديد المبلغ")]
         [Display(Name = "المبلغ")]
@@ -44,7 +43,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         [Display(Name = " عدد الشهور التقسيط")]
 
         public double NumberOfInstallmentMonths { get; set; }// عدد الشهور التقسيط
-        [Display(Name = " الملاحضات")]
+        [Display(Name = "الملاحظة")]
         public string? Notes { get; set; }
     }
 }

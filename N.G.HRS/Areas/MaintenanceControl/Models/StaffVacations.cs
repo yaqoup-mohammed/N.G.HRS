@@ -60,6 +60,7 @@ namespace N.G.HRS.Areas.MaintenanceControl.Models
         public string? Reason { get; set; }
         [Display(Name = "الملاحظة")]
         public bool IsProcssessed { get; set; }
+        [Display(Name = "الملاحظة")]
         public string? Note { get; set; }
 
 
