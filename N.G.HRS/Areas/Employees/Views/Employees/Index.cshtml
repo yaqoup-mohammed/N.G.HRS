@@ -76,7 +76,7 @@
                                                         <img src="~/Upload/@(employee.personalData.Sex.Name == "ذكر" ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
                                                         <div class="overlay">
                                                             <span class="expand">+</span>
-                                                        </div>
+                                                        </div>   
                                                     </a>
                                                 }
                                             }
@@ -363,13 +363,13 @@
                                             <a asp-action="profile" class="btn btn-primary" asp-route-id="@employee.Id">profile</a>|
                                         </authorize>
                                         <authorize policy="DetailsPolicy">
-                                            <a asp-action="details" class="btn btn-primary" asp-route-id="@employee.Id">Details</a> |
+                                            <a asp-action="details" class="btn btn-primary" asp-route-id="@employee.Id">التفاصيل</a> |
                                         </authorize>
                                         <authorize policy="EditPolicy">
-                                            <a asp-action="Edit" class="btn btn-primary" asp-route-id="@employee.Id">Edit</a> |
+                                            <a asp-action="Edit" class="btn btn-primary" asp-route-id="@employee.Id">تعديل</a> |
                                         </authorize>
                                         <authorize policy="DeletePolicy">
-                                            <a asp-action="Delete" class="btn btn-danger" id="emploteeDelete" asp-route-id="@employee.Id">Delete</a>
+                                            <a asp-action="Delete" class="btn btn-danger" id="emploteeDelete" asp-route-id="@employee.Id">حذف</a>
                                         </authorize>
                                     </td>
                                 </tr>
