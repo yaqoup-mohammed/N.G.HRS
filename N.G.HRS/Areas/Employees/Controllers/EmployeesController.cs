@@ -1875,6 +1875,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
             //-----------------------Sections---------------------------
             var Sections = await _sectionsrepository.GetAllAsync();
             ViewData["Sections"] = new SelectList(Sections, "Id", "SectionsName");
+            var employee = await _employeeRepository.GetAllAsync();
+            ViewData["Employee"] = new SelectList(Sections, "Id", "EmployeeName");
             //-----------------------Departments---------------------------
             var Departments = await _departmentsrepository.GetAllAsync();
             ViewData["Departments"] = new SelectList(Departments, "Id", "SubAdministration");
@@ -2024,6 +2026,8 @@ namespace N.G.HRS.Areas.Employees.Controllers
 
         public async Task<IActionResult> Salaryrevealed()
         {
+            await PopulateDropdownListsAsync();
+
             var employee = await _context.employee.ToListAsync();
             var section = await _context.Sections.ToListAsync();
             var department = await _context.Departments.ToListAsync();
