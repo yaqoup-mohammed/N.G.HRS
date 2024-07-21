@@ -20,7 +20,7 @@ namespace N.G.HRS.Areas.PayRoll.Models
         public double Amount { get; set; }
         [Display(Name = " الرصيد المرحل")]
         public decimal CarryoverBalance { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
 
         public string? Notes { get; set; }
     }

@@ -30,7 +30,7 @@ namespace N.G.HRS.Areas.EmployeesAffsirs.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "الى تاريخ")]
         public DateTime ToDate { get; set; }
-        [Display(Name = "الملاحظة")]
+        [Display(Name = "الملاحظات")]
         public string? Notes { get; set; }
 
 
