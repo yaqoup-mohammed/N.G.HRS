@@ -139,21 +139,19 @@
 
 
 
-
+        <script>
+            function printTable() {
+                var printHeader = document.getElementById('printHeader').innerHTML;
+                var printContent = document.getElementById('table').innerHTML;
+                var originalContent = document.body.innerHTML;
+                document.body.innerHTML = printHeader + printContent;
+                window.print();
+                document.body.innerHTML = originalContent;
+            }
+        </script>
     <script>
         $(document).ready(function () {
-            // $("#datepicker").datepicker({
-            //     changeMonth: true,
-            //     changeYear: true,
-            //     showButtonPanel: true,
-            //     dateFormat: 'MM yy',
-            //     onClose: function (dateText, inst) {
-            //         var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            //         var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            //         $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
-            //     }
-            // });
-            // //===========================================
+      
 
 
             $.ajax({

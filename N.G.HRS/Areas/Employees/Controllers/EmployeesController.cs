@@ -2039,6 +2039,9 @@ namespace N.G.HRS.Areas.Employees.Controllers
             return View(salary);
 
         }
+
+
+
         public async Task<IActionResult> Salary()
         {
 
