@@ -12,8 +12,8 @@ using N.G.HRS.Date;
 namespace N.G.HRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240715175805_A")]
-    partial class A
+    [Migration("20240721134752_F8")]
+    partial class F8
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
