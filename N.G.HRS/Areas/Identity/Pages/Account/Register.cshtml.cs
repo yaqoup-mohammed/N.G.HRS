@@ -132,107 +132,106 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
 
 
 
-        //    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        //    {
-        //        returnUrl ??= Url.Content("~/");
-        //        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        //        if (ModelState.IsValid)
-        //        {
-        //            var employee = await _context.employee
-        //                .Include(e => e.personalData)
-        //                .ThenInclude(pd => pd.Sex)
-        //                .FirstOrDefaultAsync(e => e.EmployeeNumber == Input.EmployeeNumberJop);
 
-        //            if (employee == null)
-        //            {
-        //                ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
-        //                return Page();
-        //            }
 
-        //            if (employee.personalData == null)
-        //            {
-        //                ModelState.AddModelError(string.Empty, "البيانات الشخصية للموظف غير موجودة.");
-        //                return Page();
-        //            }
-
-        //            if (employee.personalData.Sex == null)
-        //            {
-        //                ModelState.AddModelError(string.Empty, "الجنس غير محدد في البيانات الشخصية للموظف.");
-        //                return Page();
-        //            }
-
-        //            var user = CreateUser();
-
-        //            await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-        //            await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-        //            var result = await _userManager.CreateAsync(user, Input.Password);
-
-        //            if (result.Succeeded)
-        //            {
-        //                _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
-
-        //                var roles = new List<string>
+        //public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         //{
-        //    "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile"
-        //};
+        //    returnUrl ??= Url.Content("~/");
+        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        //    if (ModelState.IsValid)
+        //    {
+        //        var employee = await _context.employee
+        //            .Include(e => e.personalData)
+        //            .ThenInclude(pd => pd.Sex)
+        //            .FirstOrDefaultAsync(e => e.EmployeeNumber == Input.EmployeeNumberJop);
 
+        //        if (employee == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "رقم الموظف غير موجود.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "البيانات الشخصية للموظف غير موجودة.");
+        //            return Page();
+        //        }
+
+        //        if (employee.personalData.Sex == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "الجنس غير محدد في البيانات الشخصية للموظف.");
+        //            return Page();
+        //        }
+
+        //        var user = CreateUser();
+
+        //        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        //        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        //        var result = await _userManager.CreateAsync(user, Input.Password);
+
+        //        if (result.Succeeded)
+        //        {
+        //            _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
+
+        //            var roles = new List<string>();
+
+        //            if (Input.AdminPermission)
+        //            {
+        //                roles.AddRange(new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile", "MalePhoto", "FemalePhoto" });
+        //            }
+        //            else
+        //            {
         //                if (Input.AddPermission) roles.Add("Add");
         //                if (Input.EditPermission) roles.Add("Edit");
         //                if (Input.ViewPermission) roles.Add("View");
-        //                if (Input.AdminPermission) roles.Add("Admin");
         //                if (Input.DeletePermission) roles.Add("Delete");
         //                if (Input.DetailsPermission) roles.Add("Details");
         //                if (Input.ProfilePermission) roles.Add("Profile");
-
-        //                foreach (var role in roles)
-        //                {
-        //                    await EnsureRoleExistsAsync(role);
-        //                    await _userManager.AddToRoleAsync(user, role);
-        //                }
-
         //                if (employee.personalData.Sex.Name == "ذكر" && Input.MalePhoto)
         //                {
-        //                    await _userManager.AddToRoleAsync(user, "MalePhoto");
+        //                    roles.Add("MalePhoto");
         //                }
-        //                else if (employee.personalData.Sex.Name == "أنثى" && Input.FemalePhoto)
+        //                else if (employee.personalData.Sex.Name == "أنثى" && Input.FemalePhoto)
         //                {
-        //                    await _userManager.AddToRoleAsync(user, "FemalePhoto");
+        //                    roles.Add("FemalePhoto");
+        //                }
+        //            }
+
+        //            foreach (var role in roles.Distinct())
+        //            {
+        //                // تأكد من وجود الدور أولاً
+        //                if (!await _roleManager.RoleExistsAsync(role))
+        //                {
+        //                    await _roleManager.CreateAsync(new IdentityRole(role));
         //                }
 
-        //                user.EmailConfirmed = true;
-        //                user.LockoutEnabled = false;
-        //                await _userManager.UpdateAsync(user);
-
-        //                var userId = await _userManager.GetUserIdAsync(user);
-        //                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        //                var callbackUrl = Url.Page(
-        //                    "/Account/ConfirmEmail",
-        //                    pageHandler: null,
-        //                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-        //                    protocol: Request.Scheme);
-
-        //                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-        //                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-        //                if (_userManager.Options.SignIn.RequireConfirmedAccount)
+        //                // إضافة الدور للمستخدم
+        //                var roleResult = await _userManager.AddToRoleAsync(user, role);
+        //                if (roleResult.Succeeded)
         //                {
-        //                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+        //                    _logger.LogInformation($"تم تعيين الصلاحية {role} للمستخدم بنجاح.");
         //                }
         //                else
         //                {
-        //                    await _signInManager.SignInAsync(user, isPersistent: false);
-        //                    return LocalRedirect(returnUrl);
+        //                    _logger.LogError($"فشل في تعيين الصلاحية {role} للمستخدم: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
         //                }
         //            }
-        //            foreach (var error in result.Errors)
-        //            {
-        //                ModelState.AddModelError(string.Empty, error.Description);
-        //            }
-        //        }
 
-        //        return Page();
+        //            user.LockoutEnabled = false;
+        //            await _userManager.UpdateAsync(user);
+
+        //            TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول.";
+        //            return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+        //        }
+        //        foreach (var error in result.Errors)
+        //        {
+        //            ModelState.AddModelError(string.Empty, error.Description);
+        //        }
         //    }
+
+        //    return Page();
+        //}
+
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -273,41 +272,58 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("قام المستخدم بإنشاء حساب جديد بكلمة مرور.");
 
-                    var roles = new List<string>
-            {
-                "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile"
-            };
+                    var roles = new List<string>();
 
-                    if (Input.AddPermission) roles.Add("Add");
-                    if (Input.EditPermission) roles.Add("Edit");
-                    if (Input.ViewPermission) roles.Add("View");
-                    if (Input.AdminPermission) roles.Add("Admin");
-                    if (Input.DeletePermission) roles.Add("Delete");
-                    if (Input.DetailsPermission) roles.Add("Details");
-                    if (Input.ProfilePermission) roles.Add("Profile");
-
-                    foreach (var role in roles)
+                    if (Input.AdminPermission)
                     {
-                        await EnsureRoleExistsAsync(role);
-                        await _userManager.AddToRoleAsync(user, role);
+                        roles.AddRange(new[] { "Add", "Edit", "View", "Admin", "Delete", "Details", "Profile", "MalePhoto", "FemalePhoto" });
+                    }
+                    else
+                    {
+                        if (Input.AddPermission) roles.Add("Add");
+                        if (Input.EditPermission) roles.Add("Edit");
+                        if (Input.ViewPermission) roles.Add("View");
+                        if (Input.DeletePermission) roles.Add("Delete");
+                        if (Input.DetailsPermission) roles.Add("Details");
+                        if (Input.ProfilePermission) roles.Add("Profile");
+                        if (employee.personalData.Sex.Name == "ذكر" && Input.MalePhoto)
+                        {
+                            roles.Add("MalePhoto");
+                        }
+                        else if (employee.personalData.Sex.Name == "أنثى" && Input.FemalePhoto)
+                        {
+                            roles.Add("FemalePhoto");
+                        }
                     }
 
-                    if (employee.personalData.Sex.Name == "ذكر" && Input.MalePhoto)
+                    foreach (var role in roles.Distinct())
                     {
-                        await _userManager.AddToRoleAsync(user, "MalePhoto");
-                    }
-                    else if (employee.personalData.Sex.Name == "أنثى" && Input.FemalePhoto)
-                    {
-                        await _userManager.AddToRoleAsync(user, "FemalePhoto");
+                        if (!await _roleManager.RoleExistsAsync(role))
+                        {
+                            await _roleManager.CreateAsync(new IdentityRole(role));
+                        }
+
+                        var roleResult = await _userManager.AddToRoleAsync(user, role);
+                        if (roleResult.Succeeded)
+                        {
+                            _logger.LogInformation($"تم تعيين الصلاحية {role} للمستخدم بنجاح.");
+                        }
+                        else
+                        {
+                            _logger.LogError($"فشل في تعيين الصلاحية {role} للمستخدم: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+                        }
                     }
 
-                    user.EmailConfirmed = true; // تأكيد البريد الإلكتروني مباشرة
-                    user.LockoutEnabled = false;
+                    // تأكيد البريد الإلكتروني تلقائيًا
+                    user.EmailConfirmed = true;
                     await _userManager.UpdateAsync(user);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    // عرض رسالة نجاح
+                    TempData["SuccessMessage"] = "تم إنشاء الحساب بنجاح.";
+                    // إظهار رسالة النجاح دون توجيه المستخدم إلى صفحة تسجيل الدخول
+                    return Page();
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -316,6 +332,9 @@ namespace N.G.HRS.Areas.Identity.Pages.Account
 
             return Page();
         }
+
+
+
 
         [HttpGet("ValidateEmployeeNumber")]
         public async Task<IActionResult> ValidateEmployeeNumber(int employeeNumber)

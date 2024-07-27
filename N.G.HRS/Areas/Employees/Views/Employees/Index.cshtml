@@ -47,21 +47,27 @@
                                 <th>الملاحظات</th>
                                 <th>#</th>
 
-                                @* <th style="left:10px;z-index: 500; color: rgb(255 255 255)"></th> *@
                             </tr>
                         </thead>
                         <tbody>
+                        
+                            @{
+                                var isMalePhotoAllowed = User.IsInRole("MalePhoto");
+                                var isFemalePhotoAllowed = User.IsInRole("FemalePhoto");
+                            }
+
                             @foreach (var employee in Model.EmployeeList)
                             {
                                 <tr>
-                                    <td>@employee.EmployeeNumber </td>
+                                    <td>@employee.EmployeeNumber</td>
                                     <td style="padding-bottom: 1px; padding-top: 6px;">
                                         <div class="baguetteBoxThree gallery">
-
-
                                             @if (employee != null && employee.personalData != null && employee.personalData.Sex != null)
                                             {
-                                                if ((User.IsInRole("MalePhoto") && employee.personalData.Sex.Name == "ذكر") || (User.IsInRole("FemalePhoto") && employee.personalData.Sex.Name == "أنثى"))
+                                                var isMale = employee.personalData.Sex.Name == "ذكر";
+                                                var isFemale = employee.personalData.Sex.Name == "أنثى";
+
+                                                if ((isMale && isMalePhotoAllowed) || (isFemale && isFemalePhotoAllowed))
                                                 {
                                                     <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects direct-view">
                                                         <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
@@ -72,16 +78,22 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="~/Upload/@(employee.personalData.Sex.Name == "ذكر" ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="effects no-permission" data-message="ليس لديك صلاحيات لعرض الصورة">
-                                                        <img src="~/Upload/@(employee.personalData.Sex.Name == "ذكر" ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
+                                                    <a href="~/Upload/@(isMale ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="effects no-permission" data-message="ليس لديك صلاحيات لعرض الصورة">
+                                                        <img src="~/Upload/@(isMale ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
                                                         <div class="overlay">
                                                             <span class="expand">+</span>
-                                                        </div>   
+                                                        </div>
                                                     </a>
                                                 }
                                             }
                                         </div>
                                     </td>
+                               
+                            
+
+                            
+
+                         
 
                                     <!-- Include SweetAlert CSS and JS -->
                                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
@@ -89,7 +101,6 @@
 
                                     <script>
                                         document.addEventListener('DOMContentLoaded', (event) => {
-                                            // For elements with direct viewing permission
                                             document.querySelectorAll('.direct-view').forEach(element => {
                                                 element.addEventListener('click', function (event) {
                                                     event.preventDefault();
@@ -103,7 +114,6 @@
                                                 });
                                             });
 
-                                            // For elements without direct viewing permission
                                             document.querySelectorAll('.no-permission').forEach(element => {
                                                 element.addEventListener('click', function (event) {
                                                     event.preventDefault();
@@ -130,199 +140,9 @@
                                         });
                                     </script>
 
-                                    @* <td style="padding-bottom: 1px;padding-top: 6px;">
-                                <div class="baguetteBoxThree gallery">
-                                @if (employee != null && employee.personalData != null && employee.personalData.Sex != null)
-                                {
-                                if (User.IsInRole("MalePhoto") && employee.personalData.Sex.Name == "Male")
-                                {
-                                <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
-                                <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                <div class="overlay">
-                                <span class="expand">+</span>
-                                </div>
-                                </a>
-                                }
-                                else if (User.IsInRole("FemalePhoto") && employee.personalData.Sex.Name == "Female")
-                                {
-                                <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
-                                <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                <div class="overlay">
-                                <span class="expand">+</span>
-                                </div>
-                                </a>
 
 
-                                }
-                                }
-                                </div>
-                                </td> *@
-
-                                    @* <td style="padding-bottom: 1px; padding-top: 6px;">
-                                        <div class="baguetteBoxThree gallery">
-                                            @if (employee != null && employee.personalData != null && employee.personalData.Sex != null)
-                                            {
-                                                var maleId = (int)ViewData["MaleId"];
-                                                var femaleId = (int)ViewData["FemaleId"];
-
-                                                if ((User.IsInRole("MalePhoto") && employee.personalData.Sex.Id == maleId) || (User.IsInRole("FemalePhoto") && employee.personalData.Sex.Id == femaleId))
-                                                {
-                                                    <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects direct-view">
-                                                        <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                                        <div class="overlay">
-                                                            <span class="expand">+</span>
-                                                        </div>
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Upload/@(employee.personalData.Sex.Id == maleId ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="effects no-permission" data-message="ليس لديك صلاحيات لعرض الصورة">
-                                                        <img src="~/Upload/@(employee.personalData.Sex.Id == maleId ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                                        <div class="overlay">
-                                                            <span class="expand">+</span>
-                                                        </div>
-                                                    </a>
-                                                }
-                                            }
-                                        </div>
-                                    </td>
-
-                                    <!-- Include SweetAlert CSS and JS -->
-                                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
-
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', (event) => {
-                                            // For elements with direct viewing permission
-                                            document.querySelectorAll('.direct-view').forEach(element => {
-                                                element.addEventListener('click', function (event) {
-                                                    event.preventDefault();
-                                                    const imgSrc = this.getAttribute('href');
-                                                    Swal.fire({
-                                                        imageUrl: imgSrc,
-                                                        imageAlt: 'صورة الموظف',
-                                                        showCloseButton: true,
-                                                        showConfirmButton: false
-                                                    });
-                                                });
-                                            });
-
-                                            // For elements without direct viewing permission
-                                            document.querySelectorAll('.no-permission').forEach(element => {
-                                                element.addEventListener('click', function (event) {
-                                                    event.preventDefault();
-                                                    Swal.fire({
-                                                        icon: 'warning',
-                                                        title: 'تنبيه',
-                                                        text: this.getAttribute('data-message'),
-                                                        showCancelButton: true,
-                                                        confirmButtonText: 'عرض الصورة',
-                                                        cancelButtonText: 'إلغاء'
-                                                    }).then((result) => {
-                                                        if (result.isConfirmed) {
-                                                            const imgSrc = this.getAttribute('href');
-                                                            Swal.fire({
-                                                                imageUrl: imgSrc,
-                                                                imageAlt: 'صورة الموظف',
-                                                                showCloseButton: true,
-                                                                showConfirmButton: false
-                                                            });
-                                                        }
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    </script> *@
-
-
-@*                                     <td style="padding-bottom: 1px; padding-top: 6px;">
-                                        <div class="baguetteBoxThree gallery">
-                                          
-
-                                             @if (employee != null && employee.personalData != null && employee.personalData.Sex != null)
-                                        {
-                                        if ((User.IsInRole("MalePhoto") && employee.personalData.Sex.Name == "Male") || (User.IsInRole("FemalePhoto") && employee.personalData.Sex.Name == "Female"))
-                                        {
-                                        <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects direct-view">
-                                        <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                        <div class="overlay">
-                                        <span class="expand">+</span>
-                                        </div>
-                                        </a>
-                                        }
-                                        else
-                                        {
-                                        <a href="~/Upload/@(employee.personalData.Sex.Name == "Male" ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="effects no-permission" data-message="ليس لديك صلاحيات لعرض الصورة">
-                                        <img src="~/Upload/@(employee.personalData.Sex.Name == "Male" ? "MalePhoto/male.jpg" : "FemalePhoto/female.png")" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                        <div class="overlay">
-                                        <span class="expand">+</span>
-                                        </div>
-                                        </a>
-                                        }
-                                        }
-                                        </div>
-                                    </td>
-
-                                    <!-- Include SweetAlert CSS and JS -->
-                                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
-
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', (event) => {
-                                            // For elements with direct viewing permission
-                                            document.querySelectorAll('.direct-view').forEach(element => {
-                                                element.addEventListener('click', function (event) {
-                                                    event.preventDefault();
-                                                    const imgSrc = this.getAttribute('href');
-                                                    Swal.fire({
-                                                        imageUrl: imgSrc,
-                                                        imageAlt: 'صورة الموظف',
-                                                        showCloseButton: true,
-                                                        showConfirmButton: false
-                                                    });
-                                                });
-                                            });
-
-                                            // For elements without direct viewing permission
-                                            document.querySelectorAll('.no-permission').forEach(element => {
-                                                element.addEventListener('click', function (event) {
-                                                    event.preventDefault();
-                                                    Swal.fire({
-                                                        icon: 'warning',
-                                                        title: 'تنبيه',
-                                                        text: this.getAttribute('data-message'),
-                                                        showCancelButton: true,
-                                                        confirmButtonText: 'عرض الصورة',
-                                                        cancelButtonText: 'إلغاء'
-                                                    }).then((result) => {
-                                                        if (result.isConfirmed) {
-                                                            const imgSrc = this.getAttribute('href');
-                                                            Swal.fire({
-                                                                imageUrl: imgSrc,
-                                                                imageAlt: 'صورة الموظف',
-                                                                showCloseButton: true,
-                                                                showConfirmButton: false
-                                                            });
-                                                        }
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    </script> *@
-
-
-                                    @* <td style="    padding-bottom: 1px;padding-top: 6px;">
-                                <div class="baguetteBoxThree gallery">
-
-                                <a href="~/Upload/Images/Employee/@employee.ImageFile" class="effects">
-                                <img src="~/Upload/Images/Employee/@employee.ImageFile" class="avatar img-thumbnail img-xs img-fluid" alt=".......">
-                                <div class="overlay">
-                                <span class="expand">+</span>
-                                </div>
-                                </a>
-
-                                </div>
-                                </td> *@
+                                  
                                     <td>@employee.EmployeeName </td>
                                     <td>@employee.DateOfEmployment </td>
                                     <td>@employee.PlacementDate </td>
